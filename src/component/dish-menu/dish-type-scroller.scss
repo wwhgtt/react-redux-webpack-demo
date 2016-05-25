@@ -1,0 +1,45 @@
+@import "settings.colors";
+@import "settings.sizes";
+
+.dish-type-list {
+  float: left;
+  width: $menu-aside-width;
+  height: 100%;
+  background: $color-athens-grey;
+  box-shadow: inset -1px 0 0 $color-mystic;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.dish-type-item {
+  position: relative;
+  font-size: 14px;
+  padding: 1.5em 0.5em;
+  text-align: center;
+  border-bottom: 1px solid $color-mystic;
+  -wekbit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  cursor: pointer;
+
+  &:after {
+    content: attr(data-count);
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: bold;
+    padding: 0 0.5em;
+    border-radius: 8px;
+    color: $color-white;
+    background: $color-radical-red;
+  }
+
+  &.is-active {
+    color: $color-neon-carrot;
+    background: $color-white;
+    box-shadow: inset 4px 0 0 $color-neon-carrot;
+  }
+}
