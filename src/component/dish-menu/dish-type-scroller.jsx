@@ -2,6 +2,8 @@ const React = require('react');
 const { findDOMNode } = require('react-dom');
 const IScroll = require('iscroll');
 
+require('./dish-type-scroller.scss');
+
 module.exports = React.createClass({
   displayName:'DishTypeScroller',
   propTypes: {

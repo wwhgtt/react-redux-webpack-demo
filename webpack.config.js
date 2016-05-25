@@ -27,9 +27,9 @@ module.exports = {
         loaders: ['react-hot', 'babel?presets[]=react,presets[]=es2015,presets[]=stage-0'], // 'babel-loader' is also a legal name to reference
       },
       {
-        test: /\.sass$/,
+        test: /\.scss$/,
         loaders: ['style', 'css?sourceMap',
-          'sass?indentedSyntax?&sourceMap&includePaths[]=./node_modules/compass-mixins/lib&includePaths[]=./src/asset/style',
+          'sass?&sourceMap&includePaths[]=./node_modules/compass-mixins/lib&includePaths[]=./src/asset/style',
         ],
       },
       {

@@ -2,7 +2,7 @@ const React = require('react');
 const IScroll = require('iscroll');
 const _ = require('lodash');
 require('isomorphic-fetch');
-require('./test.sass');
+require('./test.scss');
 
 const MenuData = [
   {
@@ -104,4 +104,3 @@ const Test = React.createClass({
 });
 
 module.exports = Test;
-

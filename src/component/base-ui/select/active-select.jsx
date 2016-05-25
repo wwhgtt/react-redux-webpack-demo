@@ -1,5 +1,5 @@
 const React = require('react');
-require('./active-select.sass');
+require('./active-select.scss');
 const ActiveSelect = React.createClass({
   displayName: 'ActiveSelect',
   propTypes: {

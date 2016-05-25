@@ -2,6 +2,9 @@ const React = require('react');
 const connect = require('react-redux').connect;
 const actions = require('../../action/dish-menu/dish-menu');
 
+require('../../asset/style/style.scss');
+require('./application.scss');
+
 const DishTypeScroller = require('../../component/dish-menu/dish-type-scroller.jsx');
 const DishMenuApplication = React.createClass({
   displayName: 'DishMenuApplication',
