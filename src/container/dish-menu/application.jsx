@@ -11,7 +11,9 @@ const DishMenuApplication = React.createClass({
   propTypes: {
     // MapedActionsToProps
     fetchMenuData: React.PropTypes.func.isRequired,
+    activeDishType: React.PropTypes.func.isRequired,
     // MapedStatesToProps
+    activeDishTypeIdx: React.PropTypes.number.isRequired,
     dishTypesData: React.PropTypes.array,
     dishesData: React.PropTypes.array,
   },
@@ -19,10 +21,13 @@ const DishMenuApplication = React.createClass({
     this.props.fetchMenuData();
   },
   render() {
-    const { dishTypesData, dishesData } = this.props;
+    const { activeDishTypeIdx, dishTypesData, dishesData } = this.props;
+    const { activeDishType } = this.props;
     return (
       <div className="application">
-        <DishTypeScroller dishTypesData={dishTypesData} dishesData={dishesData} />
+        <DishTypeScroller
+          dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeIdx={activeDishTypeIdx} onDishTypeItemClick={activeDishType}
+        />
       </div>
     );
   },

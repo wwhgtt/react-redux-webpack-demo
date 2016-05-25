@@ -5,8 +5,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: {
     index_bundle: [
-      'webpack-dev-server/client?http://0.0.0.0:3000', // WebpackDevServer host and port
-      'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
+      // 'webpack-dev-server/client?http://0.0.0.0:3000', // WebpackDevServer host and port
+      // 'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
       './src/dish-menu.jsx',
     ],
   },
@@ -24,7 +24,7 @@ module.exports = {
       {
         test: /\.jsx|js$/,
         exclude: /node_modules/,
-        loaders: ['react-hot', 'babel?presets[]=react,presets[]=es2015,presets[]=stage-0'], // 'babel-loader' is also a legal name to reference
+        loaders: ['babel?presets[]=react,presets[]=es2015,presets[]=stage-0'], // 'babel-loader' is also a legal name to reference
       },
       {
         test: /\.scss$/,
