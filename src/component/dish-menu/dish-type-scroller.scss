@@ -1,39 +1,38 @@
-@import "settings.colors";
-@import "settings.sizes";
+@import 'settings.colors';
+@import 'settings.sizes';
 
 .dish-type-list {
   float: left;
+  overflow-x: hidden;
+  overflow-y: auto;
   width: $menu-aside-width;
   height: 100%;
   background: $color-athens-grey;
   box-shadow: inset -1px 0 0 $color-mystic;
-  overflow-x: hidden;
-  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
 .dish-type-item {
-  position: relative;
   font-size: 14px;
-  padding: 1.5em 0.5em;
+  position: relative;
+  padding: 1.5em .5em;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
   text-align: center;
   border-bottom: 1px solid $color-mystic;
-  -wekbit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-  cursor: pointer;
 
-  &:after {
-    content: attr(data-count);
+  &::after {
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 16px;
     position: absolute;
     top: 0;
     right: 0;
-    font-size: 11px;
-    line-height: 16px;
-    font-weight: bold;
-    padding: 0 0.5em;
-    border-radius: 8px;
+    padding: 0 .5em;
+    content: attr(data-count);
     color: $color-white;
+    border-radius: 8px;
     background: $color-radical-red;
   }
 

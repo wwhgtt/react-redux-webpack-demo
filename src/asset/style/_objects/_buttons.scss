@@ -5,14 +5,14 @@
 }
 
 .o-btn--trigger {
-  float: right;
-  padding: 0 0.8em;
-  height: $count-editor-size;
   font-size: 12px;
   line-height: $count-editor-size;
+  float: right;
+  height: $count-editor-size;
+  padding: 0 .8em;
+  cursor: pointer;
   border-width: 1px;
   border-style: solid;
   border-radius: $count-editor-size / 2;
   outline: none;
-  cursor: pointer;
 }
