@@ -28,7 +28,7 @@ const DishMenuApplication = React.createClass({
         <DishTypeScroller
           dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeId={activeDishTypeId} onDishTypeItemTap={activeDishType}
         />
-        <DishScroller dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeId={activeDishTypeId} />
+        <DishScroller dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeId={activeDishTypeId} onScroll={activeDishType} />
       </div>
     );
   },
