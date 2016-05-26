@@ -2,10 +2,10 @@ let apiBase;
 
 switch (process.env.NODE_ENV) {
   case 'production':
-    apiBase = '';
+    apiBase = 'http://192.168.11.239:3001';
     break;
   default:
-    apiBase = 'http://0.0.0.0:3001';
+    apiBase = 'http://192.168.11.239:3001';
 }
 
 module.exports = {

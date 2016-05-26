@@ -1,27 +1,36 @@
 const React = require('react');
 const { findDOMNode } = require('react-dom');
+const injectTapEventPlugin = require('react-tap-event-plugin');
 const IScroll = require('iscroll');
-const dynamicClassHOC = require('../mui/misc/dynamic-class-hoc.jsx');
-
+const DynamicClassLI = require('../mui/misc/dynamic-class-hoc.jsx')('li');
+injectTapEventPlugin();
 require('./dish-type-scroller.scss');
 
 module.exports = React.createClass({
   displayName:'DishTypeScroller',
   propTypes: {
-    activeDishTypeIdx: React.PropTypes.number.isRequired,
+    activeDishTypeId: React.PropTypes.number.isRequired,
     dishTypesData: React.PropTypes.array.isRequired,
     dishesData: React.PropTypes.array.isRequired,
-    onDishTypeItemClick: React.PropTypes.func.isRequired,
+    onDishTypeItemTap: React.PropTypes.func.isRequired,
   },
   componentDidMount() {
     this._cache = {};
-    this._cache.iscroll = new IScroll(findDOMNode(this).parentNode);
+    this._cache.iscroll = new IScroll(findDOMNode(this), { scrollY:true });
   },
-  onDishTypeItemClick(evt, idx, dishTypeData) {
-    this.props.onDishTypeItemClick(evt, idx, dishTypeData);
+  componentDidUpdate() {
+    this._cache.iscroll.refresh();
   },
-  buildDishTypeList(activeDishTypeIdx, dishTypesData, dishesData) {
-    const DynamicClassLI = dynamicClassHOC('li');
+  componentWillUnmount() {
+    this._cache.iscroll.destroy();
+    this._cache = null;
+  },
+  onDishTypeItemTap(evt) {
+    const { onDishTypeItemTap } = this.props;
+    const dishTypeId = parseInt(evt.target.getAttribute('data-id'), 10);
+    onDishTypeItemTap(evt, dishTypeId);
+  },
+  buildDishTypeList(activeDishTypeId, dishTypesData, dishesData) {
     return (
       <ul className="dish-type-list">
         {dishTypesData.map((dishTypeData, idx) => {
@@ -30,9 +39,9 @@ module.exports = React.createClass({
           }
           return (
             <DynamicClassLI
-              key={dishTypeData.id} isActive={activeDishTypeIdx === idx}
-              onClick={evt => this.onDishTypeItemClick(evt, dishTypeData, idx)}
+              key={idx} data-id={dishTypeData.id} isActive={activeDishTypeId === dishTypeData.id}
               className="dish-type-item"
+              onTouchTap={this.onDishTypeItemTap}
             >
               {dishTypeData.name}
             </DynamicClassLI>
@@ -42,13 +51,15 @@ module.exports = React.createClass({
     );
   },
   render() {
-    const { activeDishTypeIdx, dishTypesData, dishesData } = this.props;
+    const { activeDishTypeId, dishTypesData, dishesData } = this.props;
 
-    const dishTypeList = this.buildDishTypeList(activeDishTypeIdx, dishTypesData, dishesData);
+    const dishTypeList = this.buildDishTypeList(activeDishTypeId, dishTypesData, dishesData);
 
     return (
       <div className="dish-type-scroller">
-        {dishTypeList}
+        <div className="scroll-wrapper">
+          {dishTypeList}
+        </div>
       </div>
     );
   },

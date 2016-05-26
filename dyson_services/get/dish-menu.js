@@ -9,6 +9,36 @@ module.exports = {
         'desc': '',
         'dishIds': [56, 61],
       }, {
+        'id': 181,
+        'name': '小炒美食0',
+        'desc': '',
+        'dishIds': [56, 61],
+      }, {
+        'id': 191,
+        'name': '小炒美食2',
+        'desc': '',
+        'dishIds': [56, 61],
+      }, {
+        'id': 20,
+        'name': '小炒美食3',
+        'desc': '',
+        'dishIds': [56, 61],
+      }, {
+        'id': 21,
+        'name': '小炒美食4',
+        'desc': '',
+        'dishIds': [56, 61],
+      }, {
+        'id': 22,
+        'name': '小炒美食5',
+        'desc': '',
+        'dishIds': [56, 61],
+      }, {
+        'id': 23,
+        'name': '小炒美食6',
+        'desc': '',
+        'dishIds': [56, 61],
+      }, {
         'id': 458,
         'name': '套餐',
         'desc': '',
@@ -26,7 +56,7 @@ module.exports = {
         'desc': '冰淇淋',
         'dishIds': [98327, 61005, 61006],
       }, {
-        'id': 19,
+        'id': 190,
         'name': '水果沙拉',
         'desc': '',
         'dishIds': [53, 6100],

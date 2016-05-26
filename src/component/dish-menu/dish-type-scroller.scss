@@ -1,15 +1,16 @@
 @import 'settings.colors';
 @import 'settings.sizes';
 
-.dish-type-list {
-  float: left;
-  overflow-x: hidden;
-  overflow-y: auto;
+.dish-type-scroller {
+  position: absolute;
+  overflow: hidden;
   width: $menu-aside-width;
   height: 100%;
   background: $color-athens-grey;
   box-shadow: inset -1px 0 0 $color-mystic;
-  -webkit-overflow-scrolling: touch;
+  .scroll-wrapper {
+    position: relative;
+  }
 }
 
 .dish-type-item {
