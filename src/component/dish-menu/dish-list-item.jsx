@@ -9,11 +9,13 @@ module.exports = React.createClass({
   render() {
     const { dishData } = this.props;
     return (
-      <div className="dis-list-item">
+      <div className="dish-list-item">
         <a href="" className="dish-item-img">{dishData.img}</a>
-        <span className="dish-item-name">{dishData.name}</span>
-        <span className="dish-item-price">{dishData.marketPrice}</span>
-        <Counter />
+        <div className="dish-item-content">
+          <span className="dish-item-name">{dishData.name}</span>
+          <span className="dish-item-price">{dishData.marketPrice}</span>
+          <Counter />
+        </div>
       </div>
     );
   },

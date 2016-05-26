@@ -5,9 +5,10 @@
   position: absolute;
   overflow: hidden;
   width: $menu-aside-width;
-  height: 100%;
+  height: calc(100% - #{$cart-trigger-height});
   background: $color-athens-grey;
   box-shadow: inset -1px 0 0 $color-mystic;
+
   .scroll-wrapper {
     position: relative;
   }

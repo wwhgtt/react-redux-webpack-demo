@@ -1,6 +1,9 @@
 const React = require('react');
 const _find = require('lodash.find');
 const DishListItem = require('./dish-list-item.jsx');
+
+require('./dish-scroller.scss');
+
 module.exports = React.createClass({
   displayName: 'DishScroller',
   propTypes: {
@@ -13,14 +16,14 @@ module.exports = React.createClass({
       return _find(dishesData, { id:dishId });
     }
     return (
-      <ul className="dist-list">
+      <ul className="dish-list">
       {
         dishTypesData.map((dishTypeData, idx) => {
           if (!dishTypeData.dishIds) {
             return false;
           }
           return (
-            [<li key={`dish-type-${dishTypeData.id}`} className="dist-item-type">{dishTypeData.name}</li>].concat(
+            [<li key={`dish-type-${dishTypeData.id}`} className="dish-item-type">{dishTypeData.name}</li>].concat(
               dishTypeData.dishIds.map(dishId => {
                 const dishData = getDishById(dishId);
                 return (<li className="dish-item-dish"><DishListItem dishData={dishData} /></li>);
