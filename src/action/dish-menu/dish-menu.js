@@ -5,6 +5,7 @@ require('isomorphic-fetch');
 
 const setMenuData = createAction('SET_MENU_DATA', menuData => menuData);
 
+exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => [evt, dishTypeId]);
 exports.fetchMenuData = () => (dispatch, getStates) => {
   fetch(config.dishMenuAPI, {
     method: 'GET', mod: 'cors',

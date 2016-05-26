@@ -1,0 +1,57 @@
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  font-size: 16px;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+
+  &:active,
+  &:hover {
+    outline-width: 0;
+  }
+}
+
+img {
+  border-style: none;
+}
+
+main {
+  display: block;
+}
+
+input,
+textarea,
+button {
+  font: inherit;
+
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: 0;
+
+  &::-moz-focus-inner {
+    padding: 0;
+    border-style: none;
+  }
+}

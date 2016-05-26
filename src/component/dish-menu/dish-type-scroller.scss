@@ -1,0 +1,45 @@
+@import 'settings.colors';
+@import 'settings.sizes';
+
+.dish-type-scroller {
+  position: absolute;
+  overflow: hidden;
+  width: $menu-aside-width;
+  height: 100%;
+  background: $color-athens-grey;
+  box-shadow: inset -1px 0 0 $color-mystic;
+  .scroll-wrapper {
+    position: relative;
+  }
+}
+
+.dish-type-item {
+  font-size: 14px;
+  position: relative;
+  padding: 1.5em .5em;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  text-align: center;
+  border-bottom: 1px solid $color-mystic;
+
+  &::after {
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 16px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 .5em;
+    content: attr(data-count);
+    color: $color-white;
+    border-radius: 8px;
+    background: $color-radical-red;
+  }
+
+  &.is-active {
+    color: $color-neon-carrot;
+    background: $color-white;
+    box-shadow: inset 4px 0 0 $color-neon-carrot;
+  }
+}

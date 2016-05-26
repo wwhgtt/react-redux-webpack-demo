@@ -12,12 +12,11 @@ const DishMenuApplication = require('./container/dish-menu/application.jsx');
 
 const storeCreator = compose(applyMiddleware(thunkMiddleware), DevTools.instrument())(createStore);
 const store = storeCreator(reducer);
-
 ReactDOM.render(
   <Provider store={store}>
     <div>
       <DishMenuApplication />
-      <DevTools />
+       {/* <DevTools /> */}
     </div>
   </Provider>,
   document.getElementById('app-placeholder')
