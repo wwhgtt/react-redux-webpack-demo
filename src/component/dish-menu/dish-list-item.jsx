@@ -1,6 +1,8 @@
 const React = require('react');
 const Counter = require('../mui/counter.jsx');
 
+require('./dish-list-item.scss');
+
 module.exports = React.createClass({
   displayName:'DishListItem',
   propTypes:{
