@@ -2,16 +2,12 @@
 @import 'settings.sizes';
 
 .dish-type-scroller {
-  position: absolute;
+  float: left;
   overflow: hidden;
-  width: $menu-aside-width;
+  width: $dish-type-scroller-width;
   height: calc(100% - #{$cart-trigger-height});
   background: $color-athens-grey;
   box-shadow: inset -1px 0 0 $color-mystic;
-
-  .scroll-wrapper {
-    position: relative;
-  }
 }
 
 .dish-type-item {
