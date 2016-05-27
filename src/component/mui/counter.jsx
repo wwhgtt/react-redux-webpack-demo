@@ -21,7 +21,7 @@ module.exports = React.createClass({
   },
   componentDidUpdate() {
   },
-  onBtnsClick(newCount, increment) {
+  onBtnsTap(evt, newCount, increment) {
     const { maximum, minimum, onCountChange } = this.props;
     if ((maximum && newCount > maximum) || (newCount < minimum)) {
       return false;

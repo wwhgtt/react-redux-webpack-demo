@@ -29,19 +29,20 @@ module.exports = React.createClass({
     iScroll.on('scrollEnd', () => {
       const dishTypeId = this.findCurrentDishTypeId(iScroll.y);
       if (cache.isTouching && dishTypeId) {
-        // onScroll(null, dishTypeId);
+        onScroll(null, dishTypeId);
       }
     });
   },
-  shouldComponentUpdate() {
-    return !this._cache.isTouching;
-  },
+  // shouldComponentUpdate() {
+  //   return !this._cache.isTouching;
+  // },
   componentDidUpdate() {
-    const iScroll = this._cache.iScroll;
+    const cache = this._cache;
+    const iScroll = cache.iScroll;
     iScroll.refresh();
     const activeDishType = findDOMNode(this).querySelector('.active');
-    if (activeDishType) {
-      iScroll.scrollToElement(activeDishType, 300);
+    if (activeDishType && !cache.isTouching && !cache.isTaping) { // if update is not caused by scrolling or touching in dish-scroller.
+      iScroll.scrollToElement(activeDishType, 300);             // that mean it's caused by activeDishType, so scrollTo the according dish type
     }
   },
   componentWillUnmount() {
@@ -53,6 +54,12 @@ module.exports = React.createClass({
   },
   onTouchEnd() {
     this._cache.isTouching = false;
+  },
+  onOrderBtnTap(dishData, action) {
+    const { onOrderBtnTap } = this.props;
+    this._cache.isTaping = true;
+    onOrderBtnTap(dishData, action);
+    setTimeout(() => this._cache.isTaping = false, 0); // set isTaping to false at nextTick of rendering;
   },
   findCurrentDishTypeId(posY) {
     const dishTypes = findDOMNode(this).querySelectorAll('.dish-item-type');
@@ -95,8 +102,8 @@ module.exports = React.createClass({
     );
   },
   render() {
-    const { activeDishTypeId, dishTypesData, dishesData, onOrderBtnTap } = this.props;
-    const dishList = this.buildDishList(activeDishTypeId, dishTypesData, dishesData, onOrderBtnTap);
+    const { activeDishTypeId, dishTypesData, dishesData } = this.props;
+    const dishList = this.buildDishList(activeDishTypeId, dishTypesData, dishesData, this.onOrderBtnTap);
     return (
       <div className="dish-scroller" onTouchStart={this.onTouchStart} onTouchEnd={this.onTouchEnd}>
         {/* <div className="scroll-wrapper">*/}
