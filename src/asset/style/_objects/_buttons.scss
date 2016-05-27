@@ -56,13 +56,6 @@
   &.btn-disabled::after {
     background: darken($color-mischka, 10%);
   }
-
-  &:active:not(.btn-disabled) {
-    &::before,
-    &:active::after {
-      transform: scale(.8, .8);
-    }
-  }
 }
 
 .btn-minus::after {

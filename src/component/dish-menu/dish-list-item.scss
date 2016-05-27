@@ -1,8 +1,9 @@
 @import 'settings.colors';
 @import 'settings.sizes';
+@import 'tools.mixins';
 
 .dish-list-item {
-  overflow: hidden;
+  @include clearfix;
   padding: 10px 0;
 }
 
@@ -18,8 +19,8 @@
   }
 
   &-content {
-    overflow: hidden;
-    margin-left: $dish-image-size + 8;
+    float: right;
+    width: calc(100% - #{$dish-image-size + 8});
   }
 
   &-name {
