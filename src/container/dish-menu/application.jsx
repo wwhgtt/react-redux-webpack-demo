@@ -12,6 +12,7 @@ const DishMenuApplication = React.createClass({
     // MapedActionsToProps
     fetchMenuData: React.PropTypes.func.isRequired,
     activeDishType: React.PropTypes.func.isRequired,
+    tryToOrderDish: React.PropTypes.func.isRequired,
     // MapedStatesToProps
     activeDishTypeId: React.PropTypes.number.isRequired,
     dishTypesData: React.PropTypes.array,
@@ -21,14 +22,18 @@ const DishMenuApplication = React.createClass({
     this.props.fetchMenuData();
   },
   render() {
-    const { activeDishTypeId, dishTypesData, dishesData } = this.props;
-    const { activeDishType } = this.props;
+    const { activeDishTypeId, dishTypesData, dishesData } = this.props; // states
+    const { activeDishType, tryToOrderDish } = this.props; // actions
     return (
       <div className="application">
         <DishTypeScroller
-          dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeId={activeDishTypeId} onDishTypeItemTap={activeDishType}
+          dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeId={activeDishTypeId}
+          onDishTypeItemTap={activeDishType}
         />
-        <DishScroller dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeId={activeDishTypeId} onScroll={activeDishType} />
+        <DishScroller
+          dishTypesData={dishTypesData} dishesData={dishesData}
+          activeDishTypeId={activeDishTypeId} onScroll={activeDishType} onOrderBtnTap={tryToOrderDish}
+        />
       </div>
     );
   },

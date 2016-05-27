@@ -13,16 +13,23 @@ module.exports = React.createClass({
     activeDishTypeId: React.PropTypes.number.isRequired,
     dishTypesData: React.PropTypes.array.isRequired,
     dishesData: React.PropTypes.array.isRequired,
-    onScroll: React.PropTypes.func,
+    onScroll: React.PropTypes.func.isRequired,
+    onOrderBtnTap: React.PropTypes.func.isRequired,
   },
   componentDidMount() {
     const { onScroll } = this.props;
     const cache = this._cache = {};
     const iScroll = cache.iScroll = new IScroll(findDOMNode(this), { probeType: 2 });
-    iScroll.on('scroll', () => onScroll(null, this.findCurrentDishTypeId(iScroll.y)));
+    iScroll.on('scroll', () => {
+      const dishTypeId = this.findCurrentDishTypeId(iScroll.y);
+      if (cache.isTouching && dishTypeId) {
+        onScroll(null, dishTypeId);
+      }
+    });
     iScroll.on('scrollEnd', () => {
-      if (cache.isTouching) {
-        onScroll(null, this.findCurrentDishTypeId(iScroll.y));
+      const dishTypeId = this.findCurrentDishTypeId(iScroll.y);
+      if (cache.isTouching && dishTypeId) {
+        onScroll(null, dishTypeId);
       }
     });
   },
@@ -50,9 +57,12 @@ module.exports = React.createClass({
   findCurrentDishTypeId(posY) {
     const dishTypes = findDOMNode(this).querySelectorAll('.dish-item-type');
     const showingDishTypes = Array.prototype.slice.call(dishTypes).filter(dishType => dishType.offsetTop < -posY + 5);
-    return parseInt(showingDishTypes.pop().getAttribute('data-id'), 10);
+    if (showingDishTypes.length) {
+      return parseInt(showingDishTypes.pop().getAttribute('data-id'), 10);
+    }
+    return false;
   },
-  buildDishList(activeDishTypeId, dishTypesData, dishesData) {
+  buildDishList(activeDishTypeId, dishTypesData, dishesData, onOrderBtnTap) {
     function getDishById(dishId) {
       return _find(dishesData, { id:dishId });
     }
@@ -75,7 +85,7 @@ module.exports = React.createClass({
             ].concat(
               dishTypeData.dishIds.map(dishId => {
                 const dishData = getDishById(dishId);
-                return (<li className="dish-item-dish"><DishListItem dishData={dishData} /></li>);
+                return (<li className="dish-item-dish"><DishListItem dishData={dishData} onOrderBtnTap={onOrderBtnTap} /></li>);
               })
             )
           );
@@ -85,8 +95,8 @@ module.exports = React.createClass({
     );
   },
   render() {
-    const { activeDishTypeId, dishTypesData, dishesData } = this.props;
-    const dishList = this.buildDishList(activeDishTypeId, dishTypesData, dishesData);
+    const { activeDishTypeId, dishTypesData, dishesData, onOrderBtnTap } = this.props;
+    const dishList = this.buildDishList(activeDishTypeId, dishTypesData, dishesData, onOrderBtnTap);
     return (
       <div className="dish-scroller" onTouchStart={this.onTouchStart} onTouchEnd={this.onTouchEnd}>
         {/* <div className="scroll-wrapper">*/}

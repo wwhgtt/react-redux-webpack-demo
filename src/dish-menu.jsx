@@ -10,13 +10,15 @@ const reducer = require('./reducer/dish-menu/index.js');
 const DevTools = require('./container/dev/devtools.jsx').default;
 const DishMenuApplication = require('./container/dish-menu/application.jsx');
 
+const injectTapEventPlugin = require('react-tap-event-plugin'); injectTapEventPlugin();
+
 const storeCreator = compose(applyMiddleware(thunkMiddleware), DevTools.instrument())(createStore);
 const store = storeCreator(reducer);
 ReactDOM.render(
   <Provider store={store}>
     <div>
       <DishMenuApplication />
-      {/* <DevTools />*/}
+       {/* <DevTools />*/}
     </div>
   </Provider>,
   document.getElementById('app-placeholder')
