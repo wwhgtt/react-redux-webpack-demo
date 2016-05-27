@@ -1,22 +1,24 @@
 const _findIndex = require('lodash.findindex');
 module.exports = function (state = { activeDishTypeId:-1, dishTypesData:[], dishesData:[] }, action) {
   const { type, payload } = action;
-  let targetDishIdx;
-  let targetDish;
+  let newDishIdx;
+  let newDishData;
+  let newDishsData;
   switch (type) {
     case 'SET_MENU_DATA':
       return Object.assign({}, state, { dishTypesData:payload.dishTypeList, dishesData: payload.dishList });
     case 'ACTIVE_DISH_TYPE':
       return Object.assign({}, state, { activeDishTypeId:payload[1] });
     case 'ORDER_DISH':
-      targetDishIdx = _findIndex(state.dishesData, payload.dishData.id);
-      state.dishesData[targetDishIdx] = targetDish = Object.assign({}, state.dishesData[targetDishIdx]);
-      if (targetDish.dishPropertyTypeInfos || targetDish.dishPropertyTypeInfos && typeof(type.action) !== 'string') {
+      newDishIdx = _findIndex(state.dishesData, { id: payload[0].id });
+      newDishsData = state.dishesData.slice();
+      newDishsData[newDishIdx] = newDishData = Object.assign({}, state.dishesData[newDishIdx]);
+      if (false) {
         // TODO,For Complex Dishes
       } else {
-        targetDish.order = targetDish.order !== undefined ? targetDish.order + 1 : 0;
+        newDishData.order = newDishData.order !== undefined ? newDishData.order + payload[1] : payload[1];
       }
-      return Object.assign({}, state, { dishesData:state.dishesData });
+      return Object.assign({}, state, { dishesData:newDishsData });
     default:
       return state;
   }

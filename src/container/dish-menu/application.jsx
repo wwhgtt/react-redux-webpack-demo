@@ -21,6 +21,8 @@ const DishMenuApplication = React.createClass({
   componentDidMount() {
     this.props.fetchMenuData();
   },
+  componentDidUpdate() {
+  },
   render() {
     const { activeDishTypeId, dishTypesData, dishesData } = this.props; // states
     const { activeDishType, tryToOrderDish } = this.props; // actions

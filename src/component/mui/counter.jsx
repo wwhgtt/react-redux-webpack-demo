@@ -15,25 +15,28 @@ module.exports = React.createClass({
   getDefaultProps() {
     return {
       count:0,
+      minimum:0,
       step:1,
     };
   },
-  onBtnsClick(action, count) {
+  componentDidUpdate() {
+  },
+  onBtnsClick(newCount, increment) {
     const { maximum, minimum, onCountChange } = this.props;
-    if ((!maximum || count > maximum) || (!minimum || count < minimum)) {
+    if ((maximum && newCount > maximum) || (newCount < minimum)) {
       return false;
     }
-    return onCountChange(action, count);
+    return onCountChange(increment);
   },
   render() {
     const { count, step, maximum, minimum } = this.props;
     return (
       <div className="counter">
-        <a className={classnames('btn-minus counter-minus', { 'btn-disabled':!minimum || count === minimum })}>
-          <span className="counter-click-mask" onTouchTap={evt => this.onBtnsClick('minus', count - step)} />
+        <a className={classnames('btn-minus counter-minus', { 'btn-disabled':minimum || count === minimum })}>
+          <span className="counter-click-mask" onTouchTap={evt => this.onBtnsClick(count - step, -step)} />
         </a>
-        <a className={classnames('btn-add counter-add', { 'btn-disabled':!maximum || count === maximum })}>
-          <span className="counter-click-mask" onTouchTap={evt => this.onBtnsClick('add', count + step)} />
+        <a className={classnames('btn-add counter-add', { 'btn-disabled':maximum || count === maximum })}>
+          <span className="counter-click-mask" onTouchTap={evt => this.onBtnsClick(count + step, step)} />
         </a>
         <span className="counter-num">{count}</span>
       </div>

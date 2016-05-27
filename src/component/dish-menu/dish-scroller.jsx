@@ -29,7 +29,7 @@ module.exports = React.createClass({
     iScroll.on('scrollEnd', () => {
       const dishTypeId = this.findCurrentDishTypeId(iScroll.y);
       if (cache.isTouching && dishTypeId) {
-        onScroll(null, dishTypeId);
+        // onScroll(null, dishTypeId);
       }
     });
   },

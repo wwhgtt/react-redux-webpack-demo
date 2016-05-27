@@ -1,5 +1,6 @@
 const React = require('react');
 const Counter = require('../mui/counter.jsx');
+const shallowCompare = require('react-addons-shallow-compare');
 const helper = require('../../helper/dish-hepler');
 
 require('./dish-list-item.scss');
@@ -10,13 +11,16 @@ module.exports = React.createClass({
     dishData: React.PropTypes.object.isRequired,
     onOrderBtnTap: React.PropTypes.func.isRequired,
   },
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  },
   onOrderBtnTap(action) {
     const { dishData, onOrderBtnTap } = this.props;
     onOrderBtnTap(dishData, action);
   },
   buildOrderBtn(dishData) {
     if (helper.isSingleDishWithoutProps(dishData)) {
-      return (<Counter count={dishData.order} onCountChange={this.onOrderBtnTap} />);
+      return (<Counter count={dishData.order} onCountChange={this.onOrderBtnTap} step={dishData.stepNum} />);
     }
     return (<a href="" className="btn--ellips btn-choose-property" onTouchTap={this.onOrderBtnTap}>菜品选项</a>);
   },

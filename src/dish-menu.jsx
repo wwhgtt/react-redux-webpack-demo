@@ -18,7 +18,7 @@ ReactDOM.render(
   <Provider store={store}>
     <div>
       <DishMenuApplication />
-       {/* <DevTools />*/}
+      {/* <DevTools />*/}
     </div>
   </Provider>,
   document.getElementById('app-placeholder')
