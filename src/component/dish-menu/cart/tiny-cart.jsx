@@ -16,7 +16,7 @@ module.exports = React.createClass({
       <div className="tiny-cart">
         <div className="tiny-cart-left">
           <a href="" className="cart-icon" onTouchTap={onCartIconTap}></a>
-          <span className="total-price">28 <small>另有配送费8元</small></span>
+          <span className="total-price">28.22 <small>另有配送费8元</small></span>
           {/* <span className="tiny-cart-text">购物车是空的</span> */}
         </div>
         <div className="tiny-cart-right">
