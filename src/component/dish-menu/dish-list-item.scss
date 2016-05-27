@@ -3,21 +3,23 @@
 
 .dish-list-item {
   overflow: hidden;
-  padding: 15px 0;
+  padding: 10px 0;
 }
 
 .dish-item {
+  $dish-image-size: 65px;
+
   &-img {
     float: left;
-    width: 65px;
-    height: 65px;
+    width: $dish-image-size;
+    height: $dish-image-size;
     border-radius: 4px;
     background: $color-porcelain;
   }
 
   &-content {
     overflow: hidden;
-    margin-left: 74px;
+    margin-left: $dish-image-size + 8;
   }
 
   &-name {
@@ -32,7 +34,7 @@
   }
 
   &-price {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: bold;
     line-height: $counter-size;
     float: left;

@@ -10,9 +10,10 @@
   }
 
   &-num {
+    font-size: 16px;
     line-height: $counter-size;
     float: left;
-    padding: 0 .5em;
+    padding: 0 .35em;
   }
 
   &-add {
