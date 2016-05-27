@@ -1,0 +1,37 @@
+@import 'settings.colors';
+@import 'settings.sizes';
+@import 'tools.mixins';
+
+.counter {
+  @include clearfix;
+  float: right;
+
+  &-minus {
+    position: relative;
+    float: left;
+  }
+
+  &-num {
+    font-size: 16px;
+    line-height: $counter-size;
+    float: left;
+    padding: 0 .35em;
+  }
+
+  &-add {
+    position: relative;
+    float: right;
+  }
+
+  &-click-mask {
+    $mask-extend-size: -($counter-size / 3);
+
+    position: absolute;
+    z-index: 10;
+    top: $mask-extend-size;
+    right: $mask-extend-size;
+    bottom: $mask-extend-size;
+    left: $mask-extend-size;
+    background: transparent;
+  }
+}

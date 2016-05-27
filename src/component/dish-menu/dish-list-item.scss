@@ -1,23 +1,26 @@
 @import 'settings.colors';
 @import 'settings.sizes';
+@import 'tools.mixins';
 
 .dish-list-item {
-  overflow: hidden;
-  padding: 15px 0;
+  @include clearfix;
+  padding: 10px 0;
 }
 
 .dish-item {
+  $dish-image-size: 65px;
+
   &-img {
     float: left;
-    width: 65px;
-    height: 65px;
+    width: $dish-image-size;
+    height: $dish-image-size;
     border-radius: 4px;
     background: $color-porcelain;
   }
 
   &-content {
-    overflow: hidden;
-    margin-left: 74px;
+    float: right;
+    width: calc(100% - #{$dish-image-size + 8});
   }
 
   &-name {
@@ -28,19 +31,21 @@
     display: block;
     clear: both;
     margin-bottom: .5em;
-    padding: ($count-editor-size - $dish-item-name-line-height)/2 0;
+    padding: ($counter-size - $dish-item-name-line-height)/2 0;
   }
 
   &-price {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: bold;
-    line-height: $count-editor-size;
+    line-height: $counter-size;
     float: left;
     color: $color-neon-carrot;
 
     &::before {
       font-size: 12px;
+      line-height: 1;
       content: '￥';
+      vertical-align: 1px;
     }
   }
 }

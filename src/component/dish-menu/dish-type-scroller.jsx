@@ -1,9 +1,7 @@
 const React = require('react');
 const { findDOMNode } = require('react-dom');
-const injectTapEventPlugin = require('react-tap-event-plugin');
 const IScroll = require('iscroll');
 const DynamicClassLI = require('../mui/misc/dynamic-class-hoc.jsx')('li');
-injectTapEventPlugin();
 require('./dish-type-scroller.scss');
 
 module.exports = React.createClass({
