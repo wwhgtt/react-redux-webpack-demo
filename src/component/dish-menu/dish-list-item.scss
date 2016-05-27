@@ -1,0 +1,46 @@
+@import 'settings.colors';
+@import 'settings.sizes';
+
+.dish-list-item {
+  overflow: hidden;
+  padding: 15px 0;
+}
+
+.dish-item {
+  &-img {
+    float: left;
+    width: 65px;
+    height: 65px;
+    border-radius: 4px;
+    background: $color-porcelain;
+  }
+
+  &-content {
+    overflow: hidden;
+    margin-left: 74px;
+  }
+
+  &-name {
+    $dish-item-name-line-height: 20px;
+
+    font-size: 16px;
+    line-height: $dish-item-name-line-height;
+    display: block;
+    clear: both;
+    margin-bottom: .5em;
+    padding: ($count-editor-size - $dish-item-name-line-height)/2 0;
+  }
+
+  &-price {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: $count-editor-size;
+    float: left;
+    color: $color-neon-carrot;
+
+    &::before {
+      font-size: 12px;
+      content: '￥';
+    }
+  }
+}

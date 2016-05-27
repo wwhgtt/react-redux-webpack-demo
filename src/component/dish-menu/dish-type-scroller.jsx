@@ -16,13 +16,18 @@ module.exports = React.createClass({
   },
   componentDidMount() {
     this._cache = {};
-    this._cache.iscroll = new IScroll(findDOMNode(this), { scrollY:true });
+    this._cache.iScroll = new IScroll(findDOMNode(this), { scrollY:true });
   },
   componentDidUpdate() {
-    this._cache.iscroll.refresh();
+    const iScroll = this._cache.iScroll;
+    iScroll.refresh();
+    const activeDishType = findDOMNode(this).querySelector('.is-active');
+    if (activeDishType) {
+      iScroll.scrollToElement(activeDishType, 300);
+    }
   },
   componentWillUnmount() {
-    this._cache.iscroll.destroy();
+    this._cache.iScroll.destroy();
     this._cache = null;
   },
   onDishTypeItemTap(evt) {

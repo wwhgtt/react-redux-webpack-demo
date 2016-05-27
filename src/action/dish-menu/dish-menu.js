@@ -21,6 +21,6 @@ exports.fetchMenuData = () => (dispatch, getStates) => {
       dispatch(setMenuData(menuData.data));
     }).
     catch(err => {
-      console.log(err);
+      throw err;
     });
 };
