@@ -42,7 +42,9 @@
 
     &::before {
       font-size: 12px;
+      line-height: 1;
       content: '￥';
+      vertical-align: 1px;
     }
   }
 }
