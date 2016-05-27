@@ -1,0 +1,60 @@
+@import 'settings.colors';
+@import 'settings.sizes';
+
+.tiny-cart {
+  line-height: $cart-trigger-height;
+  position: fixed;
+  z-index: 10;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  width: 100%;
+  height: $cart-trigger-height;
+  color: $color-white;
+  background: $color-abbey;
+
+  &-left {
+    float: left;
+    width: calc(100% - 110px);
+    height: 100%;
+    padding-left: 10px;
+  }
+
+  &-right {
+    float: right;
+    width: 110px;
+    height: 100%;
+    text-align: right;
+
+    > .tiny-cart-text {
+      padding-right: 10px;
+    }
+  }
+
+  @at-root {
+    .total-price {
+      font-size: 23px;
+
+      &::before {
+        font-size: 12px;
+        content: '￥';
+      }
+
+      > small {
+        font-size: 12px;
+      }
+    }
+  }
+
+  &-text {
+    font-size: 14px;
+  }
+
+  &-btn {
+    font-size: 18px;
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+  }
+}
