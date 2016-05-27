@@ -1,0 +1,21 @@
+@import 'settings.colors';
+@import 'settings.sizes';
+
+.counter {
+  float: right;
+  overflow: hidden;
+
+  &-minus {
+    float: left;
+  }
+
+  &-num {
+    line-height: $counter-size;
+    float: left;
+    padding: 0 .5em;
+  }
+
+  &-add {
+    float: right;
+  }
+}

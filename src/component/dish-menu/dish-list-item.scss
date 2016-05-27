@@ -28,13 +28,13 @@
     display: block;
     clear: both;
     margin-bottom: .5em;
-    padding: ($count-editor-size - $dish-item-name-line-height)/2 0;
+    padding: ($counter-size - $dish-item-name-line-height)/2 0;
   }
 
   &-price {
     font-size: 18px;
     font-weight: bold;
-    line-height: $count-editor-size;
+    line-height: $counter-size;
     float: left;
     color: $color-neon-carrot;
 

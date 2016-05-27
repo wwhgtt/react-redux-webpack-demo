@@ -1,6 +1,8 @@
 const React = require('react');
 const classnames = require('classnames');
 
+require('./counter.scss');
+
 module.exports = React.createClass({
   displayName:'Counter',
   propTypes: {
@@ -28,16 +30,16 @@ module.exports = React.createClass({
     return (
       <div className="counter">
         <a
-          className={classnames('minus-btn', { 'btn-disabled':!minimum || count === minimum })}
+          className={classnames('btn-minus counter-minus', { 'btn-disabled':!minimum || count === minimum })}
           onTouchTap={evt => this.onBtnsClick('minus', count - step)}
         >
         </a>
         <a
-          className={classnames('add-btn', { 'btn-disabled':!maximum || count === maximum })}
+          className={classnames('btn-add counter-add', { 'btn-disabled':!maximum || count === maximum })}
           onTouchTap={evt => this.onBtnsClick('add', count + step)}
         >
         </a>
-        <span className="count-num">{count}</span>
+        <span className="counter-num">{count}</span>
       </div>
     );
   },

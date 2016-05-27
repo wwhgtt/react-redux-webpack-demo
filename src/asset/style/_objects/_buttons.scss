@@ -1,18 +1,84 @@
-.o-btn--yellow {
+// BUTTON STRUCTURE OBJECTS
+.btn--ellips {
+  font-size: 12px;
+  line-height: $counter-size;
+  height: $counter-size;
+  padding: 0 .8em;
+  cursor: pointer;
+  text-decoration: none;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: $counter-size / 2;
+}
+
+
+// BUTTON SKIN OBJECTS
+.btn--yellow {
   text-align: center;
   color: $color-white;
   background: $color-sunglow;
 }
 
-.o-btn--trigger {
-  font-size: 12px;
-  line-height: $count-editor-size;
+
+// BUTTON ELEMENTS
+.btn-minus,
+.btn-add {
+  $border-color: lighten($color-mischka, 5%);
+
+  position: relative;
+  display: block;
+  width: $counter-size;
+  height: $counter-size;
+  border: 1px solid $border-color;
+  border-radius: 50%;
+  background: $color-white;
+
+  &::before,
+  &::after {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    content: '';
+    border-radius: 1px;
+    background: $color-neon-carrot;
+  }
+
+  &::before {
+    width: 12px;
+    height: 2px;
+  }
+
+  &.btn-disabled::before,
+  &.btn-disabled::after {
+    background: darken($color-mischka, 10%);
+  }
+
+  &:active:not(.btn-disabled) {
+    &::before,
+    &:active::after {
+      transform: scale(.8, .8);
+    }
+  }
+}
+
+.btn-minus::after {
+  width: 0;
+  height: 0;
+}
+
+.btn-add::after {
+  width: 2px;
+  height: 12px;
+}
+
+.btn-choose-property {
+  $border-color: lighten($color-mischka, 5%);
+
   float: right;
-  height: $count-editor-size;
-  padding: 0 .8em;
-  cursor: pointer;
-  border-width: 1px;
-  border-style: solid;
-  border-radius: $count-editor-size / 2;
-  outline: none;
+  color: $color-neon-carrot;
+  border-color: $border-color;
 }

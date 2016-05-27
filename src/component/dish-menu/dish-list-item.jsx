@@ -18,7 +18,7 @@ module.exports = React.createClass({
     if (helper.isSingleDishWithoutProps(dishData)) {
       return (<Counter count={dishData.order} onCountChange={this.onOrderBtnTap} />);
     }
-    return (<a href="" className="choose-property-btn" onTouchTap={this.onOrderBtnTap}></a>);
+    return (<a href="" className="btn--ellips btn-choose-property" onTouchTap={this.onOrderBtnTap}>菜品选项</a>);
   },
   render() {
     const { dishData } = this.props;
