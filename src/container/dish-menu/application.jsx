@@ -5,6 +5,7 @@ require('../../asset/style/style.scss');
 require('./application.scss');
 const DishTypeScroller = require('../../component/dish-menu/dish-type-scroller.jsx');
 const DishScroller = require('../../component/dish-menu/dish-scroller.jsx');
+const CartContainer = require('../../component/dish-menu/cart/cart-container.jsx');
 
 const DishMenuApplication = React.createClass({
   displayName: 'DishMenuApplication',
@@ -36,6 +37,7 @@ const DishMenuApplication = React.createClass({
           dishTypesData={dishTypesData} dishesData={dishesData}
           activeDishTypeId={activeDishTypeId} onScroll={activeDishType} onOrderBtnTap={tryToOrderDish}
         />
+        <CartContainer dishesData={dishesData} onBillBtnTap={() => {}} />
       </div>
     );
   },
