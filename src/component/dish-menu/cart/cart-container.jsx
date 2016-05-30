@@ -11,7 +11,7 @@ module.exports = React.createClass({
     return dishesData.
       filter(dishData => dishData.hasOwnProperty('order')).
       map(dishData => typeof(dishData.order) === 'number' ? dishData.order : dishData.order.length).
-      reducer();
+      reducer((p, c) => p + c);
   },
   expandCart() {
     // TODO
