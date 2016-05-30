@@ -7,8 +7,14 @@ module.exports = React.createClass({
     dishesData: React.PropTypes.array.isRequired,
     onBillBtnTap: React.PropTypes.func.isRequired,
   },
+  getDishCount(dishesData) {
+    return dishesData.
+      filter(dishData => dishData.hasOwnProperty('order')).
+      map(dishData => typeof(dishData.order) === 'number' ? dishData.order : dishData.order.length).
+      reducer((p, c) => p + c);
+  },
   expandCart() {
-
+    // TODO
   },
   render() {
     const { onBillBtnTap } = this.props;
