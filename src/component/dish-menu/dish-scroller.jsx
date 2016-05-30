@@ -71,7 +71,11 @@ module.exports = React.createClass({
   },
   buildDishList(activeDishTypeId, dishTypesData, dishesData, onOrderBtnTap) {
     function getDishById(dishId) {
-      return _find(dishesData, { id:dishId });
+      const dish = _find(dishesData, { id:dishId });
+      if (!dish) {
+        throw new Error(`Can not find dish for dishId ${dishId}, check the dishTypesData.`);
+      }
+      return dish;
     }
     return (
       <ul className="dish-list">

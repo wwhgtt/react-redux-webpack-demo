@@ -77,7 +77,7 @@ module.exports = {
         'dishIds': [64],
       }],
       'dishList': [{
-        'id': 574725,
+        'id': 57472,
         'name': '不是菜品的菜',
         'type': 0,
         'aliasName': '',

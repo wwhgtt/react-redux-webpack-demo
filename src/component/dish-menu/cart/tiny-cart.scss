@@ -1,0 +1,119 @@
+@import 'settings.colors';
+@import 'settings.sizes';
+@import 'tools.mixins';
+
+.tiny-cart {
+  $cart-right-width: 110px;
+
+  @inclue clearfix;
+  position: fixed;
+  z-index: 10;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: $cart-trigger-height;
+  color: $color-white;
+  background: $color-abbey;
+
+  &-left {
+    position: relative;
+    float: left;
+    width: calc(100% - #{$cart-right-width});
+    height: 100%;
+    padding-left: 5px;
+  }
+
+  &-right {
+    float: right;
+    width: $cart-right-width;
+    height: 100%;
+    text-align: right;
+
+    > .tiny-cart-text {
+      padding-right: 10px;
+    }
+  }
+
+
+  &-icon {
+    position: relative;
+    float: left;
+    width: 50px;
+    height: 50px;
+    margin-top: -15px;
+    margin-right: 5px;
+    border-radius: 50%;
+    background: $color-shuttle-grey;
+
+    &::before {
+      display: block;
+      width: 100%;
+      height: 100%;
+      content: '';
+      background-image: url('../../../asset/images/cart-icon.png');
+      // image size 60 * 54;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 30px 28px;
+    }
+
+    &::after {
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 20px;
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      padding: 0 .45em;
+      content: attr(data-count);
+      color: $color-white;
+      border-radius: 10px;
+      background: $color-radical-red;
+    }
+  }
+
+
+  &-price {
+    @inclue clearfix;
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 60px;
+    min-width: 100px;
+    padding-right: 10px;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+
+    > strong {
+      font-size: 22px;
+      font-weight: normal;
+      margin-right: 5px;
+
+      &::before {
+        font-size: 12px;
+        content: '￥';
+      }
+    }
+
+    > small {
+      font-size: 12px;
+      display: inline-block;
+    }
+  }
+
+
+  &-text {
+    font-size: 14px;
+    line-height: $cart-trigger-height;
+  }
+
+
+  &-btn {
+    font-size: 18px;
+    line-height: $cart-trigger-height;
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+  }
+}

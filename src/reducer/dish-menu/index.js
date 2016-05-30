@@ -1,5 +1,5 @@
 const _findIndex = require('lodash.findindex');
-module.exports = function (state = { activeDishTypeId:-1, dishTypesData:[], dishesData:[] }, action) {
+module.exports = function (state = { activeDishTypeId:-1, dishTypesData:[], dishesData:[], dishDetailData: undefined }, action) {
   const { type, payload } = action;
   let newDishIdx;
   let newDishData;
