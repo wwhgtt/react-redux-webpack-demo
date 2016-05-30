@@ -2,6 +2,9 @@ const React = require('react');
 const helper = require('../../../helper/dish-hepler');
 const SingleDishDetail = require('./single-dish-detail.jsx');
 const GroupDishDetail = require('./group-dish-detail.jsx');
+
+require('./dish-detail-container.scss');
+
 module.exports = React.createClass({
   displayName: 'DishDetailContainer',
   propTypes: {
@@ -12,8 +15,11 @@ module.exports = React.createClass({
     const { onCloseBtnTap, dishData } = this.props;
     return (
       <div className="dish-detail-container">
-        <a href="" className="close-btn" onTouchTap={onCloseBtnTap}></a>
-        {helper.isGroupDish(dishData) ? <GroupDishDetail /> : <SingleDishDetail dishData={dishData} />}
+        <a href="" className="dish-detail-close" onTouchTap={onCloseBtnTap}></a>
+        <div className="dish-detail-content">
+          {helper.isGroupDish(dishData) ? <GroupDishDetail /> : <SingleDishDetail dishData={dishData} />}
+        </div>
+        <button className="dish-detail-addtocart btn--yellow">加入购物车</button>
       </div>
     );
   },

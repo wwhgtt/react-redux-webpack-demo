@@ -1,6 +1,9 @@
 const React = require('react');
 const helper = require('../../../helper/dish-hepler');
 const Counter = require('../../mui/counter.jsx');
+
+require('./dish-detail-item.scss');
+
 module.exports = React.createClass({
   displayName: 'DishDetailItem',
   propTypes: {
@@ -20,9 +23,10 @@ module.exports = React.createClass({
     const { count } = this.state;
     return (
       <div className="dish-detail-item">
-        <span href="" className="total-price"></span>
-        <span className="name"></span>
-        <span className="origin-price"></span>
+        <div className="dish-detail-item-title">
+          <span className="dish-price">16</span>
+          <p className="dish-name">呼叫豆腐／份<span className="dish-origin-price">15</span></p>
+        </div>
         <Counter count={count} onCountChange={this.onCountChange} step={dishData.stepNum} />
       </div>
     );

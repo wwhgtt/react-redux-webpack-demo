@@ -1,0 +1,285 @@
+@import 'settings.colors';
+@import 'settings.sizes';
+
+.dish-detail {
+
+  &-container {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  &-close {
+    display: block;
+    height: 50px;
+    background-color: rgba(0, 0, 0, .5);
+    background-image: url('../../../asset/images/dish-popup-close.png'); // image size 70 * 70px
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: 46px 46px;
+  }
+
+  &-content {
+    height: calc(100% - 100px);
+    background: $color-gallery;
+    border-top: 2px solid $color-sunglow;
+    overflow: auto;
+  }
+
+  &-addtocart {
+    display: block;
+    width: 100%;
+    height: 50px;
+    font-size: 18px;
+  }
+}
+
+
+// dish popup slider
+.dish-slider {
+  position: relative;
+  width: 100%;
+  margin-bottom: 5px;
+  padding: 0 20px;
+  background: $color-white;
+  overflow: hidden;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 21px;
+    background-color: $color-white;
+    background-image: url('./../../../asset/images/triangle-left.png');
+    background-size: 7px 10px;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 21px;
+    background-color: $color-white;
+    background-image: url('./../../../asset/images/triangle-right.png');
+    background-size: 7px 10px;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+
+  &-wrap {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &-inside {
+    width: percentage(1 / 3) * 4;
+    padding: 15px 0;
+    overflow: hidden;
+  }
+}
+
+// dish slide entry
+.dish-slide {
+  float: left;
+  position: relative;
+  width: percentage(1 / 4);
+  text-align: center;
+  line-height: 15px;
+  text-align: center;
+  color: $color-dove-grey;
+  border-right: 1px solid $color-alto;
+
+  &-text {
+    display: inline-block;
+
+    > strong {
+      font-size: 14px;
+      font-weight: normal;
+    }
+
+    > small {
+      display: block;
+      font-size: 11px;
+      color: $color-dusty-grey;
+    }
+  }
+
+  &-badge {
+    display: inline-block;
+    vertical-align: 10px;
+    width: 15px;
+    height: 15px;
+    font-size: 11px;
+    color: $color-white;
+    background: $color-alto;
+    border-radius: 50%;
+  }
+
+  &.isAtive > &-text,
+  &.isAtive > &-text > small {
+    color: $color-neon-carrot;
+  }
+
+  &.isAtive > &-badge {
+    background: $color-sunglow;
+  }
+
+  &.isError > &-badge {
+    background: $color-radical-red;
+  }
+}
+
+.popup-dish {
+  margin-bottom: 5px;
+  background: $color-white;
+
+  &-title {
+    padding: 10px;
+    overflow: hidden;
+
+    > .dish-name {
+      float: left;
+      margin-bottom: 0;
+      width: calc(100% - 110px);
+      font-weight: normal;
+    }
+  }
+
+  &-dropdown-trigger {
+    color: $color-neon-carrot;
+    background: $color-white;
+    border-color: $color-neon-carrot;
+  }
+
+  &-dropdown {
+    position: relative;
+    margin-bottom: 24px;
+    padding: 10px;
+    font-size: 14px;
+    box-shadow: inset 3px 0 0 $color-sunglow;
+    border-top: 1px solid $color-gallery;
+
+    &--alone {
+      margin-bottom: 0;
+      padding: 0 10px;
+      box-shadow: none;
+    }
+  }
+
+  &-dropdown-close {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -16px;
+    z-index: 5;
+    display: block;
+    width: 80px;
+    height: 16px;
+    background: $color-white;
+    margin: auto;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -8px;
+      width: 0;
+      height: 0;
+      border-top: 16px solid $color-white;
+      border-left: 8px solid transparent;
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -8px;
+      width: 0;
+      height: 0;
+      border-top: 16px solid $color-white;
+      border-right: 8px solid transparent;
+    }
+
+    > span {
+      display: block;
+      margin: (-3px) auto 0;
+      background-image: url('../../../asset/images/arrow-top-orange.png');
+      background-size: cover;
+
+      // image size 24 * 15px
+      width: 12px;
+      height: 8px;
+    }
+  }
+}
+
+.popup-dish-dropdown {
+  &-entry {
+    padding-top: 5px;
+    overflow: hidden;
+
+    &:first-child {
+      line-height: $counter-size;
+      padding: 0 0 10px;
+      border-bottom: 1px solid $color-gallery;
+    }
+  }
+
+  &-title {
+    padding: 10px 0;
+    font-size: 14px;
+    font-weight: normal;
+  }
+}
+
+.dish-addon-list {
+  overflow: hidden;
+}
+
+.dish-addon {
+  float: left;
+  width: 49%;
+  margin-bottom: 8px;
+  padding: 8px 5px 6px;
+  font-size: 11px;
+  line-height: 16px;
+  border: 1px solid $color-gallery;
+  border-radius: 3px;
+  cursor: pointer;
+
+  &:nth-of-type(2n-1) {
+    margin-right: 2%;
+  }
+
+  &.isActive {
+    color: $color-white;
+    background: $color-neon-carrot;
+    border-color: $color-neon-carrot;
+  }
+
+  &-text {
+    float: left;
+    width: calc(100% - 50px);
+  }
+
+  &-price {
+    float: right;
+    width: 50px;
+    text-align: right;
+  }
+}

@@ -1,0 +1,42 @@
+@import 'settings.colors';
+@import 'settings.sizes';
+
+// single-dish-detail
+.dish-detail-item {
+  overflow: hidden;
+  padding: 8px 10px;
+  border-bottom: 1px solid $color-mercury;
+  background: $color-white;
+
+  &-title {
+    float: left;
+    max-width: calc(100% - 110px);
+
+    > .dish-price {
+      font-size: 16px;
+      font-weight: normal;
+      line-height: 20px;
+      float: left;
+      color: $color-neon-carrot;
+
+      &::before {
+        content: '¥';
+      }
+    }
+
+    > .dish-name {
+      font-size: 16px;
+      line-height: 20px;
+      float: left;
+      clear: both;
+    }
+
+    .dish-origin-price::before {
+      content: ' ¥';
+    }
+
+    + .counter {
+      padding-top: 7px;
+    }
+  }
+}
