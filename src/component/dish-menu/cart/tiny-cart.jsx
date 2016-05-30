@@ -1,7 +1,5 @@
 const React = require('react');
 
-require('./tiny-cart.scss');
-
 module.exports = React.createClass({
   displayName: 'TinyCart',
   propTypes: {

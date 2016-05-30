@@ -2,6 +2,8 @@ const React = require('react');
 const TinyCart = require('./tiny-cart.jsx');
 const helper = require('../../../helper/dish-hepler');
 
+require('./cart.scss');
+
 module.exports = React.createClass({
   displayName: 'CartContainer',
   propTypes: {
