@@ -10,19 +10,24 @@ module.exports = React.createClass({
   propTypes:{
     dishData: React.PropTypes.object.isRequired,
     onOrderBtnTap: React.PropTypes.func.isRequired,
+    onPropsBtnTap: React.PropTypes.func.isRequired,
   },
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
   },
-  onOrderBtnTap(action) {
-    const { dishData, onOrderBtnTap } = this.props;
-    onOrderBtnTap(dishData, action);
+  onBtnTap(newCount, increment) {
+    const { dishData, onOrderBtnTap, onPropsBtnTap } = this.props;
+    if (increment) {
+      onOrderBtnTap(dishData, increment);
+    } else {
+      onPropsBtnTap(dishData);
+    }
   },
   buildOrderBtn(dishData) {
     if (helper.isSingleDishWithoutProps(dishData)) {
-      return (<Counter count={dishData.order} onCountChange={this.onOrderBtnTap} step={dishData.stepNum} />);
+      return (<Counter count={dishData.order} onCountChange={this.onBtnTap} step={dishData.stepNum} />);
     }
-    return (<a href="" className="btn--ellips btn-choose-property" onTouchTap={this.onOrderBtnTap}>菜品选项</a>);
+    return (<a className="btn--ellips btn-choose-property" onTouchTap={this.onBtnTap}>菜品选项</a>);
   },
   render() {
     const { dishData } = this.props;

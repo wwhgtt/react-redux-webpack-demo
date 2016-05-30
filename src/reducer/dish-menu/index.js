@@ -9,6 +9,8 @@ module.exports = function (state = { activeDishTypeId:-1, dishTypesData:[], dish
       return Object.assign({}, state, { dishTypesData:payload.dishTypeList, dishesData: payload.dishList });
     case 'ACTIVE_DISH_TYPE':
       return Object.assign({}, state, { activeDishTypeId:payload[1] });
+    case 'SHOW_DISH_DETAIL':
+      return Object.assign({}, state, { dishDetailData:payload });
     case 'ORDER_DISH':
       newDishIdx = _findIndex(state.dishesData, { id: payload[0].id });
       newDishsData = state.dishesData.slice();

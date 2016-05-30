@@ -12,7 +12,12 @@ exports.getOrderedDishes = function (dishesData) {
 };
 exports.getDishesCount = function (dishesData) {
   return dishesData.
-    map(dishData => typeof(dishData.order) === 'number' ? dishData.order : dishData.order.length).
+    map(dishData => {
+      if (dishData.hasOwnProperty('order')) {
+        return typeof(dishData.order) === 'number' ? dishData.order : dishData.order.length;
+      }
+      return 0;
+    }).
     reduce((p, c) => p + c, 0);
 };
 const getDishPrice = exports.getDishPrice = function (dishData) {

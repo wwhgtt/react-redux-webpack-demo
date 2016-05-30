@@ -15,6 +15,7 @@ module.exports = React.createClass({
     dishesData: React.PropTypes.array.isRequired,
     onScroll: React.PropTypes.func.isRequired,
     onOrderBtnTap: React.PropTypes.func.isRequired,
+    onPropsBtnTap: React.PropTypes.func.isRequired,
   },
   componentDidMount() {
     const { onScroll } = this.props;
@@ -55,10 +56,14 @@ module.exports = React.createClass({
   onTouchEnd() {
     this._cache.isTouching = false;
   },
-  onOrderBtnTap(dishData, action) {
-    const { onOrderBtnTap } = this.props;
+  onDishItemBtnTap(dishData, action) {
+    const { onOrderBtnTap, onPropsBtnTap } = this.props;
     this._cache.isTaping = true;
-    onOrderBtnTap(dishData, action);
+    if (action) {
+      onOrderBtnTap(dishData, action);
+    } else {
+      onPropsBtnTap(dishData);
+    }
     setTimeout(() => this._cache.isTaping = false, 0); // set isTaping to false at nextTick of rendering;
   },
   findCurrentDishTypeId(posY) {
@@ -69,7 +74,7 @@ module.exports = React.createClass({
     }
     return false;
   },
-  buildDishList(activeDishTypeId, dishTypesData, dishesData, onOrderBtnTap) {
+  buildDishList(activeDishTypeId, dishTypesData, dishesData, onDishItemBtnTap) {
     function getDishById(dishId) {
       const dish = _find(dishesData, { id:dishId });
       if (!dish) {
@@ -96,7 +101,10 @@ module.exports = React.createClass({
             ].concat(
               dishTypeData.dishIds.map(dishId => {
                 const dishData = getDishById(dishId);
-                return (<li className="dish-item-dish"><DishListItem dishData={dishData} onOrderBtnTap={onOrderBtnTap} /></li>);
+                return (<li className="dish-item-dish"><DishListItem
+                  dishData={dishData} onOrderBtnTap={onDishItemBtnTap} onPropsBtnTap={onDishItemBtnTap}
+                /></li>
+                );
               })
             )
           );
@@ -107,7 +115,7 @@ module.exports = React.createClass({
   },
   render() {
     const { activeDishTypeId, dishTypesData, dishesData } = this.props;
-    const dishList = this.buildDishList(activeDishTypeId, dishTypesData, dishesData, this.onOrderBtnTap);
+    const dishList = this.buildDishList(activeDishTypeId, dishTypesData, dishesData, this.onDishItemBtnTap);
     return (
       <div className="dish-scroller" onTouchStart={this.onTouchStart} onTouchEnd={this.onTouchEnd}>
         {/* <div className="scroll-wrapper">*/}

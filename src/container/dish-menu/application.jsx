@@ -14,7 +14,8 @@ const DishMenuApplication = React.createClass({
     // MapedActionsToProps
     fetchMenuData: React.PropTypes.func.isRequired,
     activeDishType: React.PropTypes.func.isRequired,
-    tryToOrderDish: React.PropTypes.func.isRequired,
+    orderDish: React.PropTypes.func.isRequired,
+    showDishDetail: React.PropTypes.func.isRequired,
     // MapedStatesToProps
     activeDishTypeId: React.PropTypes.number.isRequired,
     dishTypesData: React.PropTypes.array,
@@ -28,7 +29,7 @@ const DishMenuApplication = React.createClass({
   },
   render() {
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData } = this.props; // states
-    const { activeDishType, tryToOrderDish } = this.props; // actions
+    const { activeDishType, orderDish, showDishDetail } = this.props; // actions
     return (
       <div className="application">
         <DishTypeScroller
@@ -37,10 +38,10 @@ const DishMenuApplication = React.createClass({
         />
         <DishScroller
           dishTypesData={dishTypesData} dishesData={dishesData}
-          activeDishTypeId={activeDishTypeId} onScroll={activeDishType} onOrderBtnTap={tryToOrderDish}
+          activeDishTypeId={activeDishTypeId} onScroll={activeDishType} onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail}
         />
         <CartContainer dishesData={dishesData} onBillBtnTap={() => {}} />
-        {dishDetailData !== undefined ? <DishDetailContainer dishData={dishDetailData} onCloseBtnTap={() => {}} /> : false}
+        {dishDetailData !== undefined ? <DishDetailContainer dishData={dishDetailData} onCloseBtnTap={showDishDetail} /> : false}
       </div>
     );
   },

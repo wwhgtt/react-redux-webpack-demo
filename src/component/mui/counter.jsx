@@ -26,7 +26,7 @@ module.exports = React.createClass({
     if ((maximum && newCount > maximum) || (newCount < minimum)) {
       return false;
     }
-    return onCountChange(increment);
+    return onCountChange(newCount, increment);
   },
   render() {
     const { count, step, maximum, minimum } = this.props;
