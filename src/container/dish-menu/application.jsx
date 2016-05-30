@@ -6,6 +6,7 @@ require('./application.scss');
 const DishTypeScroller = require('../../component/dish-menu/dish-type-scroller.jsx');
 const DishScroller = require('../../component/dish-menu/dish-scroller.jsx');
 const CartContainer = require('../../component/dish-menu/cart/cart-container.jsx');
+const DishDetailContainer = require('../../component/dish-menu/detail/dish-detail-container.jsx');
 
 const DishMenuApplication = React.createClass({
   displayName: 'DishMenuApplication',
@@ -18,6 +19,7 @@ const DishMenuApplication = React.createClass({
     activeDishTypeId: React.PropTypes.number.isRequired,
     dishTypesData: React.PropTypes.array,
     dishesData: React.PropTypes.array,
+    dishDetailData: React.PropTypes.object,
   },
   componentDidMount() {
     this.props.fetchMenuData();
@@ -25,7 +27,7 @@ const DishMenuApplication = React.createClass({
   componentDidUpdate() {
   },
   render() {
-    const { activeDishTypeId, dishTypesData, dishesData } = this.props; // states
+    const { activeDishTypeId, dishTypesData, dishesData, dishDetailData } = this.props; // states
     const { activeDishType, tryToOrderDish } = this.props; // actions
     return (
       <div className="application">
@@ -38,6 +40,7 @@ const DishMenuApplication = React.createClass({
           activeDishTypeId={activeDishTypeId} onScroll={activeDishType} onOrderBtnTap={tryToOrderDish}
         />
         <CartContainer dishesData={dishesData} onBillBtnTap={() => {}} />
+        {dishDetailData !== undefined ? <DishDetailContainer dishData={dishDetailData} onCloseBtnTap={() => {}} /> : false}
       </div>
     );
   },

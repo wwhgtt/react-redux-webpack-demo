@@ -11,13 +11,15 @@ module.exports = React.createClass({
     onCartIconTap: React.PropTypes.func.isRequired,
   },
   render() {
-    const { onBillBtnTap, onCartIconTap } = this.props;
+    const { dishCount, totalPrice, onBillBtnTap, onCartIconTap } = this.props;
     return (
       <div className="tiny-cart">
         <div className="tiny-cart-left">
-          <a href="" className="tiny-cart-icon" onTouchTap={onCartIconTap} data-count="3"></a>
-          <span className="tiny-cart-price"><strong>28.22</strong><small>另有配送费8元</small></span>
-          {/* <span className="tiny-cart-text">购物车是空的</span> */}
+          <a href="" className="tiny-cart-icon" onTouchTap={onCartIconTap} data-count={dishCount}></a>
+          {
+            dishCount === 0 ? <span className="tiny-cart-text">购物车是空的</span> :
+              <span className="tiny-cart-price"><strong>{totalPrice}</strong><small>另有配送费8元</small></span>
+          }
         </div>
         <div className="tiny-cart-right">
           {/* <span className="tiny-cart-text">商户已打烊</span> */}
