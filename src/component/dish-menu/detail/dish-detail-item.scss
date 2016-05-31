@@ -1,7 +1,6 @@
 @import 'settings.colors';
 @import 'settings.sizes';
 
-// single-dish-detail
 .dish-detail-item {
   overflow: hidden;
   padding: 8px 10px;
@@ -16,15 +15,13 @@
       font-size: 16px;
       font-weight: normal;
       line-height: 20px;
-      float: left;
+      display: block;
       color: $color-neon-carrot;
     }
 
     > .dish-name {
       font-size: 16px;
       line-height: 20px;
-      float: left;
-      clear: both;
 
       > .price {
         margin-left: .25em;
