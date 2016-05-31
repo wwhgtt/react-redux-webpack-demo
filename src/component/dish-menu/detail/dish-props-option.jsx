@@ -13,9 +13,9 @@ module.exports = React.createClass({
 
   },
   render() {
-    const { id, name, reprice, isChecked } = this.props;
+    const { id, name, reprice, ...otherProps } = this.props;
     return (
-      <DynamicClassAnchor className="dish-porps-option" data-id={id} isChecked={isChecked} data-reprice={reprice}>
+      <DynamicClassAnchor className="dish-porps-option" data-id={id} data-reprice={reprice} {...otherProps}>
         <span className="name ellipsis">{name}</span>
         <span className="extra">+5.00元</span>
       </DynamicClassAnchor>

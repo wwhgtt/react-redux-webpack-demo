@@ -16,7 +16,7 @@ const ActiveSelect = React.createClass({
     return optionsData.map(optionData => {
       const { label } = optionData;
       return React.createElement(optionComponent,
-        Object.assign({}, { key:optionData.id, onClick:evt => this.onSelectOption(evt, optionData) }, optionData), label
+        Object.assign({}, { key:optionData.id, onTouchTap:evt => this.onSelectOption(evt, optionData) }, optionData), label
       );
     });
   },

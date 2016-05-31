@@ -9,13 +9,20 @@ module.exports = React.createClass({
   propTypes: {
     propsData: React.PropTypes.array,
     ingredientsData: React.PropTypes.array,
+    onSelectPropsOption: React.PropTypes.func,
+  },
+  onSelectPropsOption(recipeData, optionData) {
+    this.props.onSelectPropsOption(recipeData, optionData);
   },
   buildRecipe(propsData) {
     const recipesData = propsData.filter((propData => propData.type === 1));
     return recipesData.map(recipeData => (
       <div className="recipe-group" key={recipeData.id}>
         <span className="recipe-title">{recipeData.name}</span>
-        <ActiveSelect optionsData={recipeData.properties} optionComponent={DishPropsOption} onSelectOption={evt => {}} />
+        <ActiveSelect
+          optionsData={recipeData.properties} optionComponent={DishPropsOption}
+          onSelectOption={(evt, optionData) => this.onSelectPropsOption(recipeData, optionData)}
+        />
       </div>
     ));
   },
@@ -24,7 +31,10 @@ module.exports = React.createClass({
     return notesData.map(noteData => (
       <div className="note-group" key={noteData.id}>
         <span className="note-title">{noteData.name}</span>
-        <ActiveSelect optionsData={noteData.properties} optionComponent={DishPropsOption} onSelectOption={evt => {}} />
+        <ActiveSelect
+          optionsData={noteData.properties} optionComponent={DishPropsOption}
+          onSelectOption={(evt, optionData) => this.onSelectPropsOption(noteData, optionData)}
+        />
       </div>
     ));
   },
