@@ -37,7 +37,7 @@ module.exports = React.createClass({
         <a href="" className="dish-item-img">{dishData.img}</a>
         <div className="dish-item-content">
           <span className="dish-item-name">{dishData.name}</span>
-          <span className="dish-item-price">{dishData.marketPrice}</span>
+          <span className="dish-item-price price">{dishData.marketPrice}</span>
           {orderBtn}
         </div>
       </div>

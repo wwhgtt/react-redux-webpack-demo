@@ -23,9 +23,9 @@ module.exports = React.createClass({
     const { count } = this.state;
     return (
       <div className="dish-detail-item">
-        <div className="dish-detail-item-title">
-          <span className="dish-price">16</span>
-          <p className="dish-name">呼叫豆腐／份<span className="dish-origin-price">15</span></p>
+        <div className="dish-detail-item-main">
+          <span className="dish-price price">16</span>
+          <p className="dish-name">呼叫豆腐／份 <span className="price">15</span></p>
         </div>
         <Counter count={count} onCountChange={this.onCountChange} step={dishData.stepNum} />
       </div>

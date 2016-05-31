@@ -31,7 +31,7 @@
     display: block;
     clear: both;
     margin-bottom: .5em;
-    padding: ($counter-size - $dish-item-name-line-height)/2 0;
+    padding: #{($counter-size - $dish-item-name-line-height) / 2} 0;
   }
 
   &-price {
@@ -44,7 +44,6 @@
     &::before {
       font-size: 12px;
       line-height: 1;
-      content: '¥';
       vertical-align: 1px;
     }
   }
