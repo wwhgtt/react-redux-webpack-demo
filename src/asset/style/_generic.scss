@@ -18,6 +18,7 @@ a {
   color: inherit;
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
   &:active,
   &:hover {
@@ -48,6 +49,8 @@ button {
   appearance: none;
   background: transparent;
   border: 0;
+  outline: 0;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 
   &::-moz-focus-inner {
     padding: 0;

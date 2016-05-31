@@ -1,5 +1,5 @@
 const React = require('react');
-const DynamicClassAnchor = require('../../mui/misc/dynamic-class-hoc.jsx')('a');
+const DynamicClassAnchor = require('../../mui/misc/dynamic-class-hoc.jsx')('button');
 
 require('./dish-props-option.scss');
 

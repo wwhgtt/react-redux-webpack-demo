@@ -7,10 +7,9 @@
   float: left;
   width: 49%;
   margin-bottom: 8px;
-  padding: 7px 5px 5px;
+  padding: 7px 5px;
   cursor: pointer;
-  -webkit-user-select: none;
-  user-select: none;
+  color: $color-dove-grey;
   border: 1px solid $color-gallery;
   border-radius: 3px;
   background: $color-white;
@@ -30,6 +29,7 @@
   > .name {
     float: left;
     width: calc(100% - #{$extar-max-width});
+    text-align: left;
   }
 
   > .extra {
