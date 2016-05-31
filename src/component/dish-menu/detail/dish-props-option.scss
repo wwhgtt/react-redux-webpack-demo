@@ -1,0 +1,40 @@
+@import 'settings.colors';
+@import 'settings.sizes';
+
+.dish-porps-option {
+  font-size: 11px;
+  line-height: 16px;
+  float: left;
+  width: 49%;
+  margin-bottom: 8px;
+  padding: 7px 5px 5px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  border: 1px solid $color-gallery;
+  border-radius: 3px;
+  background: $color-white;
+
+  &:nth-of-type(2n-1) {
+    margin-right: 2%;
+  }
+
+  &.is-checked {
+    color: $color-white;
+    border-color: $color-neon-carrot;
+    background: $color-neon-carrot;
+  }
+
+  $extar-max-width: 50px;
+
+  > .name {
+    float: left;
+    width: calc(100% - #{$extar-max-width});
+  }
+
+  > .extra {
+    float: right;
+    width: $extar-max-width;
+    text-align: right;
+  }
+}

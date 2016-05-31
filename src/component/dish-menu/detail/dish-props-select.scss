@@ -1,0 +1,26 @@
+@import 'settings.colors';
+@import 'settings.sizes';
+
+.dish-props-select {
+  padding: 6px 8px 10px;
+  border-top: 5px solid $color-gallery;
+
+  // &-title {
+  //   overflow: hidden;
+  //   padding: 10px;
+
+  //   > .dish-name {
+  //     font-weight: normal;
+  //     float: left;
+  //     width: calc(100% - #{$counter-max-width});
+  //     margin-bottom: 0;
+  //   }
+  // }
+}
+
+.recipe-title,
+.note-title {
+  font-size: 14px;
+  display: block;
+  padding: 5px 0 10px;
+}

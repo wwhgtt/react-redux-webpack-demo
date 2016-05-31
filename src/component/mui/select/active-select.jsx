@@ -25,7 +25,7 @@ const ActiveSelect = React.createClass({
     const optionElements = this.renderOptions(optionsData, optionComponent);
     return (
       <div className={classnames('active-select', className)}>
-        <div className="optionsData-wrapper">
+        <div className="optionsData-wrapper clearfix">
           {optionElements}
         </div>
       </div>

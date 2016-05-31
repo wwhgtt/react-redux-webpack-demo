@@ -1,6 +1,9 @@
 const React = require('react');
 const ActiveSelect = require('../../mui/select/active-select.jsx');
 const DishPropsOption = require('./dish-props-option.jsx');
+
+require('./dish-props-select.scss');
+
 module.exports = React.createClass({
   displayName: 'DishPropsSelect',
   propTypes: {
