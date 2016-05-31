@@ -14,7 +14,10 @@ exports.getDishesCount = function (dishesData) {
   return dishesData.
     map(dishData => {
       if (dishData.hasOwnProperty('order')) {
-        return typeof(dishData.order) === 'number' ? dishData.order : dishData.order.length;
+        if (isSingleDishWithoutProps(dishData)) {
+          return dishData.order;
+        }
+        return dishData.order.map((order => order.count)).reduce((c, p) => c + p);
       }
       return 0;
     }).

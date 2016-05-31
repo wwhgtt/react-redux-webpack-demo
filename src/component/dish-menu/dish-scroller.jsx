@@ -34,9 +34,9 @@ module.exports = React.createClass({
       }
     });
   },
-  // shouldComponentUpdate() {
-  //   return !this._cache.isTouching;
-  // },
+  shouldComponentUpdate() {
+    return !this._cache.isTouching;
+  },
   componentDidUpdate() {
     const cache = this._cache;
     const iScroll = cache.iScroll;

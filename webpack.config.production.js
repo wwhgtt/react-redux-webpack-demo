@@ -7,7 +7,7 @@ module.exports = {
     index_bundle: [
       // 'webpack-dev-server/client?http://192.168.200.17:3000', // WebpackDevServer host and port
       // 'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
-      'babel-polyfill',
+      // 'babel-polyfill',
       './src/dish-menu.jsx',
     ],
   },

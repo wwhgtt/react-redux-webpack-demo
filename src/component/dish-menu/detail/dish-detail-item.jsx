@@ -8,26 +8,20 @@ module.exports = React.createClass({
   displayName: 'DishDetailItem',
   propTypes: {
     dishData: React.PropTypes.object.isRequired,
+    onCountChange: React.PropTypes.func.isRequired,
   },
-  getInitialState() {
-    const { dishData } = this.props;
-    return {
-      count: helper.getDishesCount([dishData]),
-    };
-  },
-  onCountChange() {
-    // TODO
+  onCountChange(newCount, increament) {
+    this.props.onCountChange(increament);
   },
   render() {
     const { dishData } = this.props;
-    const { count } = this.state;
     return (
       <div className="dish-detail-item">
         <div className="dish-detail-item-main">
           <span className="dish-price price">16</span>
           <p className="dish-name">呼叫豆腐／份 <span className="price">15</span></p>
         </div>
-        <Counter count={count} onCountChange={this.onCountChange} step={dishData.stepNum} />
+        <Counter count={helper.getDishesCount([dishData])} onCountChange={this.onCountChange} step={dishData.stepNum} />
       </div>
     );
   },
