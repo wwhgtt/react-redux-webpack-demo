@@ -1,6 +1,8 @@
 html {
   box-sizing: border-box;
   height: 100%;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 *,
@@ -43,8 +45,6 @@ button {
 }
 
 button {
-  -webkit-user-select: none;
-  user-select: none;
   -webkit-appearance: none;
   appearance: none;
   background: transparent;
