@@ -2,6 +2,7 @@ const React = require('react');
 const _cloneDeep = require('lodash.clonedeep');
 const helper = require('../../../helper/dish-hepler');
 const DishDetailItem = require('./dish-detail-item.jsx');
+const DishPropsSelect = require('./dish-props-select.jsx');
 module.exports = React.createClass({
   displayName: 'SingleDishDetail',
   propTypes:{
@@ -18,14 +19,15 @@ module.exports = React.createClass({
   },
   onDishItemCountChange(increament) {
     const oldState = this.state;
-    const oldCount = helper.getDishesCount([oldState]);
-    this.setState({ dishData: Object.assign({}, oldState, { order:[{ count: oldCount + increament }] }) });
+    const oldCount = helper.getDishesCount([oldState.dishData]);
+    this.setState({ dishData: Object.assign({}, oldState.dishData, { order:[{ count: oldCount + increament }] }) });
   },
   render() {
     const { dishData } = this.state;
     return (
       <div className="single-dish-detail">
         <DishDetailItem dishData={dishData} onCountChange={this.onDishItemCountChange} />
+        <DishPropsSelect propsData={dishData.dishPropertyTypeInfos} ingredientsData={dishData.dishIngredientInfos} />
       </div>
     );
   },

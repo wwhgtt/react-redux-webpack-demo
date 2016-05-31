@@ -11,11 +11,15 @@ module.exports = React.createClass({
     dishData: React.PropTypes.object.isRequired,
     onCloseBtnTap: React.PropTypes.func.isRequired,
   },
+  onCloseBtnTap(evt) {
+    evt.preventDefault();
+    this.props.onCloseBtnTap();
+  },
   render() {
-    const { onCloseBtnTap, dishData } = this.props;
+    const { dishData } = this.props;
     return (
       <div className="dish-detail-container">
-        <a href="" className="dish-detail-close" onTouchTap={onCloseBtnTap}></a>
+        <a href="" className="dish-detail-close" onTouchTap={this.onCloseBtnTap}></a>
         <div className="dish-detail-content">
           {helper.isGroupDish(dishData) ? <GroupDishDetail /> : <SingleDishDetail dishData={dishData} />}
         </div>
