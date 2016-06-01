@@ -23,11 +23,21 @@ exports.getDishesCount = function (dishesData) {
     }).
     reduce((p, c) => p + c, 0);
 };
+const getOrderPrice = exports.getOrderPrice = function (basePrice, orderData) {
+  const rePriceProps = orderData.dishPropertyTypeInfos.filter(prop => prop.type !== 3);
+  const checkedRepriceProps = [].concat.apply(
+    [], rePriceProps.map(
+      rePriceProp => rePriceProp.properties.filter(prop => prop.isChecked).
+      map(prop => prop.reprice)
+    )
+  );
+  return orderData.count * (basePrice + parseFloat(checkedRepriceProps.reduce((c, p) => c + p, 0), 10));
+};
 const getDishPrice = exports.getDishPrice = function (dishData) {
   if (isSingleDishWithoutProps(dishData)) {
     return dishData.marketPrice * dishData.order;
   }
-  return 0;
+  return dishData.order.map(eachOrder => getOrderPrice(dishData.marketPrice, eachOrder)).reduce((c, p) => c + p);
 };
 
 exports.getDishesPrice = function (dishesData) {

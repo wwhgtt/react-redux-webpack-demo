@@ -17,7 +17,7 @@ module.exports = React.createClass({
     return (
       <DynamicClassAnchor className="dish-porps-option" data-id={id} data-reprice={reprice} {...otherProps}>
         <span className="name ellipsis">{name}</span>
-        <span className="extra">+5.00元</span>
+        {reprice !== 0 ? <span className="extra">{reprice > 0 ? '+' : ''}{reprice}元</span> : false}
       </DynamicClassAnchor>
     );
   },

@@ -18,7 +18,14 @@ module.exports = function (state = { activeDishTypeId:-1, dishTypesData:[], dish
       if (false) {
         // TODO,For Complex Dishes
       } else {
-        newDishData.order = newDishData.order !== undefined ? newDishData.order + payload[1] : payload[1];
+        console.log(payload);
+        if (newDishData.order === undefined) {
+          newDishData.order = newDishData.dishIncreaseUnit;
+        } else if (newDishData.order + payload[1] < newDishData.dishIncreaseUnit) {
+          newDishData.order = undefined;
+        } else {
+          newDishData.order = newDishData.order + payload[1];
+        }
       }
       return Object.assign({}, state, { dishesData:newDishsData });
     default:
