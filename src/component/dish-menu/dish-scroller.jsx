@@ -23,13 +23,13 @@ module.exports = React.createClass({
     const iScroll = cache.iScroll = new IScroll(findDOMNode(this), { probeType: 2 });
     iScroll.on('scroll', () => {
       const dishTypeId = this.findCurrentDishTypeId(iScroll.y);
-      if (cache.isTouching && dishTypeId) {
+      if (!window.__scrollByType__ && dishTypeId) {
         onScroll(null, dishTypeId);
       }
     });
     iScroll.on('scrollEnd', () => {
       const dishTypeId = this.findCurrentDishTypeId(iScroll.y);
-      if (cache.isTouching && dishTypeId) {
+      if (!window.__scrollByType__ && dishTypeId) {
         onScroll(null, dishTypeId);
       }
     });
@@ -42,8 +42,9 @@ module.exports = React.createClass({
     const iScroll = cache.iScroll;
     iScroll.refresh();
     const activeDishType = findDOMNode(this).querySelector('.active');
-    if (activeDishType && !cache.isTouching && !cache.isTaping) { // if update is not caused by scrolling or touching in dish-scroller.
+    if (window.__scrollByType__) { // if update is not caused by scrolling or touching in dish-scroller.
       iScroll.scrollToElement(activeDishType, 300);             // that mean it's caused by activeDishType, so scrollTo the according dish type
+      setTimeout(() => window.__scrollByType__ = false, 310);
     }
   },
   componentWillUnmount() {
