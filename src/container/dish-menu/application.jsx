@@ -27,6 +27,11 @@ const DishMenuApplication = React.createClass({
   },
   componentDidUpdate() {
   },
+  onDishDetailAddBtnTap(dishData) {
+    const { orderDish, showDishDetail } = this.props;
+    showDishDetail();
+    orderDish(dishData);
+  },
   render() {
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData } = this.props; // states
     const { activeDishType, orderDish, showDishDetail } = this.props; // actions
@@ -41,7 +46,10 @@ const DishMenuApplication = React.createClass({
           activeDishTypeId={activeDishTypeId} onScroll={activeDishType} onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail}
         />
         <CartContainer dishesData={dishesData} onBillBtnTap={() => {}} />
-        {dishDetailData !== undefined ? <DishDetailContainer dishData={dishDetailData} onCloseBtnTap={showDishDetail} /> : false}
+        {dishDetailData !== undefined ?
+          <DishDetailContainer dishData={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />
+          : false
+        }
       </div>
     );
   },

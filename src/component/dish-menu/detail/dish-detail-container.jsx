@@ -10,18 +10,23 @@ module.exports = React.createClass({
   propTypes: {
     dishData: React.PropTypes.object.isRequired,
     onCloseBtnTap: React.PropTypes.func.isRequired,
+    onAddToCarBtnTap: React.PropTypes.func.isRequired,
   },
   onCloseBtnTap(evt) {
     evt.preventDefault();
     this.props.onCloseBtnTap();
   },
   render() {
-    const { dishData } = this.props;
+    const { dishData, onAddToCarBtnTap } = this.props;
     return (
       <div className="dish-detail-container">
         <a href="" className="dish-detail-close" onTouchTap={this.onCloseBtnTap}></a>
         <div className="dish-detail-content">
-          {helper.isGroupDish(dishData) ? <GroupDishDetail /> : <SingleDishDetail dishData={dishData} />}
+          {
+            helper.isGroupDish(dishData) ?
+              <GroupDishDetail /> :
+              <SingleDishDetail dishData={dishData} onAddToCarBtnTap={onAddToCarBtnTap} />
+          }
         </div>
       </div>
     );
