@@ -1,6 +1,9 @@
 const React = require('react');
 const Counter = require('../../mui/counter.jsx');
 const helper = require('../../../helper/dish-hepler');
+
+require('./cart-ordered-item.scss');
+
 module.exports = React.createClass({
   displayName: 'CartOrderedItem',
   propTypes:{
@@ -15,14 +18,17 @@ module.exports = React.createClass({
     const { dishData } = this.props;
     return (
       <div className="cart-ordered-item">
-        {
-          helper.isSingleDishWithoutProps(dishData) ?
-            <span className="dish-name">{dishData.name}</span>
-            :
-            <a className="dish-name-arrow arrow-up">{dishData.name}</a>
-        }
-        <span className="dish-price">{helper.getDishPrice(dishData)}</span>
-        <Counter count={helper.getDishesCount([dishData])} onCountChange={this.onOrderBtnTap} step={dishData.stepNum} />
+        <div className="ordered-item">
+          {
+            helper.isSingleDishWithoutProps(dishData) ?
+              <span className="ellipsis dish-name">{dishData.name}</span>
+              :
+              <a className="ellipsis dish-name dish-name--trigger">{dishData.name}</a>
+          }
+          <span className="dish-price price">{helper.getDishPrice(dishData)}</span>
+          <Counter count={helper.getDishesCount([dishData])} onCountChange={this.onOrderBtnTap} step={dishData.stepNum} />
+        </div>
+        {/* <div className="ordered-item-dropdown"></div> */}
       </div>
     );
   },

@@ -1,0 +1,59 @@
+@import 'settings.colors';
+@import 'settings.sizes';
+
+.cart-ordered-item {
+  padding: 0 10px;
+  border-bottom: 1px solid $color-mercury;
+}
+
+.ordered-item {
+  $dish-price-width: 60px;
+
+  overflow: hidden;
+  padding: 6px 0;
+
+  > .dish-name {
+    font-size: 15px;
+    line-height: $counter-size;
+    float: left;
+    overflow: hidden;
+    width: calc(100% - #{$counter-max-width + $dish-price-width + 10});
+    margin-right: 10px;
+
+    &--trigger::after {
+      float: right;
+      width: 20px;
+      height: 28px;
+      margin-left: 3px;
+      content: '';
+      -webkit-transform: rotate(180deg);
+      transform: rotate(180deg);
+      -webkit-transition: -webkit-transform .25s linear;
+      transition: transform .25s linear;
+      background-image: url('../../../asset/images/arrow-top-grey.png'); // image size 20 * 12px
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: 10px 6px;
+    }
+
+    &--trigger.is-open::after {
+      -webkit-transform: rotate(0);
+      transform: rotate(0);
+    }
+  }
+
+  > .dish-price {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: $counter-size;
+    float: left;
+    width: $dish-price-width;
+    color: $color-neon-carrot;
+
+    &::before {
+      font-size: 12px;
+      line-height: 1;
+      vertical-align: 1px;
+    }
+  }
+}
