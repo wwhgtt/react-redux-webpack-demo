@@ -1,5 +1,6 @@
 const React = require('react');
-
+const CartOrderedItem = require('./cart-ordered-item.jsx');
+const helper = require('../../../helper/dish-hepler');
 require('./expand-cart.scss');
 
 module.exports = React.createClass({
@@ -11,15 +12,35 @@ module.exports = React.createClass({
     onCartIconTap: React.PropTypes.func.isRequired,
     orderedDishesData: React.PropTypes.array,
   },
-  buildCartOrderedList(orderedDishesData) {
+  buildOrderedList(orderedDishesData) {
+    function divideDishes(dishesData) {
+      return [].concat.apply(
+        [], dishesData.map(dishData => {
+          if (helper.isSingleDishWithoutProps(dishData)) {
+            return [dishData];
+          }
+          // clear useless props;
+          return dishData.order.map((dishOrderData, idx) =>
+            Object.assign({}, dishData,
+              { key:`${dishData.id}-${idx}` },
+              { order:[dishOrderData] }
+            )
+          );
+        })
+      );
+    }
+    const dividedDishesData = divideDishes(orderedDishesData);
     return (
       <div className="cart-ordered-list">
+      {
+        dividedDishesData.map(dishData => (<CartOrderedItem key={dishData.key} dishData={dishData} onOrderBtnTap={() => {}} />))
+      }
       </div>
     );
   },
   render() {
     const { dishCount, totalPrice, onBillBtnTap, onCartIconTap, orderedDishesData } = this.props;
-    const cartOrderedList = this.buildCartOrderedList(orderedDishesData);
+    const cartOrderedList = this.buildOrderedList(orderedDishesData);
     return (
       <div className="expand-cart">
         <div className="expand-cart-main">
@@ -34,13 +55,13 @@ module.exports = React.createClass({
             <div className="tiny-cart-left">
               {
                 dishCount === 0 ? <span className="tiny-cart-text">购物车是空的</span> :
-                <span className="tiny-cart-price price"><strong>{totalPrice}</strong><small>另有配送费8元</small></span>
+                  <span className="tiny-cart-price price"><strong>{totalPrice}</strong><small>另有配送费8元</small></span>
               }
             </div>
             <div className="tiny-cart-right">
               {/* <span className="tiny-cart-text">商户已打烊</span> */}
               {/* <span className="tiny-cart-text">差5元起送</span> */}
-              <a href="" className="tiny-cart-btn btn--yellow" onTouchTap={onBillBtnTap}>选好啦</a>
+              <a className="tiny-cart-btn btn--yellow" onTouchTap={onBillBtnTap}>选好啦</a>
             </div>
           </div>
         </div>

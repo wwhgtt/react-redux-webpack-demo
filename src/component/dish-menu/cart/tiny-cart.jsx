@@ -22,7 +22,7 @@ module.exports = React.createClass({
         <div className="tiny-cart-right">
           {/* <span className="tiny-cart-text">商户已打烊</span> */}
           {/* <span className="tiny-cart-text">差5元起送</span> */}
-          <a href="" className="tiny-cart-btn btn--yellow" onTouchTap={onBillBtnTap}>选好啦</a>
+          <a className="tiny-cart-btn btn--yellow" onTouchTap={onBillBtnTap}>选好啦</a>
         </div>
       </div>
     );
