@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "DEV_HOST=192.168.11.239 node server.js",
-    "production": "DEV_HOST=192.168.11.239 &&  webpack-dev-server --host 192.168.11.239 --port 3000 --compress -p --config webpack.config.production.js"
+    "start": "DEV_HOST=192.168.10.8 node server.js",
+    "production": "DEV_HOST=192.168.10.8 &&  webpack-dev-server --host 192.168.11.239 --port 3000 --compress -p --config webpack.config.production.js"
   },
   "repository": {
     "type": "git",

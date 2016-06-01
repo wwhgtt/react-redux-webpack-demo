@@ -5,15 +5,15 @@ const isSingleDishWithoutProps = exports.isSingleDishWithoutProps = function (di
   return false;
 };
 exports.isGroupDish = function (dishData) {
-  return dishData.hasOwnProperty('groups');
+  return dishData.groups !== undefined;
 };
 exports.getOrderedDishes = function (dishesData) {
-  return dishesData.filter(dishData => dishData.hasOwnProperty('order'));
+  return dishesData.filter(dishData => dishData.order !== undefined);
 };
 exports.getDishesCount = function (dishesData) {
   return dishesData.
     map(dishData => {
-      if (dishData.hasOwnProperty('order')) {
+      if (dishData.order !== undefined) {
         if (isSingleDishWithoutProps(dishData)) {
           return dishData.order;
         }
