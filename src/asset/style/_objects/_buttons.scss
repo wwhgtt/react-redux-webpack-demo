@@ -17,6 +17,10 @@
   text-align: center;
   color: $color-white;
   background: $color-sunglow;
+
+  &.btn-disabled {
+    background: darken($color-alto, 15%);
+  }
 }
 
 
