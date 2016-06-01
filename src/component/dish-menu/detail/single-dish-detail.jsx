@@ -10,7 +10,7 @@ module.exports = React.createClass({
   },
   getInitialState() {
     const dishDataForState = _cloneDeep(this.props.dishData);
-    if (!dishDataForState.hasOwnProperty('order')) {
+    if (dishDataForState.order === undefined) {
       dishDataForState.order = [
         {
           count:0,
@@ -29,7 +29,15 @@ module.exports = React.createClass({
     const oldDishData = this.state.dishData;
     const oldOrderData = oldDishData.order;
     const oldCount = helper.getDishesCount([oldDishData]);
-    const newOrderData = [Object.assign({}, oldOrderData[0], { count: oldCount + increament })];
+    let newCount;
+    if (oldCount === 0) {
+      newCount = oldDishData.dishIncreaseUnit;
+    } else if (oldCount + increament < oldDishData.dishIncreaseUnit) {
+      newCount = 0;
+    } else {
+      newCount = oldCount + increament;
+    }
+    const newOrderData = [Object.assign({}, oldOrderData[0], { count: newCount })];
     this.setState({ dishData: Object.assign({}, oldDishData, { order:newOrderData }) });
   },
   onSelectPropsOption(propData, optionData) {
@@ -79,6 +87,7 @@ module.exports = React.createClass({
           propsData={dishData.order[0].dishPropertyTypeInfos} ingredientsData={dishData.order[0].dishIngredientInfos}
           onSelectPropsOption={this.onSelectPropsOption}
         />
+        <button className="dish-detail-addtocart btn--yellow">加入购物车</button>
       </div>
     );
   },

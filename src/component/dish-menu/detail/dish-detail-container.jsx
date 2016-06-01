@@ -23,7 +23,6 @@ module.exports = React.createClass({
         <div className="dish-detail-content">
           {helper.isGroupDish(dishData) ? <GroupDishDetail /> : <SingleDishDetail dishData={dishData} />}
         </div>
-        <button className="dish-detail-addtocart btn--yellow">加入购物车</button>
       </div>
     );
   },
