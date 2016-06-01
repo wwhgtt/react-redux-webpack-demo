@@ -7,7 +7,12 @@ const setMenuData = createAction('SET_MENU_DATA', menuData => menuData);
 exports.showDishDetail = createAction('SHOW_DISH_DETAIL', dishData => dishData);
 exports.orderDish = createAction('ORDER_DISH', (dishData, action) => [dishData, action]);
 
-exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => [evt, dishTypeId]);
+exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => {
+  if (evt && /dish-type-item/.test(evt.target.className)) {
+    window.__scrollByType__ = true;
+  }
+  return dishTypeId;
+});
 exports.fetchMenuData = () => (dispatch, getStates) => {
   fetch(config.dishMenuAPI, {
     method: 'GET', mod: 'cors',
