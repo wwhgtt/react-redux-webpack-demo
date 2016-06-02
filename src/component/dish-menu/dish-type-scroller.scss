@@ -17,6 +17,8 @@
   cursor: pointer;
   text-align: center;
   border-bottom: 1px solid $color-mystic;
+  outline: 0;
+  -webkit-tap-highlight-color: $tap-highlight-color;
 
   &::after {
     font-size: 11px;

@@ -44,6 +44,8 @@ module.exports = React.createClass({
     const cartOrderedList = this.buildOrderedList(orderedDishesData, onOrderBtnTap);
     return (
       <div className="expand-cart">
+        <div className="expand-cart-close"></div>
+
         <div className="expand-cart-main">
           <div className="expand-cart-header">
             <a href="" className="cart-icon cart-icon--expand" onTouchTap={onCartIconTap} data-count={dishCount}></a>
