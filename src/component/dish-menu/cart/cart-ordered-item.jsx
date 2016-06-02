@@ -37,7 +37,7 @@ module.exports = React.createClass({
       if (checkedProps.length > 0) {
         return `${propsInfo.name}:${checkedProps.map(props => props.name).join('、')}`;
       }
-      return false;
+      return '';
     }
 
     if (helper.isGroupDish(dishData)) {
@@ -49,8 +49,8 @@ module.exports = React.createClass({
           {
             RecipeProps.map(propInfo => (buildPropsText(propInfo))).filter(propsText => propsText)
             .concat(
+              [buildPropsText({ name:'配料', properties:dishIngredientInfos })].filter(propsText => propsText),
               NoteProps.map(propInfo => (buildPropsText(propInfo))).filter(propsText => propsText),
-              dishIngredientInfos.map(propInfo => (buildPropsText(propInfo)))
             )
             .join('|')
         }
@@ -61,13 +61,13 @@ module.exports = React.createClass({
   render() {
     const { dishData } = this.props;
     const { expand } = this.state;
-    const hasDetailInfo = !helper.isSingleDishWithoutProps(dishData);
-    const detailInfo = hasDetailInfo ? this.buildDetailInfor(dishData) : false;
+    const isDishWithProps = !helper.isSingleDishWithoutProps(dishData);
+    const detailInfo = isDishWithProps ? this.buildDetailInfor(dishData) : false;
     return (
       <div className="cart-ordered-item">
         <div className="ordered-item">
           {
-            hasDetailInfo ?
+            isDishWithProps ?
               <a
                 className={classnames('ellipsis dish-name dish-name--trigger', { 'is-open':expand })}
                 onTouchTap={this.onExpandBtnTap}
