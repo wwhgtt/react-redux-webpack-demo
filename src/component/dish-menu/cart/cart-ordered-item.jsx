@@ -1,7 +1,7 @@
 const React = require('react');
 const Counter = require('../../mui/counter.jsx');
 const helper = require('../../../helper/dish-hepler');
-
+const classnames = require('classnames');
 require('./cart-ordered-item.scss');
 
 module.exports = React.createClass({
@@ -10,25 +10,77 @@ module.exports = React.createClass({
     dishData: React.PropTypes.object.isRequired,
     onOrderBtnTap: React.PropTypes.func.isRequired,
   },
+  getInitialState() {
+    return {
+      expand : false,
+    };
+  },
   onOrderBtnTap(newCount, increment) {
     const { dishData, onOrderBtnTap } = this.props;
-    onOrderBtnTap(dishData, increment);
+    if (helper.isSingleDishWithoutProps(dishData)) {
+      onOrderBtnTap(dishData, increment);
+    } else {
+      newCount = helper.getNewCountOfDish(dishData, increment);
+      dishData.order[0].count = newCount - dishData.order[0].count;
+      onOrderBtnTap(dishData);
+    }
+  },
+  onExpandBtnTap(evt) {
+    this.setState({ expand:!this.state.expand });
+  },
+  buildDetailInfor(dishData) {
+    const { dishPropertyTypeInfos, dishIngredientInfos } = dishData.order[0];
+    const RecipeProps = dishPropertyTypeInfos.filter(propInfo => propInfo.type === 1);
+    const NoteProps = dishPropertyTypeInfos.filter(propInfo => propInfo.type === 3);
+    function buildPropsText(propsInfo) {
+      const checkedProps = propsInfo.properties.filter(props => props.isChecked);
+      if (checkedProps.length > 0) {
+        return `${propsInfo.name}:${checkedProps.map(props => props.name).join('、')}`;
+      }
+      return false;
+    }
+
+    if (helper.isGroupDish(dishData)) {
+      // TODO
+    }
+    return (
+      <div className="ordered-item-dropdown">
+        <span className="detail-props-info">
+          {
+            RecipeProps.map(propInfo => (buildPropsText(propInfo))).filter(propsText => propsText)
+            .concat(
+              NoteProps.map(propInfo => (buildPropsText(propInfo))).filter(propsText => propsText),
+              dishIngredientInfos.map(propInfo => (buildPropsText(propInfo)))
+            )
+            .join('|')
+        }
+        </span>
+      </div>
+    );
   },
   render() {
     const { dishData } = this.props;
+    const { expand } = this.state;
+    const hasDetailInfo = !helper.isSingleDishWithoutProps(dishData);
+    const detailInfo = hasDetailInfo ? this.buildDetailInfor(dishData) : false;
     return (
       <div className="cart-ordered-item">
         <div className="ordered-item">
           {
-            helper.isSingleDishWithoutProps(dishData) ?
-              <span className="ellipsis dish-name">{dishData.name}</span>
+            hasDetailInfo ?
+              <a
+                className={classnames('ellipsis dish-name dish-name--trigger', { 'is-open':expand })}
+                onTouchTap={this.onExpandBtnTap}
+              >
+                {dishData.name}
+              </a>
               :
-              <a className="ellipsis dish-name dish-name--trigger">{dishData.name}</a>
+              <span className="ellipsis dish-name">{dishData.name}</span>
           }
           <span className="dish-price price">{helper.getDishPrice(dishData)}</span>
           <Counter count={helper.getDishesCount([dishData])} onCountChange={this.onOrderBtnTap} step={dishData.stepNum} />
         </div>
-        {/* <div className="ordered-item-dropdown"></div> */}
+        {expand ? detailInfo : false}
       </div>
     );
   },

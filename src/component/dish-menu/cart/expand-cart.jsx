@@ -10,20 +10,20 @@ module.exports = React.createClass({
     totalPrice: React.PropTypes.number.isRequired,
     onBillBtnTap: React.PropTypes.func.isRequired,
     onCartIconTap: React.PropTypes.func.isRequired,
+    onOrderBtnTap: React.PropTypes.func.isRequired,
     orderedDishesData: React.PropTypes.array,
   },
-  buildOrderedList(orderedDishesData) {
+  buildOrderedList(orderedDishesData, onOrderBtnTap) {
     function divideDishes(dishesData) {
       return [].concat.apply(
         [], dishesData.map(dishData => {
           if (helper.isSingleDishWithoutProps(dishData)) {
             return [dishData];
           }
-          // clear useless props;
           return dishData.order.map((dishOrderData, idx) =>
             Object.assign({}, dishData,
               { key:`${dishData.id}-${idx}` },
-              { order:[dishOrderData] }
+              { order:[Object.assign({}, dishOrderData)] }
             )
           );
         })
@@ -33,14 +33,15 @@ module.exports = React.createClass({
     return (
       <div className="cart-ordered-list">
       {
-        dividedDishesData.map(dishData => (<CartOrderedItem key={dishData.key} dishData={dishData} onOrderBtnTap={() => {}} />))
+        dividedDishesData.map(dishData => (<CartOrderedItem key={dishData.key} dishData={dishData} onOrderBtnTap={onOrderBtnTap} />))
       }
       </div>
     );
   },
   render() {
-    const { dishCount, totalPrice, onBillBtnTap, onCartIconTap, orderedDishesData } = this.props;
-    const cartOrderedList = this.buildOrderedList(orderedDishesData);
+    const { dishCount, totalPrice, onBillBtnTap, onOrderBtnTap,
+      onCartIconTap, orderedDishesData } = this.props;
+    const cartOrderedList = this.buildOrderedList(orderedDishesData, onOrderBtnTap);
     return (
       <div className="expand-cart">
         <div className="expand-cart-main">

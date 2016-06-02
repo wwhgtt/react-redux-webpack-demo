@@ -22,13 +22,7 @@ module.exports = function (
       newDishsData[newDishIdx] = newDishData = Object.assign({}, state.dishesData[newDishIdx]);
       if (helper.isSingleDishWithoutProps(newDishData)) {
         // for single dish without props;
-        if (newDishData.order === undefined) {
-          newDishData.order = newDishData.dishIncreaseUnit;
-        } else if (newDishData.order + payload[1] < newDishData.dishIncreaseUnit) {
-          newDishData.order = undefined;
-        } else {
-          newDishData.order = newDishData.order + payload[1];
-        }
+        newDishData.order = helper.getNewCountOfDish(newDishData, payload[1]);
       } else if (helper.isGroupDish(newDishData)) {
         // todo for group dish
       } else {
@@ -40,6 +34,10 @@ module.exports = function (
           newDishData.order[newDishOrderIdx] = Object.assign(
             {}, newDishData.order[newDishOrderIdx],
             { count: newDishData.order[newDishOrderIdx].count + payload[0].order[0].count });
+          if (newDishData.order[newDishOrderIdx].count === 0) {
+            // if order's count is 0, remove it.
+            newDishData.order.splice(newDishOrderIdx, 1);
+          }
         } else {
           // if cannot find the order with same props,add it as new order;
           newDishData.order.push(payload[0].order[0]);

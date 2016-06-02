@@ -9,6 +9,7 @@ module.exports = React.createClass({
   displayName: 'CartContainer',
   propTypes: {
     dishesData: React.PropTypes.array.isRequired,
+    onOrderBtnTap: React.PropTypes.func.isRequired,
     onBillBtnTap: React.PropTypes.func.isRequired,
   },
   getInitialState() {
@@ -20,7 +21,7 @@ module.exports = React.createClass({
     this.setState({ expand: !this.state.expand });
   },
   render() {
-    const { dishesData, onBillBtnTap } = this.props;
+    const { dishesData, onBillBtnTap, onOrderBtnTap } = this.props;
     const { expand } = this.state;
     const orderedDishesData = helper.getOrderedDishes(dishesData);
     return (
@@ -32,7 +33,8 @@ module.exports = React.createClass({
         {expand ?
           <ExpandCart
             dishCount={helper.getDishesCount(orderedDishesData)} totalPrice={helper.getDishesPrice(orderedDishesData)}
-            onBillBtnTap={onBillBtnTap} onCartIconTap={this.expandCart} orderedDishesData={orderedDishesData}
+            orderedDishesData={orderedDishesData}
+            onBillBtnTap={onBillBtnTap} onCartIconTap={this.expandCart} onOrderBtnTap={onOrderBtnTap}
           /> : false}
       </div>
     );
