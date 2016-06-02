@@ -16,6 +16,8 @@ module.exports = function (
       return Object.assign({}, state, { activeDishTypeId:payload });
     case 'SHOW_DISH_DETAIL':
       return Object.assign({}, state, { dishDetailData:payload });
+    case 'REMOVE_ALL_DISHES':
+      return {};
     case 'ORDER_DISH':
       newDishIdx = _findIndex(state.dishesData, { id: payload[0].id });
       newDishsData = state.dishesData.slice();
