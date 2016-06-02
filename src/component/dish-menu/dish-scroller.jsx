@@ -40,7 +40,6 @@ module.exports = React.createClass({
     return !this._cache.isScrolling;
   },
   componentDidUpdate() {
-    console.log('up');
     const cache = this._cache;
     const iScroll = cache.iScroll;
     iScroll.refresh();
