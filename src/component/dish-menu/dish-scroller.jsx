@@ -20,24 +20,27 @@ module.exports = React.createClass({
   componentDidMount() {
     const { onScroll } = this.props;
     const cache = this._cache = {};
-    const iScroll = cache.iScroll = new IScroll(findDOMNode(this), { probeType: 2 });
+    const iScroll = cache.iScroll = new IScroll(findDOMNode(this), { probeType: 1 });
     iScroll.on('scroll', () => {
       const dishTypeId = this.findCurrentDishTypeId(iScroll.y);
+      this._cache.isScrolling = true;
       if (!window.__scrollByType__ && dishTypeId) {
         onScroll(null, dishTypeId);
       }
     });
     iScroll.on('scrollEnd', () => {
       const dishTypeId = this.findCurrentDishTypeId(iScroll.y);
+      this._cache.isScrolling = false;
       if (!window.__scrollByType__ && dishTypeId) {
         onScroll(null, dishTypeId);
       }
     });
   },
   shouldComponentUpdate() {
-    return !this._cache.isTouching;
+    return !this._cache.isScrolling;
   },
   componentDidUpdate() {
+    console.log('up');
     const cache = this._cache;
     const iScroll = cache.iScroll;
     iScroll.refresh();
