@@ -60,9 +60,11 @@ module.exports = React.createClass({
     const dishDataForDetail = this.state.dishData;
     const orderDataForDetail = dishDataForDetail.order;
     const oldPropsData = orderDataForDetail[0].dishPropertyTypeInfos;
+    const oldIngredientData = orderDataForDetail[0].dishIngredientInfos;
     let newOrderData = [];
-    let newPropsData = {};
+    let newPropsData = oldPropsData;
     let newPropData = {};
+    let newIngredientData = oldIngredientData;
     switch (propData.type) {
       case 1:
         newPropData = Object.assign({}, propData, {
@@ -76,6 +78,7 @@ module.exports = React.createClass({
             return prop;
           }),
         });
+        newPropsData = oldPropsData.map(prop => prop.id === newPropData.id ? newPropData : prop);
         break;
       case 3:
         newPropData = Object.assign({}, propData, {
@@ -86,12 +89,20 @@ module.exports = React.createClass({
             return prop;
           }),
         });
+        newPropsData = oldPropsData.map(prop => prop.id === newPropData.id ? newPropData : prop);
+        break;
+      case -1: // this is a client workround for ingredientsData, we don't have this value of type on serverside
+        newIngredientData = oldIngredientData.map(ingredientData => {
+          if (ingredientData.id === optionData.id) {
+            return Object.assign({}, ingredientData, { isChecked: !ingredientData.isChecked });
+          }
+          return ingredientData;
+        });
         break;
       default:
 
     }
-    newPropsData = oldPropsData.map(prop => prop.id === newPropData.id ? newPropData : prop);
-    newOrderData[0] = Object.assign({}, orderDataForDetail[0], { dishPropertyTypeInfos:newPropsData });
+    newOrderData[0] = Object.assign({}, orderDataForDetail[0], { dishPropertyTypeInfos:newPropsData }, { dishIngredientInfos:newIngredientData });
     this.setState({ dishData: Object.assign({}, dishDataForDetail, { order:newOrderData }) });
   },
   render() {

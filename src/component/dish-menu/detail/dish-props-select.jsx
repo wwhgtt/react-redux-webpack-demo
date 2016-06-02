@@ -39,16 +39,27 @@ module.exports = React.createClass({
     ));
   },
   buildIngredient(ingredientsData) {
-
+    const wrappedIngredientsData = [{ name:'配料', type: -1, properties:ingredientsData }];
+    return wrappedIngredientsData.map(wrappedIngredientData => (
+      <div className="ingredient-group" key={'ingredient'}>
+        <span className="ingredient-title">{wrappedIngredientData.name}</span>
+        <ActiveSelect
+          optionsData={wrappedIngredientData.properties} optionComponent={DishPropsOption}
+          onSelectOption={(evt, optionData) => this.onSelectPropsOption(wrappedIngredientData, optionData)}
+        />
+      </div>
+    ));
   },
   render() {
-    const { propsData } = this.props;
+    const { propsData, ingredientsData } = this.props;
     const recipeElement = this.buildRecipe(propsData);
     const noteElement = this.buildNote(propsData);
+    const buildIngredientElement = this.buildIngredient(ingredientsData);
     return (
       <div className="dish-props-select">
         {recipeElement}
         {noteElement}
+        {buildIngredientElement}
       </div>
     );
   },

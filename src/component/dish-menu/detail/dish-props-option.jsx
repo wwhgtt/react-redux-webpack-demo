@@ -5,6 +5,11 @@ require('./dish-props-option.scss');
 
 module.exports = React.createClass({
   displayName: 'DishPropsOption',
+  getDefaultProps() {
+    return {
+      isChecked: false,
+    };
+  },
   propTypes: {
     id: React.PropTypes.number.isRequired,
     name: React.PropTypes.string.isRequired,
