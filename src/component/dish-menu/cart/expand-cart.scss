@@ -51,6 +51,6 @@
 .cart-ordered-list {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
-  min-height: 200px;
+  max-height: 280px;
   max-height: 60vh;
 }
