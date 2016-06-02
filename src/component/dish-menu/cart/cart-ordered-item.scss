@@ -32,8 +32,8 @@
       content: '';
       -webkit-transform: rotate(180deg);
       transform: rotate(180deg);
-      -webkit-transition: -webkit-transform .25s linear;
-      transition: transform .25s linear;
+      -webkit-transition: -webkit-transform .15s;
+      transition: transform .15s;
       background-image: url('../../../asset/images/arrow-top-grey.png'); // image size 20 * 12px
       background-position: center center;
       background-repeat: no-repeat;
