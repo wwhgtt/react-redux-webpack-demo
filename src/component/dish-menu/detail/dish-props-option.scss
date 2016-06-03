@@ -26,8 +26,7 @@
   $extar-max-width: 50px;
 
   > .name {
-    float: left;
-    width: calc(100% - #{$extar-max-width});
+    display: block;
     text-align: left;
   }
 
@@ -35,5 +34,10 @@
     float: right;
     width: $extar-max-width;
     text-align: right;
+
+    + .name {
+      float: left;
+      width: calc(100% - #{$extar-max-width});
+    }
   }
 }

@@ -24,8 +24,8 @@ module.exports = React.createClass({
     const { id, name, reprice, ...otherProps } = this.props;
     return (
       <DynamicClassButton className="dish-porps-option" data-id={id} data-reprice={reprice} {...otherProps}>
-        <span className="name ellipsis">{name}</span>
         {reprice !== 0 ? <span className="extra">{reprice > 0 ? '+' : ''}{reprice}元</span> : false}
+        <span className="name ellipsis">{name}</span>
       </DynamicClassButton>
     );
   },
