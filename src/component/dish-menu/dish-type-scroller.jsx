@@ -1,5 +1,6 @@
 const React = require('react');
 const { findDOMNode } = require('react-dom');
+const shallowCompare = require('react-addons-shallow-compare');
 const IScroll = require('iscroll');
 const DynamicClassLI = require('../mui/misc/dynamic-class-hoc.jsx')('li');
 require('./dish-type-scroller.scss');
@@ -15,6 +16,9 @@ module.exports = React.createClass({
   componentDidMount() {
     this._cache = {};
     this._cache.iScroll = new IScroll(findDOMNode(this), { scrollY:true });
+  },
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
   },
   componentDidUpdate() {
     const iScroll = this._cache.iScroll;

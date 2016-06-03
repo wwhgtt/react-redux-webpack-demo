@@ -14,6 +14,8 @@ module.exports = function (Component) {
     shouldComponentUpdate(nextProps, nextState) {
       return shallowCompare(this, nextProps, nextState);
     },
+    componentWillUpdate() {
+    },
     render() {
       const { className, children, ...props } = this.props;
       const classProps = _pickBy(props, (v, k) => /^is/.test(k));
