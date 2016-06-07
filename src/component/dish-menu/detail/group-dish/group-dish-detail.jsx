@@ -60,6 +60,7 @@ module.exports = React.createClass({
       <div className="group-dish-detail">
         <DishDetailItem dishData={dishData} onCountChange={this.onGroupDishCountChange} />
         <GroupDishGroupsBar groupsData={dishData.groups} onGroupItemTap={this.onGroupItemTap} />
+        <button className="dish-detail-addtocart btn--yellow" onTouchTap={this.onAddToCarBtnTap}>加入购物车</button>
       </div>
     );
   },
