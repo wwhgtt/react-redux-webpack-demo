@@ -23,7 +23,7 @@ module.exports = React.createClass({
           <span className="group-dish-slide-badge">0</span>
         </li>);
     });
-    return groupList;
+    return groupList; // just a test
   },
   render() {
     const { groupsData, onGroupItemTap } = this.props;
