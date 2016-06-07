@@ -56,6 +56,10 @@
   color: $color-dove-grey;
   border-right: 1px solid $color-alto;
 
+  &:last-child {
+    border-right: 0;
+  }
+
   &-text {
     display: inline-block;
 
@@ -72,15 +76,14 @@
   }
 
   &-badge {
-    font-size: 11px;
-    line-height: 11px;
+    font-size: 12px;
     display: inline-block;
-    min-width: 15px;
-    height: 15px;
+    min-width: 16px;
+    height: 16px;
     margin-left: 5px;
     padding: 2px 3px;
     text-align: center;
-    vertical-align: 9px;
+    vertical-align: 8px;
     color: $color-white;
     border-radius: 8px;
     background: $color-alto;
