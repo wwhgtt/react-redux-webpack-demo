@@ -3,6 +3,7 @@ const _cloneDeep = require('lodash.clonedeep');
 const helper = require('../../../../helper/dish-hepler');
 const DishDetailItem = require('../dish-detail-item.jsx');
 const GroupDishGroupsBar = require('./group-dish-groups-bar.jsx');
+const GroupDishChildItem = require('./group-dish-child-item.jsx');
 
 module.exports = React.createClass({
   displayName: 'GroupDishDetail',
@@ -27,6 +28,7 @@ module.exports = React.createClass({
     });
 
     return {
+      activeGroupIdx:0,
       dishData: dishDataForDetail,
     };
   },
@@ -52,15 +54,25 @@ module.exports = React.createClass({
     const newOrderData = [Object.assign({}, orderDataForDetail[0], { count: newCountForDetail })];
     this.setState({ dishData: Object.assign({}, dishDataForDetail, { order:newOrderData }) });
   },
-  onGroupItemTap(groupData) {
+  onChildDishCountChange(increment) {
+  },
+  onGroupItemTap(evt) {
+    const idx = evt.currentTarget.getAttribute('data-idx');
+    this.setState({ activeGroupIdx:parseInt(idx, 10) });
+  },
+  buildGroupDishes(groupData) {
+    return groupData.childInfos.map(childDish => (<GroupDishChildItem key={childDish.id} dishData={childDish} onDishItemCountChange={this.onChildDishCountChange} />));
   },
   render() {
-    const { dishData } = this.state;
+    const { activeGroupIdx, dishData } = this.state;
+    const activeGroupDishes = this.buildGroupDishes(dishData.order[0].groups[activeGroupIdx]);
     return (
       <div className="group-dish-detail">
         <DishDetailItem dishData={dishData} onCountChange={this.onGroupDishCountChange} />
-        <GroupDishGroupsBar groupsData={dishData.groups} onGroupItemTap={this.onGroupItemTap} />
-        <button className="dish-detail-addtocart btn--yellow" onTouchTap={this.onAddToCarBtnTap}>加入购物车</button>
+        <GroupDishGroupsBar groupsData={dishData.order[0].groups} activeGroupIdx={activeGroupIdx} onGroupItemTap={this.onGroupItemTap} />
+        <div className="group-dishes-container">
+          {activeGroupDishes}
+        </div>
       </div>
     );
   },
