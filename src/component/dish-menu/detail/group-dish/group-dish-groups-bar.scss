@@ -47,7 +47,6 @@
 }
 
 .group-dish-slide {
-  line-height: 15px;
   position: relative;
   float: left;
   // width: percentage(1 / 6);
@@ -66,6 +65,8 @@
     > strong {
       font-size: 14px;
       font-weight: normal;
+      display: block;
+      margin-bottom: 3px;
     }
 
     > small {
