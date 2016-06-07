@@ -1,0 +1,112 @@
+@import 'settings.colors';
+@import 'settings.sizes';
+
+.group-dishes-container {
+  margin-bottom: 5px;
+}
+
+.group-dish-detail-item {
+  line-height: $counter-size;
+  overflow: hidden;
+  padding: 10px;
+  background: $color-white;
+
+  > .dish-name {
+    font-weight: normal;
+    float: left;
+    width: calc(100% - #{$counter-max-width});
+    margin-bottom: 0;
+  }
+
+  > .right {
+    float: right;
+    width: $counter-max-width;
+  }
+}
+
+
+.group-dish {
+  &-dropdown-trigger {
+    float: right;
+    color: $color-neon-carrot;
+    background: $color-white;
+  }
+
+  &-dropdown {
+    font-size: 14px;
+    position: relative;
+    margin-bottom: 24px;
+    padding: 10px;
+    border-top: 1px solid $color-gallery;
+    box-shadow: inset 3px 0 0 $color-sunglow;
+
+    &--alone {
+      margin-bottom: 0;
+      padding: 0 10px;
+      box-shadow: none;
+    }
+  }
+
+  &-dropdown-close {
+    position: absolute;
+    z-index: 5;
+    right: 0;
+    bottom: -16px;
+    left: 0;
+    display: block;
+    width: 80px;
+    height: 16px;
+    margin: auto;
+    background: $color-white;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: -8px;
+      width: 0;
+      height: 0;
+      content: '';
+      border-top: 16px solid $color-white;
+      border-left: 8px solid transparent;
+    }
+
+    &::after {
+      position: absolute;
+      top: 0;
+      right: -8px;
+      width: 0;
+      height: 0;
+      content: '';
+      border-top: 16px solid $color-white;
+      border-right: 8px solid transparent;
+    }
+
+    > span {
+      display: block;
+      width: 12px;
+      height: 8px;
+      margin: -3px auto 0;
+      background-image: url('../../../../asset/images/arrow-top-orange.png'); // image size 24 * 15px
+      background-size: cover;
+    }
+  }
+}
+
+.popup-dish-dropdown {
+  &-entry {
+    overflow: hidden;
+    padding-top: 5px;
+
+    &:first-child {
+      line-height: $counter-size;
+      padding: 0 0 10px;
+      border-bottom: 1px solid $color-gallery;
+    }
+  }
+
+  &-title {
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 0;
+  }
+}
