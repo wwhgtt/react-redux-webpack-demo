@@ -10,18 +10,18 @@ module.exports = React.createClass({
     onAddToCarBtnTap: React.PropTypes.func.isRequired,
   },
   getInitialState() {
-    const dishDataForState = _cloneDeep(this.props.dishData);
+    const dishDataForDeital = _cloneDeep(this.props.dishData);
 
-    dishDataForState.order = [
+    dishDataForDeital.order = [
       {
         count:0,
-        dishPropertyTypeInfos:dishDataForState.dishPropertyTypeInfos,
-        dishIngredientInfos:dishDataForState.dishIngredientInfos,
+        dishPropertyTypeInfos:dishDataForDeital.dishPropertyTypeInfos,
+        dishIngredientInfos:dishDataForDeital.dishIngredientInfos,
       },
     ];
 
     return {
-      dishData: dishDataForState,
+      dishData: dishDataForDeital,
     };
   },
   componentDidUpdate() {

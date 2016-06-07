@@ -1,7 +1,7 @@
 const React = require('react');
 const helper = require('../../../helper/dish-hepler');
 const SingleDishDetail = require('./single-dish-detail.jsx');
-const GroupDishDetail = require('./group-dish-detail.jsx');
+const GroupDishDetail = require('./group-dish/group-dish-detail.jsx');
 
 require('./dish-detail-container.scss');
 
@@ -24,7 +24,7 @@ module.exports = React.createClass({
         <div className="dish-detail-content">
           {
             helper.isGroupDish(dishData) ?
-              <GroupDishDetail /> :
+              <GroupDishDetail dishData={dishData} onAddToCarBtnTap={onAddToCarBtnTap} /> :
               <SingleDishDetail dishData={dishData} onAddToCarBtnTap={onAddToCarBtnTap} />
           }
         </div>

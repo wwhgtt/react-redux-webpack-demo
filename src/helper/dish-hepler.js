@@ -23,23 +23,32 @@ const getDishesCount = exports.getDishesCount = function (dishesData) {
     }).
     reduce((p, c) => p + c, 0);
 };
-const getOrderPrice = exports.getOrderPrice = function (basePrice, orderData) {
+const getOrderPrice = exports.getOrderPrice = function (dishData, orderData) {
+  if (isGroupDish(dishData)) {
+    const orderedChildDishes = [].concat.apply([], orderData.groups.map(
+      group => group.childInfos.filter(childDish => childDish.order).
+        map(childDish => childDish.price)
+    ));
+    return Math.floor(orderData.count *
+      (dishData.marketPrice + parseFloat(orderedChildDishes.reduce((c, p) => c + p, 0))) * 100) / 100;
+  }
+  // for nongroup dish, from this line.
   const rePriceProps = orderData.dishPropertyTypeInfos.filter(prop => prop.type !== 3);
   const checkedRepriceProps = [].concat.apply(
     [], rePriceProps.map(
       rePriceProp => rePriceProp.properties.filter(prop => prop.isChecked).
-      map(prop => prop.reprice)
+        map(prop => prop.reprice)
     )
   );
-  return orderData.count *
-    (basePrice + parseFloat(checkedRepriceProps.reduce((c, p) => c + p, 0), 10));
+  return Math.floor(orderData.count *
+    (dishData.marketPrice + parseFloat(checkedRepriceProps.reduce((c, p) => c + p, 0))) * 100) / 100;
 };
 const getDishPrice = exports.getDishPrice = function (dishData) {
   if (isSingleDishWithoutProps(dishData)) {
     return dishData.marketPrice * dishData.order;
   }
   return dishData.order.map(
-    eachOrder => getOrderPrice(dishData.marketPrice, eachOrder)
+    eachOrder => getOrderPrice(dishData, eachOrder)
   ).reduce((c, p) => c + p, 0);
 };
 
