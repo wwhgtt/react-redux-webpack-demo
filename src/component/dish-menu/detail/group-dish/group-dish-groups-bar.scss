@@ -1,0 +1,199 @@
+@import 'settings.colors';
+@import 'settings.sizes';
+
+.group-dish-slider-wrap {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin-bottom: 5px;
+  padding: 0 20px;
+  background: $color-white;
+
+  &::before {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 21px;
+    content: '';
+    background-color: $color-white;
+    background-image: url('./../../../../asset/images/triangle-left.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 7px 10px;
+  }
+
+  &::after {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 21px;
+    content: '';
+    background-color: $color-white;
+    background-image: url('./../../../../asset/images/triangle-right.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 7px 10px;
+  }
+}
+
+.group-dish-slider {
+  overflow: hidden;
+  // width: percentage(1 / 3) * 6;
+  padding: 15px 0;
+}
+
+.group-dish-slide {
+  line-height: 15px;
+  position: relative;
+  float: left;
+  // width: percentage(1 / 6);
+  cursor: pointer;
+  text-align: center;
+  color: $color-dove-grey;
+  border-right: 1px solid $color-alto;
+
+  &-text {
+    display: inline-block;
+
+    > strong {
+      font-size: 14px;
+      font-weight: normal;
+    }
+
+    > small {
+      font-size: 11px;
+      display: block;
+      color: $color-dusty-grey;
+    }
+  }
+
+  &-badge {
+    font-size: 11px;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    margin-left: 5px;
+    vertical-align: 10px;
+    color: $color-white;
+    border-radius: 50%;
+    background: $color-alto;
+  }
+
+  &.is-active > &-text,
+  &.is-active > &-text > small {
+    color: $color-neon-carrot;
+  }
+
+  &.is-active > &-badge {
+    background: $color-sunglow;
+  }
+
+  &.is-error > &-badge {
+    background: $color-radical-red;
+  }
+}
+
+// .popup-dish {
+//   margin-bottom: 5px;
+//   background: $color-white;
+
+//   &-title {
+//     overflow: hidden;
+//     padding: 10px;
+
+//     > .dish-name {
+//       font-weight: normal;
+//       float: left;
+//       width: calc(100% - 110px);
+//       margin-bottom: 0;
+//     }
+//   }
+
+//   &-dropdown-trigger {
+//     color: $color-neon-carrot;
+//     border-color: $color-neon-carrot;
+//     background: $color-white;
+//   }
+
+//   &-dropdown {
+//     font-size: 14px;
+//     position: relative;
+//     margin-bottom: 24px;
+//     padding: 10px;
+//     border-top: 1px solid $color-gallery;
+//     box-shadow: inset 3px 0 0 $color-sunglow;
+
+//     &--alone {
+//       margin-bottom: 0;
+//       padding: 0 10px;
+//       box-shadow: none;
+//     }
+//   }
+
+//   &-dropdown-close {
+//     position: absolute;
+//     z-index: 5;
+//     right: 0;
+//     bottom: -16px;
+//     left: 0;
+//     display: block;
+//     width: 80px;
+//     height: 16px;
+//     margin: auto;
+//     background: $color-white;
+
+//     &::before {
+//       position: absolute;
+//       top: 0;
+//       left: -8px;
+//       width: 0;
+//       height: 0;
+//       content: '';
+//       border-top: 16px solid $color-white;
+//       border-left: 8px solid transparent;
+//     }
+
+//     &::after {
+//       position: absolute;
+//       top: 0;
+//       right: -8px;
+//       width: 0;
+//       height: 0;
+//       content: '';
+//       border-top: 16px solid $color-white;
+//       border-right: 8px solid transparent;
+//     }
+
+//     > span {
+//       display: block;
+//       width: 12px;
+//       height: 8px;
+//       margin: -3px auto 0;
+//       background-image: url('../../../asset/images/arrow-top-orange.png'); // image size 24 * 15px
+//       background-size: cover;
+//     }
+//   }
+// }
+
+// .popup-dish-dropdown {
+//   &-entry {
+//     overflow: hidden;
+//     padding-top: 5px;
+
+//     &:first-child {
+//       line-height: $counter-size;
+//       padding: 0 0 10px;
+//       border-bottom: 1px solid $color-gallery;
+//     }
+//   }
+
+//   &-title {
+//     font-size: 14px;
+//     font-weight: normal;
+//     padding: 10px 0;
+//   }
+// }
