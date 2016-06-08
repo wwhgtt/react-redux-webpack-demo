@@ -8,7 +8,8 @@
 .group-dish-detail-item {
   line-height: $counter-size;
   overflow: hidden;
-  padding: 10px;
+  margin-bottom: 5px;
+  padding: 10px 8px;
   background: $color-white;
 
   > .dish-name {
@@ -39,12 +40,6 @@
     padding: 10px;
     border-top: 1px solid $color-gallery;
     box-shadow: inset 3px 0 0 $color-sunglow;
-
-    &--alone {
-      margin-bottom: 0;
-      padding: 0 10px;
-      box-shadow: none;
-    }
   }
 
   &-dropdown-close {
@@ -92,19 +87,17 @@
   }
 }
 
-.popup-dish-dropdown {
-  &-entry {
-    overflow: hidden;
-    padding-top: 5px;
+.group-dish-detail-count {
+  overflow: hidden;
+  padding-top: 5px;
 
-    &:first-child {
-      line-height: $counter-size;
-      padding: 0 0 10px;
-      border-bottom: 1px solid $color-gallery;
-    }
+  &:first-child {
+    line-height: $counter-size;
+    padding: 0 0 10px;
+    border-bottom: 1px solid $color-gallery;
   }
 
-  &-title {
+  > .dish-name {
     font-size: 14px;
     font-weight: normal;
     padding: 10px 0;

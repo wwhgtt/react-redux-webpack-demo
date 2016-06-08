@@ -26,6 +26,7 @@
     height: calc(100% - 100px);
     border-top: 2px solid $color-sunglow;
     background: $color-porcelain;
+    // -webkit-overflow-scrolling: touch;
   }
 
   &-addtocart {

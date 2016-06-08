@@ -36,10 +36,12 @@ module.exports = React.createClass({
     const { activeGroupIdx, groupsData, onGroupItemTap } = this.props;
     const groupElements = this.buildGroupElements(activeGroupIdx, groupsData, onGroupItemTap);
     return (
-      <div className="group-dish-slider-wrap">
-        <ul className="group-dish-slider" style={{ width: `${1 / 3 * groupElements.length * 100}%` }}>
-          {groupElements}
-        </ul>
+      <div className="group-dish-slider-arrow">
+        <div className="group-dish-slider-wrap">
+          <ul className="group-dish-slider" style={{ width: `${1 / 3 * groupElements.length * 100}%` }}>
+            {groupElements}
+          </ul>
+        </div>
       </div>
     );
   },
