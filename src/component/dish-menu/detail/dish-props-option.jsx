@@ -5,17 +5,17 @@ require('./dish-props-option.scss');
 
 module.exports = React.createClass({
   displayName: 'DishPropsOption',
-  getDefaultProps() {
-    return {
-      isChecked: false,
-    };
-  },
   propTypes: {
     id: React.PropTypes.number.isRequired,
     name: React.PropTypes.string.isRequired,
     reprice: React.PropTypes.number.isRequired,
     isChecked: React.PropTypes.bool.isRequired,
 
+  },
+  getDefaultProps() {
+    return {
+      isChecked: false,
+    };
   },
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);

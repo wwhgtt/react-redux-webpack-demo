@@ -1,5 +1,6 @@
 const React = require('react');
 const classnames = require('classnames');
+const helper = require('../../../../helper/dish-hepler');
 require('./group-dish-groups-bar.scss');
 
 module.exports = React.createClass({
@@ -9,8 +10,8 @@ module.exports = React.createClass({
     activeGroupIdx: React.PropTypes.number.isRequired,
     onGroupItemTap: React.PropTypes.func.isRequired,
   },
-  buildGroupList(activeGroupIdx, groupsData, onGroupItemTap) {
-    const groupList = groupsData.map((groupData, idx) => {
+  buildGroupElements(activeGroupIdx, groupsData, onGroupItemTap) {
+    const groupElements = groupsData.map((groupData, idx) => {
       const { id, name, orderMin, orderMax } = groupData;
       return (
         <li
@@ -26,18 +27,18 @@ module.exports = React.createClass({
               {orderMax}份
             </small>
           </div>
-          <span className="group-dish-slide-badge">0</span>
+          <span className="group-dish-slide-badge">{helper.getDishCountInGroup(groupData)}</span>
         </li>);
     });
-    return groupList;
+    return groupElements;
   },
   render() {
     const { activeGroupIdx, groupsData, onGroupItemTap } = this.props;
-    const groupList = this.buildGroupList(activeGroupIdx, groupsData, onGroupItemTap);
+    const groupElements = this.buildGroupElements(activeGroupIdx, groupsData, onGroupItemTap);
     return (
       <div className="group-dish-slider-wrap">
-        <ul className="group-dish-slider" style={{ width: `${1 / 3 * groupList.length * 100}%` }}>
-          {groupList}
+        <ul className="group-dish-slider" style={{ width: `${1 / 3 * groupElements.length * 100}%` }}>
+          {groupElements}
         </ul>
       </div>
     );

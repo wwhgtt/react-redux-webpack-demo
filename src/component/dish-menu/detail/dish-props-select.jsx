@@ -1,4 +1,5 @@
 const React = require('react');
+const Immutable = require('seamless-immutable');
 const ActiveSelect = require('../../mui/select/active-select.jsx');
 const DishPropsOption = require('./dish-props-option.jsx');
 
@@ -39,7 +40,7 @@ module.exports = React.createClass({
     ));
   },
   buildIngredient(ingredientsData) {
-    const wrappedIngredientsData = [{ name:'配料', type: -1, properties:ingredientsData }];
+    const wrappedIngredientsData = Immutable.from([{ name:'配料', type: -1, properties:ingredientsData }]);
     return wrappedIngredientsData.map(wrappedIngredientData => (
       <div className="ingredient-group" key={'ingredient'}>
         <span className="ingredient-title">{wrappedIngredientData.name}</span>

@@ -57,7 +57,7 @@ module.exports = React.createClass({
     this._cache.iScroll.destroy();
     this._cache = null;
   },
-  onDishItemBtnTap(dishData, action) {
+  onDishBtnTap(dishData, action) {
     const { onOrderBtnTap, onPropsBtnTap } = this.props;
     // this._cache.isTaping = true;
     if (action) {
@@ -75,7 +75,7 @@ module.exports = React.createClass({
     }
     return false;
   },
-  buildDishList(activeDishTypeId, dishTypesData, dishesData, onDishItemBtnTap) {
+  buildDishElements(activeDishTypeId, dishTypesData, dishesData, onDishBtnTap) {
     function getDishById(dishId) {
       const dish = _find(dishesData, { id:dishId });
       if (!dish) {
@@ -103,7 +103,7 @@ module.exports = React.createClass({
               dishTypeData.dishIds.map(dishId => {
                 const dishData = getDishById(dishId);
                 return (<li className="dish-item-dish"><DishListItem
-                  dishData={dishData} onOrderBtnTap={onDishItemBtnTap} onPropsBtnTap={onDishItemBtnTap}
+                  dishData={dishData} onOrderBtnTap={onDishBtnTap} onPropsBtnTap={onDishBtnTap}
                 /></li>
                 );
               })
@@ -116,11 +116,11 @@ module.exports = React.createClass({
   },
   render() {
     const { activeDishTypeId, dishTypesData, dishesData } = this.props;
-    const dishList = this.buildDishList(activeDishTypeId, dishTypesData, dishesData, this.onDishItemBtnTap);
+    const dishElements = this.buildDishElements(activeDishTypeId, dishTypesData, dishesData, this.onDishBtnTap);
     return (
       <div className="dish-scroller">
         {/* <div className="scroll-wrapper">*/}
-          {dishList}
+          {dishElements}
         {/* </div>*/}
       </div>
     );

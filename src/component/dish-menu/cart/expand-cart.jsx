@@ -13,7 +13,7 @@ module.exports = React.createClass({
     onOrderBtnTap: React.PropTypes.func.isRequired,
     orderedDishesData: React.PropTypes.array,
   },
-  buildOrderedList(orderedDishesData, onOrderBtnTap) {
+  buildOrderedElements(orderedDishesData, onOrderBtnTap) {
     function divideDishes(dishesData) {
       return [].concat.apply(
         [], dishesData.map(dishData => {
@@ -41,7 +41,7 @@ module.exports = React.createClass({
   render() {
     const { dishCount, totalPrice, onBillBtnTap, onOrderBtnTap,
       onCartIconTap, orderedDishesData } = this.props;
-    const cartOrderedList = this.buildOrderedList(orderedDishesData, onOrderBtnTap);
+    const orderedElements = this.buildOrderedElements(orderedDishesData, onOrderBtnTap);
     return (
       <div className="expand-cart">
         <div className="expand-cart-close"></div>
@@ -52,7 +52,7 @@ module.exports = React.createClass({
             <a className="expand-cart-clear">清空购物车</a>
           </div>
 
-          {cartOrderedList}
+          {orderedElements}
 
           <div className="tiny-cart">
             <div className="tiny-cart-left">

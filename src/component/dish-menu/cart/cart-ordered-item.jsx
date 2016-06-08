@@ -20,15 +20,16 @@ module.exports = React.createClass({
     if (helper.isSingleDishWithoutProps(dishData)) {
       onOrderBtnTap(dishData, increment);
     } else {
-      newCount = helper.getNewCountOfDish(dishData, increment);
-      dishData.order[0].count = newCount - dishData.order[0].count;
-      onOrderBtnTap(dishData);
+      onOrderBtnTap(dishData.updateIn(
+        ['order', 0, 'count'],
+        count => helper.getNewCountOfDish(dishData, increment) - count
+      ));
     }
   },
   onExpandBtnTap(evt) {
     this.setState({ expand:!this.state.expand });
   },
-  buildDetailInfor(dishData) {
+  buildDetailInfo(dishData) {
     const { dishPropertyTypeInfos, dishIngredientInfos } = dishData.order[0];
     const RecipeProps = dishPropertyTypeInfos.filter(propInfo => propInfo.type === 1);
     const NoteProps = dishPropertyTypeInfos.filter(propInfo => propInfo.type === 3);
@@ -61,13 +62,13 @@ module.exports = React.createClass({
   render() {
     const { dishData } = this.props;
     const { expand } = this.state;
-    const isDishWithProps = !helper.isSingleDishWithoutProps(dishData);
-    const detailInfo = isDishWithProps ? this.buildDetailInfor(dishData) : false;
+    const hasProps = !helper.isSingleDishWithoutProps(dishData);
+    const detailInfo = hasProps ? this.buildDetailInfo(dishData) : false;
     return (
       <div className="cart-ordered-item">
         <div className="ordered-item">
           {
-            isDishWithProps ?
+            hasProps ?
               <a
                 className={classnames('ellipsis dish-name dish-name--trigger', { 'is-open':expand })}
                 onTouchTap={this.onExpandBtnTap}

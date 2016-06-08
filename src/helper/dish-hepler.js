@@ -1,5 +1,5 @@
 const isSingleDishWithoutProps = exports.isSingleDishWithoutProps = function (dishData) {
-  if (dishData.type === 0 && dishData.dishPropertyTypeInfos.length === 0) {
+  if (dishData.type !== 1 && dishData.dishPropertyTypeInfos.length === 0) {
     return true;
   }
   return false;
@@ -23,25 +23,36 @@ const getDishesCount = exports.getDishesCount = function (dishesData) {
     }).
     reduce((p, c) => p + c, 0);
 };
+exports.getDishCountInGroup = function (group) {
+  return group.childInfos.map(childDish => childDish.order === undefined ? 0 : childDish.order).
+    reduce((c, p) => c + p, 0);
+};
 const getOrderPrice = exports.getOrderPrice = function (dishData, orderData) {
   if (isGroupDish(dishData)) {
-    const orderedChildDishes = [].concat.apply([], orderData.groups.map(
+    const orderedChildDishPrices = [].concat.apply([], orderData.groups.map(
       group => group.childInfos.filter(childDish => childDish.order).
-        map(childDish => childDish.price)
+        map(
+          childDish =>
+            isSingleDishWithoutProps(childDish) ?
+              childDish.marketPrice * childDish.order
+              :
+              getOrderPrice(childDish, { count:childDish.order, dishPropertyTypeInfos:childDish.dishPropertyTypeInfos })
+
+        )
     ));
     return Math.floor(orderData.count *
-      (dishData.marketPrice + parseFloat(orderedChildDishes.reduce((c, p) => c + p, 0))) * 100) / 100;
+      (dishData.marketPrice + parseFloat(orderedChildDishPrices.reduce((c, p) => c + p, 0))) * 100) / 100;
   }
   // for nongroup dish, from this line.
   const rePriceProps = orderData.dishPropertyTypeInfos.filter(prop => prop.type !== 3);
-  const checkedRepriceProps = [].concat.apply(
+  const checkedRepricePropPrices = [].concat.apply(
     [], rePriceProps.map(
       rePriceProp => rePriceProp.properties.filter(prop => prop.isChecked).
         map(prop => prop.reprice)
     )
   );
   return Math.floor(orderData.count *
-    (dishData.marketPrice + parseFloat(checkedRepriceProps.reduce((c, p) => c + p, 0))) * 100) / 100;
+    (dishData.marketPrice + parseFloat(checkedRepricePropPrices.reduce((c, p) => c + p, 0))) * 100) / 100;
 };
 const getDishPrice = exports.getDishPrice = function (dishData) {
   if (isSingleDishWithoutProps(dishData)) {
