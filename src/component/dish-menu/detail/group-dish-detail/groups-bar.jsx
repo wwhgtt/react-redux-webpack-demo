@@ -1,7 +1,7 @@
 const React = require('react');
 const classnames = require('classnames');
 const helper = require('../../../../helper/dish-hepler');
-require('./group-dish-groups-bar.scss');
+require('./groups-bar.scss');
 
 module.exports = React.createClass({
   displayName: 'GroupDishGroupsBar',
@@ -16,18 +16,18 @@ module.exports = React.createClass({
       return (
         <li
           key={id} data-idx={idx}
-          className={classnames('group-dish-slide', { 'is-active':activeGroupIdx === idx })}
+          className={classnames('group', { 'is-active':activeGroupIdx === idx })}
           style={{ width: `${1 / groupsData.length * 100}%` }}
           onTouchTap={onGroupItemTap}
         >
-          <div className="group-dish-slide-text">
+          <div className="group-text">
             <strong>{name}</strong>
             <small>
               {orderMin !== orderMax ? `${orderMin}~` : false}
               {orderMax}份
             </small>
           </div>
-          <span className="group-dish-slide-badge">{helper.getDishCountInGroup(groupData)}</span>
+          <span className="group-badge">{helper.getDishesCount(groupData.childInfos)}</span>
         </li>);
     });
     return groupElements;
@@ -36,9 +36,9 @@ module.exports = React.createClass({
     const { activeGroupIdx, groupsData, onGroupItemTap } = this.props;
     const groupElements = this.buildGroupElements(activeGroupIdx, groupsData, onGroupItemTap);
     return (
-      <div className="group-dish-slider-arrow">
-        <div className="group-dish-slider-wrap">
-          <ul className="group-dish-slider" style={{ width: `${1 / 3 * groupElements.length * 100}%` }}>
+      <div className="groups-bar-arrow">
+        <div className="groups-bar-wrap">
+          <ul className="groups-bar" style={{ width: `${1 / 3 * groupElements.length * 100}%` }}>
             {groupElements}
           </ul>
         </div>

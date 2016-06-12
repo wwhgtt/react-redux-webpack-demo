@@ -133,8 +133,48 @@ module.exports = {
             'isReplace': false,
             'isDefault': true,
             'isMulti': false,
-            'dishPropertyTypeInfos': [],
-            'dishIngredientInfos': [],
+            'dishPropertyTypeInfos': [{
+              'id': 0,
+              'name': '备注',
+              'type': 3,
+              'properties': [{
+                'id': 37,
+                'name': '多糖',
+                'reprice': 0.0,
+                'isChecked': false,
+              }, {
+                'id': 39,
+                'name': '清淡',
+                'reprice': 0.0,
+                'isChecked': false,
+              },],
+            }, {
+              'id': 14,
+              'name': '做法类别1',
+              'type': 1,
+              'properties': [{
+                'id': 67,
+                'name': '做法类别1做法名称5',
+                'reprice': 6.0,
+                'isChecked': false,
+              }, {
+                'id': 64,
+                'name': '做法类别1做法名称2',
+                'reprice': 2.11,
+                'isChecked': false,
+              }],
+            }],
+            'dishIngredientInfos': [{
+              'id': 15845,
+              'name': '蒜蓉',
+              'reprice': 0.0,
+              'sort': 0,
+            }, {
+              'id': 15848,
+              'name': '葱花',
+              'reprice': 0.01,
+              'sort': 0,
+            }],
           }],
         }, {
           'id': 2937,

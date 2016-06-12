@@ -7,6 +7,9 @@ const isSingleDishWithoutProps = exports.isSingleDishWithoutProps = function (di
 const isGroupDish = exports.isGroupDish = function (dishData) {
   return dishData.groups !== undefined;
 };
+const isChildDish = exports.isChildDish = function (dishData) {
+  return dishData.isChildDish;
+};
 exports.getOrderedDishes = function (dishesData) {
   return dishesData.filter(dishData => !(dishData.order === undefined) || (dishData.order && dishData.order.length));
 };
@@ -23,20 +26,13 @@ const getDishesCount = exports.getDishesCount = function (dishesData) {
     }).
     reduce((p, c) => p + c, 0);
 };
-exports.getDishCountInGroup = function (group) {
-  return group.childInfos.map(childDish => childDish.order === undefined ? 0 : childDish.order).
-    reduce((c, p) => c + p, 0);
-};
 const getOrderPrice = exports.getOrderPrice = function (dishData, orderData) {
   if (isGroupDish(dishData)) {
     const orderedChildDishPrices = [].concat.apply([], orderData.groups.map(
       group => group.childInfos.filter(childDish => childDish.order).
         map(
-          childDish =>
-            isSingleDishWithoutProps(childDish) ?
-              childDish.marketPrice * childDish.order
-              :
-              getOrderPrice(childDish, { count:childDish.order, dishPropertyTypeInfos:childDish.dishPropertyTypeInfos })
+          childDish => isSingleDishWithoutProps(childDish) ? childDish.marketPrice * childDish.order
+            : getOrderPrice(childDish, childDish.order[0])
         )
     ));
     return Math.floor(orderData.count *

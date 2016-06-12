@@ -167,7 +167,7 @@ module.exports = React.createClass({
       <div className="group-dish-detail">
         <DishDetailItem dishData={dishData} onCountChange={this.onGroupDishCountChange} />
         <GroupDishGroupsBar groupsData={dishData.order[0].groups} activeGroupIdx={activeGroupIdx} onGroupItemTap={this.onGroupItemTap} />
-        <div className="group-dishes-container">
+        <div className="dishes-container">
           {activeGroupDishes}
         </div>
       </div>
