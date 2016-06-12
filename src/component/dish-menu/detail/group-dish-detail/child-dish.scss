@@ -6,17 +6,13 @@
 }
 
 .child-dish {
-  line-height: $counter-size;
-  overflow: hidden;
   margin-bottom: 5px;
-  padding: 10px 8px;
   background: $color-white;
 
-  > .dish-name {
+  .dish-name {
     font-weight: normal;
     float: left;
     width: calc(100% - #{$counter-max-width});
-    margin-bottom: 0;
   }
 
   > .right {
@@ -27,6 +23,12 @@
 
 
 .dish {
+  &-name-wrap {
+    line-height: $counter-size;
+    overflow: hidden;
+    padding: 10px 8px;
+  }
+
   &-dropdown-trigger {
     float: right;
     color: $color-neon-carrot;
@@ -37,9 +39,21 @@
     font-size: 14px;
     position: relative;
     margin-bottom: 24px;
-    padding: 10px;
+    padding: 0 10px;
     border-top: 1px solid $color-gallery;
     box-shadow: inset 3px 0 0 $color-sunglow;
+
+    > .counter-container {
+      line-height: $counter-size;
+      overflow: hidden;
+      padding: 7px 0;
+
+      // override styles
+      + .dish-props-select {
+        padding: 10px 0 5px;
+        border-top-width: 1px;
+      }
+    }
   }
 
   &-dropdown-close {
@@ -86,21 +100,3 @@
     }
   }
 }
-
-// .popup-dish-dropdown-entry
-// .group-dish-detail-count {
-//   overflow: hidden;
-//   padding-top: 5px;
-
-//   &:first-child {
-//     line-height: $counter-size;
-//     padding: 0 0 10px;
-//     border-bottom: 1px solid $color-gallery;
-//   }
-
-//   > .dish-name {
-//     font-size: 14px;
-//     font-weight: normal;
-//     padding: 10px 0;
-//   }
-// }

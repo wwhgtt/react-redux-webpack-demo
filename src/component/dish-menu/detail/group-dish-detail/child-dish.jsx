@@ -102,13 +102,14 @@ module.exports = React.createClass({
     const price = helper.getDishPrice(dish);
     return (
       <div className="child-dish">
-        <div className="dish-name">
-          {dish.name}
-          <span className="badge-price">{price}元</span>
-          {dish.isReplace ? <span className="badge-bi"></span> : false}
-        </div>
-        {
-          hasProps ?
+        <div className="dish-name-wrap">
+          <div className="dish-name">
+            {dish.name}
+            <span className="badge-price">{price}元</span>
+            {dish.isReplace ? <span className="badge-bi"></span> : false}
+          </div>
+          {
+            hasProps ?
             <div className="right">
               <span className="dish-count">{count}</span>
               <a className="dish-dropdown-trigger btn--ellips" onTouchTap={this.onPropsBtnTap}>{expand ? '收起' : '可选属性'}</a>
@@ -119,7 +120,8 @@ module.exports = React.createClass({
               maximum={dish.isMulti ? count + remainCount : 1} minimum={dish.isReplace ? dish.leastCellNum : 0}
               onCountChange={this.onCountChange}
             />
-        }
+          }
+        </div>
         {
           expand ?
             <div className="dish-dropdown">
@@ -131,6 +133,7 @@ module.exports = React.createClass({
                 props={dish.order[0].dishPropertyTypeInfos} ingredients={dish.order[0].dishIngredientInfos}
                 onSelectPropsOption={this.onSelectPropsOption}
               />
+              <button className="dish-dropdown-close"><span></span></button>
             </div>
             :
             false
