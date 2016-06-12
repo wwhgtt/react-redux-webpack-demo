@@ -9,7 +9,6 @@ module.exports = React.createClass({
   propTypes: {
     dishData: React.PropTypes.object.isRequired,
     remainCount: React.PropTypes.number.isRequired,
-    minCount: React.PropTypes.number.isRequired,
     onDishItemCountChange: React.PropTypes.func.isRequired,
   },
   getInitialState() {
@@ -25,7 +24,7 @@ module.exports = React.createClass({
     this.setState({ expand:!this.state.expand });
   },
   render() {
-    const { dishData, minCount, remainCount } = this.props;
+    const { dishData, remainCount } = this.props;
     const { expand } = this.state;
     const hasProps = !helper.isSingleDishWithoutProps(dishData);
     const count = helper.getDishesCount([dishData]);
@@ -44,7 +43,11 @@ module.exports = React.createClass({
               <a className="group-dish-dropdown-trigger btn--ellips" onTouchTap={this.onPropsBtnTap}>{expand ? '收起' : '可选属性'}</a>
             </div>
             :
-            <Counter count={count} maximum={count + remainCount} minimum={minCount} onCountChange={this.onCountChange} />
+            <Counter
+              count={count}
+              maximum={dishData.isMulti ? count + remainCount : 1} minimum={dishData.isReplace ? dishData.leastCellNum : 0}
+              onCountChange={this.onCountChange}
+            />
         }
         {
           expand ?

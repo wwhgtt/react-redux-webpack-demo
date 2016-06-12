@@ -114,7 +114,7 @@ module.exports = {
           'id': 2938,
           'name': '分组4',
           'orderMin': 1,
-          'orderMax': 2,
+          'orderMax': 3,
           'childInfos': [{
             'id': 53,
             'name': '苹果汁',
@@ -132,7 +132,7 @@ module.exports = {
             'leastCellNum': 1,
             'isReplace': false,
             'isDefault': true,
-            'isMulti': true,
+            'isMulti': false,
             'dishPropertyTypeInfos': [],
             'dishIngredientInfos': [],
           }],

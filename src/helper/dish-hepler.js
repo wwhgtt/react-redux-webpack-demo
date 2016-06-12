@@ -37,7 +37,6 @@ const getOrderPrice = exports.getOrderPrice = function (dishData, orderData) {
               childDish.marketPrice * childDish.order
               :
               getOrderPrice(childDish, { count:childDish.order, dishPropertyTypeInfos:childDish.dishPropertyTypeInfos })
-
         )
     ));
     return Math.floor(orderData.count *

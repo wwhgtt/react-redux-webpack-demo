@@ -82,9 +82,8 @@ module.exports = React.createClass({
   buildGroupDishes(groupData) {
     const remainCount = groupData.orderMax - helper.getDishCountInGroup(groupData);
     return groupData.childInfos.map(childDish => {
-      const minCount = childDish.isReplace ? childDish.leastCellNum : 0;
       return (<GroupDishChildItem
-        key={childDish.id} dishData={childDish} remainCount={remainCount} minCount={minCount} onDishItemCountChange={this.onChildDishCountChange}
+        key={childDish.id} dishData={childDish} remainCount={remainCount} onDishItemCountChange={this.onChildDishCountChange}
       />);
     });
   },
