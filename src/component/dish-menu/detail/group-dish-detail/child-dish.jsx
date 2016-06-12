@@ -1,4 +1,5 @@
 const React = require('react');
+const _findIndex = require('lodash.findindex');
 const helper = require('../../../../helper/dish-hepler');
 const Counter = require('../../../mui/counter.jsx');
 const DishPropsSelect = require('../dish-props-select.jsx');
@@ -8,7 +9,7 @@ require('./child-dish.scss');
 module.exports = React.createClass({
   displayName: 'GroupDishDetailChildDish',
   propTypes: {
-    dishData: React.PropTypes.object.isRequired,
+    dish: React.PropTypes.object.isRequired,
     remainCount: React.PropTypes.number.isRequired,
     onDishChange: React.PropTypes.func.isRequired,
   },
@@ -17,25 +18,94 @@ module.exports = React.createClass({
       expand:false,
     };
   },
-  onCountChange(newCount, increament) {
-    const { dishData, onDishItemCountChange } = this.props;
-    onDishItemCountChange(dishData, increament);
+  onCountChange(newCount, increment) {
+    const { dish, onDishChange } = this.props;
+    const oldCount = helper.getDishesCount([dish]);
+
+    if (oldCount === 0) {
+      newCount = dish.leastCellNum;
+    } else if (oldCount + increment < dish.leastCellNum) {
+      newCount = 0;
+    } else {
+      newCount = oldCount + increment;
+    }
+
+    onDishChange(dish.update(
+      'order',
+      order => helper.isSingleDishWithoutProps(dish) ? newCount : order.setIn([0, 'count'], newCount)
+    ));
+  },
+  onSelectPropsOption(propData, optionData) {
+    const { dish, onDishChange } = this.props;
+    let propIdx = -1;
+    switch (propData.type) {
+      case 1:
+        propIdx = _findIndex(
+          dish.order[0].dishPropertyTypeInfos,
+          { id:propData.id }
+        );
+        onDishChange(
+          dish.updateIn(
+            ['order', 0, 'dishPropertyTypeInfos', propIdx, 'properties'],
+            options => options.flatMap(option => {
+              if (option.id === optionData.id) {
+                return option.set('isChecked', !option.isChecked);
+              } else if (option.id !== optionData.id && option.isChecked === true) {
+                return option.set('isChecked', false);
+              }
+              return option;
+            })
+          ),
+        );
+        break;
+      case 3:
+        propIdx = _findIndex(
+          dish.order[0].dishPropertyTypeInfos,
+          { id:propData.id }
+        );
+        onDishChange(
+          dish.updateIn(
+            ['order', 0, 'dishPropertyTypeInfos', propIdx, 'properties'],
+            options => options.flatMap(option => {
+              if (option.id === optionData.id) {
+                return option.set('isChecked', !option.isChecked);
+              }
+              return option;
+            })
+          ),
+        );
+        break;
+      case -1: // this is a client workround for ingredientsData, we don't have this value of type on serverside
+        onDishChange(
+          dish.updateIn(
+            ['order', 0, 'dishIngredientInfos'],
+            options => options.flatMap(option => {
+              if (option.id === optionData.id) {
+                return option.set('isChecked', !option.isChecked);
+              }
+              return option;
+            })
+          ),
+        );
+        break;
+      default:
+    }
   },
   onPropsBtnTap(evt) {
     this.setState({ expand:!this.state.expand });
   },
   render() {
-    const { dishData, remainCount } = this.props;
+    const { dish, remainCount } = this.props;
     const { expand } = this.state;
-    const hasProps = !helper.isSingleDishWithoutProps(dishData);
-    const count = helper.getDishesCount([dishData]);
-    const price = helper.getDishPrice(dishData);
+    const hasProps = !helper.isSingleDishWithoutProps(dish);
+    const count = helper.getDishesCount([dish]);
+    const price = helper.getDishPrice(dish);
     return (
       <div className="child-dish">
         <div className="dish-name">
-          {dishData.name}
+          {dish.name}
           <span className="badge-price">{price}元</span>
-          {dishData.isReplace ? <span className="badge-bi"></span> : false}
+          {dish.isReplace ? <span className="badge-bi"></span> : false}
         </div>
         {
           hasProps ?
@@ -46,7 +116,7 @@ module.exports = React.createClass({
             :
             <Counter
               count={count}
-              maximum={dishData.isMulti ? count + remainCount : 1} minimum={dishData.isReplace ? dishData.leastCellNum : 0}
+              maximum={dish.isMulti ? count + remainCount : 1} minimum={dish.isReplace ? dish.leastCellNum : 0}
               onCountChange={this.onCountChange}
             />
         }
@@ -55,10 +125,10 @@ module.exports = React.createClass({
             <div className="dish-dropdown">
               <div className="counter-container">
                 <span className="counter-label">份数：</span>
-                <Counter count={helper.getDishesCount([dishData])} onCountChange={this.onCountChange} />
+                <Counter count={helper.getDishesCount([dish])} onCountChange={this.onCountChange} />
               </div>
               <DishPropsSelect
-                propsData={dishData.order[0].dishPropertyTypeInfos} ingredientsData={dishData.order[0].dishIngredientInfos}
+                props={dish.order[0].dishPropertyTypeInfos} ingredients={dish.order[0].dishIngredientInfos}
                 onSelectPropsOption={this.onSelectPropsOption}
               />
             </div>
