@@ -1,7 +1,7 @@
 @import 'settings.colors';
 @import 'settings.sizes';
 
-.group-dish-slider-arrow {
+.groups-bar-arrow {
   position: relative;
   width: 100%;
   margin-bottom: 5px;
@@ -39,7 +39,7 @@
   }
 }
 
-.group-dish-slider-wrap {
+.groups-bar-wrap {
   overflow-x: auto;
   width: 100%;
   -webkit-overflow-scrolling: touch;
@@ -49,12 +49,12 @@
   }
 }
 
-.group-dish-slider {
+.groups-bar {
   overflow: hidden;
   // width: percentage(1 / 3) * 6;
 }
 
-.group-dish-slide {
+.group {
   position: relative;
   float: left;
   // width: percentage(1 / 6);

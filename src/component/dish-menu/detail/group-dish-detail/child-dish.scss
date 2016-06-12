@@ -5,7 +5,7 @@
   margin-bottom: 5px;
 }
 
-.group-dish-child-dish {
+.child-dish {
   line-height: $counter-size;
   overflow: hidden;
   margin-bottom: 5px;
@@ -26,7 +26,7 @@
 }
 
 
-.group-dish {
+.dish {
   &-dropdown-trigger {
     float: right;
     color: $color-neon-carrot;
@@ -87,19 +87,20 @@
   }
 }
 
-.group-dish-detail-count {
-  overflow: hidden;
-  padding-top: 5px;
+// .popup-dish-dropdown-entry
+// .group-dish-detail-count {
+//   overflow: hidden;
+//   padding-top: 5px;
 
-  &:first-child {
-    line-height: $counter-size;
-    padding: 0 0 10px;
-    border-bottom: 1px solid $color-gallery;
-  }
+//   &:first-child {
+//     line-height: $counter-size;
+//     padding: 0 0 10px;
+//     border-bottom: 1px solid $color-gallery;
+//   }
 
-  > .dish-name {
-    font-size: 14px;
-    font-weight: normal;
-    padding: 10px 0;
-  }
-}
+//   > .dish-name {
+//     font-size: 14px;
+//     font-weight: normal;
+//     padding: 10px 0;
+//   }
+// }
