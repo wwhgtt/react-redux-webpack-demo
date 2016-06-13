@@ -73,8 +73,6 @@ exports.getNewCountOfDish = function (dish, increment) {
     } else {
       newCount = dish.order + increment;
     }
-  } else if (isGroupDish(dish)) {
-    // todo
   } else {
     const oldCount = getDishesCount([dish]);
     if (oldCount === 0) {
