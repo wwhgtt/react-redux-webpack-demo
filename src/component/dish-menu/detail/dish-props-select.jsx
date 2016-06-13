@@ -23,6 +23,9 @@ module.exports = React.createClass({
   },
   buildRecipe(props) {
     const recipesData = props.filter((propData => propData.type === 1));
+    if (recipesData.length === 0) {
+      return false;
+    }
     return recipesData.map(recipeData => (
       <div className="recipe-group" key={recipeData.id}>
         <span className="recipe-title">{recipeData.name}</span>
@@ -35,6 +38,9 @@ module.exports = React.createClass({
   },
   buildNote(props) {
     const notesData = props.filter((propData => propData.type === 3));
+    if (notesData.length === 0) {
+      return false;
+    }
     return notesData.map(noteData => (
       <div className="note-group" key={noteData.id}>
         <span className="note-title">{noteData.name}</span>
@@ -47,6 +53,9 @@ module.exports = React.createClass({
   },
   buildIngredient(ingredients) {
     const wrappedIngredientsData = Immutable.from([{ name:'配料', type: -1, properties:ingredients }]);
+    if (wrappedIngredientsData[0].properties.length === 0) {
+      return false;
+    }
     return wrappedIngredientsData.map(wrappedIngredientData => (
       <div className="ingredient-group" key={'ingredient'}>
         <span className="ingredient-title">{wrappedIngredientData.name}</span>

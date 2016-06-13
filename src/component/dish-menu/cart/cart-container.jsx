@@ -8,7 +8,7 @@ require('./cart.scss');
 module.exports = React.createClass({
   displayName: 'CartContainer',
   propTypes: {
-    dishesData: React.PropTypes.array.isRequired,
+    dishes: React.PropTypes.array.isRequired,
     onOrderBtnTap: React.PropTypes.func.isRequired,
     onBillBtnTap: React.PropTypes.func.isRequired,
   },
@@ -21,19 +21,19 @@ module.exports = React.createClass({
     this.setState({ expand: !this.state.expand });
   },
   render() {
-    const { dishesData, onBillBtnTap, onOrderBtnTap } = this.props;
+    const { dishes, onBillBtnTap, onOrderBtnTap } = this.props;
     const { expand } = this.state;
-    const orderedDishesData = helper.getOrderedDishes(dishesData);
+    const orderedDishes = helper.getOrderedDishes(dishes);
     return (
       <div className="cart-container">
         <TinyCart
-          dishCount={helper.getDishesCount(orderedDishesData)} totalPrice={helper.getDishesPrice(orderedDishesData)}
+          dishesCount={helper.getDishesCount(orderedDishes)} totalPrice={helper.getDishesPrice(orderedDishes)}
           onBillBtnTap={onBillBtnTap} onCartIconTap={this.expandCart}
         />
         {expand ?
           <ExpandCart
-            dishCount={helper.getDishesCount(orderedDishesData)} totalPrice={helper.getDishesPrice(orderedDishesData)}
-            orderedDishesData={orderedDishesData}
+            dishesCount={helper.getDishesCount(orderedDishes)} totalPrice={helper.getDishesPrice(orderedDishes)}
+            orderedDishes={orderedDishes}
             onBillBtnTap={onBillBtnTap} onCartIconTap={this.expandCart} onOrderBtnTap={onOrderBtnTap}
           /> : false}
       </div>

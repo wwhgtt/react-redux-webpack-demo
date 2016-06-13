@@ -3,7 +3,7 @@ const _findIndex = require('lodash.findindex');
 const helper = require('../../../../helper/dish-hepler');
 const Counter = require('../../../mui/counter.jsx');
 const DishPropsSelect = require('../dish-props-select.jsx');
-
+window.I = require('seamless-immutable');
 require('./child-dish.scss');
 
 module.exports = React.createClass({
@@ -110,16 +110,16 @@ module.exports = React.createClass({
           </div>
           {
             hasProps ?
-            <div className="right">
-              <span className="dish-count">{count}</span>
-              <a className="dish-dropdown-trigger btn--ellips" onTouchTap={this.onPropsBtnTap}>{expand ? '收起' : '可选属性'}</a>
-            </div>
+              <div className="right">
+                <span className="dish-count">{count}</span>
+                <a className="dish-dropdown-trigger btn--ellips" onTouchTap={this.onPropsBtnTap}>{expand ? '收起' : '可选属性'}</a>
+              </div>
             :
-            <Counter
-              count={count}
-              maximum={dish.isMulti ? count + remainCount : 1} minimum={dish.isReplace ? dish.leastCellNum : 0}
-              onCountChange={this.onCountChange}
-            />
+              <Counter
+                count={count}
+                maximum={dish.isMulti ? count + remainCount : 1} minimum={dish.isReplace ? dish.leastCellNum : 0}
+                onCountChange={this.onCountChange}
+              />
           }
         </div>
         {

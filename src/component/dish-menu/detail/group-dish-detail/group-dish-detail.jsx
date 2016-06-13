@@ -34,7 +34,7 @@ module.exports = React.createClass({
               return childDish.set('isChildDish', true).set('order', Immutable.from(
                 [{ count,
                   dishPropertyTypeInfos:childDish.dishPropertyTypeInfos,
-                  dishIngredientInfos: dish.dishIngredientInfos,
+                  dishIngredientInfos: childDish.dishIngredientInfos,
                  }]
               ));
             }
@@ -82,6 +82,15 @@ module.exports = React.createClass({
     const idx = evt.currentTarget.getAttribute('data-idx');
     this.setState({ activeGroupIdx:parseInt(idx, 10) });
   },
+  onAddToCarBtnTap() {
+    const { onAddToCarBtnTap } = this.props;
+    const { dish } = this.state;
+    if (helper.getDishesCount([dish]) > 0) {
+      onAddToCarBtnTap(dish);
+      return true;
+    }
+    return false;
+  },
   buildGroupDishes(groupData) {
     const remainCount = groupData.orderMax - helper.getDishesCount(groupData.childInfos);
     return groupData.childInfos.map(childDish => (
@@ -100,6 +109,7 @@ module.exports = React.createClass({
         <div className="dishes-container">
           {activeGroupDishes}
         </div>
+        <button className="dish-detail-addtocart btn--yellow" onTouchTap={this.onAddToCarBtnTap}>加入购物车</button>
       </div>
     );
   },

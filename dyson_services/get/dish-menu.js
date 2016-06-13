@@ -256,7 +256,7 @@ module.exports = {
           'orderMin': 0.0,
           'orderMax': 1.0,
           'childInfos': [{
-            'id': 61006,
+            'id': 61008,
             'name': '奶昔',
             'marketPrice': 0.0,
             'leastCellNum': 2.0,

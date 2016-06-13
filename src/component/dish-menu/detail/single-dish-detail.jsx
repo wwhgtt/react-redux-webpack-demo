@@ -29,7 +29,7 @@ module.exports = React.createClass({
   onAddToCarBtnTap() {
     const { onAddToCarBtnTap } = this.props;
     const { dish } = this.state;
-    if (dish.order[0].count > 0) {
+    if (helper.getDishesCount([dish]) > 0) {
       onAddToCarBtnTap(dish);
       return true;
     }
