@@ -71,8 +71,8 @@ module.exports = React.createClass({
         orderedChildDishes.map(childDish => (
           <div key={childDish.id} className="child-dish-info">
             <div className="child-dish-head">
-              <span className="child-dish-name">{childDish.name}</span>
-              <span className="child-dish-price">{helper.getDishPrice(childDish)}</span>
+              <span className="child-dish-name ellipsis">{childDish.name}</span>
+              <span className="child-dish-price badge-price">{helper.getDishPrice(childDish)}元</span>
               {childDish.isReplace ? <span className="badge-bi"></span> : false}
               <span className="child-dish-count">{helper.getDishesCount([childDish])}</span>
               {helper.isSingleDishWithoutProps(childDish) ? false : this.buildDetailInfoForSingleDish(childDish)}

@@ -49,8 +49,8 @@
       font-weight: bold;
       line-height: $counter-size;
       float: left;
-      padding: $item-padding 0;
       width: $dish-price-width;
+      padding: $item-padding 0;
       color: $color-neon-carrot;
 
       &::before {
@@ -65,4 +65,48 @@
     }
   }
 
+}
+
+
+// ordered-dish-dropdown box
+.ordered-dish-dropdown {
+  padding: 0 0 8px;
+}
+
+// dropdown entry
+.child-dish-info {
+  padding: 8px 5px;
+  color: $color-dusty-grey;
+  border-top: 1px solid $color-mercury;
+}
+
+.child-dish-name {
+  font-size: 14px;
+  line-height: 20px;
+  float: left;
+  max-width: 50%;
+  color: $color-mine-shaft;
+}
+
+.child-dish-count {
+  font-size: 12px;
+  line-height: 20px;
+  float: right;
+  width: 26px;
+  margin-right: $counter-size - 5px; // 5px minus parent padding-right
+  text-align: center;
+
+  + .ordered-dish-dropdown {
+    padding-top: 6px;
+    padding-bottom: 0;
+  }
+}
+
+// ordered-dish-dropdown description
+.detail-props-info {
+  font-size: 12px;
+  line-height: 16px;
+  display: block;
+  clear: both;
+  color: $color-dusty-grey;
 }
