@@ -16,6 +16,7 @@ const DishMenuApplication = React.createClass({
     activeDishType: React.PropTypes.func.isRequired,
     orderDish: React.PropTypes.func.isRequired,
     showDishDetail: React.PropTypes.func.isRequired,
+    onBillBtnTap: React.PropTypes.func.isRequired,
     // MapedStatesToProps
     activeDishTypeId: React.PropTypes.number.isRequired,
     dishTypesData: React.PropTypes.array,
@@ -33,7 +34,7 @@ const DishMenuApplication = React.createClass({
     orderDish(dishData);
   },
   render() {
-    const { activeDishTypeId, dishTypesData, dishesData, dishDetailData } = this.props; // states
+    const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, onBillBtnTap } = this.props; // states
     const { activeDishType, orderDish, showDishDetail } = this.props; // actions
     return (
       <div className="application">
@@ -45,11 +46,11 @@ const DishMenuApplication = React.createClass({
           dishTypesData={dishTypesData} dishesData={dishesData}
           activeDishTypeId={activeDishTypeId} onScroll={activeDishType} onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail}
         />
-        <CartContainer dishes={dishesData} onOrderBtnTap={orderDish} onBillBtnTap={() => { console.log(123); }} />
-        {dishDetailData !== undefined ?
-          <DishDetailContainer dish={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />
-          : false
-        }
+        <CartContainer dishes={dishesData} onOrderBtnTap={orderDish} onBillBtnTap={onBillBtnTap} />
+          {dishDetailData !== undefined ?
+            <DishDetailContainer dishData={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />
+            : false
+          }
       </div>
     );
   },
