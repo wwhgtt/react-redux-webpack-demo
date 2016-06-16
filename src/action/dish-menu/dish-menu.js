@@ -33,8 +33,27 @@ exports.fetchMenuData = () => (dispatch, getStates) => {
       throw err;
     });
 };
+
+const setCookie = exports.setCookie = function (orderData) {
+  if (helper.isGroupDish(orderData)) {
+    // 套餐cookie
+    // console.log(orderData);
+  } else {
+    // 单品cookie  配料ID 做法备注口味id
+    // console.log(orderData);
+    const signalCookieName = `TS_${orderData.brandDishId}_${orderData.id}_`
+    + `${orderData.id}|1-${helper.haveReMark(orderData.order)}-`
+    + `${helper.haveAnoMark(orderData.order)}`;
+    const signalCookieValue = `${helper.orderIsArray(orderData.order)}`
+    + `|${orderData.marketPrice} `;
+    helper.setcookie(signalCookieName, signalCookieValue);
+  }
+};
+
 exports.onBillBtnTap = () => (dispatch, getStates) => {
   const dishesData = getStates().dishesData;
-  const orderData = helper.getOrderedDishes(dishesData);
-  console.log(orderData);
+  const ordersData = helper.getOrderedDishes(dishesData);
+  console.log(ordersData);
+  // 下面开始区分套餐cookie和单品菜cookie
+  ordersData.map(orderData => setCookie(orderData));
 };
