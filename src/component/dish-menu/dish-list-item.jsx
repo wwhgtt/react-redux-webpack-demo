@@ -27,6 +27,7 @@ module.exports = React.createClass({
     if (helper.isSingleDishWithoutProps(dishData)) {
       return (<Counter count={dishData.order} onCountChange={this.onBtnTap} step={dishData.stepNum} />);
     }
+    // 使用onClick时在手机端没能起作用  所以使用onTouchTap
     return (<a className="btn--ellips btn-choose-property" onTouchTap={this.onBtnTap}>菜品选项</a>);
   },
   render() {
