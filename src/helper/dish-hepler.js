@@ -4,6 +4,7 @@ const isSingleDishWithoutProps = exports.isSingleDishWithoutProps = function (di
   }
   return false;
 };
+// 区分是否为单品菜和套餐
 const isGroupDish = exports.isGroupDish = function (dishData) {
   return dishData.groups !== undefined;
 };
@@ -74,4 +75,75 @@ exports.getNewCountOfDish = function (dishData, increment) {
   }
 
   return newCount;
+};
+// 判断菜品配料等是否为空
+exports.haveReMark = function (order) {
+  if (order instanceof Array) {
+    const dishIngredientInfos = order[0].dishIngredientInfos;
+    if (dishIngredientInfos.length !== 0) {
+      const ingredient = [];
+      for (let i = 0; i < dishIngredientInfos.length; i++) {
+        if (dishIngredientInfos[i].isChecked) {
+          ingredient.push(dishIngredientInfos[i].id);
+        }
+      }
+      return ingredient.join('ˆ');
+    } return '';
+      // 代表没有配料
+  } return '';
+};
+
+// 判断做法备注等等
+exports.haveAnoMark = function (order) {
+  if (order instanceof Array) {
+    const dishPropertyTypeInfos = order[0].dishPropertyTypeInfos;
+    if (dishPropertyTypeInfos.length !== 0) {
+      for (let i = 0; i < dishPropertyTypeInfos.length; i++) {
+        const infomation = [];
+        if (dishPropertyTypeInfos[i].type === 3) {
+          // 代表备注信息
+          const properties = dishPropertyTypeInfos[i].properties;
+          if (properties && properties.length !== 0) {
+            for (let j = 0; j < properties.length; j++) {
+              if (properties[j].isChecked) {
+                infomation.push(properties[j].id);
+              }
+            }
+          }
+        } else if (dishPropertyTypeInfos[i].type === 1) {
+          // 代表做法信息
+          const properties = dishPropertyTypeInfos[i].properties;
+          if (properties && properties.length !== 0) {
+            for (let j = 0; j < properties.length; j++) {
+              if (properties[j].isChecked) {
+                infomation.push(properties[j].id);
+              }
+            }
+          }
+        }
+        return infomation.join('ˆ');
+      }
+    } else {
+      // 没有备注做法信息
+      return '';
+    }
+  } else {
+    // 表示order是数量
+    return '';
+  }
+  return true;
+};
+
+// 判断order是不是数组
+exports.orderIsArray = function (data) {
+  if (data instanceof Array) {
+    return data[0].count;
+  } return data;
+};
+// setCookie
+exports.setcookie = function (name, value) {
+  const Days = 30;
+  const exp = new Date();
+  exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+  document.cookie = `${name}=${escape(value)};expires=${exp.toGMTString()}`;
 };
