@@ -77,7 +77,7 @@ exports.getNewCountOfDish = function (dishData, increment) {
   return newCount;
 };
 // 判断菜品配料等是否为空
-exports.haveReMark = function (order) {
+const haveReMark = exports.haveReMark = function (order) {
   if (order instanceof Array) {
     const dishIngredientInfos = order[0].dishIngredientInfos;
     if (dishIngredientInfos.length !== 0) {
@@ -94,7 +94,7 @@ exports.haveReMark = function (order) {
 };
 
 // 判断做法备注等等
-exports.haveAnoMark = function (order) {
+const howToWork = exports.howToWork = function (order) {
   if (order instanceof Array) {
     const dishPropertyTypeInfos = order[0].dishPropertyTypeInfos;
     if (dishPropertyTypeInfos.length !== 0) {
@@ -135,15 +135,30 @@ exports.haveAnoMark = function (order) {
 };
 
 // 判断order是不是数组
-exports.orderIsArray = function (data) {
+const orderIsArray = exports.orderIsArray = function (data) {
   if (data instanceof Array) {
     return data[0].count;
   } return data;
 };
 // setCookie
-exports.setcookie = function (name, value) {
+const setCookieFuc = exports.setCookieFuc = function (name, value) {
   const Days = 30;
   const exp = new Date();
   exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
   document.cookie = `${name}=${escape(value)};expires=${exp.toGMTString()}`;
+};
+exports.setCookieFromData = function (orderData) {
+  if (isGroupDish(orderData)) {
+    // 套餐cookie
+    // console.log(orderData);
+  } else {
+    // 单品cookie  配料ID 做法备注口味id
+    // console.log(orderData);
+    const signalCookieName = `TS_${orderData.brandDishId}_${orderData.id}_`
+    + `${orderData.id}|1-${haveReMark(orderData.order)}-`
+    + `${howToWork(orderData.order)}`;
+    const signalCookieValue = `${orderIsArray(orderData.order)}`
+    + `|${orderData.marketPrice} `;
+    setCookieFuc(signalCookieName, signalCookieValue);
+  }
 };
