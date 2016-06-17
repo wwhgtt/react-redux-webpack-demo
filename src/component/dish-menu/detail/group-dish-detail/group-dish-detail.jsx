@@ -129,7 +129,7 @@ module.exports = React.createClass({
         <button className="dish-detail-addtocart btn--yellow" onTouchTap={this.onAddToCarBtnTap}>加入购物车</button>
         {
           this.state.toast === 1 ?
-            <div className="toast"}><span className="toast-content">套餐份数超出可选范围</span></div>
+            <div className="toast"><span className="toast-content">套餐份数超出可选范围</span></div>
           :
           false
         }
