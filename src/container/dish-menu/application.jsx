@@ -16,7 +16,11 @@ const DishMenuApplication = React.createClass({
     activeDishType: React.PropTypes.func.isRequired,
     orderDish: React.PropTypes.func.isRequired,
     showDishDetail: React.PropTypes.func.isRequired,
+<<<<<<< HEAD
     onBillBtnTap: React.PropTypes.func.isRequired,
+=======
+    setDishCookie: React.PropTypes.func.isRequired,
+>>>>>>> a122004ab61e22201bf3912cbcc3b01306e09d0b
     // MapedStatesToProps
     activeDishTypeId: React.PropTypes.number.isRequired,
     dishTypesData: React.PropTypes.array,
@@ -34,7 +38,11 @@ const DishMenuApplication = React.createClass({
     orderDish(dishData);
   },
   render() {
+<<<<<<< HEAD
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, onBillBtnTap } = this.props; // states
+=======
+    const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, setDishCookie } = this.props; // states
+>>>>>>> a122004ab61e22201bf3912cbcc3b01306e09d0b
     const { activeDishType, orderDish, showDishDetail } = this.props; // actions
     return (
       <div className="application">
@@ -46,11 +54,19 @@ const DishMenuApplication = React.createClass({
           dishTypesData={dishTypesData} dishesData={dishesData}
           activeDishTypeId={activeDishTypeId} onScroll={activeDishType} onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail}
         />
+<<<<<<< HEAD
         <CartContainer dishes={dishesData} onOrderBtnTap={orderDish} onBillBtnTap={onBillBtnTap} />
         {dishDetailData !== undefined ?
           <DishDetailContainer dish={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />
           : false
         }
+=======
+        <CartContainer dishesData={dishesData} onOrderBtnTap={orderDish} onBillBtnTap={setDishCookie} />
+          {dishDetailData !== undefined ?
+            <DishDetailContainer dishData={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />
+            : false
+          }
+>>>>>>> a122004ab61e22201bf3912cbcc3b01306e09d0b
       </div>
     );
   },
