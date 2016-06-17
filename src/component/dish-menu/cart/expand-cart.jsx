@@ -1,63 +1,63 @@
 const React = require('react');
-const CartOrderedItem = require('./cart-ordered-item.jsx');
+const CartOrderedDish = require('./cart-ordered-dish.jsx');
 const helper = require('../../../helper/dish-hepler');
 require('./expand-cart.scss');
 
 module.exports = React.createClass({
   displayName: 'ExpandCart',
   propTypes: {
-    dishCount: React.PropTypes.number.isRequired,
+    dishesCount: React.PropTypes.number.isRequired,
     totalPrice: React.PropTypes.number.isRequired,
     onBillBtnTap: React.PropTypes.func.isRequired,
     onCartIconTap: React.PropTypes.func.isRequired,
     onOrderBtnTap: React.PropTypes.func.isRequired,
-    orderedDishesData: React.PropTypes.array,
+    orderedDishes: React.PropTypes.array,
   },
-  buildOrderedList(orderedDishesData, onOrderBtnTap) {
-    function divideDishes(dishesData) {
+  buildOrderedElements(orderedDishes, onOrderBtnTap) {
+    function divideDishes(dishes) {
       return [].concat.apply(
-        [], dishesData.map(dishData => {
-          if (helper.isSingleDishWithoutProps(dishData)) {
-            return [dishData];
+        [], dishes.map(dish => {
+          if (helper.isSingleDishWithoutProps(dish)) {
+            return [dish];
           }
-          return dishData.order.map((dishOrderData, idx) =>
-            Object.assign({}, dishData,
-              { key:`${dishData.id}-${idx}` },
-              { order:[Object.assign({}, dishOrderData)] }
+          return dish.order.map((dishOrder, idx) =>
+            Object.assign({}, dish,
+              { key:`${dish.id}-${idx}` },
+              { order:[Object.assign({}, dishOrder)] }
             )
           );
         })
       );
     }
-    const dividedDishesData = divideDishes(orderedDishesData);
+    const dividedDishes = divideDishes(orderedDishes);
     return (
       <div className="cart-ordered-list">
       {
-        dividedDishesData.map(dishData => (<CartOrderedItem key={dishData.key} dishData={dishData} onOrderBtnTap={onOrderBtnTap} />))
+        dividedDishes.map(dish => (<CartOrderedDish key={dish.key} dish={dish} onOrderBtnTap={onOrderBtnTap} />))
       }
       </div>
     );
   },
   render() {
-    const { dishCount, totalPrice, onBillBtnTap, onOrderBtnTap,
-      onCartIconTap, orderedDishesData } = this.props;
-    const cartOrderedList = this.buildOrderedList(orderedDishesData, onOrderBtnTap);
+    const { dishesCount, totalPrice, onBillBtnTap, onOrderBtnTap,
+      onCartIconTap, orderedDishes } = this.props;
+    const orderedElements = this.buildOrderedElements(orderedDishes, onOrderBtnTap);
     return (
       <div className="expand-cart">
         <div className="expand-cart-close"></div>
 
         <div className="expand-cart-main">
           <div className="expand-cart-header">
-            <a href="" className="cart-icon cart-icon--expand" onTouchTap={onCartIconTap} data-count={dishCount}></a>
+            <a href="" className="cart-icon cart-icon--expand" onTouchTap={onCartIconTap} data-count={dishesCount}></a>
             <a className="expand-cart-clear">清空购物车</a>
           </div>
 
-          {cartOrderedList}
+          {orderedElements}
 
           <div className="tiny-cart">
             <div className="tiny-cart-left">
               {
-                dishCount === 0 ? <span className="tiny-cart-text">购物车是空的</span> :
+                dishesCount === 0 ? <span className="tiny-cart-text">购物车是空的</span> :
                   <span className="tiny-cart-price price"><strong>{totalPrice}</strong><small>另有配送费8元</small></span>
               }
             </div>

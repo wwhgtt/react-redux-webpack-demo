@@ -1,5 +1,6 @@
 const React = require('react');
 const { findDOMNode } = require('react-dom');
+const shallowCompare = require('react-addons-shallow-compare');
 const _find = require('lodash.find');
 const IScroll = require('iscroll/build/iscroll-probe');
 const classnames = require('classnames');
@@ -17,57 +18,54 @@ module.exports = React.createClass({
     onOrderBtnTap: React.PropTypes.func.isRequired,
     onPropsBtnTap: React.PropTypes.func.isRequired,
   },
+  componentWillMount() {
+  },
   componentDidMount() {
     const { onScroll } = this.props;
     const cache = this._cache = {};
-    const iScroll = cache.iScroll = new IScroll(findDOMNode(this), { probeType: 1 });
+    const iScroll = cache.iScroll = new IScroll(findDOMNode(this), { probeType: 2 });
     iScroll.on('scroll', () => {
       const dishTypeId = this.findCurrentDishTypeId(iScroll.y);
-      this._cache.isScrolling = true;
-      if (!window.__scrollByType__ && dishTypeId) {
+      cache.isScrolling = true;
+      if (!window.__activeTypeByTap__ && dishTypeId) {
         onScroll(null, dishTypeId);
       }
     });
     iScroll.on('scrollEnd', () => {
       const dishTypeId = this.findCurrentDishTypeId(iScroll.y);
-      this._cache.isScrolling = false;
-      if (!window.__scrollByType__ && dishTypeId) {
+      if (!window.__activeTypeByTap__ && dishTypeId) {
         onScroll(null, dishTypeId);
       }
+      cache.isScrolling = false;
+      window.__activeTypeByTap__ = false;
     });
   },
-  shouldComponentUpdate() {
-    return !this._cache.isScrolling;
+  shouldComponentUpdate(nextProps, nextState) {
+    const cache = this._cache;
+    return !cache.isScrolling && shallowCompare(this, nextProps, nextState);
   },
   componentDidUpdate() {
     const cache = this._cache;
     const iScroll = cache.iScroll;
     iScroll.refresh();
     const activeDishType = findDOMNode(this).querySelector('.active');
-    if (window.__scrollByType__) { // if update is not caused by scrolling or touching in dish-scroller.
+    if (window.__activeTypeByTap__) { // if update is not caused by scrolling or touching in dish-scroller.
       iScroll.scrollToElement(activeDishType, 300);             // that mean it's caused by activeDishType, so scrollTo the according dish type
-      setTimeout(() => window.__scrollByType__ = false, 310);
     }
   },
   componentWillUnmount() {
     this._cache.iScroll.destroy();
     this._cache = null;
   },
-  onTouchStart() {
-    this._cache.isTouching = true;
-  },
-  onTouchEnd() {
-    this._cache.isTouching = false;
-  },
-  onDishItemBtnTap(dishData, action) {
+  onDishBtnTap(dishData, action) {
     const { onOrderBtnTap, onPropsBtnTap } = this.props;
-    this._cache.isTaping = true;
+    // this._cache.isTaping = true;
     if (action) {
       onOrderBtnTap(dishData, action);
     } else {
       onPropsBtnTap(dishData);
     }
-    setTimeout(() => this._cache.isTaping = false, 0); // set isTaping to false at nextTick of rendering;
+    // setTimeout(() => this._cache.isTaping = false, 0); // set isTaping to false at nextTick of rendering;
   },
   findCurrentDishTypeId(posY) {
     const dishTypes = findDOMNode(this).querySelectorAll('.dish-item-type');
@@ -77,7 +75,7 @@ module.exports = React.createClass({
     }
     return false;
   },
-  buildDishList(activeDishTypeId, dishTypesData, dishesData, onDishItemBtnTap) {
+  buildDishElements(activeDishTypeId, dishTypesData, dishesData, onDishBtnTap) {
     function getDishById(dishId) {
       const dish = _find(dishesData, { id:dishId });
       if (!dish) {
@@ -105,7 +103,7 @@ module.exports = React.createClass({
               dishTypeData.dishIds.map(dishId => {
                 const dishData = getDishById(dishId);
                 return (<li className="dish-item-dish"><DishListItem
-                  dishData={dishData} onOrderBtnTap={onDishItemBtnTap} onPropsBtnTap={onDishItemBtnTap}
+                  dishData={dishData} onOrderBtnTap={onDishBtnTap} onPropsBtnTap={onDishBtnTap}
                 /></li>
                 );
               })
@@ -118,11 +116,11 @@ module.exports = React.createClass({
   },
   render() {
     const { activeDishTypeId, dishTypesData, dishesData } = this.props;
-    const dishList = this.buildDishList(activeDishTypeId, dishTypesData, dishesData, this.onDishItemBtnTap);
+    const dishElements = this.buildDishElements(activeDishTypeId, dishTypesData, dishesData, this.onDishBtnTap);
     return (
-      <div className="dish-scroller" onTouchStart={this.onTouchStart} onTouchEnd={this.onTouchEnd}>
+      <div className="dish-scroller">
         {/* <div className="scroll-wrapper">*/}
-          {dishList}
+          {dishElements}
         {/* </div>*/}
       </div>
     );

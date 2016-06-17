@@ -1,5 +1,6 @@
 const React = require('react');
 const classnames = require('classnames');
+const _find = require('lodash.find');
 
 const ActiveSelect = React.createClass({
   displayName: 'ActiveSelect',
@@ -9,14 +10,16 @@ const ActiveSelect = React.createClass({
     onSelectOption: React.PropTypes.func.isRequired,
     className: React.PropTypes.string,
   },
-  onSelectOption(evt, optionData) {
+  onSelectOption(evt) {
+    const { optionsData } = this.props;
+    const optionData = _find(optionsData, { id: parseInt(evt.currentTarget.getAttribute('data-id'), 10) });
     this.props.onSelectOption(evt, optionData);
   },
   renderOptions(optionsData, optionComponent) {
     return optionsData.map(optionData => {
       const { label } = optionData;
       return React.createElement(optionComponent,
-        Object.assign({}, { key:optionData.id, onTouchTap:evt => this.onSelectOption(evt, optionData) }, optionData), label
+        Object.assign({}, { key:optionData.id, 'data-id':optionData.id, onTouchTap:this.onSelectOption }, optionData), label
       );
     });
   },

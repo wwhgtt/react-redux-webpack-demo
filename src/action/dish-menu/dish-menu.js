@@ -9,7 +9,9 @@ exports.orderDish = createAction('ORDER_DISH', (dishData, action) => [dishData, 
 exports.removeAllDishes = createAction('REMOVE_ALL_DISHES');
 exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => {
   if (evt && /dish-type-item/.test(evt.target.className)) {
-    window.__scrollByType__ = true;
+    window.__activeTypeByTap__ = true;
+  } else {
+    window.__activeTypeByTap__ = false;
   }
   return dishTypeId;
 });

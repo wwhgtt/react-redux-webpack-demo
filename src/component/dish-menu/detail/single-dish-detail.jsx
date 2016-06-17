@@ -1,117 +1,124 @@
 const React = require('react');
-const _cloneDeep = require('lodash.clonedeep');
+const Immutable = require('seamless-immutable');
+const _findIndex = require('lodash.findindex');
 const helper = require('../../../helper/dish-hepler');
-const DishDetailItem = require('./dish-detail-item.jsx');
+const DishDetailHead = require('./dish-detail-head.jsx');
 const DishPropsSelect = require('./dish-props-select.jsx');
 module.exports = React.createClass({
   displayName: 'SingleDishDetail',
   propTypes:{
-    dishData: React.PropTypes.object.isRequired,
+    dish: React.PropTypes.object.isRequired,
     onAddToCarBtnTap: React.PropTypes.func.isRequired,
   },
   getInitialState() {
-    const dishDataForState = _cloneDeep(this.props.dishData);
-
-    dishDataForState.order = [
-      {
+    const { dish } = this.props;
+    const dishForDeital = dish.setIn(
+      ['order'],
+      Immutable.from([{
         count:0,
-        dishPropertyTypeInfos:dishDataForState.dishPropertyTypeInfos,
-        dishIngredientInfos:dishDataForState.dishIngredientInfos,
-      },
-    ];
-
+        dishPropertyTypeInfos:dish.dishPropertyTypeInfos,
+        dishIngredientInfos:dish.dishIngredientInfos,
+      }])
+    );
     return {
-      dishData: dishDataForState,
+      dish: dishForDeital,
     };
   },
   componentDidUpdate() {
   },
   onAddToCarBtnTap() {
     const { onAddToCarBtnTap } = this.props;
-    const { dishData } = this.state;
-    const dishOrderData = dishData.order[0];
-    if (dishOrderData.count > 0) {
-      onAddToCarBtnTap(dishData);
+    const { dish } = this.state;
+    if (helper.getDishesCount([dish]) > 0) {
+      onAddToCarBtnTap(dish);
       return true;
     }
     return false;
   },
   onDishItemCountChange(increment) {
-    const dishDataForDetail = this.state.dishData;
-    const dishDataForCart = this.props.dishData;
-    const orderDataForDetail = dishDataForDetail.order;
-    const countForDetail = helper.getDishesCount([dishDataForDetail]);
-    const countForCart = helper.getDishesCount([dishDataForCart]);
+    const dishForDetail = this.state.dish;
+    const dishForCart = this.props.dish;
+    const countForDetail = helper.getDishesCount([dishForDetail]);
+    const countForCart = helper.getDishesCount([dishForCart]);
     let newCountForDetail;
 
     if (countForDetail === 0 && countForCart === 0) {
       // if never ordered this dish;
-      newCountForDetail = dishDataForDetail.dishIncreaseUnit;
-    } else if (countForCart === 0 && countForDetail + increment < dishDataForDetail.dishIncreaseUnit) {
+      newCountForDetail = dishForDetail.dishIncreaseUnit;
+    } else if (countForCart === 0 && countForDetail + increment < dishForDetail.dishIncreaseUnit) {
       // if never ordered this dish and now want to order a count that is smaller thant dishIncreaseUnit;
       newCountForDetail = 0;
     } else {
       newCountForDetail = countForDetail + increment;
     }
-    const newOrderData = [Object.assign({}, orderDataForDetail[0], { count: newCountForDetail })];
-    this.setState({ dishData: Object.assign({}, dishDataForDetail, { order:newOrderData }) });
+    this.setState({ dish:dishForDetail.setIn(
+      ['order', 0, 'count'],
+      newCountForDetail
+    ) });
   },
   onSelectPropsOption(propData, optionData) {
-    const dishDataForDetail = this.state.dishData;
-    const orderDataForDetail = dishDataForDetail.order;
-    const oldPropsData = orderDataForDetail[0].dishPropertyTypeInfos;
-    const oldIngredientData = orderDataForDetail[0].dishIngredientInfos;
-    let newOrderData = [];
-    let newPropsData = oldPropsData;
-    let newPropData = {};
-    let newIngredientData = oldIngredientData;
+    const dishForDetail = this.state.dish;
+    let propIdx = -1;
     switch (propData.type) {
       case 1:
-        newPropData = Object.assign({}, propData, {
-          properties: propData.properties.map(prop => {
-            if (prop.id === optionData.id) {
-              return Object.assign({}, prop, { isChecked:!prop.isChecked });
-            }
-            if (prop.id !== optionData.id && prop.isChecked === true) {
-              return Object.assign({}, prop, { isChecked:!prop.isChecked });
-            }
-            return prop;
-          }),
+        propIdx = _findIndex(
+          dishForDetail.order[0].dishPropertyTypeInfos,
+          { id:propData.id }
+        );
+        this.setState({
+          dish: dishForDetail.updateIn(
+            ['order', 0, 'dishPropertyTypeInfos', propIdx, 'properties'],
+            options => options.flatMap(option => {
+              if (option.id === optionData.id) {
+                return option.set('isChecked', !option.isChecked);
+              } else if (option.id !== optionData.id && option.isChecked === true) {
+                return option.set('isChecked', false);
+              }
+              return option;
+            })
+          ),
         });
-        newPropsData = oldPropsData.map(prop => prop.id === newPropData.id ? newPropData : prop);
         break;
       case 3:
-        newPropData = Object.assign({}, propData, {
-          properties: propData.properties.map(prop => {
-            if (prop.id === optionData.id) {
-              return Object.assign({}, prop, { isChecked:!prop.isChecked });
-            }
-            return prop;
-          }),
+        propIdx = _findIndex(
+          dishForDetail.order[0].dishPropertyTypeInfos,
+          { id:propData.id }
+        );
+        this.setState({
+          dish: dishForDetail.updateIn(
+            ['order', 0, 'dishPropertyTypeInfos', propIdx, 'properties'],
+            options => options.flatMap(option => {
+              if (option.id === optionData.id) {
+                return option.set('isChecked', !option.isChecked);
+              }
+              return option;
+            })
+          ),
         });
-        newPropsData = oldPropsData.map(prop => prop.id === newPropData.id ? newPropData : prop);
         break;
       case -1: // this is a client workround for ingredientsData, we don't have this value of type on serverside
-        newIngredientData = oldIngredientData.map(ingredientData => {
-          if (ingredientData.id === optionData.id) {
-            return Object.assign({}, ingredientData, { isChecked: !ingredientData.isChecked });
-          }
-          return ingredientData;
+        this.setState({
+          dish: dishForDetail.updateIn(
+            ['order', 0, 'dishIngredientInfos'],
+            options => options.flatMap(option => {
+              if (option.id === optionData.id) {
+                return option.set('isChecked', !option.isChecked);
+              }
+              return option;
+            })
+          ),
         });
         break;
       default:
-
     }
-    newOrderData[0] = Object.assign({}, orderDataForDetail[0], { dishPropertyTypeInfos:newPropsData }, { dishIngredientInfos:newIngredientData });
-    this.setState({ dishData: Object.assign({}, dishDataForDetail, { order:newOrderData }) });
   },
   render() {
-    const { dishData } = this.state;
+    const { dish } = this.state;
     return (
       <div className="single-dish-detail">
-        <DishDetailItem dishData={dishData} onCountChange={this.onDishItemCountChange} />
+        <DishDetailHead dish={dish} onCountChange={this.onDishItemCountChange} />
         <DishPropsSelect
-          propsData={dishData.order[0].dishPropertyTypeInfos} ingredientsData={dishData.order[0].dishIngredientInfos}
+          props={dish.order[0].dishPropertyTypeInfos} ingredients={dish.order[0].dishIngredientInfos}
           onSelectPropsOption={this.onSelectPropsOption}
         />
         <button className="dish-detail-addtocart btn--yellow" onTouchTap={this.onAddToCarBtnTap}>加入购物车</button>

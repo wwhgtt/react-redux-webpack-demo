@@ -39,17 +39,17 @@ const DishMenuApplication = React.createClass({
       <div className="application">
         <DishTypeScroller
           dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeId={activeDishTypeId}
-          onDishTypeItemTap={activeDishType}
+          onDishTypeElementTap={activeDishType}
         />
         <DishScroller
           dishTypesData={dishTypesData} dishesData={dishesData}
           activeDishTypeId={activeDishTypeId} onScroll={activeDishType} onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail}
         />
-        <CartContainer dishesData={dishesData} onOrderBtnTap={orderDish} onBillBtnTap={() => { console.log(123); }} />
-          {dishDetailData !== undefined ?
-            <DishDetailContainer dishData={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />
-            : false
-          }
+        <CartContainer dishes={dishesData} onOrderBtnTap={orderDish} onBillBtnTap={() => { console.log(123); }} />
+        {dishDetailData !== undefined ?
+          <DishDetailContainer dish={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />
+          : false
+        }
       </div>
     );
   },

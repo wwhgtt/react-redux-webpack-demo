@@ -1,5 +1,6 @@
 const React = require('react');
 const { findDOMNode } = require('react-dom');
+const shallowCompare = require('react-addons-shallow-compare');
 const IScroll = require('iscroll');
 const DynamicClassLI = require('../mui/misc/dynamic-class-hoc.jsx')('li');
 require('./dish-type-scroller.scss');
@@ -10,11 +11,14 @@ module.exports = React.createClass({
     activeDishTypeId: React.PropTypes.number.isRequired,
     dishTypesData: React.PropTypes.array.isRequired,
     dishesData: React.PropTypes.array.isRequired,
-    onDishTypeItemTap: React.PropTypes.func.isRequired,
+    onDishTypeElementTap: React.PropTypes.func.isRequired,
   },
   componentDidMount() {
     this._cache = {};
     this._cache.iScroll = new IScroll(findDOMNode(this), { scrollY:true });
+  },
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
   },
   componentDidUpdate() {
     const iScroll = this._cache.iScroll;
@@ -28,12 +32,12 @@ module.exports = React.createClass({
     this._cache.iScroll.destroy();
     this._cache = null;
   },
-  onDishTypeItemTap(evt) {
-    const { onDishTypeItemTap } = this.props;
+  onDishTypeElementTap(evt) {
+    const { onDishTypeElementTap } = this.props;
     const dishTypeId = parseInt(evt.target.getAttribute('data-id'), 10);
-    onDishTypeItemTap(evt, dishTypeId);
+    onDishTypeElementTap(evt, dishTypeId);
   },
-  buildDishTypeList(activeDishTypeId, dishTypesData, dishesData) {
+  buildDishTypeElements(activeDishTypeId, dishTypesData, dishesData) {
     return (
       <ul className="dish-type-list">
         {dishTypesData.map((dishTypeData, idx) => {
@@ -44,7 +48,7 @@ module.exports = React.createClass({
             <DynamicClassLI
               key={idx} data-id={dishTypeData.id} isActive={activeDishTypeId === dishTypeData.id}
               className="dish-type-item"
-              onTouchTap={this.onDishTypeItemTap}
+              onTouchTap={this.onDishTypeElementTap}
             >
               {dishTypeData.name}
             </DynamicClassLI>
@@ -56,12 +60,12 @@ module.exports = React.createClass({
   render() {
     const { activeDishTypeId, dishTypesData, dishesData } = this.props;
 
-    const dishTypeList = this.buildDishTypeList(activeDishTypeId, dishTypesData, dishesData);
+    const dishTypeElements = this.buildDishTypeElements(activeDishTypeId, dishTypesData, dishesData);
 
     return (
       <div className="dish-type-scroller">
         <div className="scroll-wrapper">
-          {dishTypeList}
+          {dishTypeElements}
         </div>
       </div>
     );

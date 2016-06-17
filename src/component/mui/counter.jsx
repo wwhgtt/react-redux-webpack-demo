@@ -32,10 +32,10 @@ module.exports = React.createClass({
     const { count, step, maximum, minimum } = this.props;
     return (
       <div className="counter">
-        <a className={classnames('btn-minus counter-minus', { 'btn-disabled':minimum || count === minimum })}>
+        <a className={classnames('btn-minus counter-minus', { 'btn-disabled': count === minimum })}>
           <span className="counter-click-mask" onTouchTap={evt => this.onBtnsTap(count - step, -step)} />
         </a>
-        <a className={classnames('btn-add counter-add', { 'btn-disabled':maximum || count === maximum })}>
+        <a className={classnames('btn-add counter-add', { 'btn-disabled': count === maximum })}>
           <span className="counter-click-mask" onTouchTap={evt => this.onBtnsTap(count + step, step)} />
         </a>
         <span className="counter-num">{count}</span>

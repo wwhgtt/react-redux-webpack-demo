@@ -1,51 +1,63 @@
 const _findIndex = require('lodash.findindex');
+const Immutable = require('seamless-immutable');
 const helper = require('../../helper/dish-hepler');
 module.exports = function (
-  state = { activeDishTypeId:-1, dishTypesData:[], dishesData:[], dishDetailData: undefined },
+  state = Immutable.from({ activeDishTypeId:-1, dishTypesData:[], dishesData:[], dishDetailData: undefined }),
   action
 ) {
   const { type, payload } = action;
-  let newDishIdx;
-  let newDishData;
-  let newDishsData;
-  let newDishOrderIdx;
+  let dishIdx;
+  let orderIdx;
+  let newState;
   switch (type) {
     case 'SET_MENU_DATA':
-      return Object.assign({}, state, { dishTypesData:payload.dishTypeList, dishesData: payload.dishList });
+      return state.setIn(['dishTypesData'], payload.dishTypeList).setIn(['dishesData'], payload.dishList);
     case 'ACTIVE_DISH_TYPE':
-      return Object.assign({}, state, { activeDishTypeId:payload });
+      return state.setIn(['activeDishTypeId'], payload);
     case 'SHOW_DISH_DETAIL':
-      return Object.assign({}, state, { dishDetailData:payload });
+      return state.setIn(['dishDetailData'], payload);
     case 'REMOVE_ALL_DISHES':
       return {};
     case 'ORDER_DISH':
-      newDishIdx = _findIndex(state.dishesData, { id: payload[0].id });
-      newDishsData = state.dishesData.slice();
-      newDishsData[newDishIdx] = newDishData = Object.assign({}, state.dishesData[newDishIdx]);
-      if (helper.isSingleDishWithoutProps(newDishData)) {
+      dishIdx = _findIndex(state.dishesData, { id: payload[0].id });
+      if (helper.isSingleDishWithoutProps(state.dishesData[dishIdx])) {
         // for single dish without props;
-        newDishData.order = helper.getNewCountOfDish(newDishData, payload[1]);
-      } else if (helper.isGroupDish(newDishData)) {
-        // todo for group dish
+        newState = state.setIn(['dishesData', dishIdx, 'order'], helper.getNewCountOfDish(state.dishesData[dishIdx], payload[1]));
       } else {
         // for single dish with props
-        newDishData.order = newDishData.order === undefined ? [] : newDishData.order;
-        newDishOrderIdx = _findIndex(newDishData.order, { dishPropertyTypeInfos:payload[0].order[0].dishPropertyTypeInfos });
-        if (newDishOrderIdx !== -1) {
+        if (helper.isGroupDish(state.dishesData[dishIdx])) {
+          orderIdx = _findIndex(
+            state.dishesData[dishIdx].order === undefined ? [] : state.dishesData[dishIdx].order,
+            { groups:payload[0].order[0].groups }
+          );
+        } else {
+          orderIdx = _findIndex(
+            state.dishesData[dishIdx].order === undefined ? [] : state.dishesData[dishIdx].order,
+            { dishPropertyTypeInfos:payload[0].order[0].dishPropertyTypeInfos }
+          );
+        }
+        if (orderIdx !== -1) {
           // if find the order with same props, just add the count of the exsited order;
-          newDishData.order[newDishOrderIdx] = Object.assign(
-            {}, newDishData.order[newDishOrderIdx],
-            { count: newDishData.order[newDishOrderIdx].count + payload[0].order[0].count });
-          if (newDishData.order[newDishOrderIdx].count === 0) {
+          newState = state.setIn(
+            ['dishesData', dishIdx, 'order', orderIdx, 'count'],
+            state.dishesData[dishIdx].order[orderIdx].count + payload[0].order[0].count
+          );
+          if (newState.dishesData[dishIdx].order[orderIdx].count === 0) {
             // if order's count is 0, remove it.
-            newDishData.order.splice(newDishOrderIdx, 1);
+            newState = newState.updateIn(
+              ['dishesData', dishIdx, 'order'],
+              order => order.flatMap((eachOrder, idx) => orderIdx === idx ? [] : eachOrder)
+            );
           }
         } else {
           // if cannot find the order with same props,add it as new order;
-          newDishData.order.push(payload[0].order[0]);
+          newState = state.updateIn(
+            ['dishesData', dishIdx, 'order'],
+            order => order === undefined ? payload[0].order : order.concat(payload[0].order)
+          );
         }
       }
-      return Object.assign({}, state, { dishesData:newDishsData });
+      return newState;
     default:
       return state;
   }

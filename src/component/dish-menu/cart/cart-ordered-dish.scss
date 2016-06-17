@@ -1,0 +1,112 @@
+@import 'settings.colors';
+@import 'settings.sizes';
+
+.cart-ordered-dish {
+  padding: 0 10px;
+  border-bottom: 1px solid $color-mercury;
+  .ordered-dish {
+    $dish-price-width: 70px;
+    $item-padding: 6px;
+
+    overflow: hidden;
+
+    > .dish-name {
+      font-size: 15px;
+      line-height: $counter-size;
+      position: relative;
+      float: left;
+      overflow: hidden;
+      width: calc(100% - #{$counter-max-width + $dish-price-width});
+      margin-right: 10px;
+      padding: $item-padding 23px $item-padding 0;
+
+      &--trigger::after {
+        position: absolute;
+        z-index: 0;
+        top: 6px;
+        right: 0;
+        width: 20px;
+        height: 28px;
+        content: '';
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+        -webkit-transition: -webkit-transform .15s;
+        transition: transform .15s;
+        background-image: url('../../../asset/images/arrow-top-grey.png'); // image size 20 * 12px
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 10px 6px;
+      }
+
+      &--trigger.is-open::after {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+      }
+    }
+
+    > .dish-price {
+      font-size: 18px;
+      font-weight: bold;
+      line-height: $counter-size;
+      float: left;
+      width: $dish-price-width;
+      padding: $item-padding 0;
+      color: $color-neon-carrot;
+
+      &::before {
+        font-size: 12px;
+        line-height: 1;
+        vertical-align: 1px;
+      }
+    }
+
+    > .counter {
+      padding: $item-padding 0;
+    }
+  }
+
+}
+
+
+// ordered-dish-dropdown box
+.ordered-dish-dropdown {
+  padding: 0 0 8px;
+}
+
+// dropdown entry
+.child-dish-info {
+  padding: 8px 5px;
+  color: $color-dusty-grey;
+  border-top: 1px solid $color-mercury;
+}
+
+.child-dish-name {
+  font-size: 14px;
+  line-height: 20px;
+  float: left;
+  max-width: 50%;
+  color: $color-mine-shaft;
+}
+
+.child-dish-count {
+  font-size: 12px;
+  line-height: 20px;
+  float: right;
+  width: 26px;
+  margin-right: $counter-size - 5px; // 5px minus parent padding-right
+  text-align: center;
+
+  + .ordered-dish-dropdown {
+    padding-top: 6px;
+    padding-bottom: 0;
+  }
+}
+
+// ordered-dish-dropdown description
+.detail-props-info {
+  font-size: 12px;
+  line-height: 16px;
+  display: block;
+  clear: both;
+  color: $color-dusty-grey;
+}

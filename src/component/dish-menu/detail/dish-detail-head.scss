@@ -1,13 +1,13 @@
 @import 'settings.colors';
 @import 'settings.sizes';
 
-.dish-detail-item {
+.dish-detail-head {
   overflow: hidden;
   padding: 8px;
   border-bottom: 1px solid $color-mercury;
   background: $color-white;
 
-  &-main {
+  > .head-main {
     float: left;
     max-width: calc(100% - #{$counter-max-width});
 

@@ -13,7 +13,6 @@ html {
 }
 
 body {
-  font-size: 16px;
   margin: 0;
 }
 
@@ -24,6 +23,10 @@ a {
   -webkit-tap-highlight-color: $tap-highlight-color;
   cursor: pointer;
   outline: 0;
+}
+
+li {
+  -webkit-tap-highlight-color: $tap-highlight-color;
 }
 
 img {

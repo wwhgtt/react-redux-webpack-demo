@@ -19,7 +19,6 @@ module.exports = {
     filename: '[name].js',
     publicPath: `http://${process.env.DEV_HOST}:3000/`,
   },
-  devtool: ['source-map'],
   module: {
     loaders: [
       {
