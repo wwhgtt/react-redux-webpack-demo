@@ -16,11 +16,7 @@ const DishMenuApplication = React.createClass({
     activeDishType: React.PropTypes.func.isRequired,
     orderDish: React.PropTypes.func.isRequired,
     showDishDetail: React.PropTypes.func.isRequired,
-<<<<<<< HEAD
-    onBillBtnTap: React.PropTypes.func.isRequired,
-=======
     setDishCookie: React.PropTypes.func.isRequired,
->>>>>>> a122004ab61e22201bf3912cbcc3b01306e09d0b
     // MapedStatesToProps
     activeDishTypeId: React.PropTypes.number.isRequired,
     dishTypesData: React.PropTypes.array,
@@ -50,9 +46,9 @@ const DishMenuApplication = React.createClass({
           dishTypesData={dishTypesData} dishesData={dishesData}
           activeDishTypeId={activeDishTypeId} onScroll={activeDishType} onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail}
         />
-        <CartContainer dishesData={dishesData} onOrderBtnTap={orderDish} onBillBtnTap={setDishCookie} />
+        <CartContainer dishes={dishesData} onOrderBtnTap={orderDish} onBillBtnTap={setDishCookie} />
           {dishDetailData !== undefined ?
-            <DishDetailContainer dishData={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />
+            <DishDetailContainer dish={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />
             : false
           }
       </div>

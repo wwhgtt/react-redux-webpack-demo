@@ -36,7 +36,6 @@ exports.fetchMenuData = () => (dispatch, getStates) => {
 exports.setDishCookie = () => (dispatch, getStates) => {
   const dishesData = getStates().dishesData;
   const ordersData = helper.getOrderedDishes(dishesData);
-  // console.log(ordersData);
   // 下面开始区分套餐cookie和单品菜cookie
   ordersData.map(orderData => helper.setCookieFromData(orderData));
 };
