@@ -1,5 +1,6 @@
 const React = require('react');
 const Immutable = require('seamless-immutable');
+const classnames = require('classnames');
 const helper = require('../../../../helper/dish-hepler');
 const DishDetailHead = require('../dish-detail-head.jsx');
 const GroupsBar = require('./groups-bar.jsx');
@@ -45,6 +46,7 @@ module.exports = React.createClass({
     return {
       activeGroupIdx:0,
       dish: dishForDetail,
+      toast: 0,
     };
   },
   componentDidUpdate() {
@@ -85,11 +87,27 @@ module.exports = React.createClass({
   onAddToCarBtnTap() {
     const { onAddToCarBtnTap } = this.props;
     const { dish } = this.state;
+    const isOverRestriction = dish.order[0].groups.some(dishGroup =>
+      dishGroup.childInfos.length > dishGroup.orderMax || dishGroup.childInfos.length < dishGroup.orderMin
+    );
+
+    if (isOverRestriction) {
+      this.showToast();
+      return false;
+    }
+
     if (helper.getDishesCount([dish]) > 0) {
       onAddToCarBtnTap(dish);
       return true;
     }
     return false;
+  },
+  showToast() {
+    this.setState({ toast:1 });
+
+    setTimeout(() => {
+      this.setState({ toast:0 });
+    }, 3000);
   },
   buildGroupDishes(groupData) {
     const remainCount = groupData.orderMax - helper.getDishesCount(groupData.childInfos);
@@ -110,6 +128,12 @@ module.exports = React.createClass({
           {activeGroupDishes}
         </div>
         <button className="dish-detail-addtocart btn--yellow" onTouchTap={this.onAddToCarBtnTap}>加入购物车</button>
+        {
+          this.state.toast === 1 ?
+            <div className={classnames('toast')}><span className="toast-content">套餐份数超出可选范围</span></div>
+          :
+          false
+        }
       </div>
     );
   },
