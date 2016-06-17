@@ -1,6 +1,5 @@
 const React = require('react');
 const Immutable = require('seamless-immutable');
-const classnames = require('classnames');
 const helper = require('../../../../helper/dish-hepler');
 const DishDetailHead = require('../dish-detail-head.jsx');
 const GroupsBar = require('./groups-bar.jsx');
@@ -130,7 +129,7 @@ module.exports = React.createClass({
         <button className="dish-detail-addtocart btn--yellow" onTouchTap={this.onAddToCarBtnTap}>加入购物车</button>
         {
           this.state.toast === 1 ?
-            <div className={classnames('toast')}><span className="toast-content">套餐份数超出可选范围</span></div>
+            <div className="toast"}><span className="toast-content">套餐份数超出可选范围</span></div>
           :
           false
         }
