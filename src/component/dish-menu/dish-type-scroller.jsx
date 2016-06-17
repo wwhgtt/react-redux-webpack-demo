@@ -3,6 +3,7 @@ const { findDOMNode } = require('react-dom');
 const shallowCompare = require('react-addons-shallow-compare');
 const IScroll = require('iscroll');
 const DynamicClassLI = require('../mui/misc/dynamic-class-hoc.jsx')('li');
+const helper = require('../../helper/dish-hepler');
 require('./dish-type-scroller.scss');
 
 module.exports = React.createClass({
@@ -38,6 +39,14 @@ module.exports = React.createClass({
     onDishTypeElementTap(evt, dishTypeId);
   },
   buildDishTypeElements(activeDishTypeId, dishTypesData, dishesData) {
+    const getOrderedCountByType = (dishes, dishIds) => {
+      const orderedDishesByType = helper.getOrderedDishes(dishes).filter(dish =>
+        dishIds.indexOf(dish.id) > -1
+      );
+
+      return helper.getDishesCount(orderedDishesByType) || null;
+    };
+
     return (
       <ul className="dish-type-list">
         {dishTypesData.map((dishTypeData, idx) => {
@@ -46,7 +55,10 @@ module.exports = React.createClass({
           }
           return (
             <DynamicClassLI
-              key={idx} data-id={dishTypeData.id} isActive={activeDishTypeId === dishTypeData.id}
+              key={idx}
+              data-id={dishTypeData.id}
+              data-count={getOrderedCountByType(dishesData, dishTypeData.dishIds)}
+              isActive={activeDishTypeId === dishTypeData.id}
               className="dish-type-item"
               onTouchTap={this.onDishTypeElementTap}
             >

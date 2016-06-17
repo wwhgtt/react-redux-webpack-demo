@@ -70,6 +70,7 @@
 
 // ordered-dish-dropdown box
 .ordered-dish-dropdown {
+  clear: both;
   padding: 0 0 8px;
 }
 
@@ -107,6 +108,5 @@
   font-size: 12px;
   line-height: 16px;
   display: block;
-  clear: both;
   color: $color-dusty-grey;
 }
