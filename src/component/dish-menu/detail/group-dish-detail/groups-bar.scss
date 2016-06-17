@@ -106,6 +106,10 @@
     color: $color-white;
     border-radius: 8px;
     background: $color-alto;
+
+    &::after {
+      content: attr(data-count);
+    }
   }
 
   &.is-active > &-text,
@@ -119,5 +123,10 @@
 
   &.is-error > &-badge {
     background: $color-radical-red;
+
+    &::after {
+      font-weight: bold;
+      content: '!';
+    }
   }
 }
