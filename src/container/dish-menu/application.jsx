@@ -48,7 +48,7 @@ const DishMenuApplication = React.createClass({
         />
         <CartContainer dishes={dishesData} onOrderBtnTap={orderDish} onBillBtnTap={setDishCookie} />
           {dishDetailData !== undefined ?
-            <DishDetailContainer dishData={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />
+            <DishDetailContainer dish={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />
             : false
           }
       </div>
