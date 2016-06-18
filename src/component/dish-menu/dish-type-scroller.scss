@@ -21,13 +21,13 @@
   -webkit-tap-highlight-color: $tap-highlight-color;
 
   &::after {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: bold;
     line-height: 16px;
     position: absolute;
     top: 0;
     right: 0;
-    padding: 0 .5em;
+    padding: 0 .4em;
     content: attr(data-count);
     color: $color-white;
     border-radius: 8px;
