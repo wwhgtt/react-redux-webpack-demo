@@ -13,10 +13,16 @@ module.exports = React.createClass({
   buildGroupElements(activeGroupIdx, groups, onGroupTap) {
     const groupElements = groups.map((groupData, idx) => {
       const { id, name, orderMin, orderMax } = groupData;
+      const isOverRestriction = (data) => {
+        const orderedCount = helper.getDishesCount(data);
+        if (orderedCount > orderMax || orderedCount < orderMin) return true;
+        return false;
+      };
+
       return (
         <li
           key={id} data-idx={idx}
-          className={classnames('group', { 'is-active':activeGroupIdx === idx })}
+          className={classnames('group', { 'is-active':activeGroupIdx === idx, 'is-error':isOverRestriction(groupData.childInfos) })}
           style={{ width: `${1 / groups.length * 100}%` }}
           onTouchTap={onGroupTap}
         >
@@ -27,7 +33,7 @@ module.exports = React.createClass({
               {orderMax}份
             </small>
           </div>
-          <span className="group-badge">{helper.getDishesCount(groupData.childInfos)}</span>
+          <span className="group-badge" data-count={helper.getDishesCount(groupData.childInfos)}></span>
         </li>);
     });
     return groupElements;
