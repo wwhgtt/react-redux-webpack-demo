@@ -161,7 +161,7 @@ const setCookieFuc = exports.setCookieFuc = function (name, value) {
   const Days = 30;
   const exp = new Date();
   exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
-  document.cookie = `${name}=${escape(value)};expires=${exp.toGMTString()}`;
+  document.cookie = `${name}=${value};expires=${exp.toGMTString()}`;
 };
 // 套餐里面groups的判断
 const getWhichGroup = exports.getWhichGroup = function (data) {
@@ -190,12 +190,22 @@ const getWhichGroup = exports.getWhichGroup = function (data) {
   }
   return extra.join('#');
 };
-
+const getQueryStr = function (type) {
+  const reg = new RegExp(`(^|&)${type}=([^&]*)(&|$)`, 'i');
+  const r = window.location.search.replace(/\?/g, '&').substr(1).match(reg);
+  if (r != null) {
+    return (r[2]);
+  } return null;
+};
+// 获取链接中的参数设置区分TS和WM
+const getFoodType = exports.getFoodType = function (type) {
+  return getQueryStr(type);
+};
 exports.setCookieFromData = function (orderData) {
   if (isGroupDish(orderData)) {
     // 套餐cookie
-    console.log(orderData.order[0].groups);
-    const complexCookieName = `TS_${orderData.brandDishId}_${orderData.id}_`
+    const type = getFoodType('type');
+    const complexCookieName = `${type}_${orderData.brandDishId}_${orderData.id}_`
     + `${getWhichGroup(orderData.order[0].groups)}`;
     const complexCookieValue = `${orderIsArray(orderData.order[0].count)}`
     + `|${orderData.marketPrice} `;
@@ -203,12 +213,13 @@ exports.setCookieFromData = function (orderData) {
   } else {
     // 单品cookie  配料ID 做法备注口味id
     // console.log(orderData);
-    const signalCookieName = `TS_${orderData.brandDishId}_${orderData.id}_`
+    const type = getFoodType('type');
+    const signalCookieName = `${type}_${orderData.brandDishId}_${orderData.id}_`
     + `${orderData.id}|1-${haveReMark(orderData.order)}-`
     + `${howToWork(orderData.order)}`;
     const signalCookieValue = `${orderIsArray(orderData.order)}`
     + `|${orderData.marketPrice} `;
-    console.log(signalCookieValue);
     setCookieFuc(signalCookieName, signalCookieValue);
   }
 };
+

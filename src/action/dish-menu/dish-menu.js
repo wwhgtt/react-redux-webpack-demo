@@ -16,7 +16,15 @@ exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => {
   return dishTypeId;
 });
 exports.fetchMenuData = () => (dispatch, getStates) => {
-  fetch(config.dishMenuAPI, {
+  const type = helper.getFoodType('type');
+  const shopId = helper.getFoodType('shopId');
+  let url = '';
+  if (type === 'TS') {
+    url = `${config.dishMenuAPI}?type=TS&shopId=${shopId}`;
+  } else {
+    url = `http://devweixin.shishike.com/takeaway/dishAll.json?type=MW&shopId=${shopId}`;
+  }
+  fetch(url, {
     method: 'GET', mod: 'cors',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
   }).
