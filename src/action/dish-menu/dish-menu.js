@@ -22,8 +22,9 @@ exports.fetchMenuData = () => (dispatch, getStates) => {
   if (type === 'TS') {
     url = `${config.dishMenuAPI}?type=TS&shopId=${shopId}`;
   } else {
-    url = `http://devweixin.shishike.com/takeaway/dishAll.json?type=MW&shopId=${shopId}`;
+    url = `${config.dishMenuAPI}?type=TS&shopId=${shopId}`;
   }
+  // `http://devweixin.shishike.com/takeaway/dishAll.json?type=MW&shopId=${shopId}`;
   fetch(url, {
     method: 'GET', mod: 'cors',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
