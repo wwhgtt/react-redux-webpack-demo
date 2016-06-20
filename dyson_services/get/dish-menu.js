@@ -1,6 +1,6 @@
 /* eslint-disable quote-props */
 module.exports = {
-  path: '/dish-menu',
+  path: '/orderall/dishAll.json',
   template: {
     'data': {
       'dishTypeList': [{

@@ -2,12 +2,13 @@ let apiBase;
 
 switch (process.env.NODE_ENV) {
   case 'production':
-    apiBase = 'http://192.168.11.55:3001/';
+    apiBase = 'http://devweixin.shishike.com';
     break;
   default:
-    apiBase = 'http://192.168.11.55:3001/';
+    apiBase = `http://${process.env.DEV_HOST}:3001`;
 }
 
 module.exports = {
-  dishMenuAPI: `${apiBase}dish-menu`,
+  takeawayMenuAPI: `${apiBase}/takeaway/dishAll.json`,
+  orderallMenuAPI: `${apiBase}/orderall/dishAll.json`,
 };

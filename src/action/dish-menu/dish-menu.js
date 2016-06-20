@@ -20,11 +20,10 @@ exports.fetchMenuData = () => (dispatch, getStates) => {
   const shopId = helper.getUrlParam('shopId');
   let url = '';
   if (type === 'TS') {
-    url = `${config.dishMenuAPI}?type=TS&shopId=${shopId}`;
+    url = `${config.orderallMenuAPI}?shopId=${shopId}`;
   } else {
-    url = `${config.dishMenuAPI}?type=TS&shopId=${shopId}`;
+    url = `${config.takeawayMenuAPI}?shopId=${shopId}`;
   }
-  // `http://devweixin.shishike.com/takeaway/dishAll.json?type=MW&shopId=${shopId}`;
   fetch(url, {
     method: 'GET', mod: 'cors',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
