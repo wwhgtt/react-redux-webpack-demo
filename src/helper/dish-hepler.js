@@ -104,46 +104,20 @@ const haveReMark = exports.haveReMark = function (order) {
       // 代表没有配料
   } return '';
 };
+const getOrderPropIds = function (order) {
+  const { dishPropertyTypeInfos, dishIngredientInfos } = order;
+  const propsIds = [].concat.apply([], dishPropertyTypeInfos.map(
+    prop => prop.properties.filter(
+      property => property.isChecked
+    ).map(
+      property => property.id
+    )
+  ));
+  const ingredientIds = dishIngredientInfos.filter(
+    ingredient => ingredient.isChecked
+  ).map(ingredient => ingredient.id);
 
-// 判断做法备注等等
-const howToWork = exports.howToWork = function (order) {
-  if (order instanceof Array) {
-    const dishPropertyTypeInfos = order[0].dishPropertyTypeInfos;
-    if (dishPropertyTypeInfos.length !== 0) {
-      for (let i = 0; i < dishPropertyTypeInfos.length; i++) {
-        const infomation = [];
-        if (dishPropertyTypeInfos[i].type === 3) {
-          // 代表备注信息
-          const properties = dishPropertyTypeInfos[i].properties;
-          if (properties && properties.length !== 0) {
-            for (let j = 0; j < properties.length; j++) {
-              if (properties[j].isChecked) {
-                infomation.push(properties[j].id);
-              }
-            }
-          }
-        } else if (dishPropertyTypeInfos[i].type === 1) {
-          // 代表做法信息
-          const properties = dishPropertyTypeInfos[i].properties;
-          if (properties && properties.length !== 0) {
-            for (let j = 0; j < properties.length; j++) {
-              if (properties[j].isChecked) {
-                infomation.push(properties[j].id);
-              }
-            }
-          }
-        }
-        return infomation.join('ˆ');
-      }
-    } else {
-      // 没有备注做法信息
-      return '';
-    }
-  } else {
-    // 表示order是数量
-    return '';
-  }
-  return true;
+  return [propsIds, ingredientIds];
 };
 
 // 判断order是不是数组
@@ -186,16 +160,13 @@ const getWhichGroup = exports.getWhichGroup = function (data) {
   }
   return extra.join('#');
 };
-const getQueryStr = function (type) {
-  const reg = new RegExp(`(^|&)${type}=([^&]*)(&|$)`, 'i');
+const getUrlParam = function (param) {
+  const reg = new RegExp(`(^|&)${param}=([^&]*)(&|$)`, 'i');
   const r = window.location.search.replace(/\?/g, '&').substr(1).match(reg);
   if (r != null) {
     return (r[2]);
-  } return null;
-};
-// 获取链接中的参数设置区分TS和WM
-const getFoodType = exports.getFoodType = function (type) {
-  return getQueryStr(type);
+  }
+  return false;
 };
 exports.setCookieFromData = function (orderData) {
   if (isGroupDish(orderData)) {
@@ -219,3 +190,15 @@ exports.setCookieFromData = function (orderData) {
   }
 };
 
+exports.getDishCookieString = function (dish, orderIdx) {
+  const isSingleDish = !isGroupDish(dish);
+  const consumeType = getUrlParam('type');
+  const shopId = getUrlParam('shopId');
+  const { id, marketPrice } = dish;
+  const dishCount = getDishesCount([dish]);
+  const childDishCount = isGroupDish ? -1 : 1;
+  const propIds = isSingleDishWithoutProps(dish) ? [] : getOrderPropIds(dish.order[orderIdx]);
+  if (isSingleDish) {
+    return `${consumeType}_${shopId}_${id}_${id}|${childDishCount}-${propIds[1].join('^')}-${propIds[0].join('^')}=${dishCount}|${marketPrice}`;
+  }
+};
