@@ -17,7 +17,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist'),
     filename: '[name].js',
-    publicPath: `http://${process.env.DEV_HOST}:3000/`,
+    publicPath: `http://${process.env.PROD_HOST}/`,
   },
   module: {
     loaders: [
@@ -48,6 +48,11 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
+      },
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
       },
     }),
   ],
