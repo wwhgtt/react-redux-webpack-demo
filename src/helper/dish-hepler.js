@@ -103,7 +103,7 @@ const getOrderPropIds = function (order) {
   return [propsIds, ingredientIds];
 };
 // setCookie
-const setCookieFuc = exports.setCookieFuc = function (name, value) {
+exports.setCookie = function (name, value) {
   const Days = 30;
   const exp = new Date();
   exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
@@ -117,30 +117,27 @@ const getUrlParam = exports.getUrlParam = function (param) {
   }
   return null;
 };
-exports.getDishCookieString = function (dish, orderIdx) {
+exports.getDishCookieObject = function (dish, orderIdx) {
   const isSingleDish = !isGroupDish(dish);
   const consumeType = getUrlParam('type');
   const shopId = getUrlParam('shopId');
   const { id, marketPrice } = dish;
   const dishCount = getDishesCount([dish]);
   if (isSingleDish) {
-    const propIds = isSingleDishWithoutProps(dish) ? [] : getOrderPropIds(dish.order[orderIdx]);
-    const spliceResultOfPropIds = propIds.length === 0 ? '-' : `${propIds[0].join('^')}-${propIds[1].join('^')}`;
-    const name = `${consumeType}_${shopId}_${id}_${id}|1-${spliceResultOfPropIds}`;
-    const value = `${dishCount}|${marketPrice}`;
-    setCookieFuc(name, value);
-  } else {
-    const splitPropsIds = [].concat.apply([], dish.order[orderIdx].groups.map(group => {
-      const groupId = group.id;
-      const result = group.childInfos.map(childInfo => {
-        const propIds = isSingleDishWithoutProps(childInfo) ? [] : getOrderPropIds(childInfo.order[orderIdx]);
-        const spliceResultOfPropIds = propIds.length === 0 ? '-' : `${propIds[0].join('^')}-${propIds[1].join('^')}`;
-        return `${childInfo.id}A${groupId}|${getDishesCount([childInfo])}-${spliceResultOfPropIds}`;
-      });
-      return [].concat.apply([], result);
-    }));
-    const name = `${consumeType}_${shopId}_${id}_${splitPropsIds.join('#')}`;
-    const value = `${dishCount}|${marketPrice}`;
-    setCookieFuc(name, value);
+    const spliceResultOfPropIds = isSingleDishWithoutProps(dish)
+     ? '-' :
+      `${getOrderPropIds(dish.order[orderIdx])[0].join('^')}-${getOrderPropIds(dish.order[orderIdx])[1].join('^')}`;
+    return { key : `${consumeType}_${shopId}_${id}_${id}|1-${spliceResultOfPropIds}`, value : `${dishCount}|${marketPrice}` };
   }
+  const splitPropsIds = [].concat.apply([], dish.order[orderIdx].groups.map(group => {
+    const groupId = group.id;
+    const result = group.childInfos.map(childInfo => {
+      const spliceResultOfPropIds = isSingleDishWithoutProps(childInfo)
+       ? '-' :
+        `${getOrderPropIds(childInfo.order[orderIdx])[0].join('^')}-${getOrderPropIds(childInfo.order[orderIdx])[1].join('^')}`;
+      return `${childInfo.id}A${groupId}|${getDishesCount([childInfo])}-${spliceResultOfPropIds}`;
+    });
+    return [].concat.apply([], result);
+  }));
+  return { key : `${consumeType}_${shopId}_${id}_${splitPropsIds.join('#')}`, value : `${dishCount}|${marketPrice}` };
 };

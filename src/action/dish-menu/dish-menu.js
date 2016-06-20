@@ -49,10 +49,12 @@ exports.setDishCookie = () => (dispatch, getStates) => {
   orderedData.map(orderData => {
     if (!helper.isSingleDishWithoutProps(orderData)) {
       for (let index in orderData.order) {
-        helper.getDishCookieString(orderData, index);
+        const setPackageDishCookie = helper.getDishCookieString(orderData, index);
+        helper.setCookie(setPackageDishCookie.key, setPackageDishCookie.value);
       }
       return true;
     }
-    return helper.getDishCookieString(orderData, 0);
+    const setSignleDishCookie = helper.getDishCookieString(orderData, 0);
+    return helper.setCookie(setSignleDishCookie.key, setSignleDishCookie.value);
   });
 };
