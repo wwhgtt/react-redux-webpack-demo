@@ -106,9 +106,6 @@ const haveReMark = exports.haveReMark = function (order) {
 };
 
 // 判断做法备注等等
-// exports.getOrderPropsInfoIds = function (order) {
-//   const { dishPropertyTypeInfos, dishIngredientInfos } = order;
-// };
 const howToWork = exports.howToWork = function (order) {
   if (order instanceof Array) {
     const dishPropertyTypeInfos = order[0].dishPropertyTypeInfos;
