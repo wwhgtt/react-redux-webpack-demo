@@ -2,7 +2,7 @@ const config = require('../../config');
 const createAction = require('redux-actions').createAction;
 require('es6-promise');
 require('isomorphic-fetch');
-
+const helper = require('../../helper/dish-hepler');
 const setMenuData = createAction('SET_MENU_DATA', menuData => menuData);
 exports.showDishDetail = createAction('SHOW_DISH_DETAIL', dishData => dishData);
 exports.orderDish = createAction('ORDER_DISH', (dishData, action) => [dishData, action]);
@@ -16,7 +16,16 @@ exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => {
   return dishTypeId;
 });
 exports.fetchMenuData = () => (dispatch, getStates) => {
-  fetch(config.dishMenuAPI, {
+  const type = helper.getUrlParam('type');
+  const shopId = helper.getUrlParam('shopId');
+  let url = '';
+  if (type === 'TS') {
+    url = `${config.dishMenuAPI}?type=TS&shopId=${shopId}`;
+  } else {
+    url = `${config.dishMenuAPI}?type=TS&shopId=${shopId}`;
+  }
+  // `http://devweixin.shishike.com/takeaway/dishAll.json?type=MW&shopId=${shopId}`;
+  fetch(url, {
     method: 'GET', mod: 'cors',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
   }).
@@ -32,4 +41,20 @@ exports.fetchMenuData = () => (dispatch, getStates) => {
     catch(err => {
       throw err;
     });
+};
+exports.setDishCookie = () => (dispatch, getStates) => {
+  const dishesData = getStates().dishesData;
+  const orderedData = helper.getOrderedDishes(dishesData);
+  // 下面开始区分套餐cookie和单品菜cookie
+  orderedData.map(orderData => {
+    if (!helper.isSingleDishWithoutProps(orderData)) {
+      for (let index in orderData.order) {
+        const setPackageDishCookie = helper.getDishCookieObject(orderData, index);
+        helper.setCookie(setPackageDishCookie.key, setPackageDishCookie.value);
+      }
+      return true;
+    }
+    const setSignleDishCookie = helper.getDishCookieObject(orderData, 0);
+    return helper.setCookie(setSignleDishCookie.key, setSignleDishCookie.value);
+  });
 };
