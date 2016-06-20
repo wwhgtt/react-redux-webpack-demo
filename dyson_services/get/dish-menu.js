@@ -147,7 +147,7 @@ module.exports = {
                 'name': '清淡',
                 'reprice': 0.0,
                 'isChecked': false,
-              },],
+              }],
             }, {
               'id': 14,
               'name': '做法类别1',
@@ -195,7 +195,7 @@ module.exports = {
         }, {
           'id': 2936,
           'name': '分组2',
-          'orderMin': 2.0,
+          'orderMin': 1.0,
           'orderMax': 6.0,
           'childInfos': [{
             'id': 64,
@@ -259,9 +259,9 @@ module.exports = {
             'id': 61008,
             'name': '奶昔',
             'marketPrice': 0.0,
-            'leastCellNum': 2.0,
-            'isReplace': 2,
-            'isDefault': 2,
+            'leastCellNum': 1.0,
+            'isReplace': 1,
+            'isDefault': 1,
             'isMulti': 1,
             'dishPropertyTypeInfos': [],
             'dishIngredientInfos': [],

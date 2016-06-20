@@ -88,70 +88,19 @@ exports.getNewCountOfDish = function (dish, increment) {
 
   return newCount;
 };
-// 判断菜品配料等是否为空
-const haveReMark = exports.haveReMark = function (order) {
-  if (order instanceof Array) {
-    const dishIngredientInfos = order[0].dishIngredientInfos;
-    if (dishIngredientInfos.length !== 0) {
-      const ingredient = [];
-      for (let i = 0; i < dishIngredientInfos.length; i++) {
-        if (dishIngredientInfos[i].isChecked) {
-          ingredient.push(dishIngredientInfos[i].id);
-        }
-      }
-      return ingredient.join('ˆ');
-    } return '';
-      // 代表没有配料
-  } return '';
-};
-
-// 判断做法备注等等
-const howToWork = exports.howToWork = function (order) {
-  if (order instanceof Array) {
-    const dishPropertyTypeInfos = order[0].dishPropertyTypeInfos;
-    if (dishPropertyTypeInfos.length !== 0) {
-      for (let i = 0; i < dishPropertyTypeInfos.length; i++) {
-        const infomation = [];
-        if (dishPropertyTypeInfos[i].type === 3) {
-          // 代表备注信息
-          const properties = dishPropertyTypeInfos[i].properties;
-          if (properties && properties.length !== 0) {
-            for (let j = 0; j < properties.length; j++) {
-              if (properties[j].isChecked) {
-                infomation.push(properties[j].id);
-              }
-            }
-          }
-        } else if (dishPropertyTypeInfos[i].type === 1) {
-          // 代表做法信息
-          const properties = dishPropertyTypeInfos[i].properties;
-          if (properties && properties.length !== 0) {
-            for (let j = 0; j < properties.length; j++) {
-              if (properties[j].isChecked) {
-                infomation.push(properties[j].id);
-              }
-            }
-          }
-        }
-        return infomation.join('ˆ');
-      }
-    } else {
-      // 没有备注做法信息
-      return '';
-    }
-  } else {
-    // 表示order是数量
-    return '';
-  }
-  return true;
-};
-
-// 判断order是不是数组
-const orderIsArray = exports.orderIsArray = function (data) {
-  if (data instanceof Array) {
-    return data[0].count;
-  }
-  return data;
+const getOrderPropIds = function (order) {
+  const { dishPropertyTypeInfos, dishIngredientInfos } = order;
+  const propsIds = [].concat.apply([], dishPropertyTypeInfos.map(
+    prop => prop.properties.filter(
+      property => property.isChecked
+    ).map(
+      property => property.id
+    )
+  ));
+  const ingredientIds = dishIngredientInfos.filter(
+    ingredient => ingredient.isChecked
+  ).map(ingredient => ingredient.id);
+  return [propsIds, ingredientIds];
 };
 // setCookie
 const setCookieFuc = exports.setCookieFuc = function (name, value) {
@@ -160,63 +109,50 @@ const setCookieFuc = exports.setCookieFuc = function (name, value) {
   exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
   document.cookie = `${name}=${value};expires=${exp.toGMTString()}`;
 };
-// 套餐里面groups的判断
-const getWhichGroup = exports.getWhichGroup = function (data) {
-  const extra = [];
-  for (let i = 0; i < data.length; i ++) {
-    // 这是分组ID,还需要配料等ID
-    const groupId = data[i].id;
-    const childInfos = data[i].childInfos;
-    for (let j = 0; j < childInfos.length; j++) {
-      // 获取子菜ID
-      const dishId = childInfos[j].id;
-      if (childInfos[j].order) {
-        const dishString = `${dishId}A${groupId}|`;
-        const orderInfo = childInfos[j].order;
-        if (orderInfo instanceof Array) {
-          // 数量 配菜  做法／备注
-          const count = `${orderInfo[0].count}`;
-          if (count) {
-            extra.push(`${dishString}${count}-${haveReMark(orderInfo)}-${howToWork(orderInfo)}`);
-          }
-        } else {
-          extra.push(`${dishString}${orderInfo}--`);
-        }
-      }
-    }
-  }
-  return extra.join('#');
-};
-const getQueryStr = function (type) {
-  const reg = new RegExp(`(^|&)${type}=([^&]*)(&|$)`, 'i');
+const getUrlParam = exports.getUrlParam = function (param) {
+  const reg = new RegExp(`(^|&)${param}=([^&]*)(&|$)`, 'i');
   const r = window.location.search.replace(/\?/g, '&').substr(1).match(reg);
   if (r != null) {
     return (r[2]);
-  } return null;
+  }
+  return null;
 };
-// 获取链接中的参数设置区分TS和WM
-const getFoodType = exports.getFoodType = function (type) {
-  return getQueryStr(type);
-};
-exports.setCookieFromData = function (orderData) {
-  if (isGroupDish(orderData)) {
-    // 套餐cookie
-    const type = getFoodType('type');
-    const complexCookieName = `${type}_${orderData.brandDishId}_${orderData.id}_`
-    + `${getWhichGroup(orderData.order[0].groups)}`;
-    const complexCookieValue = `${orderIsArray(orderData.order[0].count)}`
-    + `|${orderData.marketPrice} `;
-    setCookieFuc(complexCookieName, complexCookieValue);
+exports.getDishCookieString = function (dish, orderIdx) {
+  const isSingleDish = !isGroupDish(dish);
+  const consumeType = getUrlParam('type');
+  const shopId = getUrlParam('shopId');
+  const { id, marketPrice } = dish;
+  const dishCount = getDishesCount([dish]);
+  if (isSingleDish) {
+    const propIds = isSingleDishWithoutProps(dish) ? [] : getOrderPropIds(dish.order[orderIdx]);
+    const arrayIsEmpty = function (array) {
+      if (array.length === 0) {
+        return true;
+      }
+      return false;
+    };
+    const spliceResultOfPropIds = arrayIsEmpty(propIds) ? '-' : `${propIds[0].join('^')}-${propIds[1].join('^')}`;
+    const name = `${consumeType}_${shopId}_${id}_${id}|1-${spliceResultOfPropIds}`;
+    const value = `${dishCount}|${marketPrice}`;
+    setCookieFuc(name, value);
   } else {
-    // 单品cookie  配料ID 做法备注口味id
-    // console.log(orderData);
-    const type = getFoodType('type');
-    const signalCookieName = `${type}_${orderData.brandDishId}_${orderData.id}_`
-    + `${orderData.id}|1-${haveReMark(orderData.order)}-`
-    + `${howToWork(orderData.order)}`;
-    const signalCookieValue = `${orderIsArray(orderData.order)}`
-    + `|${orderData.marketPrice} `;
-    setCookieFuc(signalCookieName, signalCookieValue);
+    const splitPropsIds = [].concat.apply([], dish.order[orderIdx].groups.map(group => {
+      const groupId = group.id;
+      const result = group.childInfos.map(childInfo => {
+        const propIds = isSingleDishWithoutProps(childInfo) ? [] : getOrderPropIds(childInfo.order[orderIdx]);
+        const arrayIsEmpty = function (array) {
+          if (array.length === 0) {
+            return true;
+          }
+          return false;
+        };
+        const spliceResultOfPropIds = arrayIsEmpty(propIds) ? '-' : `${propIds[0].join('^')}-${propIds[1].join('^')}`;
+        return `${childInfo.id}A${groupId}|${getDishesCount([childInfo])}-${spliceResultOfPropIds}`;
+      });
+      return [].concat.apply([], result);
+    }));
+    const name = `${consumeType}_${shopId}_${id}_${splitPropsIds.join('#')}`;
+    const value = `${dishCount}|${marketPrice}`;
+    setCookieFuc(name, value);
   }
 };
-

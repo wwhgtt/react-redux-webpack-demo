@@ -16,8 +16,8 @@ exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => {
   return dishTypeId;
 });
 exports.fetchMenuData = () => (dispatch, getStates) => {
-  const type = helper.getFoodType('type');
-  const shopId = helper.getFoodType('shopId');
+  const type = helper.getUrlParam('type');
+  const shopId = helper.getUrlParam('shopId');
   let url = '';
   if (type === 'TS') {
     url = `${config.dishMenuAPI}?type=TS&shopId=${shopId}`;
@@ -42,10 +42,17 @@ exports.fetchMenuData = () => (dispatch, getStates) => {
       throw err;
     });
 };
-
 exports.setDishCookie = () => (dispatch, getStates) => {
   const dishesData = getStates().dishesData;
-  const ordersData = helper.getOrderedDishes(dishesData);
+  const orderedData = helper.getOrderedDishes(dishesData);
   // 下面开始区分套餐cookie和单品菜cookie
-  ordersData.map(orderData => helper.setCookieFromData(orderData));
+  orderedData.map(orderData => {
+    if (!helper.isSingleDishWithoutProps(orderData)) {
+      for (let index in orderData.order) {
+        helper.getDishCookieString(orderData, index);
+      }
+      return true;
+    }
+    return helper.getDishCookieString(orderData, 0);
+  });
 };
