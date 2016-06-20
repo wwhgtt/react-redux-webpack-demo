@@ -86,9 +86,10 @@ module.exports = React.createClass({
   onAddToCarBtnTap() {
     const { onAddToCarBtnTap } = this.props;
     const { dish } = this.state;
-    const isOverRestriction = dish.order[0].groups.some(dishGroup =>
-      dishGroup.childInfos.length > dishGroup.orderMax || dishGroup.childInfos.length < dishGroup.orderMin
-    );
+    const isOverRestriction = dish.order[0].groups.some(dishGroup => {
+      const orderedCount = helper.getDishesCount(helper.getOrderedDishes(dishGroup.childInfos));
+      return orderedCount > dishGroup.orderMax || orderedCount < dishGroup.orderMin;
+    });
 
     if (isOverRestriction) {
       this.showToast();
