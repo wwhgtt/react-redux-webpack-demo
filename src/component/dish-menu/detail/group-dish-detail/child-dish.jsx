@@ -127,7 +127,11 @@ module.exports = React.createClass({
             <div className="dish-dropdown">
               <div className="counter-container">
                 <span className="counter-label">份数：</span>
-                <Counter count={helper.getDishesCount([dish])} onCountChange={this.onCountChange} />
+                <Counter
+                  count={count}
+                  maximum={dish.isMulti ? count + remainCount : 1} minimum={dish.isReplace ? dish.leastCellNum : 0}
+                  onCountChange={this.onCountChange}
+                />
               </div>
               <DishPropsSelect
                 props={dish.order[0].dishPropertyTypeInfos} ingredients={dish.order[0].dishIngredientInfos}
