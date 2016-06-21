@@ -12,6 +12,7 @@ module.exports = React.createClass({
     onCartIconTap: React.PropTypes.func.isRequired,
     onOrderBtnTap: React.PropTypes.func.isRequired,
     orderedDishes: React.PropTypes.array,
+    onClearBtnTap: React.PropTypes.func.isRequired,
   },
   buildOrderedElements(orderedDishes, onOrderBtnTap) {
     function divideDishes(dishes) {
@@ -40,7 +41,7 @@ module.exports = React.createClass({
   },
   render() {
     const { dishesCount, totalPrice, onBillBtnTap, onOrderBtnTap,
-      onCartIconTap, orderedDishes } = this.props;
+      onCartIconTap, orderedDishes, onClearBtnTap } = this.props;
     const orderedElements = this.buildOrderedElements(orderedDishes, onOrderBtnTap);
     return (
       <div className="expand-cart">
@@ -49,7 +50,7 @@ module.exports = React.createClass({
         <div className="expand-cart-main">
           <div className="expand-cart-header">
             <a href="" className="cart-icon cart-icon--expand" onTouchTap={onCartIconTap} data-count={dishesCount}></a>
-            <a className="expand-cart-clear">清空购物车</a>
+            <a className="expand-cart-clear" onClick={onClearBtnTap}>清空购物车</a>
           </div>
 
           {orderedElements}
