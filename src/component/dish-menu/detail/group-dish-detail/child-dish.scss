@@ -15,9 +15,13 @@
     width: calc(100% - #{$counter-max-width});
   }
 
-  > .right {
+  .right {
     float: right;
     width: $counter-max-width;
+
+    .count-hide {
+      display: none;
+    }
   }
 }
 
