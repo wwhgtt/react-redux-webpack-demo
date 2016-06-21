@@ -30,4 +30,4 @@ https://github.com/brigade/overcommit#installation
     template=.zentao_hook/zentao-template.txt
 ```
 6. 执行 `export DEV_HOST=${你的本机 IP}`
-7. 执行 `npm run start`，并使用
+7. 执行 `npm run start`，并使用浏览器打开 http://${你的本机 IP}:3000/
