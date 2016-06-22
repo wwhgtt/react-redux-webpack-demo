@@ -10,7 +10,7 @@ const isGroupDish = exports.isGroupDish = function (dish) {
 exports.isChildDish = function (dish) {
   return dish.isChildDish;
 };
-exports.getOrderedDishes = function (dishes) {
+const getOrderedDishes = exports.getOrderedDishes = function (dishes) {
   return dishes.filter(dish => !(dish.order === undefined) || (dish.order && dish.order.length));
 };
 const getDishesCount = exports.getDishesCount = function (dishes) {
@@ -144,4 +144,30 @@ exports.getDishCookieObject = function (dish, orderIdx) {
     return [].concat.apply([], result);
   }));
   return { key : `${consumeType}_${shopId}_${id}_${splitPropsIds.join('#')}`, value : `${dishCount}|${marketPrice}` };
+};
+exports.storeDishesLocalStorage = function (data) {
+  let lastOrderedDishes = {
+    shopId: getUrlParam('shopId'),
+    dishes: {},
+  };
+
+  getOrderedDishes(data).forEach(dish => {
+    lastOrderedDishes.dishes[dish.id] = dish.order;
+  });
+
+  localStorage.setItem('lastOrderedDishes', JSON.stringify(lastOrderedDishes));
+};
+exports.restoreDishesLocalStorage = function (data) {
+  const lastOrderedDishes = JSON.parse(localStorage.getItem('lastOrderedDishes') || '{}');
+
+  if (lastOrderedDishes.hasOwnProperty('shopId') && lastOrderedDishes.shopId === getUrlParam('shopId')) {
+    data.dishList.forEach(dish => {
+      if (lastOrderedDishes.dishes.hasOwnProperty(dish.id)) {
+        dish.order = lastOrderedDishes.dishes[dish.id];
+      }
+    });
+  } else {
+    localStorage.removeItem('lastOrderedDishes');
+  }
+  return data;
 };

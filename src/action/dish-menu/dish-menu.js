@@ -4,8 +4,7 @@ require('es6-promise');
 require('isomorphic-fetch');
 const helper = require('../../helper/dish-hepler');
 const setMenuData = createAction('SET_MENU_DATA', menuData => menuData);
-const orderDishAction = createAction('ORDER_DISH', (dishData, action) => [dishData, action]);
-const removeAllDishesAction = createAction('REMOVE_ALL_DISHES');
+const _orderDish = createAction('ORDER_DISH', (dishData, action) => [dishData, action]);
 exports.showDishDetail = createAction('SHOW_DISH_DETAIL', dishData => dishData);
 exports.orderDish = createAction('ORDER_DISH', (dishData, action) => [dishData, action]);
 exports.removeAllOrders = createAction('REMOVE_ALL_ORDERS', orders => orders);
@@ -37,18 +36,7 @@ exports.fetchMenuData = () => (dispatch, getStates) => {
       return res.json();
     }).
     then(menuData => {
-      if (localStorage.getItem('lastShopId') === helper.getUrlParam('shopId')) {
-        const lastSelectedDishes = JSON.parse(localStorage.getItem('lastSelectedDishes'));
-        menuData.data.dishList.forEach(dish => {
-          if (lastSelectedDishes[dish.id]) {
-            dish.order = lastSelectedDishes[dish.id];
-          }
-        });
-      } else {
-        localStorage.removeItem('lastShopId');
-        localStorage.removeItem('lastSelectedDishes');
-      }
-      dispatch(setMenuData(menuData.data));
+      dispatch(setMenuData(helper.restoreDishesLocalStorage(menuData.data)));
     }).
     catch(err => {
       throw err;
@@ -56,22 +44,8 @@ exports.fetchMenuData = () => (dispatch, getStates) => {
 };
 
 exports.orderDish = (dishData, action) => (dispatch, getStates) => {
-  let lastSelectedDishes = {};
-
-  dispatch(orderDishAction(dishData, action));
-
-  helper.getOrderedDishes(getStates().dishesData).forEach(dish => {
-    lastSelectedDishes[dish.id] = dish.order;
-  });
-
-  localStorage.setItem('lastShopId', helper.getUrlParam('shopId'));
-  localStorage.setItem('lastSelectedDishes', JSON.stringify(lastSelectedDishes));
-};
-
-exports.removeAllDishes = () => (dispatch, getStates) => {
-  localStorage.removeItem('lastShopId');
-  localStorage.removeItem('lastSelectedDishes');
-  dispatch(removeAllDishesAction());
+  dispatch(_orderDish(dishData, action));
+  helper.storeDishesLocalStorage(getStates().dishesData);
 };
 
 exports.setDishCookie = () => (dispatch, getStates) => {
