@@ -148,6 +148,7 @@ exports.getDishCookieObject = function (dish, orderIdx) {
 exports.storeDishesLocalStorage = function (data) {
   let lastOrderedDishes = {
     shopId: getUrlParam('shopId'),
+    expires: Date.now() + 24 * 60 * 60 * 1000,
     dishes: {},
   };
 
@@ -163,14 +164,16 @@ const clearDishesLocalStorage = exports.clearDishesLocalStorage = function () {
 exports.restoreDishesLocalStorage = function (data) {
   const lastOrderedDishes = JSON.parse(localStorage.getItem('lastOrderedDishes') || '{}');
 
-  if (lastOrderedDishes.hasOwnProperty('shopId') && lastOrderedDishes.shopId === getUrlParam('shopId')) {
-    data.dishList.forEach(dish => {
-      if (lastOrderedDishes.dishes.hasOwnProperty(dish.id)) {
-        dish.order = lastOrderedDishes.dishes[dish.id];
-      }
-    });
-  } else {
-    clearDishesLocalStorage();
+  if (lastOrderedDishes.hasOwnProperty('shopId')) {
+    if (lastOrderedDishes.shopId === getUrlParam('shopId') && lastOrderedDishes.expires > Date.now()) {
+      data.dishList.forEach(dish => {
+        if (lastOrderedDishes.dishes.hasOwnProperty(dish.id)) {
+          dish.order = lastOrderedDishes.dishes[dish.id];
+        }
+      });
+    } else {
+      clearDishesLocalStorage();
+    }
   }
   return data;
 };
