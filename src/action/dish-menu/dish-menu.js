@@ -5,8 +5,8 @@ require('isomorphic-fetch');
 const helper = require('../../helper/dish-hepler');
 const setMenuData = createAction('SET_MENU_DATA', menuData => menuData);
 const _orderDish = createAction('ORDER_DISH', (dishData, action) => [dishData, action]);
+const _removeAllOrders = createAction('REMOVE_ALL_ORDERS', orders => orders);
 exports.showDishDetail = createAction('SHOW_DISH_DETAIL', dishData => dishData);
-exports.removeAllOrders = createAction('REMOVE_ALL_ORDERS', orders => orders);
 exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => {
   if (evt && /dish-type-item/.test(evt.target.className)) {
     window.__activeTypeByTap__ = true;
@@ -45,6 +45,11 @@ exports.fetchMenuData = () => (dispatch, getStates) => {
 exports.orderDish = (dishData, action) => (dispatch, getStates) => {
   dispatch(_orderDish(dishData, action));
   helper.storeDishesLocalStorage(getStates().dishesData);
+};
+
+exports.removeAllOrders = (orders) => (dispatch, getStates) => {
+  dispatch(_removeAllOrders(orders));
+  helper.clearDishesLocalStorage();
 };
 
 exports.setDishCookie = () => (dispatch, getStates) => {

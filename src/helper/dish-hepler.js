@@ -157,6 +157,9 @@ exports.storeDishesLocalStorage = function (data) {
 
   localStorage.setItem('lastOrderedDishes', JSON.stringify(lastOrderedDishes));
 };
+const clearDishesLocalStorage = exports.clearDishesLocalStorage = function () {
+  localStorage.removeItem('lastOrderedDishes');
+};
 exports.restoreDishesLocalStorage = function (data) {
   const lastOrderedDishes = JSON.parse(localStorage.getItem('lastOrderedDishes') || '{}');
 
@@ -167,7 +170,7 @@ exports.restoreDishesLocalStorage = function (data) {
       }
     });
   } else {
-    localStorage.removeItem('lastOrderedDishes');
+    clearDishesLocalStorage();
   }
   return data;
 };
