@@ -40,14 +40,23 @@ const getOrderPrice = exports.getOrderPrice = function (dish, orderData) {
   }
   // for nongroup dish, from this line.
   const rePriceProps = orderData.dishPropertyTypeInfos.filter(prop => prop.type !== 3);
+  const ingredientsPriceProps = orderData.dishIngredientInfos;
   const checkedRepricePropPrices = [].concat.apply(
     [], rePriceProps.map(
       rePriceProp => rePriceProp.properties.filter(prop => prop.isChecked).
         map(prop => prop.reprice)
     )
   );
+  const checkedIngredientsPropsPrice = [].concat.apply(
+    [], ingredientsPriceProps.filter(
+      ingredientsPriceProp => ingredientsPriceProp.isChecked
+    ).map(ingredientsPriceProp => ingredientsPriceProp.reprice)
+  );
   return Math.floor(orderData.count *
-    (dish.marketPrice + parseFloat(checkedRepricePropPrices.reduce((c, p) => c + p, 0))) * 100) / 100;
+    (dish.marketPrice +
+       parseFloat(checkedRepricePropPrices.reduce((c, p) => c + p, 0)) +
+       parseFloat(checkedIngredientsPropsPrice.reduce((c, p) => c + p, 0))
+    ) * 100) / 100;
 };
 const getDishPrice = exports.getDishPrice = function (dish) {
   if (isSingleDishWithoutProps(dish)) {
