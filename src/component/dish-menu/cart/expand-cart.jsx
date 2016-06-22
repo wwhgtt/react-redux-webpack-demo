@@ -45,7 +45,7 @@ module.exports = React.createClass({
     const orderedElements = this.buildOrderedElements(orderedDishes, onOrderBtnTap);
     return (
       <div className="expand-cart">
-        <div className="expand-cart-close"></div>
+        <div className="expand-cart-close" onTouchTap={onCartIconTap}></div>
 
         <div className="expand-cart-main">
           <div className="expand-cart-header">
