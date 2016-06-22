@@ -4,6 +4,7 @@ const helper = require('../../../../helper/dish-hepler');
 const Counter = require('../../../mui/counter.jsx');
 const DishPropsSelect = require('../dish-props-select.jsx');
 window.I = require('seamless-immutable');
+const classnames = require('classnames');
 require('./child-dish.scss');
 
 module.exports = React.createClass({
@@ -111,7 +112,7 @@ module.exports = React.createClass({
           {
             hasProps ?
               <div className="right">
-                <span className="dish-count">{count}</span>
+                <span className={classnames({ 'dish-count' : true, 'count-hide' : expand })}>{count}</span>
                 <a className="dish-dropdown-trigger btn--ellips" onTouchTap={this.onPropsBtnTap}>{expand ? '收起' : '可选属性'}</a>
               </div>
             :

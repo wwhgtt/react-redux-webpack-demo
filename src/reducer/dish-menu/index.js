@@ -16,8 +16,13 @@ module.exports = function (
       return state.setIn(['activeDishTypeId'], payload);
     case 'SHOW_DISH_DETAIL':
       return state.setIn(['dishDetailData'], payload);
-    case 'REMOVE_ALL_DISHES':
-      return {};
+    case 'REMOVE_ALL_ORDERS':
+      return state.update(
+        'dishesData',
+        dishes => dishes.flatMap(
+          dish => dish.set('order', undefined)
+        )
+      );
     case 'ORDER_DISH':
       dishIdx = _findIndex(state.dishesData, { id: payload[0].id });
       if (helper.isSingleDishWithoutProps(state.dishesData[dishIdx])) {
