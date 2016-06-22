@@ -18,8 +18,9 @@ module.exports = React.createClass({
       expand:false,
     };
   },
-  expandCart() {
+  expandCart(evt) {
     this.setState({ expand: !this.state.expand });
+    evt.preventDefault();
   },
   render() {
     const { dishes, onBillBtnTap, onOrderBtnTap, onClearBtnTap } = this.props;
