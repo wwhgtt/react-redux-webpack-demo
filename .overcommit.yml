@@ -35,7 +35,7 @@ CommitMsg:
   ZentaoTaskCheck:
     enabled: true
     required: true
-    required_executable: './bin/zentao-task-check.js'
+    required_executable: './.zentao_hook/zentao-task-check.js'
 PreCommit:
   ALL:
     quiet: false
@@ -49,4 +49,4 @@ PostCommit:
   ZentaoWorkRecord:
     enabled: true
     required: true
-    required_executable: './bin/zentao-work-record.js'
+    required_executable: './.zentao_hook/zentao-work-record.js'
