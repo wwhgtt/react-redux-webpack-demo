@@ -16,9 +16,7 @@ module.exports = function (
       return state.setIn(['activeDishTypeId'], payload);
     case 'SHOW_DISH_DETAIL':
       return state.setIn(['dishDetailData'], payload);
-    case 'REMOVE_ALL_DISHES':
-      return {};
-    case 'REMOVE_ALL_ORDER':
+    case 'REMOVE_ALL_ORDERS':
       return state.update(
         'dishesData',
         dishes => dishes.flatMap(

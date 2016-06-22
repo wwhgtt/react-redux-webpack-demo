@@ -4,8 +4,8 @@ const helper = require('../../../../helper/dish-hepler');
 const Counter = require('../../../mui/counter.jsx');
 const DishPropsSelect = require('../dish-props-select.jsx');
 window.I = require('seamless-immutable');
-require('./child-dish.scss');
 const classnames = require('classnames');
+require('./child-dish.scss');
 
 module.exports = React.createClass({
   displayName: 'GroupDishDetailChildDish',
