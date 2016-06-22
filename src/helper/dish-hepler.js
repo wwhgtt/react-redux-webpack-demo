@@ -59,8 +59,12 @@ const getDishPrice = exports.getDishPrice = function (dish) {
 };
 
 exports.getDishesPrice = function (dishes) {
-  return dishes.map(dish => getDishPrice(dish)).
+  const dishesPrice = dishes.map(dish => getDishPrice(dish)).
     reduce((c, p) => c + p, 0);
+  if (Number.isInteger(dishesPrice)) {
+    return dishesPrice;
+  }
+  return parseFloat(dishesPrice.toFixed(2));
 };
 
 exports.getNewCountOfDish = function (dish, increment) {
