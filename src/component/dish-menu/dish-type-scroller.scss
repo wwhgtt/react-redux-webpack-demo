@@ -11,20 +11,21 @@
 }
 
 .dish-type-item {
-  font-size: 14px;
+  line-height: 64px;
   position: relative;
-  padding: 1.5em .5em;
+  min-height: 64px;
   cursor: pointer;
   text-align: center;
   border-bottom: 1px solid $color-mystic;
   outline: 0;
   -webkit-tap-highlight-color: $tap-highlight-color;
 
-  &::after {
+  &::before {
     font-size: 12px;
     font-weight: bold;
     line-height: 16px;
     position: absolute;
+    z-index: 1;
     top: 0;
     right: 0;
     padding: 0 .4em;
@@ -32,6 +33,26 @@
     color: $color-white;
     border-radius: 8px;
     background: $color-radical-red;
+  }
+
+  &::after {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    content: '';
+    background: transparent;
+  }
+
+  > span {
+    font-size: 14px;
+    line-height: 18px;
+    display: inline-block;
+    margin-top: -1px;
+    padding: 1em .5em;
+    vertical-align: middle;
   }
 
   &.is-active {
