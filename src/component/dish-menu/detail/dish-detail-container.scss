@@ -22,19 +22,14 @@
   }
 
   &-content {
-    overflow: auto;
-    height: calc(100% - 100px);
+    overflow: hidden;
+    height: calc(100% - 50px);
     border-top: 2px solid $color-sunglow;
     background: $color-porcelain;
-    // -webkit-overflow-scrolling: touch;
   }
 
   &-addtocart {
     font-size: 18px;
-    position: fixed;
-    z-index: 10;
-    bottom: 0;
-    left: 0;
     width: 100%;
     height: 50px;
   }

@@ -16,7 +16,7 @@ module.exports = React.createClass({
   render() {
     const { dish } = this.props;
     return (
-      <div className="dish-detail-head">
+      <div className="dish-detail-head flex-none">
         <div className="head-main">
           <span className="dish-price price">{helper.getDishPrice(dish)}</span>
           <p className="dish-name">{dish.name}／{dish.unitName} <span className="price">{dish.marketPrice}</span></p>
