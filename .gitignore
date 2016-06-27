@@ -4,3 +4,4 @@ dist-*/
 .idea/
 .zentaorc.js
 npm-debug.log
+dist/

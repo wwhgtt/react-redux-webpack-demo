@@ -8,9 +8,11 @@ const OrderApplication = React.createClass({
   displayName: 'OrderApplication',
   propTypes: {
     // MapedActionsToProps
+    orderFetchData:React.PropTypes.func.isRequired,
     // MapedStatesToProps
   },
   componentDidMount() {
+    this.props.orderFetchData();
   },
   componentDidUpdate() {
   },
