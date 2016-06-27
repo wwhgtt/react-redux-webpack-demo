@@ -17,7 +17,7 @@ ReactDOM.render(
   <Provider store={store}>
     <div>
       <OrderApplication />
-      {/* <DevTools />*/}
+      <DevTools />
     </div>
   </Provider>,
   document.getElementById('app-placeholder')
