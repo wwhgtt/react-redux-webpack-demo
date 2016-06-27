@@ -15,7 +15,6 @@ exports.fetchOrder = () => (dispatch, getState) => {
       return res.json();
     }).
     then(order => {
-      console.log(order.data);
       dispatch(setOrder(order.data));
     }).
     catch(err => {
