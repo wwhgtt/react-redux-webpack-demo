@@ -2,9 +2,9 @@ const config = require('../../config');
 const createAction = require('redux-actions').createAction;
 require('es6-promise');
 require('isomorphic-fetch');
-const setOrderData = createAction('SET_ORDER_DATA', menuData => menuData);
-exports.orderFetchData = () => (dispatch, getState) => {
-  fetch(config.orderDineInMenuAPi, {
+const setOrder = createAction('SET_ORDER', order => order);
+exports.fetchOrder = () => (dispatch, getState) => {
+  fetch(config.orderDineInAPi, {
     method: 'GET', mod: 'cors',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
   }).
@@ -14,8 +14,8 @@ exports.orderFetchData = () => (dispatch, getState) => {
       }
       return res.json();
     }).
-    then(menuData => {
-      dispatch(setOrderData(menuData.data));
+    then(order => {
+      dispatch(setOrder(order.data));
     }).
     catch(err => {
       throw err;
