@@ -4,11 +4,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
-    index_bundle: [
-      `webpack-dev-server/client?http://${process.env.DEV_HOST}:3000`, // WebpackDevServer host and port
-      'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
+    'dish-menu-entry': [
+      // `webpack-dev-server/client?http://${process.env.DEV_HOST}:3000`, // WebpackDevServer host and port
+      // 'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
       // 'babel-polyfill',
       './src/dish-menu.jsx',
+    ],
+    'order-entry': [
+      './src/order.jsx',
     ],
   },
   resolve: {
@@ -44,8 +47,27 @@ module.exports = {
     ],
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new HtmlWebpackPlugin({ inject: 'body', template: './src/helper/html-webpack-plugin-template.html' }),
+    // new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackPlugin(
+      {
+        title: 'DishMenuApplication',
+        filename: 'dish-menu.html',
+        chunks: ['common', 'dish-menu-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'OrderApplication',
+        filename: 'order.html',
+        chunks: ['common', 'order-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'common',
+      filename: 'common.js',
+    }),
     new webpack.EnvironmentPlugin(['DEV_HOST']),
     new webpack.DefinePlugin({
       'process.env': {

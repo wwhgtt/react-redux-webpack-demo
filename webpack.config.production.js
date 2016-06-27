@@ -1,21 +1,20 @@
 const webpack = require('webpack');
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
-    index_bundle: [
-      // 'webpack-dev-server/client?http://192.168.200.17:3000', // WebpackDevServer host and port
-      // 'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
-      // 'babel-polyfill',
+    'dish-menu-entry': [
       './src/dish-menu.jsx',
+    ],
+    'order-entry': [
+      './src/order.jsx',
     ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'dist-[hash]'),
     filename: '[name].js',
     publicPath: `http://${process.env.PROD_HOST}/`,
   },
@@ -43,12 +42,15 @@ module.exports = {
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({ inject: 'body', template: './src/helper/html-webpack-plugin-template.html' }),
     new webpack.EnvironmentPlugin(['DEV_HOST']),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
       },
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'common',
+      filename: 'common.js',
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
