@@ -4,7 +4,7 @@ module.exports = function (
     areaList:[],
     tableList:[],
     timeJson:{},
-    diningerProps:{},
+    customerProps:{},
     commercialProps:{},
   }),
   action
@@ -12,16 +12,13 @@ module.exports = function (
   const { type, payload } = action;
   switch (type) {
     case 'SET_ORDER': {
-      const diningerProps = Object.assign({}, { name:payload.name }, { sex:payload.sex },
-      { isMember:payload.isMember }, { serviceApproach:payload.serviceApproach });
-      const commercialProps = Object.assign({}, { name:payload.commercialName }, { integral:payload.integral },
-      { commercialLogo:payload.commercialLogo }, { pickupPayType:payload.pickupPayType },
-      { totablePayType:payload.totablePayType });
-      return state.setIn(['areaList'], payload.areaList)
-                  .setIn(['tableList'], payload.tableList)
-                  .setIn(['timeJson'], payload.timeJson)
-                  .setIn(['diningerProps'], diningerProps)
-                  .setIn(['commercialProps'], commercialProps);
+      return state.set('areaList', payload.areaList)
+                  .set('tableList', payload.tableList)
+                  .set('timeJson', payload.timeJson)
+                  .set('customerProps', Immutable.from({ name:payload.name, sex:payload.sex, isMember:payload.isMember,
+                        serviceApproach:payload.serviceApproach, mobile:payload.member.mobile, customerCount:1 }))
+                  .set('commercialProps', Immutable.from({ name:payload.commercialName, integral:payload.integral,
+                        commercialLogo:payload.commercialLogo, pickupPayType:payload.pickupPayType, totablePayType:payload.totablePayType }));
     }
     default:
       return state;
