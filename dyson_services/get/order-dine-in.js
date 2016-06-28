@@ -14,7 +14,7 @@ module.exports = {
         + 'grZqib6UdPY6yhWrkztMKep8uay3ibFbU8ibN7deGUemia7pIPq3yG0kXxa3MruDXnQ/0',
       },
 	/** 0-正餐，1-快餐 */
-      'diningForm': 0,
+      'diningForm': 1,
       // 正餐只允许下线支付
       'name': '李斌',
       'sex': '1',

@@ -1,5 +1,5 @@
 const React = require('react');
-const DynamicClassButton = require('../mui/misc/dynamic-class-hoc.jsx')('button');
+const DynamicClassLink = require('../mui/misc/dynamic-class-hoc.jsx')('a');
 const shallowCompare = require('react-addons-shallow-compare');
 
 module.exports = React.createClass({
@@ -17,7 +17,9 @@ module.exports = React.createClass({
     return (
       <div>
         <span>{name}</span>
-        <DynamicClassButton className="order-prop-option" data-trigger="true" data-id={id} data-checked={isChecked} {...otherProps} />
+        <DynamicClassLink className="order-prop-option" data-trigger="true" data-id={id} data-checked={isChecked} {...otherProps} >
+          <button>选择</button>
+        </DynamicClassLink>
       </div>
 
     );
