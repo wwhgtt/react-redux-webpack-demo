@@ -15,7 +15,6 @@ const OrderApplication = React.createClass({
     customerProps:React.PropTypes.object.isRequired,
   },
   componentDidMount() {
-    document.title = '确认订单';
     this.props.fetchOrder();
   },
   componentDidUpdate() {
