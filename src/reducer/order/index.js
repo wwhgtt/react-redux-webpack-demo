@@ -26,7 +26,7 @@ module.exports = function (
                     sex:payload.member.sex, isMember:payload.isMember, customerCount:1 }))
                   .set('commercialProps', Immutable.from({ name:payload.commercialName, integral:payload.integral,
                         commercialLogo:payload.commercialLogo, pickupPayType:payload.pickupPayType, totablePayType:payload.totablePayType }))
-                  .setIn(['serviceProps', 'isPickupFromFrontDesk'], payload.serviceApproach.indexOf('pickup') !== -1 ?
+                  .setIn(['serviceProps', 'isPickupFromFrontDesk'], payload.serviceApproach.indexOf('pickup') !== -1 && payload.diningForm !== 0 ?
                         Immutable.from([{ name:'前台取餐', isChecked:true, key:'pickup', id:1 }]) : undefined);
     }
     default:

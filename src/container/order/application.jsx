@@ -20,8 +20,15 @@ const OrderApplication = React.createClass({
   },
   componentDidUpdate() {
   },
-  onSelectOption() {
-    console.log(123);
+  onSelectOption(evt, optionData) {
+    const { serviceProps } = this.props;
+    const dataId = optionData.id;
+    if (dataId === 1) {
+      serviceProps.update(
+        'isPickupFromFrontDesk',
+        item => item.set('isChecked', false)
+      );
+    }
   },
   render() {
     const { customerProps, serviceProps } = this.props; // states
@@ -42,7 +49,8 @@ const OrderApplication = React.createClass({
             optionsData={serviceProps.isPickupFromFrontDesk} onSelectOption={this.onSelectOption}
             optionComponent={OrderPropOption} triggerElement
           />
-          : false}
+          : false
+        }
       </div>
     );
   },
