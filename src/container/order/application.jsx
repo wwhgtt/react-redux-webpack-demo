@@ -13,6 +13,7 @@ const OrderApplication = React.createClass({
     fetchOrder:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
+    serviceProps:React.PropTypes.object.isRequired,
   },
   componentDidMount() {
     this.props.fetchOrder();
@@ -23,9 +24,7 @@ const OrderApplication = React.createClass({
     console.log(123);
   },
   render() {
-    const { customerProps } = this.props; // states
-    const optionsData = customerProps.serviceApproach === 'pickup' ?
-    [{ name:'前台取餐', isChecked:true, key:'pickup', id:1 }] : [{ name:'前台取餐', isChecked:false, key:'totable', id:0 }];
+    const { customerProps, serviceProps } = this.props; // states
     return (
       <div className="application">
         <div className="customer-info">
@@ -38,11 +37,12 @@ const OrderApplication = React.createClass({
             <span>{customerProps.customerCount}人就餐</span>
           </h2>
         </div>
-        {/* chose table*/}
-        <ActiveSelect
-          optionsData={optionsData} onSelectOption={this.onSelectOption}
-          optionComponent={OrderPropOption}
-        />
+        {serviceProps.isPickupFromFrontDesk ?
+          <ActiveSelect
+            optionsData={serviceProps.isPickupFromFrontDesk} onSelectOption={this.onSelectOption}
+            optionComponent={OrderPropOption} triggerElement
+          />
+          : false}
       </div>
     );
   },

@@ -15,6 +15,7 @@ module.exports = {
       },
 	/** 0-正餐，1-快餐 */
       'diningForm': 0,
+      // 正餐只允许下线支付
       'name': '李斌',
       'sex': '1',
 	/** 积分抵现配置 */
@@ -46,7 +47,7 @@ module.exports = {
 	/** 门店logo*/
       'commercialLogo': null,
 	/** 送餐到桌totable 前台自取 pickup*/
-      'serviceApproach': 'totable',
+      'serviceApproach': 'totable,pickup',
 	/** 桌台区域 */
       'areaList': [{
         'id': 8836,
@@ -586,7 +587,7 @@ module.exports = {
 	/** 前台自取支付方式*/
       'pickupPayType': null,
 	/** 送餐到桌支付方式 */
-      'totablePayType': 'offline',
+      'totablePayType': 'offline,online',
 	/** 会员是否停用 */
       'disable': false,
     },

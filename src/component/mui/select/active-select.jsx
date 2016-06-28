@@ -9,11 +9,15 @@ const ActiveSelect = React.createClass({
     optionComponent: React.PropTypes.oneOfType([React.PropTypes.func, React.PropTypes.string]).isRequired,
     onSelectOption: React.PropTypes.func.isRequired,
     className: React.PropTypes.string,
+    triggerElement:React.PropTypes.bool,
   },
   onSelectOption(evt) {
-    const { optionsData } = this.props;
+    const { optionsData, triggerElement } = this.props;
+    if (triggerElement && !evt.target.getAttribute('data-trigger')) {
+      return false;
+    }
     const optionData = _find(optionsData, { id: parseInt(evt.currentTarget.getAttribute('data-id'), 10) });
-    this.props.onSelectOption(evt, optionData);
+    return this.props.onSelectOption(evt, optionData);
   },
   renderOptions(optionsData, optionComponent) {
     return optionsData.map(optionData => {
