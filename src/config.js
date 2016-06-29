@@ -11,4 +11,5 @@ switch (process.env.NODE_ENV) {
 module.exports = {
   takeawayMenuAPI: `${apiBase}/takeaway/dishAll.json`,
   orderallMenuAPI: `${apiBase}/orderall/dishAll.json`,
+  orderDineInAPi: `${apiBase}/orderall/dishBox.json`,
 };
