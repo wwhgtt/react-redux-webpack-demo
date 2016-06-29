@@ -5,7 +5,7 @@ const shallowCompare = require('react-addons-shallow-compare');
 module.exports = React.createClass({
   displayName: 'OrderPropOption',
   propTypes: {
-    name: React.PropTypes.string,
+    name: React.PropTypes.string.isRequired,
     subname:React.PropTypes.string,
   },
   shouldComponentUpdate(nextProps, nextState) {
