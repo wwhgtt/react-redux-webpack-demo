@@ -12,8 +12,9 @@ const OrderApplication = React.createClass({
     // MapedActionsToProps
     fetchOrder:React.PropTypes.func.isRequired,
     setOrderProps:React.PropTypes.func.isRequired,
-    getOrderDiscountInfo:React.PropTypes.func.isRequired,
-    getOrderCoupons:React.PropTypes.func.isRequired,
+    fetchOrderDiscountInfo:React.PropTypes.func.isRequired,
+    fetchOrderCoupons:React.PropTypes.func.isRequired,
+    calculateOrderPrice:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
@@ -21,14 +22,14 @@ const OrderApplication = React.createClass({
   },
   componentDidMount() {
     this.props.fetchOrder();
-    this.props.getOrderDiscountInfo();
-    this.props.getOrderCoupons();
+    this.props.fetchOrderDiscountInfo();
+    this.props.fetchOrderCoupons();
   },
   componentDidUpdate() {
   },
   render() {
     const { customerProps, serviceProps } = this.props; // states
-    const { setOrderProps } = this.props;// actions
+    const { setOrderProps, calculateOrderPrice } = this.props;// actions
     return (
       <div className="application">
         <div className="customer-info">
@@ -57,7 +58,28 @@ const OrderApplication = React.createClass({
           />
         </div>
         <div className="coupons-or-isMembers">
-
+          {serviceProps.couponsProps.couponsList ?
+            <div className="coupons">
+              <span>使用优惠券</span>
+              <span>{serviceProps.couponsProps.couponsList.length}张可用</span>
+            </div>
+          : false}
+          {serviceProps.discountProps.isDiscountAvailable ?
+            <div className="coupons">
+              <ActiveSelect
+                optionsData={[serviceProps.discountProps.isDiscountAvailable]} onSelectOption={calculateOrderPrice}
+                optionComponent={OrderPropOption}
+              />
+            </div>
+          : false}
+          {serviceProps.isIntegralsAvailable ?
+            <div className="integrals">
+              <ActiveSelect
+                optionsData={[serviceProps.isIntegralsAvailable]} onSelectOption={calculateOrderPrice}
+                optionComponent={OrderPropOption}
+              />
+            </div>
+          : false}
         </div>
       </div>
     );
