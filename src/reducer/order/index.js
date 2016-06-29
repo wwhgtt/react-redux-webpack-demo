@@ -17,6 +17,7 @@ module.exports = function (
       integralsInfo:'',
       couponsProps:{
         couponsList:[],
+        inUseCoupon:'',
       },
       discountProps:{
         discountInfo:'',
@@ -67,7 +68,7 @@ module.exports = function (
                   .setIn(
                     ['serviceProps', 'isPickupFromFrontDesk'],
                     payload.serviceApproach.indexOf('pickup') !== -1 ?
-                        Immutable.from({ name:'前台取餐', isChecked:true, id:'pickup' })
+                        Immutable.from({ name:'前台取餐', isChecked:false, id:'way-of-get-diner' })
                         :
                         false
                    )
@@ -100,6 +101,12 @@ module.exports = function (
             )
           )
         );
+      } else if (payload.id === 'discount') {
+        //  表示使用折扣 那会员券就应该隐藏掉
+        return state.setIn(
+          ['serviceProps', 'discountProps', 'discountInfo', 'isChecked'],
+           !state.serviceProps.discountProps.discountInfo.isChecked
+         );
       }
       break;
     case 'MERGE_COUPONS_TO_ORDER':
