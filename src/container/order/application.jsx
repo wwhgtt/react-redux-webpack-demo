@@ -23,7 +23,7 @@ const OrderApplication = React.createClass({
   componentDidUpdate() {
   },
   render() {
-    const { customerProps, serviceProps } = this.props; // props
+    const { customerProps, serviceProps } = this.props; // states
     const { setOrderProps } = this.props;// actions
     return (
       <div className="application">
@@ -46,10 +46,10 @@ const OrderApplication = React.createClass({
             : false
           }
         </div>
-        <div className="pay-method">
-          {serviceProps.payMethod ?
+        <div className="order-pay-method">
+          {serviceProps.payMethods ?
             <ActiveSelect
-              optionsData={serviceProps.payMethod} onSelectOption={setOrderProps}
+              optionsData={serviceProps.payMethods} onSelectOption={setOrderProps}
               optionComponent={OrderPropOption} triggerElement
             />
           : false}

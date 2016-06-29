@@ -17,7 +17,11 @@ const ActiveSelect = React.createClass({
       return false;
     }
 
-    const optionData = _find(optionsData, { id: parseInt(evt.currentTarget.getAttribute('data-id'), 10) });
+    const optionData = _find(optionsData, { id: typeof evt.currentTarget.getAttribute('data-id') === Number ?
+      parseInt(evt.currentTarget.getAttribute('data-id'), 10)
+      :
+      evt.currentTarget.getAttribute('data-id'),
+    });
     return this.props.onSelectOption(evt, optionData);
   },
   renderOptions(optionsData, optionComponent) {

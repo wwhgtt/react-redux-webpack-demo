@@ -13,7 +13,7 @@ module.exports = function (
         tableArea:'',
         tableId:'',
       },
-      payMethod:'',
+      payMethods:'',
     },
   }),
   action
@@ -59,7 +59,7 @@ module.exports = function (
                   .setIn(
                     ['serviceProps', 'isPickupFromFrontDesk'],
                     payload.serviceApproach.indexOf('pickup') !== -1 ?
-                        Immutable.from({ name:'前台取餐', isChecked:true, key:'pickup', id:1 })
+                        Immutable.from({ name:'前台取餐', isChecked:true, id:'pickup' })
                         :
                         false
                    );

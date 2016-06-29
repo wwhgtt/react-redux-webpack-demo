@@ -7,7 +7,7 @@ module.exports = React.createClass({
   propTypes: {
     name: React.PropTypes.string.isRequired,
     isChecked: React.PropTypes.bool.isRequired,
-    id:React.PropTypes.number.isRequired,
+    id:React.PropTypes.any.isRequired,
   },
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
