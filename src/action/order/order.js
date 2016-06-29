@@ -61,4 +61,3 @@ exports.fetchOrderCoupons = () => (dispatch, getState) => {
     });
 };
 exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
-exports.calculateOrderPrice = createAction('CALCULATE_ORDER_PRICE', (evt, option) => option);
