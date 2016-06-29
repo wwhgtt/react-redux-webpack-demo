@@ -12,4 +12,6 @@ module.exports = {
   takeawayMenuAPI: `${apiBase}/takeaway/dishAll.json`,
   orderallMenuAPI: `${apiBase}/orderall/dishAll.json`,
   orderDineInAPi: `${apiBase}/orderall/dishBox.json`,
+  orderCouponsAPI:`${apiBase}/coupon/getCanUseCoupons.json`,
+  orderDiscountInfoAPI:`${apiBase}/shop/discountInfo.json`,
 };
