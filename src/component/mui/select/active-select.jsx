@@ -16,6 +16,7 @@ const ActiveSelect = React.createClass({
     if (triggerElement && !evt.target.getAttribute('data-trigger')) {
       return false;
     }
+
     const optionData = _find(optionsData, { id: parseInt(evt.currentTarget.getAttribute('data-id'), 10) });
     return this.props.onSelectOption(evt, optionData);
   },

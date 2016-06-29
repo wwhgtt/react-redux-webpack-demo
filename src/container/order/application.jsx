@@ -11,27 +11,20 @@ const OrderApplication = React.createClass({
   propTypes: {
     // MapedActionsToProps
     fetchOrder:React.PropTypes.func.isRequired,
+    setGetOrderWay:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
+    commercialProps:React.PropTypes.object.isRequired,
   },
   componentDidMount() {
     this.props.fetchOrder();
   },
   componentDidUpdate() {
   },
-  onSelectOption(evt, optionData) {
-    const { serviceProps } = this.props;
-    const dataId = optionData.id;
-    if (dataId === 1) {
-      serviceProps.update(
-        'isPickupFromFrontDesk',
-        item => item.set('isChecked', false)
-      );
-    }
-  },
   render() {
     const { customerProps, serviceProps } = this.props; // states
+    const { setGetOrderWay } = this.props;// props
     return (
       <div className="application">
         <div className="customer-info">
@@ -44,13 +37,23 @@ const OrderApplication = React.createClass({
             <span>{customerProps.customerCount}人就餐</span>
           </h2>
         </div>
-        {serviceProps.isPickupFromFrontDesk ?
-          <ActiveSelect
-            optionsData={serviceProps.isPickupFromFrontDesk} onSelectOption={this.onSelectOption}
-            optionComponent={OrderPropOption} triggerElement
-          />
-          : false
-        }
+        <div className="get-order-method">
+          {serviceProps.isPickupFromFrontDesk ?
+            <ActiveSelect
+              optionsData={[serviceProps.isPickupFromFrontDesk]} onSelectOption={setGetOrderWay}
+              optionComponent={OrderPropOption} triggerElement
+            />
+            : false
+          }
+        </div>
+        <div className="order-pay-method">
+          {serviceProps.payMethod ?
+            <ActiveSelect
+              optionsData={serviceProps.payMethod} onSelectOption={setGetOrderWay}
+              optionComponent={OrderPropOption} triggerElement
+            />
+          : false}
+        </div>
       </div>
     );
   },

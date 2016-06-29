@@ -17,8 +17,8 @@ module.exports = React.createClass({
     return (
       <div>
         <span>{name}</span>
-        <DynamicClassLink className="order-prop-option" data-trigger="true" data-id={id} data-checked={isChecked} {...otherProps} >
-          <button>选择</button>
+        <DynamicClassLink className="order-prop-option" data-id={id} data-checked={isChecked} {...otherProps} >
+          <button data-trigger="true">选择</button>
         </DynamicClassLink>
       </div>
 
