@@ -41,7 +41,7 @@ const OrderApplication = React.createClass({
           {serviceProps.isPickupFromFrontDesk ?
             <ActiveSelect
               optionsData={[serviceProps.isPickupFromFrontDesk]} onSelectOption={setOrderProps}
-              optionComponent={OrderPropOption} triggerElement
+              optionComponent={OrderPropOption}
             />
             : false
           }
@@ -49,8 +49,11 @@ const OrderApplication = React.createClass({
         <div className="order-pay-method">
           <ActiveSelect
             optionsData={serviceProps.payMethods} onSelectOption={setOrderProps}
-            optionComponent={OrderPropOption} triggerElement
+            optionComponent={OrderPropOption}
           />
+        </div>
+        <div className="coupons-or-isMembers">
+
         </div>
       </div>
     );
