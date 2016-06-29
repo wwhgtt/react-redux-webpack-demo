@@ -11,7 +11,7 @@ const OrderApplication = React.createClass({
   propTypes: {
     // MapedActionsToProps
     fetchOrder:React.PropTypes.func.isRequired,
-    setGetOrderWay:React.PropTypes.func.isRequired,
+    setOrderProps:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
@@ -23,8 +23,8 @@ const OrderApplication = React.createClass({
   componentDidUpdate() {
   },
   render() {
-    const { customerProps, serviceProps } = this.props; // states
-    const { setGetOrderWay } = this.props;// props
+    const { customerProps, serviceProps } = this.props; // props
+    const { setOrderProps } = this.props;// actions
     return (
       <div className="application">
         <div className="customer-info">
@@ -37,19 +37,19 @@ const OrderApplication = React.createClass({
             <span>{customerProps.customerCount}人就餐</span>
           </h2>
         </div>
-        <div className="get-order-method">
+        <div className="eat-in-or-take-away">
           {serviceProps.isPickupFromFrontDesk ?
             <ActiveSelect
-              optionsData={[serviceProps.isPickupFromFrontDesk]} onSelectOption={setGetOrderWay}
+              optionsData={[serviceProps.isPickupFromFrontDesk]} onSelectOption={setOrderProps}
               optionComponent={OrderPropOption} triggerElement
             />
             : false
           }
         </div>
-        <div className="order-pay-method">
+        <div className="pay-method">
           {serviceProps.payMethod ?
             <ActiveSelect
-              optionsData={serviceProps.payMethod} onSelectOption={setGetOrderWay}
+              optionsData={serviceProps.payMethod} onSelectOption={setOrderProps}
               optionComponent={OrderPropOption} triggerElement
             />
           : false}

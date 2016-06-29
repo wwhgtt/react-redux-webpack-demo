@@ -22,13 +22,4 @@ exports.fetchOrder = () => (dispatch, getState) => {
       throw err;
     });
 };
-exports.setGetOrderWay = (evt, optionData) => (dispatch, getState) => {
-  const dataId = optionData.id;
-  if (dataId === 1) {
-    getState().updateIn(
-      ['serviceProps', 'isPickupFromFrontDesk'],
-      item => item.set('isChecked', false)
-    );
-    console.log(getState());
-  }
-};
+exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
