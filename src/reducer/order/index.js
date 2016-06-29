@@ -14,6 +14,14 @@ module.exports = function (
         tableId:'',
       },
       payMethods:[],
+      isIntegralsAvailable:{},
+      couponsProps:{
+        couponsList:[],
+      },
+      discountProps:{
+        isDiscountAvailable:{},
+        discountList:[],
+      },
     },
   }),
   action
@@ -62,7 +70,14 @@ module.exports = function (
                         Immutable.from({ name:'前台取餐', isChecked:true, id:'pickup' })
                         :
                         false
-                   );
+                   )
+                   .setIn(
+                     ['serviceProps', 'isIntegralsAvailable'],
+                     payload.isMember && payload.integral.isExchangeCash !== 0 && payload.integral.integral !== 0 ?
+                         Immutable.from({ name:'使用会员积分', isChecked:true, id:'pickup', subname:`我的积分${payload.integral.integral}` })
+                         :
+                         false
+                    );
     }
     case 'SET_ORDER_PROPS':
       if (payload.id === 'way-of-get-diner') {
@@ -85,6 +100,17 @@ module.exports = function (
             )
           )
         );
+      }
+      break;
+    case 'MERGE_COUPONS_TO_ORDER':
+      return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], payload.coupList);
+    case 'MERGE_DISCOUNT_TO_ORDER':
+      if (payload.isDiscount) {
+        return state.setIn(
+          ['serviceProps', 'discountProps', 'isDiscountAvailable'],
+          Immutable.from({ name:'享受会员价', isChecked:false, id:'discount' })
+         )
+         .setIn(['serviceProps', 'discountProps', 'discountList'], payload.dishList);
       }
       break;
     default:
