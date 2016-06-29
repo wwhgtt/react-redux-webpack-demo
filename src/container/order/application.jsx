@@ -51,19 +51,33 @@ const OrderApplication = React.createClass({
           }
         </div>
         <div className="order-pay-method">
-          <ActiveSelect
-            optionsData={serviceProps.payMethods} onSelectOption={setOrderProps}
-            optionComponent={OrderPropOption}
-          />
+          {serviceProps.payMethods.map(
+            payMethod => {
+              if (payMethod.isAvaliable !== -1) {
+                return (<ActiveSelect
+                  optionsData={[payMethod]} key={payMethod.id} onSelectOption={setOrderProps}
+                  optionComponent={OrderPropOption}
+                />);
+              }
+              return true;
+            }
+          )}
         </div>
         <div className="coupons-or-isMembers">
-          {serviceProps.couponsProps.couponsList.length ?
-            <div className="coupons">
+          {serviceProps.couponsProps.couponsList.length && !serviceProps.discountProps.discountInfo.isChecked ?
+            <a className="coupons">
               <span>使用优惠券</span>
-              <span>{serviceProps.couponsProps.couponsList.length}张可用</span>
-            </div>
+              <span>
+                {serviceProps.couponsProps.inUseCoupon ?
+                  '模拟折扣券'
+                  :
+                  `${serviceProps.couponsProps.couponsList.length}张可用`
+                }
+              </span>
+              <span>{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
+            </a>
           : false}
-          {serviceProps.discountProps.discountInfo ?
+          {serviceProps.discountProps.discountInfo && !serviceProps.couponsProps.inUseCoupon ?
             <div className="discount">
               <ActiveSelect
                 optionsData={[serviceProps.discountProps.discountInfo]} onSelectOption={setOrderProps}
