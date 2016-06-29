@@ -12,6 +12,8 @@ const OrderApplication = React.createClass({
     // MapedActionsToProps
     fetchOrder:React.PropTypes.func.isRequired,
     setOrderProps:React.PropTypes.func.isRequired,
+    getOrderDiscountInfo:React.PropTypes.func.isRequired,
+    getOrderCoupons:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
@@ -19,6 +21,8 @@ const OrderApplication = React.createClass({
   },
   componentDidMount() {
     this.props.fetchOrder();
+    this.props.getOrderDiscountInfo();
+    this.props.getOrderCoupons();
   },
   componentDidUpdate() {
   },
