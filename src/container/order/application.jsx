@@ -47,12 +47,10 @@ const OrderApplication = React.createClass({
           }
         </div>
         <div className="order-pay-method">
-          {serviceProps.payMethods ?
-            <ActiveSelect
-              optionsData={serviceProps.payMethods} onSelectOption={setOrderProps}
-              optionComponent={OrderPropOption} triggerElement
-            />
-          : false}
+          <ActiveSelect
+            optionsData={serviceProps.payMethods} onSelectOption={setOrderProps}
+            optionComponent={OrderPropOption} triggerElement
+          />
         </div>
       </div>
     );

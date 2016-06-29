@@ -13,7 +13,7 @@ module.exports = function (
         tableArea:'',
         tableId:'',
       },
-      payMethods:'',
+      payMethods:[],
     },
   }),
   action
