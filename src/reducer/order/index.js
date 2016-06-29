@@ -14,12 +14,12 @@ module.exports = function (
         tableId:'',
       },
       payMethods:[],
-      isIntegralsAvailable:{},
+      integralsInfo:'',
       couponsProps:{
         couponsList:[],
       },
       discountProps:{
-        isDiscountAvailable:{},
+        discountInfo:'',
         discountList:[],
       },
     },
@@ -72,9 +72,9 @@ module.exports = function (
                         false
                    )
                    .setIn(
-                     ['serviceProps', 'isIntegralsAvailable'],
-                     payload.isMember && payload.integral.isExchangeCash !== 0 && payload.integral.integral !== 0 ?
-                         Immutable.from({ name:'使用会员积分', isChecked:true, id:'pickup', subname:`我的积分${payload.integral.integral}` })
+                     ['serviceProps', 'integralsInfo'],
+                     payload.isMember && payload.integral.isExchangeCash === 0 && payload.integral.integral !== 0 ?
+                         Immutable.from({ name:'使用会员积分', isChecked:true, id:'integrals', subname:`我的积分${payload.integral.integral}` })
                          :
                          false
                     );
@@ -107,7 +107,7 @@ module.exports = function (
     case 'MERGE_DISCOUNT_TO_ORDER':
       if (payload.isDiscount) {
         return state.setIn(
-          ['serviceProps', 'discountProps', 'isDiscountAvailable'],
+          ['serviceProps', 'discountProps', 'discountInfo'],
           Immutable.from({ name:'享受会员价', isChecked:false, id:'discount' })
          )
          .setIn(['serviceProps', 'discountProps', 'discountList'], payload.dishList);

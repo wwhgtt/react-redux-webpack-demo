@@ -14,7 +14,6 @@ const OrderApplication = React.createClass({
     setOrderProps:React.PropTypes.func.isRequired,
     fetchOrderDiscountInfo:React.PropTypes.func.isRequired,
     fetchOrderCoupons:React.PropTypes.func.isRequired,
-    calculateOrderPrice:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
@@ -29,7 +28,7 @@ const OrderApplication = React.createClass({
   },
   render() {
     const { customerProps, serviceProps } = this.props; // states
-    const { setOrderProps, calculateOrderPrice } = this.props;// actions
+    const { setOrderProps } = this.props;// actions
     return (
       <div className="application">
         <div className="customer-info">
@@ -58,24 +57,24 @@ const OrderApplication = React.createClass({
           />
         </div>
         <div className="coupons-or-isMembers">
-          {serviceProps.couponsProps.couponsList ?
+          {serviceProps.couponsProps.couponsList.length ?
             <div className="coupons">
               <span>使用优惠券</span>
               <span>{serviceProps.couponsProps.couponsList.length}张可用</span>
             </div>
           : false}
-          {serviceProps.discountProps.isDiscountAvailable ?
-            <div className="coupons">
+          {serviceProps.discountProps.discountInfo ?
+            <div className="discount">
               <ActiveSelect
-                optionsData={[serviceProps.discountProps.isDiscountAvailable]} onSelectOption={calculateOrderPrice}
+                optionsData={[serviceProps.discountProps.discountInfo]} onSelectOption={setOrderProps}
                 optionComponent={OrderPropOption}
               />
             </div>
           : false}
-          {serviceProps.isIntegralsAvailable ?
+          {serviceProps.integralsInfo ?
             <div className="integrals">
               <ActiveSelect
-                optionsData={[serviceProps.isIntegralsAvailable]} onSelectOption={calculateOrderPrice}
+                optionsData={[serviceProps.integralsInfo]} onSelectOption={setOrderProps}
                 optionComponent={OrderPropOption}
               />
             </div>

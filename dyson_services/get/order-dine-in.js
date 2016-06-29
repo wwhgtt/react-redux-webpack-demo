@@ -23,7 +23,7 @@ module.exports = {
 	// 客户积分账户积分数
         'integral': 15,
 	// 所在等级是否可抵现
-        'isExchangeCash': 1,
+        'isExchangeCash': 0,
 	// 抵现消耗积分数
         'exchangeIntegralValue': 1,
 	// 抵现金额数
