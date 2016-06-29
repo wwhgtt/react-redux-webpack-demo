@@ -42,7 +42,7 @@ module.exports = React.createClass({
     const { activeGroupIdx, groups, onGroupTap } = this.props;
     const groupElements = this.buildGroupElements(activeGroupIdx, groups, onGroupTap);
     return (
-      <div className="groups-bar-arrow">
+      <div className="groups-bar-arrow flex-none">
         <div className="groups-bar-wrap">
           <ul className="groups-bar" style={{ width: `${1 / 3 * groupElements.length * 100}%` }}>
             {groupElements}

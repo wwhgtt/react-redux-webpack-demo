@@ -72,7 +72,7 @@ module.exports = React.createClass({
     const noteElement = this.buildNote(props);
     const buildIngredientElement = this.buildIngredient(ingredients);
     return (
-      <div className="dish-props-select">
+      <div className="dish-props-select flex-rest">
         {recipeElement}
         {noteElement}
         {buildIngredientElement}

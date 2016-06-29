@@ -62,7 +62,7 @@ module.exports = React.createClass({
               className="dish-type-item"
               onTouchTap={this.onDishTypeElementTap}
             >
-              {dishTypeData.name}
+              <span>{dishTypeData.name}</span>
             </DynamicClassLI>
           );
         })}

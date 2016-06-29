@@ -115,13 +115,13 @@ module.exports = React.createClass({
   render() {
     const { dish } = this.state;
     return (
-      <div className="single-dish-detail">
+      <div className="single-dish-detail flex-columns">
         <DishDetailHead dish={dish} onCountChange={this.onDishItemCountChange} />
         <DishPropsSelect
           props={dish.order[0].dishPropertyTypeInfos} ingredients={dish.order[0].dishIngredientInfos}
           onSelectPropsOption={this.onSelectPropsOption}
         />
-        <button className="dish-detail-addtocart btn--yellow" onTouchTap={this.onAddToCarBtnTap}>加入购物车</button>
+        <button className="dish-detail-addtocart btn--yellow flex-none" onTouchTap={this.onAddToCarBtnTap}>加入购物车</button>
       </div>
     );
   },

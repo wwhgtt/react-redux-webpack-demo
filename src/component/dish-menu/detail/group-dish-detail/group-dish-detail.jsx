@@ -121,13 +121,13 @@ module.exports = React.createClass({
     const { activeGroupIdx, dish } = this.state;
     const activeGroupDishes = this.buildGroupDishes(dish.order[0].groups[activeGroupIdx]);
     return (
-      <div className="group-dish-detail">
+      <div className="group-dish-detail flex-columns">
         <DishDetailHead dish={dish} onCountChange={this.onGroupDishCountChange} />
         <GroupsBar groups={dish.order[0].groups} activeGroupIdx={activeGroupIdx} onGroupTap={this.onGroupTap} />
-        <div className="dishes-container">
+        <div className="dishes-container flex-rest">
           {activeGroupDishes}
         </div>
-        <button className="dish-detail-addtocart btn--yellow" onTouchTap={this.onAddToCarBtnTap}>加入购物车</button>
+        <button className="dish-detail-addtocart btn--yellow flex-none" onTouchTap={this.onAddToCarBtnTap}>加入购物车</button>
         {
           this.state.toast === 1 ?
             <div className="toast"><span className="toast-content">套餐份数超出可选范围</span></div>
