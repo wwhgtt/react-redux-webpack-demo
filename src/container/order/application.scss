@@ -1,6 +1,71 @@
+@import 'settings.colors';
+
 #app-placeholder,
-div[data-reactroot],
-.application {
-  overflow: hidden;
+div[data-reactroot] {
   height: 100%;
+}
+
+.application {
+  min-height: 100%;
+  padding-bottom: 50px;
+  border-top: 10px solid $color-gallery;
+  background: $color-gallery;
+}
+
+
+.options-group {
+  margin-bottom: 10px;
+  padding: 0 10px;
+  border-top: 1px solid $color-mercury;
+  border-bottom: 1px solid $color-mercury;
+  background: $color-white;
+
+  &--stripes {
+    font-size: 18px;
+    line-height: 22px;
+    overflow: hidden;
+    padding: 14px 10px 11px;
+  }
+
+  @at-root {
+    // also the styles of the order/order-prop-option component
+    // this class name is also used for same look elements
+    // so it's placed here
+    .order-prop-option {
+      font-size: 16px;
+      line-height: 22px;
+      display: block;
+      overflow: hidden;
+      padding: 14px 0 11px;
+      color: $color-mine-shaft;
+    }
+    .order-prop-desc {
+      margin-left: .5em;
+      color: $color-dusty-grey;
+    }
+  }
+
+  > .order-prop-option,
+  > .active-select {
+    border-bottom: 1px solid $color-mercury;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+}
+
+
+// right side buttons or inputs
+.order-option-btn,
+.order-option-input {
+  font-size: 12px;
+  float: right;
+  text-align: right;
+  color: $color-dusty-grey;
+}
+
+.order-option-input {
+  border: 0;
+  outline: 0;
 }
