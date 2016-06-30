@@ -107,6 +107,10 @@ module.exports = function (
           ['serviceProps', 'discountProps', 'discountInfo', 'isChecked'],
            !state.serviceProps.discountProps.discountInfo.isChecked
          );
+      } else if (payload.id === 'customerInfoEditor') {
+        return state.set(
+          'customerProps', payload
+        );
       }
       break;
     case 'MERGE_COUPONS_TO_ORDER':
