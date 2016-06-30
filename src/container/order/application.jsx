@@ -5,6 +5,7 @@ require('../../asset/style/style.scss');
 require('./application.scss');
 import ActiveSelect from '../../component/mui/select/active-select.jsx';
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
+const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
 
 const OrderApplication = React.createClass({
   displayName: 'OrderApplication',
@@ -31,7 +32,8 @@ const OrderApplication = React.createClass({
     const { setOrderProps } = this.props;// actions
     return (
       <div className="application">
-        <div className="customer-info">
+        <CustomerInfoEditor onCountChange={setOrderProps} />
+        <a className="customer-info">
           <h2 className="customer-name">
             <span>{customerProps.name}</span>
             <span>{customerProps.sex === '1' ? '先生' : '女士'}</span>
@@ -40,7 +42,7 @@ const OrderApplication = React.createClass({
             <span>{customerProps.mobile}</span>
             <span>{customerProps.customerCount}人就餐</span>
           </h2>
-        </div>
+        </a>
         <div className="eat-in-or-take-away">
           {serviceProps.isPickupFromFrontDesk ?
             <ActiveSelect
@@ -93,6 +95,13 @@ const OrderApplication = React.createClass({
               />
             </div>
           : false}
+        </div>
+        <div className="note-and-invoice">
+          <label htmlFor="note" >备注:</label>
+          <input name="note" placeholder="输入备注" id="note" />
+          <br />
+          <label htmlFor="invoice" >发票抬头:</label>
+          <input name="invoice" placeholder="输入个人或公司抬头" id="invoice" />
         </div>
       </div>
     );
