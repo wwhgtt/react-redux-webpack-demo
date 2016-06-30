@@ -37,7 +37,7 @@ const OrderApplication = React.createClass({
     const { setOrderProps } = this.props;// actions
     return (
       <div className="application">
-        <a className="customer-info" onTouchTap={this.expandCustomerInfoEditor}>
+        <div className="options-group options-group--stripes" onTouchTap={this.expandCart}>
           <h2 className="customer-name">
             <span>{customerProps.name}</span>
             <span>{customerProps.sex === '1' ? '先生' : '女士'}</span>
@@ -46,8 +46,9 @@ const OrderApplication = React.createClass({
             <span>{customerProps.mobile}</span>
             <span>{customerProps.customerCount}人就餐</span>
           </h2>
-        </a>
-        <div className="eat-in-or-take-away">
+        </div>
+
+        <div className="options-group">
           {serviceProps.isPickupFromFrontDesk ?
             <ActiveSelect
               optionsData={[serviceProps.isPickupFromFrontDesk]} onSelectOption={setOrderProps}
@@ -56,7 +57,8 @@ const OrderApplication = React.createClass({
             : false
           }
         </div>
-        <div className="order-pay-method">
+
+        <div className="options-group">
           {serviceProps.payMethods.map(
             payMethod => {
               if (payMethod.isAvaliable !== -1) {
@@ -69,43 +71,44 @@ const OrderApplication = React.createClass({
             }
           )}
         </div>
-        <div className="coupons-or-isMembers">
+
+        <div className="options-group">
           {serviceProps.couponsProps.couponsList.length && !serviceProps.discountProps.discountInfo.isChecked ?
-            <a className="coupons">
+            <div className="order-prop-option">
               <span>使用优惠券</span>
-              <span>
+              <span className="badge-coupon">
                 {serviceProps.couponsProps.inUseCoupon ?
                   '模拟折扣券'
                   :
                   `${serviceProps.couponsProps.couponsList.length}张可用`
                 }
               </span>
-              <span>{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
-            </a>
+              <button className="order-option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</button>
+            </div>
           : false}
           {serviceProps.discountProps.discountInfo && !serviceProps.couponsProps.inUseCoupon ?
-            <div className="discount">
-              <ActiveSelect
-                optionsData={[serviceProps.discountProps.discountInfo]} onSelectOption={setOrderProps}
-                optionComponent={OrderPropOption}
-              />
-            </div>
+            <ActiveSelect
+              optionsData={[serviceProps.discountProps.discountInfo]} onSelectOption={setOrderProps}
+              optionComponent={OrderPropOption}
+            />
           : false}
           {serviceProps.integralsInfo ?
-            <div className="integrals">
-              <ActiveSelect
-                optionsData={[serviceProps.integralsInfo]} onSelectOption={setOrderProps}
-                optionComponent={OrderPropOption}
-              />
-            </div>
+            <ActiveSelect
+              optionsData={[serviceProps.integralsInfo]} onSelectOption={setOrderProps}
+              optionComponent={OrderPropOption}
+            />
           : false}
         </div>
-        <div className="note-and-invoice">
-          <label htmlFor="note" >备注:</label>
-          <input name="note" placeholder="输入备注" id="note" />
-          <br />
-          <label htmlFor="invoice" >发票抬头:</label>
-          <input name="invoice" placeholder="输入个人或公司抬头" id="invoice" />
+
+        <div className="options-group">
+          <label className="order-prop-option">
+            <span>备注:</span>
+            <input className="order-option-input" name="note" placeholder="输入备注" />
+          </label>
+          <label className="order-prop-option">
+            <span>发票抬头:</span>
+            <input className="order-option-input" name="invoice" placeholder="输入个人或公司抬头" />
+          </label>
         </div>
         {serviceProps.isCustomerInfoEditorOpen ?
           <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setOrderProps} />
