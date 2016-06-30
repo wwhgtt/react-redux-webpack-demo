@@ -9,6 +9,7 @@ module.exports = function (
     commercialProps:{},
     serviceProps:{
       isPickupFromFrontDesk:'',
+      isCustomerInfoEditorOpen:false,
       tableProps:{
         tableArea:'',
         tableId:'',
@@ -107,9 +108,17 @@ module.exports = function (
           ['serviceProps', 'discountProps', 'discountInfo', 'isChecked'],
            !state.serviceProps.discountProps.discountInfo.isChecked
          );
-      } else if (payload.id === 'customerInfoEditor') {
+      } else if (payload.id === 'customer-info-editor') {
         return state.set(
           'customerProps', payload
+        ).setIn(
+          ['serviceProps', 'isCustomerInfoEditorOpen'],
+          !state.serviceProps.isCustomerInfoEditorOpen
+        );
+      } else if (payload === 'isCustomerInfoEditorOpen') {
+        return state.setIn(
+          ['serviceProps', 'isCustomerInfoEditorOpen'],
+          !state.serviceProps.isCustomerInfoEditorOpen
         );
       }
       break;

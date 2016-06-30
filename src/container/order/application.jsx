@@ -20,11 +20,6 @@ const OrderApplication = React.createClass({
     serviceProps:React.PropTypes.object.isRequired,
     commercialProps:React.PropTypes.object.isRequired,
   },
-  getInitialState() {
-    return {
-      expandCustomerProps:false,
-    };
-  },
   componentDidMount() {
     this.props.fetchOrder();
     this.props.fetchOrderDiscountInfo();
@@ -33,13 +28,13 @@ const OrderApplication = React.createClass({
   componentDidUpdate() {
   },
   expandCart(evt) {
-    this.setState({ expandCustomerProps: !this.state.expandCustomerProps });
+    const { setOrderProps } = this.props;
+    setOrderProps(null, 'isCustomerInfoEditorOpen');
     evt.preventDefault();
   },
   render() {
     const { customerProps, serviceProps } = this.props; // states
     const { setOrderProps } = this.props;// actions
-    const { expandCustomerProps } = this.state;
     return (
       <div className="application">
         <a className="customer-info" onTouchTap={this.expandCart}>
@@ -112,8 +107,8 @@ const OrderApplication = React.createClass({
           <label htmlFor="invoice" >发票抬头:</label>
           <input name="invoice" placeholder="输入个人或公司抬头" id="invoice" />
         </div>
-        {expandCustomerProps ?
-          <CustomerInfoEditor customerProps={customerProps} onCountChange={setOrderProps} />
+        {serviceProps.isCustomerInfoEditorOpen ?
+          <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setOrderProps} />
           : false}
       </div>
     );

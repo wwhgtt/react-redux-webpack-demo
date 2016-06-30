@@ -4,12 +4,12 @@ module.exports = React.createClass({
   displayName: 'CustomerInfoEditor',
   propTypes: {
     customerProps:React.PropTypes.object.isRequired,
-    onCountChange:React.PropTypes.func.isRequired,
+    onCustomerPropsChange:React.PropTypes.func.isRequired,
   },
   getInitialState() {
     const { customerProps } = this.props;
     return {
-      customerProps:customerProps.set('id', 'customerInfoEditor'),
+      customerProps:customerProps.set('id', 'customer-info-editor'),
     };
   },
   componentDidMount() {
@@ -21,12 +21,12 @@ module.exports = React.createClass({
       customerProps:customerProps.set('customerCount', newCount),
     });
   },
-  onBtntap() {
+  onSubmitBtntap() {
     const { customerProps } = this.state;
-    const { onCountChange } = this.props;
-    onCountChange(null, customerProps);
+    const { onCustomerPropsChange } = this.props;
+    onCustomerPropsChange(null, customerProps);
   },
-  handleChange(event) {
+  handleBasicInfoChange(event) {
     const { customerProps } = this.state;
     this.setState({
       customerProps:customerProps.set(event.target.getAttribute('name'), event.target.value),
@@ -38,19 +38,19 @@ module.exports = React.createClass({
       <div className="customer-info-editor">
         <div className="name-sex-mobile">
           <label htmlFor="name">姓名</label>
-          <input name="name" id="name" placeholder={customerProps.name} onChange={this.handleChange} />
+          <input name="name" id="name" placeholder={customerProps.name} onChange={this.handleBasicInfoChange} />
           <br />
-          <input type="radio" name="sex" defaultValue="1" onChange={this.handleChange} defaultChecked={customerProps.sex === '1'} />
-          <input type="radio" name="sex" defaultValue="0" onChange={this.handleChange} defaultChecked={customerProps.sex === '0'} />
+          <input type="radio" name="sex" defaultValue="1" onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === '1'} />
+          <input type="radio" name="sex" defaultValue="0" onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === '0'} />
           <br />
           <label htmlFor="mobile">联系电话</label>
-          <input name="mobile" id="mobile" placeholder={customerProps.mobile} onChange={this.handleChange} />
+          <input name="mobile" id="mobile" placeholder={customerProps.mobile} onChange={this.handleBasicInfoChange} />
         </div>
         <div className="numberOfGuests">
           <span>就餐人数</span>
           <Counter minimum={1} count={customerProps.customerCount} maximum={99} step={1} onCountChange={this.onCountChange} />
         </div>
-        <button onTouchTap={this.onBtntap}>确定</button>
+        <button onTouchTap={this.onSubmitBtntap}>确定</button>
       </div>
     );
   },
