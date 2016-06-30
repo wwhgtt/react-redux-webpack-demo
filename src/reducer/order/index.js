@@ -57,12 +57,14 @@ module.exports = function (
                         isAvaliable:helper.isPaymentAvaliable('online', payload.diningForm, false, payload.pickupPayType, payload.totablePayType),
                         isChecked:payload.diningForm === 1,
                         id:'online-payment',
+                        type: 'tickbox',
                       },
                       {
                         name:'货到付款',
                         isAvaliable:helper.isPaymentAvaliable('offline', payload.diningForm, false, payload.pickupPayType, payload.totablePayType),
                         isChecked:payload.diningForm === 0,
                         id:'offline-payment',
+                        type: 'tickbox',
                       },
                     ])
                   )
