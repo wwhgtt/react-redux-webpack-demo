@@ -27,7 +27,7 @@ const OrderApplication = React.createClass({
   },
   componentDidUpdate() {
   },
-  expandCart(evt) {
+  expandCustomerInfoEditor(evt) {
     const { setOrderProps } = this.props;
     setOrderProps(null, 'isCustomerInfoEditorOpen');
     evt.preventDefault();
@@ -37,7 +37,7 @@ const OrderApplication = React.createClass({
     const { setOrderProps } = this.props;// actions
     return (
       <div className="application">
-        <a className="customer-info" onTouchTap={this.expandCart}>
+        <a className="customer-info" onTouchTap={this.expandCustomerInfoEditor}>
           <h2 className="customer-name">
             <span>{customerProps.name}</span>
             <span>{customerProps.sex === '1' ? '先生' : '女士'}</span>
