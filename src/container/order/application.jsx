@@ -40,8 +40,8 @@ const OrderApplication = React.createClass({
         <div className="options-group options-group--stripes" onTouchTap={this.expandCustomerInfoEditor}>
           <div className="option-stripes-title">{customerProps.name}{customerProps.sex === '1' ? '先生' : '女士'}</div>
           <div className="clearfix">
-            <div className="option-desc option-stripes-half">{customerProps.mobile}</div>
-            <div className="option-desc option-stripes-half"><span className="text-picton-blue">{customerProps.customerCount}</span>人就餐</div>
+            <div className="option-desc half">{customerProps.mobile}</div>
+            <div className="option-desc half"><span className="text-picton-blue">{customerProps.customerCount}</span>人就餐</div>
           </div>
         </div>
 
