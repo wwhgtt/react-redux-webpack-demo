@@ -1,8 +1,24 @@
 @import 'settings.colors';
 
+$scroll-select-option-height: 32px;
+
 .scroll-select {
+  position: relative;
   overflow: hidden;
   background: $color-athens-grey;
+
+  &::after {
+    position: absolute;
+    z-index: 0;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: $scroll-select-option-height;
+    margin-top: -$scroll-select-option-height/2;
+    content: '';
+    border-top: 1px solid $color-crusta;
+    border-bottom: 1px solid $color-crusta;
+  }
 }
 
 .scroll-wrapper {
@@ -11,8 +27,8 @@
     font-size: 14px;
     line-height: 18px;
     display: block;
-    height: 32px;
-    padding: (32px - 18)/2 5px;
+    height: $scroll-select-option-height;
+    padding: ($scroll-select-option-height - 18)/2 5px;
     text-align: center;
   }
 
