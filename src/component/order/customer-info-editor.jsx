@@ -47,7 +47,8 @@ module.exports = React.createClass({
               </div>
               <div className="order-prop-option clearfix">
                 <label className="half">
-                  <input className="option-radio" type="radio" name="sex" defaultValue="1"
+                  <input
+                    className="option-radio" type="radio" name="sex" defaultValue="1"
                     onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === '1'}
                   />
                   <span className="btn-tickbox"></span>
