@@ -47,12 +47,17 @@ module.exports = React.createClass({
               </div>
               <div className="order-prop-option clearfix">
                 <label className="half">
-                  <input className="option-radio" type="radio" name="sex" defaultValue="1" onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === '1'} />
+                  <input className="option-radio" type="radio" name="sex" defaultValue="1"
+                    onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === '1'}
+                  />
                   <span className="btn-tickbox"></span>
                   <span className="option-desc">先生</span>
                 </label>
                 <label className="half">
-                  <input className="option-radio" type="radio" name="sex" defaultValue="0" onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === '0'} />
+                  <input
+                    className="option-radio" type="radio" name="sex" defaultValue="0"
+                    onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === '0'}
+                  />
                   <span className="btn-tickbox"></span>
                   <span className="option-desc">女士</span>
                 </label>
