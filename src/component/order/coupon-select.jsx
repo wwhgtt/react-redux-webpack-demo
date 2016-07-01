@@ -1,0 +1,46 @@
+const React = require('react');
+
+const CouponDetail = require('./coupon-detail.jsx');
+module.exports = React.createClass({
+  displayName: 'CouponSelect',
+  propTypes: {
+    couponsProps:React.PropTypes.object.isRequired,
+    onSelectCoupon:React.PropTypes.func.isRequired,
+  },
+  getInitialState() {
+    return {
+      couponDataId:'',
+    };
+  },
+  componentDidMount() {
+
+  },
+  onSelectCoupon(evt) {
+    const selectedCouponId = evt.currentTarget.getAttribute('data-id');
+    this.setState({
+      couponDataId:selectedCouponId,
+    });
+  },
+  onSubmitBtnTap() {
+    const { onSelectCoupon } = this.props;
+    const { couponDataId } = this.state;
+    const selectedCouponData = {
+      id:'selected-coupon-data',
+      selectedCouponId:couponDataId,
+    };
+    onSelectCoupon(null, selectedCouponData);
+  },
+  render() {
+    const { couponsProps } = this.props;
+    return (
+      <div className="coupon-select">
+        {couponsProps.couponsList.map(
+          couponList => (
+            <CouponDetail couponData={couponList} id={couponList.id} key={couponList.id} onSelectCoupon={this.onSelectCoupon} />
+          )
+        )}
+        <button onTouchTap={this.onSubmitBtnTap}>确定</button>
+      </div>
+    );
+  },
+});
