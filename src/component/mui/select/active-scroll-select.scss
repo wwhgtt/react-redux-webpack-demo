@@ -1,9 +1,11 @@
 @import 'settings.colors';
 
-.scroll-wrapper {
+.scroll-select {
   overflow: hidden;
-  height: 100%;
+  background: $color-athens-grey;
+}
 
+.scroll-wrapper {
   [data-option],
   [data-placeholder] {
     font-size: 14px;
