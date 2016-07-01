@@ -55,14 +55,14 @@ module.exports = function (
                       {
                         name:'在线支付',
                         isAvaliable:helper.isPaymentAvaliable('online', payload.diningForm, false, payload.pickupPayType, payload.totablePayType),
-                        isChecked:payload.diningForm === 1,
+                        isChecked:helper.shouldPaymentAutoChecked('online', false, payload.pickupPayType, payload.totablePayType),
                         id:'online-payment',
                         type: 'tickbox',
                       },
                       {
                         name:'货到付款',
                         isAvaliable:helper.isPaymentAvaliable('offline', payload.diningForm, false, payload.pickupPayType, payload.totablePayType),
-                        isChecked:payload.diningForm === 0,
+                        isChecked:helper.shouldPaymentAutoChecked('offline', false, payload.pickupPayType, payload.totablePayType),
                         id:'offline-payment',
                         type: 'tickbox',
                       },
@@ -97,6 +97,19 @@ module.exports = function (
               helper.isPaymentAvaliable(
                 payMethod.id.split('-')[0],
                 state.commercialProps.diningForm,
+                !state.serviceProps.isPickupFromFrontDesk.isChecked,
+                state.commercialProps.pickupPayType,
+                state.commercialProps.totablePayType
+              ),
+            )
+          )
+        ).updateIn(
+          ['serviceProps', 'payMethods'],
+          payMethods => payMethods.flatMap(
+            payMethod => payMethod.set(
+              'isChecked',
+              helper.shouldPaymentAutoChecked(
+                payMethod.id.split('-')[0],
                 !state.serviceProps.isPickupFromFrontDesk.isChecked,
                 state.commercialProps.pickupPayType,
                 state.commercialProps.totablePayType
