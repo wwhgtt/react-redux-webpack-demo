@@ -103,7 +103,8 @@ module.exports = function (
               ),
             )
           )
-        ).updateIn(
+        )
+        .updateIn(
           ['serviceProps', 'payMethods'],
           payMethods => payMethods.flatMap(
             payMethod => payMethod.set(
@@ -134,6 +135,14 @@ module.exports = function (
         return state.setIn(
           ['serviceProps', 'isCustomerInfoEditorOpen'],
           !state.serviceProps.isCustomerInfoEditorOpen
+        );
+      } else if (payload.id.indexOf('line') !== -1) {
+        return state.updateIn(
+          ['serviceProps', 'payMethods'],
+          payMethods => payMethods.flatMap(
+            payMethod => payMethod.id.indexOf(payload.id) !== -1 ? payMethod.set('isChecked', true)
+            : payMethod.set('isChecked', false)
+          )
         );
       }
       break;
