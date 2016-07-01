@@ -37,15 +37,12 @@ const OrderApplication = React.createClass({
     const { setOrderProps } = this.props;// actions
     return (
       <div className="application">
-        <div className="options-group options-group--stripes" onTouchTap={this.expandCart}>
-          <h2 className="customer-name">
-            <span>{customerProps.name}</span>
-            <span>{customerProps.sex === '1' ? '先生' : '女士'}</span>
-          </h2>
-          <h2 className="customer-extra-info">
-            <span>{customerProps.mobile}</span>
-            <span>{customerProps.customerCount}人就餐</span>
-          </h2>
+        <div className="options-group options-group--stripes" onTouchTap={this.expandCustomerInfoEditor}>
+          <div className="option-stripes-title">{customerProps.name}{customerProps.sex === '1' ? '先生' : '女士'}</div>
+          <div className="clearfix">
+            <div className="option-desc option-stripes-half">{customerProps.mobile}</div>
+            <div className="option-desc option-stripes-half"><span className="text-picton-blue">{customerProps.customerCount}</span>人就餐</div>
+          </div>
         </div>
 
         <div className="options-group">
@@ -75,7 +72,7 @@ const OrderApplication = React.createClass({
         <div className="options-group">
           {serviceProps.couponsProps.couponsList.length && !serviceProps.discountProps.discountInfo.isChecked ?
             <div className="order-prop-option">
-              <span>使用优惠券</span>
+              <span className="option-title">使用优惠券</span>
               <span className="badge-coupon">
                 {serviceProps.couponsProps.inUseCoupon ?
                   '模拟折扣券'
@@ -83,7 +80,7 @@ const OrderApplication = React.createClass({
                   `${serviceProps.couponsProps.couponsList.length}张可用`
                 }
               </span>
-              <button className="order-option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</button>
+              <button className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</button>
             </div>
           : false}
           {serviceProps.discountProps.discountInfo && !serviceProps.couponsProps.inUseCoupon ?
@@ -102,12 +99,12 @@ const OrderApplication = React.createClass({
 
         <div className="options-group">
           <label className="order-prop-option">
-            <span>备注:</span>
-            <input className="order-option-input" name="note" placeholder="输入备注" />
+            <span className="option-title">备注:</span>
+            <input className="option-input" name="note" placeholder="输入备注" />
           </label>
           <label className="order-prop-option">
-            <span>发票抬头:</span>
-            <input className="order-option-input" name="invoice" placeholder="输入个人或公司抬头" />
+            <span className="option-title">发票抬头:</span>
+            <input className="option-input" name="invoice" placeholder="输入个人或公司抬头" />
           </label>
         </div>
         {serviceProps.isCustomerInfoEditorOpen ?
