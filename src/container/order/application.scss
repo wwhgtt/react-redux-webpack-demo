@@ -13,6 +13,8 @@ div[data-reactroot] {
 }
 
 
+// OPTIONS GROUP
+
 .options-group {
   margin-bottom: 10px;
   padding: 0 10px;
@@ -24,6 +26,7 @@ div[data-reactroot] {
     position: relative;
     overflow: hidden;
     padding: 25px 30px 10px 10px;
+    cursor: pointer;
     border-top: 0;
     background-image: url('../../asset/images/stripes.png');
     background-repeat: repeat-x;
@@ -54,10 +57,6 @@ div[data-reactroot] {
       margin-bottom: 10px;
     }
 
-    .option-stripes-half {
-      float: left;
-      width: 50%;
-    }
   }
 
   @at-root {
@@ -71,10 +70,20 @@ div[data-reactroot] {
       overflow: hidden;
       padding: 14px 0 11px;
       color: $color-mine-shaft;
+      border-bottom: 1px solid $color-mercury;
+
+      &:last-child {
+        border-bottom: 0;
+      }
+
+      > .counter {
+        margin-top: -3px;
+        margin-bottom: -3px;
+        // color: $color-picton-blue;
+      }
     }
   }
 
-  > .order-prop-option,
   > .active-select {
     border-bottom: 1px solid $color-mercury;
 
@@ -107,4 +116,63 @@ div[data-reactroot] {
   width: 150px;
   border: 0;
   outline: 0;
+}
+
+
+// EDITOR GROUP
+// styles of order/coustomer-info-editor component
+
+.option-editor-page {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  right: 0;
+  bottom: 50px;
+  left: 0;
+  border-top: 10px solid $color-gallery;
+  background: $color-gallery;
+}
+
+.editor-one-third {
+  float: left;
+  width: 110px;
+}
+
+.editor-two-thirds {
+  margin-left: 110px;
+
+  > .order-prop-option:first-child {
+    padding-top: 0;
+  }
+
+  > .order-prop-option:last-child {
+    padding-bottom: 0;
+  }
+}
+
+.editor-input {
+  font-size: 16px;
+  float: left;
+  color: $color-dove-grey;
+  border: 0;
+  outline: 0;
+}
+
+.option-editor-submit {
+  font-size: 18px;
+  position: fixed;
+  z-index: 10;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+}
+
+
+
+// remeber to move this select to object/layout
+// after rebased the feature/flex-layout branch
+.half {
+  float: left;
+  width: 50%;
 }

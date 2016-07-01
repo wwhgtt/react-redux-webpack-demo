@@ -35,22 +35,41 @@ module.exports = React.createClass({
   render() {
     const { customerProps } = this.state;
     return (
-      <div className="customer-info-editor">
-        <div className="name-sex-mobile">
-          <label htmlFor="name">姓名</label>
-          <input name="name" id="name" placeholder={customerProps.name} onChange={this.handleBasicInfoChange} />
-          <br />
-          <input type="radio" name="sex" defaultValue="1" onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === '1'} />
-          <input type="radio" name="sex" defaultValue="0" onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === '0'} />
-          <br />
-          <label htmlFor="mobile">联系电话</label>
-          <input name="mobile" id="mobile" placeholder={customerProps.mobile} onChange={this.handleBasicInfoChange} />
+      <div className="option-editor-page">
+        <div className="options-group">
+          <div className="order-prop-option">
+            <div className="editor-one-third">
+              <span className="option-title">姓名：</span>
+            </div>
+            <div className="editor-two-thirds">
+              <div className="order-prop-option">
+                <input className="editor-input" id="editor-name" placeholder={customerProps.name} onChange={this.handleBasicInfoChange} />
+              </div>
+              <div className="order-prop-option clearfix">
+                <label className="half">
+                  <input type="radio" name="sex" defaultValue="1" onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === '1'} />
+                </label>
+                <label className="half">
+                  <input type="radio" name="sex" defaultValue="0" onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === '0'} />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <label className="order-prop-option">
+            <span className="option-title">联系电话：</span>
+            <input className="editor-input" placeholder={customerProps.mobile} onChange={this.handleBasicInfoChange} />
+          </label>
         </div>
-        <div className="numberOfGuests">
-          <span>就餐人数</span>
-          <Counter minimum={1} count={customerProps.customerCount} maximum={99} step={1} onCountChange={this.onCountChange} />
+
+        <div className="options-group">
+          <div className="order-prop-option">
+            <span className="option-title">就餐人数：</span>
+            <Counter minimum={1} count={customerProps.customerCount} maximum={99} step={1} onCountChange={this.onCountChange} />
+          </div>
         </div>
-        <button onTouchTap={this.onSubmitBtntap}>确定</button>
+
+        <button className="option-editor-submit btn--yellow" onTouchTap={this.onSubmitBtntap}>确定</button>
       </div>
     );
   },
