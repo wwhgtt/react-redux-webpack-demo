@@ -12,7 +12,7 @@ const ActiveSelect = React.createClass({
   },
   onSelectOption(evt) {
     const { optionsData } = this.props;
-    const optionData = _find(optionsData, { id: typeof evt.currentTarget.getAttribute('data-id') === Number ?
+    const optionData = _find(optionsData, { id: !isNaN(evt.currentTarget.getAttribute('data-id')) ?
       parseInt(evt.currentTarget.getAttribute('data-id'), 10)
       :
       evt.currentTarget.getAttribute('data-id'),

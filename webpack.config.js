@@ -13,6 +13,7 @@ module.exports = {
     'order-entry': [
       './src/order.jsx',
     ],
+    'storyboard-entry':'./src/storyboard.jsx',
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -61,6 +62,14 @@ module.exports = {
         title: 'OrderApplication',
         filename: 'order.html',
         chunks: ['common', 'order-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'StoryboardApplication',
+        filename: 'storyboard.html',
+        chunks: ['common', 'storyboard-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
