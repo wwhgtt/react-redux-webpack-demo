@@ -1,0 +1,80 @@
+@import 'settings.colors';
+
+.scroll-select {
+  position: fixed;
+  z-index: 100;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: $color-white;
+}
+
+.scroll-select-header {
+  font-size: 17px;
+  line-height: 40px;
+  overflow: hidden;
+  padding-left: 10px;
+  color: $color-mine-shaft;
+  box-shadow: inset 0 -1px 0 $color-alto, inset 0 1px 0 $color-alto;
+}
+
+.scroll-select-confirm {
+  float: right;
+  width: 80px;
+  height: 40px;
+}
+
+.scroll-select-content {
+  position: relative;
+  height: 34px * 5 + 20px;
+  padding: 10px 0;
+  text-align: center;
+
+  &.indicator-line::after {
+    position: absolute;
+    z-index: 0;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 34px;
+    content: '';
+    transform: translateY(-52.5%);
+    border-top: 1px solid $color-crusta;
+    border-bottom: 1px solid $color-crusta;
+  }
+
+  &.indicator-box::after {
+    position: absolute;
+    z-index: 0;
+    top: 50%;
+    right: 1px;
+    left: 1px;
+    height: 34px;
+    content: '';
+    transform: translateY(-52.5%);
+    border: 1px solid $color-crusta;
+    border-radius: 4px;
+  }
+}
+
+.scroll-select-column {
+  overflow: hidden;
+
+  > .optionsData-wrapper {
+    overflow: auto;
+    height: 100%;
+
+    > a {
+      font-size: 14px;
+      line-height: 1;
+      display: block;
+      padding: 10px 0;
+      color: $color-dove-grey;
+    }
+  }
+}
+
+// .active {
+//   font-weight: bold;
+//   color: $color-crusta;
+// }
