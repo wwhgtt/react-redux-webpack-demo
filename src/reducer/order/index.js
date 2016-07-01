@@ -1,4 +1,5 @@
 const Immutable = require('seamless-immutable');
+const _find = require('lodash.find');
 const helper = require('../../helper/order-helper');
 module.exports = function (
   state = Immutable.from({
@@ -10,6 +11,7 @@ module.exports = function (
     serviceProps:{
       isPickupFromFrontDesk:'',
       isCustomerInfoEditorOpen:false,
+      isCouponSelectOpen:false,
       tableProps:{
         tableArea:'',
         tableId:'',
@@ -18,7 +20,7 @@ module.exports = function (
       integralsInfo:'',
       couponsProps:{
         couponsList:[],
-        inUseCoupon:'',
+        inUseCoupon:false,
       },
       discountProps:{
         discountInfo:'',
@@ -136,6 +138,11 @@ module.exports = function (
           ['serviceProps', 'isCustomerInfoEditorOpen'],
           !state.serviceProps.isCustomerInfoEditorOpen
         );
+      } else if (payload === 'isCouponSelectOpen') {
+        return state.setIn(
+          ['serviceProps', 'isCouponSelectOpen'],
+          !state.serviceProps.isCouponSelectOpen
+        );
       } else if (payload.id.indexOf('line') !== -1) {
         return state.updateIn(
           ['serviceProps', 'payMethods'],
@@ -143,6 +150,15 @@ module.exports = function (
             payMethod => payMethod.id.indexOf(payload.id) !== -1 ? payMethod.set('isChecked', true)
             : payMethod.set('isChecked', false)
           )
+        );
+      } else if (payload.id === 'selected-coupon-data') {
+        // 使用优惠券以后需要把会员价关闭  利用返回的id找到对应的优惠券获取优惠信息
+        const selectedCoupon = _find(state.serviceProps.couponsProps.couponsList, coupon => coupon.id.toString() === payload.selectedCouponId);
+        console.log(selectedCoupon);
+        return state.setIn(
+          ['serviceProps', 'couponsProps', 'inUseCoupon'], true
+        ).setIn(
+          ['serviceProps', 'isCouponSelectOpen'], !state.serviceProps.isCouponSelectOpen
         );
       }
       break;

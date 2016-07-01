@@ -6,7 +6,7 @@ require('./application.scss');
 import ActiveSelect from '../../component/mui/select/active-select.jsx';
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
-
+const CouponSelect = require('../../component/order/coupon-select.jsx');
 const OrderApplication = React.createClass({
   displayName: 'OrderApplication',
   propTypes: {
@@ -30,6 +30,11 @@ const OrderApplication = React.createClass({
   expandCustomerInfoEditor(evt) {
     const { setOrderProps } = this.props;
     setOrderProps(null, 'isCustomerInfoEditorOpen');
+    evt.preventDefault();
+  },
+  expandCouponSelect(evt) {
+    const { setOrderProps } = this.props;
+    setOrderProps(null, 'isCouponSelectOpen');
     evt.preventDefault();
   },
   render() {
@@ -71,7 +76,7 @@ const OrderApplication = React.createClass({
 
         <div className="options-group">
           {serviceProps.couponsProps.couponsList.length && !serviceProps.discountProps.discountInfo.isChecked ?
-            <div className="order-prop-option">
+            <div className="order-prop-option" onTouchTap={this.expandCouponSelect}>
               <span className="option-title">使用优惠券</span>
               <span className="badge-coupon">
                 {serviceProps.couponsProps.inUseCoupon ?
@@ -109,6 +114,9 @@ const OrderApplication = React.createClass({
         </div>
         {serviceProps.isCustomerInfoEditorOpen ?
           <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setOrderProps} />
+          : false}
+        {serviceProps.isCouponSelectOpen ?
+          <CouponSelect couponsProps={serviceProps.couponsProps} onSelectCoupon={setOrderProps} />
           : false}
       </div>
     );
