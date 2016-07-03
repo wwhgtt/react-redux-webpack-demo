@@ -1,5 +1,8 @@
 const React = require('react');
 const Counter = require('../mui/counter.jsx');
+
+require('./customer-info-editor.scss');
+
 module.exports = React.createClass({
   displayName: 'CustomerInfoEditor',
   propTypes: {
@@ -35,7 +38,7 @@ module.exports = React.createClass({
   render() {
     const { customerProps } = this.state;
     return (
-      <div className="option-editor-page">
+      <div className="order-subpage">
         <div className="options-group">
           <div className="order-prop-option">
             <div className="editor-one-third">
@@ -79,7 +82,7 @@ module.exports = React.createClass({
           </div>
         </div>
 
-        <button className="option-editor-submit btn--yellow" onTouchTap={this.onSubmitBtntap}>确定</button>
+        <button className="order-subpage-submit btn--yellow" onTouchTap={this.onSubmitBtntap}>确定</button>
       </div>
     );
   },
