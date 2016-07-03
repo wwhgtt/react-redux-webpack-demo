@@ -13,8 +13,8 @@ module.exports = function (
       isCustomerInfoEditorOpen:false,
       isCouponSelectOpen:false,
       tableProps:{
-        tableArea:'',
-        tableId:'',
+        areas:'',
+        tables:'',
       },
       payMethods:[],
       integralsInfo:'',
@@ -33,9 +33,9 @@ module.exports = function (
   const { type, payload } = action;
   switch (type) {
     case 'SET_ORDER': {
-      return state.set('areaList', Immutable.from({ areaList:payload.areaList }))
-                  .set('tableList', Immutable.from({ tableList:payload.tableList }))
-                  .set('timeTable', Immutable.from({ timeTable:payload.timeJson }))
+      return state.setIn(['tableProps', 'areas'], Immutable.from(payload.areaList))
+                  .setIn(['tableProps', 'tables'], Immutable.from(payload.tableList))
+                  .set('timeTable', Immutable.from(payload.timeJson))
                   .set(
                     'customerProps',
                     Immutable.from({

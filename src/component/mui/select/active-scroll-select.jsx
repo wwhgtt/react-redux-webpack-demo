@@ -1,3 +1,4 @@
+const _findIndex = require('lodash.findindex');
 const React = require('react');
 const { findDOMNode } = require('react-dom');
 const classnames = require('classnames');
@@ -24,10 +25,10 @@ module.exports = React.createClass({
   },
   componentDidMount() {
     const viewport = findDOMNode(this);
-    const { viewportHeight } = this.props;
+    const { optionsData, viewportHeight } = this.props;
     this.adjustViewportHeight(viewport, viewportHeight);
     this.applyIScrollPlugin(viewport);
-    this.scrollToSelectedOption(viewport);
+    this.scrollToSelectedOption(optionsData);
   },
   componentDidUpdate() {
     this._cache.iScroll.refresh();
@@ -42,16 +43,12 @@ module.exports = React.createClass({
       viewport.style.height = `${optionElement.offsetHeight * viewportHeight}px`;
     }
   },
-  scrollToSelectedOption(viewport) {
-    let optionElement = viewport.querySelector('[data-option].is-checked');
-    for (let i = 1; i < this._cache.placeholderOffset; i++) {
-      optionElement = optionElement.previousElementSibling;
+  scrollToSelectedOption(options) {
+    const optionIdx = _findIndex(options, { isChecked: true });
+    const cache = this._cache;
+    if (optionIdx !== -1) {
+      cache.iScroll.goToPage(0, optionIdx, 600);
     }
-    if (optionElement) {
-      this._cache.iScroll.scrollToElement(optionElement);
-      return true;
-    }
-    return false;
   },
   buildPlaceholderElement(OptionComponent, viewportHeight) {
     const placeholderOffset = this._cache.placeholderOffset = viewportHeight / 2;
