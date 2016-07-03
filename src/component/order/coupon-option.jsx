@@ -43,6 +43,21 @@ module.exports = React.createClass({
     const reg = new RegExp('<[^<]*>', 'gi');
     return html.replace(reg, '');
   },
+  composeGiftCouponProps(giftCoupons) {
+    let gift = { name:'', number:'' };
+    giftCoupons.map(coupon => {
+      if (coupon.ruleName === 'giftName') {
+        gift.name = coupon.ruleValue;
+      } else if (coupon.ruleName === 'giftNumber') {
+        gift.number = coupon.ruleValue;
+      }
+      return gift;
+    });
+    const giftElement = (<div className="gift">
+    {gift.name}{gift.number}
+    </div>);
+    return giftElement;
+  },
   render() {
     const { instructions, coupRuleBeanList, ruleDesc, couponType, validStartDate, codeNumber, validEndDate, ...otherProps } = this.props;
     const { isInstructionsOpen } = this.state;
@@ -50,7 +65,11 @@ module.exports = React.createClass({
       <div className="coupon" {...otherProps}>
         <div className="coupon-card flex-row" >
           <div className="coupon-card-left">
-            <div className="coupon-rate">{coupRuleBeanList[0].ruleValue}</div>
+            {couponType === 3 ?
+              this.composeGiftCouponProps(coupRuleBeanList)
+              :
+              <div className="coupon-rate">{coupRuleBeanList[0].ruleValue}</div>
+            }
             <p className="coupon-text--grey">{ruleDesc}</p>
           </div>
           <div className="coupon-card-right flex-rest">
