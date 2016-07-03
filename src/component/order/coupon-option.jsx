@@ -1,11 +1,15 @@
 const React = require('react');
 
 module.exports = React.createClass({
-  displayName: 'CouponDetail',
+  displayName: 'CouponOption',
   propTypes: {
-    couponData:React.PropTypes.object.isRequired,
-    onSelectCoupon:React.PropTypes.func.isRequired,
-    id:React.PropTypes.number.isRequired,
+    instructions:React.PropTypes.string.isRequired,
+    coupRuleBeanList:React.PropTypes.array.isRequired,
+    ruleDesc:React.PropTypes.string.isRequired,
+    couponType:React.PropTypes.number.isRequired,
+    validStartDate:React.PropTypes.any.isRequired,
+    validEndDate:React.PropTypes.any.isRequired,
+    codeNumber:React.PropTypes.number.isRequired,
   },
   getInitialState() {
     return {
@@ -40,20 +44,20 @@ module.exports = React.createClass({
     return html.replace(reg, '');
   },
   render() {
-    const { couponData, onSelectCoupon, id } = this.props;
+    const { instructions, coupRuleBeanList, ruleDesc, couponType, validStartDate, codeNumber, validEndDate, ...otherProps } = this.props;
     const { isInstructionsOpen } = this.state;
     return (
-      <div className="coupon">
-        <div className="coupon-card flex-row" data-id={id} onTouchTap={onSelectCoupon}>
+      <div className="coupon" {...otherProps}>
+        <div className="coupon-card flex-row" >
           <div className="coupon-card-left">
-            <div className="coupon-rate">{couponData.coupRuleBeanList[0].ruleValue}</div>
-            <p className="coupon-text--grey">{couponData.ruleDesc}</p>
+            <div className="coupon-rate">{coupRuleBeanList[0].ruleValue}</div>
+            <p className="coupon-text--grey">{ruleDesc}</p>
           </div>
           <div className="coupon-card-right flex-rest">
-            <h3 className="coupon-title">{this.judgeCouponNameByCouponType(couponData.couponType)}</h3>
-            <p className="coupon-text--grey">有效期: {couponData.validStartDate}-{couponData.validEndDate}</p>
+            <h3 className="coupon-title">{this.judgeCouponNameByCouponType(couponType)}</h3>
+            <p className="coupon-text--grey">有效期: {validStartDate}-{validEndDate}</p>
             <button className="coupon-text--dark coupon-dropdown-trigger" onTouchTap={this.expandInstructions}>
-              {this.judgeCouponNameByCouponType(couponData.couponType)}使用规则
+              {this.judgeCouponNameByCouponType(couponType)}使用规则
             </button>
             <a className="coupon-go-order" href="">去点菜</a>
           </div>
@@ -61,9 +65,9 @@ module.exports = React.createClass({
         </div>
         {isInstructionsOpen ?
           <div className="coupon-dropdown">
-            <p className="coupon-text--dark">NO.{couponData.codeNumber}</p>
+            <p className="coupon-text--dark">NO.{codeNumber}</p>
             <ol className="coupon-rules">
-              <li className="coupon-text--grey">{this.deleteHtmlTag(couponData.instructions)}</li>
+              <li className="coupon-text--grey">{this.deleteHtmlTag(instructions)}</li>
             </ol>
           </div> : false
         }

@@ -1,8 +1,8 @@
 const React = require('react');
-
+const ActiveSelect = require('../mui/select/active-select.jsx');
 require('./coupon.scss');
 
-const CouponDetail = require('./coupon-detail.jsx');
+const CouponOption = require('./coupon-option.jsx');
 module.exports = React.createClass({
   displayName: 'CouponSelect',
   propTypes: {
@@ -17,7 +17,7 @@ module.exports = React.createClass({
   componentDidMount() {
 
   },
-  onSelectCoupon(evt) {
+  onSelectCoupon(evt, optionData) {
     const selectedCouponId = evt.currentTarget.getAttribute('data-id');
     this.setState({
       couponDataId:selectedCouponId,
@@ -36,12 +36,12 @@ module.exports = React.createClass({
     const { couponsProps } = this.props;
     return (
       <div className="order-subpage coupons-container">
-        {couponsProps.couponsList.map(
-           couponList => (
-             <CouponDetail couponData={couponList} id={couponList.id} key={couponList.id} onSelectCoupon={this.onSelectCoupon} />
-           )
-         )}
-        <button className="order-subpage-submit btn--yellow" onTouchTap={this.onSubmitBtntap}>确定</button>
+        <ActiveSelect
+          optionsData={couponsProps.couponsList}
+          onSelectOption={this.onSelectCoupon}
+          optionComponent={CouponOption}
+        />
+        <button className="order-subpage-submit btn--yellow" onClick={this.onSubmitBtnTap}>确定</button>
       </div>
     );
   },
