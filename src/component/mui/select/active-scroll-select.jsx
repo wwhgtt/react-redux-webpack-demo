@@ -23,26 +23,41 @@ module.exports = React.createClass({
     this._cache = {};
   },
   componentDidMount() {
-    const ViewportElement = findDOMNode(this);
+    const viewport = findDOMNode(this);
     const { viewportHeight } = this.props;
-    this.adjustViewportHeight(ViewportElement, viewportHeight);
+    this.adjustViewportHeight(viewport, viewportHeight);
+    this.applyIScrollPlugin(viewport);
+    this.scrollToSelectedOption(viewport);
   },
   componentDidUpdate() {
-
+    this._cache.iScroll.refresh();
   },
-  applyIScrollPlugin(ViewportElement) {
-    const iScroll = this._cache.iScroll = new IScroll(ViewportElement, { probeType: 2 });
-    iScroll.on('scrollEnd', () => console.log(222));
+  applyIScrollPlugin(viewport) {
+    const iScroll = this._cache.iScroll = new IScroll(viewport, { snap:'[data-option]', probeType: 1 });
+    iScroll.on('scrollEnd', () => console.log(iScroll.currentPage));
   },
-  adjustViewportHeight(ViewportElement, viewportHeight) { // We need to adjust the height of viewport according to the height of Option
-    const optionElement = ViewportElement.querySelector('[data-option]');
-    ViewportElement.style.height = `${optionElement.offsetHeight * viewportHeight}px`;
+  adjustViewportHeight(viewport, viewportHeight) { // We need to adjust the height of viewport according to the height of Option
+    const optionElement = viewport.querySelector('[data-option]');
+    if (optionElement) {
+      viewport.style.height = `${optionElement.offsetHeight * viewportHeight}px`;
+    }
+  },
+  scrollToSelectedOption(viewport) {
+    let optionElement = viewport.querySelector('[data-option].is-checked');
+    for (let i = 1; i < this._cache.placeholderOffset; i++) {
+      optionElement = optionElement.previousElementSibling;
+    }
+    if (optionElement) {
+      this._cache.iScroll.scrollToElement(optionElement);
+      return true;
+    }
+    return false;
   },
   buildPlaceholderElement(OptionComponent, viewportHeight) {
     const placeholderOffset = this._cache.placeholderOffset = viewportHeight / 2;
     const placeholders = [];
     for (let i = 1; i <= placeholderOffset; i++) {
-      placeholders.push(<OptionComponent key={`placeholder-${i}`} data-placeholder />);
+      placeholders.push(<OptionComponent key={`placeholder-${i}`} data-option="false" />);
     }
     return (
       <div className="placeholder-container">

@@ -1,6 +1,6 @@
 @import 'settings.colors';
 
-$scroll-select-option-height: 32px;
+$scroll-select-option-height: 40px;
 
 .scroll-select {
   position: relative;
@@ -22,14 +22,17 @@ $scroll-select-option-height: 32px;
 }
 
 .scroll-wrapper {
-  [data-option],
-  [data-placeholder] {
-    font-size: 14px;
-    line-height: 18px;
+  [data-option] {
+    font-size: 18px;
+    line-height: 20px;
     display: block;
     height: $scroll-select-option-height;
     padding: ($scroll-select-option-height - 18)/2 5px;
     text-align: center;
+    
+    &.is-checked {
+      color: $color-crusta;
+    }
   }
 
   > .placeholder-container {

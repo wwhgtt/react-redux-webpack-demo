@@ -60,7 +60,7 @@
     "es6-promise": "^3.0.2",
     "fetch": "^1.0.0",
     "formsy-react": "^0.18.0",
-    "iscroll": "^5.2.0",
+    "iscroll": "git+https://github.com/MicFE/iscroll.git#master",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.13.1",
     "lodash._pickbycallback": "^3.0.0",
