@@ -44,6 +44,30 @@ module.exports = React.createClass({
     const { isInstructionsOpen } = this.state;
     return (
       <div className="coupon-info" data-id={id} onTouchTap={onSelectCoupon}>
+        <div className="coupons-container">
+          <div className="coupon-card flex-row">
+            <div className="coupon-card-left">
+              <div className="coupon-rate">50</div>
+              <p className="coupon-text--grey">消费满200元可用</p>
+            </div>
+            <div className="coupon-card-right flex-rest">
+              <h3 className="coupon-title">券</h3>
+              <p className="coupon-text--grey">有效期: 2015</p>
+              <button className="coupon-text--dark coupon-dropdown-trigger">折扣券使用规则</button>
+              <a className="coupon-go-order" href="">去点菜</a>
+            </div>
+            <div className="coupon-flag"></div>
+          </div>
+          <div className="coupon-dropdown">
+            <p className="coupon-text--dark">NO.123123123</p>
+            <ol className="coupon-rules">
+              <li className="coupon-text--grey">至此</li>
+              <li className="coupon-text--grey">至此</li>
+              <li className="coupon-text--grey">至此</li>
+            </ol>
+          </div>
+        </div>
+
         <span classNmae="coupon-type">
           {this.judgeCouponNameByCouponType(couponData.couponType)}
         </span>

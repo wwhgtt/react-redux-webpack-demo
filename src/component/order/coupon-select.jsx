@@ -1,5 +1,7 @@
 const React = require('react');
 
+require('./coupon.scss');
+
 const CouponDetail = require('./coupon-detail.jsx');
 module.exports = React.createClass({
   displayName: 'CouponSelect',
@@ -33,13 +35,20 @@ module.exports = React.createClass({
   render() {
     const { couponsProps } = this.props;
     return (
-      <div className="coupon-select">
+      <div className="order-subpage">
+        <header className="tab-bars">
+          <ul className="flex-row">
+            <li className="tab-bar flex-rest active">未使用</li>
+            <li className="tab-bar flex-rest">未使用</li>
+            <li className="tab-bar flex-rest">未使用</li>
+          </ul>
+        </header>
         {couponsProps.couponsList.map(
           couponList => (
             <CouponDetail couponData={couponList} id={couponList.id} key={couponList.id} onSelectCoupon={this.onSelectCoupon} />
           )
         )}
-        <button onTouchTap={this.onSubmitBtnTap}>确定</button>
+        <button className="order-subpage-submit btn--yellow" onTouchTap={this.onSubmitBtntap}>确定</button>
       </div>
     );
   },
