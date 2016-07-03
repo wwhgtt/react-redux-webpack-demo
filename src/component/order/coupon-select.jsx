@@ -35,19 +35,12 @@ module.exports = React.createClass({
   render() {
     const { couponsProps } = this.props;
     return (
-      <div className="order-subpage">
-        <header className="tab-bars">
-          <ul className="flex-row">
-            <li className="tab-bar flex-rest active">未使用</li>
-            <li className="tab-bar flex-rest">未使用</li>
-            <li className="tab-bar flex-rest">未使用</li>
-          </ul>
-        </header>
+      <div className="order-subpage coupons-container">
         {couponsProps.couponsList.map(
-          couponList => (
-            <CouponDetail couponData={couponList} id={couponList.id} key={couponList.id} onSelectCoupon={this.onSelectCoupon} />
-          )
-        )}
+           couponList => (
+             <CouponDetail couponData={couponList} id={couponList.id} key={couponList.id} onSelectCoupon={this.onSelectCoupon} />
+           )
+         )}
         <button className="order-subpage-submit btn--yellow" onTouchTap={this.onSubmitBtntap}>确定</button>
       </div>
     );

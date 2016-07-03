@@ -43,49 +43,28 @@ module.exports = React.createClass({
     const { couponData, onSelectCoupon, id } = this.props;
     const { isInstructionsOpen } = this.state;
     return (
-      <div className="coupon-info" data-id={id} onTouchTap={onSelectCoupon}>
-        <div className="coupons-container">
-          <div className="coupon-card flex-row">
-            <div className="coupon-card-left">
-              <div className="coupon-rate">50</div>
-              <p className="coupon-text--grey">消费满200元可用</p>
-            </div>
-            <div className="coupon-card-right flex-rest">
-              <h3 className="coupon-title">券</h3>
-              <p className="coupon-text--grey">有效期: 2015</p>
-              <button className="coupon-text--dark coupon-dropdown-trigger">折扣券使用规则</button>
-              <a className="coupon-go-order" href="">去点菜</a>
-            </div>
-            <div className="coupon-flag"></div>
+      <div className="coupon">
+        <div className="coupon-card flex-row" data-id={id} onTouchTap={onSelectCoupon}>
+          <div className="coupon-card-left">
+            <div className="coupon-rate">{couponData.coupRuleBeanList[0].ruleValue}</div>
+            <p className="coupon-text--grey">{couponData.ruleDesc}</p>
           </div>
-          <div className="coupon-dropdown">
-            <p className="coupon-text--dark">NO.123123123</p>
-            <ol className="coupon-rules">
-              <li className="coupon-text--grey">至此</li>
-              <li className="coupon-text--grey">至此</li>
-              <li className="coupon-text--grey">至此</li>
-            </ol>
+          <div className="coupon-card-right flex-rest">
+            <h3 className="coupon-title">{this.judgeCouponNameByCouponType(couponData.couponType)}</h3>
+            <p className="coupon-text--grey">有效期: {couponData.validStartDate}-{couponData.validEndDate}</p>
+            <button className="coupon-text--dark coupon-dropdown-trigger" onTouchTap={this.expandInstructions}>
+              {this.judgeCouponNameByCouponType(couponData.couponType)}使用规则
+            </button>
+            <a className="coupon-go-order" href="">去点菜</a>
           </div>
-        </div>
-
-        <span classNmae="coupon-type">
-          {this.judgeCouponNameByCouponType(couponData.couponType)}
-        </span>
-        <p className="coupon-period-of-validity">
-          <span>有效期</span>
-          <span>{couponData.validStartDate}</span>
-          <span>-</span>
-          <span>{couponData.validEndDate}</span>
-        </p>
-        <p onTouchTap={this.expandInstructions}>{this.judgeCouponNameByCouponType(couponData.couponType)}使用规则</p>
-        <div className="coupon-rule-detaile">
-          <span>{couponData.coupRuleBeanList[0].ruleValue}</span>
-          <p>{couponData.ruleDesc}</p>
+          <div className="coupon-flag"></div>
         </div>
         {isInstructionsOpen ?
-          <div className="coupon-instructions-detaile">
-            <span>NO.{couponData.codeNumber}</span>
-            <p>{this.deleteHtmlTag(couponData.instructions)}</p>
+          <div className="coupon-dropdown">
+            <p className="coupon-text--dark">NO.{couponData.codeNumber}</p>
+            <ol className="coupon-rules">
+              <li className="coupon-text--grey">{this.deleteHtmlTag(couponData.instructions)}</li>
+            </ol>
           </div> : false
         }
       </div>

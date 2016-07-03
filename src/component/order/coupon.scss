@@ -1,37 +1,14 @@
 @import 'settings.colors';
 
-.tab-bars {
-  position: fixed;
-  z-index: 100;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 0 20px;
-  border-bottom: 1px solid $color-mercury;
-  background: $color-white;
-}
-
-.tab-bar {
-  font-size: 16px;
-  line-height: 20px;
-  padding: 10px;
-  cursor: pointer;
-  text-align: center;
-
-  &.active {
-    color: $color-crusta;
-    box-shadow: inset 0 -2px 0 currentColor;
-  }
-}
-
-
 .coupons-container {
-  height: 100%;
-  padding: 53px 8px 15px;
+  overflow: auto;
+  padding: 5px 8px 0;
   background: $color-gallery;
 }
 
 .coupon {
+  margin-bottom: 15px;
+
   // coupon card styles
   &-card {
     font-size: 11px;
@@ -115,7 +92,15 @@
 
     &::after {
       float: right;
-      content: 'V';
+      width: 10px;
+      height: 13px;
+      margin-left: 5px;
+      content: '';
+      background-image: url('../../asset/images/arrow-top-grey.png'); // image size 20 * 12px
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 10px 6px;
+
     }
   }
 
@@ -150,20 +135,20 @@
 
 // coupon types
 
-.coupon-yellow {
-  color: yellow;
+.coupon-xianjin {
+  color: #feb813;
 }
 
-.coupon-blue {
-  color: blue;
+.coupon-manjian {
+  color: #65a1ed;
 }
 
-.coupon-pink {
-  color: pink;
+.coupon-zhekou {
+  color: #ff678d;
 }
 
-.coupon-green {
-  color: green;
+.coupon-lipin {
+  color: #33d371;
 }
 
 
@@ -184,7 +169,14 @@
     position: absolute;
     z-index: 1;
     top: 3px;
-    right: -32px;
-    content: 'V';
+    right: -35px;
+    width: 13px;
+    height: 11px;
+    content: '';
+    background-image: url('../../asset/images/tick-white.png');
+    // images size 26px 22px
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 13px 11px;
   }
 }
