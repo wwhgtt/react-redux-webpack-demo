@@ -4,8 +4,8 @@ require('es6-promise');
 require('isomorphic-fetch');
 
 const setOrder = createAction('SET_ORDER', order => order);
-const mergeDiscountToOrder = createAction('MERGE_DISCOUNT_TO_ORDER', discount => discount);
-const mergeCouponsToOrder = createAction('MERGE_COUPONS_TO_ORDER', coupons => coupons);
+const mergeDiscountToOrder = createAction('SET_DISCOUNT_TO_ORDER', discount => discount);
+const mergeCouponsToOrder = createAction('SET_COUPONS_TO_ORDER', coupons => coupons);
 exports.fetchOrder = () => (dispatch, getState) => {
   fetch(config.orderDineInAPi, {
     method: 'GET', mod: 'cors',

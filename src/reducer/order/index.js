@@ -162,9 +162,9 @@ module.exports = function (
         );
       }
       break;
-    case 'MERGE_COUPONS_TO_ORDER':
+    case 'SET_COUPONS_TO_ORDER':
       return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], payload.coupList);
-    case 'MERGE_DISCOUNT_TO_ORDER':
+    case 'SET_DISCOUNT_TO_ORDER':
       if (payload.isDiscount) {
         return state.setIn(
           ['serviceProps', 'discountProps', 'discountInfo'],
