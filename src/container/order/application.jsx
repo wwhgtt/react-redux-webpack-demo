@@ -29,12 +29,12 @@ const OrderApplication = React.createClass({
   },
   expandCustomerInfoEditor(evt) {
     const { setOrderProps } = this.props;
-    setOrderProps(null, 'isCustomerInfoEditorOpen');
+    setOrderProps(null, 'is-customer-info-editor-open');
     evt.preventDefault();
   },
   expandCouponSelect(evt) {
     const { setOrderProps } = this.props;
-    setOrderProps(null, 'isCouponSelectOpen');
+    setOrderProps(null, 'is-coupon-select-open');
     evt.preventDefault();
   },
   render() {

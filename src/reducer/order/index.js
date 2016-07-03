@@ -33,9 +33,9 @@ module.exports = function (
   const { type, payload } = action;
   switch (type) {
     case 'SET_ORDER': {
-      return state.set('areaList', payload.areaList)
-                  .set('tableList', payload.tableList)
-                  .set('timeTable', payload.timeJson)
+      return state.set('areaList', Immutable.from({ areaList:payload.areaList }))
+                  .set('tableList', Immutable.from({ tableList:payload.tableList }))
+                  .set('timeTable', Immutable.from({ timeTable:payload.timeJson }))
                   .set(
                     'customerProps',
                     Immutable.from({
@@ -133,12 +133,12 @@ module.exports = function (
           ['serviceProps', 'isCustomerInfoEditorOpen'],
           !state.serviceProps.isCustomerInfoEditorOpen
         );
-      } else if (payload === 'isCustomerInfoEditorOpen') {
+      } else if (payload === 'is-customer-info-editor-open') {
         return state.setIn(
           ['serviceProps', 'isCustomerInfoEditorOpen'],
           !state.serviceProps.isCustomerInfoEditorOpen
         );
-      } else if (payload === 'isCouponSelectOpen') {
+      } else if (payload === 'is-coupon-select-open') {
         return state.setIn(
           ['serviceProps', 'isCouponSelectOpen'],
           !state.serviceProps.isCouponSelectOpen
