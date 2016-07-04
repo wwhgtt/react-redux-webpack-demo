@@ -42,16 +42,6 @@ const OrderApplication = React.createClass({
     const hash = location.hash;
     setChildView(hash);
   },
-  expandCustomerInfoEditor(evt) {
-    const { setOrderProps } = this.props;
-    setOrderProps(null, 'is-customer-info-editor-open');
-    evt.preventDefault();
-  },
-  expandCouponSelect(evt) {
-    const { setOrderProps } = this.props;
-    setOrderProps(null, 'is-coupon-select-open');
-    evt.preventDefault();
-  },
   render() {
     const { customerProps, serviceProps, childView } = this.props; // states
     const { setOrderProps } = this.props;// actions
