@@ -1,11 +1,13 @@
 const React = require('react');
 const connect = require('react-redux').connect;
 const actions = require('../../action/order/order');
-require('../../asset/style/style.scss');
-require('./application.scss');
-import ActiveSelect from '../../component/mui/select/active-select.jsx';
+const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
+// const TableSelect = require('../../component/order/select/table-select.jsx');
+
+require('../../asset/style/style.scss');
+require('./application.scss');
 
 const OrderApplication = React.createClass({
   displayName: 'OrderApplication',
