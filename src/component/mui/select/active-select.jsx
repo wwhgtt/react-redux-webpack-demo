@@ -9,18 +9,13 @@ const ActiveSelect = React.createClass({
     optionComponent: React.PropTypes.oneOfType([React.PropTypes.func, React.PropTypes.string]).isRequired,
     onSelectOption: React.PropTypes.func.isRequired,
     className: React.PropTypes.string,
-    triggerElement:React.PropTypes.bool,
   },
   onSelectOption(evt) {
-    const { optionsData, triggerElement } = this.props;
-    if (triggerElement && !evt.target.getAttribute('data-trigger')) {
-      return false;
-    }
-
-    const optionData = _find(optionsData, { id: typeof evt.currentTarget.getAttribute('data-id') === Number ?
-      parseInt(evt.currentTarget.getAttribute('data-id'), 10)
+    const { optionsData } = this.props;
+    const optionData = _find(optionsData, { id: isNaN(evt.currentTarget.getAttribute('data-id')) ?
+      evt.currentTarget.getAttribute('data-id')
       :
-      evt.currentTarget.getAttribute('data-id'),
+      parseInt(evt.currentTarget.getAttribute('data-id'), 10),
     });
     return this.props.onSelectOption(evt, optionData);
   },
@@ -28,7 +23,7 @@ const ActiveSelect = React.createClass({
     return optionsData.map(optionData => {
       const { label } = optionData;
       return React.createElement(optionComponent,
-        Object.assign({}, { key:optionData.id, 'data-id':optionData.id, onTouchTap:this.onSelectOption }, optionData), label
+        Object.assign({}, { key:optionData.id, 'data-option':'', 'data-id':optionData.id, onTouchTap:this.onSelectOption }, optionData), label
       );
     });
   },

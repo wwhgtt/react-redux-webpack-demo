@@ -1,0 +1,53 @@
+@import 'settings.colors';
+
+$scroll-select-option-height: 40px;
+
+.scroll-select {
+  position: relative;
+  overflow: hidden;
+
+  // indicator
+  &::before {
+    position: absolute;
+    z-index: 0;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: $scroll-select-option-height;
+    margin-top: -$scroll-select-option-height/2;
+    content: '';
+    border-top: 1px solid $color-crusta;
+    border-bottom: 1px solid $color-crusta;
+  }
+
+  // gradient mask
+  &::after {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    content: '';
+    background-image: linear-gradient(to bottom, white 0%, transparent 40%, transparent 60%, white 100%);
+  }
+}
+
+.scroll-wrapper {
+  [data-option] {
+    font-size: 18px;
+    line-height: 20px;
+    display: block;
+    height: $scroll-select-option-height;
+    padding: ($scroll-select-option-height - 18)/2 5px;
+    text-align: center;
+
+    &.is-checked {
+      color: $color-crusta;
+    }
+  }
+
+  > .placeholder-container {
+    visibility: hidden;
+  }
+}

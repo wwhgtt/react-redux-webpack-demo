@@ -1,27 +1,26 @@
 const React = require('react');
-const DynamicClassLink = require('../mui/misc/dynamic-class-hoc.jsx')('a');
+const classnames = require('classnames');
+const DynamicClassLink = require('../mui/misc/dynamic-class-hoc.jsx')('button');
 const shallowCompare = require('react-addons-shallow-compare');
 
 module.exports = React.createClass({
   displayName: 'OrderPropOption',
   propTypes: {
     name: React.PropTypes.string.isRequired,
-    isChecked: React.PropTypes.bool.isRequired,
-    id:React.PropTypes.any.isRequired,
+    subname:React.PropTypes.string,
+    type: React.PropTypes.string,
   },
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
   },
   render() {
-    const { name, isChecked, id, ...otherProps } = this.props;
+    const { name, subname, type, ...otherProps } = this.props;
     return (
-      <div>
-        <span>{name}</span>
-        <DynamicClassLink className="order-prop-option" data-id={id} data-checked={isChecked} {...otherProps} >
-          <button data-trigger="true">选择</button>
-        </DynamicClassLink>
+      <div className="order-prop-option">
+        <span className="option-title">{name}</span>
+        <small className="option-desc">{subname}</small>
+        <DynamicClassLink className={classnames('option-btn', { 'btn-tickbox':type === 'tickbox', 'btn-toggle':!type })} {...otherProps} />
       </div>
-
     );
   },
 });

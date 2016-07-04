@@ -585,9 +585,9 @@ module.exports = {
         ],
       },
 	/** 前台自取支付方式*/
-      'pickupPayType': 'offline,online',
+      'pickupPayType': 'online,offline',
 	/** 送餐到桌支付方式 */
-      'totablePayType': 'offline,online',
+      'totablePayType': 'online,offline',
 	/** 会员是否停用 */
       'disable': false,
     },
