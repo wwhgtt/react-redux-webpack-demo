@@ -158,8 +158,37 @@ div[data-reactroot] {
   padding-left: 10px;
 }
 
-// subpage styles
 
+// ORDER SUMMARY
+.order-summary {
+  padding-top: 5px;
+
+  &-entry {
+    line-height: 22px;
+    padding: 5px 0;
+  }
+
+  @at-root {
+    .order-discount {
+      float: right;
+      width: 80px;
+      text-align: right;
+    }
+
+    .order-integral {
+      font-size: 14px;
+      float: right;
+      color: $color-dusty-grey;
+
+      &::before {
+        content: '-';
+      }
+    }
+  }
+}
+
+
+// SUBPAGE STYLES
 .order-subpage {
   position: fixed;
   z-index: 10;

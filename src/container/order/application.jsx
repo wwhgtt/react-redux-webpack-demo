@@ -148,18 +148,19 @@ const OrderApplication = React.createClass({
             :
             false
           }
-          <div className="influencing-factors-of-total-price">
-            <p className="coupon">
-              <span>优惠券优惠:</span>
-              <span></span>
+          <div className="order-summary">
+            <p className="order-summary-entry clearfix">
+              <span className="order-title">优惠券优惠:</span>
+              <span className="order-discount discount">20</span>
             </p>
-            <p className="integrals">
-              <span>积分抵扣:</span>
-              <span></span>
+            <p className="order-summary-entry clearfix">
+              <span className="order-title">积分抵扣:</span>
+              <span className="order-discount discount">20</span>
+              <span className="order-integral">200</span>
             </p>
-            <p className="not-count-the-small-change">
-              <span>自动抹零:</span>
-              <span></span>
+            <p className="order-summary-entry clearfix">
+              <span className="order-title">自动抹零:</span>
+              <span className="order-discount discount">20</span>
             </p>
           </div>
         </div>
