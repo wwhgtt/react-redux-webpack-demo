@@ -37,6 +37,7 @@ module.exports = React.createClass({
       selectedCouponId:couponDataId,
     };
     onSelectCoupon(null, selectedCouponData);
+    window.location.hash = '';
   },
   render() {
     const { couponsProps } = this.props;

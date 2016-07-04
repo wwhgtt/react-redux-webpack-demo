@@ -1,13 +1,17 @@
 const Immutable = require('seamless-immutable');
 const _find = require('lodash.find');
 const helper = require('../../helper/order-helper');
+const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
 module.exports = function (
   state = Immutable.from({
     areaList:[],
     tableList:[],
     timeTable:{},
     customerProps:{},
-    orderedDishesProps:{},
+    orderedDishesProps:{
+      orderedDishes:{},
+      dishesPrice:'',
+    },
     commercialProps:{},
     serviceProps:{
       isPickupFromFrontDesk:'',
@@ -16,6 +20,7 @@ module.exports = function (
       couponsProps:{
         couponsList:[],
         inUseCoupon:false,
+        inUseCouponDetail:{},
       },
       discountProps:{
         discountInfo:'',
@@ -27,6 +32,11 @@ module.exports = function (
       tables:[],
     },
     childView:null,
+    orderSummary:{
+      coupon:'',
+      discount:'',
+      clearSmallChange:'',
+    },
   }),
   action
 ) {
@@ -48,7 +58,7 @@ module.exports = function (
                     Immutable.from({
                       name:payload.commercialName, integral:payload.integral, commercialLogo:payload.commercialLogo,
                       pickupPayType:payload.pickupPayType, totablePayType:payload.totablePayType,
-                      diningForm: payload.diningForm,
+                      diningForm: payload.diningForm, carryRuleVO:payload.carryRuleVO,
                     })
                   )
                   .setIn(
@@ -80,7 +90,13 @@ module.exports = function (
                    .setIn(
                      ['serviceProps', 'integralsInfo'],
                      payload.isMember && payload.integral.isExchangeCash === 0 && payload.integral.integral !== 0 ?
-                         Immutable.from({ name:'使用会员积分', isChecked:true, id:'integrals', subname:`我的积分${payload.integral.integral}` })
+                         Immutable.from({
+                           name:'使用会员积分',
+                           isChecked:true,
+                           id:'integrals',
+                           subname:`我的积分${payload.integral.integral}`,
+                           integralsDetail:payload.integral,
+                         })
                          :
                          false
                     );
@@ -140,8 +156,24 @@ module.exports = function (
         );
       } else if (payload.id === 'coupon') {
         // 使用优惠券以后需要把会员价关闭  利用返回的id找到对应的优惠券获取优惠信息
+        // 处理优惠券信息
+        const selectedCoupon = _find(
+          state.serviceProps.couponsProps.couponsList,
+          coupon => coupon.id.toString() === payload.selectedCouponId
+        );
         return state.setIn(
           ['serviceProps', 'couponsProps', 'inUseCoupon'], true
+        ).setIn(
+          ['serviceProps', 'couponsProps', 'inUseCouponDetail'],
+          selectedCoupon
+        ).setIn(
+          ['orderSummary', 'coupon'],
+          Immutable.from(
+            helper.countPriceByCoupons(
+              selectedCoupon,
+              state.orderedDishesProps.dishesPrice
+            )
+          )
         );
       } else if (payload.id === 'integrals') {
         return state.setIn(
@@ -183,8 +215,10 @@ module.exports = function (
       }
       return state.set('childView', '');
     case 'GET_LAST_ORDERED_DISHES':
-      console.log(payload.dishes);
-      return state.set('orderedDishesProps', Immutable.from(payload));
+      return state.setIn(
+        ['orderedDishesProps', 'orderedDishes'], Immutable.from(payload)
+      )
+      .setIn(['orderedDishesProps', 'dishesPrice'], Immutable.from(getDishesPrice(payload.dishes)));
     default:
   }
   return state;

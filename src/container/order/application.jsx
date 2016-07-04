@@ -8,6 +8,7 @@ const CouponSelect = require('../../component/order/coupon-select.jsx');
 // const TableSelect = require('../../component/order/select/table-select.jsx');
 const OrderedDish = require('../../component/order/ordered-dish.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
+const helper = require('../../helper/order-helper.js');
 require('../../asset/style/style.scss');
 require('./application.scss');
 
@@ -21,6 +22,7 @@ const OrderApplication = React.createClass({
     fetchOrderCoupons:React.PropTypes.func.isRequired,
     setChildView: React.PropTypes.func.isRequired,
     getLastOrderedDishes:React.PropTypes.func.isRequired,
+    orderSummary:React.PropTypes.object.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
@@ -34,9 +36,10 @@ const OrderApplication = React.createClass({
   },
   componentDidMount() {
     const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons, getLastOrderedDishes } = this.props;
+    getLastOrderedDishes();
     Promise.all([fetchOrder(), fetchOrderDiscountInfo(), fetchOrderCoupons()]).then(
       this.setChildViewAccordingToHash
-    ).then(getLastOrderedDishes());
+    );
   },
   componentDidUpdate() {
 
@@ -47,7 +50,7 @@ const OrderApplication = React.createClass({
     setChildView(hash);
   },
   render() {
-    const { customerProps, serviceProps, childView, tableProps, orderedDishesProps, commercialProps } = this.props; // states
+    const { customerProps, serviceProps, childView, tableProps, orderedDishesProps, commercialProps, orderSummary } = this.props; // states
     const { setOrderProps } = this.props;// actions
     return (
       <div className="application">
@@ -141,9 +144,9 @@ const OrderApplication = React.createClass({
             <img className="order-shop-icon" src={commercialProps.commercialLogo} alt="" />
             <p className="order-shop-desc ellipsis">{commercialProps.name}</p>
           </a>
-          {orderedDishesProps.dishes ?
+          {orderedDishesProps.orderedDishes.dishes ?
             <div>
-              {orderedDishesProps.dishes.map(dish => (<OrderedDish key={dish.id} dish={dish} />))}
+              {orderedDishesProps.orderedDishes.dishes.map(dish => (<OrderedDish key={dish.id} dish={dish} />))}
             </div>
             :
             false
@@ -151,17 +154,33 @@ const OrderApplication = React.createClass({
           <div className="order-summary">
             <p className="order-summary-entry clearfix">
               <span className="order-title">优惠券优惠:</span>
-              <span className="order-discount discount">20</span>
+              <span className="order-discount discount">{orderSummary.coupon}</span>
             </p>
-            <p className="order-summary-entry clearfix">
-              <span className="order-title">积分抵扣:</span>
-              <span className="order-discount discount">20</span>
-              <span className="order-integral">200</span>
-            </p>
-            <p className="order-summary-entry clearfix">
-              <span className="order-title">自动抹零:</span>
-              <span className="order-discount discount">20</span>
-            </p>
+            {orderSummary.coupon ?
+              <p className="order-summary-entry clearfix">
+                <span className="order-title">积分抵扣:</span>
+                <span className="order-integral">
+                  {helper.countIntegralsToCash(
+                    orderedDishesProps.dishesPrice,
+                    orderSummary.coupon,
+                    serviceProps.integralsInfo.integralsDetail
+                  )}
+                </span>
+                <span className="order-discount discount">{serviceProps.integralsInfo.integralsDetail.integral}</span>
+              </p>
+              :
+              false
+            }
+            {orderedDishesProps.dishesPrice && commercialProps.carryRuleVO ?
+              <p className="order-summary-entry clearfix">
+                <span className="order-title">自动抹零:</span>
+                <span className="order-discount discount">{
+                  helper.clearSmallChange(commercialProps.carryRuleVO, orderedDishesProps.dishesPrice)
+                }</span>
+              </p>
+              :
+              false
+            }
           </div>
         </div>
       </div>
