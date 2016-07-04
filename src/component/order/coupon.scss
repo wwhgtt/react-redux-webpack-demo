@@ -47,7 +47,7 @@
 
 
     &-left {
-      padding: 15px 20px 10px 25px;
+      padding: 15px 15px 10px 20px;
       border-right: 1px dotted $color-mercury;
       flex: 0 0 110px;
     }
@@ -137,18 +137,50 @@
 
 .coupon-xianjin {
   color: #feb813;
+
+  .coupon-rate::before {
+    font-size: 16px;
+    margin-right: 3px;
+    content: '¥';
+  }
 }
 
 .coupon-manjian {
   color: #65a1ed;
+
+  .coupon-rate::before {
+    font-size: 14px;
+    display: inline-block;
+    margin-right: 3px;
+    content: '减';
+    vertical-align: middle;
+  }
 }
 
 .coupon-zhekou {
   color: #ff678d;
+
+  .coupon-rate::after {
+    font-size: 14px;
+    margin-left: 2px;
+    content: '折';
+  }
 }
 
 .coupon-lipin {
   color: #33d371;
+
+  .coupon-rate {
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+
+  .coupon-rate::after {
+    font-weight: 200;
+    font-size: 14px;
+    margin-left: 3px;
+    content: 'x' attr(data-gift-amount);
+  }
 }
 
 
