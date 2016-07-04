@@ -11,10 +11,6 @@ module.exports = function (
     commercialProps:{},
     serviceProps:{
       isPickupFromFrontDesk:'',
-      tableProps:{
-        areas:'',
-        tables:'',
-      },
       payMethods:[],
       integralsInfo:'',
       couponsProps:{
@@ -25,8 +21,12 @@ module.exports = function (
         discountInfo:'',
         discountList:[],
       },
-      childView:null,
     },
+    tableProps:{
+      areas:[],
+      tables:[],
+    },
+    childView:null,
   }),
   action
 ) {

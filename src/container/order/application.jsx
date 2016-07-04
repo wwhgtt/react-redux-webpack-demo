@@ -7,6 +7,7 @@ const CustomerInfoEditor = require('../../component/order/customer-info-editor.j
 const CouponSelect = require('../../component/order/coupon-select.jsx');
 // const TableSelect = require('../../component/order/select/table-select.jsx');
 const OrderedDish = require('../../component/order/ordered-dish.jsx');
+const TableSelect = require('../../component/order/select/table-select.jsx');
 require('../../asset/style/style.scss');
 require('./application.scss');
 
@@ -25,6 +26,7 @@ const OrderApplication = React.createClass({
     serviceProps:React.PropTypes.object.isRequired,
     commercialProps:React.PropTypes.object.isRequired,
     orderedDishesProps:React.PropTypes.object.isRequired,
+    tableProps: React.PropTypes.object.isRequired,
     childView: React.PropTypes.string,
   },
   componentWillMount() {
@@ -45,7 +47,7 @@ const OrderApplication = React.createClass({
     setChildView(hash);
   },
   render() {
-    const { customerProps, serviceProps, childView, orderedDishesProps, commercialProps } = this.props; // states
+    const { customerProps, serviceProps, childView, tableProps, orderedDishesProps, commercialProps } = this.props; // states
     const { setOrderProps } = this.props;// actions
     return (
       <div className="application">
@@ -68,7 +70,7 @@ const OrderApplication = React.createClass({
           {serviceProps.isPickupFromFrontDesk.isChecked ?
             false
             :
-            <a className="order-prop-option">
+            <a className="order-prop-option" href="#table-select" >
               <span className="options-title">选择桌台</span>
               <button className="option-btn btn-arrow-right">大厅区   桌台A021(2人桌)</button>
             </a>
@@ -146,7 +148,9 @@ const OrderApplication = React.createClass({
             false
           }
         </div>
-
+        {childView === 'table-select' ?
+          <TableSelect areas={tableProps.areas} tables={tableProps.tables} onTableSelect={tableProp => console.log(tableProp)} />
+          : false}
       </div>
     );
   },

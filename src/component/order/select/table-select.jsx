@@ -62,24 +62,27 @@ module.exports = React.createClass({
     const tablesOfArea = this.getTablesOfSelectedArea(areas, tables);
     return (
       <div className="scroll-select-container">
-        <div className="scroll-select-header">
-          <span>选择地区</span>
-          <div className="scroll-select-confirm btn--yellow" onTouchTap={this.onSubmit}>确定</div>
+        <div className="scroll-select-content">
+          <div className="scroll-select-header">
+            <span>选择桌台</span>
+            <div className="scroll-select-confirm btn--yellow" onTouchTap={this.onSubmit}>确定</div>
+          </div>
+          <div className="flex-row">
+            <ActiveScrollSelect
+              className="flex-area-select"
+              optionsData={areas}
+              optionComponent={AreaOption}
+              onSelectOption={this.onAreaSelect}
+            />
+            <ActiveScrollSelect
+              className="flex-table-select"
+              optionsData={tablesOfArea}
+              optionComponent={TableOption}
+              onSelectOption={this.onTableSelect}
+            />
+          </div>
         </div>
-        <div className="flex-row">
-          <ActiveScrollSelect
-            className="flex-area-select"
-            optionsData={areas}
-            optionComponent={AreaOption}
-            onSelectOption={this.onAreaSelect}
-          />
-          <ActiveScrollSelect
-            className="flex-table-select"
-            optionsData={tablesOfArea}
-            optionComponent={TableOption}
-            onSelectOption={this.onTableSelect}
-          />
-        </div>
+        <div className="scroll-select-close" onTouchTap=""></div>
       </div>
     );
   },
