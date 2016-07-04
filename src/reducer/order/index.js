@@ -214,7 +214,7 @@ module.exports = function (
         return state.set('childView', 'coupon-select');
       }
       return state.set('childView', '');
-    case 'GET_LAST_ORDERED_DISHES':
+    case 'SET_ORDERED_DISHES_TO_ORDER':
       return state.setIn(
         ['orderedDishesProps', 'orderedDishes'], Immutable.from(payload)
       )

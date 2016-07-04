@@ -152,10 +152,14 @@ const OrderApplication = React.createClass({
             false
           }
           <div className="order-summary">
-            <p className="order-summary-entry clearfix">
-              <span className="order-title">优惠券优惠:</span>
-              <span className="order-discount discount">{orderSummary.coupon}</span>
-            </p>
+            {orderSummary.coupon ?
+              <p className="order-summary-entry clearfix">
+                <span className="order-title">优惠券优惠:</span>
+                <span className="order-discount discount">{orderSummary.coupon}</span>
+              </p>
+              :
+              false
+            }
             {orderSummary.coupon ?
               <p className="order-summary-entry clearfix">
                 <span className="order-title">积分抵扣:</span>

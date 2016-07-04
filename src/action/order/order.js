@@ -6,7 +6,7 @@ require('isomorphic-fetch');
 const setOrder = createAction('SET_ORDER', order => order);
 const setDiscountToOrder = createAction('SET_DISCOUNT_TO_ORDER', discount => discount);
 const setCouponsToOrder = createAction('SET_COUPONS_TO_ORDER', coupons => coupons);
-const getLastOrderedDishes = createAction('GET_LAST_ORDERED_DISHES', dishes => dishes);
+const setOrderedDishesToOrder = createAction('SET_ORDERED_DISHES_TO_ORDER', dishes => dishes);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 exports.fetchOrder = () => (dispatch, getState) =>
   fetch(config.orderDineInAPi, {
@@ -65,6 +65,6 @@ exports.fetchOrderCoupons = () => (dispatch, getState) => {
 };
 exports.getLastOrderedDishes = () => (dispatch, getState) => {
   const lastOrderedDishes = localStorage.getItem('lastOrderedDishes');
-  dispatch(getLastOrderedDishes(JSON.parse(lastOrderedDishes)));
+  dispatch(setOrderedDishesToOrder(JSON.parse(lastOrderedDishes)));
 };
 exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
