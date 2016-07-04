@@ -1,3 +1,5 @@
+const _find = require('lodash.find');
+
 exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDesk, pickupPayType, totablePayType) {
   if (diningForm === 0) {
     return payment === 'offline';
@@ -9,4 +11,10 @@ exports.shouldPaymentAutoChecked = function (payment, isPickupFromFrontDesk, pic
     return pickupPayType.indexOf(',') !== -1 ? payment === pickupPayType.split(',')[0] : payment === pickupPayType;
   }
   return totablePayType.indexOf(',') !== -1 ? payment === totablePayType.split(',')[0] : payment === totablePayType;
+};
+exports.getSelectedTable = function (tableProps) {
+  return {
+    area: _find(tableProps.areas, { isChecked:true }),
+    table: _find(tableProps.tables, { isChecked:true }),
+  };
 };

@@ -1,6 +1,7 @@
 const React = require('react');
 const connect = require('react-redux').connect;
 const actions = require('../../action/order/order');
+const helper = require('../../helper/order-helper');
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
@@ -19,6 +20,7 @@ const OrderApplication = React.createClass({
     fetchOrderDiscountInfo:React.PropTypes.func.isRequired,
     fetchOrderCoupons:React.PropTypes.func.isRequired,
     setChildView: React.PropTypes.func.isRequired,
+    setOrderPropsAndResetChildView: React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
@@ -43,9 +45,13 @@ const OrderApplication = React.createClass({
     const hash = location.hash;
     setChildView(hash);
   },
+  resetChildView() {
+    location.hash = '';
+  },
   render() {
     const { customerProps, serviceProps, tableProps, childView } = this.props; // states
     const { setOrderProps } = this.props;// actions
+    const selectedTable = helper.getSelectedTable(tableProps);
     return (
       <div className="application">
         <a className="options-group options-group--stripes" href="#customer-info" >
@@ -69,7 +75,13 @@ const OrderApplication = React.createClass({
             :
             <a className="order-prop-option" href="#table-select" >
               <span className="options-title">选择桌台</span>
-              <button className="option-btn btn-arrow-right">大厅区   桌台A021(2人桌)</button>
+              <button className="option-btn btn-arrow-right">
+                {selectedTable.area && selectedTable.table ?
+                  `${selectedTable.area.areaName} ${selectedTable.table.tableName}`
+                  :
+                  false
+                }
+              </button>
             </a>
           }
         </div>
@@ -131,7 +143,10 @@ const OrderApplication = React.createClass({
           <CouponSelect couponsProps={serviceProps.couponsProps} onSelectCoupon={setOrderProps} />
           : false}
         {childView === 'table-select' ?
-          <TableSelect areas={tableProps.areas} tables={tableProps.tables} onTableSelect={tableProp => console.log(tableProp)} />
+          <TableSelect
+            areas={tableProps.areas} tables={tableProps.tables}
+            onTableSelect={setOrderProps} onDone={this.resetChildView}
+          />
           : false}
       </div>
     );
