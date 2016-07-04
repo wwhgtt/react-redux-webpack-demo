@@ -2,6 +2,7 @@ const React = require('react');
 const helper = require('../../helper/dish-hepler.js');
 const classnames = require('classnames');
 require('../../component/dish-menu/cart/cart-ordered-dish.scss');
+require('./ordered-dish.scss');
 
 module.exports = React.createClass({
   displayName: 'CartOrderedDish',
@@ -89,8 +90,8 @@ module.exports = React.createClass({
               :
               <span className="ellipsis dish-name">{dish.name}</span>
           }
-          {helper.getDishesCount([dish])}
-          <span className="dish-price price">{helper.getDishPrice(dish)}</span>
+          <span className="order-dish-price price">{helper.getDishPrice(dish)}</span>
+          <span className="order-dish-count">x{helper.getDishesCount([dish])}</span>
         </div>
         {expand ? detailInfo : false}
       </div>
