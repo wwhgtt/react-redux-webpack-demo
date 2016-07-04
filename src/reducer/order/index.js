@@ -144,6 +144,11 @@ module.exports = function (
         return state.setIn(
           ['serviceProps', 'couponsProps', 'inUseCoupon'], true
         );
+      } else if (payload.id === 'integrals') {
+        return state.setIn(
+          ['serviceProps', 'integralsInfo', 'isChecked'],
+           !state.serviceProps.integralsInfo.isChecked
+         );
       }
       break;
     case 'SET_COUPONS_TO_ORDER':
