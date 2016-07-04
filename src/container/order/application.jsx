@@ -9,6 +9,7 @@ const CouponSelect = require('../../component/order/coupon-select.jsx');
 
 require('../../asset/style/style.scss');
 require('./application.scss');
+
 const OrderApplication = React.createClass({
   displayName: 'OrderApplication',
   propTypes: {
