@@ -158,12 +158,8 @@ exports.storeDishesLocalStorage = function (data) {
   let lastOrderedDishes = {
     shopId: getUrlParam('shopId'),
     expires: Date.now() + 24 * 60 * 60 * 1000,
-    dishes: {},
+    dishes: getOrderedDishes(data),
   };
-
-  getOrderedDishes(data).forEach(dish => {
-    lastOrderedDishes.dishes[dish.id] = dish.order;
-  });
 
   localStorage.setItem('lastOrderedDishes', JSON.stringify(lastOrderedDishes));
 };
@@ -176,8 +172,9 @@ exports.restoreDishesLocalStorage = function (data) {
   if (lastOrderedDishes.hasOwnProperty('shopId')) {
     if (lastOrderedDishes.shopId === getUrlParam('shopId') && lastOrderedDishes.expires > Date.now()) {
       data.dishList.forEach(dish => {
-        if (lastOrderedDishes.dishes.hasOwnProperty(dish.id)) {
-          dish.order = lastOrderedDishes.dishes[dish.id];
+        let orderedDishIndex = lastOrderedDishes.dishes.findIndex(orderedDish => orderedDish.id === dish.id);
+        if (orderedDishIndex > -1) {
+          dish.order = lastOrderedDishes.dishes[orderedDishIndex].order;
         }
       });
     } else {

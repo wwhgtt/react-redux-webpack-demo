@@ -66,9 +66,9 @@ const OrderApplication = React.createClass({
           {serviceProps.isPickupFromFrontDesk.isChecked ?
             false
             :
-            <a className="select-table">
-              <span>选择桌台</span>
-              <span className="mould-station"></span>
+            <a className="order-prop-option">
+              <span className="options-title">选择桌台</span>
+              <button className="option-btn btn-arrow-right">大厅区   桌台A021(2人桌)</button>
             </a>
           }
         </div>
