@@ -133,16 +133,14 @@ const OrderApplication = React.createClass({
         {childView === 'coupon-select' ?
           <CouponSelect couponsProps={serviceProps.couponsProps} onSelectCoupon={setOrderProps} />
           : false}
-        <div className="commercial-props-and-ordered-dish">
-          <div className="commercial-props">
-            <img src={commercialProps.commercialLogo} alt="门店logo" />
-            <p>{commercialProps.name}</p>
-          </div>
+        <div className="options-group">
+          <a className="order-prop-option order-shop">
+            <img className="order-shop-icon" src={commercialProps.commercialLogo} alt="" />
+            <p className="order-shop-desc ellipsis">{commercialProps.name}</p>
+          </a>
           {orderedDishesProps.dishes ?
-            <div className="options-group">
-              <div className="order-prop-option">
-                {orderedDishesProps.dishes.map(dish => (<OrderedDish key={dish.id} dish={dish} />))}
-              </div>
+            <div>
+              {orderedDishesProps.dishes.map(dish => (<OrderedDish key={dish.id} dish={dish} />))}
             </div>
             :
             false
