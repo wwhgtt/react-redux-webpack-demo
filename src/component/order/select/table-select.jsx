@@ -66,7 +66,7 @@ module.exports = React.createClass({
           <span>选择地区</span>
           <div className="scroll-select-confirm btn--yellow" onTouchTap={this.onSubmit}>确定</div>
         </div>
-        <div className="scroll-select-content flex-row">
+        <div className="flex-row">
           <ActiveScrollSelect
             className="flex-area-select"
             optionsData={areas}
