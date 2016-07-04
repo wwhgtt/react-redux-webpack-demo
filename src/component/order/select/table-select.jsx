@@ -1,6 +1,9 @@
 const React = require('react');
+const _find = require('lodash.find');
 const _findIndex = require('lodash.findindex');
 const ActiveScrollSelect = require('../../mui/select/active-scroll-select.jsx');
+const AreaOption = require('./area-option.jsx');
+const TableOption = require('./table-option.jsx');
 
 module.exports = React.createClass({
   displayName: 'TableSelect',
@@ -25,25 +28,44 @@ module.exports = React.createClass({
     };
   },
   onAreaSelect(area) {
-
+    const { areas } = this.state;
+    this.setState({
+      areas: areas.flatMap(
+        eachArea => eachArea.id === area.id ? eachArea.set('isChecked', true) : eachArea.set('isChecked', false)
+      ),
+    });
   },
   onTableSelect(table) {
-
+    const { tables } = this.state;
+    this.setState({
+      tables: tables.flatMap(
+        eachTable => eachTable.id === table.id ? eachTable.set('isChecked', true) : eachTable.set('isChecked', false)
+      ),
+    });
+  },
+  onSubmit() {
+    const { onTableSelect } = this.props;
+    const { areas, tables } = this.state;
+    onTableSelect({
+      area: _find(areas, { isChecked:true }),
+      table: _find(tables, { isChecked:true }),
+    });
   },
   getTablesOfSelectedArea(areas, tables) {
-
+    const selectedArea = _find(areas, { isChecked:true });
+    return tables.filter(table => table.areaId === selectedArea.id);
   },
   render() {
     const { areas, tables } = this.state;
     const tablesOfArea = this.getTablesOfSelectedArea(areas, tables);
     return (
-      <div className="table-select">
+      <div className="table-select-container">
         <div className="headbar">
           <span className="headding">选择桌台</span>
-          <a className="submit-btn">确定</a>
+          <a className="submit-btn" onTouchTap={this.onSubmit}>确定</a>
         </div>
-        <ActiveScrollSelect optionsData={areas} />
-        <ActiveScrollSelect optionsData={tablesOfArea} />
+        <ActiveScrollSelect className="area-select" optionsData={areas} optionComponent={AreaOption} onSelectOption={this.onAreaSelect} />
+        <ActiveScrollSelect className="table-select" optionsData={tablesOfArea} optionComponent={TableOption} onSelectOption={this.onTableSelect} />
       </div>
     );
   },

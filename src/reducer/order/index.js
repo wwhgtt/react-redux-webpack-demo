@@ -34,8 +34,8 @@ module.exports = function (
   switch (type) {
     case 'SET_ORDER': {
       return state.setIn(['tableProps', 'areas'], Immutable.from(payload.areaList))
-                  .setIn(['tableProps', 'tables'], Immutable.from(payload.tableList))
-                  .set('timeTable', Immutable.from(payload.timeJson))
+                  .setIn(['tableProps', 'tables'], Immutable.from(payload.tableList).flatMap(table => table.set('id', table.tableID)))
+                  .set('timeProps', Immutable.from({ selectedDateTime:[], timeTable:payload.timeJson }))
                   .set(
                     'customerProps',
                     Immutable.from({
