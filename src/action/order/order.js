@@ -7,7 +7,7 @@ const setOrder = createAction('SET_ORDER', order => order);
 const setDiscountToOrder = createAction('SET_DISCOUNT_TO_ORDER', discount => discount);
 const setCouponsToOrder = createAction('SET_COUPONS_TO_ORDER', coupons => coupons);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
-exports.fetchOrder = () => (dispatch, getState) => {
+exports.fetchOrder = () => (dispatch, getState) =>
   fetch(config.orderDineInAPi, {
     method: 'GET', mod: 'cors',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -20,11 +20,12 @@ exports.fetchOrder = () => (dispatch, getState) => {
     }).
     then(order => {
       dispatch(setOrder(order.data));
+      return order.data;
     }).
     catch(err => {
-      throw err;
+      console.log(err);
     });
-};
+
 exports.fetchOrderDiscountInfo = () => (dispatch, getState) => {
   fetch(config.orderDiscountInfoAPI, {
     method: 'GET', mod: 'cors',
@@ -40,7 +41,7 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) => {
       dispatch(setDiscountToOrder(discount.data));
     }).
     catch(err => {
-      throw err;
+      console.log(err);
     });
 };
 exports.fetchOrderCoupons = () => (dispatch, getState) => {
@@ -58,7 +59,7 @@ exports.fetchOrderCoupons = () => (dispatch, getState) => {
       dispatch(setCouponsToOrder(coupons.data));
     }).
     catch(err => {
-      throw err;
+      console.log(err);
     });
 };
 exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);

@@ -1,5 +1,5 @@
 const React = require('react');
-
+const classnames = require('classnames');
 module.exports = React.createClass({
   displayName: 'CouponOption',
   propTypes: {
@@ -19,18 +19,22 @@ module.exports = React.createClass({
   componentDidMount() {
 
   },
-  judgeCouponNameByCouponType(couponType) {
-    let couponName = '';
+  judgeCouponInfoByCouponType(couponType) {
+    let identifyCouponInfo = { couponName:'', classNameForCoupon:'' };
     if (couponType === 1) {
-      couponName = '满减券';
+      identifyCouponInfo.couponName = '满减券';
+      identifyCouponInfo.classNameForCoupon = 'coupon-manjian';
     } else if (couponType === 2) {
-      couponName = '折扣券';
+      identifyCouponInfo.couponName = '折扣券';
+      identifyCouponInfo.classNameForCoupon = 'coupon-zhekou';
     } else if (couponType === 3) {
-      couponName = '礼品券';
+      identifyCouponInfo.couponName = '礼品券';
+      identifyCouponInfo.classNameForCoupon = 'coupon-lipin';
     } else {
-      couponName = '现金券';
+      identifyCouponInfo.couponName = '现金券';
+      identifyCouponInfo.classNameForCoupon = 'coupon-xianjin';
     }
-    return couponName;
+    return identifyCouponInfo;
   },
   expandInstructions(evt) {
     const { isInstructionsOpen } = this.state;
@@ -53,16 +57,14 @@ module.exports = React.createClass({
       }
       return gift;
     });
-    const giftElement = (<div className="gift">
-    {gift.name}{gift.number}
-    </div>);
+    const giftElement = (<div className="coupon-rate" data-gift-amount={gift.number}>{gift.name}</div>);
     return giftElement;
   },
   render() {
     const { instructions, coupRuleBeanList, ruleDesc, couponType, validStartDate, codeNumber, validEndDate, ...otherProps } = this.props;
     const { isInstructionsOpen } = this.state;
     return (
-      <div className="coupon" {...otherProps}>
+      <div className={classnames('coupon', this.judgeCouponInfoByCouponType(couponType).classNameForCoupon)} {...otherProps}>
         <div className="coupon-card flex-row" >
           <div className="coupon-card-left">
             {couponType === 3 ?
@@ -73,10 +75,12 @@ module.exports = React.createClass({
             <p className="coupon-text--grey">{ruleDesc}</p>
           </div>
           <div className="coupon-card-right flex-rest">
-            <h3 className="coupon-title">{this.judgeCouponNameByCouponType(couponType)}</h3>
+            <h3 className="coupon-title">
+              {this.judgeCouponInfoByCouponType(couponType).couponName}
+            </h3>
             <p className="coupon-text--grey">有效期: {validStartDate}-{validEndDate}</p>
             <button className="coupon-text--dark coupon-dropdown-trigger" onTouchTap={this.expandInstructions}>
-              {this.judgeCouponNameByCouponType(couponType)}使用规则
+              {this.judgeCouponInfoByCouponType(couponType).couponName}使用规则
             </button>
             <a className="coupon-go-order" href="">去点菜</a>
           </div>
