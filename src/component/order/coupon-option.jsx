@@ -11,6 +11,7 @@ module.exports = React.createClass({
     validEndDate:React.PropTypes.any.isRequired,
     codeNumber:React.PropTypes.number.isRequired,
     onTouchTap:React.PropTypes.func.isRequired,
+    isChecked:React.PropTypes.bool,
   },
   getInitialState() {
     return {
@@ -21,15 +22,6 @@ module.exports = React.createClass({
   componentDidMount() {
 
   },
-  // onTouchTap(evt) {
-  //   console.log(123);
-  //   const { onTouchTap } = this.props;
-  //   const { isCouponSelected } = this.state;
-  //   this.setState({
-  //     isCouponSelected:!isCouponSelected,
-  //   });
-  //   onTouchTap(evt);
-  // },
   judgeCouponInfoByCouponType(couponType) {
     let identifyCouponInfo = { couponName:'', classNameForCoupon:'' };
     if (couponType === 1) {
@@ -72,11 +64,11 @@ module.exports = React.createClass({
     return giftElement;
   },
   render() {
-    const { instructions, coupRuleBeanList, ruleDesc, couponType, validStartDate, codeNumber, validEndDate, ...otherProps } = this.props;
+    const { instructions, coupRuleBeanList, ruleDesc, couponType, validStartDate, codeNumber, validEndDate, isChecked, ...otherProps } = this.props;
     const { isInstructionsOpen, isCouponSelected } = this.state;
     return (
       <div
-        className={classnames('coupon', this.judgeCouponInfoByCouponType(couponType).classNameForCoupon)}
+        className={classnames('coupon', { 'is-checked':isChecked }, this.judgeCouponInfoByCouponType(couponType).classNameForCoupon)}
         onTouchTap={this.onTouchTap} {...otherProps}
       >
         <div className="coupon-card flex-row" >

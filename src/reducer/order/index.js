@@ -140,17 +140,7 @@ module.exports = function (
         );
       } else if (payload.id === 'coupon') {
         // 使用优惠券以后需要把会员价关闭  利用返回的id找到对应的优惠券获取优惠信息
-        const selectedCoupon = _find(
-          state.serviceProps.couponsProps.couponsList,
-          coupon => coupon.id.toString() === payload.selectedCouponId
-        );
-        return state.updateIn(
-          ['serviceProps', 'couponsProps', 'couponsList'],
-          couponList => couponList.flatMap(
-            coupon => coupon.id === selectedCoupon.id ? coupon.set('isChecked', true)
-            : coupon.set('isChecked', false)
-          )
-        ).setIn(
+        return state.setIn(
           ['serviceProps', 'couponsProps', 'inUseCoupon'], true
         );
       } else if (payload.id === 'integrals') {
@@ -158,6 +148,18 @@ module.exports = function (
           ['serviceProps', 'integralsInfo', 'isChecked'],
            !state.serviceProps.integralsInfo.isChecked
          );
+      } else if (payload.id === 'coupon-prop') {
+        const selectedCoupon = _find(
+          state.serviceProps.couponsProps.couponsList,
+          coupon => coupon.id.toString() === payload.changedCouponId
+        );
+        return state.updateIn(
+          ['serviceProps', 'couponsProps', 'couponsList'],
+          couponList => couponList.flatMap(
+            coupon => coupon.id === selectedCoupon.id ? coupon.set('isChecked', true)
+            : coupon.set('isChecked', false)
+          )
+        );
       }
       break;
     case 'SET_COUPONS_TO_ORDER':
