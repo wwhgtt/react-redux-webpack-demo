@@ -16,40 +16,43 @@ const OrderApplication = React.createClass({
     setOrderProps:React.PropTypes.func.isRequired,
     fetchOrderDiscountInfo:React.PropTypes.func.isRequired,
     fetchOrderCoupons:React.PropTypes.func.isRequired,
+    setChildView: React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
     commercialProps:React.PropTypes.object.isRequired,
+    childView: React.PropTypes.string,
+  },
+  componentWillMount() {
+    window.addEventListener('hashchange', this.setChildViewAccordingToHash);
   },
   componentDidMount() {
-    this.props.fetchOrder();
-    this.props.fetchOrderDiscountInfo();
-    this.props.fetchOrderCoupons();
+    const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons } = this.props;
+    fetchOrder();
+    fetchOrderDiscountInfo();
+    fetchOrderCoupons();
+    this.setChildViewAccordingToHash();
   },
   componentDidUpdate() {
+
   },
-  expandCustomerInfoEditor(evt) {
-    const { setOrderProps } = this.props;
-    setOrderProps(null, 'is-customer-info-editor-open');
-    evt.preventDefault();
-  },
-  expandCouponSelect(evt) {
-    const { setOrderProps } = this.props;
-    setOrderProps(null, 'is-coupon-select-open');
-    evt.preventDefault();
+  setChildViewAccordingToHash() {
+    const { setChildView } = this.props;
+    const hash = location.hash;
+    setChildView(hash);
   },
   render() {
-    const { customerProps, serviceProps } = this.props; // states
+    const { customerProps, serviceProps, childView } = this.props; // states
     const { setOrderProps } = this.props;// actions
     return (
       <div className="application">
-        <div className="options-group options-group--stripes" onTouchTap={this.expandCustomerInfoEditor}>
+        <a className="options-group options-group--stripes" href="#customer-info" >
           <div className="option-stripes-title">{customerProps.name}{customerProps.sex === '1' ? '先生' : '女士'}</div>
           <div className="clearfix">
             <div className="option-desc half">{customerProps.mobile}</div>
             <div className="option-desc half"><span className="text-picton-blue">{customerProps.customerCount}</span>人就餐</div>
           </div>
-        </div>
+        </a>
 
         <div className="options-group">
           {serviceProps.isPickupFromFrontDesk ?
@@ -113,10 +116,10 @@ const OrderApplication = React.createClass({
             <input className="option-input" name="invoice" placeholder="输入个人或公司抬头" />
           </label>
         </div>
-        {serviceProps.isCustomerInfoEditorOpen ?
+        {childView === 'customer-info' ?
           <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setOrderProps} />
           : false}
-        {serviceProps.isCouponSelectOpen ?
+        {childView === 'coupon-select' ?
           <CouponSelect couponsProps={serviceProps.couponsProps} onSelectCoupon={setOrderProps} />
           : false}
       </div>

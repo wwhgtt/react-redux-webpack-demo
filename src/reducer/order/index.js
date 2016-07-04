@@ -1,5 +1,5 @@
 const Immutable = require('seamless-immutable');
-const _find = require('lodash.find');
+// const _find = require('lodash.find');
 const helper = require('../../helper/order-helper');
 module.exports = function (
   state = Immutable.from({
@@ -26,6 +26,7 @@ module.exports = function (
         discountInfo:'',
         discountList:[],
       },
+      childView:null,
     },
   }),
   action
@@ -126,39 +127,23 @@ module.exports = function (
           ['serviceProps', 'discountProps', 'discountInfo', 'isChecked'],
            !state.serviceProps.discountProps.discountInfo.isChecked
          );
-      } else if (payload.id === 'customer-info-editor') {
+      } else if (payload.id === 'customer-info') {
         return state.set(
           'customerProps', payload
-        ).setIn(
-          ['serviceProps', 'isCustomerInfoEditorOpen'],
-          !state.serviceProps.isCustomerInfoEditorOpen
         );
-      } else if (payload === 'is-customer-info-editor-open') {
-        return state.setIn(
-          ['serviceProps', 'isCustomerInfoEditorOpen'],
-          !state.serviceProps.isCustomerInfoEditorOpen
-        );
-      } else if (payload === 'is-coupon-select-open') {
-        return state.setIn(
-          ['serviceProps', 'isCouponSelectOpen'],
-          !state.serviceProps.isCouponSelectOpen
-        );
-      } else if (payload.id.indexOf('line') !== -1) {
+      } else if (payload.id.indexOf('payment') !== -1) {
         return state.updateIn(
           ['serviceProps', 'payMethods'],
           payMethods => payMethods.flatMap(
-            payMethod => payMethod.id.indexOf(payload.id) !== -1 ? payMethod.set('isChecked', true)
+            payMethod => payMethod.id === payload.id ? payMethod.set('isChecked', true)
             : payMethod.set('isChecked', false)
           )
         );
-      } else if (payload.id === 'selected-coupon-data') {
+      } else if (payload.id === 'coupon') {
         // 使用优惠券以后需要把会员价关闭  利用返回的id找到对应的优惠券获取优惠信息
-        const selectedCoupon = _find(state.serviceProps.couponsProps.couponsList, coupon => coupon.id.toString() === payload.selectedCouponId);
-        console.log(selectedCoupon);
+        // const selectedCoupon = _find(state.serviceProps.couponsProps.couponsList, coupon => coupon.id.toString() === payload.selectedCouponId);
         return state.setIn(
           ['serviceProps', 'couponsProps', 'inUseCoupon'], true
-        ).setIn(
-          ['serviceProps', 'isCouponSelectOpen'], !state.serviceProps.isCouponSelectOpen
         );
       }
       break;
@@ -173,6 +158,15 @@ module.exports = function (
          .setIn(['serviceProps', 'discountProps', 'discountList'], payload.dishList);
       }
       break;
+    case 'SET_CHILDVIEW':
+      if (payload === '#customer-info') {
+        return state.set('childView', 'customer-info');
+      } else if (payload === '#table-select') {
+        return state.set('childView', 'table-select');
+      } else if (payload === '#coupon-select') {
+        return state.set('childView', 'coupon-select');
+      }
+      return state.set('childView', '');
     default:
   }
   return state;

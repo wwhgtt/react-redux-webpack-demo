@@ -6,6 +6,7 @@ require('isomorphic-fetch');
 const setOrder = createAction('SET_ORDER', order => order);
 const setDiscountToOrder = createAction('SET_DISCOUNT_TO_ORDER', discount => discount);
 const setCouponsToOrder = createAction('SET_COUPONS_TO_ORDER', coupons => coupons);
+exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 exports.fetchOrder = () => (dispatch, getState) => {
   fetch(config.orderDineInAPi, {
     method: 'GET', mod: 'cors',
