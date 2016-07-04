@@ -5,6 +5,8 @@ const ActiveScrollSelect = require('../../mui/select/active-scroll-select.jsx');
 const AreaOption = require('./area-option.jsx');
 const TableOption = require('./table-option.jsx');
 
+require('./select-container.scss');
+
 module.exports = React.createClass({
   displayName: 'TableSelect',
   propTypes: {
@@ -59,13 +61,25 @@ module.exports = React.createClass({
     const { areas, tables } = this.state;
     const tablesOfArea = this.getTablesOfSelectedArea(areas, tables);
     return (
-      <div className="table-select-container">
-        <div className="headbar">
-          <span className="headding">选择桌台</span>
-          <a className="submit-btn" onTouchTap={this.onSubmit}>确定</a>
+      <div className="scroll-select-container">
+        <div className="scroll-select-header">
+          <span>选择地区</span>
+          <div className="scroll-select-confirm btn--yellow" onTouchTap={this.onSubmit}>确定</div>
         </div>
-        <ActiveScrollSelect className="area-select" optionsData={areas} optionComponent={AreaOption} onSelectOption={this.onAreaSelect} />
-        <ActiveScrollSelect className="table-select" optionsData={tablesOfArea} optionComponent={TableOption} onSelectOption={this.onTableSelect} />
+        <div className="scroll-select-content flex-row">
+          <ActiveScrollSelect
+            className="flex-area-select"
+            optionsData={areas}
+            optionComponent={AreaOption}
+            onSelectOption={this.onAreaSelect}
+          />
+          <ActiveScrollSelect
+            className="flex-table-select"
+            optionsData={tablesOfArea}
+            optionComponent={TableOption}
+            onSelectOption={this.onTableSelect}
+          />
+        </div>
       </div>
     );
   },
