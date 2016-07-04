@@ -12,7 +12,7 @@ module.exports = React.createClass({
   getInitialState() {
     const { customerProps } = this.props;
     return {
-      customerProps:customerProps.set('id', 'customer-info-editor'),
+      customerProps:customerProps.set('id', 'customer-info'),
     };
   },
   componentDidMount() {
@@ -27,6 +27,7 @@ module.exports = React.createClass({
   onSubmitBtntap() {
     const { customerProps } = this.state;
     const { onCustomerPropsChange } = this.props;
+    window.location.hash = '';
     onCustomerPropsChange(null, customerProps);
   },
   handleBasicInfoChange(event) {

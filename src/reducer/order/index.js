@@ -10,8 +10,6 @@ module.exports = function (
     commercialProps:{},
     serviceProps:{
       isPickupFromFrontDesk:'',
-      isCustomerInfoEditorOpen:false,
-      isCouponSelectOpen:false,
       tableProps:{
         areas:'',
         tables:'',
