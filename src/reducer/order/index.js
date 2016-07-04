@@ -1,4 +1,5 @@
 const Immutable = require('seamless-immutable');
+const _find = require('lodash.find');
 const helper = require('../../helper/order-helper');
 module.exports = function (
   state = Immutable.from({
@@ -10,6 +11,7 @@ module.exports = function (
     serviceProps:{
       isPickupFromFrontDesk:'',
       isCustomerInfoEditorOpen:false,
+      isCouponSelectOpen:false,
       tableProps:{
         areas:'',
         tables:'',
@@ -18,7 +20,7 @@ module.exports = function (
       integralsInfo:'',
       couponsProps:{
         couponsList:[],
-        inUseCoupon:'',
+        inUseCoupon:false,
       },
       discountProps:{
         discountInfo:'',
@@ -55,14 +57,16 @@ module.exports = function (
                       {
                         name:'在线支付',
                         isAvaliable:helper.isPaymentAvaliable('online', payload.diningForm, false, payload.pickupPayType, payload.totablePayType),
-                        isChecked:payload.diningForm === 1,
+                        isChecked:helper.shouldPaymentAutoChecked('online', false, payload.pickupPayType, payload.totablePayType),
                         id:'online-payment',
+                        type: 'tickbox',
                       },
                       {
                         name:'货到付款',
                         isAvaliable:helper.isPaymentAvaliable('offline', payload.diningForm, false, payload.pickupPayType, payload.totablePayType),
-                        isChecked:payload.diningForm === 0,
+                        isChecked:helper.shouldPaymentAutoChecked('offline', false, payload.pickupPayType, payload.totablePayType),
                         id:'offline-payment',
+                        type: 'tickbox',
                       },
                     ])
                   )
@@ -101,6 +105,20 @@ module.exports = function (
               ),
             )
           )
+        )
+        .updateIn(
+          ['serviceProps', 'payMethods'],
+          payMethods => payMethods.flatMap(
+            payMethod => payMethod.set(
+              'isChecked',
+              helper.shouldPaymentAutoChecked(
+                payMethod.id.split('-')[0],
+                !state.serviceProps.isPickupFromFrontDesk.isChecked,
+                state.commercialProps.pickupPayType,
+                state.commercialProps.totablePayType
+              ),
+            )
+          )
         );
       } else if (payload.id === 'discount') {
         //  表示使用折扣 那会员券就应该隐藏掉
@@ -115,16 +133,38 @@ module.exports = function (
           ['serviceProps', 'isCustomerInfoEditorOpen'],
           !state.serviceProps.isCustomerInfoEditorOpen
         );
-      } else if (payload === 'isCustomerInfoEditorOpen') {
+      } else if (payload === 'is-customer-info-editor-open') {
         return state.setIn(
           ['serviceProps', 'isCustomerInfoEditorOpen'],
           !state.serviceProps.isCustomerInfoEditorOpen
         );
+      } else if (payload === 'is-coupon-select-open') {
+        return state.setIn(
+          ['serviceProps', 'isCouponSelectOpen'],
+          !state.serviceProps.isCouponSelectOpen
+        );
+      } else if (payload.id.indexOf('line') !== -1) {
+        return state.updateIn(
+          ['serviceProps', 'payMethods'],
+          payMethods => payMethods.flatMap(
+            payMethod => payMethod.id.indexOf(payload.id) !== -1 ? payMethod.set('isChecked', true)
+            : payMethod.set('isChecked', false)
+          )
+        );
+      } else if (payload.id === 'selected-coupon-data') {
+        // 使用优惠券以后需要把会员价关闭  利用返回的id找到对应的优惠券获取优惠信息
+        const selectedCoupon = _find(state.serviceProps.couponsProps.couponsList, coupon => coupon.id.toString() === payload.selectedCouponId);
+        console.log(selectedCoupon);
+        return state.setIn(
+          ['serviceProps', 'couponsProps', 'inUseCoupon'], true
+        ).setIn(
+          ['serviceProps', 'isCouponSelectOpen'], !state.serviceProps.isCouponSelectOpen
+        );
       }
       break;
-    case 'MERGE_COUPONS_TO_ORDER':
+    case 'SET_COUPONS_TO_ORDER':
       return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], payload.coupList);
-    case 'MERGE_DISCOUNT_TO_ORDER':
+    case 'SET_DISCOUNT_TO_ORDER':
       if (payload.isDiscount) {
         return state.setIn(
           ['serviceProps', 'discountProps', 'discountInfo'],
