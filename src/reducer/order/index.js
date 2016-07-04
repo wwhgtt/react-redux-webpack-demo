@@ -7,6 +7,7 @@ module.exports = function (
     tableList:[],
     timeTable:{},
     customerProps:{},
+    orderedDishesProps:{},
     commercialProps:{},
     serviceProps:{
       isPickupFromFrontDesk:'',
@@ -165,6 +166,9 @@ module.exports = function (
         return state.set('childView', 'coupon-select');
       }
       return state.set('childView', '');
+    case 'GET_LAST_ORDERED_DISHES':
+      console.log(payload.dishes);
+      return state.set('orderedDishesProps', Immutable.from(payload));
     default:
   }
   return state;

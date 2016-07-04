@@ -6,7 +6,7 @@ const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
 const CouponSelect = require('../../component/order/coupon-select.jsx');
 // const TableSelect = require('../../component/order/select/table-select.jsx');
-
+const OrderedDish = require('../../component/order/ordered-dish.jsx');
 require('../../asset/style/style.scss');
 require('./application.scss');
 
@@ -19,20 +19,22 @@ const OrderApplication = React.createClass({
     fetchOrderDiscountInfo:React.PropTypes.func.isRequired,
     fetchOrderCoupons:React.PropTypes.func.isRequired,
     setChildView: React.PropTypes.func.isRequired,
+    getLastOrderedDishes:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
     commercialProps:React.PropTypes.object.isRequired,
+    orderedDishesProps:React.PropTypes.object.isRequired,
     childView: React.PropTypes.string,
   },
   componentWillMount() {
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
   },
   componentDidMount() {
-    const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons } = this.props;
+    const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons, getLastOrderedDishes } = this.props;
     Promise.all([fetchOrder(), fetchOrderDiscountInfo(), fetchOrderCoupons()]).then(
       this.setChildViewAccordingToHash
-    );
+    ).then(getLastOrderedDishes());
   },
   componentDidUpdate() {
 
@@ -43,7 +45,7 @@ const OrderApplication = React.createClass({
     setChildView(hash);
   },
   render() {
-    const { customerProps, serviceProps, childView } = this.props; // states
+    const { customerProps, serviceProps, childView, orderedDishesProps, commercialProps } = this.props; // states
     const { setOrderProps } = this.props;// actions
     return (
       <div className="application">
@@ -129,6 +131,22 @@ const OrderApplication = React.createClass({
         {childView === 'coupon-select' ?
           <CouponSelect couponsProps={serviceProps.couponsProps} onSelectCoupon={setOrderProps} />
           : false}
+        <div className="commercial-props-and-ordered-dish">
+          <div className="commercial-props">
+            <img src={commercialProps.commercialLogo} alt="门店logo" />
+            <p>{commercialProps.name}</p>
+          </div>
+          {orderedDishesProps.dishes ?
+            <div className="options-group">
+              <div className="order-prop-option">
+                {orderedDishesProps.dishes.map(dish => (<OrderedDish key={dish.id} dish={dish} />))}
+              </div>
+            </div>
+            :
+            false
+          }
+        </div>
+
       </div>
     );
   },
