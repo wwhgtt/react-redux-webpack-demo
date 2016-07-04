@@ -62,8 +62,15 @@ module.exports = {
             {
               id: 924,
               couponId: 1157,
-              ruleName: 'giftType',
-              ruleValue: 2,
+              ruleName: 'giftName',
+              ruleValue: '天堂伞',
+              brandId: 2192,
+            },
+            {
+              id: 925,
+              couponId: 1157,
+              ruleName: 'giftNumber',
+              ruleValue: '2',
               brandId: 2192,
             },
           ],
