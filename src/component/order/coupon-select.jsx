@@ -27,7 +27,7 @@ module.exports = React.createClass({
     const { onSelectCoupon } = this.props;
     const { couponDataId } = this.state;
     const selectedCouponData = {
-      id:'selected-coupon-data',
+      id:'coupon',
       selectedCouponId:couponDataId,
     };
     onSelectCoupon(null, selectedCouponData);

@@ -1,5 +1,5 @@
 const Immutable = require('seamless-immutable');
-// const _find = require('lodash.find');
+const _find = require('lodash.find');
 const helper = require('../../helper/order-helper');
 module.exports = function (
   state = Immutable.from({
@@ -140,8 +140,17 @@ module.exports = function (
         );
       } else if (payload.id === 'coupon') {
         // 使用优惠券以后需要把会员价关闭  利用返回的id找到对应的优惠券获取优惠信息
-        // const selectedCoupon = _find(state.serviceProps.couponsProps.couponsList, coupon => coupon.id.toString() === payload.selectedCouponId);
-        return state.setIn(
+        const selectedCoupon = _find(
+          state.serviceProps.couponsProps.couponsList,
+          coupon => coupon.id.toString() === payload.selectedCouponId
+        );
+        return state.updateIn(
+          ['serviceProps', 'couponsProps', 'couponsList'],
+          couponList => couponList.flatMap(
+            coupon => coupon.id === selectedCoupon.id ? coupon.set('isChecked', true)
+            : coupon.set('isChecked', false)
+          )
+        ).setIn(
           ['serviceProps', 'couponsProps', 'inUseCoupon'], true
         );
       } else if (payload.id === 'integrals') {

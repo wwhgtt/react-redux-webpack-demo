@@ -91,7 +91,7 @@ const OrderApplication = React.createClass({
         </div>
         <div className="options-group">
           {serviceProps.couponsProps.couponsList.length && !serviceProps.discountProps.discountInfo.isChecked ?
-            <div className="order-prop-option" onTouchTap={this.expandCouponSelect}>
+            <a className="order-prop-option" href="#coupon-select">
               <span className="option-title">使用优惠券</span>
               <span className="badge-coupon">
                 {serviceProps.couponsProps.inUseCoupon ?
@@ -101,7 +101,7 @@ const OrderApplication = React.createClass({
                 }
               </span>
               <button className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</button>
-            </div>
+            </a>
           : false}
           {serviceProps.discountProps.discountInfo && !serviceProps.couponsProps.inUseCoupon ?
             <ActiveSelect
@@ -133,6 +133,9 @@ const OrderApplication = React.createClass({
         {childView === 'coupon-select' ?
           <CouponSelect couponsProps={serviceProps.couponsProps} onSelectCoupon={setOrderProps} />
           : false}
+        {childView === 'table-select' ?
+          <TableSelect areas={tableProps.areas} tables={tableProps.tables} onTableSelect={tableProp => console.log(tableProp)} />
+          : false}
         <div className="commercial-props-and-ordered-dish">
           <div className="commercial-props">
             <img src={commercialProps.commercialLogo} alt="门店logo" />
@@ -147,10 +150,21 @@ const OrderApplication = React.createClass({
             :
             false
           }
+          <div className="influencing-factors-of-total-price">
+            <p className="coupon">
+              <span>优惠券优惠:</span>
+              <span></span>
+            </p>
+            <p className="integrals">
+              <span>积分抵扣:</span>
+              <span></span>
+            </p>
+            <p className="not-count-the-small-change">
+              <span>自动抹零:</span>
+              <span></span>
+            </p>
+          </div>
         </div>
-        {childView === 'table-select' ?
-          <TableSelect areas={tableProps.areas} tables={tableProps.tables} onTableSelect={tableProp => console.log(tableProp)} />
-          : false}
       </div>
     );
   },
