@@ -3,6 +3,11 @@
   content: '¥';
 }
 
+.discount::before {
+  margin-right: 1px;
+  content: '-¥';
+}
+
 // badges
 .badge-price {
   font-size: 12px;
