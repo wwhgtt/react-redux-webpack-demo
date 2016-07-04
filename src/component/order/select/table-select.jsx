@@ -64,7 +64,7 @@ module.exports = React.createClass({
       <div className="scroll-select-container">
         <div className="scroll-select-content">
           <div className="scroll-select-header">
-            <span>选择地区</span>
+            <span>选择桌台</span>
             <div className="scroll-select-confirm btn--yellow" onTouchTap={this.onSubmit}>确定</div>
           </div>
           <div className="flex-row">

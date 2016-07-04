@@ -50,11 +50,11 @@ module.exports = React.createClass({
       cache.iScroll.goToPage(0, optionIdx, 600);
     }
   },
-  buildPlaceholderElement(OptionComponent, viewportHeight) {
+  buildPlaceholderElement(viewportHeight) {
     const placeholderOffset = this._cache.placeholderOffset = viewportHeight / 2;
     const placeholders = [];
     for (let i = 1; i <= placeholderOffset; i++) {
-      placeholders.push(<OptionComponent key={`placeholder-${i}`} data-option="false" />);
+      placeholders.push(<a key={`placeholder-${i}`} data-option="false" ></a>);
     }
     return (
       <div className="placeholder-container">
@@ -64,8 +64,8 @@ module.exports = React.createClass({
   },
   render() {
     const { className, viewportHeight, optionComponent, ...props } = this.props;
-    const topPlaceholder = this.buildPlaceholderElement(optionComponent, viewportHeight);
-    const bottomPlaceholder = this.buildPlaceholderElement(optionComponent, viewportHeight);
+    const topPlaceholder = this.buildPlaceholderElement(viewportHeight);
+    const bottomPlaceholder = this.buildPlaceholderElement(viewportHeight);
     return (
       <div className={classnames('scroll-select', className)}>
         <div className="scroll-wrapper">
