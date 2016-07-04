@@ -25,11 +25,6 @@ const OrderApplication = React.createClass({
     commercialProps:React.PropTypes.object.isRequired,
     childView: React.PropTypes.string,
   },
-  getInitialState() {
-    return {
-      isSelectTableDisable:false,
-    };
-  },
   componentWillMount() {
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
   },
@@ -47,14 +42,6 @@ const OrderApplication = React.createClass({
     const hash = location.hash;
     setChildView(hash);
   },
-  setOrderPropsAndSetTableState(evt, option) {
-    const { isSelectTableDisable } = this.state;
-    const { setOrderProps } = this.props;
-    this.setState({
-      isSelectTableDisable:!isSelectTableDisable,
-    });
-    setOrderProps(evt, option);
-  },
   expandCustomerInfoEditor(evt) {
     const { setOrderProps } = this.props;
     setOrderProps(null, 'is-customer-info-editor-open');
@@ -68,7 +55,6 @@ const OrderApplication = React.createClass({
   render() {
     const { customerProps, serviceProps, childView } = this.props; // states
     const { setOrderProps } = this.props;// actions
-    const { isSelectTableDisable } = this.state;
     return (
       <div className="application">
         <a className="options-group options-group--stripes" href="#customer-info" >
@@ -82,20 +68,20 @@ const OrderApplication = React.createClass({
         <div className="options-group">
           {serviceProps.isPickupFromFrontDesk ?
             <ActiveSelect
-              optionsData={[serviceProps.isPickupFromFrontDesk]} onSelectOption={this.setOrderPropsAndSetTableState}
+              optionsData={[serviceProps.isPickupFromFrontDesk]} onSelectOption={setOrderProps}
               optionComponent={OrderPropOption}
             />
             : false
           }
+          {serviceProps.isPickupFromFrontDesk.isChecked ?
+            false
+            :
+            <a className="select-table">
+              <span>选择桌台</span>
+              <span className="mould-station"></span>
+            </a>
+          }
         </div>
-        {isSelectTableDisable ?
-          false
-          :
-          <a className="select-table">
-            <span>选择桌台</span>
-            <span className="mould-station"></span>
-          </a>
-        }
         <div className="options-group">
           {serviceProps.payMethods.map(
             payMethod => {
