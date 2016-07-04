@@ -74,6 +74,7 @@ module.exports = React.createClass({
           {bottomPlaceholder}
         </div>
       </div>
+
     );
   },
 
