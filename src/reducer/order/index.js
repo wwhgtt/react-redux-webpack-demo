@@ -4,9 +4,6 @@ const helper = require('../../helper/order-helper');
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
 module.exports = function (
   state = Immutable.from({
-    areaList:[],
-    tableList:[],
-    timeTable:{},
     customerProps:{},
     orderedDishesProps:{
       orderedDishes:{},

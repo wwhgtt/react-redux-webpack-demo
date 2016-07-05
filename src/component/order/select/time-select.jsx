@@ -83,14 +83,13 @@ module.exports = React.createClass({
   buildState(selectedDateTime, timeTable) {
     const dateTimes = [];
     let selectedMark = true;
-
     for (let key in timeTable) {
       if (timeTable.hasOwnProperty(key)) {
         const times = timeTable[key].map(
           (time, idx) => time === selectedDateTime.time || (idx === 0 && selectedMark && selectedDateTime.time === '') ?
             { id:time, label:time, isChecked:true } : { id:time, label:time }
         );
-        const dateTime = key === selectedDateTime.time || (selectedMark && selectedDateTime.date === '') ?
+        const dateTime = key === selectedDateTime.date || (selectedMark && selectedDateTime.date === '') ?
           { id:key, label:key, times, isChecked: true } : { id:key, label:key, times };
         dateTimes.push(dateTime);
       }
