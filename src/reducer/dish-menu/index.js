@@ -2,7 +2,7 @@ const _findIndex = require('lodash.findindex');
 const Immutable = require('seamless-immutable');
 const helper = require('../../helper/dish-hepler');
 module.exports = function (
-  state = Immutable.from({ activeDishTypeId:-1, dishTypesData:[], dishesData:[], dishDetailData: undefined }),
+  state = Immutable.from({ activeDishTypeId:-1, dishTypesData:[], dishesData:[], dishDetailData: undefined, takeawayServiceProps:undefined }),
   action
 ) {
   const { type, payload } = action;
@@ -23,6 +23,8 @@ module.exports = function (
           dish => dish.set('order', undefined)
         )
       );
+    case 'SET_TAKEAWAY_SERVICE_PROPS':
+      return state.set('takeawayServiceProps', payload);
     case 'ORDER_DISH':
       dishIdx = _findIndex(state.dishesData, { id: payload[0].id });
       if (helper.isSingleDishWithoutProps(state.dishesData[dishIdx])) {

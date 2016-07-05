@@ -13,6 +13,7 @@ const DishMenuApplication = React.createClass({
   propTypes: {
     // MapedActionsToProps
     fetchMenuData: React.PropTypes.func.isRequired,
+    fetchServiceProps: React.PropTypes.func.isRequired,
     activeDishType: React.PropTypes.func.isRequired,
     orderDish: React.PropTypes.func.isRequired,
     showDishDetail: React.PropTypes.func.isRequired,
@@ -23,9 +24,11 @@ const DishMenuApplication = React.createClass({
     dishTypesData: React.PropTypes.array,
     dishesData: React.PropTypes.array,
     dishDetailData: React.PropTypes.object,
+    takeawayServiceProps: React.PropTypes.object,
   },
   componentDidMount() {
     this.props.fetchMenuData();
+    this.props.fetchServiceProps();
   },
   componentDidUpdate() {
   },
@@ -35,8 +38,8 @@ const DishMenuApplication = React.createClass({
     orderDish(dishData);
   },
   render() {
-    const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, setDishCookie, removeAllOrders } = this.props; // states
-    const { activeDishType, orderDish, showDishDetail } = this.props; // actions
+    const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, setDishCookie, takeawayServiceProps } = this.props; // states
+    const { activeDishType, orderDish, showDishDetail, removeAllOrders } = this.props; // actions
     return (
       <div className="application">
         <DishTypeScroller
@@ -47,11 +50,14 @@ const DishMenuApplication = React.createClass({
           dishTypesData={dishTypesData} dishesData={dishesData}
           activeDishTypeId={activeDishTypeId} onScroll={activeDishType} onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail}
         />
-        <CartContainer dishes={dishesData} onOrderBtnTap={orderDish} onBillBtnTap={setDishCookie} onClearBtnTap={removeAllOrders} />
-          {dishDetailData !== undefined ?
-            <DishDetailContainer dish={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />
-            : false
-          }
+        <CartContainer
+          dishes={dishesData} takeawayServiceProps={takeawayServiceProps}
+          onOrderBtnTap={orderDish} onBillBtnTap={setDishCookie} onClearBtnTap={removeAllOrders}
+        />
+        {dishDetailData !== undefined ?
+          <DishDetailContainer dish={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />
+          : false
+        }
       </div>
     );
   },

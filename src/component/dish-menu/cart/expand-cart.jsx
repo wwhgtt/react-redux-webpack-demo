@@ -11,8 +11,9 @@ module.exports = React.createClass({
     onBillBtnTap: React.PropTypes.func.isRequired,
     onCartIconTap: React.PropTypes.func.isRequired,
     onOrderBtnTap: React.PropTypes.func.isRequired,
-    orderedDishes: React.PropTypes.array,
     onClearBtnTap: React.PropTypes.func.isRequired,
+    orderedDishes: React.PropTypes.array,
+    takeawayServiceProps: React.PropTypes.object,
   },
   buildOrderedElements(orderedDishes, onOrderBtnTap) {
     function divideDishes(dishes) {
@@ -39,10 +40,30 @@ module.exports = React.createClass({
       </div>
     );
   },
+  buildTakeawayServiceMinPriceElement(totalPrice, takeawayServiceProps, onBillBtnTap) {
+    if (!takeawayServiceProps || !takeawayServiceProps.minPrice || totalPrice >= takeawayServiceProps.minPrice) {
+      return (<a className="tiny-cart-btn btn--yellow" onTouchTap={onBillBtnTap}>选好啦</a>);
+    }
+    if (totalPrice === 0) {
+      return <span className="tiny-cart-text">{`${takeawayServiceProps.minPrice} 元起卖`}</span>;
+    }
+    return <span className="tiny-cart-text">{`还差 ${takeawayServiceProps.minPrice - totalPrice} 元起卖`}</span>;
+  },
+  buildTakeawayServiceShipPriceElement(totalPrice, takeawayServiceProps) {
+    if (!takeawayServiceProps || !takeawayServiceProps.shipmentFee) {
+      return false;
+    }
+    if (totalPrice < takeawayServiceProps.shipFreePrice) {
+      return <small>{`另有 ${takeawayServiceProps.shipmentFee} 元配送费`}</small>;
+    }
+    return false;
+  },
   render() {
-    const { dishesCount, totalPrice, onBillBtnTap, onOrderBtnTap,
-      onCartIconTap, orderedDishes, onClearBtnTap } = this.props;
+    const { dishesCount, totalPrice, takeawayServiceProps,
+      onBillBtnTap, onOrderBtnTap, onCartIconTap, orderedDishes, onClearBtnTap } = this.props;
     const orderedElements = this.buildOrderedElements(orderedDishes, onOrderBtnTap);
+    const takeawayServiceMinPriceElement = this.buildTakeawayServiceMinPriceElement(totalPrice, takeawayServiceProps, onBillBtnTap);
+    const takeawayServiceShipPriceElement = this.buildTakeawayServiceShipPriceElement(totalPrice, takeawayServiceProps);
     return (
       <div className="expand-cart">
         <div className="expand-cart-close" onTouchTap={onCartIconTap}></div>
@@ -59,13 +80,15 @@ module.exports = React.createClass({
             <div className="tiny-cart-left">
               {
                 dishesCount === 0 ? <span className="tiny-cart-text">购物车是空的</span> :
-                  <span className="tiny-cart-price price"><strong>{totalPrice}</strong><small>另有配送费8元</small></span>
+                  <span className="tiny-cart-price price">
+                    <strong>{totalPrice}</strong>
+                    {takeawayServiceShipPriceElement}
+                  </span>
               }
             </div>
             <div className="tiny-cart-right">
               {/* <span className="tiny-cart-text">商户已打烊</span> */}
-              {/* <span className="tiny-cart-text">差5元起送</span> */}
-              <a className="tiny-cart-btn btn--yellow" onTouchTap={onBillBtnTap}>选好啦</a>
+              {takeawayServiceMinPriceElement}
             </div>
           </div>
         </div>
