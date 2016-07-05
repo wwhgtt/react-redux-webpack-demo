@@ -31,7 +31,7 @@ const OrderApplication = React.createClass({
     commercialProps:React.PropTypes.object.isRequired,
     orderedDishesProps:React.PropTypes.object.isRequired,
     tableProps: React.PropTypes.object.isRequired,
-    timeProps: React.PropTypes.object.isRequired,
+    timeProps: React.PropTypes.object,
     childView: React.PropTypes.string,
   },
   componentWillMount() {
@@ -137,7 +137,7 @@ const OrderApplication = React.createClass({
           <a className="order-prop-option" href="#time-select" >
             <span className="options-title">送达时间</span>
             <button className="option-btn btn-arrow-right">
-              尽快送达
+              {`${timeProps.selectedDateTime.date} ${timeProps.selectedDateTime.time} 送达`}
             </button>
           </a>
           <label className="order-prop-option">
@@ -215,6 +215,7 @@ const OrderApplication = React.createClass({
         {childView === 'time-select' ?
           <TimeSelect
             selectedDateTime={timeProps.selectedDateTime} timeTable={timeProps.timeTable}
+            onDateTimeSelect={setOrderProps} onDone={this.resetChildView}
           />
           : false
         }

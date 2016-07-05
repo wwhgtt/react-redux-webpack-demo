@@ -10,6 +10,8 @@ module.exports = React.createClass({
   propTypes: {
     selectedDateTime: React.PropTypes.object.isRequired,
     timeTable: React.PropTypes.object.isRequired,
+    onDone: React.PropTypes.func.isRequired,
+    onDateTimeSelect: React.PropTypes.func.isRequired,
   },
   getInitialState() {
     const { selectedDateTime, timeTable } = this.props;
@@ -56,11 +58,23 @@ module.exports = React.createClass({
       ),
     });
   },
-  onSubmit() {
+  onSubmit(evt) {
+    const { onDateTimeSelect, onDone } = this.props;
+    const { dateTimes } = this.state;
+    onDateTimeSelect(null, {
+      id: 'takeaway-time',
+      dateTime: _find(dateTimes, { isChecked:true }),
+    });
 
+    evt.stopPropagation();
+    evt.preventDefault();
+    onDone();
   },
-  onCancel() {
-
+  onCancel(evt) {
+    const { onDone } = this.props;
+    evt.stopPropagation();
+    evt.preventDefault();
+    onDone();
   },
   getTimeOfSelectedDate(dateTimes) {
     const selectedDate = _find(dateTimes, { isChecked:true });
@@ -105,7 +119,7 @@ module.exports = React.createClass({
               className="flex-table-select"
               optionsData={timeOfSelectedDate}
               optionComponent={DateTimeOption}
-              onSelectOption={this.onDateSelect}
+              onSelectOption={this.onTimeSelect}
             />
           </div>
         </div>
