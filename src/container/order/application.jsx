@@ -75,7 +75,7 @@ const OrderApplication = React.createClass({
             :
             <a className="order-prop-option" href="#table-select" >
               <span className="options-title">选择桌台</span>
-              <button className="option-btn btn-arrow-right">大厅区   桌台A021(2人桌)</button>
+              <span className="option-btn btn-arrow-right">大厅区   桌台A021(2人桌)</span>
             </a>
           }
         </div>
@@ -103,7 +103,7 @@ const OrderApplication = React.createClass({
                   `${serviceProps.couponsProps.couponsList.length}张可用`
                 }
               </span>
-              <button className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</button>
+              <span className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
             </a>
           : false}
           {serviceProps.discountProps.discountInfo && !serviceProps.couponsProps.inUseCoupon ?
@@ -122,11 +122,11 @@ const OrderApplication = React.createClass({
 
         <div className="options-group">
           <label className="order-prop-option">
-            <span className="option-title">备注:</span>
+            <span className="option-title">备注: </span>
             <input className="option-input" name="note" placeholder="输入备注" />
           </label>
           <label className="order-prop-option">
-            <span className="option-title">发票抬头:</span>
+            <span className="option-title">发票抬头: </span>
             <input className="option-input" name="invoice" placeholder="输入个人或公司抬头" />
           </label>
         </div>
@@ -151,10 +151,10 @@ const OrderApplication = React.createClass({
             :
             false
           }
-          <div className="order-summary">
+          <div className="order-prop-option order-summary">
             {orderSummary.coupon ?
               <p className="order-summary-entry clearfix">
-                <span className="order-title">优惠券优惠:</span>
+                <span className="order-title">优惠券优惠: </span>
                 <span className="order-discount discount">{orderSummary.coupon}</span>
               </p>
               :
@@ -162,7 +162,7 @@ const OrderApplication = React.createClass({
             }
             {orderSummary.coupon ?
               <p className="order-summary-entry clearfix">
-                <span className="order-title">积分抵扣:</span>
+                <span className="order-title">积分抵扣: </span>
                 <span className="order-integral">
                   {helper.countIntegralsToCash(
                     orderedDishesProps.dishesPrice,
@@ -177,7 +177,7 @@ const OrderApplication = React.createClass({
             }
             {orderedDishesProps.dishesPrice && commercialProps.carryRuleVO ?
               <p className="order-summary-entry clearfix">
-                <span className="order-title">自动抹零:</span>
+                <span className="order-title">自动抹零: </span>
                 <span className="order-discount discount">{
                   helper.clearSmallChange(commercialProps.carryRuleVO, orderedDishesProps.dishesPrice)
                 }</span>
@@ -185,6 +185,30 @@ const OrderApplication = React.createClass({
               :
               false
             }
+          </div>
+          <div className="order-prop-option order-total clearfix">
+            <div className="order-total-left"><span className="text-dove-grey">总计: </span><span className="price">104</span></div>
+            <div className="order-total-left"><span className="text-dove-grey">优惠: </span><span className="price">40</span></div>
+            <div className="order-total-right"><span className="text-dove-grey">实付: </span><span className="price">64</span></div>
+          </div>
+        </div>
+
+        <div className="options-group">
+          <a className="order-prop-option">
+            <span className="order-add-text">我要加菜</span>
+            <span className="option-btn btn-arrow-right">共 4 份</span>
+          </a>
+        </div>
+
+        <div className="order-cart">
+          <div className="order-cart-left">
+            <div className="vertical-center clearfix">
+              <div className="order-cart-entry text-dove-grey">已优惠: <span className="price">40</span></div>
+              <div className="order-cart-entry"><span className="text-dove-grey">待支付: </span><span className="order-cart-price price">64</span></div>
+            </div>
+          </div>
+          <div className="order-cart-right">
+            <a className="order-cart-btn btn--yellow" onTouchTap="">提交订单</a>
           </div>
         </div>
       </div>
