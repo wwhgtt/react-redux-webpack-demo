@@ -20,7 +20,7 @@ exports.getCommitMSGFromFile = function (filePath) {
     return commitMSG;
   }
 
-  commitMSGString.forEach((ele, idx) => {
+  commitMSGString.split('\n').forEach((ele, idx) => {
     Object.keys(commitMSG).forEach(key => {
       if (!commitMSG[key]) {
         commitMSG[key] = new RegExp('^' + key).test(ele) ? ele.split(':')[1].replace(/^\s+|\s+$/g, '') : false;

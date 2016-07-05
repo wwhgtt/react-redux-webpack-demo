@@ -11,6 +11,7 @@ const OrderedDish = require('../../component/order/ordered-dish.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
 const _isEmpty = require('lodash').isEmpty;
+const TimeSelect = require('../../component/order/select/time-select.jsx');
 require('../../asset/style/style.scss');
 require('./application.scss');
 
@@ -32,6 +33,7 @@ const OrderApplication = React.createClass({
     commercialProps:React.PropTypes.object.isRequired,
     orderedDishesProps:React.PropTypes.object.isRequired,
     tableProps: React.PropTypes.object.isRequired,
+    timeProps: React.PropTypes.object.isRequired,
     childView: React.PropTypes.string,
   },
   componentWillMount() {
@@ -57,7 +59,7 @@ const OrderApplication = React.createClass({
     location.hash = '';
   },
   render() {
-    const { customerProps, serviceProps, childView, tableProps, orderedDishesProps, commercialProps, orderSummary } = this.props; // states
+    const { customerProps, serviceProps, childView, tableProps, timeProps, orderedDishesProps, commercialProps, orderSummary } = this.props; // states
     const { setOrderProps } = this.props;// actions
     const selectedTable = helper.getSelectedTable(tableProps);
     return (
@@ -135,6 +137,12 @@ const OrderApplication = React.createClass({
         </div>
 
         <div className="options-group">
+          <a className="order-prop-option" href="#time-select" >
+            <span className="options-title">送达时间</span>
+            <button className="option-btn btn-arrow-right">
+              尽快送达
+            </button>
+          </a>
           <label className="order-prop-option">
             <span className="option-title">备注: </span>
             <input className="option-input" name="note" placeholder="输入备注" />
@@ -144,19 +152,6 @@ const OrderApplication = React.createClass({
             <input className="option-input" name="invoice" placeholder="输入个人或公司抬头" />
           </label>
         </div>
-
-        {childView === 'customer-info' ?
-          <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setOrderProps} />
-          : false}
-        {childView === 'coupon-select' ?
-          <CouponSelect couponsProps={serviceProps.couponsProps} onSelectCoupon={setOrderProps} />
-          : false}
-        {childView === 'table-select' ?
-          <TableSelect
-            areas={tableProps.areas} tables={tableProps.tables}
-            onTableSelect={setOrderProps} onDone={this.resetChildView}
-          />
-          : false}
         <div className="options-group">
           <a className="order-prop-option order-shop">
             <img className="order-shop-icon" src={commercialProps.commercialLogo} alt="" />
@@ -250,13 +245,25 @@ const OrderApplication = React.createClass({
         </div>
         {childView === 'customer-info' ?
           <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setOrderProps} />
-          : false}
+          : false
+        }
         {childView === 'coupon-select' ?
           <CouponSelect couponsProps={serviceProps.couponsProps} onSelectCoupon={setOrderProps} />
-          : false}
+          : false
+        }
         {childView === 'table-select' ?
-          <TableSelect areas={tableProps.areas} tables={tableProps.tables} onTableSelect={tableProp => console.log(tableProp)} />
-          : false}
+          <TableSelect
+            areas={tableProps.areas} tables={tableProps.tables}
+            onTableSelect={setOrderProps} onDone={this.resetChildView}
+          />
+          : false
+        }
+        {childView === 'time-select' ?
+          <TimeSelect
+            selectedDateTime={timeProps.selectedDateTime} timeTable={timeProps.timeTable}
+          />
+          : false
+        }
       </div>
     );
   },
