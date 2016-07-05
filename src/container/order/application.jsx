@@ -9,6 +9,8 @@ const CouponSelect = require('../../component/order/coupon-select.jsx');
 const OrderedDish = require('../../component/order/ordered-dish.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const helper = require('../../helper/order-helper.js');
+const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
+const _isEmpty = require('lodash').isEmpty;
 require('../../asset/style/style.scss');
 require('./application.scss');
 
@@ -130,6 +132,98 @@ const OrderApplication = React.createClass({
             <input className="option-input" name="invoice" placeholder="输入个人或公司抬头" />
           </label>
         </div>
+        <div className="options-group">
+          <a className="order-prop-option order-shop">
+            <img className="order-shop-icon" src={commercialProps.commercialLogo} alt="" />
+            <p className="order-shop-desc ellipsis">{commercialProps.name}</p>
+          </a>
+          {!_isEmpty(orderedDishesProps) && orderedDishesProps.dishes.length ?
+            <div>
+              {orderedDishesProps.dishes.map(dish => (<OrderedDish key={dish.id} dish={dish} />))}
+              <div className="order-summary">
+                {orderSummary.coupon ?
+                  <p className="order-summary-entry clearfix">
+                    <span className="order-title">优惠券优惠:</span>
+                    <span className="order-discount discount">{orderSummary.coupon}</span>
+                  </p>
+                  :
+                  false
+                }
+                {!_isEmpty(orderedDishesProps) && serviceProps.integralsInfo.isChecked ?
+                  <p className="order-summary-entry clearfix">
+                    <span className="order-title">积分抵扣:</span>
+                    <span className="order-discount discount">
+                    {helper.countIntegralsToCash(
+                      getDishesPrice(orderedDishesProps.dishes),
+                      orderSummary.coupon,
+                      serviceProps.integralsInfo.integralsDetail
+                    ).integralInUsed}
+                    </span>
+                    <span className="order-integral">
+                      {helper.countIntegralsToCash(
+                        getDishesPrice(orderedDishesProps.dishes),
+                        orderSummary.coupon,
+                        serviceProps.integralsInfo.integralsDetail
+                      ).commutation}
+                    </span>
+                  </p>
+                  :
+                  false
+                }
+                {!_isEmpty(orderedDishesProps) && commercialProps.carryRuleVO ?
+                  <p className="order-summary-entry clearfix">
+                    <span className="order-title">自动抹零:</span>
+                    <span className="order-discount discount">{
+                      helper.clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes))
+                    }</span>
+                  </p>
+                  :
+                  false
+                }
+              </div>
+              <p className="final-price">
+                <span className="dishes-price">
+                  总计:{getDishesPrice(orderedDishesProps.dishes)}
+                </span>
+                {commercialProps.carryRuleVO ?
+                  <span className="price-by-coupon-count">
+                    优惠:{serviceProps.integralsInfo.isChecked ?
+                      Number(helper.countIntegralsToCash(
+                        getDishesPrice(orderedDishesProps.dishes),
+                        orderSummary.coupon,
+                        serviceProps.integralsInfo.integralsDetail
+                      ).commutation
+                    ) + Number(helper.clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes)))
+                      + Number(orderSummary.coupon)
+                    :
+                    Number(helper.clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes)))
+                    + Number(orderSummary.coupon)
+                  }
+                  </span>
+                  :
+                  false
+                }
+                <span className="final-price">
+                  实付:{Number(getDishesPrice(orderedDishesProps.dishes)) -
+                    (serviceProps.integralsInfo.isChecked && commercialProps.carryRuleVO ?
+                      Number(helper.countIntegralsToCash(
+                        getDishesPrice(orderedDishesProps.dishes),
+                        orderSummary.coupon,
+                        serviceProps.integralsInfo.integralsDetail
+                      ).commutation
+                    ) + Number(helper.clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes)))
+                      + Number(orderSummary.coupon)
+                    :
+                    Number(helper.clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes)))
+                    + Number(orderSummary.coupon))
+                  }
+                </span>
+              </p>
+            </div>
+            :
+            false
+          }
+        </div>
         {childView === 'customer-info' ?
           <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setOrderProps} />
           : false}
@@ -139,54 +233,6 @@ const OrderApplication = React.createClass({
         {childView === 'table-select' ?
           <TableSelect areas={tableProps.areas} tables={tableProps.tables} onTableSelect={tableProp => console.log(tableProp)} />
           : false}
-        <div className="options-group">
-          <a className="order-prop-option order-shop">
-            <img className="order-shop-icon" src={commercialProps.commercialLogo} alt="" />
-            <p className="order-shop-desc ellipsis">{commercialProps.name}</p>
-          </a>
-          {orderedDishesProps.orderedDishes.dishes ?
-            <div>
-              {orderedDishesProps.orderedDishes.dishes.map(dish => (<OrderedDish key={dish.id} dish={dish} />))}
-            </div>
-            :
-            false
-          }
-          <div className="order-summary">
-            {orderSummary.coupon ?
-              <p className="order-summary-entry clearfix">
-                <span className="order-title">优惠券优惠:</span>
-                <span className="order-discount discount">{orderSummary.coupon}</span>
-              </p>
-              :
-              false
-            }
-            {orderSummary.coupon ?
-              <p className="order-summary-entry clearfix">
-                <span className="order-title">积分抵扣:</span>
-                <span className="order-integral">
-                  {helper.countIntegralsToCash(
-                    orderedDishesProps.dishesPrice,
-                    orderSummary.coupon,
-                    serviceProps.integralsInfo.integralsDetail
-                  )}
-                </span>
-                <span className="order-discount discount">{serviceProps.integralsInfo.integralsDetail.integral}</span>
-              </p>
-              :
-              false
-            }
-            {orderedDishesProps.dishesPrice && commercialProps.carryRuleVO ?
-              <p className="order-summary-entry clearfix">
-                <span className="order-title">自动抹零:</span>
-                <span className="order-discount discount">{
-                  helper.clearSmallChange(commercialProps.carryRuleVO, orderedDishesProps.dishesPrice)
-                }</span>
-              </p>
-              :
-              false
-            }
-          </div>
-        </div>
       </div>
     );
   },

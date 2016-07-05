@@ -8,10 +8,7 @@ module.exports = function (
     tableList:[],
     timeTable:{},
     customerProps:{},
-    orderedDishesProps:{
-      orderedDishes:{},
-      dishesPrice:'',
-    },
+    orderedDishesProps:{},
     commercialProps:{},
     serviceProps:{
       isPickupFromFrontDesk:'',
@@ -171,7 +168,7 @@ module.exports = function (
           Immutable.from(
             helper.countPriceByCoupons(
               selectedCoupon,
-              state.orderedDishesProps.dishesPrice
+              getDishesPrice(state.orderedDishesProps.dishes)
             )
           )
         );
@@ -215,10 +212,9 @@ module.exports = function (
       }
       return state.set('childView', '');
     case 'SET_ORDERED_DISHES_TO_ORDER':
-      return state.setIn(
-        ['orderedDishesProps', 'orderedDishes'], Immutable.from(payload)
-      )
-      .setIn(['orderedDishesProps', 'dishesPrice'], Immutable.from(getDishesPrice(payload.dishes)));
+      return state.set(
+        'orderedDishesProps', Immutable.from(payload)
+      );
     default:
   }
   return state;

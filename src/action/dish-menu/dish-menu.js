@@ -67,4 +67,10 @@ exports.setDishCookie = () => (dispatch, getStates) => {
     const setSignleDishCookie = helper.getDishCookieObject(orderData, 0);
     return helper.setCookie(setSignleDishCookie.key, setSignleDishCookie.value);
   });
+  const type = helper.getUrlParam('type');
+  if (type === 'TS') {
+    location.href = `/orderall/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}`;
+  } else {
+    location.href = `/takeaway/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}`;
+  }
 };
