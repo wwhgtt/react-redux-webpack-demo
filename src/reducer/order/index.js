@@ -45,7 +45,7 @@ module.exports = function (
     case 'SET_ORDER': {
       return state.setIn(['tableProps', 'areas'], Immutable.from(payload.areaList))
                   .setIn(['tableProps', 'tables'], Immutable.from(payload.tableList).flatMap(table => table.set('id', parseInt(table.tableID, 10))))
-                  .set('timeProps', Immutable.from({ selectedDateTime:[], timeTable:payload.timeJson }))
+                  .set('timeProps', Immutable.from({ selectedDateTime:{ date:'', time:'' }, timeTable:payload.timeJson }))
                   .set(
                     'customerProps',
                     Immutable.from({
@@ -224,6 +224,8 @@ module.exports = function (
         return state.set('childView', 'table-select');
       } else if (payload === '#coupon-select') {
         return state.set('childView', 'coupon-select');
+      } else if (payload === '#time-select') {
+        return state.set('childView', 'time-select');
       }
       return state.set('childView', '');
     case 'SET_ORDERED_DISHES_TO_ORDER':
