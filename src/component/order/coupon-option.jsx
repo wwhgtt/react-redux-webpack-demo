@@ -10,10 +10,13 @@ module.exports = React.createClass({
     validStartDate:React.PropTypes.any.isRequired,
     validEndDate:React.PropTypes.any.isRequired,
     codeNumber:React.PropTypes.number.isRequired,
+    onTouchTap:React.PropTypes.func.isRequired,
+    isChecked:React.PropTypes.bool,
   },
   getInitialState() {
     return {
       isInstructionsOpen:false,
+      isCouponSelected:false,
     };
   },
   componentDidMount() {
@@ -61,10 +64,13 @@ module.exports = React.createClass({
     return giftElement;
   },
   render() {
-    const { instructions, coupRuleBeanList, ruleDesc, couponType, validStartDate, codeNumber, validEndDate, ...otherProps } = this.props;
-    const { isInstructionsOpen } = this.state;
+    const { instructions, coupRuleBeanList, ruleDesc, couponType, validStartDate, codeNumber, validEndDate, isChecked, ...otherProps } = this.props;
+    const { isInstructionsOpen, isCouponSelected } = this.state;
     return (
-      <div className={classnames('coupon', this.judgeCouponInfoByCouponType(couponType).classNameForCoupon)} {...otherProps}>
+      <div
+        className={classnames('coupon', { 'is-checked':isChecked }, this.judgeCouponInfoByCouponType(couponType).classNameForCoupon)}
+        onTouchTap={this.onTouchTap} {...otherProps}
+      >
         <div className="coupon-card flex-row" >
           <div className="coupon-card-left">
             {couponType === 3 ?
@@ -84,7 +90,11 @@ module.exports = React.createClass({
             </button>
             <a className="coupon-go-order" href="">去点菜</a>
           </div>
-          <div className="coupon-flag"></div>
+          {isCouponSelected ?
+            <div className="coupon-flag"></div>
+            :
+            false
+          }
         </div>
         {isInstructionsOpen ?
           <div className="coupon-dropdown">

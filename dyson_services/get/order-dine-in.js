@@ -72,6 +72,7 @@ module.exports = {
         'memo': '',
         'updateTime': 1451554263000,
         'isDelete': 0,
+        'isChecked': true,
       },
       {
         'id': 18554,
@@ -160,6 +161,7 @@ module.exports = {
         'synFlag': '64ce8cf81edf4ced9cbae6382eab36e3',
         'areaId': 17604,
         'tableStatus': 1,
+        'isChecked': true,
       },
       {
         'tableID': '4000129988',

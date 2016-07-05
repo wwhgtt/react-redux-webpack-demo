@@ -18,7 +18,13 @@ module.exports = React.createClass({
 
   },
   onSelectCoupon(evt, optionData) {
+    const { onSelectCoupon } = this.props;
     const selectedCouponId = evt.currentTarget.getAttribute('data-id');
+    const setCouponProp = {
+      id:'coupon-prop',
+      changedCouponId:selectedCouponId,
+    };
+    onSelectCoupon(null, setCouponProp);
     this.setState({
       couponDataId:selectedCouponId,
     });
@@ -27,10 +33,11 @@ module.exports = React.createClass({
     const { onSelectCoupon } = this.props;
     const { couponDataId } = this.state;
     const selectedCouponData = {
-      id:'selected-coupon-data',
+      id:'coupon',
       selectedCouponId:couponDataId,
     };
     onSelectCoupon(null, selectedCouponData);
+    window.location.hash = '';
   },
   render() {
     const { couponsProps } = this.props;

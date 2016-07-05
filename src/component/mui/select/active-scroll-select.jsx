@@ -1,6 +1,7 @@
 const _findIndex = require('lodash.findindex');
 const React = require('react');
 const { findDOMNode } = require('react-dom');
+const shallowCompare = require('react-addons-shallow-compare');
 const classnames = require('classnames');
 const IScroll = require('iscroll/build/iscroll-probe');
 const ActiveSelect = require('./active-select.jsx');
@@ -30,12 +31,26 @@ module.exports = React.createClass({
     this.applyIScrollPlugin(viewport);
     this.scrollToSelectedOption(optionsData);
   },
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  },
   componentDidUpdate() {
+    const { optionsData, viewportHeight } = this.props;
+    const viewport = findDOMNode(this);
+    this.adjustViewportHeight(viewport, viewportHeight);
     this._cache.iScroll.refresh();
+    this.scrollToSelectedOption(optionsData);
   },
   applyIScrollPlugin(viewport) {
-    const iScroll = this._cache.iScroll = new IScroll(viewport, { snap:'[data-option]', probeType: 1 });
-    iScroll.on('scrollEnd', () => console.log(iScroll.currentPage));
+    const cache = this._cache;
+    const iScroll = cache.iScroll = new IScroll(viewport, { snap:'[data-option]', probeType: 3, snapThreshold: 1 });
+    iScroll.on('scrollEnd', () => {
+      const { optionsData, onSelectOption } = this.props;
+      if (!cache.autoScrolling) {
+        setTimeout(() => onSelectOption(null, optionsData[iScroll.currentPage.pageY]), 50);
+      }
+      cache.autoScrolling = false;
+    });
   },
   adjustViewportHeight(viewport, viewportHeight) { // We need to adjust the height of viewport according to the height of Option
     const optionElement = viewport.querySelector('[data-option]');
@@ -46,15 +61,17 @@ module.exports = React.createClass({
   scrollToSelectedOption(options) {
     const optionIdx = _findIndex(options, { isChecked: true });
     const cache = this._cache;
+    // debugger;
     if (optionIdx !== -1) {
-      cache.iScroll.goToPage(0, optionIdx, 600);
+      cache.iScroll.goToPage(0, optionIdx, 100);
     }
+    cache.autoScrolling = true;
   },
-  buildPlaceholderElement(OptionComponent, viewportHeight) {
+  buildPlaceholderElement(viewportHeight) {
     const placeholderOffset = this._cache.placeholderOffset = viewportHeight / 2;
     const placeholders = [];
     for (let i = 1; i <= placeholderOffset; i++) {
-      placeholders.push(<OptionComponent key={`placeholder-${i}`} data-option="false" />);
+      placeholders.push(<a key={`placeholder-${i}`} data-option="false" ></a>);
     }
     return (
       <div className="placeholder-container">
@@ -64,8 +81,8 @@ module.exports = React.createClass({
   },
   render() {
     const { className, viewportHeight, optionComponent, ...props } = this.props;
-    const topPlaceholder = this.buildPlaceholderElement(optionComponent, viewportHeight);
-    const bottomPlaceholder = this.buildPlaceholderElement(optionComponent, viewportHeight);
+    const topPlaceholder = this.buildPlaceholderElement(viewportHeight);
+    const bottomPlaceholder = this.buildPlaceholderElement(viewportHeight);
     return (
       <div className={classnames('scroll-select', className)}>
         <div className="scroll-wrapper">

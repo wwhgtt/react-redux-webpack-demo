@@ -10,7 +10,10 @@ if (!commitMSG) {
   process.stderr.write(lib.getCommitMSGTemplate());
   process.exit(1);
 }
-
+if (commitMSG.isMerge) {
+  process.stdout.write('It seems that this is merge commit. Will skip zentao tasks\n');
+  process.exit(0);
+}
 lib.getSession().
   then(lib.doLogin).
   then(session => lib.checkTaskStatus(commitMSG.taskID,session)).
