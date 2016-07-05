@@ -1,57 +1,21 @@
 module.exports = {
-  path:'/shop/discountInfo.json',
+  path: '/shop/discountInfo.json',
   template:{
-    code: 200,
-    msg:'',
     data:{
-      isDiscount: true,
-      type: 1,
-      dishList: [
-        {
-          dishId: 16,
-          value: 0.1,
-        },
-        {
-          dishId: 19,
-          value: 0.1,
-        },
-        {
-          dishId: 22,
-          value: 0.1,
-        },
-        {
-          dishId: 25,
-          value: 0.1,
-        },
-        {
-          dishId: 28,
-          value: 0.1,
-        },
-        {
-          dishId: 53,
-          value: 0.1,
-        },
-        {
-          dishId: 56,
-          value: 0.1,
-        },
-        {
-          dishId: 61,
-          value: 0.1,
-        },
-        {
-          dishId: 64,
-          value: 0.1,
-        },
-        {
-          dishId: 67,
-          value: 0.1,
-        },
-        {
-          dishId: 4391,
-          value: 0.1,
-        },
+      isDiscount:true,
+      type :1,
+      dishList :
+      [
+        { dishId :63, value :7.0 },
+        { dishId :55, value :7.0 },
+        { dishId :60, value :7.5 },
+        { dishId :4390, value :6.0 },
+        { dishId :66, value :3.0 },
+        { dishId :6112, value :7.0 },
       ],
     },
+    time :1467713952401,
+    code : 200,
+    msg :  '',
   },
 };

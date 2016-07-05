@@ -19,6 +19,7 @@ const DishMenuApplication = React.createClass({
     showDishDetail: React.PropTypes.func.isRequired,
     setDishCookie: React.PropTypes.func.isRequired,
     removeAllOrders: React.PropTypes.func.isRequired,
+    fetchOrderDiscountInfo:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     activeDishTypeId: React.PropTypes.number.isRequired,
     dishTypesData: React.PropTypes.array,
@@ -29,6 +30,7 @@ const DishMenuApplication = React.createClass({
   componentDidMount() {
     this.props.fetchMenuData();
     this.props.fetchServiceProps();
+    this.props.fetchOrderDiscountInfo();
   },
   componentDidUpdate() {
   },

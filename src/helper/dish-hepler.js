@@ -183,3 +183,16 @@ exports.restoreDishesLocalStorage = function (data) {
   }
   return data;
 };
+// exports.setMemberPriceToDishes = function (memberDishesList, dishesData) {
+//   memberDishesList.forEach(
+//     memberDish => {
+//       dishesData.forEach(
+//         dishData => {
+//           if (dishData.id === memberDish.dishId) {
+//
+//           }
+//         }
+//       );
+//     }
+//   );
+// };
