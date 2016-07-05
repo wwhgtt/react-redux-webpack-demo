@@ -68,7 +68,7 @@ module.exports = React.createClass({
     return (
       <div
         className={classnames('coupon', this.judgeCouponInfoByCouponType(couponType).classNameForCoupon)}
-        onTouchTap={this.onTouchTap} {...otherProps}
+        {...otherProps}
       >
         <div className="coupon-card flex-row" >
           <div className="coupon-card-left">

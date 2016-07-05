@@ -1,6 +1,7 @@
 const _find = require('lodash.find');
 const getDishesPrice = require('../helper/dish-hepler.js').getDishesPrice;
-
+const getDishPrice = require('../helper/dish-hepler.js').getDishPrice;
+const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
 exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDesk, pickupPayType, totablePayType) {
   if (diningForm === 0) {
     return payment === 'offline';
@@ -96,7 +97,8 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, total
 // 计算优惠价格
 const countDecreasePrice = exports.countDecreasePrice = function (orderedDishesProps, orderSummary, integralsInfo, commercialProps) {
   if (integralsInfo.isChecked && commercialProps.carryRuleVO) {
-    return Number(countIntegralsToCash(
+    return orderSummary.coupon ?
+          Number(countIntegralsToCash(
                     getDishesPrice(orderedDishesProps.dishes),
                     orderSummary.coupon,
                     integralsInfo.integralsDetail
@@ -104,14 +106,63 @@ const countDecreasePrice = exports.countDecreasePrice = function (orderedDishesP
           ) + Number(
             clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes))
           )
-          + Number(orderSummary.coupon);
+          + Number(orderSummary.coupon)
+          :
+          Number(countIntegralsToCash(
+                    getDishesPrice(orderedDishesProps.dishes),
+                    false,
+                    integralsInfo.integralsDetail
+                  ).commutation
+          ) + Number(
+            clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes))
+          )
+          + Number(orderSummary.discount);
   } else if (!integralsInfo.isChecked && commercialProps.carryRuleVO) {
-    return Number(
+    return orderSummary.coupon ?
+          Number(
               clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes))
            )
-           + Number(orderSummary.coupon);
+           + Number(orderSummary.coupon)
+           :
+           Number(
+               clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes))
+            )
+            + Number(orderSummary.discount);
   }
   return false;
+};
+// 计算会员价格
+exports.countMemberPrice = function (orderedDishes, memberDishesProps) {
+  const discountType = memberDishesProps.discountType;
+  const disCountPriceList = [];
+  if (discountType === 1) {
+    // 表示会员折扣
+    memberDishesProps.discountList.forEach(
+      dishcount => {
+        orderedDishes.forEach(
+          orderedDish => {
+            if (orderedDish.id === dishcount.dishId) {
+              disCountPriceList.push(dishcount.value * getDishPrice(orderedDish));
+            }
+          }
+        );
+      }
+    );
+  } else if (discountType === 1) {
+    // 表示会员价格
+    memberDishesProps.discountList.forEach(
+      dishcount => {
+        orderedDishes.forEach(
+          orderedDish => {
+            if (orderedDish.id === dishcount.dishId) {
+              disCountPriceList.push(dishcount.value * getDishesCount([orderedDish]));
+            }
+          }
+        );
+      }
+    );
+  }
+  return disCountPriceList.reduce((p, c) => p + c, 0);
 };
 // 计算优惠后的价格
 exports.countFinalPrice = function (orderedDishesProps, orderSummary, integralsInfo, commercialProps) {
