@@ -13,7 +13,13 @@ const URI = exports.URI = {
 
 exports.getCommitMSGFromFile = function (filePath) {
   var commitMSG = { taskID:0, workHour:0, remainHour:0, comment:'' };
-  var commitMSGString = fs.readFileSync(filePath, { encoding:'utf8' }).split('\n');
+  var commitMSGString = fs.readFileSync(filePath, { encoding:'utf8' });
+
+  if (/Merge branch/.test(commitMSGString)) {
+    commitMSG.isMerge = true;
+    return commitMSG;
+  }
+
   commitMSGString.forEach((ele, idx) => {
     Object.keys(commitMSG).forEach(key => {
       if (!commitMSG[key]) {

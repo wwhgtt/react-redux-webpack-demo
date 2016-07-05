@@ -1,3 +1,6 @@
+const _find = require('lodash.find');
+const getDishesPrice = require('../helper/dish-hepler.js').getDishesPrice;
+
 exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDesk, pickupPayType, totablePayType) {
   if (diningForm === 0) {
     return payment === 'offline';
@@ -9,6 +12,12 @@ exports.shouldPaymentAutoChecked = function (payment, isPickupFromFrontDesk, pic
     return pickupPayType.indexOf(',') !== -1 ? payment === pickupPayType.split(',')[0] : payment === pickupPayType;
   }
   return totablePayType.indexOf(',') !== -1 ? payment === totablePayType.split(',')[0] : payment === totablePayType;
+};
+exports.getSelectedTable = function (tableProps) {
+  return {
+    area: _find(tableProps.areas, { isChecked:true }),
+    table: _find(tableProps.tables, { isChecked:true }),
+  };
 };
 exports.countPriceByCoupons = function (coupon, totalPrice) {
   let remission = '';
@@ -27,7 +36,7 @@ exports.countPriceByCoupons = function (coupon, totalPrice) {
   }
   return true;
 };
-exports.countIntegralsToCash = function (totalPrice, remission, integralsInfo) {
+const countIntegralsToCash = exports.countIntegralsToCash = function (totalPrice, remission, integralsInfo) {
   if (!remission) {
     remission = 0;
   }
@@ -46,31 +55,31 @@ exports.countIntegralsToCash = function (totalPrice, remission, integralsInfo) {
     };
   } else if (limitType === 2) {
     return integralsInfo.limitIntegral < integralsInfo.integral ?
-      {
-        commutation:integralsInfo.limitIntegral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue < canBeUsedCommutation ?
+    {
+      commutation:integralsInfo.limitIntegral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue < canBeUsedCommutation ?
           integralsInfo.limitIntegral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue
           :
           canBeUsedCommutation,
-        integralInUsed:integralsInfo.limitIntegral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue < canBeUsedCommutation ?
+      integralInUsed:integralsInfo.limitIntegral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue < canBeUsedCommutation ?
           integralsInfo.limitIntegral
           :
           canBeUsedCommutation * integralsInfo.exchangeIntegralValue / integralsInfo.exchangeCashValue,
-      }
+    }
       :
-      {
-        commutation:integralsInfo.integral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue < canBeUsedCommutation ?
+    {
+      commutation:integralsInfo.integral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue < canBeUsedCommutation ?
           integralsInfo.integral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue
           :
           canBeUsedCommutation,
-        integralInUsed:integralsInfo.integral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue < canBeUsedCommutation ?
+      integralInUsed:integralsInfo.integral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue < canBeUsedCommutation ?
           integralsInfo.integral
           :
           canBeUsedCommutation * integralsInfo.exchangeIntegralValue / integralsInfo.exchangeCashValue,
-      };
+    };
   }
   return false;
 };
-exports.clearSmallChange = function (carryRuleVO, totalPrice) {
+const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, totalPrice) {
   const { transferType, scale } = carryRuleVO;
   if (transferType === 1) {
     // 四舍五入
@@ -83,4 +92,29 @@ exports.clearSmallChange = function (carryRuleVO, totalPrice) {
     return totalPrice - Math.floor(totalPrice);
   }
   return false;
+};
+// 计算优惠价格
+const countDecreasePrice = exports.countDecreasePrice = function (orderedDishesProps, orderSummary, integralsInfo, commercialProps) {
+  if (integralsInfo.isChecked && commercialProps.carryRuleVO) {
+    return Number(countIntegralsToCash(
+                    getDishesPrice(orderedDishesProps.dishes),
+                    orderSummary.coupon,
+                    integralsInfo.integralsDetail
+                  ).commutation
+          ) + Number(
+            clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes))
+          )
+          + Number(orderSummary.coupon);
+  } else if (!integralsInfo.isChecked && commercialProps.carryRuleVO) {
+    return Number(
+              clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes))
+           )
+           + Number(orderSummary.coupon);
+  }
+  return false;
+};
+// 计算优惠后的价格
+exports.countFinalPrice = function (orderedDishesProps, orderSummary, integralsInfo, commercialProps) {
+  return Number(getDishesPrice(orderedDishesProps.dishes))
+        - Number(countDecreasePrice(orderedDishesProps, orderSummary, integralsInfo, commercialProps));
 };

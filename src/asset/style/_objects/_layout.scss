@@ -33,3 +33,9 @@
   flex: 1;
   -webkit-overflow-scrolling: touch;
 }
+
+.vertical-center {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}

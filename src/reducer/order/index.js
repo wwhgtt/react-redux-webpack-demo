@@ -41,7 +41,7 @@ module.exports = function (
   switch (type) {
     case 'SET_ORDER': {
       return state.setIn(['tableProps', 'areas'], Immutable.from(payload.areaList))
-                  .setIn(['tableProps', 'tables'], Immutable.from(payload.tableList).flatMap(table => table.set('id', table.tableID)))
+                  .setIn(['tableProps', 'tables'], Immutable.from(payload.tableList).flatMap(table => table.set('id', parseInt(table.tableID, 10))))
                   .set('timeProps', Immutable.from({ selectedDateTime:[], timeTable:payload.timeJson }))
                   .set(
                     'customerProps',
@@ -187,6 +187,18 @@ module.exports = function (
           couponList => couponList.flatMap(
             coupon => coupon.id === selectedCoupon.id ? coupon.set('isChecked', true)
             : coupon.set('isChecked', false)
+          )
+        );
+      } else if (payload.id === 'table') {
+        return state.updateIn(
+          ['tableProps', 'areas'],
+          areas => areas.flatMap(
+            area => area.id === payload.area.id ? area.set('isChecked', true) : area.set('isChecked', false)
+          )
+        ).updateIn(
+          ['tableProps', 'tables'],
+          tables => tables.flatMap(
+            table => table.id === payload.table.id ? table.set('isChecked', true) : table.set('isChecked', false)
           )
         );
       }
