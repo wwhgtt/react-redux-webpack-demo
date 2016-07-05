@@ -74,6 +74,8 @@ module.exports = React.createClass({
   },
   onCancel(evt) {
     const { onDone } = this.props;
+    evt.stopPropagation();
+    evt.preventDefault();
     onDone();
   },
   getTablesOfSelectedArea(areas, tables) {
