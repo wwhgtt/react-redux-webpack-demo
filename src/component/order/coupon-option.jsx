@@ -16,7 +16,6 @@ module.exports = React.createClass({
   getInitialState() {
     return {
       isInstructionsOpen:false,
-      isCouponSelected:false,
     };
   },
   componentDidMount() {
@@ -65,10 +64,10 @@ module.exports = React.createClass({
   },
   render() {
     const { instructions, coupRuleBeanList, ruleDesc, couponType, validStartDate, codeNumber, validEndDate, isChecked, ...otherProps } = this.props;
-    const { isInstructionsOpen, isCouponSelected } = this.state;
+    const { isInstructionsOpen } = this.state;
     return (
       <div
-        className={classnames('coupon', { 'is-checked':isChecked }, this.judgeCouponInfoByCouponType(couponType).classNameForCoupon)}
+        className={classnames('coupon', this.judgeCouponInfoByCouponType(couponType).classNameForCoupon)}
         onTouchTap={this.onTouchTap} {...otherProps}
       >
         <div className="coupon-card flex-row" >
@@ -90,7 +89,7 @@ module.exports = React.createClass({
             </button>
             <a className="coupon-go-order" href="">去点菜</a>
           </div>
-          {isCouponSelected ?
+          {isChecked ?
             <div className="coupon-flag"></div>
             :
             false
