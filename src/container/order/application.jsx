@@ -1,6 +1,7 @@
 const React = require('react');
 const connect = require('react-redux').connect;
 const actions = require('../../action/order/order');
+const helper = require('../../helper/order-helper');
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
@@ -8,7 +9,6 @@ const CouponSelect = require('../../component/order/coupon-select.jsx');
 // const TableSelect = require('../../component/order/select/table-select.jsx');
 const OrderedDish = require('../../component/order/ordered-dish.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
-const helper = require('../../helper/order-helper.js');
 require('../../asset/style/style.scss');
 require('./application.scss');
 
@@ -21,6 +21,7 @@ const OrderApplication = React.createClass({
     fetchOrderDiscountInfo:React.PropTypes.func.isRequired,
     fetchOrderCoupons:React.PropTypes.func.isRequired,
     setChildView: React.PropTypes.func.isRequired,
+    setOrderPropsAndResetChildView: React.PropTypes.func.isRequired,
     getLastOrderedDishes:React.PropTypes.func.isRequired,
     orderSummary:React.PropTypes.object.isRequired,
     // MapedStatesToProps
@@ -49,9 +50,13 @@ const OrderApplication = React.createClass({
     const hash = location.hash;
     setChildView(hash);
   },
+  resetChildView() {
+    location.hash = '';
+  },
   render() {
     const { customerProps, serviceProps, childView, tableProps, orderedDishesProps, commercialProps, orderSummary } = this.props; // states
     const { setOrderProps } = this.props;// actions
+    const selectedTable = helper.getSelectedTable(tableProps);
     return (
       <div className="application">
         <a className="options-group options-group--stripes" href="#customer-info" >
@@ -75,7 +80,13 @@ const OrderApplication = React.createClass({
             :
             <a className="order-prop-option" href="#table-select" >
               <span className="options-title">选择桌台</span>
-              <span className="option-btn btn-arrow-right">大厅区   桌台A021(2人桌)</span>
+              <span className="option-btn btn-arrow-right">
+                {selectedTable.area && selectedTable.table ?
+                  `${selectedTable.area.areaName} ${selectedTable.table.tableName}`
+                  :
+                  false
+                }
+              </span>
             </a>
           }
         </div>
@@ -137,7 +148,10 @@ const OrderApplication = React.createClass({
           <CouponSelect couponsProps={serviceProps.couponsProps} onSelectCoupon={setOrderProps} />
           : false}
         {childView === 'table-select' ?
-          <TableSelect areas={tableProps.areas} tables={tableProps.tables} onTableSelect={tableProp => console.log(tableProp)} />
+          <TableSelect
+            areas={tableProps.areas} tables={tableProps.tables}
+            onTableSelect={setOrderProps} onDone={this.resetChildView}
+          />
           : false}
         <div className="options-group">
           <a className="order-prop-option order-shop">

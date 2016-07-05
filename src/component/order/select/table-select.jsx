@@ -12,6 +12,7 @@ module.exports = React.createClass({
   propTypes: {
     areas: React.PropTypes.array.isRequired,
     tables: React.PropTypes.array.isRequired,
+    onDone: React.PropTypes.func.isRequired,
     onTableSelect: React.PropTypes.func.isRequired,
   },
   getInitialState() {
@@ -29,29 +30,53 @@ module.exports = React.createClass({
       tables,
     };
   },
-  onAreaSelect(area) {
-    const { areas } = this.state;
+  onAreaSelect(evt, area) {
+    const { areas, tables } = this.state;
+    let tableMark = true;
     this.setState({
       areas: areas.flatMap(
         eachArea => eachArea.id === area.id ? eachArea.set('isChecked', true) : eachArea.set('isChecked', false)
       ),
+      tables: tables.flatMap(
+        eachTable => {
+          if (tableMark && eachTable.areaId === area.id) {
+            tableMark = false;
+            return eachTable.set('isChecked', true);
+          }
+          return eachTable.set('isChecked', false);
+        }
+      ),
     });
+    if (evt) {
+      evt.stopPropagation();
+    }
   },
-  onTableSelect(table) {
+  onTableSelect(evt, table) {
     const { tables } = this.state;
     this.setState({
       tables: tables.flatMap(
         eachTable => eachTable.id === table.id ? eachTable.set('isChecked', true) : eachTable.set('isChecked', false)
       ),
     });
+    if (evt) {
+      evt.stopPropagation();
+    }
   },
-  onSubmit() {
-    const { onTableSelect } = this.props;
+  onSubmit(evt) {
+    const { onTableSelect, onDone } = this.props;
     const { areas, tables } = this.state;
-    onTableSelect({
+    onTableSelect(null, {
+      id: 'table',
       area: _find(areas, { isChecked:true }),
       table: _find(tables, { isChecked:true }),
     });
+    onDone();
+  },
+  onCancel(evt) {
+    const { onDone } = this.props;
+    evt.stopPropagation();
+    evt.preventDefault();
+    onDone();
   },
   getTablesOfSelectedArea(areas, tables) {
     const selectedArea = _find(areas, { isChecked:true });
@@ -82,7 +107,7 @@ module.exports = React.createClass({
             />
           </div>
         </div>
-        <div className="scroll-select-close" onTouchTap=""></div>
+        <div className="scroll-select-close" onTouchTap={this.onCancel}></div>
       </div>
     );
   },

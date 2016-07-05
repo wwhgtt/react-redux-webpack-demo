@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -43,6 +44,22 @@ module.exports = {
   },
   plugins: [
     new webpack.EnvironmentPlugin(['DEV_HOST']),
+    new HtmlWebpackPlugin(
+      {
+        title: 'DishMenuApplication',
+        filename: 'dish-menu.html',
+        chunks: ['common', 'dish-menu-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'OrderApplication',
+        filename: 'order.html',
+        chunks: ['common', 'order-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
