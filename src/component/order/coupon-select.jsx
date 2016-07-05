@@ -23,6 +23,7 @@ module.exports = React.createClass({
     const setCouponProp = {
       id:'coupon-prop',
       changedCouponId:selectedCouponId,
+      isChecked:optionData.isChecked,
     };
     onSelectCoupon(null, setCouponProp);
     this.setState({

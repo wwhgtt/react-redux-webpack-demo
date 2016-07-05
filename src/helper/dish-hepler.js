@@ -135,24 +135,24 @@ exports.getDishCookieObject = function (dish, orderIdx) {
   const consumeType = getUrlParam('type');
   const shopId = getUrlParam('shopId');
   const { id, marketPrice } = dish;
-  const dishCount = getDishesCount([dish]);
+  const orderCount = isSingleDishWithoutProps(dish) ? getDishesCount([dish]) : dish.order[orderIdx].count;
   if (isSingleDish) {
     const spliceResultOfPropIds = isSingleDishWithoutProps(dish)
      ? '-' :
-      `${getOrderPropIds(dish.order[orderIdx])[0].join('^')}-${getOrderPropIds(dish.order[orderIdx])[1].join('^')}`;
-    return { key : `${consumeType}_${shopId}_${id}_${id}|1-${spliceResultOfPropIds}`, value : `${dishCount}|${marketPrice}` };
+      `${getOrderPropIds(dish.order[orderIdx])[1].join('^')}-${getOrderPropIds(dish.order[orderIdx])[0].join('^')}`;
+    return { key : `${consumeType}_${shopId}_${id}_${id}|1-${spliceResultOfPropIds}`, value : `${orderCount}|${marketPrice}` };
   }
   const splitPropsIds = [].concat.apply([], dish.order[orderIdx].groups.map(group => {
     const groupId = group.id;
     const result = group.childInfos.map(childInfo => {
       const spliceResultOfPropIds = isSingleDishWithoutProps(childInfo)
        ? '-' :
-        `${getOrderPropIds(childInfo.order[orderIdx])[0].join('^')}-${getOrderPropIds(childInfo.order[orderIdx])[1].join('^')}`;
+        `${getOrderPropIds(childInfo.order[0])[1].join('^')}-${getOrderPropIds(childInfo.order[0])[0].join('^')}`;
       return `${childInfo.id}A${groupId}|${getDishesCount([childInfo])}-${spliceResultOfPropIds}`;
     });
     return [].concat.apply([], result);
   }));
-  return { key : `${consumeType}_${shopId}_${id}_${splitPropsIds.join('#')}`, value : `${dishCount}|${marketPrice}` };
+  return { key : `${consumeType}_${shopId}_${id}_${splitPropsIds.join('#')}`, value : `${orderCount}|${marketPrice}` };
 };
 exports.storeDishesLocalStorage = function (data) {
   let lastOrderedDishes = {

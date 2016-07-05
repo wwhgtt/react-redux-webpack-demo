@@ -69,6 +69,9 @@ exports.setOrderPropsAndResetChildView = (evt, option) => (dispatch, getState) =
 };
 exports.getLastOrderedDishes = () => (dispatch, getState) => {
   const lastOrderedDishes = localStorage.getItem('lastOrderedDishes');
+  if (!lastOrderedDishes) {
+    throw new Error('获取本地订单信息失败...');
+  }
   dispatch(setOrderedDishesToOrder(JSON.parse(lastOrderedDishes)));
 };
 exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);

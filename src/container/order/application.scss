@@ -7,7 +7,7 @@ div[data-reactroot] {
 
 .application {
   min-height: 100%;
-  padding-bottom: 50px;
+  // padding-bottom: 50px;
   border-top: 10px solid $color-gallery;
   background: $color-gallery;
 }
@@ -161,7 +161,7 @@ div[data-reactroot] {
 
 // ORDER SUMMARY
 .order-summary {
-  padding-top: 5px;
+  padding: 7px 0 5px;
 
   &-entry {
     line-height: 22px;
@@ -187,16 +187,82 @@ div[data-reactroot] {
   }
 }
 
+// ORDER TOTAL STYLES
+.order-total-left {
+  font-size: 15px;
+  float: left;
+  margin-right: 15px;
+}
+
+.order-total-right {
+  float: right;
+}
+
+.order-add-text {
+  font-size: 17px;
+  color: $color-neon-carrot;
+}
+
+// ORDER CART STYLS
+.order-cart {
+  $order-right-width: 120px;
+  height: 50px;
+  margin-top: 15px;
+  background: $color-white;
+
+  // position: fixed;
+  // z-index: 100;
+  // right: 0;
+  // bottom: 0;
+  // left: 0;
+  // width: 100%;
+  // height: 50px;
+  // background: $color-white;
+  // box-shadow: 0 -1px 0 $color-alto;
+
+  &-left {
+    position: relative;
+    float: left;
+    width: calc(100% - #{$order-right-width});
+    height: 100%;
+    padding-left: 10px;
+  }
+
+  &-entry {
+    font-size: 14px;
+    line-height: 20px;
+    float: left;
+    margin-right: 20px;
+  }
+
+  &-right {
+    float: right;
+    width: $order-right-width;
+    height: 100%;
+  }
+
+  &-price {
+    font-size: 18px;
+    color: $color-neon-carrot;
+  }
+
+  &-btn {
+    line-height: 50px;
+    display: block;
+    width: 100%;
+  }
+}
 
 // SUBPAGE STYLES
 .order-subpage {
   position: fixed;
-  z-index: 10;
+  z-index: 1000;
   top: 0;
   right: 0;
-  bottom: 50px;
+  bottom: 0;
   left: 0;
   border-top: 10px solid $color-gallery;
+  border-bottom: 50px solid;
   background: $color-gallery;
 }
 

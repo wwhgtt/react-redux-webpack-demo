@@ -8,10 +8,7 @@ module.exports = function (
     tableList:[],
     timeTable:{},
     customerProps:{},
-    orderedDishesProps:{
-      orderedDishes:{},
-      dishesPrice:'',
-    },
+    orderedDishesProps:{},
     commercialProps:{},
     serviceProps:{
       isPickupFromFrontDesk:'',
@@ -25,6 +22,7 @@ module.exports = function (
       discountProps:{
         discountInfo:'',
         discountList:[],
+        discountType:'',
       },
     },
     tableProps:{
@@ -45,7 +43,7 @@ module.exports = function (
     case 'SET_ORDER': {
       return state.setIn(['tableProps', 'areas'], Immutable.from(payload.areaList))
                   .setIn(['tableProps', 'tables'], Immutable.from(payload.tableList).flatMap(table => table.set('id', parseInt(table.tableID, 10))))
-                  .set('timeProps', Immutable.from({ selectedDateTime:[], timeTable:payload.timeJson }))
+                  .set('timeProps', Immutable.from({ selectedDateTime:{ date:'', time:'' }, timeTable:payload.timeJson }))
                   .set(
                     'customerProps',
                     Immutable.from({
@@ -137,10 +135,14 @@ module.exports = function (
           )
         );
       } else if (payload.id === 'discount') {
-        //  表示使用折扣 那会员券就应该隐藏掉
         return state.setIn(
           ['serviceProps', 'discountProps', 'discountInfo', 'isChecked'],
            !state.serviceProps.discountProps.discountInfo.isChecked
+         ).setIn(
+           ['orderSummary', 'discount'],
+           helper.countMemberPrice(state.orderedDishesProps.dishes, state.serviceProps.discountProps)
+         ).setIn(
+           ['orderSummary', 'coupon'], null
          );
       } else if (payload.id === 'customer-info') {
         return state.set(
@@ -161,20 +163,31 @@ module.exports = function (
           state.serviceProps.couponsProps.couponsList,
           coupon => coupon.id.toString() === payload.selectedCouponId
         );
-        return state.setIn(
-          ['serviceProps', 'couponsProps', 'inUseCoupon'], true
-        ).setIn(
-          ['serviceProps', 'couponsProps', 'inUseCouponDetail'],
-          selectedCoupon
-        ).setIn(
-          ['orderSummary', 'coupon'],
-          Immutable.from(
-            helper.countPriceByCoupons(
-              selectedCoupon,
-              state.orderedDishesProps.dishesPrice
+        if (selectedCoupon.isChecked) {
+          return state.setIn(
+            ['serviceProps', 'couponsProps', 'inUseCoupon'], true
+          )
+          .setIn(
+            ['serviceProps', 'couponsProps', 'inUseCouponDetail'],
+            selectedCoupon
+          )
+          .setIn(
+            ['orderSummary', 'coupon'],
+            Immutable.from(
+              helper.countPriceByCoupons(
+                selectedCoupon,
+                getDishesPrice(state.orderedDishesProps.dishes)
+              )
             )
           )
-        );
+          .setIn(['orderSummary', 'discount'], null);
+        }
+        return state.setIn(
+            ['serviceProps', 'couponsProps', 'inUseCoupon'], false
+          )
+          .setIn(
+            ['orderSummary', 'coupon'], null
+          );
       } else if (payload.id === 'integrals') {
         return state.setIn(
           ['serviceProps', 'integralsInfo', 'isChecked'],
@@ -185,6 +198,15 @@ module.exports = function (
           state.serviceProps.couponsProps.couponsList,
           coupon => coupon.id.toString() === payload.changedCouponId
         );
+        if (payload.isChecked) {
+          return state.updateIn(
+            ['serviceProps', 'couponsProps', 'couponsList'],
+            couponList => couponList.flatMap(
+              coupon => coupon.id === selectedCoupon.id ? coupon.set('isChecked', false)
+              : coupon.set('isChecked', false)
+            )
+          );
+        }
         return state.updateIn(
           ['serviceProps', 'couponsProps', 'couponsList'],
           couponList => couponList.flatMap(
@@ -214,7 +236,8 @@ module.exports = function (
           ['serviceProps', 'discountProps', 'discountInfo'],
           Immutable.from({ name:'享受会员价', isChecked:false, id:'discount' })
          )
-         .setIn(['serviceProps', 'discountProps', 'discountList'], payload.dishList);
+         .setIn(['serviceProps', 'discountProps', 'discountList'], payload.dishList)
+         .setIn(['serviceProps', 'discountProps', 'discountType'], payload.type);
       }
       break;
     case 'SET_CHILDVIEW':
@@ -224,13 +247,14 @@ module.exports = function (
         return state.set('childView', 'table-select');
       } else if (payload === '#coupon-select') {
         return state.set('childView', 'coupon-select');
+      } else if (payload === '#time-select') {
+        return state.set('childView', 'time-select');
       }
       return state.set('childView', '');
     case 'SET_ORDERED_DISHES_TO_ORDER':
-      return state.setIn(
-        ['orderedDishesProps', 'orderedDishes'], Immutable.from(payload)
-      )
-      .setIn(['orderedDishesProps', 'dishesPrice'], Immutable.from(getDishesPrice(payload.dishes)));
+      return state.set(
+        'orderedDishesProps', Immutable.from(payload)
+      );
     default:
   }
   return state;
