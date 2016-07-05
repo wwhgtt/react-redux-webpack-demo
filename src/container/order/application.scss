@@ -119,8 +119,76 @@ div[data-reactroot] {
 }
 
 
-// subpage styles
+// shop styles
 
+.order-shop {
+  position: relative;
+  padding-right: 20px;
+
+  &::after {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    right: 0;
+    width: 10px;
+    height: 18px;
+    margin-top: -9px;
+    content: '';
+    background-image: url('../../asset/images/arrow-right-grey.png');
+    // images size 20px 36px
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: 10px 18px;
+  }
+}
+
+.order-shop-icon {
+  float: left;
+  width: 30px;
+  height: 30px;
+  border: 1px solid $color-alto;
+  border-radius: 50%;
+}
+
+.order-shop-desc {
+  font-size: 17px;
+  line-height: 30px;
+  float: left;
+  width: calc(100% - 30px);
+  padding-left: 10px;
+}
+
+
+// ORDER SUMMARY
+.order-summary {
+  padding-top: 5px;
+
+  &-entry {
+    line-height: 22px;
+    padding: 5px 0;
+  }
+
+  @at-root {
+    .order-discount {
+      float: right;
+      width: 80px;
+      text-align: right;
+    }
+
+    .order-integral {
+      font-size: 14px;
+      float: right;
+      color: $color-dusty-grey;
+
+      &::before {
+        content: '-';
+      }
+    }
+  }
+}
+
+
+// SUBPAGE STYLES
 .order-subpage {
   position: fixed;
   z-index: 10;

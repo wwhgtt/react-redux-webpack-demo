@@ -8,6 +8,8 @@ const setOrderProps = exports.setOrderProps = createAction('SET_ORDER_PROPS', (e
 const setDiscountToOrder = createAction('SET_DISCOUNT_TO_ORDER', discount => discount);
 const setCouponsToOrder = createAction('SET_COUPONS_TO_ORDER', coupons => coupons);
 const setChildView = exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
+const setOrderedDishesToOrder = createAction('SET_ORDERED_DISHES_TO_ORDER', dishes => dishes);
+exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 exports.fetchOrder = () => (dispatch, getState) =>
   fetch(config.orderDineInAPi, {
     method: 'GET', mod: 'cors',
@@ -65,3 +67,8 @@ exports.setOrderPropsAndResetChildView = (evt, option) => (dispatch, getState) =
   dispatch(setOrderProps(evt, option));
   dispatch(setChildView(''));
 };
+exports.getLastOrderedDishes = () => (dispatch, getState) => {
+  const lastOrderedDishes = localStorage.getItem('lastOrderedDishes');
+  dispatch(setOrderedDishesToOrder(JSON.parse(lastOrderedDishes)));
+};
+exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
