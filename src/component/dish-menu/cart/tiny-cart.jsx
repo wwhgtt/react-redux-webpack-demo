@@ -10,13 +10,16 @@ module.exports = React.createClass({
     takeawayServiceProps: React.PropTypes.object,
   },
   buildTakeawayServiceMinPriceElement(totalPrice, takeawayServiceProps, onBillBtnTap) {
-    if (!takeawayServiceProps || !takeawayServiceProps.minPrice || totalPrice >= takeawayServiceProps.minPrice) {
+    if (
+      totalPrice > 0 && (!takeawayServiceProps || !takeawayServiceProps.minPrice || totalPrice >= takeawayServiceProps.minPrice)
+    ) {
       return (<a className="tiny-cart-btn btn--yellow" onTouchTap={onBillBtnTap}>选好啦</a>);
-    }
-    if (totalPrice === 0) {
+    } else if (totalPrice === 0 && takeawayServiceProps && takeawayServiceProps.minPrice) {
       return <span className="tiny-cart-text">{`${takeawayServiceProps.minPrice} 元起卖`}</span>;
+    } else if (totalPrice > 0 && takeawayServiceProps && takeawayServiceProps.minPrice) {
+      return <span className="tiny-cart-text">{`还差 ${takeawayServiceProps.minPrice - totalPrice} 元起卖`}</span>;
     }
-    return <span className="tiny-cart-text">{`还差 ${takeawayServiceProps.minPrice - totalPrice} 元起卖`}</span>;
+    return false;
   },
   buildTakeawayServiceShipPriceElement(totalPrice, takeawayServiceProps) {
     if (!takeawayServiceProps || !takeawayServiceProps.shipmentFee) {
