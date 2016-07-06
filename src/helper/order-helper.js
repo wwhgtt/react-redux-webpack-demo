@@ -2,6 +2,7 @@ const _find = require('lodash.find');
 const getDishesPrice = require('../helper/dish-hepler.js').getDishesPrice;
 const getDishPrice = require('../helper/dish-hepler.js').getDishPrice;
 const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
+const getUrlParam = require('../helper/dish-hepler.js').getUrlParam;
 exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDesk, pickupPayType, totablePayType) {
   if (diningForm === 0) {
     return payment === 'offline';
@@ -165,7 +166,47 @@ exports.countMemberPrice = function (orderedDishes, memberDishesProps) {
   return disCountPriceList.reduce((p, c) => p + c, 0);
 };
 // 计算优惠后的价格
-exports.countFinalPrice = function (orderedDishesProps, orderSummary, integralsInfo, commercialProps) {
+const countFinalPrice = exports.countFinalPrice = function (orderedDishesProps, orderSummary, integralsInfo, commercialProps) {
   return Number(getDishesPrice(orderedDishesProps.dishes))
         - Number(countDecreasePrice(orderedDishesProps, orderSummary, integralsInfo, commercialProps));
+};
+exports.dataSubmitInfo = function (state, note, receipt) {
+  const payMethodScope = state.serviceProps.payMethods.filter(payMethod => payMethod.isChecked)[0].name === '在线支付' ? '1' : '0';
+  const integral = countIntegralsToCash(getDishesPrice(state.orderedDishesProps.dishes),
+    state.orderSummary.coupon,
+    state.serviceProps.integralsInfo.integralsDetail
+  ).integralInUsed;
+  const needPayPrice = countFinalPrice(
+    state.orderedDishesProps, state.orderSummary, state.serviceProps.integralsInfo, state.commercialProps
+  );
+  const useDiscount = !state.orderSummary.discount ? '0' : '1';
+  const serviceApproach = state.serviceProps.isPickupFromFrontDesk.isChecked ? 'pickup' : 'totable';
+  const coupId = state.serviceProps.couponsProps.inUseCouponDetail.id ? state.serviceProps.couponsProps.inUseCouponDetail.id : '0';
+  let tableId;
+  if (serviceApproach === 'totable' && state.tableProps.tables && state.tableProps.tables.length) {
+    if (!state.tableProps.tables.filter(table => table.isChecked)) {
+      throw new Error('未选择桌台信息');
+    } else {
+      tableId = state.tableProps.tables.filter(table => table.isChecked)[0].id;
+    }
+  } else {
+    tableId = 0;
+  }
+  // const tableId = getState().tableProps.tables.filter(table => table.isChecked)[0].id;
+  const params = '?name=' + state.customerProps.name
+      + '&Invoice=' + receipt + '&note=' + note
+      + '&mobile=' + state.customerProps.mobile
+      + '&sex=' + state.customerProps.sex
+      + '&payMethod=' + payMethodScope
+      + '&coupId=' + coupId
+      + '&integral=' + Number(integral)
+      + '&useDiscount=' + useDiscount
+      + '&orderType=' + getUrlParam('type')
+      + '&tableId=' + tableId
+      + '&peopleCount=' + state.customerProps.customerCount
+      + '&serviceApproach=' + serviceApproach
+      + '&shopId=' + getUrlParam('shopId')
+      + '&needPayPrice=' + needPayPrice;
+  console.log(params);
+  return params;
 };

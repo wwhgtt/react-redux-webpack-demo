@@ -72,41 +72,20 @@ exports.getLastOrderedDishes = () => (dispatch, getState) => {
 };
 exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
 exports.submitOrderProps = (note, receipt) => (dispatch, getState) => {
-  const payMethodScope = getState().serviceProps.payMethods.filter(payMethod => payMethod.isChecked)[0].name === '在线支付' ? '1' : '0';
-  const integral = helper.countIntegralsToCash(getDishesPrice(getState().orderedDishesProps.dishes),
-    getState().orderSummary.coupon,
-    getState().serviceProps.integralsInfo.integralsDetail
-  ).integralInUsed;
-  const needPayPrice = helper.countFinalPrice(
-    getState().orderedDishesProps, getState().orderSummary, getState().serviceProps.integralsInfo, getState().commercialProps
-  );
-  const useDiscount = !getState().orderSummary.discount ? '0' : '1';
-  const serviceApproach = getState().serviceProps.isPickupFromFrontDesk.isChecked ? 'pickup' : 'totable';
-  const coupId = getState().serviceProps.couponsProps.inUseCouponDetail.id ? getState().serviceProps.couponsProps.inUseCouponDetail.id : '0';
-  const params = '?name=' + getState().customerProps.name
-      + '&Invoice=' + receipt + '&note=' + note
-      + '&mobile=' + getState().customerProps.mobile
-      + '&sex=' + getState().customerProps.sex
-      + '&payMethod=' + payMethodScope
-      + '&coupId=' + coupId
-      + '&integral=' + Number(integral)
-      + '&useDiscount=' + useDiscount
-      + '&orderType=' + getUrlParam('type')
-      + '&tableId=' + getState().tableProps.tables.filter(table => table.isChecked)[0].id
-      + '&peopleCount=' + getState().customerProps.customerCount
-      + '&serviceApproach=' + serviceApproach
-      + '&shopId=' + getUrlParam('shopId')
-      + '&needPayPrice=' + needPayPrice;
-
-  fetch(`${config.submitOrderProps}${params}`, config.requestOptions).
+  fetch(`${config.submitOrderProps}${helper.dataSubmitInfo(getState(), note, receipt)}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         throw new Error('提交订单信息失败...');
       }
       return res.json();
     }).
-    then(data => {
-
+    then(result => {
+      if (result.code === '200') {
+        localStorage.removeItem('lastOrderedDishes');
+        location.href = `/order/orderallDetail?shopId=${getUrlParam('shopId')}&orderId=`;
+      } else {
+        throw new Error(result.msg);
+      }
     }).
     catch(err => {
       console.log(err);
