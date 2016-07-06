@@ -1,3 +1,11 @@
+const getUrlParam = exports.getUrlParam = function (param) {
+  const reg = new RegExp(`(^|&)${param}=([^&]*)(&|$)`, 'i');
+  const r = window.location.search.replace(/\?/g, '&').substr(1).match(reg);
+  if (r != null) {
+    return (r[2]);
+  }
+  return null;
+};
 const isSingleDishWithoutProps = exports.isSingleDishWithoutProps = function (dish) {
   if (dish.type !== 1 && dish.dishPropertyTypeInfos.length === 0) {
     return true;
@@ -122,14 +130,6 @@ exports.setCookie = function (name, value) {
   exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
   document.cookie = `${name}=${value};expires=${exp.toGMTString()}`;
 };
-const getUrlParam = exports.getUrlParam = function (param) {
-  const reg = new RegExp(`(^|&)${param}=([^&]*)(&|$)`, 'i');
-  const r = window.location.search.replace(/\?/g, '&').substr(1).match(reg);
-  if (r != null) {
-    return (r[2]);
-  }
-  return null;
-};
 exports.getDishCookieObject = function (dish, orderIdx) {
   const isSingleDish = !isGroupDish(dish);
   const consumeType = getUrlParam('type');
@@ -183,3 +183,16 @@ exports.restoreDishesLocalStorage = function (data) {
   }
   return data;
 };
+// exports.setMemberPriceToDishes = function (memberDishesList, dishesData) {
+//   memberDishesList.forEach(
+//     memberDish => {
+//       dishesData.forEach(
+//         dishData => {
+//           if (dishData.id === memberDish.dishId) {
+//
+//           }
+//         }
+//       );
+//     }
+//   );
+// };

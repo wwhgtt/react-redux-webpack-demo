@@ -6,6 +6,8 @@ const helper = require('../../helper/dish-hepler');
 const setMenuData = createAction('SET_MENU_DATA', menuData => menuData);
 const _orderDish = createAction('ORDER_DISH', (dishData, action) => [dishData, action]);
 const _removeAllOrders = createAction('REMOVE_ALL_ORDERS', orders => orders);
+const _setTakeawayServiceProps = createAction('SET_TAKEAWAY_SERVICE_PROPS', props => props);
+const setDiscountToOrder = createAction('SET_DISCOUNT_TO_ORDER', discount => discount);
 exports.showDishDetail = createAction('SHOW_DISH_DETAIL', dishData => dishData);
 exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => {
   if (evt && /dish-type-item/.test(evt.target.className)) {
@@ -15,6 +17,17 @@ exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => {
   }
   return dishTypeId;
 });
+exports.fetchServiceProps = () => (dispatch, getStates) => {
+  if (helper.getUrlParam('type') !== 'WM') {
+    return false;
+  }
+  const shopId = helper.getUrlParam('shopId');
+  const shipmentFee = sessionStorage.getItem(`${shopId}_sendArea_shipment`);
+  const minPrice = sessionStorage.getItem(`${shopId}_sendArea_sendPrice`);
+  const shipFreePrice = sessionStorage.getItem(`${shopId}_sendArea_freeDeliveryPrice`);
+  dispatch(_setTakeawayServiceProps({ shipmentFee, minPrice, shipFreePrice }));
+  return true;
+};
 exports.fetchMenuData = () => (dispatch, getStates) => {
   const type = helper.getUrlParam('type');
   const shopId = helper.getUrlParam('shopId');
@@ -74,3 +87,23 @@ exports.setDishCookie = () => (dispatch, getStates) => {
     location.href = `/takeaway/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}`;
   }
 };
+exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
+  fetch(config.orderDiscountInfoAPI + '?shopId=' + helper.getUrlParam('shopId'), {
+    method: 'GET', mod: 'cors',
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+  }).
+    then(res => {
+      if (!res.ok) {
+        throw new Error('获取会员价信息失败...');
+      }
+      return res.json();
+    }).
+    then(discount => {
+      if (discount.code !== 200) {
+        throw new Error('获取会员价信息失败...');
+      }
+      dispatch(setDiscountToOrder(discount.data));
+    }).
+    catch(err => {
+      console.log(err);
+    });
