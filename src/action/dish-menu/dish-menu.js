@@ -82,7 +82,7 @@ exports.setDishCookie = () => (dispatch, getStates) => {
   });
 };
 exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
-  fetch(config.orderDiscountInfoAPI, {
+  fetch(config.orderDiscountInfoAPI + '?shopId=' + helper.getUrlParam('shopId'), {
     method: 'GET', mod: 'cors',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
   }).
@@ -93,6 +93,9 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
       return res.json();
     }).
     then(discount => {
+      if (discount.code !== 200) {
+        throw new Error('获取会员价信息失败...');
+      }
       dispatch(setDiscountToOrder(discount.data));
     }).
     catch(err => {
