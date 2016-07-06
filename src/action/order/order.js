@@ -97,6 +97,7 @@ exports.submitOrderProps = (note, receipt) => (dispatch, getState) => {
       + '&serviceApproach=' + serviceApproach
       + '&shopId=' + getUrlParam('shopId')
       + '&needPayPrice=' + needPayPrice;
+
   fetch(`${config.submitOrderProps}${params}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
