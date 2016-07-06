@@ -37,10 +37,7 @@ exports.fetchMenuData = () => (dispatch, getStates) => {
   } else {
     url = `${config.takeawayMenuAPI}?shopId=${shopId}`;
   }
-  fetch(url, {
-    method: 'GET', mod: 'cors',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-  }).
+  fetch(url, config.requestOptions).
     then(res => {
       if (!res.ok) {
         throw new Error('获取菜单信息失败...');
@@ -88,10 +85,7 @@ exports.setDishCookie = () => (dispatch, getStates) => {
   }
 };
 exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
-  fetch(config.orderDiscountInfoAPI + '?shopId=' + helper.getUrlParam('shopId'), {
-    method: 'GET', mod: 'cors',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-  }).
+  fetch(config.orderDiscountInfoAPI + '?shopId=' + helper.getUrlParam('shopId'), config.requestOptions).
     then(res => {
       if (!res.ok) {
         throw new Error('获取会员价信息失败...');
