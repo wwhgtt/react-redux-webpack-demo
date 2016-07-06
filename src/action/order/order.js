@@ -82,7 +82,7 @@ exports.submitOrderProps = (note, receipt) => (dispatch, getState) => {
     then(result => {
       if (result.code === '200') {
         localStorage.removeItem('lastOrderedDishes');
-        location.href = `/order/orderallDetail?shopId=${getUrlParam('shopId')}&orderId=`;
+        location.href = `/order/orderallDetail?shopId=${getUrlParam('shopId')}&orderId=${result.data.orderId}`;
       } else {
         throw new Error(result.msg);
       }
