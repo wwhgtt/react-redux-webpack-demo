@@ -10,6 +10,7 @@ const CouponSelect = require('../../component/order/coupon-select.jsx');
 const OrderedDish = require('../../component/order/ordered-dish.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
+const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const TimeSelect = require('../../component/order/select/time-select.jsx');
 require('../../asset/style/style.scss');
 require('./application.scss');
@@ -110,14 +111,20 @@ const OrderApplication = React.createClass({
             false
             :
             <a className="order-prop-option" href="#table-select" >
-              <span className="options-title">选择桌台</span>
-              <span className="option-btn btn-arrow-right">
-                {selectedTable.area && selectedTable.table ?
-                  `${selectedTable.area.areaName} ${selectedTable.table.tableName}`
-                  :
-                  false
-                }
-              </span>
+              {tableProps.areas && tableProps.areas.length && tableProps.tables && tableProps.tables.length ?
+                <div>
+                  <span className="options-title">选择桌台</span>
+                  <span className="option-btn btn-arrow-right">
+                    {selectedTable.area && selectedTable.table ?
+                      `${selectedTable.area.areaName} ${selectedTable.table.tableName}`
+                      :
+                      false
+                    }
+                  </span>
+                </div>
+                :
+                '不支持选择桌台'
+              }
             </a>
           }
         </div>
@@ -165,12 +172,16 @@ const OrderApplication = React.createClass({
         </div>
 
         <div className="options-group">
-          <a className="order-prop-option" href="#time-select" >
-            <span className="options-title">送达时间</span>
-            <button className="option-btn btn-arrow-right">
-              {`${timeProps.selectedDateTime.date} ${timeProps.selectedDateTime.time} 送达`}
-            </button>
-          </a>
+          {getUrlParam('type') === 'WM' && timeProps.timeTable !== {} && timeProps.timeTable !== undefined ?
+            <a className="order-prop-option" href="#time-select" >
+              <span className="options-title">送达时间</span>
+              <button className="option-btn btn-arrow-right">
+                {`${timeProps.selectedDateTime.date} ${timeProps.selectedDateTime.time} 送达`}
+              </button>
+            </a>
+            :
+            false
+          }
           <label className="order-prop-option">
             <span className="option-title">备注: </span>
             <input className="option-input" name="note" placeholder="输入备注" onChange={this.noteOrReceiptChange} />
