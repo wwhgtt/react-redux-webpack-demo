@@ -27,6 +27,7 @@ const OrderApplication = React.createClass({
     setOrderPropsAndResetChildView: React.PropTypes.func.isRequired,
     getLastOrderedDishes:React.PropTypes.func.isRequired,
     orderSummary:React.PropTypes.object.isRequired,
+    submitOrderProps:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
@@ -77,11 +78,15 @@ const OrderApplication = React.createClass({
       });
     }
   },
+  submitOrderProps() {
+    const { submitOrderProps } = this.props;
+    submitOrderProps(this.state.note, this.state.receipt);
+  },
   render() {
     const {
       customerProps, serviceProps, childView, tableProps,
       timeProps, orderedDishesProps, commercialProps, orderSummary,
-    } = this.props; // state
+    } = this.props; // states
     const { setOrderProps } = this.props;// actions
     const selectedTable = helper.getSelectedTable(tableProps);
     const type = getUrlParam('type');
@@ -279,7 +284,7 @@ const OrderApplication = React.createClass({
                   </div>
                 </div>
                 <div className="order-cart-right">
-                  <a className="order-cart-btn btn--yellow" onTouchTap="">提交订单</a>
+                  <a className="order-cart-btn btn--yellow" onTouchTap={this.submitOrderProps}>提交订单</a>
                 </div>
               </div>
             </div>

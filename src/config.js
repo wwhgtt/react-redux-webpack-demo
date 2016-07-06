@@ -18,13 +18,13 @@ switch (process.env.NODE_ENV) {
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
     };
 }
-
+// ${process.env.DEV_HOST}:3001
 module.exports = {
   takeawayMenuAPI: `${apiBase}/takeaway/dishAll.json`,
   orderallMenuAPI: `${apiBase}/orderall/dishAll.json`,
   orderDineInAPi: `${apiBase}/orderall/dishBox.json`,
   orderCouponsAPI:`${apiBase}/coupon/getCanUseCoupons.json`,
   orderDiscountInfoAPI:`${apiBase}/shop/discountInfo.json`,
-
   requestOptions,
+  submitOrderAll:`${apiBase}/orderall/subOrder.json`,
 };
