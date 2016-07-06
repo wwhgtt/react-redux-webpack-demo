@@ -14,7 +14,7 @@ const setChildView = exports.setChildView = createAction('SET_CHILDVIEW', viewHa
 const setOrderedDishesToOrder = createAction('SET_ORDERED_DISHES_TO_ORDER', dishes => dishes);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 exports.fetchOrder = () => (dispatch, getState) =>
-  fetch(config.orderDineInAPi, config.requestOptions).
+  fetch(`${config.orderDineInAPi}?shopId=${getUrlParam('shopId')}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         throw new Error('获取订单信息失败...');
@@ -30,7 +30,7 @@ exports.fetchOrder = () => (dispatch, getState) =>
     });
 
 exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
-  fetch(config.orderDiscountInfoAPI, config.requestOptions).
+  fetch(`${config.orderDiscountInfoAPI}?shopId=${getUrlParam('shopId')}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         throw new Error('获取会员信息失败...');
@@ -44,7 +44,8 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
       console.log(err);
     });
 exports.fetchOrderCoupons = () => (dispatch, getState) => {
-  fetch(config.orderCouponsAPI, config.requestOptions).
+  const orderAccount = getDishesPrice(getState().orderedDishesProps.dishes);
+  fetch(`${config.orderCouponsAPI}?shopId=${getUrlParam('shopId')}&orderAccount=${orderAccount}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         throw new Error('获取折扣信息失败...');
@@ -96,10 +97,7 @@ exports.submitOrderProps = (note, receipt) => (dispatch, getState) => {
       + '&serviceApproach=' + serviceApproach
       + '&shopId=' + getUrlParam('shopId')
       + '&needPayPrice=' + needPayPrice;
-  fetch(config.submitOrderAll + '?' + params, {
-    method: 'GET', mod: 'cors',
-    // headers: { 'Content-Type': 'text/plain', Accept: 'application/json' },
-  }).
+  fetch(`${config.submitOrderProps}${params}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         throw new Error('提交订单信息失败...');
