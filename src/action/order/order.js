@@ -14,7 +14,7 @@ const setChildView = exports.setChildView = createAction('SET_CHILDVIEW', viewHa
 const setOrderedDishesToOrder = createAction('SET_ORDERED_DISHES_TO_ORDER', dishes => dishes);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 exports.fetchOrder = () => (dispatch, getState) =>
-  fetch(config.orderDineInAPi + '?' + getUrlParam('shopId'), {
+  fetch(config.orderDineInAPi + '?shopId=' + getUrlParam('shopId'), {
     method: 'GET', mod: 'cors',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
   }).
