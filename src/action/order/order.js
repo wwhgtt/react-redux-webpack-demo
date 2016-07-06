@@ -14,7 +14,7 @@ const setChildView = exports.setChildView = createAction('SET_CHILDVIEW', viewHa
 const setOrderedDishesToOrder = createAction('SET_ORDERED_DISHES_TO_ORDER', dishes => dishes);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 exports.fetchOrder = () => (dispatch, getState) =>
-  fetch(config.orderDineInAPi + '?mId=b5d13adbc9d8d6ce93ad9f8ea4cc&shopId=' + getUrlParam('shopId'), {
+  fetch(config.orderDineInAPi + '?' + getUrlParam('shopId'), {
     method: 'GET', mod: 'cors',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
   }).
@@ -33,7 +33,7 @@ exports.fetchOrder = () => (dispatch, getState) =>
     });
 
 exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
-  fetch(config.orderDiscountInfoAPI + '?shopId=' + getUrlParam('shopId') + '&mId=b5d13adbc9d8d6ce93ad9f8ea4cc', {
+  fetch(config.orderDiscountInfoAPI + '?shopId=' + getUrlParam('shopId'), {
     method: 'GET', mod: 'cors',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
   }).
@@ -51,7 +51,7 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
     });
 exports.fetchOrderCoupons = () => (dispatch, getState) => {
   const orderAccount = getDishesPrice(getState().orderedDishesProps.dishes);
-  fetch(config.orderCouponsAPI + '?shopId=' + getUrlParam('shopId') + '&orderAccount=' + orderAccount + '&mId=b5d13adbc9d8d6ce93ad9f8ea4cc', {
+  fetch(config.orderCouponsAPI + '?shopId=' + getUrlParam('shopId') + '&orderAccount=' + orderAccount, {
     method: 'GET', mod: 'cors',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
   }).
@@ -91,22 +91,22 @@ exports.submitOrderProps = (note, receipt) => (dispatch, getState) => {
   );
   const useDiscount = !getState().orderSummary.discount ? '0' : '1';
   const serviceApproach = getState().serviceProps.isPickupFromFrontDesk.isChecked ? 'pickup' : 'totable';
+  const coupId = getState().serviceProps.couponsProps.inUseCouponDetail.id ? getState().serviceProps.couponsProps.inUseCouponDetail.id : '0';
   const params = 'name=' + getState().customerProps.name
       + '&Invoice=' + receipt + '&note=' + note
       + '&mobile=' + getState().customerProps.mobile
       + '&sex=' + getState().customerProps.sex
       + '&payMethod=' + payMethodScope
-      + '&coupId=' + getState().serviceProps.couponsProps.inUseCouponDetail.id
-      + '&integral=' + integral
+      + '&coupId=' + coupId
+      + '&integral=' + Number(integral)
       + '&useDiscount=' + useDiscount
       + '&orderType=' + getUrlParam('type')
       + '&tableId=' + getState().tableProps.tables.filter(table => table.isChecked)[0].id
       + '&peopleCount=' + getState().customerProps.customerCount
       + '&serviceApproach=' + serviceApproach
       + '&shopId=' + getUrlParam('shopId')
-      + '&mId=b5d13adbc9d8d6ce93ad9f8ea4cc'
       + '&needPayPrice=' + needPayPrice;
-  fetch('http://192.168.11.109:8080/orderall/subOrder.json?' + params, {
+  fetch(config.submitOrderAll + '?' + params, {
     method: 'GET', mod: 'cors',
     // headers: { 'Content-Type': 'text/plain', Accept: 'application/json' },
   }).
