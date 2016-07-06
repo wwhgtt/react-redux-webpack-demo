@@ -83,7 +83,7 @@ exports.submitOrderProps = (note, receipt) => (dispatch, getState) => {
   const useDiscount = !getState().orderSummary.discount ? '0' : '1';
   const serviceApproach = getState().serviceProps.isPickupFromFrontDesk.isChecked ? 'pickup' : 'totable';
   const coupId = getState().serviceProps.couponsProps.inUseCouponDetail.id ? getState().serviceProps.couponsProps.inUseCouponDetail.id : '0';
-  const params = 'name=' + getState().customerProps.name
+  const params = '?name=' + getState().customerProps.name
       + '&Invoice=' + receipt + '&note=' + note
       + '&mobile=' + getState().customerProps.mobile
       + '&sex=' + getState().customerProps.sex
