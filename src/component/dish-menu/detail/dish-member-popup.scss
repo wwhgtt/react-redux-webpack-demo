@@ -2,6 +2,7 @@
 
 // override background color
 .dish-detail-content {
+  overflow: auto;
   background: $color-white;
 }
 

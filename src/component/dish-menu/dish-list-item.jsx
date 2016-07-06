@@ -31,10 +31,14 @@ module.exports = React.createClass({
     return (<a className="btn--ellips btn-choose-property" onTouchTap={this.onBtnTap}>菜品选项</a>);
   },
   buildMemberDishBtn(dishData) {
-    if (true) {
-      return (<button className="dish-item-img"><img src={dishData.smallImgUrl} alt="" /></button>);
+    if (dishData.isMember) {
+      return (<button className="dish-item-img is-memberdish">
+        <img src={dishData.smallImgUrl} alt="" />
+      </button>);
     }
-    return (<div className="dish-item-img"><img src={dishData.smallImgUrl} alt="" /></div>);
+    return (<div className="dish-item-img">
+      <img src={dishData.smallImgUrl} alt="" />
+    </div>);
   },
   render() {
     const { dishData } = this.props;
