@@ -1,0 +1,14 @@
+#!/bin/bash
+if [ $1 = "test" ]
+then
+  echo "Build testing realease..."
+  NODE_ENV="production"
+  PROD_HOST="testweixin.shishike.com"
+  echo < webpack --progress -p --config webpack.config.production.js
+elif [ $1 = "gld" ]
+then
+  echo "Build gld realease..."
+  NODE_ENV="production"
+  PROD_HOST="gld.weixin.shishike.com"
+  echo < webpack --progress -p --config webpack.config.production.js
+fi

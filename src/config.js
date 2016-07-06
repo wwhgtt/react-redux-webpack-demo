@@ -2,7 +2,7 @@ let apiBase;
 
 switch (process.env.NODE_ENV) {
   case 'production':
-    apiBase = 'http://devweixin.shishike.com';
+    apiBase = `http://${process.env.PROD_HOST}/`;
     break;
   default:
     apiBase = `http://${process.env.DEV_HOST}:3001`;

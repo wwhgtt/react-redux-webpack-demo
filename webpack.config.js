@@ -77,7 +77,7 @@ module.exports = {
       name: 'common',
       filename: 'common.js',
     }),
-    new webpack.EnvironmentPlugin(['DEV_HOST']),
+    new webpack.EnvironmentPlugin(['NODE_ENV', 'DEV_HOST']),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development'),

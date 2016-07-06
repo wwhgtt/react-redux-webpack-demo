@@ -43,7 +43,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new webpack.EnvironmentPlugin(['DEV_HOST']),
+    new webpack.EnvironmentPlugin(['NODE_ENV', 'PROD_HOST']),
     new HtmlWebpackPlugin(
       {
         title: 'DishMenuApplication',
