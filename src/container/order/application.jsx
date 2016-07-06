@@ -27,6 +27,7 @@ const OrderApplication = React.createClass({
     setOrderPropsAndResetChildView: React.PropTypes.func.isRequired,
     getLastOrderedDishes:React.PropTypes.func.isRequired,
     orderSummary:React.PropTypes.object.isRequired,
+    submitOrderProps:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
@@ -35,6 +36,12 @@ const OrderApplication = React.createClass({
     tableProps: React.PropTypes.object.isRequired,
     timeProps: React.PropTypes.object,
     childView: React.PropTypes.string,
+  },
+  getInitialState() {
+    return {
+      note:'',
+      receipt:'',
+    };
   },
   componentWillMount() {
     const { getLastOrderedDishes } = this.props;
@@ -58,10 +65,31 @@ const OrderApplication = React.createClass({
   resetChildView() {
     location.hash = '';
   },
+  noteOrReceiptChange(evt) {
+    const name = evt.target.getAttribute('name');
+    const value = evt.target.value;
+    if (name === 'note') {
+      this.setState({
+        note:value,
+      });
+    } else {
+      this.setState({
+        receipt:value,
+      });
+    }
+  },
+  submitOrderProps() {
+    const { submitOrderProps } = this.props;
+    submitOrderProps(this.state.note, this.state.receipt);
+  },
   render() {
-    const { customerProps, serviceProps, childView, tableProps, timeProps, orderedDishesProps, commercialProps, orderSummary } = this.props; // states
+    const {
+      customerProps, serviceProps, childView, tableProps,
+      timeProps, orderedDishesProps, commercialProps, orderSummary,
+    } = this.props; // state
     const { setOrderProps } = this.props;// actions
     const selectedTable = helper.getSelectedTable(tableProps);
+    const type = getUrlParam('type');
     return (
       <div className="application">
         <a className="options-group options-group--stripes" href="#customer-info" >
@@ -71,7 +99,7 @@ const OrderApplication = React.createClass({
             <div className="option-desc half"><span className="text-picton-blue">{customerProps.customerCount}</span>人就餐</div>
           </div>
         </a>
-        {getUrlParam('type') === 'WM' ?
+        {type === 'WM' ?
           false
           :
           <div className="options-group">
@@ -82,18 +110,20 @@ const OrderApplication = React.createClass({
               />
               : false
             }
-            {!serviceProps.isPickupFromFrontDesk.isChecked
-              && tableProps.areas && tableProps.areas.length
-              && tableProps.tables && tableProps.tables.length ?
+            {!serviceProps.isPickupFromFrontDesk.isChecked &&
+              tableProps.areas && tableProps.areas.length &&
+              tableProps.tables && tableProps.tables.length ?
               <a className="order-prop-option" href="#table-select" >
-                <span className="options-title">选择桌台</span>
-                <span className="option-btn btn-arrow-right">
-                  {selectedTable.area && selectedTable.table ?
-                    `${selectedTable.area.areaName} ${selectedTable.table.tableName}`
-                    :
-                    false
-                  }
-                </span>
+                <div>
+                  <span className="options-title">选择桌台</span>
+                  <span className="option-btn btn-arrow-right">
+                    {selectedTable.area && selectedTable.table ?
+                      `${selectedTable.area.areaName} ${selectedTable.table.tableName}`
+                      :
+                      false
+                    }
+                  </span>
+                </div>
               </a>
               :
               false
@@ -114,12 +144,14 @@ const OrderApplication = React.createClass({
           )}
         </div>
         <div className="options-group">
-          {serviceProps.couponsProps.couponsList.length && !serviceProps.discountProps.discountInfo.isChecked ?
+          {serviceProps.couponsProps.couponsList &&
+            serviceProps.couponsProps.couponsList.length &&
+            !serviceProps.discountProps.discountInfo.isChecked ?
             <a className="order-prop-option" href="#coupon-select">
               <span className="option-title">使用优惠券</span>
               <span className="badge-coupon">
                 {serviceProps.couponsProps.inUseCoupon ?
-                  '模拟折扣券'
+                  '已使用一张优惠券'
                   :
                   `${serviceProps.couponsProps.couponsList.length}张可用`
                 }
@@ -142,9 +174,7 @@ const OrderApplication = React.createClass({
         </div>
 
         <div className="options-group">
-          {getUrlParam('type') === 'WM' &&
-            timeProps.timeTable !== {} &&
-            timeProps.timeTable !== undefined ?
+          {type === 'WM' && timeProps.timeTable !== {} && timeProps.timeTable !== undefined ?
             <a className="order-prop-option" href="#time-select" >
               <span className="options-title">送达时间</span>
               <button className="option-btn btn-arrow-right">
@@ -156,11 +186,11 @@ const OrderApplication = React.createClass({
           }
           <label className="order-prop-option">
             <span className="option-title">备注: </span>
-            <input className="option-input" name="note" placeholder="输入备注" />
+            <input className="option-input" name="note" placeholder="输入备注" onChange={this.noteOrReceiptChange} />
           </label>
           <label className="order-prop-option">
             <span className="option-title">发票抬头: </span>
-            <input className="option-input" name="invoice" placeholder="输入个人或公司抬头" />
+            <input className="option-input" name="receipt" placeholder="输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
           </label>
         </div>
         <div className="options-group">
@@ -230,30 +260,39 @@ const OrderApplication = React.createClass({
                   </span>
                 </div>
               </div>
+              <div className="options-group">
+                <a className="order-prop-option">
+                  <span className="order-add-text">我要加菜</span>
+                  <span className="option-btn btn-arrow-right">共 4 份</span>
+                </a>
+              </div>
+
+              <div className="order-cart">
+                <div className="order-cart-left">
+                  <div className="vertical-center clearfix">
+                    <div className="order-cart-entry text-dove-grey">已优惠:
+                      <span className="price">
+                        {helper.countDecreasePrice(orderedDishesProps, orderSummary, serviceProps.integralsInfo, commercialProps)}
+                      </span>
+                    </div>
+                    <div className="order-cart-entry">
+                      <span className="text-dove-grey">待支付: </span>
+                      <span className="order-cart-price price">
+                       {helper.countFinalPrice(orderedDishesProps, orderSummary, serviceProps.integralsInfo, commercialProps)}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className="order-cart-right">
+                  <a className="order-cart-btn btn--yellow" onTouchTap={this.submitOrderProps}>提交订单</a>
+                </div>
+              </div>
             </div>
             :
             false
           }
         </div>
 
-        <div className="options-group">
-          <a className="order-prop-option">
-            <span className="order-add-text">我要加菜</span>
-            <span className="option-btn btn-arrow-right">共 4 份</span>
-          </a>
-        </div>
-
-        <div className="order-cart">
-          <div className="order-cart-left">
-            <div className="vertical-center clearfix">
-              <div className="order-cart-entry text-dove-grey">已优惠: <span className="price">40</span></div>
-              <div className="order-cart-entry"><span className="text-dove-grey">待支付: </span><span className="order-cart-price price">64</span></div>
-            </div>
-          </div>
-          <div className="order-cart-right">
-            <a className="order-cart-btn btn--yellow" onTouchTap="">提交订单</a>
-          </div>
-        </div>
         {childView === 'customer-info' ?
           <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setOrderProps} />
           : false
