@@ -25,6 +25,6 @@ module.exports = {
   orderDineInAPi: `${apiBase}/orderall/dishBox.json`,
   orderCouponsAPI:`${apiBase}/coupon/getCanUseCoupons.json`,
   orderDiscountInfoAPI:`${apiBase}/shop/discountInfo.json`,
-
+  submitOrderProps:`${apiBase}/orderall/subOrder.json`,
   requestOptions,
 };
