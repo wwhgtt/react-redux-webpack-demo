@@ -103,9 +103,8 @@ module.exports = React.createClass({
             ].concat(
               dishTypeData.dishIds.map(dishId => {
                 const dishData = getDishById(dishId);
-                const { onImageBtnTap } = this.props;
                 return (<li className="dish-item-dish"><DishListItem
-                  dishData={dishData} onOrderBtnTap={onDishBtnTap} onPropsBtnTap={onDishBtnTap} onImageBtnTap={onImageBtnTap}
+                  dishData={dishData} onOrderBtnTap={onDishBtnTap} onPropsBtnTap={onDishBtnTap} onImageBtnTap={this.props.onImageBtnTap}
                 /></li>
                 );
               })

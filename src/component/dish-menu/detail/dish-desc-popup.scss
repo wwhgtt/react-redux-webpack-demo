@@ -6,7 +6,7 @@
   background: $color-white;
 }
 
-.memberdish {
+.dish-desc {
   $price-line-height: 26px;
 
   &-image {
@@ -27,16 +27,24 @@
   }
 
   &-price {
-    &--small {
+    &--del {
       font-size: 16px;
       line-height: $price-line-height;
       float: left;
-      margin-right: 10px;
+      margin-right: 15px;
       color: $color-dusty-grey;
       background-image: linear-gradient(transparent 12px, currentColor 12px, currentColor 13px, transparent 13px);
     }
 
-    &--large {
+    &-title {
+      font-size: 16px;
+      line-height: $price-line-height;
+      float: left;
+      margin-right: 5px;
+      color: $color-neon-carrot;
+    }
+
+    &--bold {
       font-size: 18px;
       font-weight: bold;
       line-height: $price-line-height;
