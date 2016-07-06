@@ -1,14 +1,20 @@
 #!/bin/bash
 if [ $1 = "test" ]
 then
-  echo "Build testing realease..."
+  echo "Build testing release..."
   NODE_ENV="production"
   PROD_HOST="testweixin.shishike.com"
-  echo < webpack --progress -p --config webpack.config.production.js
+  webpack --progress -p --config webpack.config.production.js
 elif [ $1 = "gld" ]
 then
-  echo "Build gld realease..."
+  echo "Build gld release..."
   NODE_ENV="production"
   PROD_HOST="gld.weixin.shishike.com"
-  echo < webpack --progress -p --config webpack.config.production.js
+  webpack --progress -p --config webpack.config.production.js
+elif [ $1 = 'clean' ]
+then
+  echo "Clean all local releases..."
+  rm -fr dist-*
+else
+  echo "Usage: build test | gld | clean"
 fi
