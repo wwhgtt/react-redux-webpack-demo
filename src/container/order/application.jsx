@@ -114,16 +114,14 @@ const OrderApplication = React.createClass({
               tableProps.areas && tableProps.areas.length &&
               tableProps.tables && tableProps.tables.length ?
               <a className="order-prop-option" href="#table-select" >
-                <div>
-                  <span className="options-title">选择桌台</span>
-                  <span className="option-btn btn-arrow-right">
-                    {selectedTable.area && selectedTable.table ?
-                      `${selectedTable.area.areaName} ${selectedTable.table.tableName}`
-                      :
-                      false
-                    }
-                  </span>
-                </div>
+                <span className="options-title">选择桌台</span>
+                <span className="option-btn btn-arrow-right">
+                  {selectedTable.area && selectedTable.table ?
+                    `${selectedTable.area.areaName} ${selectedTable.table.tableName}`
+                    :
+                    false
+                  }
+                </span>
               </a>
               :
               false
