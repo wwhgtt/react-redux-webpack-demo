@@ -30,12 +30,19 @@ module.exports = React.createClass({
     // 使用onClick时在手机端没能起作用  所以使用onTouchTap
     return (<a className="btn--ellips btn-choose-property" onTouchTap={this.onBtnTap}>菜品选项</a>);
   },
+  buildMemberDishBtn(dishData) {
+    if (true) {
+      return (<button className="dish-item-img"><img src={dishData.smallImgUrl} alt="" /></button>);
+    }
+    return (<div className="dish-item-img"><img src={dishData.smallImgUrl} alt="" /></div>);
+  },
   render() {
     const { dishData } = this.props;
     const orderBtn = this.buildOrderBtn(dishData);
+    const memberDishBtn = this.buildMemberDishBtn(dishData);
     return (
       <div className="dish-list-item">
-        <a href="" className="dish-item-img">{dishData.img}</a>
+        {memberDishBtn}
         <div className="dish-item-content">
           <span className="dish-item-name">{dishData.name}</span>
           <span className="dish-item-price price">{dishData.marketPrice}</span>
