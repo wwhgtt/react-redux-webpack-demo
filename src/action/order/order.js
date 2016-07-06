@@ -11,10 +11,7 @@ const setChildView = exports.setChildView = createAction('SET_CHILDVIEW', viewHa
 const setOrderedDishesToOrder = createAction('SET_ORDERED_DISHES_TO_ORDER', dishes => dishes);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 exports.fetchOrder = () => (dispatch, getState) =>
-  fetch(config.orderDineInAPi, {
-    method: 'GET', mod: 'cors',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-  }).
+  fetch(config.orderDineInAPi, config.requestOptions).
     then(res => {
       if (!res.ok) {
         throw new Error('获取订单信息失败...');
@@ -30,10 +27,7 @@ exports.fetchOrder = () => (dispatch, getState) =>
     });
 
 exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
-  fetch(config.orderDiscountInfoAPI, {
-    method: 'GET', mod: 'cors',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-  }).
+  fetch(config.orderDiscountInfoAPI, config.requestOptions).
     then(res => {
       if (!res.ok) {
         throw new Error('获取会员信息失败...');
@@ -47,10 +41,7 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
       console.log(err);
     });
 exports.fetchOrderCoupons = () => (dispatch, getState) =>
-  fetch(config.orderCouponsAPI, {
-    method: 'GET', mod: 'cors',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-  }).
+  fetch(config.orderCouponsAPI, config.requestOptions).
     then(res => {
       if (!res.ok) {
         throw new Error('获取折扣信息失败...');
