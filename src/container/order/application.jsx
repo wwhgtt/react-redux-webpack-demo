@@ -11,6 +11,7 @@ const OrderedDish = require('../../component/order/ordered-dish.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 const TimeSelect = require('../../component/order/select/time-select.jsx');
 require('../../asset/style/style.scss');
 require('./application.scss');
@@ -259,9 +260,9 @@ const OrderApplication = React.createClass({
                 </div>
               </div>
               <div className="options-group">
-                <a className="order-prop-option">
+                <a className="order-prop-option" href={'/dish-menu.html?type=' + getUrlParam('type') + '&shopId=' + getUrlParam('shopId')}>
                   <span className="order-add-text">我要加菜</span>
-                  <span className="option-btn btn-arrow-right">共 4 份</span>
+                  <span className="option-btn btn-arrow-right">共{getDishesCount(orderedDishesProps.dishes)}份</span>
                 </a>
               </div>
 
