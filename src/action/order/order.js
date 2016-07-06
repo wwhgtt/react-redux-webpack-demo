@@ -82,20 +82,20 @@ exports.submitOrderProps = (note, receipt) => (dispatch, getState) => {
   );
   const useDiscount = !getState().orderSummary.discount ? '0' : '1';
   const serviceApproach = getState().serviceProps.isPickupFromFrontDesk.isChecked ? 'pickup' : 'totable';
+  const coupId = getState().serviceProps.couponsProps.inUseCouponDetail.id ? getState().serviceProps.couponsProps.inUseCouponDetail.id : '0';
   const params = '?name=' + getState().customerProps.name
       + '&Invoice=' + receipt + '&note=' + note
       + '&mobile=' + getState().customerProps.mobile
       + '&sex=' + getState().customerProps.sex
       + '&payMethod=' + payMethodScope
-      + '&coupId=' + getState().serviceProps.couponsProps.inUseCouponDetail.id
-      + '&integral=' + integral
+      + '&coupId=' + coupId
+      + '&integral=' + Number(integral)
       + '&useDiscount=' + useDiscount
       + '&orderType=' + getUrlParam('type')
       + '&tableId=' + getState().tableProps.tables.filter(table => table.isChecked)[0].id
       + '&peopleCount=' + getState().customerProps.customerCount
       + '&serviceApproach=' + serviceApproach
       + '&shopId=' + getUrlParam('shopId')
-      + '&mId=b5d13adbc9d8d6ce93ad9f8ea4cc'
       + '&needPayPrice=' + needPayPrice;
   fetch(`${config.submitOrderProps}${params}`, config.requestOptions).
     then(res => {
