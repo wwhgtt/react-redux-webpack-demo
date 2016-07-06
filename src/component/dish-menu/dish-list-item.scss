@@ -16,12 +16,8 @@
     width: $dish-image-size;
     height: $dish-image-size;
     border-radius: 4px;
-    background-image: url('../../asset/images/dish-placeholder.png');
+    background-position: center center;
     background-size: cover;
-
-    > img {
-      display: block;
-    }
   }
 
   &-content {

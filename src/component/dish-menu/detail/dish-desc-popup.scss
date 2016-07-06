@@ -11,6 +11,7 @@
 
   &-image {
     display: block;
+    width: 100%;
   }
 
   &-content {
@@ -27,7 +28,7 @@
 
   &-price {
     &--small {
-      font-size: 12px;
+      font-size: 16px;
       line-height: $price-line-height;
       float: left;
       margin-right: 10px;
@@ -48,22 +49,22 @@
     }
   }
 
-  &-login {
-    line-height: $price-line-height - 2;
-    float: left;
-    height: $price-line-height - 2;
-    margin-left: 10px;
-    color: $color-neon-carrot;
-    border-color: $color-alto;
+  // &-login {
+  //   line-height: $price-line-height - 2;
+  //   float: left;
+  //   height: $price-line-height - 2;
+  //   margin-left: 10px;
+  //   color: $color-neon-carrot;
+  //   border-color: $color-alto;
 
-    &-desc {
-      font-size: 12px;
-      line-height: $price-line-height;
-      float: left;
-      margin-left: 10px;
-      color: $color-dusty-grey;
-    }
-  }
+  //   &-desc {
+  //     font-size: 12px;
+  //     line-height: $price-line-height;
+  //     float: left;
+  //     margin-left: 10px;
+  //     color: $color-dusty-grey;
+  //   }
+  // }
 
   &-subtitle {
     font-size: 14px;
