@@ -10,7 +10,6 @@ const CouponSelect = require('../../component/order/coupon-select.jsx');
 const OrderedDish = require('../../component/order/ordered-dish.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
-const _isEmpty = require('lodash').isEmpty;
 const TimeSelect = require('../../component/order/select/time-select.jsx');
 require('../../asset/style/style.scss');
 require('./application.scss');
@@ -157,7 +156,7 @@ const OrderApplication = React.createClass({
             <img className="order-shop-icon" src={commercialProps.commercialLogo} alt="" />
             <p className="order-shop-desc ellipsis">{commercialProps.name}</p>
           </a>
-          {!_isEmpty(orderedDishesProps) && orderedDishesProps.dishes.length ?
+          {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
             <div>
               {orderedDishesProps.dishes.map(dish => (<OrderedDish key={dish.id} dish={dish} />))}
               <div className="order-summary">
@@ -169,7 +168,7 @@ const OrderApplication = React.createClass({
                   :
                   false
                 }
-                {!_isEmpty(orderedDishesProps) && serviceProps.integralsInfo.isChecked ?
+                {serviceProps.integralsInfo.isChecked ?
                   <p className="order-summary-entry clearfix">
                     <span className="order-title">积分抵扣:</span>
                     <span className="order-discount discount">
@@ -190,7 +189,7 @@ const OrderApplication = React.createClass({
                   :
                   false
                 }
-                {!_isEmpty(orderedDishesProps) && commercialProps.carryRuleVO ?
+                {commercialProps.carryRuleVO ?
                   <p className="order-summary-entry clearfix">
                     <span className="order-title">自动抹零:</span>
                     <span className="order-discount discount">{
