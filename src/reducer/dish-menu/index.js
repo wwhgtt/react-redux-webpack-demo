@@ -69,8 +69,8 @@ module.exports = function (
       return state.update(
           'dishesData', dishesData => dishesData.flatMap(
             dishData => dishData.set(
-              'isMember', _findIndex(payload.dishList, { id:dishData.id }) !== -1
-            )
+                'isMember', _findIndex(payload.dishList, { dishId:dishData.id }) !== -1
+              )
           )
       );
     default:
