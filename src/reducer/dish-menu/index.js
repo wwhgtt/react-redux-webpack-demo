@@ -65,6 +65,14 @@ module.exports = function (
         }
       }
       return newState;
+    case 'SET_DISCOUNT_TO_ORDER':
+      return state.update(
+          'dishesData', dishesData => dishesData.flatMap(
+            dishData => dishData.set(
+              'isMember', _findIndex(payload.dishList, { id:dishData.id }) !== -1
+            )
+          )
+      );
     default:
       return state;
   }
