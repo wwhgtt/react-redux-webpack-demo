@@ -26,10 +26,10 @@ const OrderApplication = React.createClass({
     setChildView: React.PropTypes.func.isRequired,
     setOrderPropsAndResetChildView: React.PropTypes.func.isRequired,
     getLastOrderedDishes:React.PropTypes.func.isRequired,
-    orderSummary:React.PropTypes.object.isRequired,
     submitOrderProps:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
+    orderSummary:React.PropTypes.object.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
     commercialProps:React.PropTypes.object.isRequired,
     orderedDishesProps:React.PropTypes.object.isRequired,
