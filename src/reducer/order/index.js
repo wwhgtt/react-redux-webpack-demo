@@ -4,9 +4,6 @@ const helper = require('../../helper/order-helper');
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
 module.exports = function (
   state = Immutable.from({
-    areaList:[],
-    tableList:[],
-    timeTable:{},
     customerProps:{},
     orderedDishesProps:{},
     commercialProps:{},
@@ -29,6 +26,10 @@ module.exports = function (
       areas:[],
       tables:[],
     },
+    timeProps:{
+      selectedDateTime:{ date:'', time:'' },
+      timeTable:undefined,
+    },
     childView:null,
     orderSummary:{
       coupon:'',
@@ -43,7 +44,7 @@ module.exports = function (
     case 'SET_ORDER': {
       return state.setIn(['tableProps', 'areas'], Immutable.from(payload.areaList))
                   .setIn(['tableProps', 'tables'], Immutable.from(payload.tableList).flatMap(table => table.set('id', parseInt(table.tableID, 10))))
-                  .set('timeProps', Immutable.from({ selectedDateTime:{ date:'', time:'' }, timeTable:payload.timeJson }))
+                  .setIn(['timeProps', 'timeTable'], Immutable.from(payload.timeJson))
                   .set(
                     'customerProps',
                     Immutable.from({
@@ -225,6 +226,11 @@ module.exports = function (
           tables => tables.flatMap(
             table => table.id === payload.table.id ? table.set('isChecked', true) : table.set('isChecked', false)
           )
+        );
+      } else if (payload.id === 'takeaway-time') {
+        return state.setIn(['timeProps', 'selectedDateTime', 'date'], payload.dateTime.id).setIn(
+          ['timeProps', 'selectedDateTime', 'time'],
+          _find(payload.dateTime.times, { isChecked:true }).id
         );
       }
       break;

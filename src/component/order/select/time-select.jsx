@@ -10,6 +10,8 @@ module.exports = React.createClass({
   propTypes: {
     selectedDateTime: React.PropTypes.object.isRequired,
     timeTable: React.PropTypes.object.isRequired,
+    onDone: React.PropTypes.func.isRequired,
+    onDateTimeSelect: React.PropTypes.func.isRequired,
   },
   getInitialState() {
     const { selectedDateTime, timeTable } = this.props;
@@ -56,11 +58,23 @@ module.exports = React.createClass({
       ),
     });
   },
-  onSubmit() {
+  onSubmit(evt) {
+    const { onDateTimeSelect, onDone } = this.props;
+    const { dateTimes } = this.state;
+    onDateTimeSelect(null, {
+      id: 'takeaway-time',
+      dateTime: _find(dateTimes, { isChecked:true }),
+    });
 
+    evt.stopPropagation();
+    evt.preventDefault();
+    onDone();
   },
-  onCancel() {
-
+  onCancel(evt) {
+    const { onDone } = this.props;
+    evt.stopPropagation();
+    evt.preventDefault();
+    onDone();
   },
   getTimeOfSelectedDate(dateTimes) {
     const selectedDate = _find(dateTimes, { isChecked:true });
@@ -69,14 +83,13 @@ module.exports = React.createClass({
   buildState(selectedDateTime, timeTable) {
     const dateTimes = [];
     let selectedMark = true;
-
     for (let key in timeTable) {
       if (timeTable.hasOwnProperty(key)) {
         const times = timeTable[key].map(
           (time, idx) => time === selectedDateTime.time || (idx === 0 && selectedMark && selectedDateTime.time === '') ?
             { id:time, label:time, isChecked:true } : { id:time, label:time }
         );
-        const dateTime = key === selectedDateTime.time || (selectedMark && selectedDateTime.date === '') ?
+        const dateTime = key === selectedDateTime.date || (selectedMark && selectedDateTime.date === '') ?
           { id:key, label:key, times, isChecked: true } : { id:key, label:key, times };
         dateTimes.push(dateTime);
       }
@@ -105,7 +118,7 @@ module.exports = React.createClass({
               className="flex-table-select"
               optionsData={timeOfSelectedDate}
               optionComponent={DateTimeOption}
-              onSelectOption={this.onDateSelect}
+              onSelectOption={this.onTimeSelect}
             />
           </div>
         </div>

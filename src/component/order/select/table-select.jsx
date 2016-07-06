@@ -70,6 +70,8 @@ module.exports = React.createClass({
       area: _find(areas, { isChecked:true }),
       table: _find(tables, { isChecked:true }),
     });
+    evt.stopPropagation();
+    evt.preventDefault();
     onDone();
   },
   onCancel(evt) {
