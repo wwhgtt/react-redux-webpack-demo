@@ -193,7 +193,7 @@ const OrderApplication = React.createClass({
           </label>
         </div>
         <div className="options-group">
-          <a className="order-prop-option order-shop" href={'shop/detail?shopId=' + getUrlParam('shopId')}>
+          <a className="order-prop-option order-shop" href={'/shop/detail?shopId=' + getUrlParam('shopId')}>
             <img className="order-shop-icon" src={commercialProps.commercialLogo} alt="" />
             <p className="order-shop-desc ellipsis">{commercialProps.name}</p>
           </a>
