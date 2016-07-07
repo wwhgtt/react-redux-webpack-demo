@@ -263,13 +263,13 @@ div[data-reactroot] {
   left: 0;
   overflow: auto;
   padding-top: 10px;
-  border-bottom: 50px solid $color-gallery;
+  padding-bottom: 50px;
   background: $color-gallery;
 }
 
 .order-subpage-submit {
   font-size: 18px;
-  position: fixed;
+  position: absolute;
   z-index: 10;
   bottom: 0;
   left: 0;
