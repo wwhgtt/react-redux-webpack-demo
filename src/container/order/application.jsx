@@ -260,7 +260,7 @@ const OrderApplication = React.createClass({
                 </div>
               </div>
               <div className="options-group">
-                <a className="order-prop-option" href={'/dish-menu.html?type=' + getUrlParam('type') + '&shopId=' + getUrlParam('shopId')}>
+                <a className="order-prop-option" href={'/orderall/selectDish?type=' + getUrlParam('type') + '&shopId=' + getUrlParam('shopId')}>
                   <span className="order-add-text">我要加菜</span>
                   <span className="option-btn btn-arrow-right">共{getDishesCount(orderedDishesProps.dishes)}份</span>
                 </a>
