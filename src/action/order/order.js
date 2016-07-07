@@ -1,5 +1,8 @@
 const config = require('../../config');
 const createAction = require('redux-actions').createAction;
+const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
+const helper = require('../../helper/order-helper.js');
 require('es6-promise');
 require('isomorphic-fetch');
 
@@ -10,8 +13,9 @@ const setCouponsToOrder = createAction('SET_COUPONS_TO_ORDER', coupons => coupon
 const setChildView = exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const setOrderedDishesToOrder = createAction('SET_ORDERED_DISHES_TO_ORDER', dishes => dishes);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
+const shopId = getUrlParam('shopId');
 exports.fetchOrder = () => (dispatch, getState) =>
-  fetch(config.orderDineInAPi, config.requestOptions).
+  fetch(`${config.orderDineInAPi}?shopId=${shopId}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         throw new Error('获取订单信息失败...');
@@ -27,7 +31,7 @@ exports.fetchOrder = () => (dispatch, getState) =>
     });
 
 exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
-  fetch(config.orderDiscountInfoAPI, config.requestOptions).
+  fetch(`${config.orderDiscountInfoAPI}?shopId=${shopId}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         throw new Error('获取会员信息失败...');
@@ -40,8 +44,9 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
     catch(err => {
       console.log(err);
     });
-exports.fetchOrderCoupons = () => (dispatch, getState) =>
-  fetch(config.orderCouponsAPI, config.requestOptions).
+exports.fetchOrderCoupons = () => (dispatch, getState) => {
+  const orderAccount = getDishesPrice(getState().orderedDishesProps.dishes);
+  fetch(`${config.orderCouponsAPI}?shopId=${shopId}&orderAccount=${orderAccount}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         throw new Error('获取折扣信息失败...');
@@ -54,6 +59,7 @@ exports.fetchOrderCoupons = () => (dispatch, getState) =>
     catch(err => {
       console.log(err);
     });
+};
 exports.setOrderPropsAndResetChildView = (evt, option) => (dispatch, getState) => {
   dispatch(setOrderProps(evt, option));
   dispatch(setChildView(''));
@@ -66,3 +72,23 @@ exports.getLastOrderedDishes = () => (dispatch, getState) => {
   dispatch(setOrderedDishesToOrder(JSON.parse(lastOrderedDishes)));
 };
 exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
+exports.submitOrder = (note, receipt) => (dispatch, getState) => {
+  fetch(`${config.submitOrderAPI}${helper.getSubmitUrlParams(getState(), note, receipt)}`, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        throw new Error('提交订单信息失败...');
+      }
+      return res.json();
+    }).
+    then(result => {
+      if (result.code === '200') {
+        localStorage.removeItem('lastOrderedDishes');
+        location.href = `/order/orderallDetail?shopId=${shopId}&orderId=${result.data.orderId}`;
+      } else {
+        throw new Error(result.msg);
+      }
+    }).
+    catch(err => {
+      console.log(err);
+    });
+};

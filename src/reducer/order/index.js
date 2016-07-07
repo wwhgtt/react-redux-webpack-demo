@@ -32,9 +32,9 @@ module.exports = function (
     },
     childView:null,
     orderSummary:{
-      coupon:'',
-      discount:'',
-      clearSmallChange:'',
+      coupon:null,
+      discount:null,
+      clearSmallChange:null,
     },
   }),
   action
@@ -42,8 +42,14 @@ module.exports = function (
   const { type, payload } = action;
   switch (type) {
     case 'SET_ORDER': {
-      return state.setIn(['tableProps', 'areas'], Immutable.from(payload.areaList))
-                  .setIn(['tableProps', 'tables'], Immutable.from(payload.tableList).flatMap(table => table.set('id', parseInt(table.tableID, 10))))
+      return state.setIn(['tableProps', 'areas'], !payload.areaList ? null : Immutable.from(payload.areaList))
+                  .setIn(
+                    ['tableProps', 'tables'],
+                    !payload.tableList ?
+                      null
+                      :
+                      Immutable.from(payload.tableList).flatMap(table => table.set('id', parseInt(table.tableID, 10)))
+                    )
                   .setIn(['timeProps', 'timeTable'], Immutable.from(payload.timeJson))
                   .set(
                     'customerProps',
@@ -141,7 +147,7 @@ module.exports = function (
            !state.serviceProps.discountProps.discountInfo.isChecked
          ).setIn(
            ['orderSummary', 'discount'],
-           helper.countMemberPrice(state.orderedDishesProps.dishes, state.serviceProps.discountProps)
+           helper.countMemberPrice(payload.isChecked, state.orderedDishesProps.dishes, state.serviceProps.discountProps)
          ).setIn(
            ['orderSummary', 'coupon'], null
          );

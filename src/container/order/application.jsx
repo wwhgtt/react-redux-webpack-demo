@@ -2,6 +2,7 @@ const React = require('react');
 const connect = require('react-redux').connect;
 const actions = require('../../action/order/order');
 const helper = require('../../helper/order-helper');
+const config = require('../../config.js');
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
@@ -11,6 +12,7 @@ const OrderedDish = require('../../component/order/ordered-dish.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 const TimeSelect = require('../../component/order/select/time-select.jsx');
 require('../../asset/style/style.scss');
 require('./application.scss');
@@ -26,9 +28,10 @@ const OrderApplication = React.createClass({
     setChildView: React.PropTypes.func.isRequired,
     setOrderPropsAndResetChildView: React.PropTypes.func.isRequired,
     getLastOrderedDishes:React.PropTypes.func.isRequired,
-    orderSummary:React.PropTypes.object.isRequired,
+    submitOrder:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
+    orderSummary:React.PropTypes.object.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
     commercialProps:React.PropTypes.object.isRequired,
     orderedDishesProps:React.PropTypes.object.isRequired,
@@ -77,11 +80,15 @@ const OrderApplication = React.createClass({
       });
     }
   },
+  submitOrder() {
+    const { submitOrder } = this.props;
+    submitOrder(this.state.note, this.state.receipt);
+  },
   render() {
     const {
       customerProps, serviceProps, childView, tableProps,
       timeProps, orderedDishesProps, commercialProps, orderSummary,
-    } = this.props; // state
+    } = this.props; // states
     const { setOrderProps } = this.props;// actions
     const selectedTable = helper.getSelectedTable(tableProps);
     const type = getUrlParam('type');
@@ -109,16 +116,14 @@ const OrderApplication = React.createClass({
               tableProps.areas && tableProps.areas.length &&
               tableProps.tables && tableProps.tables.length ?
               <a className="order-prop-option" href="#table-select" >
-                <div>
-                  <span className="options-title">选择桌台</span>
-                  <span className="option-btn btn-arrow-right">
-                    {selectedTable.area && selectedTable.table ?
-                      `${selectedTable.area.areaName} ${selectedTable.table.tableName}`
-                      :
-                      false
-                    }
-                  </span>
-                </div>
+                <span className="options-title">选择桌台</span>
+                <span className="option-btn btn-arrow-right">
+                  {selectedTable.area && selectedTable.table ?
+                    `${selectedTable.area.areaName} ${selectedTable.table.tableName}`
+                    :
+                    false
+                  }
+                </span>
               </a>
               :
               false
@@ -189,7 +194,7 @@ const OrderApplication = React.createClass({
           </label>
         </div>
         <div className="options-group">
-          <a className="order-prop-option order-shop">
+          <a className="order-prop-option order-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
             <img className="order-shop-icon" src={commercialProps.commercialLogo} alt="" />
             <p className="order-shop-desc ellipsis">{commercialProps.name}</p>
           </a>
@@ -205,20 +210,24 @@ const OrderApplication = React.createClass({
                   :
                   false
                 }
-                {serviceProps.integralsInfo.isChecked ?
+                {serviceProps.integralsInfo.isChecked && commercialProps.carryRuleVO ?
                   <p className="order-summary-entry clearfix">
                     <span className="order-title">积分抵扣:</span>
                     <span className="order-discount discount">
                     {helper.countIntegralsToCash(
-                      getDishesPrice(orderedDishesProps.dishes),
-                      orderSummary.coupon,
+                      helper.clearSmallChange(
+                        commercialProps.carryRuleVO,
+                        getDishesPrice(orderedDishesProps.dishes),
+                      orderSummary).priceWithClearSmallChange,
                       serviceProps.integralsInfo.integralsDetail
                     ).commutation}
                     </span>
                     <span className="order-integral">
                       {helper.countIntegralsToCash(
-                        getDishesPrice(orderedDishesProps.dishes),
-                        orderSummary.coupon,
+                        helper.clearSmallChange(
+                          commercialProps.carryRuleVO,
+                          getDishesPrice(orderedDishesProps.dishes),
+                        orderSummary).priceWithClearSmallChange,
                         serviceProps.integralsInfo.integralsDetail
                       ).integralInUsed}
                     </span>
@@ -230,7 +239,7 @@ const OrderApplication = React.createClass({
                   <p className="order-summary-entry clearfix">
                     <span className="order-title">自动抹零:</span>
                     <span className="order-discount discount">{
-                      helper.clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes))
+                      helper.clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes), orderSummary).smallChange
                     }</span>
                   </p>
                   :
@@ -256,30 +265,37 @@ const OrderApplication = React.createClass({
                 </div>
               </div>
               <div className="options-group">
-                <a className="order-prop-option">
+                <a
+                  className="order-prop-option"
+                  href={config.getMoreDishesURL + '/orderall/selectDish?type=' + getUrlParam('type') + '&shopId=' + getUrlParam('shopId')}
+                >
                   <span className="order-add-text">我要加菜</span>
-                  <span className="option-btn btn-arrow-right">共 4 份</span>
+                  <span className="option-btn btn-arrow-right">共{getDishesCount(orderedDishesProps.dishes)}份</span>
                 </a>
               </div>
 
               <div className="order-cart">
                 <div className="order-cart-left">
                   <div className="vertical-center clearfix">
-                    <div className="order-cart-entry text-dove-grey">已优惠:
-                      <span className="price">
-                        {helper.countDecreasePrice(orderedDishesProps, orderSummary, serviceProps.integralsInfo, commercialProps)}
-                      </span>
-                    </div>
+                    {commercialProps.carryRuleVO ?
+                      <div className="order-cart-entry text-dove-grey">已优惠:
+                        <span className="price">
+                          {helper.countDecreasePrice(orderedDishesProps, orderSummary, serviceProps.integralsInfo, commercialProps)}
+                        </span>
+                      </div>
+                      :
+                      false
+                    }
                     <div className="order-cart-entry">
                       <span className="text-dove-grey">待支付: </span>
                       <span className="order-cart-price price">
-                       {helper.countFinalPrice(orderedDishesProps, orderSummary, serviceProps.integralsInfo, commercialProps)}
+                        {helper.countFinalPrice(orderedDishesProps, orderSummary, serviceProps.integralsInfo, commercialProps)}
                       </span>
                     </div>
                   </div>
                 </div>
                 <div className="order-cart-right">
-                  <a className="order-cart-btn btn--yellow" onTouchTap="">提交订单</a>
+                  <a className="order-cart-btn btn--yellow" onTouchTap={this.submitOrder}>提交订单</a>
                 </div>
               </div>
             </div>
