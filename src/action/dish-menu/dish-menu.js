@@ -9,6 +9,7 @@ const _removeAllOrders = createAction('REMOVE_ALL_ORDERS', orders => orders);
 const _setTakeawayServiceProps = createAction('SET_TAKEAWAY_SERVICE_PROPS', props => props);
 const setDiscountToOrder = createAction('SET_DISCOUNT_TO_ORDER', discount => discount);
 exports.showDishDetail = createAction('SHOW_DISH_DETAIL', dishData => dishData);
+exports.showDishDesc = createAction('SHOW_DISH_DESC', dishData => dishData);
 exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => {
   if (evt && /dish-type-item/.test(evt.target.className)) {
     window.__activeTypeByTap__ = true;

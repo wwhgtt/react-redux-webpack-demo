@@ -17,6 +17,7 @@ module.exports = React.createClass({
     onScroll: React.PropTypes.func.isRequired,
     onOrderBtnTap: React.PropTypes.func.isRequired,
     onPropsBtnTap: React.PropTypes.func.isRequired,
+    onImageBtnTap: React.PropTypes.func.isRequired,
   },
   componentWillMount() {
   },
@@ -103,7 +104,7 @@ module.exports = React.createClass({
               dishTypeData.dishIds.map(dishId => {
                 const dishData = getDishById(dishId);
                 return (<li className="dish-item-dish"><DishListItem
-                  dishData={dishData} onOrderBtnTap={onDishBtnTap} onPropsBtnTap={onDishBtnTap}
+                  dishData={dishData} onOrderBtnTap={onDishBtnTap} onPropsBtnTap={onDishBtnTap} onImageBtnTap={this.props.onImageBtnTap}
                 /></li>
                 );
               })

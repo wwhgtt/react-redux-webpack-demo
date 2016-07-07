@@ -1,7 +1,9 @@
 const React = require('react');
+const classnames = require('classnames');
 const Counter = require('../mui/counter.jsx');
 const shallowCompare = require('react-addons-shallow-compare');
 const helper = require('../../helper/dish-hepler');
+const imagePlaceholder = require('../../asset/images/dish-placeholder.png');
 
 require('./dish-list-item.scss');
 
@@ -11,6 +13,7 @@ module.exports = React.createClass({
     dishData: React.PropTypes.object.isRequired,
     onOrderBtnTap: React.PropTypes.func.isRequired,
     onPropsBtnTap: React.PropTypes.func.isRequired,
+    onImageBtnTap: React.PropTypes.func.isRequired,
   },
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
@@ -22,6 +25,10 @@ module.exports = React.createClass({
     } else {
       onPropsBtnTap(dishData);
     }
+  },
+  onDishImageTap() {
+    const { dishData, onImageBtnTap } = this.props;
+    onImageBtnTap(dishData);
   },
   buildOrderBtn(dishData) {
     if (helper.isSingleDishWithoutProps(dishData)) {
@@ -35,7 +42,12 @@ module.exports = React.createClass({
     const orderBtn = this.buildOrderBtn(dishData);
     return (
       <div className="dish-list-item">
-        <a href="" className="dish-item-img">{dishData.img}</a>
+        <button
+          className={classnames('dish-item-img', { 'is-memberdish': dishData.isMember })}
+          onTouchTap={this.onDishImageTap}
+          style={{ backgroundImage: `url(${dishData.smallImgUrl || imagePlaceholder})` }}
+        ></button>
+
         <div className="dish-item-content">
           <span className="dish-item-name">{dishData.name}</span>
           <span className="dish-item-price price">{dishData.marketPrice}</span>

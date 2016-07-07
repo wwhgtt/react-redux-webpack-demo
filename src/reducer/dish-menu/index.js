@@ -16,6 +16,8 @@ module.exports = function (
       return state.setIn(['activeDishTypeId'], payload);
     case 'SHOW_DISH_DETAIL':
       return state.setIn(['dishDetailData'], payload);
+    case 'SHOW_DISH_DESC':
+      return state.setIn(['dishDescData'], payload);
     case 'REMOVE_ALL_ORDERS':
       return state.update(
         'dishesData',
@@ -69,8 +71,13 @@ module.exports = function (
       return state.update(
           'dishesData', dishesData => dishesData.flatMap(
             dishData => dishData.set(
-              'isMember', _findIndex(payload.dishList, { id:dishData.id }) !== -1
-            )
+                'isMember', _findIndex(payload.dishList, { dishId:dishData.id }) !== -1
+              ).set(
+                'memberPrice', _findIndex(payload.dishList, { dishId:dishData.id }) !== -1 ?
+                  payload.dishList[_findIndex(payload.dishList, { dishId:dishData.id })].value
+                  :
+                  false
+              )
           )
       );
     default:

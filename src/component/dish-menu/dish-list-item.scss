@@ -12,10 +12,12 @@
 
   &-img {
     float: left;
+    overflow: hidden;
     width: $dish-image-size;
     height: $dish-image-size;
     border-radius: 4px;
-    background: $color-porcelain;
+    background-position: center center;
+    background-size: cover;
   }
 
   &-content {
@@ -46,5 +48,33 @@
       line-height: 1;
       vertical-align: 1px;
     }
+  }
+}
+
+// member-dish
+
+.is-memberdish {
+  position: relative;
+
+  &::before {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    content: '';
+    border-bottom: 30px solid transparent;
+    border-left: 40px solid $color-sunset-orange;
+  }
+
+  &::after {
+    font-size: 11px;
+    position: absolute;
+    z-index: 2;
+    top: 5px;
+    left: 4px;
+    content: '会';
+    color: $color-white;
   }
 }
