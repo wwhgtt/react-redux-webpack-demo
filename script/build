@@ -2,14 +2,14 @@
 if [ $1 = "test" ]
 then
   echo "Build testing release..."
-  NODE_ENV="production"
-  PROD_HOST="testweixin.shishike.com"
+  export NODE_ENV="production"
+  export PROD_HOST="testweixin.shishike.com"
   webpack --progress -p --config webpack.config.production.js
 elif [ $1 = "gld" ]
 then
   echo "Build gld release..."
-  NODE_ENV="production"
-  PROD_HOST="gld.weixin.shishike.com"
+  export NODE_ENV="production"
+  export PROD_HOST="gld.weixin.shishike.com"
   webpack --progress -p --config webpack.config.production.js
 elif [ $1 = 'clean' ]
 then
