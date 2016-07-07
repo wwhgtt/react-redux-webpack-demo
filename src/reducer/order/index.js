@@ -32,9 +32,9 @@ module.exports = function (
     },
     childView:null,
     orderSummary:{
-      coupon:'',
-      discount:'',
-      clearSmallChange:'',
+      coupon:null,
+      discount:null,
+      clearSmallChange:null,
     },
   }),
   action
@@ -147,7 +147,7 @@ module.exports = function (
            !state.serviceProps.discountProps.discountInfo.isChecked
          ).setIn(
            ['orderSummary', 'discount'],
-           helper.countMemberPrice(state.orderedDishesProps.dishes, state.serviceProps.discountProps)
+           helper.countMemberPrice(payload.isChecked, state.orderedDishesProps.dishes, state.serviceProps.discountProps)
          ).setIn(
            ['orderSummary', 'coupon'], null
          );
