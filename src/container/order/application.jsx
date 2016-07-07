@@ -5,9 +5,9 @@ const helper = require('../../helper/order-helper');
 const config = require('../../config.js');
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
+const CustomerTakeawayInfoEditor = require('../../component/order/customer-takeaway-info-editor.jsx');
 const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
 const CouponSelect = require('../../component/order/coupon-select.jsx');
-// const TableSelect = require('../../component/order/select/table-select.jsx');
 const OrderedDish = require('../../component/order/ordered-dish.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
@@ -29,14 +29,15 @@ const OrderApplication = React.createClass({
     setOrderPropsAndResetChildView: React.PropTypes.func.isRequired,
     getLastOrderedDishes:React.PropTypes.func.isRequired,
     submitOrder:React.PropTypes.func.isRequired,
+    fetchUserAddressInfo: React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
-    orderSummary:React.PropTypes.object.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
     commercialProps:React.PropTypes.object.isRequired,
     orderedDishesProps:React.PropTypes.object.isRequired,
     tableProps: React.PropTypes.object.isRequired,
     timeProps: React.PropTypes.object,
+    orderSummary:React.PropTypes.object.isRequired,
     childView: React.PropTypes.string,
   },
   getInitialState() {
@@ -88,19 +89,28 @@ const OrderApplication = React.createClass({
     const {
       customerProps, serviceProps, childView, tableProps,
       timeProps, orderedDishesProps, commercialProps, orderSummary,
-    } = this.props; // states
-    const { setOrderProps } = this.props;// actions
+    } = this.props; // state
+    const { setOrderProps, fetchUserAddressInfo } = this.props;// actions
     const selectedTable = helper.getSelectedTable(tableProps);
     const type = getUrlParam('type');
     return (
       <div className="application">
-        <a className="options-group options-group--stripes" href="#customer-info" >
-          <div className="option-stripes-title">{customerProps.name}{customerProps.sex === '1' ? '先生' : '女士'}</div>
-          <div className="clearfix">
-            <div className="option-desc half">{customerProps.mobile}</div>
-            <div className="option-desc half"><span className="text-picton-blue">{customerProps.customerCount}</span>人就餐</div>
-          </div>
-        </a>
+        {type === 'WM' ?
+          <a className="options-group options-group--stripes" href="#customer-info" >
+            <div className="option-stripes-title">{customerProps.name}{customerProps.sex === '1' ? '先生' : '女士'} {customerProps.mobile}</div>
+            <div className="clearfix">
+              <div className="option-desc half">天府软件园E区</div>
+            </div>
+          </a>
+          :
+          <a className="options-group options-group--stripes" href="#customer-info" >
+            <div className="option-stripes-title">{customerProps.name}{customerProps.sex === '1' ? '先生' : '女士'}</div>
+            <div className="clearfix">
+              <div className="option-desc half">{customerProps.mobile}</div>
+              <div className="option-desc half"><span className="text-picton-blue">{customerProps.customerCount}</span>人就餐</div>
+            </div>
+          </a>
+        }
         {type === 'WM' ?
           false
           :
@@ -304,8 +314,15 @@ const OrderApplication = React.createClass({
           }
         </div>
 
-        {childView === 'customer-info' ?
+        {childView === 'customer-info' && type === 'TS' ?
           <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setOrderProps} />
+          : false
+        }
+        {childView === 'customer-info' && type === 'WM' ?
+          <CustomerTakeawayInfoEditor
+            customerProps={customerProps}
+            onCustomerPropsChange={setOrderProps} onComponentWillMount={fetchUserAddressInfo}
+          />
           : false
         }
         {childView === 'coupon-select' ?

@@ -250,6 +250,7 @@ div[data-reactroot] {
     line-height: 50px;
     display: block;
     width: 100%;
+    cursor: pointer;
   }
 }
 
@@ -261,14 +262,15 @@ div[data-reactroot] {
   right: 0;
   bottom: 0;
   left: 0;
-  border-top: 10px solid $color-gallery;
-  border-bottom: 50px solid;
+  overflow: auto;
+  padding-top: 10px;
+  padding-bottom: 50px;
   background: $color-gallery;
 }
 
 .order-subpage-submit {
   font-size: 18px;
-  position: fixed;
+  position: absolute;
   z-index: 10;
   bottom: 0;
   left: 0;

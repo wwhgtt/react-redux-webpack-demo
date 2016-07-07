@@ -12,6 +12,7 @@ const setDiscountToOrder = createAction('SET_DISCOUNT_TO_ORDER', discount => dis
 const setCouponsToOrder = createAction('SET_COUPONS_TO_ORDER', coupons => coupons);
 const setChildView = exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const setOrderedDishesToOrder = createAction('SET_ORDERED_DISHES_TO_ORDER', dishes => dishes);
+const setAddressInfoToOrder = createAction('SET_ADDRESS_INFO_TO_ORDER', address => address);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const shopId = getUrlParam('shopId');
 exports.fetchOrder = () => (dispatch, getState) =>
@@ -60,6 +61,20 @@ exports.fetchOrderCoupons = () => (dispatch, getState) => {
       console.log(err);
     });
 };
+exports.fetchUserAddressInfo = () => (dispatch, getState) =>
+  fetch(config.userAddressAPI, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        throw new Error('获取用户地址信息失败...');
+      }
+      return res.json();
+    }).
+    then(coupons => {
+      dispatch(setAddressInfoToOrder(coupons.data));
+    }).
+    catch(err => {
+      console.log(err);
+    });
 exports.setOrderPropsAndResetChildView = (evt, option) => (dispatch, getState) => {
   dispatch(setOrderProps(evt, option));
   dispatch(setChildView(''));
@@ -71,7 +86,6 @@ exports.getLastOrderedDishes = () => (dispatch, getState) => {
   }
   dispatch(setOrderedDishesToOrder(JSON.parse(lastOrderedDishes)));
 };
-exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
 exports.submitOrder = (note, receipt) => (dispatch, getState) => {
   fetch(`${config.submitOrderAPI}${helper.getSubmitUrlParams(getState(), note, receipt)}`, config.requestOptions).
     then(res => {

@@ -9,6 +9,7 @@ switch (process.env.NODE_ENV) {
       credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
     };
+    apiBase = `http://${process.env.PROD_HOST}`;
     break;
   default:
     apiBase = `http://${process.env.DEV_HOST}:3001`;
@@ -26,7 +27,10 @@ module.exports = {
   orderCouponsAPI:`${apiBase}/coupon/getCanUseCoupons.json`,
   orderDiscountInfoAPI:`${apiBase}/shop/discountInfo.json`,
   submitOrderAPI:`${apiBase}/orderall/subOrder.json`,
+  userAddressAPI: `${apiBase}/user/addressList.json`,
   shopDetailURL:`${apiBase}/shop/detail`,
   getMoreDishesURL:`${apiBase}/orderall/selectDish`,
+  editUserAddressURL: `${apiBase}/user/address`,
+
   requestOptions,
 };

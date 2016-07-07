@@ -1,6 +1,6 @@
 const React = require('react');
 const classnames = require('classnames');
-const DynamicClassLink = require('../mui/misc/dynamic-class-hoc.jsx')('button');
+const DynamicClassLink = require('../mui/misc/dynamic-class-hoc.jsx')('a');
 const shallowCompare = require('react-addons-shallow-compare');
 
 module.exports = React.createClass({

@@ -56,6 +56,7 @@ module.exports = function (
                     Immutable.from({
                       name:payload.member.name, mobile:payload.member.mobile,
                       sex:payload.member.sex, isMember:payload.isMember, customerCount:1,
+                      addresses:payload.ma ? [{ id:payload.ma.id, address:payload.ma.address, isChecked:true }] : null,
                     })
                   )
                   .set(
@@ -155,6 +156,15 @@ module.exports = function (
         return state.set(
           'customerProps', payload
         );
+      } else if (payload.id === 'customer-info-with-address') {
+        return state.set(
+          'customerProps', payload
+        ).updateIn(
+          ['customerProps', 'addresses'],
+          addresses => addresses.flatMap(
+            address => address.id === payload.address.id ? address.set('isChecked', true) : address.set('isChecked', false)
+          )
+        );
       } else if (payload.id.indexOf('payment') !== -1) {
         return state.updateIn(
           ['serviceProps', 'payMethods'],
@@ -252,6 +262,11 @@ module.exports = function (
          .setIn(['serviceProps', 'discountProps', 'discountType'], payload.type);
       }
       break;
+    case 'SET_ADDRESS_INFO_TO_ORDER':
+      return state.setIn(
+        ['customerProps', 'addresses'],
+        Immutable.from(payload)
+      );
     case 'SET_CHILDVIEW':
       if (payload === '#customer-info') {
         return state.set('childView', 'customer-info');
