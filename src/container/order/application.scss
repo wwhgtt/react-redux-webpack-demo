@@ -262,7 +262,7 @@ div[data-reactroot] {
   bottom: 0;
   left: 0;
   overflow: auto;
-  border-top: 10px solid $color-gallery;
+  padding-top: 10px;
   border-bottom: 50px solid $color-gallery;
   background: $color-gallery;
 }

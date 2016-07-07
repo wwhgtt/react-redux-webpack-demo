@@ -4,7 +4,7 @@
   // override nested subpage
   > .order-subpage {
     position: static;
-    border-top: 0;
+    padding-top: 0;
     border-bottom: 0;
 
     > .options-group:nth-child(2) {
