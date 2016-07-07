@@ -7,6 +7,7 @@ const DishTypeScroller = require('../../component/dish-menu/dish-type-scroller.j
 const DishScroller = require('../../component/dish-menu/dish-scroller.jsx');
 const CartContainer = require('../../component/dish-menu/cart/cart-container.jsx');
 const DishDetailContainer = require('../../component/dish-menu/detail/dish-detail-container.jsx');
+const DishDescPopup = require('../../component/dish-menu/detail/dish-desc-popup.jsx');
 
 const DishMenuApplication = React.createClass({
   displayName: 'DishMenuApplication',
@@ -17,6 +18,7 @@ const DishMenuApplication = React.createClass({
     activeDishType: React.PropTypes.func.isRequired,
     orderDish: React.PropTypes.func.isRequired,
     showDishDetail: React.PropTypes.func.isRequired,
+    showDishDesc: React.PropTypes.func.isRequired,
     setDishCookie: React.PropTypes.func.isRequired,
     removeAllOrders: React.PropTypes.func.isRequired,
     fetchOrderDiscountInfo:React.PropTypes.func.isRequired,
@@ -25,6 +27,7 @@ const DishMenuApplication = React.createClass({
     dishTypesData: React.PropTypes.array,
     dishesData: React.PropTypes.array,
     dishDetailData: React.PropTypes.object,
+    dishDescData: React.PropTypes.object,
     takeawayServiceProps: React.PropTypes.object,
   },
   componentDidMount() {
@@ -40,8 +43,8 @@ const DishMenuApplication = React.createClass({
     orderDish(dishData);
   },
   render() {
-    const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, setDishCookie, takeawayServiceProps } = this.props; // states
-    const { activeDishType, orderDish, showDishDetail, removeAllOrders } = this.props; // actions
+    const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, setDishCookie, takeawayServiceProps } = this.props; // states
+    const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders } = this.props; // actions
     return (
       <div className="application">
         <DishTypeScroller
@@ -50,7 +53,8 @@ const DishMenuApplication = React.createClass({
         />
         <DishScroller
           dishTypesData={dishTypesData} dishesData={dishesData}
-          activeDishTypeId={activeDishTypeId} onScroll={activeDishType} onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail}
+          activeDishTypeId={activeDishTypeId} onScroll={activeDishType}
+          onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail} onImageBtnTap={showDishDesc}
         />
         <CartContainer
           dishes={dishesData} takeawayServiceProps={takeawayServiceProps}
@@ -58,6 +62,10 @@ const DishMenuApplication = React.createClass({
         />
         {dishDetailData !== undefined ?
           <DishDetailContainer dish={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />
+          : false
+        }
+        {dishDescData !== undefined ?
+          <DishDescPopup dish={dishDescData} onCloseBtnTap={showDishDesc} />
           : false
         }
       </div>

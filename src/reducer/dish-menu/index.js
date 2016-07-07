@@ -16,6 +16,8 @@ module.exports = function (
       return state.setIn(['activeDishTypeId'], payload);
     case 'SHOW_DISH_DETAIL':
       return state.setIn(['dishDetailData'], payload);
+    case 'SHOW_DISH_DESC':
+      return state.setIn(['dishDescData'], payload);
     case 'REMOVE_ALL_ORDERS':
       return state.update(
         'dishesData',
