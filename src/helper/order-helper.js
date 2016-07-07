@@ -83,15 +83,34 @@ const countIntegralsToCash = exports.countIntegralsToCash = function (totalPrice
 };
 const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, totalPrice) {
   const { transferType, scale } = carryRuleVO;
+  // 从order-dish传过来的totalPrice最多有两位小数
   if (transferType === 1) {
     // 四舍五入
     return Math.abs(totalPrice - totalPrice.toFixed(scale)).toFixed(scale);
   } else if (transferType === 2) {
     // 无条件进位
-    return Math.ceil(totalPrice) - totalPrice;
+    if (scale === 2) {
+      return 0;
+    } else if (scale === 1) {
+      return totalPrice.toString().length === 4 ?
+        (Number(totalPrice.toString().substr(-2)) + 0.1 - totalPrice).toFixed(1)
+        :
+        0;
+    } else if (scale === 0) {
+      return Math.ceil(totalPrice) - totalPrice;
+    }
   } else if (transferType === 3) {
     // 无条件舍去
-    return totalPrice - Math.floor(totalPrice);
+    if (scale === 2) {
+      return 0;
+    } else if (scale === 1) {
+      return totalPrice.toString().length === 4 ?
+        (totalPrice - Number(totalPrice.toString().substr(-2))).toFixed(2)
+        :
+        0;
+    } else if (scale === 0) {
+      return (totalPrice - Math.floor(totalPrice)).toFixed(0);
+    }
   }
   return false;
 };
