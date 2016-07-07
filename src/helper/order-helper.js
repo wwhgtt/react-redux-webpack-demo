@@ -226,6 +226,5 @@ exports.dataSubmitInfo = function (state, note, receipt) {
       + '&serviceApproach=' + serviceApproach
       + '&shopId=' + getUrlParam('shopId')
       + '&needPayPrice=' + needPayPrice;
-  console.log(params);
   return params;
 };
