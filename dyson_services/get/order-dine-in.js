@@ -592,6 +592,7 @@ module.exports = {
       'totablePayType': 'online,offline',
 	/** 会员是否停用 */
       'disable': false,
+      ma:null,
     },
   },
 };
