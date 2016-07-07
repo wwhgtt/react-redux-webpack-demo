@@ -2,6 +2,7 @@ const React = require('react');
 const connect = require('react-redux').connect;
 const actions = require('../../action/order/order');
 const helper = require('../../helper/order-helper');
+const config = require('../../config.js');
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
@@ -193,7 +194,7 @@ const OrderApplication = React.createClass({
           </label>
         </div>
         <div className="options-group">
-          <a className="order-prop-option order-shop" href={'/shop/detail?shopId=' + getUrlParam('shopId')}>
+          <a className="order-prop-option order-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
             <img className="order-shop-icon" src={commercialProps.commercialLogo} alt="" />
             <p className="order-shop-desc ellipsis">{commercialProps.name}</p>
           </a>
@@ -264,7 +265,10 @@ const OrderApplication = React.createClass({
                 </div>
               </div>
               <div className="options-group">
-                <a className="order-prop-option" href={'/orderall/selectDish?type=' + getUrlParam('type') + '&shopId=' + getUrlParam('shopId')}>
+                <a
+                  className="order-prop-option"
+                  href={config.getMoreDishesURL + '/orderall/selectDish?type=' + getUrlParam('type') + '&shopId=' + getUrlParam('shopId')}
+                >
                   <span className="order-add-text">我要加菜</span>
                   <span className="option-btn btn-arrow-right">共{getDishesCount(orderedDishesProps.dishes)}份</span>
                 </a>

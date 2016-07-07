@@ -73,7 +73,7 @@ exports.getLastOrderedDishes = () => (dispatch, getState) => {
 };
 exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
 exports.submitOrder = (note, receipt) => (dispatch, getState) => {
-  fetch(`${config.submitOrderAPI}${helper.setSubmitUrlParams(getState(), note, receipt)}`, config.requestOptions).
+  fetch(`${config.submitOrderAPI}${helper.getSubmitUrlParams(getState(), note, receipt)}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         throw new Error('提交订单信息失败...');

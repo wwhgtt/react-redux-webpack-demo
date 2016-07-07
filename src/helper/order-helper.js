@@ -209,7 +209,7 @@ const countFinalPrice = exports.countFinalPrice = function (orderedDishesProps, 
   return (Number(getDishesPrice(orderedDishesProps.dishes))
       - Number(countDecreasePrice(orderedDishesProps, orderSummary, integralsInfo, commercialProps))).toFixed(2);
 };
-exports.setSubmitUrlParams = function (state, note, receipt) {
+exports.getSubmitUrlParams = function (state, note, receipt) {
   const payMethodScope = state.serviceProps.payMethods.filter(payMethod => payMethod.isChecked)[0].name === '在线支付' ? '1' : '0';
   const integral = countIntegralsToCash(clearSmallChange(
     state.commercialProps.carryRuleVO,
