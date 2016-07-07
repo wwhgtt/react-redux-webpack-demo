@@ -70,6 +70,11 @@ module.exports = function (
           'dishesData', dishesData => dishesData.flatMap(
             dishData => dishData.set(
                 'isMember', _findIndex(payload.dishList, { dishId:dishData.id }) !== -1
+              ).set(
+                'memberPrice', _findIndex(payload.dishList, { dishId:dishData.id }) !== -1 ?
+                  payload.dishList[_findIndex(payload.dishList, { dishId:dishData.id })].value
+                  :
+                  false
               )
           )
       );
