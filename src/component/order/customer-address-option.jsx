@@ -12,9 +12,10 @@ module.exports = React.createClass({
   render() {
     const { id, address, ...props } = this.props;
     return (
-      <DynamicClassDiv {...props}>
+      <DynamicClassDiv className="address-option" {...props}>
         <span>{address}</span>
         <a
+          className="address-edit"
           href={`${config.editUserAddressURL}?shopId=${helper.getUrlParam('type')}&id=${id}`}
         >
         </a>

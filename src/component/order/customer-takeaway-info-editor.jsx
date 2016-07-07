@@ -5,6 +5,8 @@ const CustomerInfoEditor = require('./customer-info-editor.jsx');
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const CustomerAddressOption = require('./customer-address-option.jsx');
 
+require('./customer-takeaway-info-editor.scss');
+
 module.exports = React.createClass({
   displayName: 'TakeawayCustomerInfoEditor',
   propTypes: {
@@ -58,13 +60,15 @@ module.exports = React.createClass({
     const { addresses } = this.state;
 
     return (
-      <div className="customer-address-info-editor">
+      <div className="order-subpage">
         <CustomerInfoEditor
           onCustomerPropsChange={this.onCustomerPropsChange}
           customerProps={customerProps.without('addresses')}
         />
+        <p className="address-title">请选择收货地址或道店取餐</p>
         {addresses !== null ?
           <ActiveSelect
+            className="address-group"
             optionsData={addresses}
             optionComponent={CustomerAddressOption}
             onSelectOption={this.onAddressSelect}
@@ -72,6 +76,7 @@ module.exports = React.createClass({
           :
           false
         }
+        <a className="address-add-more" href="">增加地址</a>
       </div>
     );
   },
