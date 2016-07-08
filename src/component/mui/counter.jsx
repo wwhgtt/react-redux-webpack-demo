@@ -23,15 +23,12 @@ module.exports = React.createClass({
   },
   onBtnsTap(count, increment) {
     const { maximum, minimum, onCountChange } = this.props;
-    // bug解决分析 newCount 可能为－1  （数量为2 step＝3）
     const maxNumber = !maximum ? Infinity : maximum;
-    if (increment > 0 && maxNumber > count + increment) {
-      // 表示要加菜
+    if (increment > 0 && maxNumber >= count + increment) {
       return onCountChange(count + increment, increment);
-    } else if (increment < 0 && count - increment > minimum) {
-      // 表示减少菜品
-      return onCountChange(count - increment, increment);
-    } else if (increment < 0 && count < Math.abs(increment)) {
+    } else if (increment < 0 && count + increment >= minimum) {
+      return onCountChange(count + increment, increment);
+    } else if (increment < 0 && count < Math.abs(increment) && count !== minimum) {
       return onCountChange(0, increment);
     }
     return false;
