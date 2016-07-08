@@ -7,6 +7,7 @@ module.exports = React.createClass({
   displayName: 'CustomerInfoEditor',
   propTypes: {
     customerProps:React.PropTypes.object.isRequired,
+    onDone:React.PropTypes.func.isRequired,
     onCustomerPropsChange:React.PropTypes.func.isRequired,
   },
   getInitialState() {
@@ -26,9 +27,9 @@ module.exports = React.createClass({
   },
   onSubmitBtntap() {
     const { customerProps } = this.state;
-    const { onCustomerPropsChange } = this.props;
-    window.location.hash = '';
+    const { onDone, onCustomerPropsChange } = this.props;
     onCustomerPropsChange(null, customerProps);
+    onDone('');
   },
   handleBasicInfoChange(event) {
     const { customerProps } = this.state;

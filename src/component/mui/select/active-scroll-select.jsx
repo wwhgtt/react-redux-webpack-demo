@@ -55,7 +55,8 @@ module.exports = React.createClass({
   adjustViewportHeight(viewport, viewportHeight) { // We need to adjust the height of viewport according to the height of Option
     const optionElement = viewport.querySelector('[data-option]');
     if (optionElement) {
-      viewport.style.height = `${optionElement.offsetHeight * viewportHeight}px`;
+      // viewport.style.height = `${optionElement.offsetHeight * viewportHeight}px`;
+      viewport.style.height = `${200}px`; // this is a temp fix for performance issue
     }
   },
   scrollToSelectedOption(options) {

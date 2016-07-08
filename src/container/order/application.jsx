@@ -67,7 +67,12 @@ const OrderApplication = React.createClass({
     setChildView(hash);
   },
   resetChildView() {
-    location.hash = '';
+    const { setChildView } = this.props;
+    if (location.hash !== '') {
+      location.hash = '';
+    } else {
+      setChildView('');
+    }
   },
   noteOrReceiptChange(evt) {
     const name = evt.target.getAttribute('name');
@@ -91,7 +96,7 @@ const OrderApplication = React.createClass({
       customerProps, serviceProps, childView, tableProps,
       timeProps, orderedDishesProps, commercialProps, orderSummary,
     } = this.props; // state
-    const { setOrderProps, fetchUserAddressInfo } = this.props;// actions
+    const { setOrderProps, fetchUserAddressInfo, setChildView } = this.props;// actions
     const selectedTable = helper.getSelectedTable(tableProps);
     const type = getUrlParam('type');
     return (
@@ -126,7 +131,7 @@ const OrderApplication = React.createClass({
             {!serviceProps.isPickupFromFrontDesk.isChecked &&
               tableProps.areas && tableProps.areas.length &&
               tableProps.tables && tableProps.tables.length ?
-              <a className="order-prop-option" href="#table-select" >
+              <a className="order-prop-option" onTouchTap={evt => setChildView('#table-select')} >
                 <span className="options-title">选择桌台</span>
                 <span className="option-btn btn-arrow-right">
                   {selectedTable.area && selectedTable.table ?
@@ -186,7 +191,7 @@ const OrderApplication = React.createClass({
 
         <div className="options-group">
           {type === 'WM' && timeProps.timeTable !== {} && timeProps.timeTable !== undefined ?
-            <a className="order-prop-option" href="#time-select" >
+            <a className="order-prop-option" onTouchTap={evt => setChildView('#time-select')} >
               <span className="options-title">送达时间</span>
               <button className="option-btn btn-arrow-right">
                 {`${timeProps.selectedDateTime.date} ${timeProps.selectedDateTime.time} 送达`}
@@ -320,13 +325,13 @@ const OrderApplication = React.createClass({
         }
 
         {childView === 'customer-info' && type === 'TS' ?
-          <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setOrderProps} />
+          <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setOrderProps} onDone={this.resetChildView} />
           : false
         }
         {childView === 'customer-info' && type === 'WM' ?
           <CustomerTakeawayInfoEditor
             customerProps={customerProps}
-            onCustomerPropsChange={setOrderProps} onComponentWillMount={fetchUserAddressInfo}
+            onCustomerPropsChange={setOrderProps} onComponentWillMount={fetchUserAddressInfo} onDone={this.resetChildView}
           />
           : false
         }
