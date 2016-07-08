@@ -40,7 +40,11 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
       return res.json();
     }).
     then(discount => {
-      dispatch(setDiscountToOrder(discount.data));
+      if (!discount.data) {
+        // 没有任何可用会员价菜品
+        return false;
+      }
+      return dispatch(setDiscountToOrder(discount.data));
     }).
     catch(err => {
       console.log(err);
