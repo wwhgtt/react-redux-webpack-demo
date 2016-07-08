@@ -88,9 +88,9 @@ module.exports = React.createClass({
     const { areas, tables } = this.state;
     const tablesOfArea = this.getTablesOfSelectedArea(areas, tables);
     return (
-      <div className="scroll-select-container flex-columns">
-        <div className="scroll-select-close flex-rest" onTouchTap={this.onCancel}></div>
-        <div className="scroll-select-content flex-none">
+      <div className="scroll-select-container">
+        <div className="scroll-select-close" onTouchTap={this.onCancel}></div>
+        <div className="scroll-select-content">
           <div className="scroll-select-header">
             <span>选择桌台</span>
             <div className="scroll-select-confirm btn--yellow" onTouchTap={this.onSubmit}>确定</div>
