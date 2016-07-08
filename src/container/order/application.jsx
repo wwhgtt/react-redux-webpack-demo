@@ -209,14 +209,17 @@ const OrderApplication = React.createClass({
             <input className="option-input" name="receipt" placeholder="输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
           </label>
         </div>
-        <div className="options-group">
-          <a className="order-prop-option order-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
-            <img className="order-shop-icon" src={commercialProps.commercialLogo} alt="" />
-            <p className="order-shop-desc ellipsis">{commercialProps.name}</p>
-          </a>
-          {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
-            <div>
+
+        {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
+          <div>
+            <div className="options-group">
+              <a className="order-prop-option order-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
+                <img className="order-shop-icon" src={commercialProps.commercialLogo} alt="" />
+                <p className="order-shop-desc ellipsis">{commercialProps.name}</p>
+              </a>
+
               {orderedDishesProps.dishes.map(dish => (<OrderedDish key={dish.id} dish={dish} />))}
+
               <div className="order-summary">
                 {orderSummary.coupon ?
                   <p className="order-summary-entry clearfix">
@@ -230,20 +233,20 @@ const OrderApplication = React.createClass({
                   <p className="order-summary-entry clearfix">
                     <span className="order-title">积分抵扣:</span>
                     <span className="order-discount discount">
-                    {helper.countIntegralsToCash(
-                      helper.clearSmallChange(
-                        commercialProps.carryRuleVO,
-                        getDishesPrice(orderedDishesProps.dishes),
-                      orderSummary).priceWithClearSmallChange,
-                      serviceProps.integralsInfo.integralsDetail
-                    ).commutation}
+                      {helper.countIntegralsToCash(
+                        helper.clearSmallChange(
+                          commercialProps.carryRuleVO,
+                          getDishesPrice(orderedDishesProps.dishes),
+                          orderSummary).priceWithClearSmallChange,
+                        serviceProps.integralsInfo.integralsDetail
+                      ).commutation}
                     </span>
                     <span className="order-integral">
                       {helper.countIntegralsToCash(
                         helper.clearSmallChange(
                           commercialProps.carryRuleVO,
                           getDishesPrice(orderedDishesProps.dishes),
-                        orderSummary).priceWithClearSmallChange,
+                          orderSummary).priceWithClearSmallChange,
                         serviceProps.integralsInfo.integralsDetail
                       ).integralInUsed}
                     </span>
@@ -256,7 +259,7 @@ const OrderApplication = React.createClass({
                     <span className="order-title">自动抹零:</span>
                     <span className="order-discount discount">{
                       helper.clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes), orderSummary).smallChange
-                    }</span>
+                                                              }</span>
                   </p>
                   :
                   false
@@ -280,45 +283,46 @@ const OrderApplication = React.createClass({
                   </span>
                 </div>
               </div>
-              <div className="options-group">
-                <a
-                  className="order-prop-option"
-                  href={config.getMoreDishesURL + '/orderall/selectDish?type=' + getUrlParam('type') + '&shopId=' + getUrlParam('shopId')}
-                >
-                  <span className="order-add-text">我要加菜</span>
-                  <span className="option-btn btn-arrow-right">共{getDishesCount(orderedDishesProps.dishes)}份</span>
-                </a>
-              </div>
+            </div>
 
-              <div className="order-cart">
-                <div className="order-cart-left">
-                  <div className="vertical-center clearfix">
-                    {commercialProps.carryRuleVO ?
-                      <div className="order-cart-entry text-dove-grey">已优惠:
-                        <span className="price">
-                          {helper.countDecreasePrice(orderedDishesProps, orderSummary, serviceProps.integralsInfo, commercialProps)}
-                        </span>
-                      </div>
-                      :
-                      false
-                    }
-                    <div className="order-cart-entry">
-                      <span className="text-dove-grey">待支付: </span>
-                      <span className="order-cart-price price">
-                        {helper.countFinalPrice(orderedDishesProps, orderSummary, serviceProps.integralsInfo, commercialProps)}
+            <div className="options-group">
+              <a
+                className="order-prop-option"
+                href={config.getMoreDishesURL + '/orderall/selectDish?type=' + getUrlParam('type') + '&shopId=' + getUrlParam('shopId')}
+              >
+                <span className="order-add-text">我要加菜</span>
+                <span className="option-btn btn-arrow-right">共{getDishesCount(orderedDishesProps.dishes)}份</span>
+              </a>
+            </div>
+
+            <div className="order-cart">
+              <div className="order-cart-left">
+                <div className="vertical-center clearfix">
+                  {commercialProps.carryRuleVO ?
+                    <div className="order-cart-entry text-dove-grey">已优惠:&nbsp;
+                      <span className="price">
+                        {helper.countDecreasePrice(orderedDishesProps, orderSummary, serviceProps.integralsInfo, commercialProps)}
                       </span>
                     </div>
+                    :
+                    false
+                  }
+                  <div className="order-cart-entry">
+                    <span className="text-dove-grey">待支付: </span>
+                    <span className="order-cart-price price">
+                      {helper.countFinalPrice(orderedDishesProps, orderSummary, serviceProps.integralsInfo, commercialProps)}
+                    </span>
                   </div>
                 </div>
-                <div className="order-cart-right">
-                  <a className="order-cart-btn btn--yellow" onTouchTap={this.submitOrder}>提交订单</a>
-                </div>
+              </div>
+              <div className="order-cart-right">
+                <a className="order-cart-btn btn--yellow" onTouchTap={this.submitOrder}>提交订单</a>
               </div>
             </div>
-            :
-            false
-          }
-        </div>
+          </div>
+          :
+          false
+        }
 
         {childView === 'customer-info' && type === 'TS' ?
           <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setOrderProps} onDone={this.resetChildView} />
