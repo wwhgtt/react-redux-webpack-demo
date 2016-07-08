@@ -1,5 +1,6 @@
 const React = require('react');
 const classnames = require('classnames');
+const shallowCompare = require('react-addons-shallow-compare');
 const _find = require('lodash.find');
 
 const ActiveSelect = React.createClass({
@@ -9,6 +10,11 @@ const ActiveSelect = React.createClass({
     optionComponent: React.PropTypes.oneOfType([React.PropTypes.func, React.PropTypes.string]).isRequired,
     onSelectOption: React.PropTypes.func.isRequired,
     className: React.PropTypes.string,
+  },
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  },
+  componentDidUpdate() {
   },
   onSelectOption(evt) {
     const { optionsData } = this.props;

@@ -43,11 +43,16 @@ module.exports = React.createClass({
   },
   applyIScrollPlugin(viewport) {
     const cache = this._cache;
-    const iScroll = cache.iScroll = new IScroll(viewport, { snap:'[data-option]', probeType: 3, snapThreshold: 1 });
+    const iScroll = cache.iScroll = new IScroll(viewport, { snap:'[data-option]', probeType: 1, snapThreshold: 0.5 });
+    iScroll.on('beforeScrollStart', () => {
+      if (cache.selectTimmer) {
+        window.clearTimeout(cache.selectTimmer);
+      }
+    });
     iScroll.on('scrollEnd', () => {
       const { optionsData, onSelectOption } = this.props;
       if (!cache.autoScrolling) {
-        setTimeout(() => onSelectOption(null, optionsData[iScroll.currentPage.pageY]), 50);
+        cache.selectTimmer = setTimeout(() => onSelectOption(null, optionsData[iScroll.currentPage.pageY]), 50);
       }
       cache.autoScrolling = false;
     });
