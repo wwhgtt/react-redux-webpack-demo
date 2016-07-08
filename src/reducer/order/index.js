@@ -1,7 +1,6 @@
 const Immutable = require('seamless-immutable');
 const _find = require('lodash.find');
 const helper = require('../../helper/order-helper');
-const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
 module.exports = function (
   state = Immutable.from({
     customerProps:{},
@@ -10,7 +9,7 @@ module.exports = function (
     serviceProps:{
       isPickupFromFrontDesk:'',
       payMethods:[],
-      integralsInfo:'',
+      integralsInfo:null,
       couponsProps:{
         couponsList:[],
         inUseCoupon:false,
@@ -20,6 +19,7 @@ module.exports = function (
         discountInfo:'',
         discountList:[],
         discountType:'',
+        inUseDiscount:null,
       },
     },
     tableProps:{
@@ -31,11 +31,6 @@ module.exports = function (
       timeTable:undefined,
     },
     childView:null,
-    orderSummary:{
-      coupon:null,
-      discount:null,
-      clearSmallChange:null,
-    },
   }),
   action
 ) {
@@ -147,10 +142,10 @@ module.exports = function (
           ['serviceProps', 'discountProps', 'discountInfo', 'isChecked'],
            !state.serviceProps.discountProps.discountInfo.isChecked
          ).setIn(
-           ['orderSummary', 'discount'],
+           ['serviceProps', 'discountProps', 'inUseDiscount'],
            helper.countMemberPrice(payload.isChecked, state.orderedDishesProps.dishes, state.serviceProps.discountProps)
          ).setIn(
-           ['orderSummary', 'coupon'], null
+           ['serviceProps', 'couponsProps', 'inUseCoupon'], false
          );
       } else if (payload.id === 'customer-info') {
         return state.set(
@@ -174,8 +169,6 @@ module.exports = function (
           )
         );
       } else if (payload.id === 'coupon') {
-        // 使用优惠券以后需要把会员价关闭  利用返回的id找到对应的优惠券获取优惠信息
-        // 处理优惠券信息
         const selectedCoupon = _find(
           state.serviceProps.couponsProps.couponsList,
           coupon => coupon.id.toString() === payload.selectedCouponId
@@ -188,22 +181,13 @@ module.exports = function (
             ['serviceProps', 'couponsProps', 'inUseCouponDetail'],
             selectedCoupon
           )
-          .setIn(
-            ['orderSummary', 'coupon'],
-            Immutable.from(
-              helper.countPriceByCoupons(
-                selectedCoupon,
-                getDishesPrice(state.orderedDishesProps.dishes)
-              )
-            )
-          )
-          .setIn(['orderSummary', 'discount'], null);
+          .setIn(['serviceProps', 'discountProps', 'inUseDiscount'], null);
         }
         return state.setIn(
             ['serviceProps', 'couponsProps', 'inUseCoupon'], false
           )
           .setIn(
-            ['orderSummary', 'coupon'], null
+            ['serviceProps', 'couponsProps', 'inUseCoupon'], false
           );
       } else if (payload.id === 'integrals') {
         return state.setIn(

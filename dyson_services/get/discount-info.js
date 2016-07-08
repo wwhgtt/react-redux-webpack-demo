@@ -6,7 +6,7 @@ module.exports = {
       type :1,
       dishList :
       [
-        { dishId:57472, value:7.0 },
+        { dishId:57472, value:0.1 },
         { dishId :63, value :7.0 },
         { dishId :55, value :7.0 },
         { dishId :60, value :7.5 },

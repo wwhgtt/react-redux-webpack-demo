@@ -22,7 +22,7 @@ exports.getSelectedTable = function (tableProps) {
   };
 };
 // 计算优惠券多少价格
-exports.countPriceByCoupons = function (coupon, totalPrice) {
+const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, totalPrice) {
   let remission = '';
   if (coupon.couponType === 1) {
     // '满减券'
@@ -39,55 +39,60 @@ exports.countPriceByCoupons = function (coupon, totalPrice) {
   }
   return true;
 };
-// 换算积分为cash，需要考虑优惠卷的使用,还需要考虑会员价
 const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedCommutation, integralsInfo) {
   let limitType = integralsInfo.limitType;
+  // 取余数  向下取整
+  const canUsesIntegralTimes = Math.floor(canBeUsedCommutation / integralsInfo.exchangeCashValue);
   if (limitType === 1) {
+    const integralInUsed = canUsesIntegralTimes * integralsInfo.exchangeIntegralValue < integralsInfo.integral ?
+      canUsesIntegralTimes * integralsInfo.exchangeIntegralValue
+      :
+      Math.floor(integralsInfo.integral / integralsInfo.exchangeIntegralValue) * integralsInfo.exchangeIntegralValue;
     return {
-      commutation:integralsInfo.integral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue < canBeUsedCommutation ?
-        integralsInfo.integral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue
-        :
-        canBeUsedCommutation,
-      integralInUsed:integralsInfo.integral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue < canBeUsedCommutation ?
-        integralsInfo.integral
-        :
-        canBeUsedCommutation * integralsInfo.exchangeIntegralValue / integralsInfo.exchangeCashValue,
+      commutation:integralInUsed / integralsInfo.exchangeIntegralValue,
+      integralInUsed,
     };
   } else if (limitType === 2) {
-    return integralsInfo.limitIntegral < integralsInfo.integral ?
-    {
-      commutation:integralsInfo.limitIntegral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue < canBeUsedCommutation ?
-          integralsInfo.limitIntegral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue
+    if (integralsInfo.integral > integralsInfo.limitIntegral) {
+      const moneyLimit = Math.floor(integralsInfo.limitIntegral / integralsInfo.exchangeIntegralValue) * integralsInfo.exchangeCashValue;
+      return {
+        commutation:moneyLimit > canBeUsedCommutation ?
+          Math.floor(canBeUsedCommutation / integralsInfo.exchangeCashValue) * integralsInfo.exchangeCashValue
           :
-          canBeUsedCommutation,
-      integralInUsed:integralsInfo.limitIntegral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue < canBeUsedCommutation ?
-          integralsInfo.limitIntegral
+          moneyLimit,
+        integralInUsed:moneyLimit > canBeUsedCommutation ?
+          Math.floor(canBeUsedCommutation / integralsInfo.exchangeCashValue) * integralsInfo.exchangeIntegralValue
           :
-          canBeUsedCommutation * integralsInfo.exchangeIntegralValue / integralsInfo.exchangeCashValue,
+          Math.floor(integralsInfo.limitIntegral / integralsInfo.exchangeIntegralValue) * integralsInfo.exchangeIntegralValue,
+      };
     }
-      :
-    {
-      commutation:integralsInfo.integral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue < canBeUsedCommutation ?
-          integralsInfo.integral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue
-          :
-          canBeUsedCommutation,
-      integralInUsed:integralsInfo.integral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue < canBeUsedCommutation ?
-          integralsInfo.integral
-          :
-          canBeUsedCommutation * integralsInfo.exchangeIntegralValue / integralsInfo.exchangeCashValue,
+    const noLimitMoney = Math.floor(integralsInfo.integral / integralsInfo.exchangeIntegralValue) * integralsInfo.exchangeCashValue;
+    return {
+      commutation:noLimitMoney > canBeUsedCommutation ?
+        Math.floor(canBeUsedCommutation / integralsInfo.exchangeCashValue) * integralsInfo.exchangeCashValue
+        :
+        noLimitMoney,
+      integralInUsed:noLimitMoney > canBeUsedCommutation ?
+        Math.floor(canBeUsedCommutation / integralsInfo.exchangeCashValue) * integralsInfo.exchangeIntegralValue
+        :
+         Math.floor(integralsInfo.integral / integralsInfo.exchangeIntegralValue) * integralsInfo.exchangeIntegralValue,
     };
   }
   return false;
 };
 //  自动抹零
-const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishesPrice, orderSummary) {
+const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishesPrice, serviceProps) {
   const { transferType, scale } = carryRuleVO;
   let totalPrice = '';
-  if (!orderSummary.coupon && !orderSummary.discount) {
+  if (!serviceProps.couponsProps.inUseCoupon && !serviceProps.discountProps.inUseDiscount) {
     // 即没有使用任何优惠
     totalPrice = dishesPrice.toFixed(2);
+  } else if (serviceProps.couponsProps.inUseCoupon) {
+    totalPrice = (dishesPrice - countPriceByCoupons(serviceProps.couponsProps.inUseCouponDetail, dishesPrice)).toFixed(2);
+  } else if (serviceProps.discountProps.inUseDiscount) {
+    totalPrice = (dishesPrice - serviceProps.discountProps.inUseDiscount).toFixed(2);
   } else {
-    totalPrice = orderSummary.coupon ? (dishesPrice - orderSummary.coupon).toFixed(2) : (dishesPrice - orderSummary.discount).toFixed(2);
+    return false;
   }
   totalPrice = Number(totalPrice);
   if (transferType === 1) {
@@ -148,25 +153,26 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
   return false;
 };
 // 计算优惠价格;
-const countDecreasePrice = exports.countDecreasePrice = function (orderedDishesProps, orderSummary, integralsInfo, commercialProps) {
-  if (integralsInfo.isChecked) {
-    return orderSummary.coupon ?
+const countDecreasePrice = exports.countDecreasePrice = function (orderedDishesProps, serviceProps, commercialProps) {
+  const dishesPrice = getDishesPrice(orderedDishesProps.dishes);
+  if (serviceProps.integralsInfo && serviceProps.integralsInfo.isChecked) {
+    return serviceProps.couponsProps.inUseCoupon ?
       Number(countIntegralsToCash(
-              clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes), orderSummary).priceWithClearSmallChange,
-                integralsInfo.integralsDetail
+              clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).priceWithClearSmallChange,
+                serviceProps.integralsInfo.integralsDetail
               ).commutation
-      ) + Number(orderSummary.coupon)
+      ) + Number(countPriceByCoupons(serviceProps.couponsProps.inUseCouponDetail, dishesPrice))
       :
       Number(countIntegralsToCash(
-                clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes), orderSummary).priceWithClearSmallChange,
-                integralsInfo.integralsDetail
+                clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).priceWithClearSmallChange,
+                serviceProps.integralsInfo.integralsDetail
               ).commutation
-      ) + Number(orderSummary.discount);
+      ) + Number(serviceProps.discountProps.inUseDiscount);
   }
-  return orderSummary.coupon ?
-    Number(orderSummary.coupon)
+  return serviceProps.couponsProps.inUseCoupon ?
+    Number(countPriceByCoupons(serviceProps.couponsProps.inUseCouponDetail, dishesPrice))
      :
-    Number(orderSummary.discount);
+    Number(serviceProps.discountProps.inUseDiscount);
 };
 // 计算会员价格
 exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDishesProps) {
@@ -205,22 +211,22 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDis
   return disCountPriceList.reduce((p, c) => p + c, 0);
 };
 // 计算优惠后的价格
-const countFinalPrice = exports.countFinalPrice = function (orderedDishesProps, orderSummary, integralsInfo, commercialProps) {
+const countFinalPrice = exports.countFinalPrice = function (orderedDishesProps, serviceProps, commercialProps) {
   return (Number(getDishesPrice(orderedDishesProps.dishes))
-      - Number(countDecreasePrice(orderedDishesProps, orderSummary, integralsInfo, commercialProps))).toFixed(2);
+      - Number(countDecreasePrice(orderedDishesProps, serviceProps, commercialProps))).toFixed(2);
 };
 exports.getSubmitUrlParams = function (state, note, receipt) {
   const payMethodScope = state.serviceProps.payMethods.filter(payMethod => payMethod.isChecked)[0].name === '在线支付' ? '1' : '0';
   const integral = countIntegralsToCash(clearSmallChange(
     state.commercialProps.carryRuleVO,
     getDishesPrice(state.orderedDishesProps.dishes),
-    state.orderSummary).priceWithClearSmallChange,
+    state.serviceProps).priceWithClearSmallChange,
     state.serviceProps.integralsInfo.integralsDetail
   ).integralInUsed;
   const needPayPrice = countFinalPrice(
-    state.orderedDishesProps, state.orderSummary, state.serviceProps.integralsInfo, state.commercialProps
+    state.orderedDishesProps, state.serviceProps, state.commercialProps
   );
-  const useDiscount = !state.orderSummary.discount ? '0' : '1';
+  const useDiscount = !state.serviceProps.discountProps.inUseDiscount ? '0' : '1';
   const serviceApproach = state.serviceProps.isPickupFromFrontDesk.isChecked ? 'pickup' : 'totable';
   const coupId = state.serviceProps.couponsProps.inUseCouponDetail.id ? state.serviceProps.couponsProps.inUseCouponDetail.id : '0';
   let tableId;
