@@ -23,19 +23,18 @@ exports.getSelectedTable = function (tableProps) {
 };
 // 计算优惠券多少价格
 const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, totalPrice) {
-  let remission = '';
   if (coupon.couponType === 1) {
     // '满减券'
-    return remission = coupon.coupRuleBeanList[0].ruleValue;
+    return coupon.coupRuleBeanList[0].ruleValue;
   } else if (coupon.couponType === 2) {
     // '折扣券';
-    return remission = totalPrice * (1 - Number(coupon.coupRuleBeanList[0].ruleValue));
+    return totalPrice * (1 - Number(coupon.coupRuleBeanList[0].ruleValue));
   } else if (coupon.couponType === 3) {
     // '礼品券';
-    return remission;
+    return 0;
   } else if (coupon.couponType === 4) {
     // '现金券';
-    return remission = coupon.coupRuleBeanList[0].ruleValue;
+    return coupon.coupRuleBeanList[0].ruleValue;
   }
   return true;
 };
