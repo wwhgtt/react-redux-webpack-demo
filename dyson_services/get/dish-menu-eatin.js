@@ -87,7 +87,7 @@ module.exports = {
         'dishDesc': '',
         'videoUrl': '',
         'dishIncreaseUnit': 2,
-        'stepNum': 1,
+        'stepNum': 3,
         'currRemainTotal': null,
         'dishTypeId': 22069,
         'brandDishId': 474003,

@@ -10,10 +10,10 @@ const CustomerInfoEditor = require('../../component/order/customer-info-editor.j
 const CouponSelect = require('../../component/order/coupon-select.jsx');
 const OrderedDish = require('../../component/order/ordered-dish.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
+const TimeSelect = require('../../component/order/select/time-select.jsx');
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
-const TimeSelect = require('../../component/order/select/time-select.jsx');
 require('../../asset/style/style.scss');
 require('./application.scss');
 

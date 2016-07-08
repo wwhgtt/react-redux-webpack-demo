@@ -21,22 +21,30 @@ module.exports = React.createClass({
   },
   componentDidUpdate() {
   },
-  onBtnsTap(newCount, increment) {
+  onBtnsTap(count, increment) {
     const { maximum, minimum, onCountChange } = this.props;
-    if ((maximum && newCount > maximum) || (newCount < minimum)) {
-      return false;
+    // bug解决分析 newCount 可能为－1  （数量为2 step＝3）
+    const maxNumber = !maximum ? Infinity : maximum;
+    if (increment > 0 && maxNumber > count + increment) {
+      // 表示要加菜
+      return onCountChange(count + increment, increment);
+    } else if (increment < 0 && count - increment > minimum) {
+      // 表示减少菜品
+      return onCountChange(count - increment, increment);
+    } else if (increment < 0 && count < Math.abs(increment)) {
+      return onCountChange(0, increment);
     }
-    return onCountChange(newCount, increment);
+    return false;
   },
   render() {
     const { count, step, maximum, minimum } = this.props;
     return (
       <div className="counter">
         <a className={classnames('btn-minus counter-minus', { 'btn-disabled': count === minimum })}>
-          <span className="counter-click-mask" onTouchTap={evt => this.onBtnsTap(count - step, -step)} />
+          <span className="counter-click-mask" onTouchTap={evt => this.onBtnsTap(count, -step)} />
         </a>
         <a className={classnames('btn-add counter-add', { 'btn-disabled': count === maximum })}>
-          <span className="counter-click-mask" onTouchTap={evt => this.onBtnsTap(count + step, step)} />
+          <span className="counter-click-mask" onTouchTap={evt => this.onBtnsTap(count, step)} />
         </a>
         <span className="counter-num">{count}</span>
       </div>
