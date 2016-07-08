@@ -11,6 +11,12 @@ then
   export NODE_ENV="production"
   export PROD_HOST="gld.weixin.shishike.com"
   webpack --progress -p --config webpack.config.production.js
+elif [ $1 = 'dev' ]
+then
+  echo "Build dev release..."
+  export NODE_ENV="production"
+  export PROD_HOST="121.43.115.106:9915"
+  webpack --progress -p --config webpack.config.production.js
 elif [ $1 = 'clean' ]
 then
   echo "Clean all local releases..."
