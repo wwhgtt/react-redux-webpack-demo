@@ -10,10 +10,22 @@
 }
 
 .scroll-select-close {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   background: $opacity-background;
 }
 
 .scroll-select-content {
+  position: absolute;
+  z-index: 10;
+  top: auto;
+  right: 0;
+  bottom: 0;
+  left: 0;
   background: $color-white;
 }
 

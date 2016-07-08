@@ -1,4 +1,5 @@
 const React = require('react');
+const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const connect = require('react-redux').connect;
 const actions = require('../../action/order/order');
 const helper = require('../../helper/order-helper');
@@ -329,20 +330,24 @@ const OrderApplication = React.createClass({
           <CouponSelect couponsProps={serviceProps.couponsProps} onSelectCoupon={setOrderProps} />
           : false
         }
-        {childView === 'table-select' ?
-          <TableSelect
-            areas={tableProps.areas} tables={tableProps.tables}
-            onTableSelect={setOrderProps} onDone={this.resetChildView}
-          />
-          : false
-        }
-        {childView === 'time-select' ?
-          <TimeSelect
-            selectedDateTime={timeProps.selectedDateTime} timeTable={timeProps.timeTable}
-            onDateTimeSelect={setOrderProps} onDone={this.resetChildView}
-          />
-          : false
-        }
+
+        <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
+          {childView === 'table-select' ?
+            <TableSelect
+              areas={tableProps.areas} tables={tableProps.tables}
+              onTableSelect={setOrderProps} onDone={this.resetChildView}
+            />
+            : false
+          }
+
+          {childView === 'time-select' ?
+            <TimeSelect
+              selectedDateTime={timeProps.selectedDateTime} timeTable={timeProps.timeTable}
+              onDateTimeSelect={setOrderProps} onDone={this.resetChildView}
+            />
+            : false
+          }
+        </ReactCSSTransitionGroup>
       </div>
     );
   },
