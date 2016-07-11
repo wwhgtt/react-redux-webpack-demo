@@ -37,6 +37,12 @@ const OrderApplication = React.createClass({
     timeProps: React.PropTypes.object,
     childView: React.PropTypes.string,
   },
+  getInitialState() {
+    return {
+      note:'',
+      receipt:'',
+    };
+  },
   componentWillMount() {
     const { getLastOrderedDishes } = this.props;
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
@@ -64,10 +70,27 @@ const OrderApplication = React.createClass({
       setChildView('');
     }
   },
+  noteOrReceiptChange(evt) {
+    const name = evt.target.getAttribute('name');
+    const value = evt.target.value;
+    if (name === 'note') {
+      this.setState({
+        note:value,
+      });
+    } else {
+      this.setState({
+        receipt:value,
+      });
+    }
+  },
+  submitOrder() {
+    const { submitOrder } = this.props;
+    submitOrder(this.state.note, this.state.receipt);
+  },
   render() {
     const {
       customerProps, serviceProps, childView, tableProps,
-      timeProps, orderedDishesProps, commercialProps, submitOrder,
+      timeProps, orderedDishesProps, commercialProps,
     } = this.props; // state
     const { setOrderProps, fetchUserAddressInfo, setChildView } = this.props;// actions
     const selectedTable = helper.getSelectedTable(tableProps);
@@ -185,7 +208,7 @@ const OrderApplication = React.createClass({
         </div>
         <OrderSummary
           serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
-          commercialProps={commercialProps} shopId={shopId} submitOrder={submitOrder}
+          commercialProps={commercialProps} shopId={shopId} submitOrder={this.submitOrder}
           type={type}
         />
 

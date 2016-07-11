@@ -14,34 +14,11 @@ module.exports = React.createClass({
     submitOrder:React.PropTypes.func.isRequired,
     type:React.PropTypes.string.isRequired,
   },
-  getInitialState() {
-    return {
-      note:'',
-      receipt:'',
-    };
-  },
   componentDidMount() {
 
   },
-  submitOrder() {
-    const { submitOrder } = this.props;
-    submitOrder(this.state.note, this.state.receipt);
-  },
-  noteOrReceiptChange(evt) {
-    const name = evt.target.getAttribute('name');
-    const value = evt.target.value;
-    if (name === 'note') {
-      this.setState({
-        note:value,
-      });
-    } else {
-      this.setState({
-        receipt:value,
-      });
-    }
-  },
   render() {
-    const { serviceProps, commercialProps, orderedDishesProps, shopId, type } = this.props;
+    const { serviceProps, commercialProps, orderedDishesProps, shopId, type, submitOrder } = this.props;
     return (
       <div className="order-summary-detail">
         {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
@@ -163,7 +140,7 @@ module.exports = React.createClass({
                 </div>
               </div>
               <div className="order-cart-right">
-                <a className="order-cart-btn btn--yellow" onTouchTap={this.submitOrder}>提交订单</a>
+                <a className="order-cart-btn btn--yellow" onTouchTap={submitOrder}>提交订单</a>
               </div>
             </div>
           </div>
