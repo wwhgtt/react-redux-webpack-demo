@@ -85,11 +85,11 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
   let totalPrice = '';
   if (!serviceProps.couponsProps.inUseCoupon && !serviceProps.discountProps.inUseDiscount) {
     // 即没有使用任何优惠
-    totalPrice = dishesPrice.toFixed(2);
+    totalPrice = parseFloat(dishesPrice.toFixed(2));
   } else if (serviceProps.couponsProps.inUseCoupon) {
-    totalPrice = (dishesPrice - countPriceByCoupons(serviceProps.couponsProps.inUseCouponDetail, dishesPrice)).toFixed(2);
+    totalPrice = parseFloat((dishesPrice - countPriceByCoupons(serviceProps.couponsProps.inUseCouponDetail, dishesPrice)).toFixed(2));
   } else if (serviceProps.discountProps.inUseDiscount) {
-    totalPrice = (dishesPrice - serviceProps.discountProps.inUseDiscount).toFixed(2);
+    totalPrice = parseFloat((dishesPrice - serviceProps.discountProps.inUseDiscount).toFixed(2));
   } else {
     return false;
   }
@@ -97,8 +97,10 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
   if (transferType === 1) {
     // 四舍五入
     return {
-      smallChange:Math.abs(totalPrice - totalPrice.toFixed(scale)).toFixed(scale),
-      priceWithClearSmallChange:(totalPrice - Math.abs(totalPrice - totalPrice.toFixed(scale)).toFixed(scale)).toFixed(scale),
+      smallChange:parseFloat(Math.abs(totalPrice - parseFloat(totalPrice.toFixed(scale))).toFixed(scale)),
+      priceWithClearSmallChange:parseFloat(
+        (totalPrice - parseFloat(Math.abs(totalPrice - parseFloat(totalPrice.toFixed(scale))).toFixed(scale))).toFixed(scale)
+      ),
     };
   } else if (transferType === 2) {
     // 无条件进位
@@ -110,7 +112,7 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
     } else if (scale === 1) {
       return totalPrice.toString().length === 4 ?
       {
-        smallChange:(Number(totalPrice.toString().substr(-2)) + 0.1 - totalPrice).toFixed(1),
+        smallChange:parseFloat((Number(totalPrice.toString().substr(-2)) + 0.1 - totalPrice).toFixed(1)),
         priceWithClearSmallChange:Number(totalPrice.toString().substr(-2)) + 0.1,
       }
         :
@@ -134,8 +136,8 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
     } else if (scale === 1) {
       return totalPrice.toString().length === 4 ?
       {
-        smallChange:(totalPrice - Number(totalPrice.toString().substr(-2))).toFixed(2),
-        priceWithClearSmallChange:Number(totalPrice.toString().substr(-2)),
+        smallChange:parseFloat((totalPrice - parseFloat(totalPrice.toString().substr(-2))).toFixed(2)),
+        priceWithClearSmallChange:parseFloat(totalPrice.toString().substr(-2)),
       }
         :
       {
@@ -144,7 +146,7 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
       };
     } else if (scale === 0) {
       return {
-        smallChange:(totalPrice - Math.floor(totalPrice)).toFixed(0),
+        smallChange:parseFloat((totalPrice - Math.floor(totalPrice)).toFixed(0)),
         priceWithClearSmallChange:Math.floor(totalPrice),
       };
     }
@@ -211,8 +213,8 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDis
 };
 // 计算优惠后的价格
 const countFinalPrice = exports.countFinalPrice = function (orderedDishesProps, serviceProps, commercialProps) {
-  return (Number(getDishesPrice(orderedDishesProps.dishes))
-      - Number(countDecreasePrice(orderedDishesProps, serviceProps, commercialProps))).toFixed(2);
+  return (parseFloat(getDishesPrice(orderedDishesProps.dishes))
+      - parseFloat(countDecreasePrice(orderedDishesProps, serviceProps, commercialProps))).toFixed(2);
 };
 exports.getSubmitUrlParams = function (state, note, receipt) {
   const payMethodScope = state.serviceProps.payMethods.filter(payMethod => payMethod.isChecked)[0].name === '在线支付' ? '1' : '0';
