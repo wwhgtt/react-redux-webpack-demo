@@ -19,12 +19,17 @@ module.exports = React.createClass({
       expand:false,
     };
   },
+  onClearBtnTap() {
+    const { onClearBtnTap } = this.props;
+    this.setState({ expand: !this.state.expand });
+    onClearBtnTap();
+  },
   expandCart(evt) {
     this.setState({ expand: !this.state.expand });
     evt.preventDefault();
   },
   render() {
-    const { dishes, takeawayServiceProps, onBillBtnTap, onOrderBtnTap, onClearBtnTap } = this.props;
+    const { dishes, takeawayServiceProps, onBillBtnTap, onOrderBtnTap } = this.props;
     const { expand } = this.state;
     const orderedDishes = helper.getOrderedDishes(dishes);
     return (
@@ -39,7 +44,7 @@ module.exports = React.createClass({
           <ExpandCart
             dishesCount={helper.getDishesCount(orderedDishes)} totalPrice={helper.getDishesPrice(orderedDishes)}
             orderedDishes={orderedDishes} takeawayServiceProps={takeawayServiceProps}
-            onBillBtnTap={onBillBtnTap} onCartIconTap={this.expandCart} onOrderBtnTap={onOrderBtnTap} onClearBtnTap={onClearBtnTap}
+            onBillBtnTap={onBillBtnTap} onCartIconTap={this.expandCart} onOrderBtnTap={onOrderBtnTap} onClearBtnTap={this.onClearBtnTap}
           /> : false}
       </div>
     );
