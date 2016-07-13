@@ -125,8 +125,8 @@ const getOrderPropIds = function (order) {
   ).map(ingredient => ingredient.id);
   return [propsIds, ingredientIds];
 };
-exports.hasSelectedProps = function (order) {
-  const propsIdsCollection = getOrderPropIds(order);
+exports.hasSelectedProps = function (dish) {
+  const propsIdsCollection = getOrderPropIds(dish.order[0]);
   if (propsIdsCollection[0].length !== 0 || propsIdsCollection[1].length !== 0) {
     return true;
   }

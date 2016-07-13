@@ -83,10 +83,30 @@ module.exports = React.createClass({
       </div>
     );
   },
+  splitPropsSpecifications(dish) {
+    if (!helper.isSingleDishWithoutProps(dish) && dish.dishPropertyTypeInfos) {
+      const specification = [];
+      dish.dishPropertyTypeInfos.map(
+        dishProperty => {
+          if (dishProperty.type === 4) {
+            specification.push(dishProperty.properties[0].name);
+          }
+          return false;
+        }
+      );
+      return specification.length !== 0 ? '(' + specification.join(',') + ')' : false;
+    }
+    return false;
+  },
   render() {
     const { dish } = this.props;
     const { expand } = this.state;
-    const hasProps = !helper.isSingleDishWithoutProps(dish) && helper.hasSelectedProps(dish.order[0]);
+    let hasProps;
+    if (!helper.isSingleDishWithoutProps(dish)) {
+      hasProps = helper.isGroupDish(dish) ? true : helper.hasSelectedProps(dish);
+    } else {
+      hasProps = false;
+    }
     const detailInfo = hasProps ? this.buildDetailInfo(dish) : false;
     return (
       <div className="cart-ordered-dish">
@@ -97,10 +117,10 @@ module.exports = React.createClass({
                 className={classnames('ellipsis dish-name dish-name--trigger', { 'is-open':expand })}
                 onTouchTap={this.onExpandBtnTap}
               >
-                {dish.name}
+                {dish.name}{this.splitPropsSpecifications(dish)}
               </a>
               :
-              <span className="ellipsis dish-name">{dish.name}</span>
+              <span className="ellipsis dish-name">{dish.name}{this.splitPropsSpecifications(dish)}</span>
           }
           <span className="dish-price price">{helper.getDishPrice(dish)}</span>
           <Counter count={helper.getDishesCount([dish])} onCountChange={this.onOrderBtnTap} step={dish.stepNum} />

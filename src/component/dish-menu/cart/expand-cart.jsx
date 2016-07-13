@@ -20,7 +20,9 @@ module.exports = React.createClass({
       return [].concat.apply(
         [], dishes.map(dish => {
           if (helper.isSingleDishWithoutProps(dish)) {
-            return [dish];
+            return [Object.assign({}, dish,
+              { key:`${dish.id}` },
+            )];
           }
           return dish.order.map((dishOrder, idx) =>
             Object.assign({}, dish,
