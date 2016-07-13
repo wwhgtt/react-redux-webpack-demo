@@ -3,6 +3,7 @@ const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const connect = require('react-redux').connect;
 const actions = require('../../action/order/order');
 const helper = require('../../helper/order-helper');
+const config = require('../../config.js');
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const CustomerTakeawayInfoEditor = require('../../component/order/customer-takeaway-info-editor.jsx');
@@ -12,6 +13,7 @@ const TableSelect = require('../../component/order/select/table-select.jsx');
 const TimeSelect = require('../../component/order/select/time-select.jsx');
 const OrderSummary = require('../../component/order/order-summary.jsx');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 require('../../asset/style/style.scss');
 require('./application.scss');
 
@@ -206,11 +208,54 @@ const OrderApplication = React.createClass({
             <input className="option-input" name="receipt" placeholder="输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
           </label>
         </div>
+
         <OrderSummary
           serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
-          commercialProps={commercialProps} shopId={shopId} submitOrder={this.submitOrder}
-          type={type}
+          commercialProps={commercialProps} shopId={shopId}
         />
+
+        {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
+          <div>
+            <div className="options-group">
+              <a
+                className="order-prop-option"
+                href={config.getMoreDishesURL + '/orderall/selectDish?type=' + type + '&shopId=' + shopId}
+              >
+                <span className="order-add-text">我要加菜</span>
+                <span className="option-btn btn-arrow-right">共{getDishesCount(orderedDishesProps.dishes)}份</span>
+              </a>
+            </div>
+
+            <div className="order-cart">
+              <div className="order-cart-left">
+                <div className="vertical-center clearfix">
+                  {commercialProps.carryRuleVO ?
+                    <div>
+                      <div className="order-cart-entry text-dove-grey">已优惠:&nbsp;
+                        <span className="price">
+                          {helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)}
+                        </span>
+                      </div>
+                      <div className="order-cart-entry">
+                        <span className="text-dove-grey">待支付: </span>
+                        <span className="order-cart-price price">
+                          {helper.countFinalPrice(orderedDishesProps, serviceProps, commercialProps)}
+                        </span>
+                      </div>
+                    </div>
+                    :
+                    false
+                  }
+                </div>
+              </div>
+              <div className="order-cart-right">
+                <a className="order-cart-btn btn--yellow" onTouchTap={this.submitOrder}>提交订单</a>
+              </div>
+            </div>
+          </div>
+          :
+          false
+        }
 
         {childView === 'customer-info' && type === 'TS' ?
           <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setOrderProps} onDone={this.resetChildView} />

@@ -3,7 +3,6 @@ const config = require('../../config.js');
 const helper = require('../../helper/order-helper.js');
 const OrderedDish = require('./ordered-dish.jsx');
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
-const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 module.exports = React.createClass({
   displayName: 'OrderSummary',
   propTypes: {
@@ -11,14 +10,12 @@ module.exports = React.createClass({
     commercialProps:React.PropTypes.object.isRequired,
     orderedDishesProps:React.PropTypes.object.isRequired,
     shopId:React.PropTypes.string.isRequired,
-    submitOrder:React.PropTypes.func.isRequired,
-    type:React.PropTypes.string.isRequired,
   },
   componentDidMount() {
 
   },
   render() {
-    const { serviceProps, commercialProps, orderedDishesProps, shopId, type, submitOrder } = this.props;
+    const { serviceProps, commercialProps, orderedDishesProps, shopId } = this.props;
     return (
       <div className="order-summary-detail">
         {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
@@ -106,41 +103,6 @@ module.exports = React.createClass({
                   :
                   false
                 }
-              </div>
-            </div>
-            <div className="options-group">
-              <a
-                className="order-prop-option"
-                href={config.getMoreDishesURL + '/orderall/selectDish?type=' + type + '&shopId=' + shopId}
-              >
-                <span className="order-add-text">我要加菜</span>
-                <span className="option-btn btn-arrow-right">共{getDishesCount(orderedDishesProps.dishes)}份</span>
-              </a>
-            </div>
-            <div className="order-cart">
-              <div className="order-cart-left">
-                <div className="vertical-center clearfix">
-                  {commercialProps.carryRuleVO ?
-                    <div>
-                      <div className="order-cart-entry text-dove-grey">已优惠:&nbsp;
-                        <span className="price">
-                          {helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)}
-                        </span>
-                      </div>
-                      <div className="order-cart-entry">
-                        <span className="text-dove-grey">待支付: </span>
-                        <span className="order-cart-price price">
-                          {helper.countFinalPrice(orderedDishesProps, serviceProps, commercialProps)}
-                        </span>
-                      </div>
-                    </div>
-                    :
-                    false
-                  }
-                </div>
-              </div>
-              <div className="order-cart-right">
-                <a className="order-cart-btn btn--yellow" onTouchTap={submitOrder}>提交订单</a>
               </div>
             </div>
           </div>
