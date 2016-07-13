@@ -125,6 +125,13 @@ const getOrderPropIds = function (order) {
   ).map(ingredient => ingredient.id);
   return [propsIds, ingredientIds];
 };
+exports.hasSelectedProps = function (order) {
+  const propsIdsCollection = getOrderPropIds(order);
+  if (propsIdsCollection[0].length !== 0 || propsIdsCollection[1].length !== 0) {
+    return true;
+  }
+  return false;
+};
 // setCookie
 exports.setCookie = function (name, value) {
   const Days = 30;
