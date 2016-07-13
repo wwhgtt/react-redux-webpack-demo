@@ -73,7 +73,7 @@ module.exports = React.createClass({
 
           <label className="order-prop-option">
             <span className="option-title">联系电话：</span>
-            <input className="editor-input" placeholder={customerProps.mobile} onChange={this.handleBasicInfoChange} />
+            <input className="editor-input" placeholder={customerProps.mobile} onChange={this.handleBasicInfoChange} disabled="disabled" />
           </label>
         </div>
 
