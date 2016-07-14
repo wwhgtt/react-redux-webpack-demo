@@ -17,8 +17,8 @@ const getOrderedDishWay = createAction('GET_ORDERED_DISH_WAY', areaId => areaId)
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
-exports.fetchOrder = () => (dispatch, getState) => {
-  const getOrderUrl = type === 'WM' ? config.orderTakeAwayAPi : config.orderDineInAPi;
+const getOrderUrl = type === 'WM' ? config.orderTakeAwayAPi : config.orderDineInAPi;
+exports.fetchOrder = () => (dispatch, getState) =>
   fetch(`${getOrderUrl}?shopId=${shopId}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
@@ -33,7 +33,7 @@ exports.fetchOrder = () => (dispatch, getState) => {
     catch(err => {
       console.log(err);
     });
-};
+
 exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
   fetch(`${config.orderDiscountInfoAPI}?shopId=${shopId}`, config.requestOptions).
     then(res => {
@@ -52,9 +52,8 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
     catch(err => {
       console.log(err);
     });
-exports.fetchOrderCoupons = () => (dispatch, getState) => {
-  const orderAccount = getDishesPrice(getState().orderedDishesProps.dishes);
-  fetch(`${config.orderCouponsAPI}?shopId=${shopId}&orderAccount=${orderAccount}`, config.requestOptions).
+exports.fetchOrderCoupons = () => (dispatch, getState) =>
+  fetch(`${config.orderCouponsAPI}?shopId=${shopId}&orderAccount=${getDishesPrice(getState().orderedDishesProps.dishes)}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         throw new Error('获取折扣信息失败...');
@@ -67,7 +66,7 @@ exports.fetchOrderCoupons = () => (dispatch, getState) => {
     catch(err => {
       console.log(err);
     });
-};
+
 exports.fetchUserAddressInfo = () => (dispatch, getState) =>
   fetch(config.userAddressAPI, config.requestOptions).
     then(res => {

@@ -29,15 +29,15 @@ exports.fetchServiceProps = () => (dispatch, getStates) => {
   dispatch(_setTakeawayServiceProps({ shipmentFee, minPrice, shipFreePrice }));
   return true;
 };
-exports.fetchMenuData = () => (dispatch, getStates) => {
-  const type = helper.getUrlParam('type');
-  const shopId = helper.getUrlParam('shopId');
-  let url = '';
-  if (type === 'TS') {
-    url = `${config.orderallMenuAPI}?shopId=${shopId}`;
-  } else {
-    url = `${config.takeawayMenuAPI}?shopId=${shopId}`;
-  }
+const type = helper.getUrlParam('type');
+const shopId = helper.getUrlParam('shopId');
+let url = '';
+if (type === 'TS') {
+  url = `${config.orderallMenuAPI}?shopId=${shopId}`;
+} else {
+  url = `${config.takeawayMenuAPI}?shopId=${shopId}`;
+}
+exports.fetchMenuData = () => (dispatch, getStates) =>
   fetch(url, config.requestOptions).
     then(res => {
       if (!res.ok) {
@@ -51,7 +51,6 @@ exports.fetchMenuData = () => (dispatch, getStates) => {
     catch(err => {
       throw err;
     });
-};
 
 exports.orderDish = (dishData, action) => (dispatch, getStates) => {
   dispatch(_orderDish(dishData, action));
@@ -78,7 +77,6 @@ exports.setDishCookie = () => (dispatch, getStates) => {
     const setSignleDishCookie = helper.getDishCookieObject(orderData, 0);
     return helper.setCookie(setSignleDishCookie.key, setSignleDishCookie.value);
   });
-  const type = helper.getUrlParam('type');
   if (type === 'TS') {
     location.href = `/orderall/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}`;
   } else {
