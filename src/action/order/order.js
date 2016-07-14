@@ -117,6 +117,6 @@ exports.submitOrder = (note, receipt) => (dispatch, getState) => {
     });
 };
 exports.fetchWMSituationGetOrderedDishWay = () => (dispatch, getState) => {
-  const getSendAreaId = localStorage.getItem('sendAreaId');
+  const getSendAreaId = localStorage.getItem(shopId + '_sendArea_id');
   dispatch(getOrderedDishWay(JSON.parse(getSendAreaId)));
 };

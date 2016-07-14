@@ -54,7 +54,8 @@
   }
 }
 
-.address-option.is-checked {
+.address-option.is-checked,
+.pickup-option.is-checked {
   &::before {
     position: absolute;
     z-index: 1;
@@ -98,6 +99,21 @@
   text-align: center;
   text-decoration: none;
   color: $color-neon-carrot;
+  border-top: 1px solid $color-mercury;
+  border-bottom: 1px solid $color-mercury;
+  background: $color-white;
+}
+
+.pickup-option {
+  font-size: 18px;
+  line-height: 20px;
+  position: relative;
+  display: block;
+  overflow: hidden;
+  padding: 23px 10px 20px;
+  text-decoration: none;
+  text-align: center;
+  color: $color-mine-shaft;
   border-top: 1px solid $color-mercury;
   border-bottom: 1px solid $color-mercury;
   background: $color-white;

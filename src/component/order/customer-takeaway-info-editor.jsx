@@ -83,7 +83,7 @@ module.exports = React.createClass({
             onSelectOption={this.onAddressSelect}
           />
           :
-          <div>到店取餐</div>
+          <div className="pickup-option is-checked">到店取餐</div>
         }
         {sendAreaId !== 0 ?
           <a
