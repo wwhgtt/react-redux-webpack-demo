@@ -16,7 +16,7 @@ module.exports = React.createClass({
         <span>{address}</span>
         <a
           className="address-edit"
-          href={`${config.editUserAddressURL}?shopId=${helper.getUrlParam('type')}&id=${id}`}
+          href={`${config.editUserAddressURL}?shopId=${helper.getUrlParam('shopId')}&id=${id}`}
         >
         </a>
       </DynamicClassDiv>

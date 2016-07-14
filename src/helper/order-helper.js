@@ -218,12 +218,12 @@ const countFinalPrice = exports.countFinalPrice = function (orderedDishesProps, 
 };
 exports.getSubmitUrlParams = function (state, note, receipt) {
   const payMethodScope = state.serviceProps.payMethods.filter(payMethod => payMethod.isChecked)[0].name === '在线支付' ? '1' : '0';
-  const integral = countIntegralsToCash(clearSmallChange(
+  const integral = state.integralsInfo ? countIntegralsToCash(clearSmallChange(
     state.commercialProps.carryRuleVO,
     getDishesPrice(state.orderedDishesProps.dishes),
     state.serviceProps).priceWithClearSmallChange,
     state.serviceProps.integralsInfo.integralsDetail
-  ).integralInUsed;
+  ).integralInUsed : false;
   const needPayPrice = countFinalPrice(
     state.orderedDishesProps, state.serviceProps, state.commercialProps
   );
@@ -232,7 +232,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   const coupId = state.serviceProps.couponsProps.inUseCouponDetail.id ? state.serviceProps.couponsProps.inUseCouponDetail.id : '0';
   let tableId;
   if (serviceApproach === 'totable' && state.tableProps.tables && state.tableProps.tables.length) {
-    if (!state.tableProps.tables.filter(table => table.isChecked)) {
+    if (state.tableProps.tables.filter(table => table.isChecked).length === 0) {
       throw new Error('未选择桌台信息');
     } else {
       tableId = state.tableProps.tables.filter(table => table.isChecked)[0].id;
@@ -240,19 +240,47 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   } else {
     tableId = 0;
   }
-  const params = '?name=' + state.customerProps.name
-      + '&Invoice=' + receipt + '&note=' + note
-      + '&mobile=' + state.customerProps.mobile
-      + '&sex=' + state.customerProps.sex
-      + '&payMethod=' + payMethodScope
-      + '&coupId=' + coupId
-      + '&integral=' + Number(integral)
-      + '&useDiscount=' + useDiscount
-      + '&orderType=' + getUrlParam('type')
-      + '&tableId=' + tableId
-      + '&peopleCount=' + state.customerProps.customerCount
-      + '&serviceApproach=' + serviceApproach
-      + '&shopId=' + getUrlParam('shopId')
-      + '&needPayPrice=' + needPayPrice;
+  let params;
+  const type = getUrlParam('type');
+  if (type === 'WM') {
+    const selectedAddress = state.customerProps.addresses !== null ?
+          state.customerProps.addresses.filter(address => address.isChecked)[0].address
+          :
+          '默认地址';
+    const selectedAddressId = state.customerProps.addresses !== null ?
+          state.customerProps.addresses.filter(address => address.isChecked)[0].id
+          :
+          0;
+    params = '?name=' + state.customerProps.name
+        + '&Invoice=' + receipt + '&note=' + note
+        + '&mobile=' + state.customerProps.mobile
+        + '&sex=' + state.customerProps.sex
+        + '&payMethod=' + payMethodScope
+        + '&coupId=' + coupId
+        + '&integral=' + Number(integral)
+        + '&useDiscount=' + useDiscount
+        + '&orderType=WM'
+        + '&peopleCount=' + state.customerProps.customerCount
+        + '&shopId=' + getUrlParam('shopId')
+        + '&needPayPrice=' + needPayPrice
+        + '&time=' + state.timeProps.selectedDateTime.date + '%20' + state.timeProps.selectedDateTime.time
+        + '&address=' + selectedAddress
+        + '&memberAddressId=' + selectedAddressId;
+  } else {
+    params = '?name=' + state.customerProps.name
+        + '&Invoice=' + receipt + '&note=' + note
+        + '&mobile=' + state.customerProps.mobile
+        + '&sex=' + state.customerProps.sex
+        + '&payMethod=' + payMethodScope
+        + '&coupId=' + coupId
+        + '&integral=' + Number(integral)
+        + '&useDiscount=' + useDiscount
+        + '&orderType=' +
+        + '&tableId=' + tableId
+        + '&peopleCount=' + state.customerProps.customerCount
+        + '&serviceApproach=' + serviceApproach
+        + '&shopId=' + getUrlParam('shopId')
+        + '&needPayPrice=' + needPayPrice;
+  }
   return params;
 };

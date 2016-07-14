@@ -4,7 +4,8 @@ const _findIndex = require('lodash.findindex');
 const CustomerInfoEditor = require('./customer-info-editor.jsx');
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const CustomerAddressOption = require('./customer-address-option.jsx');
-
+const config = require('../../config.js');
+const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 require('./customer-takeaway-info-editor.scss');
 
 module.exports = React.createClass({
@@ -76,7 +77,10 @@ module.exports = React.createClass({
           :
           false
         }
-        <a className="address-add-more" href="">增加地址</a>
+        <a
+          className="address-add-more"
+          href={`${config.editUserAddressURL}?shopId=${getUrlParam('shopId')}`}
+        >增加地址</a>
       </div>
     );
   },

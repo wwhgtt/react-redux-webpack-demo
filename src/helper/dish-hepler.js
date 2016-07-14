@@ -70,7 +70,7 @@ const getOrderPrice = exports.getOrderPrice = function (dish, orderData) {
 };
 const getDishPrice = exports.getDishPrice = function (dish) {
   if (isSingleDishWithoutProps(dish)) {
-    return dish.marketPrice * dish.order;
+    return parseFloat((dish.marketPrice * dish.order).toFixed(2));
   }
   return dish.order.map(
     eachOrder => parseFloat(getOrderPrice(dish, eachOrder))

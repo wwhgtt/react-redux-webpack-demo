@@ -186,7 +186,9 @@ const OrderApplication = React.createClass({
               <span className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
             </a>
           : false}
-          {serviceProps.discountProps.discountInfo && !serviceProps.couponsProps.inUseCoupon ?
+          {serviceProps.discountProps.discountInfo && !serviceProps.couponsProps.inUseCoupon
+            && orderedDishesProps.dishes && orderedDishesProps.dishes.length
+            && orderedDishesProps.dishes.filter(dish => dish.isMember).length !== 0 ?
             <ActiveSelect
               optionsData={[serviceProps.discountProps.discountInfo]} onSelectOption={setOrderProps}
               optionComponent={OrderPropOption}
@@ -231,7 +233,10 @@ const OrderApplication = React.createClass({
             <div className="options-group">
               <a
                 className="order-prop-option"
-                href={config.getMoreDishesURL + '/orderall/selectDish?type=' + type + '&shopId=' + shopId}
+                href={type === 'TS' ?
+                config.getMoreTSDishesURL + '?type=TS&shopId=' + shopId
+                :
+                config.getMoreWMDishesURL + '?type=WM&shopId=' + shopId}
               >
                 <span className="order-add-text">我要加菜</span>
                 <span className="option-btn btn-arrow-right">共{getDishesCount(orderedDishesProps.dishes)}份</span>

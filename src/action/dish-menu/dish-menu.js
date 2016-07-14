@@ -94,7 +94,7 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
       return res.json();
     }).
     then(discount => {
-      if (discount.code !== '200') {
+      if (discount.code.toString() !== '200') {
         throw new Error('获取会员价信息失败...');
       }
       dispatch(setDiscountToOrder(discount.data));

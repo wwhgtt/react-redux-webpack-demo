@@ -248,7 +248,15 @@ module.exports = function (
           Immutable.from({ name:'享受会员价', isChecked:false, id:'discount' })
          )
          .setIn(['serviceProps', 'discountProps', 'discountList'], payload.dishList)
-         .setIn(['serviceProps', 'discountProps', 'discountType'], payload.type);
+         .setIn(['serviceProps', 'discountProps', 'discountType'], payload.type)
+         .updateIn(
+           ['orderedDishesProps', 'dishes'],
+           dishes => dishes.flatMap(
+             dish => dish.set(
+                 'isMember', _find(payload.dishList, { dishId:dish.id }) !== undefined
+               )
+           )
+        );
       }
       break;
     case 'SET_ADDRESS_INFO_TO_ORDER':

@@ -15,6 +15,7 @@ const setOrderedDishesToOrder = createAction('SET_ORDERED_DISHES_TO_ORDER', dish
 const setAddressInfoToOrder = createAction('SET_ADDRESS_INFO_TO_ORDER', address => address);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const shopId = getUrlParam('shopId');
+const type = getUrlParam('type');
 exports.fetchOrder = () => (dispatch, getState) =>
   fetch(`${config.orderDineInAPi}?shopId=${shopId}`, config.requestOptions).
     then(res => {
@@ -91,7 +92,8 @@ exports.getLastOrderedDishes = () => (dispatch, getState) => {
   dispatch(setOrderedDishesToOrder(JSON.parse(lastOrderedDishes)));
 };
 exports.submitOrder = (note, receipt) => (dispatch, getState) => {
-  fetch(`${config.submitOrderAPI}${helper.getSubmitUrlParams(getState(), note, receipt)}`, config.requestOptions).
+  const submitUrl = type === 'WM' ? config.submitWMOrderAPI : config.submitTSOrderAPI;
+  fetch(`${submitUrl}${helper.getSubmitUrlParams(getState(), note, receipt)}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         throw new Error('提交订单信息失败...');
