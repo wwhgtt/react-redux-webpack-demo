@@ -3,10 +3,10 @@ module.exports = {
   template:{
     data:{
       isDiscount:true,
-      type :1,
+      type :2,
       dishList :
       [
-        { dishId:57472, value:0.1 },
+        { dishId:57472, value:0.5 },
         { dishId :63, value :7.0 },
         { dishId :55, value :7.0 },
         { dishId :60, value :7.5 },

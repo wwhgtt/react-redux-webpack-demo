@@ -39,6 +39,12 @@ const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, tota
   return true;
 };
 const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedCommutation, integralsInfo) {
+  if (canBeUsedCommutation <= 0) {
+    return {
+      commutation:0,
+      integralInUsed:0,
+    };
+  }
   let limitType = integralsInfo.limitType;
   // 取余数  向下取整
   const canUsesIntegralTimes = Math.floor(canBeUsedCommutation / integralsInfo.exchangeCashValue);
@@ -189,20 +195,24 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDis
         orderedDishes.forEach(
           orderedDish => {
             if (orderedDish.id === dishcount.dishId) {
-              disCountPriceList.push(dishcount.value * getDishPrice(orderedDish));
+              disCountPriceList.push(
+                ((1 - parseFloat(dishcount.value) / 10) * getDishPrice(orderedDish)).toFixed(2)
+              );
             }
           }
         );
       }
     );
-  } else if (discountType === 1) {
+  } else if (discountType === 2) {
     // 表示会员价格
     memberDishesProps.discountList.forEach(
       dishcount => {
         orderedDishes.forEach(
           orderedDish => {
             if (orderedDish.id === dishcount.dishId) {
-              disCountPriceList.push(dishcount.value * getDishesCount([orderedDish]));
+              disCountPriceList.push(
+                getDishPrice(orderedDish) - (dishcount.value * getDishesCount([orderedDish]))
+              );
             }
           }
         );
