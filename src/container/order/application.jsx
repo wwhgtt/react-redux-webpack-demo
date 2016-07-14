@@ -98,13 +98,25 @@ const OrderApplication = React.createClass({
     const selectedTable = helper.getSelectedTable(tableProps);
     const type = getUrlParam('type');
     const shopId = getUrlParam('shopId');
+    const geDefaultAddress = function () {
+      if (customerProps.addresses) {
+        const beChosenAddress = customerProps.addresses.filter(address => address.isChecked);
+        if (beChosenAddress.length) {
+          return customerProps.addresses.filter(address => address.isChecked)[0].address;
+        }
+        return customerProps.addresses[0].address;
+      }
+      return '天府软件园';
+    };
     return (
       <div className="application">
         {type === 'WM' ?
           <a className="options-group options-group--stripes" href="#customer-info" >
             <div className="option-stripes-title">{customerProps.name}{customerProps.sex === '1' ? '先生' : '女士'} {customerProps.mobile}</div>
             <div className="clearfix">
-              <div className="option-desc half">天府软件园E区</div>
+              <div className="option-desc">
+                {geDefaultAddress()}
+              </div>
             </div>
           </a>
           :

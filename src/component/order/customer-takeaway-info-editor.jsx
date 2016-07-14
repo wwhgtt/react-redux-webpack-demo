@@ -56,14 +56,14 @@ module.exports = React.createClass({
     };
   },
   render() {
-    const { customerProps } = this.props;
+    const { customerProps, onDone } = this.props;
     const { addresses } = this.state;
 
     return (
       <div className="order-subpage">
         <CustomerInfoEditor
           onCustomerPropsChange={this.onCustomerPropsChange}
-          customerProps={customerProps.without('addresses')}
+          customerProps={customerProps.without('addresses')} onDone={onDone}
         />
         <p className="address-title">请选择收货地址或道店取餐</p>
         {addresses !== null ?

@@ -152,9 +152,14 @@ module.exports = function (
           'customerProps', payload
         );
       } else if (payload.id === 'customer-info-with-address') {
-        return state.set(
-          'customerProps', payload
-        ).updateIn(
+        return state.setIn(
+          ['customerProps', 'name'], payload.name
+        )
+        .setIn(['customerProps', 'sex'], payload.sex)
+        .setIn(['customerProps', 'mobile'], payload.mobile)
+        .setIn(['customerProps', 'customerCount'], payload.customerCount)
+        .setIn(['customerProps', 'isMember'], payload.isMember)
+        .updateIn(
           ['customerProps', 'addresses'],
           addresses => addresses.flatMap(
             address => address.id === payload.address.id ? address.set('isChecked', true) : address.set('isChecked', false)
