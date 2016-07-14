@@ -592,10 +592,7 @@ module.exports = {
       'totablePayType': 'online,offline',
 	/** 会员是否停用 */
       'disable': false,
-      ma: {
-        'id': 262193,
-        'address': '北京市北京市东城区你来过',
-      },
+      ma: null,
     },
   },
 };

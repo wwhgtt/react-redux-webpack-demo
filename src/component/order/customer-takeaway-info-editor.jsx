@@ -12,22 +12,30 @@ module.exports = React.createClass({
   displayName: 'TakeawayCustomerInfoEditor',
   propTypes: {
     onComponentWillMount: React.PropTypes.func.isRequired,
+    sendAreaId:React.PropTypes.number.isRequired,
     ...CustomerInfoEditor.propTypes,
   },
   getInitialState() {
     // set local state for address select
-    return this.getAddressesState(this.props.customerProps.addresses);
+    const { sendAreaId } = this.props;
+    return sendAreaId !== 0 ?
+      this.getAddressesState(this.props.customerProps.addresses)
+      :
+      { addresses:null };
   },
   componentWillMount() {
-    const { customerProps, onComponentWillMount } = this.props;
+    const { customerProps, onComponentWillMount, sendAreaId } = this.props;
     // If no default address, push address list from server.
-    if (customerProps.addresses === null) {
+    if (sendAreaId !== 0 && customerProps.addresses === null) {
       onComponentWillMount();
     }
   },
   componentWillReceiveProps(newProps) {
-    const newState = this.getAddressesState(newProps.customerProps.addresses);
-    this.setState(newState);
+    const { sendAreaId } = this.props;
+    if (sendAreaId !== 0) {
+      const newState = this.getAddressesState(newProps.customerProps.addresses);
+      this.setState(newState);
+    }
   },
   onCustomerPropsChange(evt, customerProps) {
     const selectedAddress = _find(this.state.addresses, { isChecked:true });
@@ -57,7 +65,7 @@ module.exports = React.createClass({
     };
   },
   render() {
-    const { customerProps, onDone } = this.props;
+    const { customerProps, onDone, sendAreaId } = this.props;
     const { addresses } = this.state;
 
     return (
@@ -66,8 +74,8 @@ module.exports = React.createClass({
           onCustomerPropsChange={this.onCustomerPropsChange}
           customerProps={customerProps.without('addresses')} onDone={onDone}
         />
-        <p className="address-title">请选择收货地址或道店取餐</p>
-        {addresses !== null ?
+        <p className="address-title">请选择收货地址或到店取餐</p>
+        {addresses !== null && sendAreaId !== 0 ?
           <ActiveSelect
             className="address-group"
             optionsData={addresses}
@@ -75,12 +83,17 @@ module.exports = React.createClass({
             onSelectOption={this.onAddressSelect}
           />
           :
+          <div>到店取餐</div>
+        }
+        {sendAreaId !== 0 ?
+          <a
+            className="address-add-more"
+            href={`${config.editUserAddressURL}?shopId=${getUrlParam('shopId')}`}
+          >增加地址</a>
+          :
           false
         }
-        <a
-          className="address-add-more"
-          href={`${config.editUserAddressURL}?shopId=${getUrlParam('shopId')}`}
-        >增加地址</a>
+
       </div>
     );
   },

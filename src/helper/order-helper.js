@@ -243,14 +243,15 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   let params;
   const type = getUrlParam('type');
   if (type === 'WM') {
-    const selectedAddress = state.customerProps.addresses !== null ?
+    const selectedAddress = state.customerProps.addresses !== null && state.customerProps.addresses.length !== 0 ?
           state.customerProps.addresses.filter(address => address.isChecked)[0].address
           :
-          false;
-    const selectedAddressId = state.customerProps.addresses !== null ?
+          0;
+    const selectedAddressId = state.customerProps.addresses !== null && state.customerProps.addresses.length !== 0 ?
           state.customerProps.addresses.filter(address => address.isChecked)[0].id
           :
           0;
+    const toShop = state.serviceProps.sendAreaId === 0 ? '1' : '0';
     params = '?name=' + state.customerProps.name
         + '&Invoice=' + receipt + '&note=' + note
         + '&mobile=' + state.customerProps.mobile
@@ -265,7 +266,9 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
         + '&needPayPrice=' + needPayPrice
         + '&time=' + state.timeProps.selectedDateTime.date + '%20' + state.timeProps.selectedDateTime.time
         + '&address=' + selectedAddress
-        + '&memberAddressId=' + selectedAddressId;
+        + '&memberAddressId=' + selectedAddressId
+        + '&sendAreaId=' + state.serviceProps.sendAreaId
+        + '&toShop=' + toShop;
   } else {
     params = '?name=' + state.customerProps.name
         + '&Invoice=' + receipt + '&note=' + note

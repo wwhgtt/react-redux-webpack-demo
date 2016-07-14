@@ -10,6 +10,7 @@ module.exports = function (
       isPickupFromFrontDesk:'',
       payMethods:[],
       integralsInfo:null,
+      sendAreaId:null,
       couponsProps:{
         couponsList:[],
         inUseCoupon:false,
@@ -161,9 +162,12 @@ module.exports = function (
         .setIn(['customerProps', 'isMember'], payload.isMember)
         .updateIn(
           ['customerProps', 'addresses'],
-          addresses => addresses.flatMap(
-            address => address.id === payload.address.id ? address.set('isChecked', true) : address.set('isChecked', false)
-          )
+          state.serviceProps.sendAreaId !== 0 ?
+            addresses => addresses.flatMap(
+              address => address.id === payload.address.id ? address.set('isChecked', true) : address.set('isChecked', false)
+            )
+            :
+            addresses => []
         );
       } else if (payload.id.indexOf('payment') !== -1) {
         return state.updateIn(
@@ -264,6 +268,12 @@ module.exports = function (
         ['customerProps', 'addresses'],
         Immutable.from(payload)
       );
+    case 'GET_ORDERED_DISH_WAY':
+      if (!payload || payload === 0) {
+        // 表示到店取餐的情况
+        return state.setIn(['serviceProps', 'sendAreaId'], 0);
+      }
+      return state.setIn(['serviceProps', 'sendAreaId'], payload);
     case 'SET_CHILDVIEW':
       if (payload === '#customer-info') {
         return state.set('childView', 'customer-info');

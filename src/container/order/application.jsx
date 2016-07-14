@@ -30,6 +30,7 @@ const OrderApplication = React.createClass({
     getLastOrderedDishes:React.PropTypes.func.isRequired,
     submitOrder:React.PropTypes.func.isRequired,
     fetchUserAddressInfo: React.PropTypes.func.isRequired,
+    fetchWMSituationGetOrderedDishWay:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
@@ -46,8 +47,9 @@ const OrderApplication = React.createClass({
     };
   },
   componentWillMount() {
-    const { getLastOrderedDishes } = this.props;
+    const { getLastOrderedDishes, fetchWMSituationGetOrderedDishWay } = this.props;
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
+    fetchWMSituationGetOrderedDishWay();
     getLastOrderedDishes();
   },
   componentDidMount() {
@@ -99,15 +101,18 @@ const OrderApplication = React.createClass({
     const type = getUrlParam('type');
     const shopId = getUrlParam('shopId');
     const geDefaultAddress = function () {
-      console.log(customerProps);
-      if (customerProps.addresses) {
-        const beChosenAddress = customerProps.addresses.filter(address => address.isChecked);
-        if (beChosenAddress.length) {
-          return customerProps.addresses.filter(address => address.isChecked)[0].address;
+      if (serviceProps.sendAreaId !== 0) {
+        // 表示需要选择地址
+        if (customerProps.addresses) {
+          const beChosenAddress = customerProps.addresses.filter(address => address.isChecked);
+          if (beChosenAddress.length) {
+            return customerProps.addresses.filter(address => address.isChecked)[0].address;
+          }
+          return customerProps.addresses[0].address;
         }
-        return customerProps.addresses[0].address;
+        return '请选择送餐地址';
       }
-      return '请选择送餐地址';
+      return '到店取餐';
     };
     return (
       <div className="application">
@@ -281,7 +286,7 @@ const OrderApplication = React.createClass({
         }
         {childView === 'customer-info' && type === 'WM' ?
           <CustomerTakeawayInfoEditor
-            customerProps={customerProps}
+            customerProps={customerProps} sendAreaId={serviceProps.sendAreaId}
             onCustomerPropsChange={setOrderProps} onComponentWillMount={fetchUserAddressInfo} onDone={this.resetChildView}
           />
           : false

@@ -13,6 +13,7 @@ const setCouponsToOrder = createAction('SET_COUPONS_TO_ORDER', coupons => coupon
 const setChildView = exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const setOrderedDishesToOrder = createAction('SET_ORDERED_DISHES_TO_ORDER', dishes => dishes);
 const setAddressInfoToOrder = createAction('SET_ADDRESS_INFO_TO_ORDER', address => address);
+const getOrderedDishWay = createAction('GET_ORDERED_DISH_WAY', areaId => areaId);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
@@ -114,4 +115,8 @@ exports.submitOrder = (note, receipt) => (dispatch, getState) => {
     catch(err => {
       console.log(err);
     });
+};
+exports.fetchWMSituationGetOrderedDishWay = () => (dispatch, getState) => {
+  const getSendAreaId = localStorage.getItem('sendAreaId');
+  dispatch(getOrderedDishWay(JSON.parse(getSendAreaId)));
 };
