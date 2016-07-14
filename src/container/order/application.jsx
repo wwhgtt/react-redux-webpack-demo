@@ -99,6 +99,7 @@ const OrderApplication = React.createClass({
     const type = getUrlParam('type');
     const shopId = getUrlParam('shopId');
     const geDefaultAddress = function () {
+      console.log(customerProps);
       if (customerProps.addresses) {
         const beChosenAddress = customerProps.addresses.filter(address => address.isChecked);
         if (beChosenAddress.length) {
@@ -106,7 +107,7 @@ const OrderApplication = React.createClass({
         }
         return customerProps.addresses[0].address;
       }
-      return '天府软件园';
+      return '请选择送餐地址';
     };
     return (
       <div className="application">

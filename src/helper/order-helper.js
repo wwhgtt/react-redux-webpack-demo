@@ -246,7 +246,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
     const selectedAddress = state.customerProps.addresses !== null ?
           state.customerProps.addresses.filter(address => address.isChecked)[0].address
           :
-          '默认地址';
+          false;
     const selectedAddressId = state.customerProps.addresses !== null ?
           state.customerProps.addresses.filter(address => address.isChecked)[0].id
           :
