@@ -17,8 +17,9 @@ const getOrderedDishWay = createAction('GET_ORDERED_DISH_WAY', areaId => areaId)
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
-exports.fetchOrder = () => (dispatch, getState) =>
-  fetch(`${config.orderDineInAPi}?shopId=${shopId}`, config.requestOptions).
+exports.fetchOrder = () => (dispatch, getState) => {
+  const getOrderUrl = type === 'WM' ? config.orderTakeAwayAPi : config.orderDineInAPi;
+  fetch(`${getOrderUrl}?shopId=${shopId}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         throw new Error('获取订单信息失败...');
@@ -32,7 +33,7 @@ exports.fetchOrder = () => (dispatch, getState) =>
     catch(err => {
       console.log(err);
     });
-
+};
 exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
   fetch(`${config.orderDiscountInfoAPI}?shopId=${shopId}`, config.requestOptions).
     then(res => {
