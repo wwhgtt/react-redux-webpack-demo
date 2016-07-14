@@ -9,7 +9,7 @@ module.exports = React.createClass({
     id: React.PropTypes.number.isRequired,
     address: React.PropTypes.string.isRequired,
   },
-  setAddressInfoToOrder() {
+  setSessionAndGoTo() {
     const { id } = this.props;
     sessionStorage.setItem('rurl_address', location.href);
     location.href = `${config.editUserAddressURL}?shopId=${helper.getUrlParam('shopId')}&id=${id}`;

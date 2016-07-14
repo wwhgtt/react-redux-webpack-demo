@@ -64,7 +64,7 @@ module.exports = React.createClass({
       addresses,
     };
   },
-  setAddressInfoToOrder() {
+  setSessionAndGoTo() {
     sessionStorage.setItem('rurl_address', location.href);
     location.href = `${config.editUserAddressURL}?shopId=${getUrlParam('shopId')}`;
   },
