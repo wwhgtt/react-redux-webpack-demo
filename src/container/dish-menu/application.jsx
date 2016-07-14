@@ -32,9 +32,10 @@ const DishMenuApplication = React.createClass({
   },
   componentDidMount() {
     const { fetchMenuData, fetchServiceProps, fetchOrderDiscountInfo } = this.props;
-    Promise.all([fetchMenuData(), fetchServiceProps()]).then(
+    fetchMenuData().then(
       fetchOrderDiscountInfo()
     );
+    fetchServiceProps();
   },
   componentDidUpdate() {
   },
