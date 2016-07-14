@@ -227,11 +227,12 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   const needPayPrice = countFinalPrice(
     state.orderedDishesProps, state.serviceProps, state.commercialProps
   );
+  const type = getUrlParam('type');
   const useDiscount = !state.serviceProps.discountProps.inUseDiscount ? '0' : '1';
   const serviceApproach = state.serviceProps.isPickupFromFrontDesk.isChecked ? 'pickup' : 'totable';
   const coupId = state.serviceProps.couponsProps.inUseCouponDetail.id ? state.serviceProps.couponsProps.inUseCouponDetail.id : '0';
   let tableId;
-  if (serviceApproach === 'totable' && state.tableProps.tables && state.tableProps.tables.length) {
+  if (type === 'TS' && serviceApproach === 'totable' && state.tableProps.tables && state.tableProps.tables.length) {
     if (state.tableProps.tables.filter(table => table.isChecked).length === 0) {
       throw new Error('未选择桌台信息');
     } else {
@@ -241,7 +242,6 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
     tableId = 0;
   }
   let params;
-  const type = getUrlParam('type');
   if (type === 'WM') {
     const selectedAddress = state.customerProps.addresses !== null && state.customerProps.addresses.length !== 0 ?
           state.customerProps.addresses.filter(address => address.isChecked)[0].address
