@@ -64,6 +64,10 @@ module.exports = React.createClass({
       addresses,
     };
   },
+  setAddressInfoToOrder() {
+    sessionStorage.setItem('rurl_address', location.href);
+    location.href = `${config.editUserAddressURL}?shopId=${getUrlParam('shopId')}`;
+  },
   render() {
     const { customerProps, onDone, sendAreaId } = this.props;
     const { addresses } = this.state;
@@ -88,7 +92,7 @@ module.exports = React.createClass({
         {sendAreaId !== 0 ?
           <a
             className="address-add-more"
-            href={`${config.editUserAddressURL}?shopId=${getUrlParam('shopId')}`}
+            onTouchTap={this.setSessionAndGoTo}
           >增加地址</a>
           :
           false
