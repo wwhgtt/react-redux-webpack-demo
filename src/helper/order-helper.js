@@ -244,10 +244,9 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   let tableId;
   if (type === 'TS' && serviceApproach === 'totable' && state.tableProps.tables && state.tableProps.tables.length) {
     if (state.tableProps.tables.filter(table => table.isChecked).length === 0) {
-      throw new Error('未选择桌台信息');
-    } else {
-      tableId = state.tableProps.tables.filter(table => table.isChecked)[0].id;
+      return { success:false, msg:'未选择桌台信息' };
     }
+    tableId = state.tableProps.tables.filter(table => table.isChecked)[0].id;
   } else {
     tableId = 0;
   }
@@ -295,5 +294,5 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
         + '&shopId=' + getUrlParam('shopId')
         + '&needPayPrice=' + needPayPrice;
   }
-  return params;
+  return { success:true, params };
 };

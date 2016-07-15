@@ -32,6 +32,7 @@ module.exports = function (
       timeTable:undefined,
     },
     childView:null,
+    errorMessage:null,
   }),
   action
 ) {
@@ -291,6 +292,10 @@ module.exports = function (
     case 'SET_ORDERED_DISHES_TO_ORDER':
       return state.set(
         'orderedDishesProps', Immutable.from(payload)
+      );
+    case 'SET_ERROR_MSG':
+      return state.set(
+        'errorMessage', payload
       );
     default:
   }

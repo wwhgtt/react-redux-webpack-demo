@@ -12,6 +12,7 @@ const CouponSelect = require('../../component/order/coupon-select.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const TimeSelect = require('../../component/order/select/time-select.jsx');
 const OrderSummary = require('../../component/order/order-summary.jsx');
+const ErrorMessage = require('../../component/order/error.jsx');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 require('../../asset/style/style.scss');
@@ -31,6 +32,7 @@ const OrderApplication = React.createClass({
     submitOrder:React.PropTypes.func.isRequired,
     fetchUserAddressInfo: React.PropTypes.func.isRequired,
     fetchWMSituationGetOrderedDishWay:React.PropTypes.func.isRequired,
+    clearErrorMsg:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
@@ -39,6 +41,7 @@ const OrderApplication = React.createClass({
     tableProps: React.PropTypes.object.isRequired,
     timeProps: React.PropTypes.object,
     childView: React.PropTypes.string,
+    errorMessage: React.PropTypes.string,
   },
   getInitialState() {
     return {
@@ -93,8 +96,8 @@ const OrderApplication = React.createClass({
   },
   render() {
     const {
-      customerProps, serviceProps, childView, tableProps,
-      timeProps, orderedDishesProps, commercialProps,
+      customerProps, serviceProps, childView, tableProps, clearErrorMsg,
+      timeProps, orderedDishesProps, commercialProps, errorMessage,
     } = this.props; // state
     const { setOrderProps, fetchUserAddressInfo, setChildView } = this.props;// actions
     const selectedTable = helper.getSelectedTable(tableProps);
@@ -313,6 +316,11 @@ const OrderApplication = React.createClass({
             : false
           }
         </ReactCSSTransitionGroup>
+        {errorMessage ?
+          <ErrorMessage errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
+          :
+          false
+        }
       </div>
     );
   },
