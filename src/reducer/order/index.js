@@ -38,6 +38,8 @@ module.exports = function (
   const { type, payload } = action;
   switch (type) {
     case 'SET_ORDER': {
+      const inPersonPayType = payload.pickupPayType ? payload.pickupPayType : payload.toShopPayType;
+      const bySendPayType = payload.totablePayType ? payload.totablePayType : payload.toHomePayType;
       return state.setIn(['tableProps', 'areas'], !payload.areaList ? null : Immutable.from(payload.areaList))
                   .setIn(
                     ['tableProps', 'tables'],
@@ -59,7 +61,8 @@ module.exports = function (
                     'commercialProps',
                     Immutable.from({
                       name:payload.commercialName, integral:payload.integral, commercialLogo:payload.commercialLogo,
-                      pickupPayType:payload.pickupPayType, totablePayType:payload.totablePayType,
+                      pickupPayType:inPersonPayType,
+                      totablePayType:bySendPayType,
                       diningForm: payload.diningForm, carryRuleVO:payload.carryRuleVO,
                     })
                   )
@@ -68,15 +71,15 @@ module.exports = function (
                     Immutable.from([
                       {
                         name:'在线支付',
-                        isAvaliable:helper.isPaymentAvaliable('online', payload.diningForm, false, payload.pickupPayType, payload.totablePayType),
-                        isChecked:helper.shouldPaymentAutoChecked('online', false, payload.pickupPayType, payload.totablePayType),
+                        isAvaliable:helper.isPaymentAvaliable('online', payload.diningForm, false, inPersonPayType, bySendPayType),
+                        isChecked:helper.shouldPaymentAutoChecked('online', false, inPersonPayType, bySendPayType),
                         id:'online-payment',
                         type: 'tickbox',
                       },
                       {
                         name:'货到付款',
-                        isAvaliable:helper.isPaymentAvaliable('offline', payload.diningForm, false, payload.pickupPayType, payload.totablePayType),
-                        isChecked:helper.shouldPaymentAutoChecked('offline', false, payload.pickupPayType, payload.totablePayType),
+                        isAvaliable:helper.isPaymentAvaliable('offline', payload.diningForm, false, inPersonPayType, bySendPayType),
+                        isChecked:helper.shouldPaymentAutoChecked('offline', false, inPersonPayType, bySendPayType),
                         id:'offline-payment',
                         type: 'tickbox',
                       },
@@ -84,7 +87,7 @@ module.exports = function (
                   )
                   .setIn(
                     ['serviceProps', 'isPickupFromFrontDesk'],
-                    payload.serviceApproach.indexOf('pickup') !== -1 ?
+                    payload.serviceApproach && payload.serviceApproach.indexOf('pickup') !== -1 ?
                         Immutable.from({ name:'前台取餐', isChecked:false, id:'way-of-get-diner' })
                         :
                         false
