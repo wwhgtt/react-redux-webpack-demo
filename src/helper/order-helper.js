@@ -103,7 +103,7 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
   if (transferType === 1) {
     // 四舍五入
     return {
-      smallChange:parseFloat(Math.abs(totalPrice - parseFloat(totalPrice.toFixed(scale))).toFixed(scale)),
+      smallChange:parseFloat(Math.abs(totalPrice - parseFloat(totalPrice.toFixed(scale))).toFixed(2)),
       priceWithClearSmallChange:parseFloat(
         (totalPrice - parseFloat(Math.abs(totalPrice - parseFloat(totalPrice.toFixed(scale))).toFixed(scale))).toFixed(scale)
       ),
@@ -223,7 +223,7 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDis
 };
 // 计算优惠后的价格
 const countFinalPrice = exports.countFinalPrice = function (orderedDishesProps, serviceProps, commercialProps) {
-  return (parseFloat(getDishesPrice(orderedDishesProps.dishes))
+  return (parseFloat(clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes), serviceProps).priceWithClearSmallChange)
       - parseFloat(countDecreasePrice(orderedDishesProps, serviceProps, commercialProps))).toFixed(2);
 };
 exports.getSubmitUrlParams = function (state, note, receipt) {

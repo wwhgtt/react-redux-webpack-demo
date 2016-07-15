@@ -25,7 +25,7 @@ module.exports = {
       'isMember': true,
       'carryRuleVO': {
         'transferType': 1,
-        'scale': 2,
+        'scale': 0,
       },
       'commercialName': '南粉北面王霞',
       'commercialLogo': null,
