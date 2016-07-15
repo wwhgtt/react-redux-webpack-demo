@@ -196,7 +196,7 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDis
           orderedDish => {
             if (orderedDish.id === dishcount.dishId) {
               disCountPriceList.push(
-                ((1 - parseFloat(dishcount.value) / 10) * getDishPrice(orderedDish)).toFixed(2)
+                parseFloat(((1 - parseFloat(dishcount.value) / 10) * getDishPrice(orderedDish)).toFixed(2))
               );
             }
           }
@@ -211,7 +211,7 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDis
           orderedDish => {
             if (orderedDish.id === dishcount.dishId) {
               disCountPriceList.push(
-                getDishPrice(orderedDish) - (dishcount.value * getDishesCount([orderedDish]))
+                parseFloat(getDishPrice(orderedDish) - (dishcount.value * getDishesCount([orderedDish])))
               );
             }
           }
@@ -288,7 +288,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
         + '&coupId=' + coupId
         + '&integral=' + Number(integral)
         + '&useDiscount=' + useDiscount
-        + '&orderType=' +
+        + '&orderType=TS'
         + '&tableId=' + tableId
         + '&peopleCount=' + state.customerProps.customerCount
         + '&serviceApproach=' + serviceApproach
