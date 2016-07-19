@@ -98,7 +98,7 @@ module.exports = React.createClass({
                 data-id={dishTypeData.id}
                 className={classnames('dish-item-type', { active:activeDishTypeId === dishTypeData.id })}
               >
-                {dishTypeData.name}
+                {dishTypeData.desc ? dishTypeData.desc : dishTypeData.name}
               </li>,
             ].concat(
               dishTypeData.dishIds.map(dishId => {
