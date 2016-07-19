@@ -1,6 +1,5 @@
 const _find = require('lodash.find');
 const getDishesPrice = require('../helper/dish-hepler.js').getDishesPrice;
-const getDishPrice = require('../helper/dish-hepler.js').getDishPrice;
 const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
 const getUrlParam = require('../helper/dish-hepler.js').getUrlParam;
 exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDesk, pickupPayType, totablePayType) {
@@ -196,7 +195,7 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDis
           orderedDish => {
             if (orderedDish.id === dishcount.dishId) {
               disCountPriceList.push(
-                parseFloat(((1 - parseFloat(dishcount.value) / 10) * getDishPrice(orderedDish)).toFixed(2))
+                parseFloat(((1 - parseFloat(dishcount.value) / 10) * getDishesCount([orderedDish]) * orderedDish.marketPrice).toFixed(2))
               );
             }
           }
@@ -211,7 +210,7 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDis
           orderedDish => {
             if (orderedDish.id === dishcount.dishId) {
               disCountPriceList.push(
-                parseFloat(getDishPrice(orderedDish) - (dishcount.value * getDishesCount([orderedDish])))
+                parseFloat((dishcount.value * getDishesCount([orderedDish])).toFixed(2))
               );
             }
           }

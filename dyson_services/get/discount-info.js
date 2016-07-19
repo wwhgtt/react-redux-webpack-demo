@@ -3,7 +3,7 @@ module.exports = {
   template:{
     data: {
       isDiscount: true,
-      type: 1,
+      type: 2,
       dishList: [
         {
           dishId: 599384,
