@@ -1,7 +1,7 @@
 const React = require('react');
 
 module.exports = React.createClass({
-  displayName: 'ErrorMessage',
+  displayName: 'Toast',
   propTypes: {
     clearErrorMsg:React.PropTypes.func.isRequired,
     errorMessage:React.PropTypes.string.isRequired,

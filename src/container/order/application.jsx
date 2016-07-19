@@ -12,7 +12,7 @@ const CouponSelect = require('../../component/order/coupon-select.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const TimeSelect = require('../../component/order/select/time-select.jsx');
 const OrderSummary = require('../../component/order/order-summary.jsx');
-const ErrorMessage = require('../../component/order/error.jsx');
+const Toast = require('../../component/mui/toast.jsx');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 require('../../asset/style/style.scss');
@@ -317,7 +317,7 @@ const OrderApplication = React.createClass({
           }
         </ReactCSSTransitionGroup>
         {errorMessage ?
-          <ErrorMessage errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
+          <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
           :
           false
         }
