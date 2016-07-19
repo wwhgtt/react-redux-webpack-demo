@@ -39,7 +39,7 @@ const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, tota
   return true;
 };
 const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedCommutation, integralsInfo) {
-  if (canBeUsedCommutation <= 0) {
+  if (canBeUsedCommutation <= 0 || !integralsInfo) {
     return {
       commutation:0,
       integralInUsed:0,
