@@ -223,11 +223,15 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDis
 };
 // 计算优惠后的价格
 const countFinalPrice = exports.countFinalPrice = function (orderedDishesProps, serviceProps, commercialProps) {
+  const integralsToCash = serviceProps.integralsInfo.isChecked ?
+    countIntegralsToCash(
+      clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes), serviceProps).priceWithClearSmallChange,
+      serviceProps.integralsInfo.integralsDetail
+    ).commutation
+    :
+    0;
   return (parseFloat(clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes), serviceProps).priceWithClearSmallChange)
-      - parseFloat(countIntegralsToCash(
-        clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes), serviceProps).priceWithClearSmallChange,
-        serviceProps.integralsInfo.integralsDetail
-      ).commutation)).toFixed(2);
+      - parseFloat(integralsToCash)).toFixed(2);
 };
 exports.getSubmitUrlParams = function (state, note, receipt) {
   const payMethodScope = state.serviceProps.payMethods.filter(payMethod => payMethod.isChecked)[0].name === '在线支付' ? '1' : '0';
