@@ -2,17 +2,17 @@ const _find = require('lodash.find');
 const getDishesPrice = require('../helper/dish-hepler.js').getDishesPrice;
 const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
 const getUrlParam = require('../helper/dish-hepler.js').getUrlParam;
-exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDesk, pickupPayType, totablePayType) {
+exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDesk, getDishBySelfPayType, getDishBySendPayType) {
   if (diningForm === 0) {
     return payment === 'offline';
   }
-  return isPickupFromFrontDesk ? pickupPayType.indexOf(payment) : totablePayType.indexOf(payment);
+  return isPickupFromFrontDesk ? getDishBySelfPayType.indexOf(payment) : getDishBySendPayType.indexOf(payment);
 };
-exports.shouldPaymentAutoChecked = function (payment, isPickupFromFrontDesk, pickupPayType, totablePayType) {
+exports.shouldPaymentAutoChecked = function (payment, isPickupFromFrontDesk, getDishBySelfPayType, getDishBySendPayType) {
   if (isPickupFromFrontDesk) {
-    return pickupPayType.indexOf(',') !== -1 ? payment === pickupPayType.split(',')[0] : payment === pickupPayType;
+    return getDishBySelfPayType.indexOf(',') !== -1 ? payment === getDishBySelfPayType.split(',')[0] : payment === getDishBySelfPayType;
   }
-  return totablePayType.indexOf(',') !== -1 ? payment === totablePayType.split(',')[0] : payment === totablePayType;
+  return getDishBySendPayType.indexOf(',') !== -1 ? payment === getDishBySendPayType.split(',')[0] : payment === getDishBySendPayType;
 };
 exports.getSelectedTable = function (tableProps) {
   return {

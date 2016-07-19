@@ -1,6 +1,7 @@
 const Immutable = require('seamless-immutable');
 const _find = require('lodash.find');
 const helper = require('../../helper/order-helper');
+const orderTypeOfUrl = require('../../helper/dish-hepler.js').getUrlParam('type');
 module.exports = function (
   state = Immutable.from({
     customerProps:{},
@@ -39,8 +40,6 @@ module.exports = function (
   const { type, payload } = action;
   switch (type) {
     case 'SET_ORDER': {
-      const inPersonPayType = payload.pickupPayType ? payload.pickupPayType : payload.toShopPayType;
-      const bySendPayType = payload.totablePayType ? payload.totablePayType : payload.toHomePayType;
       return state.setIn(['tableProps', 'areas'], !payload.areaList ? null : Immutable.from(payload.areaList))
                   .setIn(
                     ['tableProps', 'tables'],
@@ -62,8 +61,8 @@ module.exports = function (
                     'commercialProps',
                     Immutable.from({
                       name:payload.commercialName, integral:payload.integral, commercialLogo:payload.commercialLogo,
-                      pickupPayType:inPersonPayType,
-                      totablePayType:bySendPayType,
+                      getDishBySelfPayType:orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
+                      getDishBySendPayType:orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType,
                       diningForm: payload.diningForm, carryRuleVO:payload.carryRuleVO,
                     })
                   )
@@ -72,15 +71,41 @@ module.exports = function (
                     Immutable.from([
                       {
                         name:'在线支付',
-                        isAvaliable:helper.isPaymentAvaliable('online', payload.diningForm, false, inPersonPayType, bySendPayType),
-                        isChecked:helper.shouldPaymentAutoChecked('online', false, inPersonPayType, bySendPayType),
+                        isAvaliable:
+                          helper.isPaymentAvaliable(
+                            'online',
+                            payload.diningForm,
+                            false,
+                            orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
+                            orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
+                          ),
+                        isChecked:
+                          helper.shouldPaymentAutoChecked(
+                            'online',
+                            false,
+                            orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
+                            orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
+                          ),
                         id:'online-payment',
                         type: 'tickbox',
                       },
                       {
                         name:'货到付款',
-                        isAvaliable:helper.isPaymentAvaliable('offline', payload.diningForm, false, inPersonPayType, bySendPayType),
-                        isChecked:helper.shouldPaymentAutoChecked('offline', false, inPersonPayType, bySendPayType),
+                        isAvaliable:
+                          helper.isPaymentAvaliable(
+                            'offline',
+                            payload.diningForm,
+                            false,
+                            orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
+                            orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
+                          ),
+                        isChecked:
+                          helper.shouldPaymentAutoChecked(
+                            'offline',
+                            false,
+                            orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
+                            orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
+                          ),
                         id:'offline-payment',
                         type: 'tickbox',
                       },
@@ -122,8 +147,8 @@ module.exports = function (
                 payMethod.id.split('-')[0],
                 state.commercialProps.diningForm,
                 !state.serviceProps.isPickupFromFrontDesk.isChecked,
-                state.commercialProps.pickupPayType,
-                state.commercialProps.totablePayType
+                state.commercialProps.getDishBySelfPayType,
+                state.commercialProps.getDishBySendPayType
               ),
             )
           )
@@ -136,8 +161,8 @@ module.exports = function (
               helper.shouldPaymentAutoChecked(
                 payMethod.id.split('-')[0],
                 !state.serviceProps.isPickupFromFrontDesk.isChecked,
-                state.commercialProps.pickupPayType,
-                state.commercialProps.totablePayType
+                state.commercialProps.getDishBySelfPayType,
+                state.commercialProps.getDishBySendPayType
               ),
             )
           )
