@@ -35,6 +35,12 @@
     text-align: right;
 
     > .tiny-cart-text {
+      line-height: 1;
+      float: right;
+      position: relative;
+      top: 50%;
+      -webkit-transform: -webkit-translateY(-50%);
+      transform: translateY(-50%);
       padding-right: 10px;
     }
   }
