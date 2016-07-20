@@ -105,11 +105,12 @@ const OrderApplication = React.createClass({
     const selectedTable = helper.getSelectedTable(tableProps);
     const type = getUrlParam('type');
     const shopId = getUrlParam('shopId');
-    const setDefaultAddress = function () {
+    const getDefaultAddress = function () {
       if (serviceProps.sendAreaId !== 0) {
         // 表示需要选择地址
-        if (customerProps.addresses && _find(customerProps.addresses, { isChecked:true })) {
-          return _find(customerProps.addresses, { isChecked:true }).address;
+        if (customerProps.addresses && customerProps.addresses.length) {
+          const isCheckedAddress = _find(customerProps.addresses, { isChecked:true });
+          return isCheckedAddress ? isCheckedAddress.address : false;
         }
         return '请选择送餐地址';
       }
@@ -122,7 +123,7 @@ const OrderApplication = React.createClass({
             <div className="option-stripes-title">{customerProps.name}{customerProps.sex === '1' ? '先生' : '女士'} {customerProps.mobile}</div>
             <div className="clearfix">
               <div className="option-desc">
-                {setDefaultAddress()}
+                {getDefaultAddress()}
               </div>
             </div>
           </a>

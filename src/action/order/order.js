@@ -13,7 +13,7 @@ const setCouponsToOrder = createAction('SET_COUPONS_TO_ORDER', coupons => coupon
 const setChildView = exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const setOrderedDishesToOrder = createAction('SET_ORDERED_DISHES_TO_ORDER', dishes => dishes);
 const setAddressInfoToOrder = createAction('SET_ADDRESS_INFO_TO_ORDER', address => address);
-const takeOrderedDishMethod = createAction('TAKE_ORDERED_DISH_METHOD', areaId => areaId);
+const setOrderTakenMethod = createAction('SET_ORDER_TAKEN_METHOD', areaId => areaId);
 const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const shopId = getUrlParam('shopId');
@@ -123,11 +123,10 @@ exports.submitOrder = (note, receipt) => (dispatch, getState) => {
 };
 exports.fetchSendAreaId = () => (dispatch, getState) => {
   const sendAreaId = localStorage.getItem(shopId + '_sendArea_id');
-  dispatch(takeOrderedDishMethod(JSON.parse(sendAreaId)));
+  dispatch(setOrderTakenMethod(JSON.parse(sendAreaId)));
 };
 exports.clearErrorMsg = () => (dispatch, getState) =>
   dispatch(setErrorMsg(null));
-
 
 exports.setSessionAndForwardChaining = (id) => (dispatch, getState) => {
   sessionStorage.setItem('rurl_address', location.href);
