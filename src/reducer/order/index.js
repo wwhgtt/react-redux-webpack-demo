@@ -297,7 +297,7 @@ module.exports = function (
         ['customerProps', 'addresses'],
         Immutable.from(payload)
       );
-    case 'SET_ORDER_TAKEN_METHOD':
+    case 'SET_SEND_AREA_ID':
       if (!payload || payload === 0) {
         // 表示到店取餐的情况
         return state.setIn(['serviceProps', 'sendAreaId'], 0);
