@@ -14,7 +14,7 @@ module.exports = React.createClass({
         <span>{address}</span>
         <a
           className="address-edit"
-          data-node={id}
+          data-editor={id}
         >
         </a>
       </DynamicClassDiv>

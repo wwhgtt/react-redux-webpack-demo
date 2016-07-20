@@ -2,18 +2,17 @@ const _find = require('lodash.find');
 const getDishesPrice = require('../helper/dish-hepler.js').getDishesPrice;
 const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
 const getUrlParam = require('../helper/dish-hepler.js').getUrlParam;
-const config = require('../config.js');
-exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDesk, getDishBySelfPayType, getDishBySendPayType) {
+exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDesk, selfPayType, sendPayType) {
   if (diningForm === 0) {
     return payment === 'offline';
   }
-  return isPickupFromFrontDesk ? getDishBySelfPayType.indexOf(payment) : getDishBySendPayType.indexOf(payment);
+  return isPickupFromFrontDesk ? selfPayType.indexOf(payment) : sendPayType.indexOf(payment);
 };
-exports.shouldPaymentAutoChecked = function (payment, isPickupFromFrontDesk, getDishBySelfPayType, getDishBySendPayType) {
+exports.shouldPaymentAutoChecked = function (payment, isPickupFromFrontDesk, selfPayType, sendPayType) {
   if (isPickupFromFrontDesk) {
-    return getDishBySelfPayType.indexOf(',') !== -1 ? payment === getDishBySelfPayType.split(',')[0] : payment === getDishBySelfPayType;
+    return selfPayType.indexOf(',') !== -1 ? payment === selfPayType.split(',')[0] : payment === selfPayType;
   }
-  return getDishBySendPayType.indexOf(',') !== -1 ? payment === getDishBySendPayType.split(',')[0] : payment === getDishBySendPayType;
+  return sendPayType.indexOf(',') !== -1 ? payment === sendPayType.split(',')[0] : payment === sendPayType;
 };
 exports.getSelectedTable = function (tableProps) {
   return {
@@ -302,13 +301,4 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
         + '&needPayPrice=' + needPayPrice;
   }
   return { success:true, params };
-};
-exports.setSessionAndForwardChaining = (id) => {
-  sessionStorage.setItem('rurl_address', location.href);
-  if (!id) {
-    // 表示函数触发是来自增加地址
-    location.href = `${config.editUserAddressURL}?shopId=${getUrlParam('shopId')}`;
-  } else {
-    location.href = `${config.editUserAddressURL}?shopId=${getUrlParam('shopId')}&id=${id}`;
-  }
 };

@@ -49,20 +49,16 @@ module.exports = React.createClass({
   },
   onAddressSelect(evt, option) {
     const { onAddressEditor } = this.props;
-    const beTouchedNode = evt.target.getAttribute('data-node');
-    if (!beTouchedNode) {
+    const addressEditor = evt.target.getAttribute('data-editor');
+    if (!addressEditor) {
       this.setState({
         addresses: this.state.addresses.flatMap(
           address => address.id === option.id ? address.set('isChecked', true) : address.set('isChecked', false)
         ),
       });
     } else {
-      onAddressEditor(beTouchedNode);
+      onAddressEditor(addressEditor);
     }
-  },
-  onAddressEditor() {
-    const { onAddressEditor } = this.props;
-    onAddressEditor();
   },
   getAddressesState(addresses) {
     const selectedAddressIdx = _findIndex(addresses, { isChecked:true });
@@ -74,7 +70,7 @@ module.exports = React.createClass({
     };
   },
   render() {
-    const { customerProps, onDone, sendAreaId } = this.props;
+    const { customerProps, onDone, sendAreaId, onAddressEditor } = this.props;
     const { addresses } = this.state;
 
     return (
@@ -97,7 +93,7 @@ module.exports = React.createClass({
         {sendAreaId !== 0 ?
           <a
             className="address-add-more"
-            onTouchTap={this.onAddressEditor}
+            onTouchTap={onAddressEditor}
           >增加地址</a>
           :
           false

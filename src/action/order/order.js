@@ -127,3 +127,13 @@ exports.fetchWMSituationGetOrderedDishWay = () => (dispatch, getState) => {
 };
 exports.clearErrorMsg = () => (dispatch, getState) =>
   dispatch(setErrorMsg(null));
+
+
+exports.setSessionAndForwardChaining = (id) => (dispatch, getState) => {
+  sessionStorage.setItem('rurl_address', location.href);
+  if (typeof id !== 'string') {
+    location.href = `${config.editUserAddressURL}?shopId=${getUrlParam('shopId')}`;
+  } else {
+    location.href = `${config.editUserAddressURL}?shopId=${getUrlParam('shopId')}&id=${id}`;
+  }
+};

@@ -61,8 +61,8 @@ module.exports = function (
                     'commercialProps',
                     Immutable.from({
                       name:payload.commercialName, integral:payload.integral, commercialLogo:payload.commercialLogo,
-                      getDishBySelfPayType:orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
-                      getDishBySendPayType:orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType,
+                      selfPayType:orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
+                      sendPayType:orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType,
                       diningForm: payload.diningForm, carryRuleVO:payload.carryRuleVO,
                     })
                   )
@@ -147,8 +147,8 @@ module.exports = function (
                 payMethod.id.split('-')[0],
                 state.commercialProps.diningForm,
                 !state.serviceProps.isPickupFromFrontDesk.isChecked,
-                state.commercialProps.getDishBySelfPayType,
-                state.commercialProps.getDishBySendPayType
+                state.commercialProps.selfPayType,
+                state.commercialProps.sendPayType
               ),
             )
           )
@@ -161,8 +161,8 @@ module.exports = function (
               helper.shouldPaymentAutoChecked(
                 payMethod.id.split('-')[0],
                 !state.serviceProps.isPickupFromFrontDesk.isChecked,
-                state.commercialProps.getDishBySelfPayType,
-                state.commercialProps.getDishBySendPayType
+                state.commercialProps.selfPayType,
+                state.commercialProps.sendPayType
               ),
             )
           )
