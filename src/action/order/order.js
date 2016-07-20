@@ -13,7 +13,7 @@ const setCouponsToOrder = createAction('SET_COUPONS_TO_ORDER', coupons => coupon
 const setChildView = exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const setOrderedDishesToOrder = createAction('SET_ORDERED_DISHES_TO_ORDER', dishes => dishes);
 const setAddressInfoToOrder = createAction('SET_ADDRESS_INFO_TO_ORDER', address => address);
-const getOrderedDishWay = createAction('GET_ORDERED_DISH_WAY', areaId => areaId);
+const takeOrderedDishMethod = createAction('TAKE_ORDERED_DISH_METHOD', areaId => areaId);
 const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const shopId = getUrlParam('shopId');
@@ -85,7 +85,7 @@ exports.setOrderPropsAndResetChildView = (evt, option) => (dispatch, getState) =
   dispatch(setOrderProps(evt, option));
   dispatch(setChildView(''));
 };
-exports.getLastOrderedDishes = () => (dispatch, getState) => {
+exports.fetchLastOrderedDishes = () => (dispatch, getState) => {
   const lastOrderedDishes = localStorage.getItem('lastOrderedDishes');
   if (!lastOrderedDishes) {
     location.href = type === 'TS' ?
@@ -121,9 +121,9 @@ exports.submitOrder = (note, receipt) => (dispatch, getState) => {
       console.log(err);
     });
 };
-exports.fetchWMSituationGetOrderedDishWay = () => (dispatch, getState) => {
-  const getSendAreaId = localStorage.getItem(shopId + '_sendArea_id');
-  dispatch(getOrderedDishWay(JSON.parse(getSendAreaId)));
+exports.fetchSendAreaId = () => (dispatch, getState) => {
+  const sendAreaId = localStorage.getItem(shopId + '_sendArea_id');
+  dispatch(takeOrderedDishMethod(JSON.parse(sendAreaId)));
 };
 exports.clearErrorMsg = () => (dispatch, getState) =>
   dispatch(setErrorMsg(null));

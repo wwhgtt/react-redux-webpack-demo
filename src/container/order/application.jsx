@@ -1,4 +1,5 @@
 const React = require('react');
+const _find = require('lodash.find');
 const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const connect = require('react-redux').connect;
 const actions = require('../../action/order/order');
@@ -28,10 +29,10 @@ const OrderApplication = React.createClass({
     fetchOrderCoupons:React.PropTypes.func.isRequired,
     setChildView: React.PropTypes.func.isRequired,
     setOrderPropsAndResetChildView: React.PropTypes.func.isRequired,
-    getLastOrderedDishes:React.PropTypes.func.isRequired,
+    fetchLastOrderedDishes:React.PropTypes.func.isRequired,
     submitOrder:React.PropTypes.func.isRequired,
     fetchUserAddressInfo: React.PropTypes.func.isRequired,
-    fetchWMSituationGetOrderedDishWay:React.PropTypes.func.isRequired,
+    fetchSendAreaId:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
     setSessionAndForwardChaining:React.PropTypes.func.isRequired,
     // MapedStatesToProps
@@ -51,10 +52,10 @@ const OrderApplication = React.createClass({
     };
   },
   componentWillMount() {
-    const { getLastOrderedDishes, fetchWMSituationGetOrderedDishWay } = this.props;
+    const { fetchLastOrderedDishes, fetchSendAreaId } = this.props;
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
-    fetchWMSituationGetOrderedDishWay();
-    getLastOrderedDishes();
+    fetchLastOrderedDishes();
+    if (getUrlParam('type') === 'WM') fetchSendAreaId();
   },
   componentDidMount() {
     const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons } = this.props;
@@ -104,15 +105,11 @@ const OrderApplication = React.createClass({
     const selectedTable = helper.getSelectedTable(tableProps);
     const type = getUrlParam('type');
     const shopId = getUrlParam('shopId');
-    const geDefaultAddress = function () {
+    const setDefaultAddress = function () {
       if (serviceProps.sendAreaId !== 0) {
         // 表示需要选择地址
-        if (customerProps.addresses) {
-          const beChosenAddress = customerProps.addresses.filter(address => address.isChecked);
-          if (beChosenAddress.length) {
-            return customerProps.addresses.filter(address => address.isChecked)[0].address;
-          }
-          return customerProps.addresses[0].address;
+        if (customerProps.addresses && _find(customerProps.addresses, { isChecked:true })) {
+          return _find(customerProps.addresses, { isChecked:true }).address;
         }
         return '请选择送餐地址';
       }
@@ -125,7 +122,7 @@ const OrderApplication = React.createClass({
             <div className="option-stripes-title">{customerProps.name}{customerProps.sex === '1' ? '先生' : '女士'} {customerProps.mobile}</div>
             <div className="clearfix">
               <div className="option-desc">
-                {geDefaultAddress()}
+                {setDefaultAddress()}
               </div>
             </div>
           </a>
