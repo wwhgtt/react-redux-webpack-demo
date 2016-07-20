@@ -109,8 +109,8 @@ const OrderApplication = React.createClass({
       if (serviceProps.sendAreaId !== 0) {
         // 表示需要选择地址
         if (customerProps.addresses && customerProps.addresses.length) {
-          const isCheckedAddress = _find(customerProps.addresses, { isChecked:true });
-          return isCheckedAddress ? isCheckedAddress.address : false;
+          const isCheckedAddressInfo = _find(customerProps.addresses, { isChecked:true });
+          return isCheckedAddressInfo ? isCheckedAddressInfo.address : false;
         }
         return '请选择送餐地址';
       }
