@@ -289,7 +289,7 @@ const OrderApplication = React.createClass({
         }
         {childView === 'customer-info' && type === 'WM' ?
           <CustomerTakeawayInfoEditor
-            customerProps={customerProps} sendAreaId={serviceProps.sendAreaId}
+            customerProps={customerProps} sendAreaId={serviceProps.sendAreaId} onAddressEditor={helper.setSessionAndForwardChaining}
             onCustomerPropsChange={setOrderProps} onComponentWillMount={fetchUserAddressInfo} onDone={this.resetChildView}
           />
           : false

@@ -4,8 +4,6 @@ const _findIndex = require('lodash.findindex');
 const CustomerInfoEditor = require('./customer-info-editor.jsx');
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const CustomerAddressOption = require('./customer-address-option.jsx');
-const config = require('../../config.js');
-const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 require('./customer-takeaway-info-editor.scss');
 
 module.exports = React.createClass({
@@ -13,6 +11,7 @@ module.exports = React.createClass({
   propTypes: {
     onComponentWillMount: React.PropTypes.func.isRequired,
     sendAreaId:React.PropTypes.number.isRequired,
+    onAddressEditor:React.PropTypes.func.isRequired,
     ...CustomerInfoEditor.propTypes,
   },
   getInitialState() {
@@ -49,11 +48,21 @@ module.exports = React.createClass({
     );
   },
   onAddressSelect(evt, option) {
-    this.setState({
-      addresses: this.state.addresses.flatMap(
-        address => address.id === option.id ? address.set('isChecked', true) : address.set('isChecked', false)
-      ),
-    });
+    const { onAddressEditor } = this.props;
+    const beTouchedNode = evt.target.getAttribute('data-node');
+    if (!beTouchedNode) {
+      this.setState({
+        addresses: this.state.addresses.flatMap(
+          address => address.id === option.id ? address.set('isChecked', true) : address.set('isChecked', false)
+        ),
+      });
+    } else {
+      onAddressEditor(beTouchedNode);
+    }
+  },
+  onAddressEditor() {
+    const { onAddressEditor } = this.props;
+    onAddressEditor();
   },
   getAddressesState(addresses) {
     const selectedAddressIdx = _findIndex(addresses, { isChecked:true });
@@ -63,10 +72,6 @@ module.exports = React.createClass({
     return {
       addresses,
     };
-  },
-  setSessionAndGoTo() {
-    sessionStorage.setItem('rurl_address', location.href);
-    location.href = `${config.editUserAddressURL}?shopId=${getUrlParam('shopId')}`;
   },
   render() {
     const { customerProps, onDone, sendAreaId } = this.props;
@@ -92,7 +97,7 @@ module.exports = React.createClass({
         {sendAreaId !== 0 ?
           <a
             className="address-add-more"
-            onTouchTap={this.setSessionAndGoTo}
+            onTouchTap={this.onAddressEditor}
           >增加地址</a>
           :
           false

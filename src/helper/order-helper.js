@@ -2,6 +2,7 @@ const _find = require('lodash.find');
 const getDishesPrice = require('../helper/dish-hepler.js').getDishesPrice;
 const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
 const getUrlParam = require('../helper/dish-hepler.js').getUrlParam;
+const config = require('../config.js');
 exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDesk, getDishBySelfPayType, getDishBySendPayType) {
   if (diningForm === 0) {
     return payment === 'offline';
@@ -301,4 +302,13 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
         + '&needPayPrice=' + needPayPrice;
   }
   return { success:true, params };
+};
+exports.setSessionAndForwardChaining = (id) => {
+  sessionStorage.setItem('rurl_address', location.href);
+  if (!id) {
+    // 表示函数触发是来自增加地址
+    location.href = `${config.editUserAddressURL}?shopId=${getUrlParam('shopId')}`;
+  } else {
+    location.href = `${config.editUserAddressURL}?shopId=${getUrlParam('shopId')}&id=${id}`;
+  }
 };
