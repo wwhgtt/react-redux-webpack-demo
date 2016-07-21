@@ -55,7 +55,7 @@ module.exports = React.createClass({
               [buildPropsText({ name:'配料', properties:dishIngredientInfos })].filter(propsText => propsText),
               NoteProps.map(propInfo => (buildPropsText(propInfo))).filter(propsText => propsText),
             )
-            .join('|')
+            .join(' | ')
         }
         </span>
       </div>
