@@ -1,19 +1,18 @@
 const _find = require('lodash.find');
 const getDishesPrice = require('../helper/dish-hepler.js').getDishesPrice;
-const getDishPrice = require('../helper/dish-hepler.js').getDishPrice;
 const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
 const getUrlParam = require('../helper/dish-hepler.js').getUrlParam;
-exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDesk, pickupPayType, totablePayType) {
+exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDesk, selfPayType, sendPayType) {
   if (diningForm === 0) {
     return payment === 'offline';
   }
-  return isPickupFromFrontDesk ? pickupPayType.indexOf(payment) : totablePayType.indexOf(payment);
+  return isPickupFromFrontDesk ? selfPayType.indexOf(payment) : sendPayType.indexOf(payment);
 };
-exports.shouldPaymentAutoChecked = function (payment, isPickupFromFrontDesk, pickupPayType, totablePayType) {
+exports.shouldPaymentAutoChecked = function (payment, isPickupFromFrontDesk, selfPayType, sendPayType) {
   if (isPickupFromFrontDesk) {
-    return pickupPayType.indexOf(',') !== -1 ? payment === pickupPayType.split(',')[0] : payment === pickupPayType;
+    return selfPayType.indexOf(',') !== -1 ? payment === selfPayType.split(',')[0] : payment === selfPayType;
   }
-  return totablePayType.indexOf(',') !== -1 ? payment === totablePayType.split(',')[0] : payment === totablePayType;
+  return sendPayType.indexOf(',') !== -1 ? payment === sendPayType.split(',')[0] : payment === sendPayType;
 };
 exports.getSelectedTable = function (tableProps) {
   return {
@@ -22,79 +21,91 @@ exports.getSelectedTable = function (tableProps) {
   };
 };
 // 计算优惠券多少价格
-exports.countPriceByCoupons = function (coupon, totalPrice) {
-  let remission = '';
+const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, totalPrice) {
   if (coupon.couponType === 1) {
     // '满减券'
-    return remission = coupon.coupRuleBeanList[0].ruleValue;
+    return coupon.coupRuleBeanList[0].ruleValue;
   } else if (coupon.couponType === 2) {
     // '折扣券';
-    return remission = totalPrice * (1 - Number(coupon.coupRuleBeanList[0].ruleValue));
+    return totalPrice * (1 - Number(coupon.coupRuleBeanList[0].ruleValue));
   } else if (coupon.couponType === 3) {
     // '礼品券';
-    return remission;
+    return 0;
   } else if (coupon.couponType === 4) {
     // '现金券';
-    return remission = coupon.coupRuleBeanList[0].ruleValue;
+    return coupon.coupRuleBeanList[0].ruleValue;
   }
   return true;
 };
-// 换算积分为cash，需要考虑优惠卷的使用,还需要考虑会员价
 const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedCommutation, integralsInfo) {
-  let limitType = integralsInfo.limitType;
-  if (limitType === 1) {
+  if (canBeUsedCommutation <= 0 || !integralsInfo) {
     return {
-      commutation:integralsInfo.integral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue < canBeUsedCommutation ?
-        integralsInfo.integral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue
-        :
-        canBeUsedCommutation,
-      integralInUsed:integralsInfo.integral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue < canBeUsedCommutation ?
-        integralsInfo.integral
-        :
-        canBeUsedCommutation * integralsInfo.exchangeIntegralValue / integralsInfo.exchangeCashValue,
+      commutation:0,
+      integralInUsed:0,
+    };
+  }
+  let limitType = integralsInfo.limitType;
+  // 取余数  向下取整
+  const canUsesIntegralTimes = Math.floor(canBeUsedCommutation / integralsInfo.exchangeCashValue);
+  if (limitType === 1) {
+    const integralInUsed = canUsesIntegralTimes * integralsInfo.exchangeIntegralValue < integralsInfo.integral ?
+      canUsesIntegralTimes * integralsInfo.exchangeIntegralValue
+      :
+      Math.floor(integralsInfo.integral / integralsInfo.exchangeIntegralValue) * integralsInfo.exchangeIntegralValue;
+    return {
+      commutation:integralInUsed / integralsInfo.exchangeIntegralValue,
+      integralInUsed,
     };
   } else if (limitType === 2) {
-    return integralsInfo.limitIntegral < integralsInfo.integral ?
-    {
-      commutation:integralsInfo.limitIntegral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue < canBeUsedCommutation ?
-          integralsInfo.limitIntegral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue
+    if (integralsInfo.integral > integralsInfo.limitIntegral) {
+      const moneyLimit = Math.floor(integralsInfo.limitIntegral / integralsInfo.exchangeIntegralValue) * integralsInfo.exchangeCashValue;
+      return {
+        commutation:moneyLimit > canBeUsedCommutation ?
+          Math.floor(canBeUsedCommutation / integralsInfo.exchangeCashValue) * integralsInfo.exchangeCashValue
           :
-          canBeUsedCommutation,
-      integralInUsed:integralsInfo.limitIntegral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue < canBeUsedCommutation ?
-          integralsInfo.limitIntegral
+          moneyLimit,
+        integralInUsed:moneyLimit > canBeUsedCommutation ?
+          Math.floor(canBeUsedCommutation / integralsInfo.exchangeCashValue) * integralsInfo.exchangeIntegralValue
           :
-          canBeUsedCommutation * integralsInfo.exchangeIntegralValue / integralsInfo.exchangeCashValue,
+          Math.floor(integralsInfo.limitIntegral / integralsInfo.exchangeIntegralValue) * integralsInfo.exchangeIntegralValue,
+      };
     }
-      :
-    {
-      commutation:integralsInfo.integral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue < canBeUsedCommutation ?
-          integralsInfo.integral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue
-          :
-          canBeUsedCommutation,
-      integralInUsed:integralsInfo.integral * integralsInfo.exchangeCashValue / integralsInfo.exchangeIntegralValue < canBeUsedCommutation ?
-          integralsInfo.integral
-          :
-          canBeUsedCommutation * integralsInfo.exchangeIntegralValue / integralsInfo.exchangeCashValue,
+    const noLimitMoney = Math.floor(integralsInfo.integral / integralsInfo.exchangeIntegralValue) * integralsInfo.exchangeCashValue;
+    return {
+      commutation:noLimitMoney > canBeUsedCommutation ?
+        Math.floor(canBeUsedCommutation / integralsInfo.exchangeCashValue) * integralsInfo.exchangeCashValue
+        :
+        noLimitMoney,
+      integralInUsed:noLimitMoney > canBeUsedCommutation ?
+        Math.floor(canBeUsedCommutation / integralsInfo.exchangeCashValue) * integralsInfo.exchangeIntegralValue
+        :
+         Math.floor(integralsInfo.integral / integralsInfo.exchangeIntegralValue) * integralsInfo.exchangeIntegralValue,
     };
   }
   return false;
 };
 //  自动抹零
-const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishesPrice, orderSummary) {
+const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishesPrice, serviceProps) {
   const { transferType, scale } = carryRuleVO;
   let totalPrice = '';
-  if (!orderSummary.coupon && !orderSummary.discount) {
+  if (!serviceProps.couponsProps.inUseCoupon && !serviceProps.discountProps.inUseDiscount) {
     // 即没有使用任何优惠
-    totalPrice = dishesPrice.toFixed(2);
+    totalPrice = parseFloat(dishesPrice.toFixed(2));
+  } else if (serviceProps.couponsProps.inUseCoupon) {
+    totalPrice = parseFloat((dishesPrice - countPriceByCoupons(serviceProps.couponsProps.inUseCouponDetail, dishesPrice)).toFixed(2));
+  } else if (serviceProps.discountProps.inUseDiscount) {
+    totalPrice = parseFloat((dishesPrice - serviceProps.discountProps.inUseDiscount).toFixed(2));
   } else {
-    totalPrice = orderSummary.coupon ? (dishesPrice - orderSummary.coupon).toFixed(2) : (dishesPrice - orderSummary.discount).toFixed(2);
+    return false;
   }
   totalPrice = Number(totalPrice);
   if (transferType === 1) {
     // 四舍五入
     return {
-      smallChange:Math.abs(totalPrice - totalPrice.toFixed(scale)).toFixed(scale),
-      priceWithClearSmallChange:(totalPrice - Math.abs(totalPrice - totalPrice.toFixed(scale)).toFixed(scale)).toFixed(scale),
+      smallChange:parseFloat(Math.abs(totalPrice - parseFloat(totalPrice.toFixed(scale))).toFixed(2)),
+      priceWithClearSmallChange:parseFloat(
+        (totalPrice - parseFloat(Math.abs(totalPrice - parseFloat(totalPrice.toFixed(scale))).toFixed(scale))).toFixed(scale)
+      ),
     };
   } else if (transferType === 2) {
     // 无条件进位
@@ -106,7 +117,7 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
     } else if (scale === 1) {
       return totalPrice.toString().length === 4 ?
       {
-        smallChange:(Number(totalPrice.toString().substr(-2)) + 0.1 - totalPrice).toFixed(1),
+        smallChange:parseFloat((Number(totalPrice.toString().substr(-2)) + 0.1 - totalPrice).toFixed(1)),
         priceWithClearSmallChange:Number(totalPrice.toString().substr(-2)) + 0.1,
       }
         :
@@ -130,8 +141,8 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
     } else if (scale === 1) {
       return totalPrice.toString().length === 4 ?
       {
-        smallChange:(totalPrice - Number(totalPrice.toString().substr(-2))).toFixed(2),
-        priceWithClearSmallChange:Number(totalPrice.toString().substr(-2)),
+        smallChange:parseFloat((totalPrice - parseFloat(totalPrice.toString().substr(-2))).toFixed(2)),
+        priceWithClearSmallChange:parseFloat(totalPrice.toString().substr(-2)),
       }
         :
       {
@@ -140,7 +151,7 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
       };
     } else if (scale === 0) {
       return {
-        smallChange:(totalPrice - Math.floor(totalPrice)).toFixed(0),
+        smallChange:parseFloat((totalPrice - Math.floor(totalPrice)).toFixed(0)),
         priceWithClearSmallChange:Math.floor(totalPrice),
       };
     }
@@ -148,25 +159,26 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
   return false;
 };
 // 计算优惠价格;
-const countDecreasePrice = exports.countDecreasePrice = function (orderedDishesProps, orderSummary, integralsInfo, commercialProps) {
-  if (integralsInfo.isChecked) {
-    return orderSummary.coupon ?
+exports.countDecreasePrice = function (orderedDishesProps, serviceProps, commercialProps) {
+  const dishesPrice = getDishesPrice(orderedDishesProps.dishes);
+  if (serviceProps.integralsInfo && serviceProps.integralsInfo.isChecked) {
+    return serviceProps.couponsProps.inUseCoupon ?
       Number(countIntegralsToCash(
-              clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes), orderSummary).priceWithClearSmallChange,
-                integralsInfo.integralsDetail
+              clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).priceWithClearSmallChange,
+                serviceProps.integralsInfo.integralsDetail
               ).commutation
-      ) + Number(orderSummary.coupon)
+      ) + Number(countPriceByCoupons(serviceProps.couponsProps.inUseCouponDetail, dishesPrice))
       :
       Number(countIntegralsToCash(
-                clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes), orderSummary).priceWithClearSmallChange,
-                integralsInfo.integralsDetail
+                clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).priceWithClearSmallChange,
+                serviceProps.integralsInfo.integralsDetail
               ).commutation
-      ) + Number(orderSummary.discount);
+      ) + Number(serviceProps.discountProps.inUseDiscount);
   }
-  return orderSummary.coupon ?
-    Number(orderSummary.coupon)
+  return serviceProps.couponsProps.inUseCoupon ?
+    Number(countPriceByCoupons(serviceProps.couponsProps.inUseCouponDetail, dishesPrice))
      :
-    Number(orderSummary.discount);
+    Number(serviceProps.discountProps.inUseDiscount);
 };
 // 计算会员价格
 exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDishesProps) {
@@ -182,20 +194,24 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDis
         orderedDishes.forEach(
           orderedDish => {
             if (orderedDish.id === dishcount.dishId) {
-              disCountPriceList.push(dishcount.value * getDishPrice(orderedDish));
+              disCountPriceList.push(
+                parseFloat(((1 - parseFloat(dishcount.value) / 10) * getDishesCount([orderedDish]) * orderedDish.marketPrice).toFixed(2))
+              );
             }
           }
         );
       }
     );
-  } else if (discountType === 1) {
+  } else if (discountType === 2) {
     // 表示会员价格
     memberDishesProps.discountList.forEach(
       dishcount => {
         orderedDishes.forEach(
           orderedDish => {
             if (orderedDish.id === dishcount.dishId) {
-              disCountPriceList.push(dishcount.value * getDishesCount([orderedDish]));
+              disCountPriceList.push(
+                parseFloat((dishcount.value * getDishesCount([orderedDish])).toFixed(2))
+              );
             }
           }
         );
@@ -205,47 +221,84 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDis
   return disCountPriceList.reduce((p, c) => p + c, 0);
 };
 // 计算优惠后的价格
-const countFinalPrice = exports.countFinalPrice = function (orderedDishesProps, orderSummary, integralsInfo, commercialProps) {
-  return (Number(getDishesPrice(orderedDishesProps.dishes))
-      - Number(countDecreasePrice(orderedDishesProps, orderSummary, integralsInfo, commercialProps))).toFixed(2);
+const countFinalPrice = exports.countFinalPrice = function (orderedDishesProps, serviceProps, commercialProps) {
+  const integralsToCash = serviceProps.integralsInfo.isChecked ?
+    countIntegralsToCash(
+      clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes), serviceProps).priceWithClearSmallChange,
+      serviceProps.integralsInfo.integralsDetail
+    ).commutation
+    :
+    0;
+  return (parseFloat(clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes), serviceProps).priceWithClearSmallChange)
+      - parseFloat(integralsToCash)).toFixed(2);
 };
 exports.getSubmitUrlParams = function (state, note, receipt) {
   const payMethodScope = state.serviceProps.payMethods.filter(payMethod => payMethod.isChecked)[0].name === '在线支付' ? '1' : '0';
-  const integral = countIntegralsToCash(clearSmallChange(
+  const integral = state.integralsInfo ? countIntegralsToCash(clearSmallChange(
     state.commercialProps.carryRuleVO,
     getDishesPrice(state.orderedDishesProps.dishes),
-    state.orderSummary).priceWithClearSmallChange,
+    state.serviceProps).priceWithClearSmallChange,
     state.serviceProps.integralsInfo.integralsDetail
-  ).integralInUsed;
+  ).integralInUsed : false;
   const needPayPrice = countFinalPrice(
-    state.orderedDishesProps, state.orderSummary, state.serviceProps.integralsInfo, state.commercialProps
+    state.orderedDishesProps, state.serviceProps, state.commercialProps
   );
-  const useDiscount = !state.orderSummary.discount ? '0' : '1';
+  const type = getUrlParam('type');
+  const useDiscount = !state.serviceProps.discountProps.inUseDiscount ? '0' : '1';
   const serviceApproach = state.serviceProps.isPickupFromFrontDesk.isChecked ? 'pickup' : 'totable';
   const coupId = state.serviceProps.couponsProps.inUseCouponDetail.id ? state.serviceProps.couponsProps.inUseCouponDetail.id : '0';
   let tableId;
-  if (serviceApproach === 'totable' && state.tableProps.tables && state.tableProps.tables.length) {
-    if (!state.tableProps.tables.filter(table => table.isChecked)) {
-      throw new Error('未选择桌台信息');
-    } else {
-      tableId = state.tableProps.tables.filter(table => table.isChecked)[0].id;
+  if (type === 'TS' && serviceApproach === 'totable' && state.tableProps.tables && state.tableProps.tables.length) {
+    if (state.tableProps.tables.filter(table => table.isChecked).length === 0) {
+      return { success:false, msg:'未选择桌台信息' };
     }
+    tableId = state.tableProps.tables.filter(table => table.isChecked)[0].id;
   } else {
     tableId = 0;
   }
-  const params = '?name=' + state.customerProps.name
-      + '&Invoice=' + receipt + '&note=' + note
-      + '&mobile=' + state.customerProps.mobile
-      + '&sex=' + state.customerProps.sex
-      + '&payMethod=' + payMethodScope
-      + '&coupId=' + coupId
-      + '&integral=' + Number(integral)
-      + '&useDiscount=' + useDiscount
-      + '&orderType=' + getUrlParam('type')
-      + '&tableId=' + tableId
-      + '&peopleCount=' + state.customerProps.customerCount
-      + '&serviceApproach=' + serviceApproach
-      + '&shopId=' + getUrlParam('shopId')
-      + '&needPayPrice=' + needPayPrice;
-  return params;
+  let params;
+  if (type === 'WM') {
+    const selectedAddress = state.customerProps.addresses !== null && state.customerProps.addresses.length !== 0 ?
+          state.customerProps.addresses.filter(address => address.isChecked)[0].address
+          :
+          0;
+    const selectedAddressId = state.customerProps.addresses !== null && state.customerProps.addresses.length !== 0 ?
+          state.customerProps.addresses.filter(address => address.isChecked)[0].id
+          :
+          0;
+    const toShop = state.serviceProps.sendAreaId === 0 ? '1' : '0';
+    params = '?name=' + state.customerProps.name
+        + '&Invoice=' + receipt + '&note=' + note
+        + '&mobile=' + state.customerProps.mobile
+        + '&sex=' + state.customerProps.sex
+        + '&payMethod=' + payMethodScope
+        + '&coupId=' + coupId
+        + '&integral=' + Number(integral)
+        + '&useDiscount=' + useDiscount
+        + '&orderType=WM'
+        + '&peopleCount=' + state.customerProps.customerCount
+        + '&shopId=' + getUrlParam('shopId')
+        + '&needPayPrice=' + needPayPrice
+        + '&time=' + state.timeProps.selectedDateTime.date + '%20' + state.timeProps.selectedDateTime.time
+        + '&address=' + selectedAddress
+        + '&memberAddressId=' + selectedAddressId
+        + '&sendAreaId=' + state.serviceProps.sendAreaId
+        + '&toShop=' + toShop;
+  } else {
+    params = '?name=' + state.customerProps.name
+        + '&Invoice=' + receipt + '&note=' + note
+        + '&mobile=' + state.customerProps.mobile
+        + '&sex=' + state.customerProps.sex
+        + '&payMethod=' + payMethodScope
+        + '&coupId=' + coupId
+        + '&integral=' + Number(integral)
+        + '&useDiscount=' + useDiscount
+        + '&orderType=TS'
+        + '&tableId=' + tableId
+        + '&peopleCount=' + state.customerProps.customerCount
+        + '&serviceApproach=' + serviceApproach
+        + '&shopId=' + getUrlParam('shopId')
+        + '&needPayPrice=' + needPayPrice;
+  }
+  return { success:true, params };
 };

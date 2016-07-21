@@ -1,7 +1,7 @@
 const Immutable = require('seamless-immutable');
 const _find = require('lodash.find');
 const helper = require('../../helper/order-helper');
-const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
+const orderTypeOfUrl = require('../../helper/dish-hepler.js').getUrlParam('type');
 module.exports = function (
   state = Immutable.from({
     customerProps:{},
@@ -10,7 +10,8 @@ module.exports = function (
     serviceProps:{
       isPickupFromFrontDesk:'',
       payMethods:[],
-      integralsInfo:'',
+      integralsInfo:null,
+      sendAreaId:null,
       couponsProps:{
         couponsList:[],
         inUseCoupon:false,
@@ -20,6 +21,7 @@ module.exports = function (
         discountInfo:'',
         discountList:[],
         discountType:'',
+        inUseDiscount:null,
       },
     },
     tableProps:{
@@ -31,11 +33,7 @@ module.exports = function (
       timeTable:undefined,
     },
     childView:null,
-    orderSummary:{
-      coupon:null,
-      discount:null,
-      clearSmallChange:null,
-    },
+    errorMessage:null,
   }),
   action
 ) {
@@ -63,7 +61,8 @@ module.exports = function (
                     'commercialProps',
                     Immutable.from({
                       name:payload.commercialName, integral:payload.integral, commercialLogo:payload.commercialLogo,
-                      pickupPayType:payload.pickupPayType, totablePayType:payload.totablePayType,
+                      selfPayType:orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
+                      sendPayType:orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType,
                       diningForm: payload.diningForm, carryRuleVO:payload.carryRuleVO,
                     })
                   )
@@ -72,15 +71,41 @@ module.exports = function (
                     Immutable.from([
                       {
                         name:'在线支付',
-                        isAvaliable:helper.isPaymentAvaliable('online', payload.diningForm, false, payload.pickupPayType, payload.totablePayType),
-                        isChecked:helper.shouldPaymentAutoChecked('online', false, payload.pickupPayType, payload.totablePayType),
+                        isAvaliable:
+                          helper.isPaymentAvaliable(
+                            'online',
+                            payload.diningForm,
+                            false,
+                            orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
+                            orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
+                          ),
+                        isChecked:
+                          helper.shouldPaymentAutoChecked(
+                            'online',
+                            false,
+                            orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
+                            orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
+                          ),
                         id:'online-payment',
                         type: 'tickbox',
                       },
                       {
                         name:'货到付款',
-                        isAvaliable:helper.isPaymentAvaliable('offline', payload.diningForm, false, payload.pickupPayType, payload.totablePayType),
-                        isChecked:helper.shouldPaymentAutoChecked('offline', false, payload.pickupPayType, payload.totablePayType),
+                        isAvaliable:
+                          helper.isPaymentAvaliable(
+                            'offline',
+                            payload.diningForm,
+                            false,
+                            orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
+                            orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
+                          ),
+                        isChecked:
+                          helper.shouldPaymentAutoChecked(
+                            'offline',
+                            false,
+                            orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
+                            orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
+                          ),
                         id:'offline-payment',
                         type: 'tickbox',
                       },
@@ -88,7 +113,7 @@ module.exports = function (
                   )
                   .setIn(
                     ['serviceProps', 'isPickupFromFrontDesk'],
-                    payload.serviceApproach.indexOf('pickup') !== -1 ?
+                    payload.serviceApproach && payload.serviceApproach.indexOf('pickup') !== -1 ?
                         Immutable.from({ name:'前台取餐', isChecked:false, id:'way-of-get-diner' })
                         :
                         false
@@ -122,8 +147,8 @@ module.exports = function (
                 payMethod.id.split('-')[0],
                 state.commercialProps.diningForm,
                 !state.serviceProps.isPickupFromFrontDesk.isChecked,
-                state.commercialProps.pickupPayType,
-                state.commercialProps.totablePayType
+                state.commercialProps.selfPayType,
+                state.commercialProps.sendPayType
               ),
             )
           )
@@ -136,8 +161,8 @@ module.exports = function (
               helper.shouldPaymentAutoChecked(
                 payMethod.id.split('-')[0],
                 !state.serviceProps.isPickupFromFrontDesk.isChecked,
-                state.commercialProps.pickupPayType,
-                state.commercialProps.totablePayType
+                state.commercialProps.selfPayType,
+                state.commercialProps.sendPayType
               ),
             )
           )
@@ -147,23 +172,31 @@ module.exports = function (
           ['serviceProps', 'discountProps', 'discountInfo', 'isChecked'],
            !state.serviceProps.discountProps.discountInfo.isChecked
          ).setIn(
-           ['orderSummary', 'discount'],
+           ['serviceProps', 'discountProps', 'inUseDiscount'],
            helper.countMemberPrice(payload.isChecked, state.orderedDishesProps.dishes, state.serviceProps.discountProps)
          ).setIn(
-           ['orderSummary', 'coupon'], null
+           ['serviceProps', 'couponsProps', 'inUseCoupon'], false
          );
       } else if (payload.id === 'customer-info') {
         return state.set(
           'customerProps', payload
         );
       } else if (payload.id === 'customer-info-with-address') {
-        return state.set(
-          'customerProps', payload
-        ).updateIn(
+        return state.setIn(
+          ['customerProps', 'name'], payload.name
+        )
+        .setIn(['customerProps', 'sex'], payload.sex)
+        .setIn(['customerProps', 'mobile'], payload.mobile)
+        .setIn(['customerProps', 'customerCount'], payload.customerCount)
+        .setIn(['customerProps', 'isMember'], payload.isMember)
+        .updateIn(
           ['customerProps', 'addresses'],
-          addresses => addresses.flatMap(
-            address => address.id === payload.address.id ? address.set('isChecked', true) : address.set('isChecked', false)
-          )
+          state.serviceProps.sendAreaId !== 0 ?
+            addresses => addresses.flatMap(
+              address => address.id === payload.address.id ? address.set('isChecked', true) : address.set('isChecked', false)
+            )
+            :
+            addresses => []
         );
       } else if (payload.id.indexOf('payment') !== -1) {
         return state.updateIn(
@@ -174,8 +207,6 @@ module.exports = function (
           )
         );
       } else if (payload.id === 'coupon') {
-        // 使用优惠券以后需要把会员价关闭  利用返回的id找到对应的优惠券获取优惠信息
-        // 处理优惠券信息
         const selectedCoupon = _find(
           state.serviceProps.couponsProps.couponsList,
           coupon => coupon.id.toString() === payload.selectedCouponId
@@ -188,22 +219,13 @@ module.exports = function (
             ['serviceProps', 'couponsProps', 'inUseCouponDetail'],
             selectedCoupon
           )
-          .setIn(
-            ['orderSummary', 'coupon'],
-            Immutable.from(
-              helper.countPriceByCoupons(
-                selectedCoupon,
-                getDishesPrice(state.orderedDishesProps.dishes)
-              )
-            )
-          )
-          .setIn(['orderSummary', 'discount'], null);
+          .setIn(['serviceProps', 'discountProps', 'inUseDiscount'], null);
         }
         return state.setIn(
             ['serviceProps', 'couponsProps', 'inUseCoupon'], false
           )
           .setIn(
-            ['orderSummary', 'coupon'], null
+            ['serviceProps', 'couponsProps', 'inUseCoupon'], false
           );
       } else if (payload.id === 'integrals') {
         return state.setIn(
@@ -259,7 +281,15 @@ module.exports = function (
           Immutable.from({ name:'享受会员价', isChecked:false, id:'discount' })
          )
          .setIn(['serviceProps', 'discountProps', 'discountList'], payload.dishList)
-         .setIn(['serviceProps', 'discountProps', 'discountType'], payload.type);
+         .setIn(['serviceProps', 'discountProps', 'discountType'], payload.type)
+         .updateIn(
+           ['orderedDishesProps', 'dishes'],
+           dishes => dishes.flatMap(
+             dish => dish.set(
+                 'isMember', _find(payload.dishList, { dishId:dish.id }) !== undefined
+               )
+           )
+        );
       }
       break;
     case 'SET_ADDRESS_INFO_TO_ORDER':
@@ -267,6 +297,12 @@ module.exports = function (
         ['customerProps', 'addresses'],
         Immutable.from(payload)
       );
+    case 'SET_SEND_AREA_ID':
+      if (!payload || payload === 0) {
+        // 表示到店取餐的情况
+        return state.setIn(['serviceProps', 'sendAreaId'], 0);
+      }
+      return state.setIn(['serviceProps', 'sendAreaId'], payload);
     case 'SET_CHILDVIEW':
       if (payload === '#customer-info') {
         return state.set('childView', 'customer-info');
@@ -281,6 +317,10 @@ module.exports = function (
     case 'SET_ORDERED_DISHES_TO_ORDER':
       return state.set(
         'orderedDishesProps', Immutable.from(payload)
+      );
+    case 'SET_ERROR_MSG':
+      return state.set(
+        'errorMessage', payload
       );
     default:
   }

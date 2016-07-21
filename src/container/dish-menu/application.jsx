@@ -31,9 +31,11 @@ const DishMenuApplication = React.createClass({
     takeawayServiceProps: React.PropTypes.object,
   },
   componentDidMount() {
-    this.props.fetchMenuData();
-    this.props.fetchServiceProps();
-    this.props.fetchOrderDiscountInfo();
+    const { fetchMenuData, fetchServiceProps, fetchOrderDiscountInfo } = this.props;
+    fetchMenuData().then(
+      fetchOrderDiscountInfo()
+    );
+    fetchServiceProps();
   },
   componentDidUpdate() {
   },

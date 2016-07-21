@@ -11,7 +11,14 @@ module.exports = function (
   let newState;
   switch (type) {
     case 'SET_MENU_DATA':
-      return state.setIn(['dishTypesData'], payload.dishTypeList).setIn(['dishesData'], payload.dishList);
+      return state.setIn(['dishTypesData'], payload.dishTypeList)
+      .setIn(['dishesData'], payload.dishList)
+      .setIn(
+        ['activeDishTypeId'],
+        payload.dishTypeList && payload.dishTypeList.length ?
+        payload.dishTypeList[0].id
+        :
+        -1);
     case 'ACTIVE_DISH_TYPE':
       return state.setIn(['activeDishTypeId'], payload);
     case 'SHOW_DISH_DETAIL':

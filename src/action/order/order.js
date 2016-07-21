@@ -13,13 +13,17 @@ const setCouponsToOrder = createAction('SET_COUPONS_TO_ORDER', coupons => coupon
 const setChildView = exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const setOrderedDishesToOrder = createAction('SET_ORDERED_DISHES_TO_ORDER', dishes => dishes);
 const setAddressInfoToOrder = createAction('SET_ADDRESS_INFO_TO_ORDER', address => address);
+const setSendAreaId = createAction('SET_SEND_AREA_ID', areaId => areaId);
+const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const shopId = getUrlParam('shopId');
+const type = getUrlParam('type');
+const getOrderUrl = type === 'WM' ? config.orderTakeAwayAPi : config.orderDineInAPi;
 exports.fetchOrder = () => (dispatch, getState) =>
-  fetch(`${config.orderDineInAPi}?shopId=${shopId}`, config.requestOptions).
+  fetch(`${getOrderUrl}?shopId=${shopId}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
-        throw new Error('获取订单信息失败...');
+        dispatch(setErrorMsg('获取订单信息失败...'));
       }
       return res.json();
     }).
@@ -35,13 +39,12 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
   fetch(`${config.orderDiscountInfoAPI}?shopId=${shopId}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
-        throw new Error('获取会员信息失败...');
+        dispatch(setErrorMsg('获取会员信息失败...'));
       }
       return res.json();
     }).
     then(discount => {
       if (!discount.data) {
-        // 没有任何可用会员价菜品
         return false;
       }
       return dispatch(setDiscountToOrder(discount.data));
@@ -49,12 +52,11 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
     catch(err => {
       console.log(err);
     });
-exports.fetchOrderCoupons = () => (dispatch, getState) => {
-  const orderAccount = getDishesPrice(getState().orderedDishesProps.dishes);
-  fetch(`${config.orderCouponsAPI}?shopId=${shopId}&orderAccount=${orderAccount}`, config.requestOptions).
+exports.fetchOrderCoupons = () => (dispatch, getState) =>
+  fetch(`${config.orderCouponsAPI}?shopId=${shopId}&orderAccount=${getDishesPrice(getState().orderedDishesProps.dishes)}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
-        throw new Error('获取折扣信息失败...');
+        dispatch(setErrorMsg('获取折扣信息失败...'));
       }
       return res.json();
     }).
@@ -64,12 +66,12 @@ exports.fetchOrderCoupons = () => (dispatch, getState) => {
     catch(err => {
       console.log(err);
     });
-};
+
 exports.fetchUserAddressInfo = () => (dispatch, getState) =>
   fetch(config.userAddressAPI, config.requestOptions).
     then(res => {
       if (!res.ok) {
-        throw new Error('获取用户地址信息失败...');
+        dispatch(setErrorMsg('获取用户地址信息失败...'));
       }
       return res.json();
     }).
@@ -83,18 +85,27 @@ exports.setOrderPropsAndResetChildView = (evt, option) => (dispatch, getState) =
   dispatch(setOrderProps(evt, option));
   dispatch(setChildView(''));
 };
-exports.getLastOrderedDishes = () => (dispatch, getState) => {
+exports.fetchLastOrderedDishes = () => (dispatch, getState) => {
   const lastOrderedDishes = localStorage.getItem('lastOrderedDishes');
   if (!lastOrderedDishes) {
-    throw new Error('获取本地订单信息失败...');
+    location.href = type === 'TS' ?
+      `${config.getMoreTSDishesURL}?type=${type}&shopId=${shopId}`
+      :
+      `${config.getMoreWMDishesURL}?type=${type}&shopId=${shopId}`;
   }
   dispatch(setOrderedDishesToOrder(JSON.parse(lastOrderedDishes)));
 };
 exports.submitOrder = (note, receipt) => (dispatch, getState) => {
-  fetch(`${config.submitOrderAPI}${helper.getSubmitUrlParams(getState(), note, receipt)}`, config.requestOptions).
+  const submitUrl = type === 'WM' ? config.submitWMOrderAPI : config.submitTSOrderAPI;
+  const paramsData = helper.getSubmitUrlParams(getState(), note, receipt);
+  if (!paramsData.success) {
+    dispatch(setErrorMsg(paramsData.msg));
+    return false;
+  }
+  return fetch(`${submitUrl}${paramsData.params}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
-        throw new Error('提交订单信息失败...');
+        dispatch(setErrorMsg('提交订单信息失败'));
       }
       return res.json();
     }).
@@ -103,10 +114,25 @@ exports.submitOrder = (note, receipt) => (dispatch, getState) => {
         localStorage.removeItem('lastOrderedDishes');
         location.href = `/order/orderallDetail?shopId=${shopId}&orderId=${result.data.orderId}`;
       } else {
-        throw new Error(result.msg);
+        dispatch(setErrorMsg(result.msg));
       }
     }).
     catch(err => {
       console.log(err);
     });
+};
+exports.fetchSendAreaId = () => (dispatch, getState) => {
+  const sendAreaId = localStorage.getItem(shopId + '_sendArea_id');
+  dispatch(setSendAreaId(JSON.parse(sendAreaId)));
+};
+exports.clearErrorMsg = () => (dispatch, getState) =>
+  dispatch(setErrorMsg(null));
+
+exports.setSessionAndForwardChaining = (id) => (dispatch, getState) => {
+  sessionStorage.setItem('rurl_address', location.href);
+  if (typeof id !== 'string') {
+    location.href = `${config.editUserAddressURL}?shopId=${getUrlParam('shopId')}`;
+  } else {
+    location.href = `${config.editUserAddressURL}?shopId=${getUrlParam('shopId')}&id=${id}`;
+  }
 };

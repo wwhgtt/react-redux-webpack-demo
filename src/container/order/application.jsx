@@ -1,4 +1,5 @@
 const React = require('react');
+const _find = require('lodash.find');
 const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const connect = require('react-redux').connect;
 const actions = require('../../action/order/order');
@@ -9,10 +10,10 @@ const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const CustomerTakeawayInfoEditor = require('../../component/order/customer-takeaway-info-editor.jsx');
 const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
 const CouponSelect = require('../../component/order/coupon-select.jsx');
-const OrderedDish = require('../../component/order/ordered-dish.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const TimeSelect = require('../../component/order/select/time-select.jsx');
-const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
+const OrderSummary = require('../../component/order/order-summary.jsx');
+const Toast = require('../../component/mui/toast.jsx');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 require('../../asset/style/style.scss');
@@ -28,9 +29,12 @@ const OrderApplication = React.createClass({
     fetchOrderCoupons:React.PropTypes.func.isRequired,
     setChildView: React.PropTypes.func.isRequired,
     setOrderPropsAndResetChildView: React.PropTypes.func.isRequired,
-    getLastOrderedDishes:React.PropTypes.func.isRequired,
+    fetchLastOrderedDishes:React.PropTypes.func.isRequired,
     submitOrder:React.PropTypes.func.isRequired,
     fetchUserAddressInfo: React.PropTypes.func.isRequired,
+    fetchSendAreaId:React.PropTypes.func.isRequired,
+    clearErrorMsg:React.PropTypes.func.isRequired,
+    setSessionAndForwardChaining:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
@@ -38,8 +42,8 @@ const OrderApplication = React.createClass({
     orderedDishesProps:React.PropTypes.object.isRequired,
     tableProps: React.PropTypes.object.isRequired,
     timeProps: React.PropTypes.object,
-    orderSummary:React.PropTypes.object.isRequired,
     childView: React.PropTypes.string,
+    errorMessage: React.PropTypes.string,
   },
   getInitialState() {
     return {
@@ -48,9 +52,10 @@ const OrderApplication = React.createClass({
     };
   },
   componentWillMount() {
-    const { getLastOrderedDishes } = this.props;
+    const { fetchLastOrderedDishes, fetchSendAreaId } = this.props;
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
-    getLastOrderedDishes();
+    fetchLastOrderedDishes();
+    if (getUrlParam('type') === 'WM') fetchSendAreaId();
   },
   componentDidMount() {
     const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons } = this.props;
@@ -93,19 +98,33 @@ const OrderApplication = React.createClass({
   },
   render() {
     const {
-      customerProps, serviceProps, childView, tableProps,
-      timeProps, orderedDishesProps, commercialProps, orderSummary,
+      customerProps, serviceProps, childView, tableProps, clearErrorMsg,
+      timeProps, orderedDishesProps, commercialProps, errorMessage, setSessionAndForwardChaining,
     } = this.props; // state
     const { setOrderProps, fetchUserAddressInfo, setChildView } = this.props;// actions
     const selectedTable = helper.getSelectedTable(tableProps);
     const type = getUrlParam('type');
+    const shopId = getUrlParam('shopId');
+    const getDefaultAddress = function () {
+      if (serviceProps.sendAreaId !== 0) {
+        // 表示需要选择地址
+        if (customerProps.addresses && customerProps.addresses.length) {
+          const isCheckedAddressInfo = _find(customerProps.addresses, { isChecked:true });
+          return isCheckedAddressInfo ? isCheckedAddressInfo.address : false;
+        }
+        return '请选择送餐地址';
+      }
+      return '到店取餐';
+    };
     return (
       <div className="application">
         {type === 'WM' ?
           <a className="options-group options-group--stripes" href="#customer-info" >
             <div className="option-stripes-title">{customerProps.name}{customerProps.sex === '1' ? '先生' : '女士'} {customerProps.mobile}</div>
             <div className="clearfix">
-              <div className="option-desc half">天府软件园E区</div>
+              <div className="option-desc">
+                {getDefaultAddress()}
+              </div>
             </div>
           </a>
           :
@@ -175,7 +194,9 @@ const OrderApplication = React.createClass({
               <span className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
             </a>
           : false}
-          {serviceProps.discountProps.discountInfo && !serviceProps.couponsProps.inUseCoupon ?
+          {serviceProps.discountProps.discountInfo && !serviceProps.couponsProps.inUseCoupon
+            && orderedDishesProps.dishes && orderedDishesProps.dishes.length
+            && orderedDishesProps.dishes.filter(dish => dish.isMember).length !== 0 ?
             <ActiveSelect
               optionsData={[serviceProps.discountProps.discountInfo]} onSelectOption={setOrderProps}
               optionComponent={OrderPropOption}
@@ -210,85 +231,20 @@ const OrderApplication = React.createClass({
           </label>
         </div>
 
+        <OrderSummary
+          serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
+          commercialProps={commercialProps} shopId={shopId}
+        />
+
         {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
           <div>
             <div className="options-group">
-              <a className="order-prop-option order-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
-                <img className="order-shop-icon" src={commercialProps.commercialLogo} alt="" />
-                <p className="order-shop-desc ellipsis">{commercialProps.name}</p>
-              </a>
-
-              {orderedDishesProps.dishes.map(dish => (<OrderedDish key={dish.id} dish={dish} />))}
-
-              <div className="order-summary">
-                {orderSummary.coupon ?
-                  <p className="order-summary-entry clearfix">
-                    <span className="order-title">优惠券优惠:</span>
-                    <span className="order-discount discount">{orderSummary.coupon}</span>
-                  </p>
-                  :
-                  false
-                }
-                {serviceProps.integralsInfo.isChecked && commercialProps.carryRuleVO ?
-                  <p className="order-summary-entry clearfix">
-                    <span className="order-title">积分抵扣:</span>
-                    <span className="order-discount discount">
-                      {helper.countIntegralsToCash(
-                        helper.clearSmallChange(
-                          commercialProps.carryRuleVO,
-                          getDishesPrice(orderedDishesProps.dishes),
-                          orderSummary).priceWithClearSmallChange,
-                        serviceProps.integralsInfo.integralsDetail
-                      ).commutation}
-                    </span>
-                    <span className="order-integral">
-                      {helper.countIntegralsToCash(
-                        helper.clearSmallChange(
-                          commercialProps.carryRuleVO,
-                          getDishesPrice(orderedDishesProps.dishes),
-                          orderSummary).priceWithClearSmallChange,
-                        serviceProps.integralsInfo.integralsDetail
-                      ).integralInUsed}
-                    </span>
-                  </p>
-                  :
-                  false
-                }
-                {commercialProps.carryRuleVO ?
-                  <p className="order-summary-entry clearfix">
-                    <span className="order-title">自动抹零:</span>
-                    <span className="order-discount discount">{
-                      helper.clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes), orderSummary).smallChange
-                                                              }</span>
-                  </p>
-                  :
-                  false
-                }
-              </div>
-              <div className="order-prop-option order-total clearfix">
-                <div className="order-total-left">
-                  <span className="text-dove-grey">总计: </span>
-                  <span className="price">{getDishesPrice(orderedDishesProps.dishes)}</span>
-                </div>
-                <div className="order-total-left">
-                  <span className="text-dove-grey">优惠: </span>
-                  <span className="price">
-                    {helper.countDecreasePrice(orderedDishesProps, orderSummary, serviceProps.integralsInfo, commercialProps)}
-                  </span>
-                </div>
-                <div className="order-total-right">
-                  <span className="text-dove-grey">实付: </span>
-                  <span className="price">
-                    {helper.countFinalPrice(orderedDishesProps, orderSummary, serviceProps.integralsInfo, commercialProps)}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="options-group">
               <a
                 className="order-prop-option"
-                href={config.getMoreDishesURL + '/orderall/selectDish?type=' + getUrlParam('type') + '&shopId=' + getUrlParam('shopId')}
+                href={type === 'TS' ?
+                config.getMoreTSDishesURL + '?type=TS&shopId=' + shopId
+                :
+                config.getMoreWMDishesURL + '?type=WM&shopId=' + shopId}
               >
                 <span className="order-add-text">我要加菜</span>
                 <span className="option-btn btn-arrow-right">共{getDishesCount(orderedDishesProps.dishes)}份</span>
@@ -299,20 +255,22 @@ const OrderApplication = React.createClass({
               <div className="order-cart-left">
                 <div className="vertical-center clearfix">
                   {commercialProps.carryRuleVO ?
-                    <div className="order-cart-entry text-dove-grey">已优惠:&nbsp;
-                      <span className="price">
-                        {helper.countDecreasePrice(orderedDishesProps, orderSummary, serviceProps.integralsInfo, commercialProps)}
-                      </span>
+                    <div>
+                      <div className="order-cart-entry text-dove-grey">已优惠:&nbsp;
+                        <span className="price">
+                          {helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)}
+                        </span>
+                      </div>
+                      <div className="order-cart-entry">
+                        <span className="text-dove-grey">待支付: </span>
+                        <span className="order-cart-price price">
+                          {helper.countFinalPrice(orderedDishesProps, serviceProps, commercialProps)}
+                        </span>
+                      </div>
                     </div>
                     :
                     false
                   }
-                  <div className="order-cart-entry">
-                    <span className="text-dove-grey">待支付: </span>
-                    <span className="order-cart-price price">
-                      {helper.countFinalPrice(orderedDishesProps, orderSummary, serviceProps.integralsInfo, commercialProps)}
-                    </span>
-                  </div>
                 </div>
               </div>
               <div className="order-cart-right">
@@ -330,7 +288,7 @@ const OrderApplication = React.createClass({
         }
         {childView === 'customer-info' && type === 'WM' ?
           <CustomerTakeawayInfoEditor
-            customerProps={customerProps}
+            customerProps={customerProps} sendAreaId={serviceProps.sendAreaId} onAddressEditor={setSessionAndForwardChaining}
             onCustomerPropsChange={setOrderProps} onComponentWillMount={fetchUserAddressInfo} onDone={this.resetChildView}
           />
           : false
@@ -357,6 +315,11 @@ const OrderApplication = React.createClass({
             : false
           }
         </ReactCSSTransitionGroup>
+        {errorMessage ?
+          <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
+          :
+          false
+        }
       </div>
     );
   },

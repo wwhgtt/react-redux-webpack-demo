@@ -48,7 +48,7 @@ module.exports = React.createClass({
             </div>
             <div className="editor-two-thirds">
               <div className="order-prop-option">
-                <input className="editor-input" id="editor-name" placeholder={customerProps.name} onChange={this.handleBasicInfoChange} />
+                <input className="editor-input" name="name" id="editor-name" placeholder={customerProps.name} onChange={this.handleBasicInfoChange} />
               </div>
               <div className="order-prop-option clearfix">
                 <label className="half">
@@ -73,7 +73,7 @@ module.exports = React.createClass({
 
           <label className="order-prop-option">
             <span className="option-title">联系电话：</span>
-            <input className="editor-input" placeholder={customerProps.mobile} onChange={this.handleBasicInfoChange} />
+            <input className="editor-input" placeholder={customerProps.mobile} onChange={this.handleBasicInfoChange} disabled="disabled" />
           </label>
         </div>
 

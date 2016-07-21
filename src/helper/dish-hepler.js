@@ -9,6 +9,8 @@ const getUrlParam = exports.getUrlParam = function (param) {
 const isSingleDishWithoutProps = exports.isSingleDishWithoutProps = function (dish) {
   if (dish.type !== 1 && dish.dishPropertyTypeInfos.length === 0) {
     return true;
+  } else if (dish.type !== 1 && dish.dishPropertyTypeInfos.length === 1 && dish.dishPropertyTypeInfos[0].type === 4) {
+    return true;
   }
   return false;
 };
@@ -43,8 +45,8 @@ const getOrderPrice = exports.getOrderPrice = function (dish, orderData) {
             : getOrderPrice(childDish, childDish.order[0])
         )
     ));
-    return Math.floor(orderData.count *
-      (dish.marketPrice + parseFloat(orderedChildDishPrices.reduce((c, p) => c + p, 0))) * 100) / 100;
+    return (orderData.count *
+      (dish.marketPrice + parseFloat(orderedChildDishPrices.reduce((c, p) => c + p, 0)))).toFixed(2);
   }
   // for nongroup dish, from this line.
   const rePriceProps = orderData.dishPropertyTypeInfos.filter(prop => prop.type !== 3);
@@ -60,18 +62,18 @@ const getOrderPrice = exports.getOrderPrice = function (dish, orderData) {
       ingredientsPriceProp => ingredientsPriceProp.isChecked
     ).map(ingredientsPriceProp => ingredientsPriceProp.reprice)
   );
-  return Math.floor(orderData.count *
+  return (orderData.count *
     (dish.marketPrice +
        parseFloat(checkedRepricePropPrices.reduce((c, p) => c + p, 0)) +
        parseFloat(checkedIngredientsPropsPrice.reduce((c, p) => c + p, 0))
-    ) * 100) / 100;
+    )).toFixed(2);
 };
 const getDishPrice = exports.getDishPrice = function (dish) {
   if (isSingleDishWithoutProps(dish)) {
-    return dish.marketPrice * dish.order;
+    return parseFloat((dish.marketPrice * dish.order).toFixed(2));
   }
   return dish.order.map(
-    eachOrder => getOrderPrice(dish, eachOrder)
+    eachOrder => parseFloat(getOrderPrice(dish, eachOrder))
   ).reduce((c, p) => c + p, 0);
 };
 
@@ -122,6 +124,13 @@ const getOrderPropIds = function (order) {
     ingredient => ingredient.isChecked
   ).map(ingredient => ingredient.id);
   return [propsIds, ingredientIds];
+};
+exports.hasSelectedProps = function (dish) {
+  const propsIdsCollection = getOrderPropIds(dish.order[0]);
+  if (propsIdsCollection[0].length !== 0 || propsIdsCollection[1].length !== 0) {
+    return true;
+  }
+  return false;
 };
 // setCookie
 exports.setCookie = function (name, value) {
@@ -187,16 +196,3 @@ exports.restoreDishesLocalStorage = function (data) {
   }
   return data;
 };
-// exports.setMemberPriceToDishes = function (memberDishesList, dishesData) {
-//   memberDishesList.forEach(
-//     memberDish => {
-//       dishesData.forEach(
-//         dishData => {
-//           if (dishData.id === memberDish.dishId) {
-//
-//           }
-//         }
-//       );
-//     }
-//   );
-// };

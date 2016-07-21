@@ -1,7 +1,5 @@
 const React = require('react');
 const DynamicClassDiv = require('../../component/mui/misc/dynamic-class-hoc.jsx')('div');
-const config = require('../../config');
-const helper = require('../../helper/dish-hepler');
 
 module.exports = React.createClass({
   displayName: 'CustomerAddressOption',
@@ -16,7 +14,7 @@ module.exports = React.createClass({
         <span>{address}</span>
         <a
           className="address-edit"
-          href={`${config.editUserAddressURL}?shopId=${helper.getUrlParam('type')}&id=${id}`}
+          data-editor={id}
         >
         </a>
       </DynamicClassDiv>
