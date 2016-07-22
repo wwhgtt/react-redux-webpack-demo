@@ -3,7 +3,7 @@ const React = require('react');
 const { findDOMNode } = require('react-dom');
 const shallowCompare = require('react-addons-shallow-compare');
 const classnames = require('classnames');
-const IScroll = require('iscroll/build/iscroll-probe');
+const IScroll = require('iscroll');
 const ActiveSelect = require('./active-select.jsx');
 
 require('../../../asset/style/style.scss');
@@ -43,7 +43,7 @@ module.exports = React.createClass({
   },
   applyIScrollPlugin(viewport) {
     const cache = this._cache;
-    const iScroll = cache.iScroll = new IScroll(viewport, { snap:'[data-option]', probeType: 1, snapThreshold: 0.5 });
+    const iScroll = cache.iScroll = new IScroll(viewport, { snap:'[data-option]', snapThreshold: 0.5 });
     iScroll.on('beforeScrollStart', () => {
       if (cache.selectTimmer) {
         window.clearTimeout(cache.selectTimmer);
