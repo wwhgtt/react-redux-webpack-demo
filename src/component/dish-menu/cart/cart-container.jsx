@@ -13,6 +13,8 @@ module.exports = React.createClass({
     onBillBtnTap: React.PropTypes.func.isRequired,
     onClearBtnTap: React.PropTypes.func.isRequired,
     takeawayServiceProps: React.PropTypes.object,
+    openTimeList: React.PropTypes.array,
+    sendTimeList: React.PropTypes.array,
   },
   getInitialState() {
     return {
@@ -29,21 +31,27 @@ module.exports = React.createClass({
     evt.preventDefault();
   },
   render() {
-    const { dishes, takeawayServiceProps, onBillBtnTap, onOrderBtnTap } = this.props;
+    const { dishes, takeawayServiceProps, onBillBtnTap, onOrderBtnTap, openTimeList, sendTimeList } = this.props;
     const { expand } = this.state;
     const orderedDishes = helper.getOrderedDishes(dishes);
+
+    const openingTime = helper.getUrlParam('type') === 'TS' ? openTimeList : sendTimeList;
+    const isShopOpen = helper.isShopOpen(openingTime);
+
     return (
       <div className="cart-container">
         <TinyCart
           dishesCount={helper.getDishesCount(orderedDishes)}
           totalPrice={helper.getDishesPrice(orderedDishes)}
           takeawayServiceProps={takeawayServiceProps}
+          isShopOpen={isShopOpen}
           onBillBtnTap={onBillBtnTap} onCartIconTap={this.expandCart}
         />
         {expand ?
           <ExpandCart
             dishesCount={helper.getDishesCount(orderedDishes)} totalPrice={helper.getDishesPrice(orderedDishes)}
             orderedDishes={orderedDishes} takeawayServiceProps={takeawayServiceProps}
+            isShopOpen={isShopOpen}
             onBillBtnTap={onBillBtnTap} onCartIconTap={this.expandCart} onOrderBtnTap={onOrderBtnTap} onClearBtnTap={this.onClearBtnTap}
           /> : false}
       </div>

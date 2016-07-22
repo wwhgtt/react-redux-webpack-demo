@@ -18,7 +18,9 @@ module.exports = function (
         payload.dishTypeList && payload.dishTypeList.length ?
         payload.dishTypeList[0].id
         :
-        -1);
+        -1)
+      .setIn(['openTimeList'], payload.openTimeList)
+      .setIn(['sendTimeList'], payload.sendTimeList);
     case 'ACTIVE_DISH_TYPE':
       return state.setIn(['activeDishTypeId'], payload);
     case 'SHOW_DISH_DETAIL':

@@ -29,6 +29,8 @@ const DishMenuApplication = React.createClass({
     dishDetailData: React.PropTypes.object,
     dishDescData: React.PropTypes.object,
     takeawayServiceProps: React.PropTypes.object,
+    openTimeList: React.PropTypes.array,
+    sendTimeList: React.PropTypes.array,
   },
   componentDidMount() {
     const { fetchMenuData, fetchServiceProps, fetchOrderDiscountInfo } = this.props;
@@ -45,8 +47,11 @@ const DishMenuApplication = React.createClass({
     orderDish(dishData);
   },
   render() {
-    const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, setDishCookie, takeawayServiceProps } = this.props; // states
-    const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders } = this.props; // actions
+    // states
+    const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, setDishCookie, takeawayServiceProps,
+            openTimeList, sendTimeList } = this.props;
+    // actions
+    const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders } = this.props;
     return (
       <div className="application">
         <DishTypeScroller
@@ -60,6 +65,7 @@ const DishMenuApplication = React.createClass({
         />
         <CartContainer
           dishes={dishesData} takeawayServiceProps={takeawayServiceProps}
+          openTimeList={openTimeList} sendTimeList={sendTimeList}
           onOrderBtnTap={orderDish} onBillBtnTap={setDishCookie} onClearBtnTap={removeAllOrders}
         />
         {dishDetailData !== undefined ?
