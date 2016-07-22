@@ -38,7 +38,7 @@ module.exports = React.createClass({
     return (
       <div className="tiny-cart">
         <div className="tiny-cart-left">
-          <a className="cart-icon cart-icon--tiny" onTouchTap={onCartIconTap} data-count={dishesCount}></a>
+          <button className="cart-icon cart-icon--tiny" onTouchTap={evt => onCartIconTap(dishesCount)} data-count={dishesCount || null}></button>
           {
             dishesCount === 0 ? <span className="tiny-cart-text">购物车是空的</span> :
               <span className="tiny-cart-price price">
