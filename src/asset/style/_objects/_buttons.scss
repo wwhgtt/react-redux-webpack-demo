@@ -54,21 +54,29 @@
     width: 12px;
     height: 2px;
   }
+}
+
+.btn-minus {
+  &::after {
+    width: 0;
+    height: 0;
+  }
+
+  &.btn-disabled {
+    display: none;
+  }
+}
+
+.btn-add {
+  &::after {
+    width: 2px;
+    height: 12px;
+  }
 
   &.btn-disabled::before,
   &.btn-disabled::after {
     background: darken($color-mischka, 10%);
   }
-}
-
-.btn-minus::after {
-  width: 0;
-  height: 0;
-}
-
-.btn-add::after {
-  width: 2px;
-  height: 12px;
 }
 
 .btn-choose-property {
