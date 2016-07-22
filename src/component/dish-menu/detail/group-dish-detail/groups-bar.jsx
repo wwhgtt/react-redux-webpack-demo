@@ -23,7 +23,7 @@ module.exports = React.createClass({
         <li
           key={id} data-idx={idx}
           className={classnames('group', { 'is-active':activeGroupIdx === idx, 'is-error':isOverRestriction(groupData.childInfos) })}
-          style={{ width: `${1 / groups.length * 100}%` }}
+          style={{ flex: `1 0 ${1 / groups.length * 100}%` }}
           onTouchTap={onGroupTap}
         >
           <div className="group-text">
@@ -44,7 +44,7 @@ module.exports = React.createClass({
     return (
       <div className="groups-bar-arrow flex-none">
         <div className="groups-bar-wrap">
-          <ul className="groups-bar" style={{ width: `${1 / 3 * groupElements.length * 100}%` }}>
+          <ul className="groups-ba flex-row" style={{ width: `${1 / 3 * groupElements.length * 100}%` }}>
             {groupElements}
           </ul>
         </div>

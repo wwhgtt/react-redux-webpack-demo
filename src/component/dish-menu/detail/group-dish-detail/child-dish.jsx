@@ -106,13 +106,13 @@ module.exports = React.createClass({
         <div className="dish-name-wrap">
           <div className="dish-name">
             {dish.name}
-            <span className="badge-price">{price}元</span>
+            <span className="badge-price">{(price > 0 ? '+' : '') + price}元</span>
             {dish.isReplace ? <span className="badge-bi"></span> : false}
           </div>
           {
             hasProps ?
               <div className="right">
-                <span className={classnames({ 'dish-count' : true, 'count-hide' : expand })}>{count}</span>
+                <span className={classnames({ 'dish-count' : true, 'count-hide' : expand || count <= 0})}>{count}</span>
                 <a className="dish-dropdown-trigger btn--ellips" onTouchTap={this.onPropsBtnTap}>{expand ? '收起' : '可选属性'}</a>
               </div>
             :

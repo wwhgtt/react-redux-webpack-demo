@@ -14,6 +14,7 @@ module.exports = React.createClass({
     onClearBtnTap: React.PropTypes.func.isRequired,
     orderedDishes: React.PropTypes.array,
     takeawayServiceProps: React.PropTypes.object,
+    isShopOpen: React.PropTypes.bool.isRequired,
   },
   buildOrderedElements(orderedDishes, onOrderBtnTap) {
     function divideDishes(dishes) {
@@ -65,7 +66,7 @@ module.exports = React.createClass({
   },
   render() {
     const { dishesCount, totalPrice, takeawayServiceProps,
-      onBillBtnTap, onOrderBtnTap, onCartIconTap, orderedDishes, onClearBtnTap } = this.props;
+      onBillBtnTap, onOrderBtnTap, onCartIconTap, orderedDishes, onClearBtnTap, isShopOpen } = this.props;
     const orderedElements = this.buildOrderedElements(orderedDishes, onOrderBtnTap);
     const takeawayServiceMinPriceElement = this.buildTakeawayServiceMinPriceElement(totalPrice, takeawayServiceProps, onBillBtnTap);
     const takeawayServiceShipPriceElement = this.buildTakeawayServiceShipPriceElement(totalPrice, takeawayServiceProps);
@@ -75,8 +76,8 @@ module.exports = React.createClass({
 
         <div className="expand-cart-main">
           <div className="expand-cart-header">
-            <a className="cart-icon cart-icon--expand" onTouchTap={onCartIconTap} data-count={dishesCount}></a>
-            <a className="expand-cart-clear" onTouchTap={onClearBtnTap}>清空购物车</a>
+            <button className="cart-icon cart-icon--expand" onTouchTap={evt => onCartIconTap(dishesCount)} data-count={dishesCount}></button>
+            <button className="expand-cart-clear" onTouchTap={onClearBtnTap}>清空购物车</button>
           </div>
 
           {orderedElements}
@@ -92,8 +93,10 @@ module.exports = React.createClass({
               }
             </div>
             <div className="tiny-cart-right">
-              {/* <span className="tiny-cart-text">商户已打烊</span> */}
-              {takeawayServiceMinPriceElement}
+              {
+                isShopOpen ? takeawayServiceMinPriceElement :
+                  <span className="tiny-cart-text">商户已打烊</span>
+              }
             </div>
           </div>
         </div>

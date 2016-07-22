@@ -19,7 +19,7 @@ module.exports = React.createClass({
     return (
       <div className="dish-detail-container">
         <a href="" className="dish-detail-close" onTouchTap={this.onCloseBtnTap}></a>
-        <div className="dish-detail-content">
+        <div className="dish-detail-content dish-detail-content--white">
           <img className="dish-desc-image" src={dish.largeImgUrl || imagePlaceholder} alt="" />
           <div className="dish-desc-content">
             <h2 className="dish-desc-title">{dish.name}</h2>
