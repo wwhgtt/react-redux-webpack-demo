@@ -18,6 +18,8 @@ module.exports = React.createClass({
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
   },
+  componentDidUpdate() {
+  },
   onBtnTap(newCount, increment) {
     const { dishData, onOrderBtnTap, onPropsBtnTap } = this.props;
     if (increment) {
@@ -25,6 +27,11 @@ module.exports = React.createClass({
     } else {
       onPropsBtnTap(dishData);
     }
+  },
+  onTouchTap(evt) {
+    // prevent event bubble to iscroll
+    evt.preventDefault();
+    evt.stopPropagation();
   },
   onDishImageTap() {
     const { dishData, onImageBtnTap } = this.props;
@@ -41,7 +48,7 @@ module.exports = React.createClass({
     const { dishData } = this.props;
     const orderBtn = this.buildOrderBtn(dishData);
     return (
-      <div className="dish-list-item">
+      <div className="dish-list-item" onTouchTap={this.onTouchTap}>
         <button
           className={classnames('dish-item-img', { 'is-memberdish': dishData.isMember })}
           onTouchTap={this.onDishImageTap}

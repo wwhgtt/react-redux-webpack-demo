@@ -115,10 +115,16 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
         priceWithClearSmallChange:totalPrice,
       };
     } else if (scale === 1) {
-      return totalPrice.toString().length === 4 ?
+      return totalPrice.toString().indexOf('.') !== -1 ?
       {
-        smallChange:parseFloat((Number(totalPrice.toString().substr(-2)) + 0.1 - totalPrice).toFixed(1)),
-        priceWithClearSmallChange:Number(totalPrice.toString().substr(-2)) + 0.1,
+        smallChange:totalPrice.toString().spilt('.')[1].length === 1 ?
+        0
+        :
+        parseFloat((parseFloat((Math.ceil(totalPrice * 10 + 1) / 10).toFixed(2)) - totalPrice).toFixed(2)),
+        priceWithClearSmallChange:totalPrice.toString().spilt('.')[1].length === 1 ?
+        totalPrice
+        :
+        parseFloat((Math.ceil(totalPrice * 10 + 1) / 10).toFixed(2)),
       }
         :
       {
@@ -139,10 +145,16 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
         priceWithClearSmallChange:totalPrice,
       };
     } else if (scale === 1) {
-      return totalPrice.toString().length === 4 ?
+      return totalPrice.toString().indexOf('.') !== -1 ?
       {
-        smallChange:parseFloat((totalPrice - parseFloat(totalPrice.toString().substr(-2))).toFixed(2)),
-        priceWithClearSmallChange:parseFloat(totalPrice.toString().substr(-2)),
+        smallChange:totalPrice.toString().spilt('.')[1].length === 1 ?
+        0
+        :
+        parseFloat((totalPrice - parseFloat((Math.floor(totalPrice * 10) / 10).toFixed(2))).toFixed(2)),
+        priceWithClearSmallChange:totalPrice.toString().spilt('.')[1].length === 1 ?
+        totalPrice
+        :
+        parseFloat((Math.floor(totalPrice * 10) / 10).toFixed(2)),
       }
         :
       {
@@ -151,7 +163,7 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
       };
     } else if (scale === 0) {
       return {
-        smallChange:parseFloat((totalPrice - Math.floor(totalPrice)).toFixed(0)),
+        smallChange:parseFloat((totalPrice - Math.floor(totalPrice)).toFixed(2)),
         priceWithClearSmallChange:Math.floor(totalPrice),
       };
     }

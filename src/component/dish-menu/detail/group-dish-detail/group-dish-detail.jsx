@@ -46,6 +46,7 @@ module.exports = React.createClass({
       activeGroupIdx:0,
       dish: dishForDetail,
       toast: 0,
+      toastText: ''
     };
   },
   componentDidUpdate() {
@@ -86,27 +87,47 @@ module.exports = React.createClass({
   onAddToCarBtnTap() {
     const { onAddToCarBtnTap } = this.props;
     const { dish } = this.state;
-    const isOverRestriction = dish.order[0].groups.some(dishGroup => {
-      const orderedCount = helper.getDishesCount(helper.getOrderedDishes(dishGroup.childInfos));
-      return orderedCount > dishGroup.orderMax || orderedCount < dishGroup.orderMin;
-    });
+    const firstOrder = dish.order[0];
+    if(!firstOrder){
+      return;
+    }
 
-    if (isOverRestriction) {
-      this.showToast();
+    if (helper.getDishesCount([dish]) <= 0) {
+      this.showToast('请选择套餐份数');
       return false;
     }
 
-    if (helper.getDishesCount([dish]) > 0) {
-      onAddToCarBtnTap(dish);
-      return true;
+    let invalidRets = [];
+    firstOrder.groups.forEach(dishGroup => {
+      const orderedCount = helper.getDishesCount(helper.getOrderedDishes(dishGroup.childInfos));
+      let isValid = true;
+      let message = '';
+      if(orderedCount > dishGroup.orderMax){
+        message = '子菜份数超出可选范围';
+        isValid = false;
+      }
+      else if(orderedCount < dishGroup.orderMin){
+        message = '请选择足够的子菜份数';
+        isValid = false;
+      }
+      if(!isValid){
+        invalidRets.push({message, isValid});
+      }
+    });
+
+    if(invalidRets.length){
+      this.showToast(invalidRets.shift().message);
+      return false;
     }
-    return false;
+
+    onAddToCarBtnTap(dish);
+    return true;
   },
-  showToast() {
-    this.setState({ toast:1 });
+  showToast(text) {
+    this.setState({ toast:1, toastText: text });
 
     setTimeout(() => {
-      this.setState({ toast:0 });
+      this.setState({ toast:0, toastText: '' });
     }, 3000);
   },
   buildGroupDishes(groupData) {
@@ -130,7 +151,7 @@ module.exports = React.createClass({
         <button className="dish-detail-addtocart btn--yellow flex-none" onTouchTap={this.onAddToCarBtnTap}>加入购物车</button>
         {
           this.state.toast === 1 ?
-            <div className="toast"><span className="toast-content">套餐份数超出可选范围</span></div>
+            <div className="toast"><span className="toast-content">{this.state.toastText}</span></div>
           :
           false
         }
@@ -138,3 +159,4 @@ module.exports = React.createClass({
     );
   },
 });
+
