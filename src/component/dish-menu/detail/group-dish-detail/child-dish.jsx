@@ -138,7 +138,7 @@ module.exports = React.createClass({
                 props={dish.order[0].dishPropertyTypeInfos} ingredients={dish.order[0].dishIngredientInfos}
                 onSelectPropsOption={this.onSelectPropsOption}
               />
-              <button className="dish-dropdown-close"><span></span></button>
+              <button className="dish-dropdown-close" onTouchTap={this.onPropsBtnTap}><span></span></button>
             </div>
             :
             false
