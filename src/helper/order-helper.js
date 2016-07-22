@@ -117,11 +117,11 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
     } else if (scale === 1) {
       return totalPrice.toString().indexOf('.') !== -1 ?
       {
-        smallChange:totalPrice.toString().spilt('.')[1].length === 1 ?
+        smallChange:totalPrice.toString().split('.')[1].length === 1 ?
         0
         :
         parseFloat((parseFloat((Math.ceil(totalPrice * 10 + 1) / 10).toFixed(2)) - totalPrice).toFixed(2)),
-        priceWithClearSmallChange:totalPrice.toString().spilt('.')[1].length === 1 ?
+        priceWithClearSmallChange:totalPrice.toString().split('.')[1].length === 1 ?
         totalPrice
         :
         parseFloat((Math.ceil(totalPrice * 10 + 1) / 10).toFixed(2)),
@@ -147,11 +147,11 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
     } else if (scale === 1) {
       return totalPrice.toString().indexOf('.') !== -1 ?
       {
-        smallChange:totalPrice.toString().spilt('.')[1].length === 1 ?
+        smallChange:totalPrice.toString().split('.')[1].length === 1 ?
         0
         :
         parseFloat((totalPrice - parseFloat((Math.floor(totalPrice * 10) / 10).toFixed(2))).toFixed(2)),
-        priceWithClearSmallChange:totalPrice.toString().spilt('.')[1].length === 1 ?
+        priceWithClearSmallChange:totalPrice.toString().split('.')[1].length === 1 ?
         totalPrice
         :
         parseFloat((Math.floor(totalPrice * 10) / 10).toFixed(2)),
