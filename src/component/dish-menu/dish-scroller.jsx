@@ -2,7 +2,7 @@ const React = require('react');
 const { findDOMNode } = require('react-dom');
 const shallowCompare = require('react-addons-shallow-compare');
 const _find = require('lodash.find');
-const IScroll = require('iscroll/build/iscroll-probe');
+const IScroll = require('iscroll/build/iscroll-lite');
 const classnames = require('classnames');
 const DishListItem = require('./dish-list-item.jsx');
 
@@ -24,18 +24,21 @@ module.exports = React.createClass({
   componentDidMount() {
     const { onScroll } = this.props;
     const cache = this._cache = {};
-    const iScroll = cache.iScroll = new IScroll(findDOMNode(this), { probeType: 2 });
-    iScroll.on('scroll', () => {
-      const dishTypeId = this.findCurrentDishTypeId(iScroll.y);
+    const iScroll = cache.iScroll = new IScroll(findDOMNode(this), {});
+    iScroll.on('scrollStart', () => {
       cache.isScrolling = true;
-      if (!window.__activeTypeByTap__ && dishTypeId) {
-        onScroll(null, dishTypeId);
+      if (cache.timer) {
+        window.clearTimeout(cache.timer);
+        cache.timer = null;
       }
     });
     iScroll.on('scrollEnd', () => {
       const dishTypeId = this.findCurrentDishTypeId(iScroll.y);
       if (!window.__activeTypeByTap__ && dishTypeId) {
-        onScroll(null, dishTypeId);
+        if (cache.timer) {
+          window.clearTimeout(cache.timer);
+        }
+        cache.timer = setTimeout(() => onScroll(null, dishTypeId), 150);
       }
       cache.isScrolling = false;
       window.__activeTypeByTap__ = false;
