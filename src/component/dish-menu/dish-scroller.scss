@@ -28,3 +28,7 @@
 .dish-item-dish {
   border-top: 1px solid $color-alto;
 }
+
+.dish-type-desc {
+  color: lighten($color-dusty-grey, 10%);
+}

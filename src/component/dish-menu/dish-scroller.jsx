@@ -87,6 +87,15 @@ module.exports = React.createClass({
       }
       return dish;
     }
+
+    function getDishTypeTitle(dishTypeData) {
+      if (dishTypeData.desc) {
+        return (<span>{dishTypeData.name} <span className="dish-type-desc">{`(${dishTypeData.desc})`}</span></span>);
+      }
+
+      return (<span>{dishTypeData.name}</span>);
+    }
+
     return (
       <ul className="dish-list">
       {
@@ -101,7 +110,7 @@ module.exports = React.createClass({
                 data-id={dishTypeData.id}
                 className={classnames('dish-item-type', { active:activeDishTypeId === dishTypeData.id })}
               >
-                {dishTypeData.desc ? dishTypeData.name + ' (' + dishTypeData.desc + ')' : dishTypeData.name}
+                {getDishTypeTitle(dishTypeData)}
               </li>,
             ].concat(
               dishTypeData.dishIds.map(dishId => {
