@@ -23,7 +23,7 @@ module.exports = React.createClass({
   },
   onBtnsTap(count, increment) {
     const { maximum, minimum, onCountChange } = this.props;
-    const maxNumber = !maximum ? Infinity : maximum;
+    const maxNumber = !maximum && maximum !== 0 ? Infinity : maximum;
     if (increment > 0 && maxNumber >= count + increment) {
       return onCountChange(count + increment, increment);
     } else if (increment < 0 && count + increment >= minimum) {
