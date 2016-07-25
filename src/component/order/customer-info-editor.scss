@@ -23,6 +23,10 @@
   color: $color-dove-grey;
   border: 0;
   outline: 0;
+
+  &[disabled] {
+    background: transparent;
+  }
 }
 
 .option-radio {
