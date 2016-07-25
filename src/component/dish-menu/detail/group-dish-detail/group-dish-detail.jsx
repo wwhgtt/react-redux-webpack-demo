@@ -46,7 +46,8 @@ module.exports = React.createClass({
       activeGroupIdx:0,
       dish: dishForDetail,
       toast: 0,
-      toastText: ''
+      toastText: '',
+      groupsValid: true,
     };
   },
   componentDidUpdate() {
@@ -88,8 +89,8 @@ module.exports = React.createClass({
     const { onAddToCarBtnTap } = this.props;
     const { dish } = this.state;
     const firstOrder = dish.order[0];
-    if(!firstOrder){
-      return;
+    if (!firstOrder) {
+      return false;
     }
 
     if (helper.getDishesCount([dish]) <= 0) {
@@ -102,20 +103,20 @@ module.exports = React.createClass({
       const orderedCount = helper.getDishesCount(helper.getOrderedDishes(dishGroup.childInfos));
       let isValid = true;
       let message = '';
-      if(orderedCount > dishGroup.orderMax){
+      if (orderedCount > dishGroup.orderMax) {
         message = '子菜份数超出可选范围';
         isValid = false;
-      }
-      else if(orderedCount < dishGroup.orderMin){
+      } else if (orderedCount < dishGroup.orderMin) {
         message = '请选择足够的子菜份数';
         isValid = false;
       }
-      if(!isValid){
-        invalidRets.push({message, isValid});
+      if (!isValid) {
+        invalidRets.push({ message, isValid });
+        this.setState({ groupsValid: false });
       }
     });
 
-    if(invalidRets.length){
+    if (invalidRets.length) {
       this.showToast(invalidRets.shift().message);
       return false;
     }
@@ -139,12 +140,17 @@ module.exports = React.createClass({
     ));
   },
   render() {
-    const { activeGroupIdx, dish } = this.state;
+    const { activeGroupIdx, dish, groupsValid } = this.state;
     const activeGroupDishes = this.buildGroupDishes(dish.order[0].groups[activeGroupIdx]);
     return (
       <div className="group-dish-detail flex-columns">
         <DishDetailHead dish={dish} onCountChange={this.onGroupDishCountChange} />
-        <GroupsBar groups={dish.order[0].groups} activeGroupIdx={activeGroupIdx} onGroupTap={this.onGroupTap} />
+        <GroupsBar
+          groups={dish.order[0].groups}
+          activeGroupIdx={activeGroupIdx}
+          onGroupTap={this.onGroupTap}
+          groupsValid={groupsValid}
+        />
         <div className="dishes-container flex-rest">
           {activeGroupDishes}
         </div>

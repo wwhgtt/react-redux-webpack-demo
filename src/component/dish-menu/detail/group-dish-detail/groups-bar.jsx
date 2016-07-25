@@ -10,6 +10,7 @@ module.exports = React.createClass({
     groups : React.PropTypes.array.isRequired,
     activeGroupIdx: React.PropTypes.number.isRequired,
     onGroupTap: React.PropTypes.func.isRequired,
+    groupsValid: React.PropTypes.bool,
   },
   getInitialState() {
     return { toast: 0 };
@@ -23,7 +24,7 @@ module.exports = React.createClass({
         return false;
       };
 
-      const isError = isOverRestriction(groupData.childInfos);
+      const isError = isOverRestriction(groupData.childInfos) && !this.props.groupsValid;
       return (
         <li
           key={id} data-idx={idx}
