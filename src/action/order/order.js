@@ -18,9 +18,14 @@ const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
-const getOrderUrl = type === 'WM' ? config.orderTakeAwayAPi : config.orderDineInAPi;
-exports.fetchOrder = () => (dispatch, getState) =>
-  fetch(`${getOrderUrl}?shopId=${shopId}`, config.requestOptions).
+exports.fetchOrder = () => (dispatch, getState) => {
+  const sendAreaId = JSON.parse(sessionStorage.getItem(shopId + '_sendArea_id'));
+  const toShopFlag = sendAreaId === 0 || !sendAreaId ? '1' : '0';
+  const getOrderUrl = type === 'WM' ?
+    config.orderTakeAwayAPi + '?shopId=' + shopId + '&toShopFlag=' + toShopFlag
+    :
+    config.orderDineInAPi + '?shopId=' + shopId;
+  fetch(getOrderUrl, config.requestOptions).
     then(res => {
       if (!res.ok) {
         dispatch(setErrorMsg('获取订单信息失败...'));
@@ -34,6 +39,7 @@ exports.fetchOrder = () => (dispatch, getState) =>
     catch(err => {
       console.log(err);
     });
+};
 
 exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
   fetch(`${config.orderDiscountInfoAPI}?shopId=${shopId}`, config.requestOptions).
