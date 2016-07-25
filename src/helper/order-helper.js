@@ -47,13 +47,14 @@ const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedC
   let limitType = integralsInfo.limitType;
   // 取余数  向下取整
   const canUsesIntegralTimes = Math.floor(canBeUsedCommutation / integralsInfo.exchangeCashValue);
+  console.log(canUsesIntegralTimes);
   if (limitType === 1) {
     const integralInUsed = canUsesIntegralTimes * integralsInfo.exchangeIntegralValue < integralsInfo.integral ?
       canUsesIntegralTimes * integralsInfo.exchangeIntegralValue
       :
       Math.floor(integralsInfo.integral / integralsInfo.exchangeIntegralValue) * integralsInfo.exchangeIntegralValue;
     return {
-      commutation:integralInUsed / integralsInfo.exchangeIntegralValue,
+      commutation:integralInUsed / integralsInfo.exchangeIntegralValue * integralsInfo.exchangeCashValue,
       integralInUsed,
     };
   } else if (limitType === 2) {

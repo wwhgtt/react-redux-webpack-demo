@@ -21,17 +21,17 @@ module.exports = {
 	/** 积分抵现配置 */
       'integral': {
 	// 客户积分账户积分数
-        'integral': 15,
+        'integral': 183,
 	// 所在等级是否可抵现
         'isExchangeCash': 0,
 	// 抵现消耗积分数
-        'exchangeIntegralValue': 1,
+        'exchangeIntegralValue': 23,
 	// 抵现金额数
-        'exchangeCashValue': 1,
+        'exchangeCashValue': 8,
 	// 抵现限制类型
         'limitType': 2,
 	// 抵现限制积分数据
-        'limitIntegral': 10,
+        'limitIntegral': 223,
       },
 	/** 是否是会员*/
       'isMember': true,
