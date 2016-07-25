@@ -13,6 +13,8 @@ module.exports = React.createClass({
     onBillBtnTap: React.PropTypes.func.isRequired,
     onClearBtnTap: React.PropTypes.func.isRequired,
     takeawayServiceProps: React.PropTypes.object,
+    openTimeList: React.PropTypes.array,
+    sendTimeList: React.PropTypes.array,
   },
   getInitialState() {
     return {
@@ -24,26 +26,34 @@ module.exports = React.createClass({
     this.setState({ expand: !this.state.expand });
     onClearBtnTap();
   },
-  expandCart(evt) {
-    this.setState({ expand: !this.state.expand });
-    evt.preventDefault();
+  expandCart(count) {
+    if (count > 0) {
+      this.setState({ expand: !this.state.expand });
+    }
   },
   render() {
-    const { dishes, takeawayServiceProps, onBillBtnTap, onOrderBtnTap } = this.props;
+    const { dishes, takeawayServiceProps, onBillBtnTap, onOrderBtnTap, openTimeList, sendTimeList } = this.props;
     const { expand } = this.state;
     const orderedDishes = helper.getOrderedDishes(dishes);
+    const dishesCount = helper.getDishesCount(orderedDishes);
+
+    const openingTime = helper.getUrlParam('type') === 'TS' ? openTimeList : sendTimeList;
+    const isShopOpen = helper.isShopOpen(openingTime);
+
     return (
       <div className="cart-container">
         <TinyCart
-          dishesCount={helper.getDishesCount(orderedDishes)}
+          dishesCount={dishesCount}
           totalPrice={helper.getDishesPrice(orderedDishes)}
           takeawayServiceProps={takeawayServiceProps}
+          isShopOpen={isShopOpen}
           onBillBtnTap={onBillBtnTap} onCartIconTap={this.expandCart}
         />
-        {expand ?
+        {expand && dishesCount > 0 ?
           <ExpandCart
-            dishesCount={helper.getDishesCount(orderedDishes)} totalPrice={helper.getDishesPrice(orderedDishes)}
+            dishesCount={dishesCount} totalPrice={helper.getDishesPrice(orderedDishes)}
             orderedDishes={orderedDishes} takeawayServiceProps={takeawayServiceProps}
+            isShopOpen={isShopOpen}
             onBillBtnTap={onBillBtnTap} onCartIconTap={this.expandCart} onOrderBtnTap={onOrderBtnTap} onClearBtnTap={this.onClearBtnTap}
           /> : false}
       </div>

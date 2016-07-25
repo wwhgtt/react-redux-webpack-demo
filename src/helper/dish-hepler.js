@@ -196,3 +196,41 @@ exports.restoreDishesLocalStorage = function (data) {
   }
   return data;
 };
+exports.isShopOpen = function (timeList) {
+  // timeList == [] or null, shop opens 24 hours
+  if (!timeList) {
+    return true;
+  }
+
+  // convert "HH:MM:SS" format to seconds1
+  const timeToSeconds = (time) => {
+    const hms = time.split(':');
+    return (+hms[0]) * 60 * 60 + (+hms[1]) * 60 + (+hms[2]);
+  };
+
+  const now = new Date();
+  const currentDay = now.getDay();
+  const currentTime = timeToSeconds(`${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`);
+
+  return timeList.some(entry => {
+    const isOpenTime = currentTime >= timeToSeconds(entry.startTime) && currentTime <= timeToSeconds(entry.endTime);
+    let isOpenDay = false;
+
+    // open in 7 days a week
+    if (entry.week === 7) {
+      isOpenDay = true;
+    }
+
+    // open in working days
+    if (entry.week === 0 && currentDay >= 1 && currentDay <= 5) {
+      isOpenDay = true;
+    }
+
+    // open in weekend
+    if (entry.week === 1 && currentDay === 0 && currentDay === 6) {
+      isOpenDay = true;
+    }
+
+    return isOpenDay && isOpenTime;
+  });
+};

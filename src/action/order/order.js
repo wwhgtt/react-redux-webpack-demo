@@ -122,7 +122,7 @@ exports.submitOrder = (note, receipt) => (dispatch, getState) => {
     });
 };
 exports.fetchSendAreaId = () => (dispatch, getState) => {
-  const sendAreaId = localStorage.getItem(shopId + '_sendArea_id');
+  const sendAreaId = sessionStorage.getItem(shopId + '_sendArea_id');
   dispatch(setSendAreaId(JSON.parse(sendAreaId)));
 };
 exports.clearErrorMsg = () => (dispatch, getState) =>

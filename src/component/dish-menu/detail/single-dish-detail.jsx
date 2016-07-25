@@ -22,6 +22,7 @@ module.exports = React.createClass({
     );
     return {
       dish: dishForDeital,
+      toast: 0,
     };
   },
   componentDidUpdate() {
@@ -33,6 +34,8 @@ module.exports = React.createClass({
       onAddToCarBtnTap(dish);
       return true;
     }
+    
+    this.showToast();
     return false;
   },
   onDishItemCountChange(increment) {
@@ -112,6 +115,12 @@ module.exports = React.createClass({
       default:
     }
   },
+  showToast() {
+    this.setState({ toast:1 });
+    setTimeout(() => {
+      this.setState({ toast:0 });
+    }, 3000);
+  },
   render() {
     const { dish } = this.state;
     return (
@@ -121,7 +130,12 @@ module.exports = React.createClass({
           props={dish.order[0].dishPropertyTypeInfos} ingredients={dish.order[0].dishIngredientInfos}
           onSelectPropsOption={this.onSelectPropsOption}
         />
-        <button className="dish-detail-addtocart btn--yellow flex-none" onTouchTap={this.onAddToCarBtnTap}>加入购物车</button>
+        <button className="dish-detail-addtocart btn--yellow flex-none" onTouchTap={this.onAddToCarBtnTap}>加入购物车</button>{
+          this.state.toast === 1 ?
+            <div className="toast"><span className="toast-content">请选择份数</span></div>
+          :
+          false
+        }
       </div>
     );
   },

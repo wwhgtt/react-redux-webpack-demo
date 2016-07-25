@@ -8,6 +8,7 @@ module.exports = React.createClass({
     onCartIconTap: React.PropTypes.func.isRequired,
     totalPrice: React.PropTypes.number,
     takeawayServiceProps: React.PropTypes.object,
+    isShopOpen: React.PropTypes.bool.isRequired,
   },
   buildTakeawayServiceMinPriceElement(totalPrice, takeawayServiceProps, onBillBtnTap) {
     if (
@@ -31,13 +32,13 @@ module.exports = React.createClass({
     return false;
   },
   render() {
-    const { dishesCount, totalPrice, takeawayServiceProps, onBillBtnTap, onCartIconTap } = this.props;
+    const { dishesCount, totalPrice, takeawayServiceProps, onBillBtnTap, onCartIconTap, isShopOpen } = this.props;
     const takeawayServiceMinPriceElement = this.buildTakeawayServiceMinPriceElement(totalPrice, takeawayServiceProps, onBillBtnTap);
     const takeawayServiceShipPriceElement = this.buildTakeawayServiceShipPriceElement(totalPrice, takeawayServiceProps);
     return (
       <div className="tiny-cart">
         <div className="tiny-cart-left">
-          <a className="cart-icon cart-icon--tiny" onTouchTap={onCartIconTap} data-count={dishesCount}></a>
+          <button className="cart-icon cart-icon--tiny" onTouchTap={evt => onCartIconTap(dishesCount)} data-count={dishesCount || null}></button>
           {
             dishesCount === 0 ? <span className="tiny-cart-text">购物车是空的</span> :
               <span className="tiny-cart-price price">
@@ -47,8 +48,10 @@ module.exports = React.createClass({
           }
         </div>
         <div className="tiny-cart-right">
-          {/* <span className="tiny-cart-text">商户已打烊</span> */}
-          {takeawayServiceMinPriceElement}
+          {
+            isShopOpen ? takeawayServiceMinPriceElement :
+              <span className="tiny-cart-text">商户已打烊</span>
+          }
         </div>
       </div>
     );
