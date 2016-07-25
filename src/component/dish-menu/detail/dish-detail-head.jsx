@@ -35,7 +35,7 @@ module.exports = React.createClass({
         <div className="head-main">
           <span className="dish-price price">{helper.getDishPrice(dish)}</span>
           <p className="dish-name">
-            {dish.name}{this.splitPropsSpecifications(dish)}／{dish.unitName}
+            {dish.name}{this.splitPropsSpecifications(dish)}／{dish.unitName}<span>: </span>
             <span className="price">{dish.marketPrice}</span>
           </p>
         </div>
