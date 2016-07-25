@@ -21,6 +21,10 @@ div[data-reactroot] {
   border-bottom: 1px solid $color-mercury;
   background: $color-white;
 
+  &:empty {
+    border-style: none;
+  }
+
   &--stripes {
     position: relative;
     overflow: hidden;
@@ -162,6 +166,12 @@ div[data-reactroot] {
 .order-summary {
   padding: 7px 10px 5px;
   border-bottom: 1px solid $color-alto;
+
+  &:empty {
+    padding: 0;
+    border-style: none;
+  }
+
 
   &-entry {
     line-height: 22px;
