@@ -47,7 +47,7 @@ module.exports = React.createClass({
     return (
       <div className="counter">
         {count > 0 ? <span className="counter-num">{count}</span> : false}
-        <a className="btn--ellips btn-choose-property" onTouchTap={this.onBtnTap}>菜品选项</a>
+        <a className="btn--ellips btn-choose-property" onTouchTap={this.onBtnTap}>套餐选项</a>
       </div>
     );
   },
