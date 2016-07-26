@@ -77,7 +77,7 @@ const getDishPrice = exports.getDishPrice = function (dish) {
   ).reduce((c, p) => c + p, 0);
 };
 
-const getDishesPrice = exports.getDishesPrice = function (dishes) {
+exports.getDishesPrice = function (dishes) {
   const dishesPrice = dishes.map(dish => getDishPrice(dish)).
     reduce((c, p) => c + p, 0);
   if (Number.isInteger(dishesPrice)) {
@@ -160,12 +160,6 @@ exports.getDishBoxprice = function (orderedDishes, dishBoxChargeInfo) {
     return 0;
   }
   return getDishBoxCount(orderedDishes) * dishBoxChargeInfo.content;
-};
-exports.getTotalPrice = function (orderedDishes, dishBoxChargeInfo) {
-  if (!dishBoxChargeInfo || dishBoxChargeInfo.orderFlag !== 1) {
-    return getDishesPrice(orderedDishes);
-  }
-  return getDishesPrice(orderedDishes) + getDishBoxCount(orderedDishes) * dishBoxChargeInfo.content;
 };
 exports.hasSelectedProps = function (dish) {
   const propsIdsCollection = getOrderPropIds(dish.order[0]);

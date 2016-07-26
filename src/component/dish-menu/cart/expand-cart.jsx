@@ -15,7 +15,6 @@ module.exports = React.createClass({
     orderedDishes: React.PropTypes.array,
     takeawayServiceProps: React.PropTypes.object,
     isShopOpen: React.PropTypes.bool.isRequired,
-    dishBoxChargeInfo:React.PropTypes.object,
   },
   buildOrderedElements(orderedDishes, onOrderBtnTap) {
     function divideDishes(dishes) {
@@ -66,7 +65,7 @@ module.exports = React.createClass({
     return false;
   },
   render() {
-    const { dishesCount, totalPrice, takeawayServiceProps, dishBoxChargeInfo,
+    const { dishesCount, totalPrice, takeawayServiceProps,
       onBillBtnTap, onOrderBtnTap, onCartIconTap, orderedDishes, onClearBtnTap, isShopOpen } = this.props;
     const orderedElements = this.buildOrderedElements(orderedDishes, onOrderBtnTap);
     const takeawayServiceMinPriceElement = this.buildTakeawayServiceMinPriceElement(totalPrice, takeawayServiceProps, onBillBtnTap);
@@ -82,21 +81,6 @@ module.exports = React.createClass({
           </div>
 
           {orderedElements}
-
-          {dishBoxChargeInfo && dishBoxChargeInfo.orderFlag === 1 ?
-            <div className="cart-ordered-dish">
-              {helper.getDishBoxCount(orderedDishes) * dishBoxChargeInfo.content !== 0 ?
-                <div className="ordered-dish">
-                  <span className="dish-name">餐盒费</span>
-                  <span className="dish-price price">{helper.getDishBoxCount(orderedDishes) * dishBoxChargeInfo.content}</span>
-                </div>
-                :
-                false
-              }
-            </div>
-            :
-            false
-          }
 
           <div className="tiny-cart">
             <div className="tiny-cart-left">
