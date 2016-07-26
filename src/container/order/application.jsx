@@ -98,7 +98,7 @@ const OrderApplication = React.createClass({
   },
   checkAddressChildViewAvailable(tableProps) {
     const { setChildView } = this.props;
-    if (_find(tableProps.tables, { isInitialize:true }) !== undefined) {
+    if (!tableProps.isEditable) {
       return false;
     }
     return setChildView('#table-select');

@@ -23,35 +23,46 @@ const getDishBoxPrice = exports.getDishBoxPrice = function () {
 };
 exports.getSelectedTable = function (tableProps) {
   return {
-    area: _find(tableProps.areas, { isInitialize:true }) ?
-      _find(tableProps.areas, { isInitialize:true })
-      :
-      _find(tableProps.areas, { isChecked:true }),
-    table: _find(tableProps.tables, { isInitialize:true }) ?
-      _find(tableProps.tables, { isInitialize:true })
-      :
-      _find(tableProps.tables, { isChecked:true }),
+    area:_find(tableProps.areas, { isChecked:true }),
+    table: _find(tableProps.tables, { isChecked:true }),
   };
 };
-exports.setAreaProps = function (payload) {
-  // payload.areaList payload.tableList payload.tableId
-  if (!payload.areaList) {
-    return null;
+exports.initializeAreaAdnTableProps = function (areaList, tableList) {
+  if (!areaList || !tableList) {
+    return {
+      areaList:null,
+      tableList:null,
+      isEditable:false,
+    };
   }
   const tableId = getUrlParam('tableId');
   if (!tableId) {
-    return payload.areaList;
+    tableList.forEach(table => table.id = parseInt(table.tableID, 10));
+    return {
+      areaList,
+      tableList,
+      isEditable:true,
+    };
   }
-  if (payload.tableList && payload.tableList.length) {
-    payload.tableList.map(
-      table => table.synFlag === tableId ?
-        _find(payload.areaList, { id:table.areaId }).isInitialize = true
-        :
-        false
-    );
-    return payload.areaList;
+  tableList.forEach(
+    table => table.synFlag === tableId ?
+      (_find(areaList, { id:table.areaId }).isChecked = true, table.isChecked = true)
+      :
+      false
+  );
+  if (_find(tableList, { isChecked:true }) !== undefined) {
+    tableList.forEach(table => table.id = parseInt(table.tableID, 10));
+    return {
+      areaList,
+      tableList,
+      isEditable:false,
+    };
   }
-  return null;
+  return {
+    areaList:null,
+    tableList:null,
+    isEditable:false,
+  };
 };
 // 计算配送费
 const countDeliveryPrice = exports.countDeliveryPrice = function (deliveryProps) {
@@ -74,27 +85,6 @@ const countDeliveryRemission = exports.countDeliveryRemission = function (dishes
     return deliveryProps.deliveryPrice;
   }
   return false;
-};
-exports.setTableProps = function (payload) {
-  if (!payload.tableList) {
-    return null;
-  }
-  const tableId = getUrlParam('tableId');
-  if (!tableId) {
-    payload.tableList.forEach(table => table.id = parseInt(table.tableID, 10));
-    return payload.tableList;
-  }
-  payload.tableList.forEach(
-    table => table.synFlag === tableId ?
-      table.isInitialize = true
-      :
-      false
-  );
-  if (_find(payload.tableList, { isInitialize:true }) !== undefined) {
-    payload.tableList.forEach(table => table.id = parseInt(table.tableID, 10));
-    return payload.tableList;
-  }
-  return null;
 };
 // 计算优惠券多少价格
 const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, totalPrice) {

@@ -26,6 +26,7 @@ module.exports = function (
       },
     },
     tableProps:{
+      isEditable:true,
       areas:[],
       tables:[],
     },
@@ -41,8 +42,24 @@ module.exports = function (
   const { type, payload } = action;
   switch (type) {
     case 'SET_ORDER': {
-      return state.setIn(['tableProps', 'areas'], Immutable.from(helper.setAreaProps(payload)))
-                  .setIn(['tableProps', 'tables'], Immutable.from(helper.setTableProps(payload)))
+      return state.setIn(
+                    ['tableProps', 'areas'],
+                    Immutable.from(
+                      helper.initializeAreaAdnTableProps(payload.areaList, payload.tableList).areaList
+                    )
+                  )
+                  .setIn(
+                    ['tableProps', 'tables'],
+                    Immutable.from(
+                      helper.initializeAreaAdnTableProps(payload.areaList, payload.tableList).tableList
+                    )
+                  )
+                  .setIn(
+                    ['tableProps', 'isEditable'],
+                    Immutable.from(
+                      helper.initializeAreaAdnTableProps(payload.areaList, payload.tableList).isEditable
+                    )
+                  )
                   .setIn(['timeProps', 'timeTable'], Immutable.from(payload.timeJson))
                   .set(
                     'customerProps',
