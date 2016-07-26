@@ -234,3 +234,7 @@ exports.isShopOpen = function (timeList) {
     return isOpenDay && isOpenTime;
   });
 };
+exports.trimZeroDecimal = (number) => {
+  if (number % 1) return number;
+  return parseInt(number, 10);
+};
