@@ -67,7 +67,8 @@ module.exports = React.createClass({
                   :
                   false
                 }
-                {commercialProps.carryRuleVO ?
+                {commercialProps.carryRuleVO &&
+                  helper.clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes), serviceProps).smallChange !== 0 ?
                   <p className="order-summary-entry clearfix">
                     <span className="order-title">自动抹零:</span>
                     <span className="order-discount discount">
