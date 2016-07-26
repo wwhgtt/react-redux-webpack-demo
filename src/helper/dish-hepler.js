@@ -175,13 +175,13 @@ exports.hasSelectedProps = function (dish) {
   return false;
 };
 // setCookie
-exports.setCookie = function (name, value) {
+const setCookie = exports.setCookie = function (name, value) {
   const Days = 30;
   const exp = new Date();
   exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
   document.cookie = `${name}=${value};expires=${exp.toGMTString()};path=/`;
 };
-exports.getDishCookieObject = function (dish, orderIdx) {
+const getDishCookieObject = exports.getDishCookieObject = function (dish, orderIdx) {
   const isSingleDish = !isGroupDish(dish);
   const consumeType = getUrlParam('type');
   const shopId = getUrlParam('shopId');
@@ -279,4 +279,18 @@ exports.isShopOpen = function (timeList) {
 exports.trimZeroDecimal = (number) => {
   if (number % 1) return number;
   return parseInt(number, 10);
+};
+exports.setDishCookie = (dishesData, orderedData) => {
+  // 下面开始区分套餐cookie和单品菜cookie
+  orderedData.map(orderData => {
+    if (!isSingleDishWithoutProps(orderData)) {
+      for (let index in orderData.order) {
+        const setPackageDishCookie = getDishCookieObject(orderData, index);
+        setCookie(setPackageDishCookie.key, setPackageDishCookie.value);
+      }
+      return true;
+    }
+    const setSignleDishCookie = getDishCookieObject(orderData, 0);
+    return setCookie(setSignleDishCookie.key, setSignleDishCookie.value);
+  });
 };
