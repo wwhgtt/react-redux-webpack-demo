@@ -10,6 +10,10 @@ module.exports = React.createClass({
     dish: React.PropTypes.object.isRequired,
     onCountChange: React.PropTypes.func.isRequired,
   },
+  componentDidMount() {
+    const { dish } = this.props;
+    this.props.onCountChange(dish.dishIncreaseUnit);
+  },
   onCountChange(newCount, increament) {
     this.props.onCountChange(increament);
   },
