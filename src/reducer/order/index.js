@@ -123,7 +123,7 @@ module.exports = function (
                      payload.isMember && payload.integral.isExchangeCash === 0 && payload.integral.integral !== 0 ?
                          Immutable.from({
                            name:'使用会员积分',
-                           isChecked:true,
+                           isChecked:false,
                            id:'integrals',
                            subname:`我的积分${payload.integral.integral}`,
                            integralsDetail:payload.integral,
