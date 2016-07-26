@@ -13,6 +13,7 @@ module.exports = React.createClass({
     onBillBtnTap: React.PropTypes.func.isRequired,
     onClearBtnTap: React.PropTypes.func.isRequired,
     takeawayServiceProps: React.PropTypes.object,
+    dishBoxChargeInfo:React.PropTypes.object,
     openTimeList: React.PropTypes.array,
     sendTimeList: React.PropTypes.array,
   },
@@ -32,7 +33,7 @@ module.exports = React.createClass({
     }
   },
   render() {
-    const { dishes, takeawayServiceProps, onBillBtnTap, onOrderBtnTap, openTimeList, sendTimeList } = this.props;
+    const { dishes, takeawayServiceProps, onBillBtnTap, onOrderBtnTap, openTimeList, sendTimeList, dishBoxChargeInfo } = this.props;
     const { expand } = this.state;
     const orderedDishes = helper.getOrderedDishes(dishes);
     const dishesCount = helper.getDishesCount(orderedDishes);
@@ -44,15 +45,15 @@ module.exports = React.createClass({
       <div className="cart-container">
         <TinyCart
           dishesCount={dishesCount}
-          totalPrice={helper.getDishesPrice(orderedDishes)}
+          totalPrice={helper.getTotalPrice(orderedDishes, dishBoxChargeInfo)}
           takeawayServiceProps={takeawayServiceProps}
           isShopOpen={isShopOpen}
           onBillBtnTap={onBillBtnTap} onCartIconTap={this.expandCart}
         />
         {expand && dishesCount > 0 ?
           <ExpandCart
-            dishesCount={dishesCount} totalPrice={helper.getDishesPrice(orderedDishes)}
-            orderedDishes={orderedDishes} takeawayServiceProps={takeawayServiceProps}
+            dishesCount={dishesCount} totalPrice={helper.getTotalPrice(orderedDishes, dishBoxChargeInfo)}
+            orderedDishes={orderedDishes} takeawayServiceProps={takeawayServiceProps} dishBoxChargeInfo={dishBoxChargeInfo}
             isShopOpen={isShopOpen}
             onBillBtnTap={onBillBtnTap} onCartIconTap={this.expandCart} onOrderBtnTap={onOrderBtnTap} onClearBtnTap={this.onClearBtnTap}
           /> : false}

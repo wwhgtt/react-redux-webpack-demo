@@ -2,6 +2,7 @@ const React = require('react');
 const { findDOMNode } = require('react-dom');
 const shallowCompare = require('react-addons-shallow-compare');
 const IScroll = require('iscroll/build/iscroll-lite');
+const _find = require('lodash.find');
 const DynamicClassLI = require('../mui/misc/dynamic-class-hoc.jsx')('li');
 const helper = require('../../helper/dish-hepler');
 require('./dish-type-scroller.scss');
@@ -51,6 +52,10 @@ module.exports = React.createClass({
       <ul className="dish-type-list">
         {dishTypesData.map((dishTypeData, idx) => {
           if (!dishTypeData.dishIds) {
+            return false;
+          }
+          if (dishTypeData.dishIds.length === 1 && _find(dishesData, { id:dishTypeData.dishIds[0] }).clearStatus !== 1) {
+            // 需要考虑length为1  且菜品信息clearStatus不为1的情况
             return false;
           }
           return (

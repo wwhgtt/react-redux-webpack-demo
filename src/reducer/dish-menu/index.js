@@ -2,7 +2,14 @@ const _findIndex = require('lodash.findindex');
 const Immutable = require('seamless-immutable');
 const helper = require('../../helper/dish-hepler');
 module.exports = function (
-  state = Immutable.from({ activeDishTypeId:-1, dishTypesData:[], dishesData:[], dishDetailData: undefined, takeawayServiceProps:undefined }),
+  state = Immutable.from({
+    activeDishTypeId:-1,
+    dishTypesData:[],
+    dishesData:[],
+    dishDetailData: undefined,
+    takeawayServiceProps:undefined,
+    dishBoxChargeInfo:null,
+  }),
   action
 ) {
   const { type, payload } = action;
@@ -19,6 +26,7 @@ module.exports = function (
         payload.dishTypeList[0].id
         :
         -1)
+      .set('dishBoxChargeInfo', helper.getUrlParam('type') === 'WM' && payload.extraCharge ? payload.extraCharge : null)
       .setIn(['openTimeList'], payload.openTimeList)
       .setIn(['sendTimeList'], payload.sendTimeList);
     case 'ACTIVE_DISH_TYPE':

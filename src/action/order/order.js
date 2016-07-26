@@ -13,6 +13,7 @@ const setCouponsToOrder = createAction('SET_COUPONS_TO_ORDER', coupons => coupon
 const setChildView = exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const setOrderedDishesToOrder = createAction('SET_ORDERED_DISHES_TO_ORDER', dishes => dishes);
 const setAddressInfoToOrder = createAction('SET_ADDRESS_INFO_TO_ORDER', address => address);
+const setDeliveryPrice = createAction('SET_DELIVERY_PRICE', freeDeliveryPrice => freeDeliveryPrice);
 const setSendAreaId = createAction('SET_SEND_AREA_ID', areaId => areaId);
 const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
@@ -131,6 +132,13 @@ exports.fetchSendAreaId = () => (dispatch, getState) => {
   const sendAreaId = sessionStorage.getItem(shopId + '_sendArea_id');
   dispatch(setSendAreaId(JSON.parse(sendAreaId)));
 };
+exports.fetchDeliveryPrice = () => (dispatch, getState) => {
+  const freeDeliveryPrice = sessionStorage.getItem(shopId + '_sendArea_freeDeliveryPrice');
+  const deliveryPrice = sessionStorage.getItem(shopId + '_sendArea_shipment');
+  const deliveryProps = { freeDeliveryPrice:JSON.parse(freeDeliveryPrice), deliveryPrice:JSON.parse(deliveryPrice) };
+  dispatch(setDeliveryPrice(deliveryProps));
+};
+
 exports.clearErrorMsg = () => (dispatch, getState) =>
   dispatch(setErrorMsg(null));
 

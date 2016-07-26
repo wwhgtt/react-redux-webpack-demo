@@ -14,11 +14,87 @@ exports.shouldPaymentAutoChecked = function (payment, isPickupFromFrontDesk, sel
   }
   return sendPayType.indexOf(',') !== -1 ? payment === sendPayType.split(',')[0] : payment === sendPayType;
 };
+const getDishBoxPrice = exports.getDishBoxPrice = function () {
+  const dishBoxPrice = localStorage.getItem('dishBoxPrice');
+  if (!dishBoxPrice || dishBoxPrice === 0) {
+    return false;
+  }
+  return parseFloat(dishBoxPrice);
+};
 exports.getSelectedTable = function (tableProps) {
   return {
-    area: _find(tableProps.areas, { isChecked:true }),
-    table: _find(tableProps.tables, { isChecked:true }),
+    area: _find(tableProps.areas, { isInitialize:true }) ?
+      _find(tableProps.areas, { isInitialize:true })
+      :
+      _find(tableProps.areas, { isChecked:true }),
+    table: _find(tableProps.tables, { isInitialize:true }) ?
+      _find(tableProps.tables, { isInitialize:true })
+      :
+      _find(tableProps.tables, { isChecked:true }),
   };
+};
+exports.setAreaProps = function (payload) {
+  // payload.areaList payload.tableList payload.tableId
+  if (!payload.areaList) {
+    return null;
+  }
+  const tableId = getUrlParam('tableId');
+  if (!tableId) {
+    return payload.areaList;
+  }
+  if (payload.tableList && payload.tableList.length) {
+    payload.tableList.map(
+      table => table.synFlag === tableId ?
+        _find(payload.areaList, { id:table.areaId }).isInitialize = true
+        :
+        false
+    );
+    return payload.areaList;
+  }
+  return null;
+};
+// 计算配送费
+const countDeliveryPrice = exports.countDeliveryPrice = function (deliveryProps) {
+  if (getUrlParam('type') === 'TS') {
+    return false;
+  }
+  if (!deliveryProps || !deliveryProps.deliveryPrice) {
+    return false;
+  }
+  return deliveryProps.deliveryPrice;
+};
+const countDeliveryRemission = exports.countDeliveryRemission = function (dishesPrice, deliveryProps) {
+  if (getUrlParam('type') === 'TS') {
+    return false;
+  }
+  if (!deliveryProps || !deliveryProps.freeDeliveryPrice || !deliveryProps.deliveryPrice) {
+    return false;
+  }
+  if (dishesPrice >= deliveryProps.freeDeliveryPrice) {
+    return deliveryProps.deliveryPrice;
+  }
+  return false;
+};
+exports.setTableProps = function (payload) {
+  if (!payload.tableList) {
+    return null;
+  }
+  const tableId = getUrlParam('tableId');
+  if (!tableId) {
+    payload.tableList.forEach(table => table.id = parseInt(table.tableID, 10));
+    return payload.tableList;
+  }
+  payload.tableList.forEach(
+    table => table.synFlag === tableId ?
+      table.isInitialize = true
+      :
+      false
+  );
+  if (_find(payload.tableList, { isInitialize:true }) !== undefined) {
+    payload.tableList.forEach(table => table.id = parseInt(table.tableID, 10));
+    return payload.tableList;
+  }
+  return null;
 };
 // 计算优惠券多少价格
 const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, totalPrice) {
@@ -99,7 +175,9 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
   } else {
     return false;
   }
-  totalPrice = Number(totalPrice);
+  totalPrice = Number(totalPrice) + getDishBoxPrice() +
+  Number(countDeliveryPrice(serviceProps.deliveryProps)) -
+  Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps));
   if (transferType === 1) {
     // 四舍五入
     return {
@@ -181,17 +259,20 @@ exports.countDecreasePrice = function (orderedDishesProps, serviceProps, commerc
                 serviceProps.integralsInfo.integralsDetail
               ).commutation
       ) + Number(countPriceByCoupons(serviceProps.couponsProps.inUseCouponDetail, dishesPrice))
+      + Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps))
       :
       Number(countIntegralsToCash(
                 clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).priceWithClearSmallChange,
                 serviceProps.integralsInfo.integralsDetail
               ).commutation
-      ) + Number(serviceProps.discountProps.inUseDiscount);
+      ) + Number(serviceProps.discountProps.inUseDiscount)
+       + Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps));
   }
   return serviceProps.couponsProps.inUseCoupon ?
     Number(countPriceByCoupons(serviceProps.couponsProps.inUseCouponDetail, dishesPrice))
+    + Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps))
      :
-    Number(serviceProps.discountProps.inUseDiscount);
+    Number(serviceProps.discountProps.inUseDiscount) + Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps));
 };
 // 计算会员价格
 exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDishesProps) {
@@ -279,7 +360,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
           state.customerProps.addresses.filter(address => address.isChecked)[0].id
           :
           0;
-    const toShop = state.serviceProps.sendAreaId === 0 ? '1' : '0';
+    const toShopFlag = state.serviceProps.sendAreaId === 0 ? '1' : '0';
     params = '?name=' + state.customerProps.name
         + '&Invoice=' + receipt + '&note=' + note
         + '&mobile=' + state.customerProps.mobile
@@ -296,7 +377,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
         + '&address=' + selectedAddress
         + '&memberAddressId=' + selectedAddressId
         + '&sendAreaId=' + state.serviceProps.sendAreaId
-        + '&toShop=' + toShop;
+        + '&toShopFlag=' + toShopFlag;
   } else {
     params = '?name=' + state.customerProps.name
         + '&Invoice=' + receipt + '&note=' + note

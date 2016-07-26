@@ -19,7 +19,7 @@ const DishMenuApplication = React.createClass({
     orderDish: React.PropTypes.func.isRequired,
     showDishDetail: React.PropTypes.func.isRequired,
     showDishDesc: React.PropTypes.func.isRequired,
-    setDishCookie: React.PropTypes.func.isRequired,
+    confirmOrder: React.PropTypes.func.isRequired,
     removeAllOrders: React.PropTypes.func.isRequired,
     fetchOrderDiscountInfo:React.PropTypes.func.isRequired,
     // MapedStatesToProps
@@ -29,6 +29,7 @@ const DishMenuApplication = React.createClass({
     dishDetailData: React.PropTypes.object,
     dishDescData: React.PropTypes.object,
     takeawayServiceProps: React.PropTypes.object,
+    dishBoxChargeInfo:React.PropTypes.object,
     openTimeList: React.PropTypes.array,
     sendTimeList: React.PropTypes.array,
   },
@@ -48,8 +49,8 @@ const DishMenuApplication = React.createClass({
   },
   render() {
     // states
-    const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, setDishCookie, takeawayServiceProps,
-            openTimeList, sendTimeList } = this.props;
+    const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, confirmOrder, takeawayServiceProps,
+            openTimeList, sendTimeList, dishBoxChargeInfo } = this.props;
     // actions
     const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders } = this.props;
     return (
@@ -65,8 +66,8 @@ const DishMenuApplication = React.createClass({
         />
         <CartContainer
           dishes={dishesData} takeawayServiceProps={takeawayServiceProps}
-          openTimeList={openTimeList} sendTimeList={sendTimeList}
-          onOrderBtnTap={orderDish} onBillBtnTap={setDishCookie} onClearBtnTap={removeAllOrders}
+          openTimeList={openTimeList} sendTimeList={sendTimeList} dishBoxChargeInfo={dishBoxChargeInfo}
+          onOrderBtnTap={orderDish} onBillBtnTap={confirmOrder} onClearBtnTap={removeAllOrders}
         />
         {dishDetailData !== undefined ?
           <DishDetailContainer dish={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />

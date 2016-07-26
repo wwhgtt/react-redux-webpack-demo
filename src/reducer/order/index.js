@@ -12,6 +12,7 @@ module.exports = function (
       payMethods:[],
       integralsInfo:null,
       sendAreaId:null,
+      deliveryProps:null,
       couponsProps:{
         couponsList:[],
         inUseCoupon:false,
@@ -40,14 +41,8 @@ module.exports = function (
   const { type, payload } = action;
   switch (type) {
     case 'SET_ORDER': {
-      return state.setIn(['tableProps', 'areas'], !payload.areaList ? null : Immutable.from(payload.areaList))
-                  .setIn(
-                    ['tableProps', 'tables'],
-                    !payload.tableList ?
-                      null
-                      :
-                      Immutable.from(payload.tableList).flatMap(table => table.set('id', parseInt(table.tableID, 10)))
-                    )
+      return state.setIn(['tableProps', 'areas'], Immutable.from(helper.setAreaProps(payload)))
+                  .setIn(['tableProps', 'tables'], Immutable.from(helper.setTableProps(payload)))
                   .setIn(['timeProps', 'timeTable'], Immutable.from(payload.timeJson))
                   .set(
                     'customerProps',
@@ -303,6 +298,8 @@ module.exports = function (
         return state.setIn(['serviceProps', 'sendAreaId'], 0);
       }
       return state.setIn(['serviceProps', 'sendAreaId'], payload);
+    case 'SET_DELIVERY_PRICE':
+      return state.setIn(['serviceProps', 'deliveryProps'], payload);
     case 'SET_CHILDVIEW':
       if (payload === '#customer-info') {
         return state.set('childView', 'customer-info');
