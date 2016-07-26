@@ -1,6 +1,7 @@
 const React = require('react');
 const classnames = require('classnames');
 const helper = require('../../../../helper/dish-hepler');
+const Toast = require('../../../../component/mui/toast.jsx');
 require('./groups-bar.scss');
 
 module.exports = React.createClass({
@@ -9,6 +10,10 @@ module.exports = React.createClass({
     groups : React.PropTypes.array.isRequired,
     activeGroupIdx: React.PropTypes.number.isRequired,
     onGroupTap: React.PropTypes.func.isRequired,
+    groupsValid: React.PropTypes.bool,
+  },
+  getInitialState() {
+    return { toast: 0 };
   },
   buildGroupElements(activeGroupIdx, groups, onGroupTap) {
     const groupElements = groups.map((groupData, idx) => {
@@ -19,10 +24,11 @@ module.exports = React.createClass({
         return false;
       };
 
+      const isError = isOverRestriction(groupData.childInfos) && !this.props.groupsValid;
       return (
         <li
           key={id} data-idx={idx}
-          className={classnames('group', { 'is-active':activeGroupIdx === idx, 'is-error':isOverRestriction(groupData.childInfos) })}
+          className={classnames('group', { 'is-active':activeGroupIdx === idx, 'is-error':isError })}
           style={{ flex: `1 0 ${1 / groups.length * 100}%` }}
           onTouchTap={onGroupTap}
         >
@@ -33,10 +39,20 @@ module.exports = React.createClass({
               {orderMax}份
             </small>
           </div>
-          <span className="group-badge" data-count={helper.getDishesCount(groupData.childInfos)}></span>
+          <span
+            className="group-badge"
+            data-count={helper.getDishesCount(groupData.childInfos)}
+            onTouchTap={isError ? this.showErrorMessage : false}
+          ></span>
         </li>);
     });
     return groupElements;
+  },
+  showErrorMessage() {
+    this.setState({ toast: 1 });
+  },
+  clearErrorMessage() {
+    this.setState({ toast: 0 });
   },
   render() {
     const { activeGroupIdx, groups, onGroupTap } = this.props;
@@ -48,6 +64,7 @@ module.exports = React.createClass({
             {groupElements}
           </ul>
         </div>
+        {this.state.toast === 1 ? <Toast errorMessage="请选择足够的子菜份数" clearErrorMsg={this.clearErrorMessage} /> : false}
       </div>
     );
   },

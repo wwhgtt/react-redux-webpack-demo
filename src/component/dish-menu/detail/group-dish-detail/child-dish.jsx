@@ -100,13 +100,17 @@ module.exports = React.createClass({
     const { expand } = this.state;
     const hasProps = !helper.isSingleDishWithoutProps(dish);
     const count = helper.getDishesCount([dish]);
-    const price = helper.getDishPrice(dish);
+    // const price = helper.getDishPrice(dish);
+    const marketPrice = dish.marketPrice || 0;
     return (
       <div className="child-dish">
         <div className="dish-name-wrap">
           <div className="dish-name">
             {dish.name}
-            <span className="badge-price">{(price > 0 ? '+' : '') + price}元</span>
+            {
+              marketPrice !== 0 && count > 0 ?
+                <span className="badge-price">{marketPrice > 0 ? '+' : ''}{marketPrice}元</span> : false
+            }
             {dish.isReplace ? <span className="badge-bi"></span> : false}
           </div>
           {
