@@ -62,25 +62,11 @@ exports.removeAllOrders = (orders) => (dispatch, getStates) => {
   helper.clearDishesLocalStorage();
 };
 
-const setDishCookie = exports.setDishCookie = (dishesData, orderedData) => (dispatch, getStates) => {
-  // 下面开始区分套餐cookie和单品菜cookie
-  orderedData.map(orderData => {
-    if (!helper.isSingleDishWithoutProps(orderData)) {
-      for (let index in orderData.order) {
-        const setPackageDishCookie = helper.getDishCookieObject(orderData, index);
-        helper.setCookie(setPackageDishCookie.key, setPackageDishCookie.value);
-      }
-      return true;
-    }
-    const setSignleDishCookie = helper.getDishCookieObject(orderData, 0);
-    return helper.setCookie(setSignleDishCookie.key, setSignleDishCookie.value);
-  });
-};
 exports.confirmOrder = () => (dispatch, getStates) => {
   const dishesData = getStates().dishesData;
   const orderedData = helper.getOrderedDishes(dishesData);
   const dishBoxChargeInfo = getStates().dishBoxChargeInfo;
-  setDishCookie(dishesData, orderedData);
+  helper.setDishCookie(dishesData, orderedData);
   localStorage.setItem('dishBoxPrice', helper.getDishBoxprice(orderedData, dishBoxChargeInfo));
   if (type === 'TS') {
     //  堂食情况下需要考虑是否有tableId的情况
