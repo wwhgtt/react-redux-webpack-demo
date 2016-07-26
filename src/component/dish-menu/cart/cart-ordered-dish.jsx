@@ -42,7 +42,7 @@ module.exports = React.createClass({
     function buildPropsText(propsInfo) {
       const checkedProps = propsInfo.properties.filter(props => props.isChecked);
       if (checkedProps.length > 0) {
-        return `${propsInfo.name}:${checkedProps.map(props => props.name).join('、')}`;
+        return `${propsInfo.name}: ${checkedProps.map(props => props.name).join('、')}`;
       }
       return '';
     }
