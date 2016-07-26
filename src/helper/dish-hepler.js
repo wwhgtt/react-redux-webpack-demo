@@ -77,7 +77,7 @@ const getDishPrice = exports.getDishPrice = function (dish) {
   ).reduce((c, p) => c + p, 0);
 };
 
-exports.getDishesPrice = function (dishes) {
+const getDishesPrice = exports.getDishesPrice = function (dishes) {
   const dishesPrice = dishes.map(dish => getDishPrice(dish)).
     reduce((c, p) => c + p, 0);
   if (Number.isInteger(dishesPrice)) {
@@ -124,6 +124,48 @@ const getOrderPropIds = function (order) {
     ingredient => ingredient.isChecked
   ).map(ingredient => ingredient.id);
   return [propsIds, ingredientIds];
+};
+const getDishBoxCount = exports.getDishBoxCount = function (orderedDishes) {
+  let dishBoxContainer = [];
+  orderedDishes.map(
+    orderDish => {
+      if (isGroupDish(orderDish)) {
+        orderDish.order.map(
+          childOrder =>
+            childOrder.groups.map(
+              group =>
+                group.childInfos.filter(childDish => childDish.order).map(
+                  child =>
+                    child.boxQty && child.dishQty ?
+                      dishBoxContainer.push(Math.ceil(getDishesCount([child]) * parseFloat(child.boxQty) / parseFloat(child.dishQty)))
+                      :
+                      false
+                )
+            )
+        );
+      } else {
+        if (orderDish.boxQty && orderDish.dishQty) {
+          dishBoxContainer.push(
+            getDishesCount([orderDish]) * parseFloat(orderDish.boxQty) / parseFloat(orderDish.dishQty)
+          );
+        }
+      }
+      return true;
+    }
+  );
+  return dishBoxContainer.reduce((c, p) => c + p, 0);
+};
+exports.getDishBoxprice = function (orderedDishes, dishBoxChargeInfo) {
+  if (!dishBoxChargeInfo || dishBoxChargeInfo.orderFlag !== 1) {
+    return 0;
+  }
+  return getDishBoxCount(orderedDishes) * dishBoxChargeInfo.content;
+};
+exports.getTotalPrice = function (orderedDishes, dishBoxChargeInfo) {
+  if (!dishBoxChargeInfo || dishBoxChargeInfo.orderFlag !== 1) {
+    return getDishesPrice(orderedDishes);
+  }
+  return getDishesPrice(orderedDishes) + getDishBoxCount(orderedDishes) * dishBoxChargeInfo.content;
 };
 exports.hasSelectedProps = function (dish) {
   const propsIdsCollection = getOrderPropIds(dish.order[0]);

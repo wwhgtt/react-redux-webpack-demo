@@ -12,6 +12,7 @@ module.exports = function (
       payMethods:[],
       integralsInfo:null,
       sendAreaId:null,
+      deliveryProps:null,
       couponsProps:{
         couponsList:[],
         inUseCoupon:false,
@@ -25,6 +26,7 @@ module.exports = function (
       },
     },
     tableProps:{
+      isEditable:true,
       areas:[],
       tables:[],
     },
@@ -40,14 +42,24 @@ module.exports = function (
   const { type, payload } = action;
   switch (type) {
     case 'SET_ORDER': {
-      return state.setIn(['tableProps', 'areas'], !payload.areaList ? null : Immutable.from(payload.areaList))
+      return state.setIn(
+                    ['tableProps', 'areas'],
+                    Immutable.from(
+                      helper.initializeAreaAdnTableProps(payload.areaList, payload.tableList).areaList
+                    )
+                  )
                   .setIn(
                     ['tableProps', 'tables'],
-                    !payload.tableList ?
-                      null
-                      :
-                      Immutable.from(payload.tableList).flatMap(table => table.set('id', parseInt(table.tableID, 10)))
+                    Immutable.from(
+                      helper.initializeAreaAdnTableProps(payload.areaList, payload.tableList).tableList
                     )
+                  )
+                  .setIn(
+                    ['tableProps', 'isEditable'],
+                    Immutable.from(
+                      helper.initializeAreaAdnTableProps(payload.areaList, payload.tableList).isEditable
+                    )
+                  )
                   .setIn(['timeProps', 'timeTable'], Immutable.from(payload.timeJson))
                   .set(
                     'customerProps',
@@ -303,6 +315,8 @@ module.exports = function (
         return state.setIn(['serviceProps', 'sendAreaId'], 0);
       }
       return state.setIn(['serviceProps', 'sendAreaId'], payload);
+    case 'SET_DELIVERY_PRICE':
+      return state.setIn(['serviceProps', 'deliveryProps'], payload);
     case 'SET_CHILDVIEW':
       if (payload === '#customer-info') {
         return state.set('childView', 'customer-info');

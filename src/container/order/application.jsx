@@ -33,6 +33,7 @@ const OrderApplication = React.createClass({
     submitOrder:React.PropTypes.func.isRequired,
     fetchUserAddressInfo: React.PropTypes.func.isRequired,
     fetchSendAreaId:React.PropTypes.func.isRequired,
+    fetchDeliveryPrice:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
     setSessionAndForwardChaining:React.PropTypes.func.isRequired,
     // MapedStatesToProps
@@ -52,10 +53,13 @@ const OrderApplication = React.createClass({
     };
   },
   componentWillMount() {
-    const { fetchLastOrderedDishes, fetchSendAreaId } = this.props;
+    const { fetchLastOrderedDishes, fetchSendAreaId, fetchDeliveryPrice } = this.props;
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
     fetchLastOrderedDishes();
-    if (getUrlParam('type') === 'WM') fetchSendAreaId();
+    if (getUrlParam('type') === 'WM') {
+      fetchSendAreaId();
+      fetchDeliveryPrice();
+    }
   },
   componentDidMount() {
     const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons } = this.props;
@@ -91,6 +95,13 @@ const OrderApplication = React.createClass({
         receipt:value,
       });
     }
+  },
+  checkAddressChildViewAvailable(tableProps) {
+    const { setChildView } = this.props;
+    if (!tableProps.isEditable) {
+      return false;
+    }
+    return setChildView('#table-select');
   },
   submitOrder() {
     const { submitOrder } = this.props;
@@ -150,7 +161,10 @@ const OrderApplication = React.createClass({
             {!serviceProps.isPickupFromFrontDesk.isChecked &&
               tableProps.areas && tableProps.areas.length &&
               tableProps.tables && tableProps.tables.length ?
-              <a className="order-prop-option" onTouchTap={evt => setChildView('#table-select')} >
+              <a
+                className="order-prop-option"
+                onTouchTap={evt => this.checkAddressChildViewAvailable(tableProps)}
+              >
                 <span className="options-title">选择桌台</span>
                 <span className="option-btn btn-arrow-right">
                   {selectedTable.area && selectedTable.table ?
@@ -161,7 +175,9 @@ const OrderApplication = React.createClass({
                 </span>
               </a>
               :
-              false
+              <div className="order-prop-option">
+                <span className="options-title">没有可用桌台</span>
+              </div>
             }
           </div>
         }

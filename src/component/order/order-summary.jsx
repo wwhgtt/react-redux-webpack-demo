@@ -27,6 +27,22 @@ module.exports = React.createClass({
               </a>
               {orderedDishesProps.dishes.map(dish => (<OrderedDish key={dish.id} dish={dish} />))}
               <div className="order-summary">
+                {helper.getDishBoxPrice() ?
+                  <p className="order-summary-entry clearfix">
+                    <span className="order-title">餐盒费:</span>
+                    <span className="order-discount price">{helper.getDishBoxPrice()}</span>
+                  </p>
+                  :
+                  false
+                }
+                {serviceProps.deliveryProps && serviceProps.deliveryProps.deliveryPrice ?
+                  <p className="order-summary-entry clearfix">
+                    <span className="order-title">配送费:</span>
+                    <span className="order-discount price">{serviceProps.deliveryProps.deliveryPrice}</span>
+                  </p>
+                  :
+                  false
+                }
                 {serviceProps.couponsProps.inUseCoupon ?
                   <p className="order-summary-entry clearfix">
                     <span className="order-title">优惠券优惠:</span>
@@ -67,6 +83,17 @@ module.exports = React.createClass({
                   :
                   false
                 }
+                {serviceProps.deliveryProps && serviceProps.deliveryProps.freeDeliveryPrice
+                  && getDishesPrice(orderedDishesProps.dishes) >= serviceProps.deliveryProps.freeDeliveryPrice ?
+                  <p className="order-summary-entry clearfix">
+                    <span className="order-title">满{serviceProps.deliveryProps.freeDeliveryPrice}元减免配送费</span>
+                    <span className="order-discount discount">
+                      {serviceProps.deliveryProps.deliveryPrice}
+                    </span>
+                  </p>
+                  :
+                  false
+                }
                 {commercialProps.carryRuleVO &&
                   helper.clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes), serviceProps).smallChange !== 0 ?
                   <p className="order-summary-entry clearfix">
@@ -84,14 +111,20 @@ module.exports = React.createClass({
               <div className="order-prop-option order-total clearfix">
                 <div className="order-total-left">
                   <span className="text-dove-grey">总计: </span>
-                  <span className="price">{getDishesPrice(orderedDishesProps.dishes)}</span>
+                  <span className="price">{
+                    getDishesPrice(orderedDishesProps.dishes)
+                    + helper.getDishBoxPrice()
+                    + Number(helper.countDeliveryPrice(serviceProps.deliveryProps))
+                  }</span>
                 </div>
                 {commercialProps.carryRuleVO ?
                   <div>
                     <div className="order-total-left">
                       <span className="text-dove-grey">优惠: </span>
                       <span className="price">
-                        {helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)}
+                        {
+                          helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)
+                        }
                       </span>
                     </div>
                     <div className="order-total-right">

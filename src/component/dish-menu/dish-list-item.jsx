@@ -55,18 +55,24 @@ module.exports = React.createClass({
     const { dishData } = this.props;
     const orderBtn = this.buildOrderBtn(dishData);
     return (
-      <div className="dish-list-item" onTouchTap={this.onTouchTap}>
-        <button
-          className={classnames('dish-item-img', { 'is-memberdish': dishData.isMember })}
-          onTouchTap={this.onDishImageTap}
-          style={{ backgroundImage: `url(${dishData.smallImgUrl || imagePlaceholder})` }}
-        ></button>
+      <div className="dish-on-selling">
+        {dishData.clearStatus === 1 ?
+          <div className="dish-list-item" onTouchTap={this.onTouchTap}>
+            <button
+              className={classnames('dish-item-img', { 'is-memberdish': dishData.isMember })}
+              onTouchTap={this.onDishImageTap}
+              style={{ backgroundImage: `url(${dishData.smallImgUrl || imagePlaceholder})` }}
+            ></button>
 
-        <div className="dish-item-content">
-          <span className="dish-item-name ellipsis">{dishData.name}</span>
-          <span className="dish-item-price price">{dishData.marketPrice}</span>
-          {orderBtn}
-        </div>
+            <div className="dish-item-content">
+              <span className="dish-item-name ellipsis">{dishData.name}</span>
+              <span className="dish-item-price price">{dishData.marketPrice}</span>
+              {orderBtn}
+            </div>
+          </div>
+          :
+          false
+        }
       </div>
     );
   },

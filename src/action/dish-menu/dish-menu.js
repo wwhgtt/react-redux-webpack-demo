@@ -62,9 +62,7 @@ exports.removeAllOrders = (orders) => (dispatch, getStates) => {
   helper.clearDishesLocalStorage();
 };
 
-exports.setDishCookie = () => (dispatch, getStates) => {
-  const dishesData = getStates().dishesData;
-  const orderedData = helper.getOrderedDishes(dishesData);
+const setDishCookie = exports.setDishCookie = (dishesData, orderedData) => (dispatch, getStates) => {
   // 下面开始区分套餐cookie和单品菜cookie
   orderedData.map(orderData => {
     if (!helper.isSingleDishWithoutProps(orderData)) {
@@ -77,8 +75,17 @@ exports.setDishCookie = () => (dispatch, getStates) => {
     const setSignleDishCookie = helper.getDishCookieObject(orderData, 0);
     return helper.setCookie(setSignleDishCookie.key, setSignleDishCookie.value);
   });
+};
+exports.confirmOrder = () => (dispatch, getStates) => {
+  const dishesData = getStates().dishesData;
+  const orderedData = helper.getOrderedDishes(dishesData);
+  const dishBoxChargeInfo = getStates().dishBoxChargeInfo;
+  setDishCookie(dishesData, orderedData);
+  localStorage.setItem('dishBoxPrice', helper.getDishBoxprice(orderedData, dishBoxChargeInfo));
   if (type === 'TS') {
-    location.href = `/orderall/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}`;
+    //  堂食情况下需要考虑是否有tableId的情况
+    location.href =
+      `/orderall/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}&tableId=${helper.getUrlParam('tableId')}`;
   } else {
     location.href = `/takeaway/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}`;
   }
