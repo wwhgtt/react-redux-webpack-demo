@@ -62,7 +62,8 @@
     height: 0;
   }
 
-  &.btn-disabled {
+  &.btn-disabled,
+  &.btn-disabled ~ .counter-num {
     display: none;
   }
 }
