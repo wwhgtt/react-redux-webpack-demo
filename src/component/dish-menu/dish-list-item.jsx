@@ -44,10 +44,11 @@ module.exports = React.createClass({
 
     // 使用onClick时在手机端没能起作用  所以使用onTouchTap
     const count = helper.getDishesCount([dishData]);
+    const title = Array.isArray(dishData.groups) ? '套餐选项' : '菜品选项';
     return (
       <div className="counter">
         {count > 0 ? <span className="counter-num">{count}</span> : false}
-        <a className="btn--ellips btn-choose-property" onTouchTap={this.onBtnTap}>套餐选项</a>
+        <a className="btn--ellips btn-choose-property" onTouchTap={this.onBtnTap}>{title}</a>
       </div>
     );
   },
