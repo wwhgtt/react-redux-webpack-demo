@@ -9,7 +9,6 @@ module.exports = React.createClass({
     customerProps:React.PropTypes.object.isRequired,
     onDone:React.PropTypes.func.isRequired,
     onCustomerPropsChange:React.PropTypes.func.isRequired,
-    setErrorMsg:React.PropTypes.func.isRequired,
   },
   getInitialState() {
     const { customerProps } = this.props;
@@ -26,14 +25,10 @@ module.exports = React.createClass({
       customerProps:customerProps.set('customerCount', newCount),
     });
   },
-  onSubmitBtntap() {
+  onSubmitBtntap(evt) {
     const { customerProps } = this.state;
-    const { onDone, onCustomerPropsChange, setErrorMsg } = this.props;
-    if (!customerProps.name) {
-      setErrorMsg('请输入姓名');
-      return false;
-    }
-    return (onCustomerPropsChange(null, customerProps), onDone(''));
+    const { onDone, onCustomerPropsChange } = this.props;
+    if (onCustomerPropsChange(evt, customerProps).success) onDone('');
   },
   handleBasicInfoChange(event) {
     const { customerProps } = this.state;

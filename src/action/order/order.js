@@ -15,7 +15,7 @@ const setOrderedDishesToOrder = createAction('SET_ORDERED_DISHES_TO_ORDER', dish
 const setAddressInfoToOrder = createAction('SET_ADDRESS_INFO_TO_ORDER', address => address);
 const setDeliveryPrice = createAction('SET_DELIVERY_PRICE', freeDeliveryPrice => freeDeliveryPrice);
 const setSendAreaId = createAction('SET_SEND_AREA_ID', areaId => areaId);
-const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
+const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
@@ -149,4 +149,12 @@ exports.setSessionAndForwardChaining = (id) => (dispatch, getState) => {
   } else {
     location.href = `${config.editUserAddressURL}?shopId=${getUrlParam('shopId')}&id=${id}`;
   }
+};
+exports.setCustomerProps = (evt, customerProps) => (dispatch, getState) => {
+  if (!customerProps.name) {
+    dispatch(setErrorMsg('请输入您的姓名'));
+    return { success:false };
+  }
+  dispatch(setOrderProps(null, customerProps));
+  return { success:true };
 };

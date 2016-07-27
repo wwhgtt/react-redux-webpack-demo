@@ -12,7 +12,6 @@ module.exports = React.createClass({
     onComponentWillMount: React.PropTypes.func.isRequired,
     sendAreaId:React.PropTypes.number.isRequired,
     onAddressEditor:React.PropTypes.func.isRequired,
-    setErrorMsg:React.PropTypes.func.isRequired,
     ...CustomerInfoEditor.propTypes,
   },
   getInitialState() {
@@ -40,13 +39,16 @@ module.exports = React.createClass({
   onCustomerPropsChange(evt, customerProps) {
     const selectedAddress = _find(this.state.addresses, { isChecked:true });
     const customerPropsWithoutId = customerProps.without('id');
-    this.props.onCustomerPropsChange(evt,
+    if (this.props.onCustomerPropsChange(evt,
       {
         id: 'customer-info-with-address',
         ...customerPropsWithoutId,
         address:selectedAddress,
       }
-    );
+    ).success) {
+      return { success:true };
+    }
+    return { success:false };
   },
   onAddressSelect(evt, option) {
     const { onAddressEditor } = this.props;
@@ -71,13 +73,12 @@ module.exports = React.createClass({
     };
   },
   render() {
-    const { customerProps, onDone, sendAreaId, onAddressEditor, setErrorMsg } = this.props;
+    const { customerProps, onDone, sendAreaId, onAddressEditor } = this.props;
     const { addresses } = this.state;
 
     return (
       <div className="order-subpage">
         <CustomerInfoEditor
-          setErrorMsg={setErrorMsg}
           onCustomerPropsChange={this.onCustomerPropsChange}
           customerProps={customerProps.without('addresses')} onDone={onDone}
         />
