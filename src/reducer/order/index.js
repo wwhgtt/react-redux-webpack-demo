@@ -8,7 +8,7 @@ module.exports = function (
     orderedDishesProps:{},
     commercialProps:{},
     serviceProps:{
-      isPickupFromFrontDesk:'',
+      isPickupFromFrontDesk:null,
       payMethods:[],
       integralsInfo:null,
       sendAreaId:null,

@@ -103,6 +103,35 @@ const OrderApplication = React.createClass({
     }
     return setChildView('#table-select');
   },
+  buildSelectedTableProps(isPickupFromFrontDesk, tableProps) {
+    const selectedTable = helper.getSelectedTable(tableProps);
+    if (isPickupFromFrontDesk && isPickupFromFrontDesk.isChecked) {
+      return false;
+    } else if (isPickupFromFrontDesk && !isPickupFromFrontDesk.isChecked &&
+      tableProps.areas && tableProps.areas.length &&
+      tableProps.tables && tableProps.tables.length) {
+      return (
+        <a
+          className="order-prop-option"
+          onTouchTap={evt => this.checkAddressChildViewAvailable(tableProps)}
+        >
+          <span className="options-title">选择桌台</span>
+          <span className="option-btn btn-arrow-right">
+            {selectedTable.area && selectedTable.table ?
+              `${selectedTable.area.areaName} ${selectedTable.table.tableName}`
+              :
+              false
+            }
+          </span>
+        </a>
+      );
+    }
+    return (
+      <div className="order-prop-option">
+        <span className="options-title">没有可用桌台</span>
+      </div>
+    );
+  },
   submitOrder() {
     const { submitOrder } = this.props;
     submitOrder(this.state.note, this.state.receipt);
@@ -113,7 +142,6 @@ const OrderApplication = React.createClass({
       timeProps, orderedDishesProps, commercialProps, errorMessage, setSessionAndForwardChaining,
     } = this.props; // state
     const { setOrderProps, fetchUserAddressInfo, setChildView } = this.props;// actions
-    const selectedTable = helper.getSelectedTable(tableProps);
     const type = getUrlParam('type');
     const shopId = getUrlParam('shopId');
     const getDefaultAddress = function () {
@@ -158,27 +186,7 @@ const OrderApplication = React.createClass({
               />
               : false
             }
-            {!serviceProps.isPickupFromFrontDesk.isChecked &&
-              tableProps.areas && tableProps.areas.length &&
-              tableProps.tables && tableProps.tables.length ?
-              <a
-                className="order-prop-option"
-                onTouchTap={evt => this.checkAddressChildViewAvailable(tableProps)}
-              >
-                <span className="options-title">选择桌台</span>
-                <span className="option-btn btn-arrow-right">
-                  {selectedTable.area && selectedTable.table ?
-                    `${selectedTable.area.areaName} ${selectedTable.table.tableName}`
-                    :
-                    false
-                  }
-                </span>
-              </a>
-              :
-              <div className="order-prop-option">
-                <span className="options-title">没有可用桌台</span>
-              </div>
-            }
+            {this.buildSelectedTableProps(serviceProps.isPickupFromFrontDesk, tableProps)}
           </div>
         }
         <div className="options-group">
