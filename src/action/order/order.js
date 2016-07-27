@@ -104,7 +104,8 @@ exports.fetchLastOrderedDishes = () => (dispatch, getState) => {
 };
 exports.submitOrder = (note, receipt) => (dispatch, getState) => {
   const submitUrl = type === 'WM' ? config.submitWMOrderAPI : config.submitTSOrderAPI;
-  const paramsData = helper.getSubmitUrlParams(getState(), note, receipt);
+  const state = getState();
+  const paramsData = helper.getSubmitUrlParams(state, note, receipt);
   if (!paramsData.success) {
     dispatch(setErrorMsg(paramsData.msg));
     return false;
@@ -119,7 +120,13 @@ exports.submitOrder = (note, receipt) => (dispatch, getState) => {
     then(result => {
       if (result.code === '200') {
         localStorage.removeItem('lastOrderedDishes');
-        location.href = `/order/orderallDetail?shopId=${shopId}&orderId=${result.data.orderId}`;
+        const isOnlinePay = state.serviceProps.payMethods.some(
+          payMethod => payMethod.id === 'online-payment' && payMethod.isChecked);
+        if (isOnlinePay) {
+          location.href = `/shop/payDetail?shopId=${shopId}&orderId=${result.data.orderId}&orderType=${type}`;
+        } else {
+          location.href = `/order/orderallDetail?shopId=${shopId}&orderId=${result.data.orderId}`;
+        }
       } else {
         dispatch(setErrorMsg(result.msg));
       }
