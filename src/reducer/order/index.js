@@ -307,7 +307,7 @@ module.exports = function (
     case 'SET_ADDRESS_INFO_TO_ORDER':
       return state.setIn(
         ['customerProps', 'addresses'],
-        Immutable.from(payload)
+        Immutable.from((state.customerProps.addresses || []).concat(payload))
       );
     case 'SET_SEND_AREA_ID':
       if (!payload || payload === 0) {
