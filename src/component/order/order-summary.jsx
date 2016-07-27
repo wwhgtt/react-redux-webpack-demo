@@ -14,8 +14,35 @@ module.exports = React.createClass({
   componentDidMount() {
 
   },
+  buildSmallChangeProps(carryRuleVO, dishesPrice, serviceProps) {
+    if (!carryRuleVO) {
+      return false;
+    }
+    const smallChange = helper.clearSmallChange(carryRuleVO, dishesPrice, serviceProps).smallChange;
+    if (smallChange === 0) {
+      return false;
+    } else if (smallChange > 0) {
+      return (
+        <p className="order-summary-entry clearfix">
+          <span className="order-title">自动抹零:</span>
+          <span className="order-discount discount">
+            {smallChange}
+          </span>
+        </p>
+      );
+    }
+    return (
+      <p className="order-summary-entry clearfix">
+        <span className="order-title">自动进位:</span>
+        <span className="order-discount discount">
+          {Math.abs(smallChange)}
+        </span>
+      </p>
+    );
+  },
   render() {
     const { serviceProps, commercialProps, orderedDishesProps, shopId } = this.props;
+    const dishesPrice = orderedDishesProps.dishes && orderedDishesProps.dishes.length ? getDishesPrice(orderedDishesProps.dishes) : 0;
     return (
       <div className="order-summary-detail">
         {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
@@ -50,7 +77,7 @@ module.exports = React.createClass({
                       {
                         helper.countPriceByCoupons(
                           serviceProps.couponsProps.inUseCouponDetail,
-                          getDishesPrice(orderedDishesProps.dishes)
+                          dishesPrice
                         )
                       }
                     </span>
@@ -65,7 +92,7 @@ module.exports = React.createClass({
                       {helper.countIntegralsToCash(
                         helper.clearSmallChange(
                           commercialProps.carryRuleVO,
-                          getDishesPrice(orderedDishesProps.dishes),
+                          dishesPrice,
                           serviceProps).priceWithClearSmallChange,
                         serviceProps.integralsInfo.integralsDetail
                       ).commutation}
@@ -74,7 +101,7 @@ module.exports = React.createClass({
                       {helper.countIntegralsToCash(
                         helper.clearSmallChange(
                           commercialProps.carryRuleVO,
-                          getDishesPrice(orderedDishesProps.dishes),
+                          dishesPrice,
                           serviceProps).priceWithClearSmallChange,
                         serviceProps.integralsInfo.integralsDetail
                       ).integralInUsed}
@@ -84,7 +111,7 @@ module.exports = React.createClass({
                   false
                 }
                 {serviceProps.deliveryProps && serviceProps.deliveryProps.freeDeliveryPrice
-                  && getDishesPrice(orderedDishesProps.dishes) >= serviceProps.deliveryProps.freeDeliveryPrice ?
+                  && dishesPrice >= serviceProps.deliveryProps.freeDeliveryPrice ?
                   <p className="order-summary-entry clearfix">
                     <span className="order-title">满{serviceProps.deliveryProps.freeDeliveryPrice}元减免配送费</span>
                     <span className="order-discount discount">
@@ -94,25 +121,14 @@ module.exports = React.createClass({
                   :
                   false
                 }
-                {commercialProps.carryRuleVO &&
-                  helper.clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes), serviceProps).smallChange !== 0 ?
-                  <p className="order-summary-entry clearfix">
-                    <span className="order-title">自动抹零:</span>
-                    <span className="order-discount discount">
-                      {
-                        helper.clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes), serviceProps).smallChange
-                      }
-                    </span>
-                  </p>
-                  :
-                  false
-                }
+                {this.buildSmallChangeProps(commercialProps.carryRuleVO, dishesPrice, serviceProps)}
+
               </div>
               <div className="order-prop-option order-total clearfix">
                 <div className="order-total-left">
                   <span className="text-dove-grey">总计: </span>
                   <span className="price">{
-                    getDishesPrice(orderedDishesProps.dishes)
+                    dishesPrice
                     + helper.getDishBoxPrice()
                     + Number(helper.countDeliveryPrice(serviceProps.deliveryProps))
                   }</span>
@@ -122,7 +138,10 @@ module.exports = React.createClass({
                     <div className="order-total-left">
                       <span className="text-dove-grey">优惠: </span>
                       <span className="price">
-                        {
+                        {helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).smallChange > 0 ?
+                          helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)
+                          + helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).smallChange
+                          :
                           helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)
                         }
                       </span>

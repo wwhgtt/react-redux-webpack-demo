@@ -113,7 +113,6 @@ const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedC
   let limitType = integralsInfo.limitType;
   // 取余数  向下取整
   const canUsesIntegralTimes = Math.floor(canBeUsedCommutation / integralsInfo.exchangeCashValue);
-  console.log(canUsesIntegralTimes);
   if (limitType === 1) {
     const integralInUsed = canUsesIntegralTimes * integralsInfo.exchangeIntegralValue < integralsInfo.integral ?
       canUsesIntegralTimes * integralsInfo.exchangeIntegralValue
@@ -171,7 +170,7 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
   if (transferType === 1) {
     // 四舍五入
     return {
-      smallChange:parseFloat(Math.abs(totalPrice - parseFloat(totalPrice.toFixed(scale))).toFixed(2)),
+      smallChange:parseFloat((totalPrice - parseFloat(totalPrice.toFixed(scale))).toFixed(2)),
       priceWithClearSmallChange:parseFloat(
         (totalPrice - parseFloat(Math.abs(totalPrice - parseFloat(totalPrice.toFixed(scale))).toFixed(scale))).toFixed(scale)
       ),
