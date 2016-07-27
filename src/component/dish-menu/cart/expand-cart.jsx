@@ -73,7 +73,7 @@ module.exports = React.createClass({
     const takeawayServiceShipPriceElement = this.buildTakeawayServiceShipPriceElement(totalPrice, takeawayServiceProps);
     return (
       <div className="expand-cart">
-        <div className="expand-cart-close" onTouchTap={onCartIconTap}></div>
+        <div className="expand-cart-close" onTouchTap={evt => onCartIconTap(dishesCount)}></div>
 
         <div className="expand-cart-main">
           <div className="expand-cart-header">
