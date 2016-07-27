@@ -4,11 +4,14 @@ const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
 const getUrlParam = require('../helper/dish-hepler.js').getUrlParam;
 exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDesk, selfPayType, sendPayType) {
   if (diningForm === 0) {
-    return payment === 'offline';
+    return payment === 'offline' ? 0 : -1;
   }
   return isPickupFromFrontDesk ? selfPayType.indexOf(payment) : sendPayType.indexOf(payment);
 };
-exports.shouldPaymentAutoChecked = function (payment, isPickupFromFrontDesk, selfPayType, sendPayType) {
+exports.shouldPaymentAutoChecked = function (payment, diningForm, isPickupFromFrontDesk, selfPayType, sendPayType) {
+  if (diningForm === 0) {
+    return payment === 'offline';
+  }
   if (isPickupFromFrontDesk) {
     return selfPayType.indexOf(',') !== -1 ? payment === selfPayType.split(',')[0] : payment === selfPayType;
   }

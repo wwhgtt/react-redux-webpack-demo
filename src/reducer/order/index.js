@@ -94,6 +94,7 @@ module.exports = function (
                         isChecked:
                           helper.shouldPaymentAutoChecked(
                             'online',
+                            payload.diningForm,
                             false,
                             orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
                             orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
@@ -114,6 +115,7 @@ module.exports = function (
                         isChecked:
                           helper.shouldPaymentAutoChecked(
                             'offline',
+                            payload.diningForm,
                             false,
                             orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
                             orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
@@ -172,6 +174,7 @@ module.exports = function (
               'isChecked',
               helper.shouldPaymentAutoChecked(
                 payMethod.id.split('-')[0],
+                state.commercialProps.diningForm,
                 !state.serviceProps.isPickupFromFrontDesk.isChecked,
                 state.commercialProps.selfPayType,
                 state.commercialProps.sendPayType

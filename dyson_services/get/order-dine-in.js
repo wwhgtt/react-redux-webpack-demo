@@ -587,7 +587,7 @@ module.exports = {
 	/** 前台自取支付方式*/
       'pickupPayType': 'online,offline',
 	/** 送餐到桌支付方式 */
-      'totablePayType': 'online,offline',
+      'totablePayType': 'offline',
 	/** 会员是否停用 */
       'disable': false,
       ma: null,
