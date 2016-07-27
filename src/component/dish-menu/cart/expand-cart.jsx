@@ -56,10 +56,10 @@ module.exports = React.createClass({
     return false;
   },
   buildTakeawayServiceShipPriceElement(totalPrice, takeawayServiceProps) {
-    if (!takeawayServiceProps || !takeawayServiceProps.shipmentFee) {
+    if (!takeawayServiceProps) {
       return false;
     }
-    if (totalPrice < takeawayServiceProps.shipFreePrice) {
+    if (totalPrice < takeawayServiceProps.shipFreePrice && takeawayServiceProps.shipmentFee > 0) {
       return <small>{`另有 ${takeawayServiceProps.shipmentFee} 元配送费`}</small>;
     }
     return false;
