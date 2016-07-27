@@ -244,7 +244,7 @@ exports.isShopOpen = function (timeList) {
     return true;
   }
 
-  // convert "HH:MM:SS" format to seconds1
+  // convert "HH:MM:SS" format to seconds
   const timeToSeconds = (time) => {
     const hms = time.split(':');
     return (+hms[0]) * 60 * 60 + (+hms[1]) * 60 + (+hms[2]);
@@ -255,7 +255,10 @@ exports.isShopOpen = function (timeList) {
   const currentTime = timeToSeconds(`${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`);
 
   return timeList.some(entry => {
-    const isOpenTime = currentTime >= timeToSeconds(entry.startTime) && currentTime <= timeToSeconds(entry.endTime);
+    const startTime = timeToSeconds(entry.startTime);
+    const endTime = timeToSeconds(entry.endTime) || timeToSeconds('24:00:00');
+    const isOpenTime = currentTime >= startTime && currentTime <= endTime;
+
     let isOpenDay = false;
 
     // open in 7 days a week
