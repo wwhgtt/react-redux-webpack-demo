@@ -239,7 +239,7 @@ const OrderApplication = React.createClass({
           }
           <label className="order-prop-option">
             <span className="option-title">备注: </span>
-            <input className="option-input" name="note" placeholder="输入备注" onChange={this.noteOrReceiptChange} />
+            <input className="option-input" name="note" placeholder="输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />
           </label>
           <label className="order-prop-option">
             <span className="option-title">发票抬头: </span>
