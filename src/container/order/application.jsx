@@ -35,6 +35,7 @@ const OrderApplication = React.createClass({
     fetchSendAreaId:React.PropTypes.func.isRequired,
     fetchDeliveryPrice:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
+    setErrorMsg:React.PropTypes.func.isRequired,
     setSessionAndForwardChaining:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
@@ -109,7 +110,7 @@ const OrderApplication = React.createClass({
   },
   render() {
     const {
-      customerProps, serviceProps, childView, tableProps, clearErrorMsg,
+      customerProps, serviceProps, childView, tableProps, clearErrorMsg, setErrorMsg,
       timeProps, orderedDishesProps, commercialProps, errorMessage, setSessionAndForwardChaining,
     } = this.props; // state
     const { setOrderProps, fetchUserAddressInfo, setChildView } = this.props;// actions
@@ -299,11 +300,15 @@ const OrderApplication = React.createClass({
         }
 
         {childView === 'customer-info' && type === 'TS' ?
-          <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setOrderProps} onDone={this.resetChildView} />
+          <CustomerInfoEditor
+            setErrorMsg={setErrorMsg}
+            customerProps={customerProps} onCustomerPropsChange={setOrderProps} onDone={this.resetChildView}
+          />
           : false
         }
         {childView === 'customer-info' && type === 'WM' ?
           <CustomerTakeawayInfoEditor
+            setErrorMsg={setErrorMsg}
             customerProps={customerProps} sendAreaId={serviceProps.sendAreaId} onAddressEditor={setSessionAndForwardChaining}
             onCustomerPropsChange={setOrderProps} onComponentWillMount={fetchUserAddressInfo} onDone={this.resetChildView}
           />

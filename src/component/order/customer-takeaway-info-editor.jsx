@@ -12,6 +12,7 @@ module.exports = React.createClass({
     onComponentWillMount: React.PropTypes.func.isRequired,
     sendAreaId:React.PropTypes.number.isRequired,
     onAddressEditor:React.PropTypes.func.isRequired,
+    setErrorMsg:React.PropTypes.func.isRequired,
     ...CustomerInfoEditor.propTypes,
   },
   getInitialState() {
@@ -70,12 +71,13 @@ module.exports = React.createClass({
     };
   },
   render() {
-    const { customerProps, onDone, sendAreaId, onAddressEditor } = this.props;
+    const { customerProps, onDone, sendAreaId, onAddressEditor, setErrorMsg } = this.props;
     const { addresses } = this.state;
 
     return (
       <div className="order-subpage">
         <CustomerInfoEditor
+          setErrorMsg={setErrorMsg}
           onCustomerPropsChange={this.onCustomerPropsChange}
           customerProps={customerProps.without('addresses')} onDone={onDone}
         />
