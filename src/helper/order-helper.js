@@ -188,7 +188,7 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
         smallChange:totalPrice.toString().split('.')[1].length === 1 ?
         0
         :
-        parseFloat((parseFloat((Math.ceil(totalPrice * 10 + 1) / 10).toFixed(2)) - totalPrice).toFixed(2)),
+        parseFloat((totalPrice - parseFloat((Math.ceil(totalPrice * 10 + 1) / 10).toFixed(2))).toFixed(2)),
         priceWithClearSmallChange:totalPrice.toString().split('.')[1].length === 1 ?
         totalPrice
         :
@@ -201,7 +201,7 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
       };
     } else if (scale === 0) {
       return {
-        smallChange:Math.ceil(totalPrice) - totalPrice,
+        smallChange:totalPrice - Math.ceil(totalPrice),
         priceWithClearSmallChange:Math.ceil(totalPrice),
       };
     }
