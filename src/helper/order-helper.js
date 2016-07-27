@@ -188,7 +188,7 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
         smallChange:totalPrice.toString().split('.')[1].length === 1 ?
         0
         :
-        parseFloat((totalPrice - parseFloat((Math.ceil(totalPrice * 10 + 1) / 10).toFixed(2))).toFixed(2)),
+        parseFloat((totalPrice - Math.ceil(totalPrice * 10 + 1) / 10).toFixed(2)),
         priceWithClearSmallChange:totalPrice.toString().split('.')[1].length === 1 ?
         totalPrice
         :
@@ -218,7 +218,7 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
         smallChange:totalPrice.toString().split('.')[1].length === 1 ?
         0
         :
-        parseFloat((totalPrice - parseFloat((Math.floor(totalPrice * 10) / 10).toFixed(2))).toFixed(2)),
+        parseFloat((totalPrice - Math.floor(totalPrice * 10) / 10).toFixed(2)),
         priceWithClearSmallChange:totalPrice.toString().split('.')[1].length === 1 ?
         totalPrice
         :
