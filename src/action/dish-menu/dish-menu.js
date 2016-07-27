@@ -70,8 +70,14 @@ exports.confirmOrder = () => (dispatch, getStates) => {
   localStorage.setItem('dishBoxPrice', helper.getDishBoxprice(orderedData, dishBoxChargeInfo));
   if (type === 'TS') {
     //  堂食情况下需要考虑是否有tableId的情况
-    location.href =
-      `/orderall/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}&tableId=${helper.getUrlParam('tableId')}`;
+    const tableId = helper.getUrlParam('tableId');
+    if (tableId) {
+      location.href =
+        `/orderall/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}&tableId=${tableId}`;
+    } else {
+      location.href =
+        `/orderall/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}`;
+    }
   } else {
     location.href = `/takeaway/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}`;
   }
