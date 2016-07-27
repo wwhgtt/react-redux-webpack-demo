@@ -38,6 +38,10 @@ module.exports = React.createClass({
     onImageBtnTap(dishData);
   },
   buildOrderBtn(dishData) {
+    if (dishData.clearStatus !== 1) {
+      // 表示没有被沽清
+      return (<span>已售罄</span>);
+    }
     if (helper.isSingleDishWithoutProps(dishData)) {
       return (<Counter count={dishData.order} onCountChange={this.onBtnTap} step={dishData.stepNum} />);
     }
@@ -57,7 +61,7 @@ module.exports = React.createClass({
     const orderBtn = this.buildOrderBtn(dishData);
     return (
       <div className="dish-on-selling">
-        {dishData.clearStatus === 1 ?
+        {dishData.currRemainTotal !== 0 ?
           <div className="dish-list-item" onTouchTap={this.onTouchTap}>
             <button
               className={classnames('dish-item-img', { 'is-memberdish': dishData.isMember })}
