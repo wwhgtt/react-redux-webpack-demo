@@ -40,7 +40,7 @@ module.exports = React.createClass({
   buildOrderBtn(dishData) {
     if (dishData.clearStatus !== 1) {
       // 表示没有被沽清
-      return (<span>已售罄</span>);
+      return (<span className="dish-item-soldout">已售罄</span>);
     }
     if (helper.isSingleDishWithoutProps(dishData)) {
       return (<Counter count={dishData.order} onCountChange={this.onBtnTap} step={dishData.stepNum} />);
