@@ -39,16 +39,13 @@ module.exports = React.createClass({
   onCustomerPropsChange(evt, customerProps) {
     const selectedAddress = _find(this.state.addresses, { isChecked:true });
     const customerPropsWithoutId = customerProps.without('id');
-    if (this.props.onCustomerPropsChange(evt,
+    this.props.onCustomerPropsChange(evt,
       {
         id: 'customer-info-with-address',
         ...customerPropsWithoutId,
         address:selectedAddress,
       }
-    ).success) {
-      return { success:true };
-    }
-    return { success:false };
+    );
   },
   onAddressSelect(evt, option) {
     const { onAddressEditor } = this.props;

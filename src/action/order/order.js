@@ -153,8 +153,8 @@ exports.setSessionAndForwardChaining = (id) => (dispatch, getState) => {
 exports.setCustomerProps = (evt, customerProps) => (dispatch, getState) => {
   if (!customerProps.name) {
     dispatch(setErrorMsg('请输入您的姓名'));
-    return { success:false };
+    return false;
   }
   dispatch(setOrderProps(null, customerProps));
-  return { success:true };
+  return true;
 };
