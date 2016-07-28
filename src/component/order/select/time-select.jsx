@@ -8,6 +8,7 @@ const DateTimeOption = require('../../mui/misc/dynamic-class-hoc.jsx')('a');
 module.exports = React.createClass({
   displayName: 'TimeSelect',
   propTypes: {
+    isSelfFetch: React.PropTypes.bool,
     selectedDateTime: React.PropTypes.object.isRequired,
     timeTable: React.PropTypes.object.isRequired,
     onDone: React.PropTypes.func.isRequired,
@@ -83,14 +84,24 @@ module.exports = React.createClass({
   buildState(selectedDateTime, timeTable) {
     const dateTimes = [];
     let selectedMark = true;
-    for (let key in timeTable) {
+    const nowStr = new Date().toISOString().substr(0, 10);
+    for (const key in timeTable) {
       if (timeTable.hasOwnProperty(key)) {
-        const times = timeTable[key].map(
-          (time, idx) => time === selectedDateTime.time || (idx === 0 && selectedMark && selectedDateTime.time === '') ?
-            { id:time, label:time, isChecked:true } : { id:time, label:time }
-        );
+        const isToday = nowStr === key;
+        const times = timeTable[key].map((time, idx) => {
+          const checked = time === selectedDateTime.time || (idx === 0 && selectedMark && selectedDateTime.time === '');
+          let ret = { id:time, label:time, isChecked: checked };
+          if (isToday && !time) {
+            ret.label = `立即${this.props.isSelfFetch ? '取餐' : '送达'}`;
+          }
+          return ret;
+        });
+
         const dateTime = key === selectedDateTime.date || (selectedMark && selectedDateTime.date === '') ?
           { id:key, label:key, times, isChecked: true } : { id:key, label:key, times };
+        if (isToday) {
+          dateTime.label = '今日';
+        }
         dateTimes.push(dateTime);
       }
       selectedMark = false;
@@ -105,7 +116,7 @@ module.exports = React.createClass({
         <div className="scroll-select-close" onTouchTap={this.onCancel}></div>
         <div className="scroll-select-content">
           <div className="scroll-select-header">
-            <span>选择送达时间</span>
+            <span>选择{this.props.isSelfFetch ? '取餐' : '送达'}时间</span>
             <div className="scroll-select-confirm btn--yellow" onTouchTap={this.onSubmit}>确定</div>
           </div>
           <div className="flex-row">

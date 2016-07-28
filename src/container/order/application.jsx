@@ -127,6 +127,7 @@ const OrderApplication = React.createClass({
       }
       return '到店取餐';
     };
+    const isSelfFetch = serviceProps.sendAreaId === 0;
     return (
       <div className="application">
         {type === 'WM' ?
@@ -229,9 +230,11 @@ const OrderApplication = React.createClass({
         <div className="options-group">
           {type === 'WM' && timeProps.timeTable !== {} && timeProps.timeTable !== undefined ?
             <a className="order-prop-option" onTouchTap={evt => setChildView('#time-select')} >
-              <span className="options-title">送达时间</span>
+              <span className="options-title">{isSelfFetch ? '取餐时间' : '送达时间'}</span>
               <button className="option-btn btn-arrow-right">
-                {`${timeProps.selectedDateTime.date} ${timeProps.selectedDateTime.time} 送达`}
+                {`${timeProps.selectedDateTime.date} ${timeProps.selectedDateTime.time || '立即'}`}
+                {`${timeProps.selectedDateTime.time ? ' ' : ''}`}
+                {isSelfFetch ? '取餐' : '送达'}
               </button>
             </a>
             :
@@ -325,6 +328,7 @@ const OrderApplication = React.createClass({
 
           {childView === 'time-select' ?
             <TimeSelect
+              isSelfFetch={isSelfFetch}
               selectedDateTime={timeProps.selectedDateTime} timeTable={timeProps.timeTable}
               onDateTimeSelect={setOrderProps} onDone={this.resetChildView}
             />
