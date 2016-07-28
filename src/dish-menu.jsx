@@ -1,5 +1,4 @@
-require('core-js/fn/object/assign');
-require('core-js/fn/array/');
+require('core-js/shim');
 const React = require('react');
 const ReactDOM = require('react-dom');
 const createStore = require('redux').createStore;
