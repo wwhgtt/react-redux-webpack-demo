@@ -84,6 +84,19 @@ div[data-reactroot] {
         margin-bottom: -3px;
         // color: $color-picton-blue;
       }
+
+      // display disabled minus button
+      .counter-minus.btn-disabled {
+        display: block;
+
+        &::before {
+          background: darken($color-mischka, 10%);
+        }
+
+        ~ .counter-num {
+          display: block;
+        }
+      }
     }
   }
 
