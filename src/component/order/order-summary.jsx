@@ -117,7 +117,7 @@ module.exports = React.createClass({
                 <div className="order-total-left">
                   <span className="text-dove-grey">总计: </span>
                   <span className="price">{
-                    helper.countTotalPriceWithoutBebefit(dishesPrice, serviceProps.deliveryProps)
+                    helper.countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
                   }</span>
                 </div>
                 {commercialProps.carryRuleVO ?

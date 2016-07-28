@@ -152,7 +152,7 @@ const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedC
 };
 //  自动抹零现规则是在积分，优惠券，折扣换算完以后才执行
 //  计算优惠券信息是countPriceByCoupons 折扣信息为serviceProps.discountProps.inUseDiscount,已经计算好了的
-const countTotalPriceWithoutBebefit = exports.countTotalPriceWithoutBebefit = function (dishesPrice, deliveryProps) {
+const countTotalPriceWithoutBenefit = exports.countTotalPriceWithoutBenefit = function (dishesPrice, deliveryProps) {
   //  计算菜品初始价格加配送费和配送费优惠
   return dishesPrice + getDishBoxPrice() + Number(countDeliveryPrice(deliveryProps)) -
   Number(countDeliveryRemission(dishesPrice, deliveryProps));
@@ -161,7 +161,7 @@ const countTotalPriceWithoutBebefit = exports.countTotalPriceWithoutBebefit = fu
 
 const countPriceWithCouponAndDiscount = exports.countPriceWithCouponAndDiscount = function (dishesPrice, serviceProps) {
   // 计算出优惠券和会员价后的价格
-  let totalPrice = countTotalPriceWithoutBebefit(dishesPrice, serviceProps.deliveryProps);
+  let totalPrice = countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps);
   if (!serviceProps.couponsProps.inUseCoupon && !serviceProps.discountProps.inUseDiscount) {
     // 即没有使用任何优惠
     totalPrice = parseFloat(totalPrice.toFixed(2));
@@ -272,10 +272,10 @@ exports.countDecreasePrice = function (orderedDishesProps, serviceProps, commerc
   const clearSmallChangeProps = clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps);
   // smallChange>=0表示总数减少
   return clearSmallChangeProps.smallChange >= 0 ?
-          parseFloat((countTotalPriceWithoutBebefit(dishesPrice, serviceProps.deliveryProps)
+          parseFloat((countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
           - clearSmallChangeProps.priceWithClearSmallChange).toFixed(2))
           :
-          parseFloat((countTotalPriceWithoutBebefit(dishesPrice, serviceProps.deliveryProps)
+          parseFloat((countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
           - countPriceWithBenefit(dishesPrice, serviceProps)).toFixed(2));
 };
 
