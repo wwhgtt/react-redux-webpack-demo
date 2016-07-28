@@ -80,7 +80,7 @@ module.exports = React.createClass({
           customerProps={customerProps.without('addresses')} onDone={onDone}
         />
         <p className="address-title">请选择收货地址或到店取餐</p>
-        {addresses !== null && sendAreaId !== 0 ?
+        {addresses !== null && addresses !== [] && sendAreaId !== 0 ?
           <ActiveSelect
             className="address-group"
             optionsData={addresses}
