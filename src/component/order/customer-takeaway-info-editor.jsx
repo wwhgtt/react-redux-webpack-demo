@@ -23,9 +23,9 @@ module.exports = React.createClass({
       { addresses:null };
   },
   componentWillMount() {
-    const { customerProps, onComponentWillMount, sendAreaId } = this.props;
+    const { onComponentWillMount, sendAreaId } = this.props;
     // If no default address, push address list from server.
-    if (sendAreaId !== 0 && customerProps.addresses === null) {
+    if (sendAreaId !== 0) {
       onComponentWillMount();
     }
   },
