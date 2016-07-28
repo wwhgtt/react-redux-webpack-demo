@@ -317,7 +317,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
           0;
     const toShopFlag = state.serviceProps.sendAreaId === 0 ? '1' : '0';
     params = '?name=' + state.customerProps.name
-        + '&Invoice=' + receipt + '&note=' + note
+        + '&Invoice=' + receipt + '&memo=' + note
         + '&mobile=' + state.customerProps.mobile
         + '&sex=' + state.customerProps.sex
         + '&payMethod=' + payMethodScope
@@ -335,7 +335,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
         + '&toShopFlag=' + toShopFlag;
   } else {
     params = '?name=' + state.customerProps.name
-        + '&Invoice=' + receipt + '&note=' + note
+        + '&Invoice=' + receipt + '&memo=' + note
         + '&mobile=' + state.customerProps.mobile
         + '&sex=' + state.customerProps.sex
         + '&payMethod=' + payMethodScope
