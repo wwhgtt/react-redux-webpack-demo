@@ -54,6 +54,8 @@ module.exports = React.createClass({
                   :
                   false
                 }
+              </div>
+              <div className="order-summary">
                 {serviceProps.couponsProps.inUseCoupon ?
                   <p className="order-summary-entry clearfix">
                     <span className="order-title">优惠券优惠:</span>

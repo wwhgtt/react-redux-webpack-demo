@@ -164,7 +164,7 @@ div[data-reactroot] {
 
 // ORDER SUMMARY
 .order-summary {
-  padding: 7px 10px 5px;
+  padding: 0 10px;
   border-bottom: 1px solid $color-alto;
 
   &:empty {
@@ -174,8 +174,8 @@ div[data-reactroot] {
 
 
   &-entry {
-    line-height: 22px;
-    padding: 5px 0;
+    line-height: 28px;
+    padding: 6px 0;
   }
 
   @at-root {
