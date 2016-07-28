@@ -8,34 +8,36 @@
   padding: 0 20px;
   background: $color-white;
 
-  &::before {
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 21px;
-    content: '';
-    background-color: $color-white;
-    background-image: url('./../../../../asset/images/triangle-left.png');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 7px 10px;
-  }
+  &.is-active {
+    &::before {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 21px;
+      content: '';
+      background-color: $color-white;
+      background-image: url('./../../../../asset/images/triangle-left.png');
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 7px 10px;
+    }
 
-  &::after {
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 21px;
-    content: '';
-    background-color: $color-white;
-    background-image: url('./../../../../asset/images/triangle-right.png');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 7px 10px;
+    &::after {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 21px;
+      content: '';
+      background-color: $color-white;
+      background-image: url('./../../../../asset/images/triangle-right.png');
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 7px 10px;
+    }
   }
 }
 
