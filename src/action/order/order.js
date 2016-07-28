@@ -150,3 +150,11 @@ exports.setSessionAndForwardChaining = (id) => (dispatch, getState) => {
     location.href = `${config.editUserAddressURL}?shopId=${getUrlParam('shopId')}&id=${id}`;
   }
 };
+exports.setCustomerProps = (evt, customerProps) => (dispatch, getState) => {
+  if (!customerProps.name) {
+    dispatch(setErrorMsg('请输入您的姓名'));
+    return false;
+  }
+  dispatch(setOrderProps(null, customerProps));
+  return true;
+};

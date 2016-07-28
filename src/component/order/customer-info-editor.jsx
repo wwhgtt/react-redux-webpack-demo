@@ -25,11 +25,10 @@ module.exports = React.createClass({
       customerProps:customerProps.set('customerCount', newCount),
     });
   },
-  onSubmitBtntap() {
+  onSubmitBtntap(evt) {
     const { customerProps } = this.state;
     const { onDone, onCustomerPropsChange } = this.props;
-    onCustomerPropsChange(null, customerProps);
-    onDone('');
+    if (onCustomerPropsChange(evt, customerProps)) onDone('');
   },
   handleBasicInfoChange(event) {
     const { customerProps } = this.state;
