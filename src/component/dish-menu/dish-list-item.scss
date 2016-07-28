@@ -49,6 +49,12 @@
       vertical-align: 1px;
     }
   }
+
+  &-soldout {
+    line-height: $counter-size;
+    float: right;
+    color: $color-dusty-grey;
+  }
 }
 
 // member-dish

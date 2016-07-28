@@ -54,8 +54,8 @@ module.exports = React.createClass({
           if (!dishTypeData.dishIds) {
             return false;
           }
-          if (dishTypeData.dishIds.length === 1 && _find(dishesData, { id:dishTypeData.dishIds[0] }).clearStatus !== 1) {
-            // 需要考虑length为1  且菜品信息clearStatus不为1的情况
+          if (dishTypeData.dishIds.length === 1 && _find(dishesData, { id:dishTypeData.dishIds[0] }).currRemainTotal === 0) {
+            // 中类下面子菜的数量只有一个且售罄的情况下，中类不显示
             return false;
           }
           return (
