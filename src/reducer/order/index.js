@@ -75,7 +75,9 @@ module.exports = function (
                       name:payload.commercialName, integral:payload.integral, commercialLogo:payload.commercialLogo,
                       selfPayType:orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
                       sendPayType:orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType,
-                      diningForm: payload.diningForm, carryRuleVO:payload.carryRuleVO,
+                      diningForm: payload.diningForm,
+                      carryRuleVO:payload.carryRuleVO && payload.carryRuleVO.transferType ?
+                        payload.carryRuleVO : { transferType: 1, scale: 2 },
                     })
                   )
                   .setIn(

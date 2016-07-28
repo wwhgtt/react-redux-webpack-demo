@@ -16,6 +16,7 @@ module.exports = React.createClass({
   },
   render() {
     const { serviceProps, commercialProps, orderedDishesProps, shopId } = this.props;
+    const dishesPrice = orderedDishesProps.dishes && orderedDishesProps.dishes.length ? getDishesPrice(orderedDishesProps.dishes) : 0;
     return (
       <div className="order-summary-detail">
         {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
@@ -43,6 +44,18 @@ module.exports = React.createClass({
                   :
                   false
                 }
+                {commercialProps.carryRuleVO && helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).smallChange < 0 ?
+                  <p className="order-summary-entry clearfix">
+                    <span className="order-title">尾数调整:</span>
+                    <span className="order-discount price">
+                      {Math.abs(helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).smallChange)}
+                    </span>
+                  </p>
+                  :
+                  false
+                }
+              </div>
+              <div className="order-summary">
                 {serviceProps.couponsProps.inUseCoupon ?
                   <p className="order-summary-entry clearfix">
                     <span className="order-title">优惠券优惠:</span>
@@ -50,7 +63,7 @@ module.exports = React.createClass({
                       {
                         helper.countPriceByCoupons(
                           serviceProps.couponsProps.inUseCouponDetail,
-                          getDishesPrice(orderedDishesProps.dishes)
+                          dishesPrice
                         )
                       }
                     </span>
@@ -63,19 +76,13 @@ module.exports = React.createClass({
                     <span className="order-title">积分抵扣:</span>
                     <span className="order-discount discount">
                       {helper.countIntegralsToCash(
-                        helper.clearSmallChange(
-                          commercialProps.carryRuleVO,
-                          getDishesPrice(orderedDishesProps.dishes),
-                          serviceProps).priceWithClearSmallChange,
+                        Number(helper.countPriceWithCouponAndDiscount(dishesPrice, serviceProps)),
                         serviceProps.integralsInfo.integralsDetail
                       ).commutation}
                     </span>
                     <span className="order-integral">
                       {helper.countIntegralsToCash(
-                        helper.clearSmallChange(
-                          commercialProps.carryRuleVO,
-                          getDishesPrice(orderedDishesProps.dishes),
-                          serviceProps).priceWithClearSmallChange,
+                        Number(helper.countPriceWithCouponAndDiscount(dishesPrice, serviceProps)),
                         serviceProps.integralsInfo.integralsDetail
                       ).integralInUsed}
                     </span>
@@ -84,7 +91,7 @@ module.exports = React.createClass({
                   false
                 }
                 {serviceProps.deliveryProps && serviceProps.deliveryProps.freeDeliveryPrice
-                  && getDishesPrice(orderedDishesProps.dishes) >= serviceProps.deliveryProps.freeDeliveryPrice ?
+                  && dishesPrice >= serviceProps.deliveryProps.freeDeliveryPrice ?
                   <p className="order-summary-entry clearfix">
                     <span className="order-title">满{serviceProps.deliveryProps.freeDeliveryPrice}元减免配送费</span>
                     <span className="order-discount discount">
@@ -94,27 +101,23 @@ module.exports = React.createClass({
                   :
                   false
                 }
-                {commercialProps.carryRuleVO &&
-                  helper.clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes), serviceProps).smallChange !== 0 ?
+                {commercialProps.carryRuleVO && helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).smallChange > 0 ?
                   <p className="order-summary-entry clearfix">
                     <span className="order-title">自动抹零:</span>
-                    <span className="order-discount discount">
-                      {
-                        helper.clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes), serviceProps).smallChange
-                      }
+                    <span className="order-discount price">
+                      {Math.abs(helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).smallChange)}
                     </span>
                   </p>
                   :
                   false
                 }
+
               </div>
               <div className="order-prop-option order-total clearfix">
                 <div className="order-total-left">
                   <span className="text-dove-grey">总计: </span>
                   <span className="price">{
-                    getDishesPrice(orderedDishesProps.dishes)
-                    + helper.getDishBoxPrice()
-                    + Number(helper.countDeliveryPrice(serviceProps.deliveryProps))
+                    helper.countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
                   }</span>
                 </div>
                 {commercialProps.carryRuleVO ?
@@ -130,7 +133,7 @@ module.exports = React.createClass({
                     <div className="order-total-right">
                       <span className="text-dove-grey">实付: </span>
                       <span className="price">
-                        {helper.countFinalPrice(orderedDishesProps, serviceProps, commercialProps)}
+                        {helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).priceWithClearSmallChange}
                       </span>
                     </div>
                   </div>

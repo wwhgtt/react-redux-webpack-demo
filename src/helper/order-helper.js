@@ -1,6 +1,6 @@
 const _find = require('lodash.find');
 const getDishesPrice = require('../helper/dish-hepler.js').getDishesPrice;
-const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
+// const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
 const getUrlParam = require('../helper/dish-hepler.js').getUrlParam;
 exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDesk, selfPayType, sendPayType) {
   if (diningForm === 0) {
@@ -116,7 +116,6 @@ const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedC
   let limitType = integralsInfo.limitType;
   // 取余数  向下取整
   const canUsesIntegralTimes = Math.floor(canBeUsedCommutation / integralsInfo.exchangeCashValue);
-  console.log(canUsesIntegralTimes);
   if (limitType === 1) {
     const integralInUsed = canUsesIntegralTimes * integralsInfo.exchangeIntegralValue < integralsInfo.integral ?
       canUsesIntegralTimes * integralsInfo.exchangeIntegralValue
@@ -154,29 +153,55 @@ const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedC
   }
   return false;
 };
-//  自动抹零
-const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishesPrice, serviceProps) {
-  const { transferType, scale } = carryRuleVO;
-  let totalPrice = '';
+//  自动抹零现规则是在积分，优惠券，折扣换算完以后才执行
+//  计算优惠券信息是countPriceByCoupons 折扣信息为serviceProps.discountProps.inUseDiscount,已经计算好了的
+const countTotalPriceWithoutBenefit = exports.countTotalPriceWithoutBenefit = function (dishesPrice, deliveryProps) {
+  //  计算菜品初始价格加配送费和配送费优惠
+  return dishesPrice + getDishBoxPrice() + Number(countDeliveryPrice(deliveryProps)) -
+  Number(countDeliveryRemission(dishesPrice, deliveryProps));
+};
+
+
+const countPriceWithCouponAndDiscount = exports.countPriceWithCouponAndDiscount = function (dishesPrice, serviceProps) {
+  // 计算出优惠券和会员价后的价格
+  let totalPrice = countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps);
   if (!serviceProps.couponsProps.inUseCoupon && !serviceProps.discountProps.inUseDiscount) {
     // 即没有使用任何优惠
-    totalPrice = parseFloat(dishesPrice.toFixed(2));
+    totalPrice = parseFloat(totalPrice.toFixed(2));
   } else if (serviceProps.couponsProps.inUseCoupon) {
-    totalPrice = parseFloat((dishesPrice - countPriceByCoupons(serviceProps.couponsProps.inUseCouponDetail, dishesPrice)).toFixed(2));
+    totalPrice = parseFloat((totalPrice - countPriceByCoupons(serviceProps.couponsProps.inUseCouponDetail, totalPrice)).toFixed(2));
   } else if (serviceProps.discountProps.inUseDiscount) {
-    totalPrice = parseFloat((dishesPrice - serviceProps.discountProps.inUseDiscount).toFixed(2));
-  } else {
-    return false;
+    totalPrice = parseFloat((totalPrice - serviceProps.discountProps.inUseDiscount).toFixed(2));
   }
-  totalPrice = Number(totalPrice) + getDishBoxPrice() +
-  Number(countDeliveryPrice(serviceProps.deliveryProps)) -
-  Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps));
+  return totalPrice;
+};
+
+
+// 处理优惠信息
+const countPriceWithBenefit = exports.countPriceWithBenefit = function (dishesPrice, serviceProps) {
+  const totalPrice = Number(countPriceWithCouponAndDiscount(dishesPrice, serviceProps));
+  // 至此处理完了配送费和优惠券 还有折扣信息  需要考虑积分抵扣了
+  const priceWithIntergrals = serviceProps.integralsInfo.isChecked ?
+    totalPrice - countIntegralsToCash(totalPrice, serviceProps.integralsInfo.integralsDetail).commutation
+    :
+    totalPrice;
+  // 至此各种优惠信息已经处理完
+  return parseFloat(priceWithIntergrals.toFixed(2));
+};
+
+
+const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishesPrice, serviceProps) {
+  // serviceProps.integralsInfo.integralsDetail  前提条件
+  const { transferType, scale } = carryRuleVO;
+  const priceWithIntergrals = countPriceWithBenefit(dishesPrice, serviceProps);
   if (transferType === 1) {
     // 四舍五入
     return {
-      smallChange:parseFloat(Math.abs(totalPrice - parseFloat(totalPrice.toFixed(scale))).toFixed(2)),
-      priceWithClearSmallChange:parseFloat(
-        (totalPrice - parseFloat(Math.abs(totalPrice - parseFloat(totalPrice.toFixed(scale))).toFixed(scale))).toFixed(scale)
+      smallChange:parseFloat((priceWithIntergrals - parseFloat(priceWithIntergrals.toFixed(scale))).toFixed(2)),
+      priceWithClearSmallChange:parseFloat((
+        priceWithIntergrals - parseFloat(
+          Math.abs(priceWithIntergrals - parseFloat(priceWithIntergrals.toFixed(scale))).toFixed(scale)
+        )).toFixed(scale)
       ),
     };
   } else if (transferType === 2) {
@@ -184,29 +209,29 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
     if (scale === 2) {
       return {
         smallChange:0,
-        priceWithClearSmallChange:totalPrice,
+        priceWithClearSmallChange:priceWithIntergrals,
       };
     } else if (scale === 1) {
-      return totalPrice.toString().indexOf('.') !== -1 ?
+      return priceWithIntergrals.toString().indexOf('.') !== -1 ?
       {
-        smallChange:totalPrice.toString().split('.')[1].length === 1 ?
+        smallChange:priceWithIntergrals.toString().split('.')[1].length === 1 ?
         0
         :
-        parseFloat((parseFloat((Math.ceil(totalPrice * 10 + 1) / 10).toFixed(2)) - totalPrice).toFixed(2)),
-        priceWithClearSmallChange:totalPrice.toString().split('.')[1].length === 1 ?
-        totalPrice
+        parseFloat((priceWithIntergrals - Math.floor(priceWithIntergrals * 10 + 1) / 10).toFixed(2)),
+        priceWithClearSmallChange:priceWithIntergrals.toString().split('.')[1].length === 1 ?
+        priceWithIntergrals
         :
-        parseFloat((Math.ceil(totalPrice * 10 + 1) / 10).toFixed(2)),
+        parseFloat((Math.floor(priceWithIntergrals * 10 + 1) / 10).toFixed(2)),
       }
         :
       {
         smallChange:0,
-        priceWithClearSmallChange:totalPrice,
+        priceWithClearSmallChange:priceWithIntergrals,
       };
     } else if (scale === 0) {
       return {
-        smallChange:Math.ceil(totalPrice) - totalPrice,
-        priceWithClearSmallChange:Math.ceil(totalPrice),
+        smallChange:parseFloat((priceWithIntergrals - Math.ceil(priceWithIntergrals)).toFixed(2)),
+        priceWithClearSmallChange:Math.ceil(priceWithIntergrals),
       };
     }
   } else if (transferType === 3) {
@@ -214,122 +239,62 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
     if (scale === 2) {
       return {
         smallChange:0,
-        priceWithClearSmallChange:totalPrice,
+        priceWithClearSmallChange:priceWithIntergrals,
       };
     } else if (scale === 1) {
-      return totalPrice.toString().indexOf('.') !== -1 ?
+      return priceWithIntergrals.toString().indexOf('.') !== -1 ?
       {
-        smallChange:totalPrice.toString().split('.')[1].length === 1 ?
+        smallChange:priceWithIntergrals.toString().split('.')[1].length === 1 ?
         0
         :
-        parseFloat((totalPrice - parseFloat((Math.floor(totalPrice * 10) / 10).toFixed(2))).toFixed(2)),
-        priceWithClearSmallChange:totalPrice.toString().split('.')[1].length === 1 ?
-        totalPrice
+        parseFloat((priceWithIntergrals - Math.floor(priceWithIntergrals * 10) / 10).toFixed(2)),
+        priceWithClearSmallChange:priceWithIntergrals.toString().split('.')[1].length === 1 ?
+        priceWithIntergrals
         :
-        parseFloat((Math.floor(totalPrice * 10) / 10).toFixed(2)),
+        parseFloat((Math.floor(priceWithIntergrals * 10) / 10).toFixed(2)),
       }
         :
       {
         smallChange:0,
-        priceWithClearSmallChange:totalPrice,
+        priceWithClearSmallChange:priceWithIntergrals,
       };
     } else if (scale === 0) {
       return {
-        smallChange:parseFloat((totalPrice - Math.floor(totalPrice)).toFixed(2)),
-        priceWithClearSmallChange:Math.floor(totalPrice),
+        smallChange:parseFloat((priceWithIntergrals - Math.floor(priceWithIntergrals)).toFixed(2)),
+        priceWithClearSmallChange:Math.floor(priceWithIntergrals),
       };
     }
   }
   return false;
 };
+
+
 // 计算优惠价格;
 exports.countDecreasePrice = function (orderedDishesProps, serviceProps, commercialProps) {
   const dishesPrice = getDishesPrice(orderedDishesProps.dishes);
-  if (serviceProps.integralsInfo && serviceProps.integralsInfo.isChecked) {
-    return serviceProps.couponsProps.inUseCoupon ?
-      Number(countIntegralsToCash(
-              clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).priceWithClearSmallChange,
-                serviceProps.integralsInfo.integralsDetail
-              ).commutation
-      ) + Number(countPriceByCoupons(serviceProps.couponsProps.inUseCouponDetail, dishesPrice))
-      + Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps))
-      :
-      Number(countIntegralsToCash(
-                clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).priceWithClearSmallChange,
-                serviceProps.integralsInfo.integralsDetail
-              ).commutation
-      ) + Number(serviceProps.discountProps.inUseDiscount)
-       + Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps));
-  }
-  return serviceProps.couponsProps.inUseCoupon ?
-    Number(countPriceByCoupons(serviceProps.couponsProps.inUseCouponDetail, dishesPrice))
-    + Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps))
-     :
-    Number(serviceProps.discountProps.inUseDiscount) + Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps));
+  const clearSmallChangeProps = clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps);
+  // smallChange>=0表示总数减少
+  return clearSmallChangeProps.smallChange >= 0 ?
+          parseFloat((countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
+          - clearSmallChangeProps.priceWithClearSmallChange).toFixed(2))
+          :
+          parseFloat((countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
+          - countPriceWithBenefit(dishesPrice, serviceProps)).toFixed(2));
 };
-// 计算会员价格
-exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDishesProps) {
-  if (isDiscountChecked) {
-    return false;
-  }
-  const discountType = memberDishesProps.discountType;
-  const disCountPriceList = [];
-  if (discountType === 1) {
-    // 表示会员折扣
-    memberDishesProps.discountList.forEach(
-      dishcount => {
-        orderedDishes.forEach(
-          orderedDish => {
-            if (orderedDish.id === dishcount.dishId) {
-              disCountPriceList.push(
-                parseFloat(((1 - parseFloat(dishcount.value) / 10) * getDishesCount([orderedDish]) * orderedDish.marketPrice).toFixed(2))
-              );
-            }
-          }
-        );
-      }
-    );
-  } else if (discountType === 2) {
-    // 表示会员价格
-    memberDishesProps.discountList.forEach(
-      dishcount => {
-        orderedDishes.forEach(
-          orderedDish => {
-            if (orderedDish.id === dishcount.dishId) {
-              disCountPriceList.push(
-                parseFloat((dishcount.value * getDishesCount([orderedDish])).toFixed(2))
-              );
-            }
-          }
-        );
-      }
-    );
-  }
-  return disCountPriceList.reduce((p, c) => p + c, 0);
-};
-// 计算优惠后的价格
-const countFinalPrice = exports.countFinalPrice = function (orderedDishesProps, serviceProps, commercialProps) {
-  const integralsToCash = serviceProps.integralsInfo.isChecked ?
-    countIntegralsToCash(
-      clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes), serviceProps).priceWithClearSmallChange,
-      serviceProps.integralsInfo.integralsDetail
-    ).commutation
-    :
-    0;
-  return (parseFloat(clearSmallChange(commercialProps.carryRuleVO, getDishesPrice(orderedDishesProps.dishes), serviceProps).priceWithClearSmallChange)
-      - parseFloat(integralsToCash)).toFixed(2);
-};
+
+
 exports.getSubmitUrlParams = function (state, note, receipt) {
   const payMethodScope = state.serviceProps.payMethods.filter(payMethod => payMethod.isChecked)[0].name === '在线支付' ? '1' : '0';
-  const integral = state.integralsInfo ? countIntegralsToCash(clearSmallChange(
-    state.commercialProps.carryRuleVO,
-    getDishesPrice(state.orderedDishesProps.dishes),
-    state.serviceProps).priceWithClearSmallChange,
+  const dishesPrice = getDishesPrice(state.orderedDishesProps.dishes);
+  const integral = state.serviceProps.integralsInfo.isChecked ? countIntegralsToCash(
+    Number(countPriceWithCouponAndDiscount(dishesPrice, state.serviceProps)),
     state.serviceProps.integralsInfo.integralsDetail
   ).integralInUsed : false;
-  const needPayPrice = countFinalPrice(
-    state.orderedDishesProps, state.serviceProps, state.commercialProps
-  );
+  const needPayPrice = clearSmallChange(
+    state.commercialProps.carryRuleVO,
+    dishesPrice,
+    state.serviceProps
+  ).priceWithClearSmallChange;
   const type = getUrlParam('type');
   const useDiscount = !state.serviceProps.discountProps.inUseDiscount ? '0' : '1';
   const serviceApproach = state.serviceProps.isPickupFromFrontDesk.isChecked ? 'pickup' : 'totable';
@@ -355,7 +320,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
           0;
     const toShopFlag = state.serviceProps.sendAreaId === 0 ? '1' : '0';
     params = '?name=' + state.customerProps.name
-        + '&Invoice=' + receipt + '&note=' + note
+        + '&Invoice=' + receipt + '&memo=' + note
         + '&mobile=' + state.customerProps.mobile
         + '&sex=' + state.customerProps.sex
         + '&payMethod=' + payMethodScope
@@ -373,7 +338,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
         + '&toShopFlag=' + toShopFlag;
   } else {
     params = '?name=' + state.customerProps.name
-        + '&Invoice=' + receipt + '&note=' + note
+        + '&Invoice=' + receipt + '&memo=' + note
         + '&mobile=' + state.customerProps.mobile
         + '&sex=' + state.customerProps.sex
         + '&payMethod=' + payMethodScope
