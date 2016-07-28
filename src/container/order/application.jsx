@@ -103,7 +103,7 @@ const OrderApplication = React.createClass({
     }
     return setChildView('#table-select');
   },
-  buildSelectedTableProps(isPickupFromFrontDesk, tableProps) {
+  buildSelectedTableElement(isPickupFromFrontDesk, tableProps) {
     const selectedTable = helper.getSelectedTable(tableProps);
     if (isPickupFromFrontDesk && isPickupFromFrontDesk.isChecked) {
       return false;
@@ -186,7 +186,7 @@ const OrderApplication = React.createClass({
               />
               : false
             }
-            {this.buildSelectedTableProps(serviceProps.isPickupFromFrontDesk, tableProps)}
+            {this.buildSelectedTableElement(serviceProps.isPickupFromFrontDesk, tableProps)}
           </div>
         }
         <div className="options-group">
