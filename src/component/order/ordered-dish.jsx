@@ -74,8 +74,15 @@ module.exports = React.createClass({
   render() {
     const { dish } = this.props;
     const { expand } = this.state;
-    const hasProps = !helper.isSingleDishWithoutProps(dish);
+
+    let hasProps;
+    if (!helper.isSingleDishWithoutProps(dish)) {
+      hasProps = helper.isGroupDish(dish) ? true : helper.hasSelectedProps(dish);
+    } else {
+      hasProps = false;
+    }
     const detailInfo = hasProps ? this.buildDetailInfo(dish) : false;
+
     return (
       <div className="cart-ordered-dish">
         <div className="ordered-dish">
