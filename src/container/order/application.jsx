@@ -255,10 +255,15 @@ const OrderApplication = React.createClass({
             <span className="option-title">备注: </span>
             <input className="option-input" name="note" placeholder="输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />
           </label>
-          <label className="order-prop-option">
-            <span className="option-title">发票抬头: </span>
-            <input className="option-input" name="receipt" placeholder="输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
-          </label>
+          {commercialProps && commercialProps.isSupportInvoice === 1 ?
+            <label className="order-prop-option">
+              <span className="option-title">发票抬头: </span>
+              <input className="option-input" name="receipt" placeholder="输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
+            </label>
+            :
+            false
+          }
+
         </div>
 
         <OrderSummary

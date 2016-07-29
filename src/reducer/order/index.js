@@ -82,6 +82,7 @@ module.exports = function (
                       diningForm: payload.diningForm ? payload.diningForm : '1',
                       carryRuleVO:payload.carryRuleVO && payload.carryRuleVO.transferType ?
                         payload.carryRuleVO : { transferType: 1, scale: 2 },
+                      isSupportInvoice:payload.isInvoice,
                     })
                   )
                   .setIn(
