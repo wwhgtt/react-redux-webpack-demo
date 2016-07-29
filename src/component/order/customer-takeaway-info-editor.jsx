@@ -91,21 +91,19 @@ module.exports = React.createClass({
 
     return (
       <div className="order-subpage">
-        <CustomerInfoEditor
-          onCustomerPropsChange={this.onCustomerPropsChange}
-          customerProps={customerProps.without('addresses')} onDone={onDone}
-        />
-        <p className="address-title">请选择收货地址或到店取餐</p>
-        {this.buildAddressElement(addresses, sendAreaId)}
-        {sendAreaId !== 0 ?
-          <a
-            className="address-add-more"
-            onTouchTap={onAddressEditor}
-          >增加地址</a>
-          :
-          false
-        }
-
+        <div className="order-subpage-content">
+          <CustomerInfoEditor
+            onCustomerPropsChange={this.onCustomerPropsChange}
+            customerProps={customerProps.without('addresses')} onDone={onDone}
+          />
+          <p className="address-title">请选择收货地址或到店取餐</p>
+          {this.buildAddressElement(addresses, sendAreaId)}
+          {sendAreaId !== 0 ?
+            <a className="address-add-more" onTouchTap={onAddressEditor}>增加地址</a>
+            :
+            false
+          }
+        </div>
       </div>
     );
   },
