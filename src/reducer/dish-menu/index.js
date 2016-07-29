@@ -28,7 +28,8 @@ module.exports = function (
         -1)
       .set('dishBoxChargeInfo', helper.getUrlParam('type') === 'WM' && payload.extraCharge ? payload.extraCharge : null)
       .setIn(['openTimeList'], payload.openTimeList)
-      .setIn(['sendTimeList'], payload.sendTimeList);
+      .setIn(['sendTimeList'], payload.sendTimeList)
+      .setIn(['isAcceptTakeaway'], payload.isAcceptTakeaway === 0); // equal to 0, means accepting takeaway 24 hours
     case 'ACTIVE_DISH_TYPE':
       return state.setIn(['activeDishTypeId'], payload);
     case 'SHOW_DISH_DETAIL':

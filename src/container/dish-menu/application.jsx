@@ -31,6 +31,7 @@ const DishMenuApplication = React.createClass({
     takeawayServiceProps: React.PropTypes.object,
     openTimeList: React.PropTypes.array,
     sendTimeList: React.PropTypes.array,
+    isAcceptTakeaway: React.PropTypes.bool,
   },
   componentDidMount() {
     const { fetchMenuData, fetchServiceProps, fetchOrderDiscountInfo } = this.props;
@@ -49,7 +50,7 @@ const DishMenuApplication = React.createClass({
   render() {
     // states
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, confirmOrder, takeawayServiceProps,
-            openTimeList, sendTimeList } = this.props;
+            openTimeList, sendTimeList, isAcceptTakeaway } = this.props;
     // actions
     const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders } = this.props;
     return (
@@ -65,7 +66,7 @@ const DishMenuApplication = React.createClass({
         />
         <CartContainer
           dishes={dishesData} takeawayServiceProps={takeawayServiceProps}
-          openTimeList={openTimeList} sendTimeList={sendTimeList}
+          openTimeList={openTimeList} sendTimeList={sendTimeList} isAcceptTakeaway={isAcceptTakeaway}
           onOrderBtnTap={orderDish} onBillBtnTap={confirmOrder} onClearBtnTap={removeAllOrders}
         />
         {dishDetailData !== undefined ?
