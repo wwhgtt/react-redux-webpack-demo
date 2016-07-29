@@ -66,7 +66,7 @@ const getOrderPrice = exports.getOrderPrice = function (dish, orderData) {
     (dish.marketPrice +
        parseFloat(checkedRepricePropPrices.reduce((c, p) => c + p, 0)) +
        parseFloat(checkedIngredientsPropsPrice.reduce((c, p) => c + p, 0))
-    )).toFixed(2));
+    )).toFixed(2), 10);
 };
 const getDishPrice = exports.getDishPrice = function (dish) {
   if (isSingleDishWithoutProps(dish)) {
