@@ -136,7 +136,7 @@ module.exports = function (
                    )
                    .setIn(
                      ['serviceProps', 'integralsInfo'],
-                     payload.isMember && payload.integral.isExchangeCash === 0 && payload.integral.integral !== 0 ?
+                     payload.isMember && payload.integral && payload.integral.isExchangeCash === 0 && payload.integral.integral !== 0 ?
                          Immutable.from({
                            name:'使用会员积分',
                            isChecked:false,

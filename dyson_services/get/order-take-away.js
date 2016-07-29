@@ -14,14 +14,7 @@ module.exports = {
           'http://wx.qlogo.cn/mmopen/jVC41HQcvjE07KibwoTRtwKEO3RTVCJ81KgrZqib6UdPY6yhWrkztMKep8uay3ibFbU8ibN7deGUemia7pIPq3yG0kXxa3MruDXnQ/0',
       },
       'diningForm': 1,
-      'integral': {
-        'integral': 163,
-        'isExchangeCash': 0,
-        'exchangeIntegralValue': 23,
-        'exchangeCashValue': 8,
-        'limitType': 1,
-        'limitIntegral': 1500,
-      },
+      'integral':null,
       'isMember': true,
       'carryRuleVO': {
         'transferType': 3,
