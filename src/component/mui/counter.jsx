@@ -10,6 +10,7 @@ module.exports = React.createClass({
     maximum: React.PropTypes.number,
     minimum: React.PropTypes.number,
     step: React.PropTypes.number,
+    hiddenNum: React.PropTypes.number,
     onCountChange: React.PropTypes.func.isRequired,
   },
   getDefaultProps() {
@@ -17,6 +18,7 @@ module.exports = React.createClass({
       count:0,
       minimum:0,
       step:1,
+      hiddenNum:0,
     };
   },
   componentDidUpdate() {
@@ -34,13 +36,18 @@ module.exports = React.createClass({
     return false;
   },
   render() {
-    const { count, step, maximum, minimum } = this.props;
+    const { count, step, maximum, minimum, hiddenNum } = this.props;
+    const className = classnames('counter', {
+      'counter-max': count === maximum,
+      'counter-min': count === minimum && count !== hiddenNum,
+      'counter-min-hidden': count === minimum && count === hiddenNum,
+    });
     return (
-      <div className="counter">
-        <a className={classnames('btn-minus counter-minus', { 'btn-disabled': count === minimum })}>
+      <div className={className}>
+        <a className="btn-minus counter-minus">
           <span className="counter-click-mask" onTouchTap={evt => this.onBtnsTap(count, -step)} />
         </a>
-        <a className={classnames('btn-add counter-add', { 'btn-disabled': count === maximum })}>
+        <a className="btn-add counter-add">
           <span className="counter-click-mask" onTouchTap={evt => this.onBtnsTap(count, step)} />
         </a>
         <span className="counter-num">{count}</span>
