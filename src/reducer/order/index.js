@@ -60,7 +60,11 @@ module.exports = function (
                       helper.initializeAreaAdnTableProps(payload.areaList, payload.tableList).isEditable
                     )
                   )
-                  .setIn(['timeProps', 'timeTable'], Immutable.from(payload.timeJson))
+                  .setIn(['timeProps', 'timeTable'],
+                    Immutable.from(
+                      helper.initializeTimeTable(payload.timeJson)
+                    )
+                  )
                   .set(
                     'customerProps',
                     Immutable.from({

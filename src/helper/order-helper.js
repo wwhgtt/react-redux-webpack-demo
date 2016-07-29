@@ -331,7 +331,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
         + '&peopleCount=' + state.customerProps.customerCount
         + '&shopId=' + getUrlParam('shopId')
         + '&needPayPrice=' + needPayPrice
-        + '&time=' + state.timeProps.selectedDateTime.date + '%20' + state.timeProps.selectedDateTime.time
+        + '&time=' + state.timeProps.selectedDateTime.date + '%20' + (state.timeProps.selectedDateTime.time || '')
         + '&address=' + selectedAddress
         + '&memberAddressId=' + selectedAddressId
         + '&sendAreaId=' + state.serviceProps.sendAreaId
@@ -353,4 +353,16 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
         + '&needPayPrice=' + needPayPrice;
   }
   return { success:true, params };
+};
+
+exports.initializeTimeTable = times => {
+  if (!times || typeof times !== 'object') {
+    return times;
+  }
+
+  const todayTime = times[new Date().toISOString().substr(0, 10)];
+  if (todayTime && todayTime.length) {
+    todayTime.unshift(0);
+  }
+  return times;
 };
