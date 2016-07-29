@@ -1,6 +1,6 @@
 const _find = require('lodash.find');
 const getDishesPrice = require('../helper/dish-hepler.js').getDishesPrice;
-// const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
+const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
 const getUrlParam = require('../helper/dish-hepler.js').getUrlParam;
 exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDesk, selfPayType, sendPayType) {
   if (diningForm === 0) {
@@ -88,6 +88,46 @@ const countDeliveryRemission = exports.countDeliveryRemission = function (dishes
     return deliveryProps.deliveryPrice;
   }
   return false;
+};
+// 计算会员价格
+
+exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDishesProps) {
+  if (isDiscountChecked) {
+    return false;
+  }
+  const discountType = memberDishesProps.discountType;
+  const disCountPriceList = [];
+  if (discountType === 1) {
+    memberDishesProps.discountList.forEach(
+      dishcount => {
+        orderedDishes.forEach(
+          orderedDish => {
+            if (orderedDish.id === dishcount.dishId) {
+              disCountPriceList.push(
+                parseFloat(((1 - parseFloat(dishcount.value) / 10) * getDishesCount([orderedDish]) * orderedDish.marketPrice).toFixed(2))
+              );
+            }
+          }
+        );
+      }
+    );
+  } else if (discountType === 2) {
+    // 表示会员价格
+    memberDishesProps.discountList.forEach(
+      dishcount => {
+        orderedDishes.forEach(
+          orderedDish => {
+            if (orderedDish.id === dishcount.dishId) {
+              disCountPriceList.push(
+                parseFloat((dishcount.value * getDishesCount([orderedDish])).toFixed(2))
+              );
+            }
+          }
+        );
+      }
+    );
+  }
+  return disCountPriceList.reduce((p, c) => p + c, 0);
 };
 // 计算优惠券多少价格
 const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, totalPrice) {
