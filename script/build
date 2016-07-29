@@ -9,7 +9,7 @@ elif [ $1 = "gld" ]
 then
   echo "Build gld release..."
   export NODE_ENV="production"
-  export PROD_HOST="gld.weixin.shishike.com"
+  export PROD_HOST="gld.weixin.keruyun.com"
   webpack --progress -p --config webpack.config.production.js
 elif [ $1 = 'dev' ]
 then

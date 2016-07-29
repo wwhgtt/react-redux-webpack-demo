@@ -3,13 +3,12 @@ let requestOptions;
 
 switch (process.env.NODE_ENV) {
   case 'production':
-    apiBase = `http://${process.env.PROD_HOST}/`;
+    apiBase = `http://${process.env.PROD_HOST}`;
     requestOptions = {
       method: 'GET',
       credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
     };
-    apiBase = `http://${process.env.PROD_HOST}`;
     break;
   default:
     apiBase = `http://${process.env.DEV_HOST}:3001`;
