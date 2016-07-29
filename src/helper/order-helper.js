@@ -197,8 +197,7 @@ const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedC
 //  计算优惠券信息是countPriceByCoupons 折扣信息为serviceProps.discountProps.inUseDiscount,已经计算好了的
 const countTotalPriceWithoutBenefit = exports.countTotalPriceWithoutBenefit = function (dishesPrice, deliveryProps) {
   //  计算菜品初始价格加配送费和配送费优惠
-  return dishesPrice + getDishBoxPrice() + Number(countDeliveryPrice(deliveryProps)) -
-  Number(countDeliveryRemission(dishesPrice, deliveryProps));
+  return dishesPrice + getDishBoxPrice() + Number(countDeliveryPrice(deliveryProps));
 };
 
 
@@ -316,10 +315,10 @@ exports.countDecreasePrice = function (orderedDishesProps, serviceProps, commerc
   // smallChange>=0表示总数减少
   return clearSmallChangeProps.smallChange >= 0 ?
           parseFloat((countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
-          - clearSmallChangeProps.priceWithClearSmallChange).toFixed(2))
+          - clearSmallChangeProps.priceWithClearSmallChange).toFixed(2)) - Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps))
           :
           parseFloat((countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
-          - countPriceWithBenefit(dishesPrice, serviceProps)).toFixed(2));
+          - countPriceWithBenefit(dishesPrice, serviceProps)).toFixed(2)) - Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps));
 };
 
 
