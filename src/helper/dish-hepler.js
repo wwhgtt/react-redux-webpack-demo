@@ -62,11 +62,11 @@ const getOrderPrice = exports.getOrderPrice = function (dish, orderData) {
       ingredientsPriceProp => ingredientsPriceProp.isChecked
     ).map(ingredientsPriceProp => ingredientsPriceProp.reprice)
   );
-  return (orderData.count *
+  return parseFloat((orderData.count *
     (dish.marketPrice +
        parseFloat(checkedRepricePropPrices.reduce((c, p) => c + p, 0)) +
        parseFloat(checkedIngredientsPropsPrice.reduce((c, p) => c + p, 0))
-    )).toFixed(2);
+    )).toFixed(2));
 };
 const getDishPrice = exports.getDishPrice = function (dish) {
   if (isSingleDishWithoutProps(dish)) {
