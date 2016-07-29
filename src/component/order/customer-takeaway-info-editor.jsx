@@ -70,6 +70,21 @@ module.exports = React.createClass({
       addresses,
     };
   },
+  buildAddressElement(addresses, sendAreaId) {
+    if (sendAreaId === 0) {
+      return (<div className="pickup-option is-checked">到店取餐</div>);
+    } else if (addresses !== null) {
+      return (
+        <ActiveSelect
+          className="address-group"
+          optionsData={addresses}
+          optionComponent={CustomerAddressOption}
+          onSelectOption={this.onAddressSelect}
+        />
+      );
+    }
+    return false;
+  },
   render() {
     const { customerProps, onDone, sendAreaId, onAddressEditor } = this.props;
     const { addresses } = this.state;
@@ -81,16 +96,7 @@ module.exports = React.createClass({
           customerProps={customerProps.without('addresses')} onDone={onDone}
         />
         <p className="address-title">请选择收货地址或到店取餐</p>
-        {addresses !== null && addresses !== [] && sendAreaId !== 0 ?
-          <ActiveSelect
-            className="address-group"
-            optionsData={addresses}
-            optionComponent={CustomerAddressOption}
-            onSelectOption={this.onAddressSelect}
-          />
-          :
-          <div className="pickup-option is-checked">到店取餐</div>
-        }
+        {this.buildAddressElement(addresses, sendAreaId)}
         {sendAreaId !== 0 ?
           <a
             className="address-add-more"
