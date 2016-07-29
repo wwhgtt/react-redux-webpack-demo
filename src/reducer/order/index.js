@@ -79,7 +79,7 @@ module.exports = function (
                       name:payload.commercialName, integral:payload.integral, commercialLogo:payload.commercialLogo,
                       selfPayType:orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
                       sendPayType:orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType,
-                      diningForm: payload.diningForm,
+                      diningForm: payload.diningForm ? payload.diningForm : '1',
                       carryRuleVO:payload.carryRuleVO && payload.carryRuleVO.transferType ?
                         payload.carryRuleVO : { transferType: 1, scale: 2 },
                     })
@@ -109,7 +109,7 @@ module.exports = function (
                         type: 'tickbox',
                       },
                       {
-                        name:'货到付款',
+                        name:'线下支付',
                         isAvaliable:
                           helper.isPaymentAvaliable(
                             'offline',
