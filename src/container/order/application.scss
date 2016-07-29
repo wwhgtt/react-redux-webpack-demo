@@ -291,6 +291,11 @@ div[data-reactroot] {
   background: $color-gallery;
 }
 
+.order-subpage-content {
+  overflow: auto;
+  height: 100%;
+}
+
 .order-subpage-submit {
   font-size: 18px;
   position: absolute;

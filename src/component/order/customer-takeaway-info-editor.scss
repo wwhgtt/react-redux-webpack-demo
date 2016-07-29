@@ -2,7 +2,7 @@
 
 .order-subpage {
   // override nested subpage
-  > .order-subpage {
+  .order-subpage {
     position: static;
     padding-top: 0;
     padding-bottom: 0;

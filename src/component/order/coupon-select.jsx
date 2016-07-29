@@ -44,11 +44,13 @@ module.exports = React.createClass({
     const { couponsProps } = this.props;
     return (
       <div className="order-subpage coupons-container">
-        <ActiveSelect
-          optionsData={couponsProps.couponsList}
-          onSelectOption={this.onSelectCoupon}
-          optionComponent={CouponOption}
-        />
+        <div className="order-subpage-content">
+          <ActiveSelect
+            optionsData={couponsProps.couponsList}
+            onSelectOption={this.onSelectCoupon}
+            optionComponent={CouponOption}
+          />
+        </div>
         <button className="order-subpage-submit btn--yellow" onClick={this.onSubmitBtnTap}>确定</button>
       </div>
     );
