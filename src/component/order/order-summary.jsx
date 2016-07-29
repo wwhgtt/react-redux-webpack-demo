@@ -159,7 +159,9 @@ module.exports = React.createClass({
                     <div className="order-total-right">
                       <span className="text-dove-grey">实付: </span>
                       <span className="price">
-                        {helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).priceWithClearSmallChange}
+                        {parseFloat((helper.countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps) -
+                          helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)).toFixed(2))
+                        }
                       </span>
                     </div>
                   </div>
