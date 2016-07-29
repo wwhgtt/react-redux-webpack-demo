@@ -315,10 +315,10 @@ exports.countDecreasePrice = function (orderedDishesProps, serviceProps, commerc
   // smallChange>=0表示总数减少
   return clearSmallChangeProps.smallChange >= 0 ?
           parseFloat((countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
-          - clearSmallChangeProps.priceWithClearSmallChange).toFixed(2)) - Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps))
+          - clearSmallChangeProps.priceWithClearSmallChange + Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps))).toFixed(2))
           :
           parseFloat((countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
-          - countPriceWithBenefit(dishesPrice, serviceProps)).toFixed(2)) - Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps));
+          - countPriceWithBenefit(dishesPrice, serviceProps) + Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps))).toFixed(2));
 };
 
 
