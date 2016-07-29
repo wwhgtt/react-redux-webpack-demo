@@ -107,10 +107,7 @@ module.exports = React.createClass({
         <div className="dish-name-wrap">
           <div className="dish-name">
             {dish.name}
-            {
-              marketPrice !== 0 && count > 0 ?
-                <span className="badge-price">{marketPrice > 0 ? '+' : ''}{marketPrice}元</span> : false
-            }
+            {marketPrice !== 0 ? <span className="badge-price">{marketPrice > 0 ? '+' : ''}{marketPrice}元</span> : false}
             {dish.isReplace ? <span className="badge-bi"></span> : false}
           </div>
           {
