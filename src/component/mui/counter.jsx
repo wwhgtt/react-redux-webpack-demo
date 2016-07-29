@@ -40,17 +40,17 @@ module.exports = React.createClass({
     const className = classnames('counter', {
       'counter-max': count === maximum,
       'counter-min': count === minimum && count !== hiddenNum,
-      'counter-min-hidden': count === minimum && count === hiddenNum,
+      'counter-min--nonum': count === minimum && count === hiddenNum,
     });
     return (
       <div className={className}>
-        <a className="btn-minus counter-minus">
+        <a className="counter-minus">
           <span className="counter-click-mask" onTouchTap={evt => this.onBtnsTap(count, -step)} />
         </a>
-        <a className="btn-add counter-add">
+        <span className="counter-num">{count}</span>
+        <a className="counter-add">
           <span className="counter-click-mask" onTouchTap={evt => this.onBtnsTap(count, step)} />
         </a>
-        <span className="counter-num">{count}</span>
       </div>
     );
   },
