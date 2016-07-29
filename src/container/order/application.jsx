@@ -109,7 +109,7 @@ const OrderApplication = React.createClass({
     const selectedTable = helper.getSelectedTable(tableProps);
     if (isPickupFromFrontDesk && isPickupFromFrontDesk.isChecked) {
       return false;
-    } else if (isPickupFromFrontDesk && !isPickupFromFrontDesk.isChecked &&
+    } else if (
       tableProps.areas && tableProps.areas.length &&
       tableProps.tables && tableProps.tables.length) {
       return (
