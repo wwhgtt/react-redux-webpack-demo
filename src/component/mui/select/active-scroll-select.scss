@@ -42,9 +42,12 @@ $scroll-select-option-height: 40px;
     font-size: 18px;
     line-height: 20px;
     display: block;
+    overflow: hidden;
     height: $scroll-select-option-height;
     padding: ($scroll-select-option-height - 18)/2 5px;
     text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 
     &.is-checked {
       color: $color-crusta;
