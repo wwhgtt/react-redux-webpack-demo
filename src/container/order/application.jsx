@@ -208,7 +208,7 @@ const OrderApplication = React.createClass({
         <div className="options-group">
           {serviceProps.couponsProps.couponsList &&
             serviceProps.couponsProps.couponsList.length &&
-            !serviceProps.discountProps.discountInfo.isChecked ?
+            !serviceProps.discountProps.discountInfo.isChecked && commercialProps.diningForm !== 0 ?
             <a className="order-prop-option" href="#coupon-select">
               <span className="option-title">使用优惠券</span>
               <span className="badge-coupon">
@@ -223,13 +223,14 @@ const OrderApplication = React.createClass({
           : false}
           {serviceProps.discountProps.discountInfo && !serviceProps.couponsProps.inUseCoupon
             && orderedDishesProps.dishes && orderedDishesProps.dishes.length
-            && orderedDishesProps.dishes.filter(dish => dish.isMember).length !== 0 ?
+            && orderedDishesProps.dishes.filter(dish => dish.isMember).length !== 0
+            && commercialProps.diningForm !== 0 ?
             <ActiveSelect
               optionsData={[serviceProps.discountProps.discountInfo]} onSelectOption={setOrderProps}
               optionComponent={OrderPropOption}
             />
           : false}
-          {serviceProps.integralsInfo ?
+          {serviceProps.integralsInfo && commercialProps.diningForm !== 0 ?
             <ActiveSelect
               optionsData={[serviceProps.integralsInfo]} onSelectOption={setOrderProps}
               optionComponent={OrderPropOption}

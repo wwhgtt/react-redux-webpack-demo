@@ -13,7 +13,6 @@ module.exports = {
         'iconUri':
           'http://wx.qlogo.cn/mmopen/jVC41HQcvjE07KibwoTRtwKEO3RTVCJ81KgrZqib6UdPY6yhWrkztMKep8uay3ibFbU8ibN7deGUemia7pIPq3yG0kXxa3MruDXnQ/0',
       },
-      'diningForm': 1,
       'integral':null,
       'isMember': true,
       'carryRuleVO': {
