@@ -18,7 +18,7 @@ module.exports = React.createClass({
     const { dish } = this.props;
     return (
       <div className="dish-detail-container">
-        <a href="" className="dish-detail-close" onTouchTap={this.onCloseBtnTap}></a>
+        <a className="dish-detail-close" onTouchTap={this.onCloseBtnTap}></a>
         <div className="dish-detail-content dish-detail-content--white">
           <img className="dish-desc-image" src={dish.largeImgUrl || imagePlaceholder} alt="" />
           <div className="dish-desc-content">

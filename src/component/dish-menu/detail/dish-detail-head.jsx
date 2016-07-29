@@ -35,7 +35,7 @@ module.exports = React.createClass({
   render() {
     const { dish } = this.props;
     return (
-      <div className="dish-detail-head flex-none" onTouchTap={evt => { evt.preventDefault(); evt.stopPropagation(); }}>
+      <div className="dish-detail-head flex-none">
         <div className="head-main">
           <span className="dish-price price">{helper.getDishPrice(dish)}</span>
           <p className="dish-name">
