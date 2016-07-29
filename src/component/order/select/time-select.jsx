@@ -90,11 +90,11 @@ module.exports = React.createClass({
         const isToday = nowStr === key;
         const times = timeTable[key].map((time, idx) => {
           const checked = time === selectedDateTime.time || (idx === 0 && selectedMark && selectedDateTime.time === '');
-          let ret = { id:time, label:time, isChecked: checked };
+          let resetedTime = { id:time, label:time, isChecked: checked };
           if (isToday && !time) {
-            ret.label = `立即${this.props.isSelfFetch ? '取餐' : '送达'}`;
+            resetedTime.label = `立即${this.props.isSelfFetch ? '取餐' : '送达'}`;
           }
-          return ret;
+          return resetedTime;
         });
 
         const dateTime = key === selectedDateTime.date || (selectedMark && selectedDateTime.date === '') ?
