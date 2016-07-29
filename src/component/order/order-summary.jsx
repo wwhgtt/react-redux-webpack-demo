@@ -3,6 +3,8 @@ const config = require('../../config.js');
 const helper = require('../../helper/order-helper.js');
 const OrderedDish = require('./ordered-dish.jsx');
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
+const isSingleDishWithoutProps = require('../../helper/dish-hepler.js').isSingleDishWithoutProps;
+
 module.exports = React.createClass({
   displayName: 'OrderSummary',
   propTypes: {
@@ -14,9 +16,33 @@ module.exports = React.createClass({
   componentDidMount() {
 
   },
+  buildOrderedElements(orderedDishes) {
+    function divideDishes(dishes) {
+      return [].concat.apply(
+        [], dishes.map(dish => {
+          if (isSingleDishWithoutProps(dish)) {
+            return [Object.assign({}, dish,
+              { key:`${dish.id}` },
+            )];
+          }
+          return dish.order.map((dishOrder, idx) =>
+            Object.assign({}, dish,
+              { key:`${dish.id}-${idx}` },
+              { order:[Object.assign({}, dishOrder)] }
+            )
+          );
+        })
+      );
+    }
+    const dividedDishes = divideDishes(orderedDishes);
+    return dividedDishes.map(dish => (<OrderedDish key={dish.key} dish={dish} />));
+  },
   render() {
     const { serviceProps, commercialProps, orderedDishesProps, shopId } = this.props;
     const dishesPrice = orderedDishesProps.dishes && orderedDishesProps.dishes.length ? getDishesPrice(orderedDishesProps.dishes) : 0;
+    if (!orderedDishesProps.dishes || !orderedDishesProps.dishes.length) return false;
+
+    const orderedElements = this.buildOrderedElements(orderedDishesProps.dishes);
     return (
       <div className="order-summary-detail">
         {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
@@ -26,7 +52,7 @@ module.exports = React.createClass({
                 <img className="order-shop-icon" src={commercialProps.commercialLogo} alt="" />
                 <p className="order-shop-desc ellipsis">{commercialProps.name}</p>
               </a>
-              {orderedDishesProps.dishes.map(dish => (<OrderedDish key={dish.id} dish={dish} />))}
+              {orderedElements}
               <div className="order-summary">
                 {helper.getDishBoxPrice() ?
                   <p className="order-summary-entry clearfix">
