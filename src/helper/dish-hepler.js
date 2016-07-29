@@ -137,7 +137,7 @@ const getDishBoxCount = exports.getDishBoxCount = function (orderedDishes) {
                 group.childInfos.filter(childDish => childDish.order).map(
                   child =>
                     child.boxQty && child.dishQty ?
-                      dishBoxContainer.push(Math.ceil(getDishesCount([child]) * parseFloat(child.boxQty) / parseFloat(child.dishQty)))
+                      dishBoxContainer.push(Math.ceil(getDishesCount([child]) / parseFloat(child.dishQty)) * parseFloat(child.boxQty))
                       :
                       false
                 )
@@ -146,7 +146,7 @@ const getDishBoxCount = exports.getDishBoxCount = function (orderedDishes) {
       } else {
         if (orderDish.boxQty && orderDish.dishQty) {
           dishBoxContainer.push(
-            getDishesCount([orderDish]) * parseFloat(orderDish.boxQty) / parseFloat(orderDish.dishQty)
+            Math.ceil(getDishesCount([orderDish]) / parseFloat(orderDish.dishQty)) * parseFloat(orderDish.boxQty)
           );
         }
       }
