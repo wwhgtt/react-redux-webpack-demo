@@ -2,7 +2,8 @@
   "parser": "babel-eslint",
   "env": {
     "commonjs": true,
-    "browser": true
+    "browser": true,
+    "mocha": true
   },
   "ecmaFeatures": {
     "jsx": true,
@@ -34,6 +35,7 @@
     "no-param-reassign": 1,
     "no-return-assign": 1,
     "no-confusing-arrow": 1,
-    "no-loop-func": 1
+    "no-loop-func": 1,
+    "prefer-arrow-callback": 1
   }
 }
