@@ -17,15 +17,15 @@ module.exports = React.createClass({
   getInitialState() {
     // set local state for address select
     const { sendAreaId } = this.props;
-    return sendAreaId !== 0 ?
-      this.getAddressesState(this.props.customerProps.addresses)
-      :
-      { addresses:null };
+    return {
+      addresses:sendAreaId !== 0 ?
+        this.getAddressesState(this.props.customerProps.addresses).addresses : null,
+    };
   },
   componentWillMount() {
-    const { onComponentWillMount, sendAreaId } = this.props;
+    const { onComponentWillMount, sendAreaId, customerProps } = this.props;
     // If no default address, push address list from server.
-    if (sendAreaId !== 0) {
+    if (sendAreaId !== 0 && !customerProps.isAddressesLoaded) {
       onComponentWillMount();
     }
   },

@@ -317,7 +317,7 @@ module.exports = function (
       return state.setIn(
         ['customerProps', 'addresses'],
         Immutable.from((state.customerProps.addresses || []).concat(payload))
-      );
+      ).setIn(['customerProps', 'isAddressesLoaded'], true);
     case 'SET_SEND_AREA_ID':
       if (!payload || payload === 0) {
         // 表示到店取餐的情况
