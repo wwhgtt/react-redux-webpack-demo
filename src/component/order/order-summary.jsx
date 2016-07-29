@@ -130,7 +130,7 @@ module.exports = React.createClass({
                 {commercialProps.carryRuleVO && helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).smallChange > 0 ?
                   <p className="order-summary-entry clearfix">
                     <span className="order-title">自动抹零:</span>
-                    <span className="order-discount price">
+                    <span className="order-discount discount">
                       {Math.abs(helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).smallChange)}
                     </span>
                   </p>
