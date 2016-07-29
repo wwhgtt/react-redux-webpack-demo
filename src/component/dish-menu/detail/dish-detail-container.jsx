@@ -20,7 +20,7 @@ module.exports = React.createClass({
     const { dish, onAddToCarBtnTap } = this.props;
     return (
       <div className="dish-detail-container">
-        <a href="" className="dish-detail-close" onTouchTap={this.onCloseBtnTap}></a>
+        <a className="dish-detail-close" onTouchTap={this.onCloseBtnTap}></a>
         <div className="dish-detail-content">
           {
             helper.isGroupDish(dish) ?
