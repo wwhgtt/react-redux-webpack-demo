@@ -206,6 +206,15 @@ const OrderApplication = React.createClass({
           )}
         </div>
         <div className="options-group">
+          {serviceProps.discountProps.discountInfo && !serviceProps.couponsProps.inUseCoupon
+            && orderedDishesProps.dishes && orderedDishesProps.dishes.length
+            && orderedDishesProps.dishes.filter(dish => dish.isMember).length !== 0
+            && commercialProps.diningForm !== 0 ?
+            <ActiveSelect
+              optionsData={[serviceProps.discountProps.discountInfo]} onSelectOption={setOrderProps}
+              optionComponent={OrderPropOption}
+            />
+          : false}
           {serviceProps.couponsProps.couponsList &&
             serviceProps.couponsProps.couponsList.length &&
             !serviceProps.discountProps.discountInfo.isChecked && commercialProps.diningForm !== 0 ?
@@ -220,15 +229,6 @@ const OrderApplication = React.createClass({
               </span>
               <span className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
             </a>
-          : false}
-          {serviceProps.discountProps.discountInfo && !serviceProps.couponsProps.inUseCoupon
-            && orderedDishesProps.dishes && orderedDishesProps.dishes.length
-            && orderedDishesProps.dishes.filter(dish => dish.isMember).length !== 0
-            && commercialProps.diningForm !== 0 ?
-            <ActiveSelect
-              optionsData={[serviceProps.discountProps.discountInfo]} onSelectOption={setOrderProps}
-              optionComponent={OrderPropOption}
-            />
           : false}
           {serviceProps.integralsInfo && commercialProps.diningForm !== 0 ?
             <ActiveSelect
