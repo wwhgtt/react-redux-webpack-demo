@@ -87,7 +87,7 @@ module.exports = React.createClass({
             <button className="coupon-text--dark coupon-dropdown-trigger" onTouchTap={this.expandInstructions}>
               {this.judgeCouponInfoByCouponType(couponType).couponName}使用规则
             </button>
-            <a className="coupon-go-order" href="">去点菜</a>
+            {/* <a className="coupon-go-order" href="">去点菜</a> */}
           </div>
           {isChecked ?
             <div className="coupon-flag"></div>
@@ -98,9 +98,9 @@ module.exports = React.createClass({
         {isInstructionsOpen ?
           <div className="coupon-dropdown">
             <p className="coupon-text--dark">NO.{codeNumber}</p>
-            <ol className="coupon-rules">
-              <li className="coupon-text--grey">{this.deleteHtmlTag(instructions)}</li>
-            </ol>
+            <div className="coupon-rules">
+              {this.deleteHtmlTag(instructions)}
+            </div>
           </div> : false
         }
       </div>
