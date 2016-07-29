@@ -15,6 +15,7 @@ module.exports = React.createClass({
     takeawayServiceProps: React.PropTypes.object,
     openTimeList: React.PropTypes.array,
     sendTimeList: React.PropTypes.array,
+    isAcceptTakeaway: React.PropTypes.bool,
   },
   getInitialState() {
     return {
@@ -32,13 +33,18 @@ module.exports = React.createClass({
     }
   },
   render() {
-    const { dishes, takeawayServiceProps, onBillBtnTap, onOrderBtnTap, openTimeList, sendTimeList } = this.props;
+    const { dishes, takeawayServiceProps, onBillBtnTap, onOrderBtnTap, openTimeList, sendTimeList, isAcceptTakeaway } = this.props;
     const { expand } = this.state;
     const orderedDishes = helper.getOrderedDishes(dishes);
     const dishesCount = helper.getDishesCount(orderedDishes);
-
     const openingTime = helper.getUrlParam('type') === 'TS' ? openTimeList : sendTimeList;
-    const isShopOpen = helper.isShopOpen(openingTime);
+    let isShopOpen;
+
+    if (helper.getUrlParam('type') === 'WM' && isAcceptTakeaway) {
+      isShopOpen = true;
+    } else {
+      isShopOpen = helper.isShopOpen(openingTime);
+    }
 
     return (
       <div className="cart-container">
