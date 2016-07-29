@@ -16,7 +16,6 @@ const setAddressInfoToOrder = createAction('SET_ADDRESS_INFO_TO_ORDER', address 
 const setDeliveryPrice = createAction('SET_DELIVERY_PRICE', freeDeliveryPrice => freeDeliveryPrice);
 const setSendAreaId = createAction('SET_SEND_AREA_ID', areaId => areaId);
 const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
-exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 exports.fetchOrder = () => (dispatch, getState) => {
