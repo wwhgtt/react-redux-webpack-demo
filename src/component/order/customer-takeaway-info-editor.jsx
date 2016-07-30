@@ -63,7 +63,7 @@ module.exports = React.createClass({
   },
   getAddressesState(addresses) {
     const selectedAddressIdx = _findIndex(addresses, { isChecked:true });
-    if (addresses && selectedAddressIdx === -1) {
+    if (addresses && addresses.length && selectedAddressIdx === -1) {
       addresses = addresses.update(0, address => address.set('isChecked', true));
     }
     return {
@@ -73,7 +73,7 @@ module.exports = React.createClass({
   buildAddressElement(addresses, sendAreaId) {
     if (sendAreaId === 0) {
       return (<div className="pickup-option is-checked">到店取餐</div>);
-    } else if (addresses !== null) {
+    } else if (addresses !== null && addresses.length) {
       return (
         <ActiveSelect
           className="address-group"

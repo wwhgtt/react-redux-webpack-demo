@@ -144,12 +144,12 @@ const OrderApplication = React.createClass({
     const { setOrderProps, fetchUserAddressInfo, setChildView } = this.props;// actions
     const type = getUrlParam('type');
     const shopId = getUrlParam('shopId');
-    const getDefaultAddress = function () {
+    const getDefaultAddressProps = function () {
       if (serviceProps.sendAreaId !== 0) {
         // 表示需要选择地址
         if (customerProps.addresses && customerProps.addresses.length) {
           const isCheckedAddressInfo = _find(customerProps.addresses, { isChecked:true });
-          return isCheckedAddressInfo ? isCheckedAddressInfo.address : false;
+          return isCheckedAddressInfo ? isCheckedAddressInfo.address : '请选择送餐地址';
         }
         return '请选择送餐地址';
       }
@@ -163,7 +163,7 @@ const OrderApplication = React.createClass({
             <div className="option-stripes-title">{customerProps.name}{customerProps.sex === '1' ? '先生' : '女士'} {customerProps.mobile}</div>
             <div className="clearfix">
               <div className="option-desc">
-                {getDefaultAddress()}
+                {getDefaultAddressProps()}
               </div>
             </div>
           </a>
