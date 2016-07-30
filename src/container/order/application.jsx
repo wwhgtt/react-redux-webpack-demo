@@ -15,7 +15,6 @@ const OrderSummary = require('../../component/order/order-summary.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
-const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
 require('../../asset/style/style.scss');
 require('./application.scss');
 
@@ -296,8 +295,7 @@ const OrderApplication = React.createClass({
                         <span className="text-dove-grey">待支付: </span>
                         <span className="order-cart-price price">
                           {
-                            parseFloat((helper.countTotalPriceWithoutBenefit(getDishesPrice(orderedDishesProps.dishes), serviceProps.deliveryProps) -
-                              helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)).toFixed(2))
+                            parseFloat((helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)).toFixed(2))
                           }
                         </span>
                       </div>

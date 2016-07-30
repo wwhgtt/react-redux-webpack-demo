@@ -159,8 +159,8 @@ module.exports = React.createClass({
                     <div className="order-total-right">
                       <span className="text-dove-grey">实付: </span>
                       <span className="price">
-                        {parseFloat((helper.countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps) -
-                          helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)).toFixed(2))
+                        {
+                          parseFloat((helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)).toFixed(2))
                         }
                       </span>
                     </div>
