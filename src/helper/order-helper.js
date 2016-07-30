@@ -198,7 +198,7 @@ const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedC
 //  计算优惠券信息是countPriceByCoupons 折扣信息为serviceProps.discountProps.inUseDiscount,已经计算好了的
 const countTotalPriceWithoutBenefit = exports.countTotalPriceWithoutBenefit = function (dishesPrice, deliveryProps) {
   //  计算菜品初始价格加配送费和配送费优惠
-  return dishesPrice + getDishBoxPrice() + Number(countDeliveryPrice(deliveryProps));
+  return parseFloat((dishesPrice + getDishBoxPrice() + Number(countDeliveryPrice(deliveryProps))).toFixed(2));
 };
 
 
@@ -310,7 +310,7 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
 
 
 // 计算优惠价格;
-exports.countDecreasePrice = function (orderedDishesProps, serviceProps, commercialProps) {
+const countDecreasePrice = exports.countDecreasePrice = function (orderedDishesProps, serviceProps, commercialProps) {
   const dishesPrice = getDishesPrice(orderedDishesProps.dishes);
   const clearSmallChangeProps = clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps);
   // smallChange>=0表示总数减少
@@ -321,7 +321,16 @@ exports.countDecreasePrice = function (orderedDishesProps, serviceProps, commerc
           parseFloat((countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
           - countPriceWithBenefit(dishesPrice, serviceProps) + Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps))).toFixed(2));
 };
-
+exports.countFinalNeedPayMoney = function (orderedDishesProps, serviceProps, commercialProps) {
+  const dishesPrice = getDishesPrice(orderedDishesProps.dishes);
+  const clearSmallChangeProps = clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps);
+  const initializePayMement = countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps) -
+    countDecreasePrice(orderedDishesProps, serviceProps, commercialProps);
+  return clearSmallChangeProps.smallChange >= 0 ?
+    parseFloat(initializePayMement.toFixed(2))
+    :
+    parseFloat((initializePayMement - parseFloat(clearSmallChangeProps.smallChange)).toFixed(2));
+};
 
 exports.getSubmitUrlParams = function (state, note, receipt) {
   const payMethodScope = state.serviceProps.payMethods.filter(payMethod => payMethod.isChecked)[0].name === '在线支付' ? '1' : '0';
