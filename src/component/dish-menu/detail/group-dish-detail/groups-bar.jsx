@@ -48,7 +48,8 @@ module.exports = React.createClass({
     });
     return groupElements;
   },
-  showErrorMessage() {
+  showErrorMessage(evt) {
+    evt.stopPropagation();
     this.setState({ toast: 1 });
   },
   clearErrorMessage() {
