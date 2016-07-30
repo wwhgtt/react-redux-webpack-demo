@@ -14,7 +14,6 @@ module.exports = React.createClass({
     onClearBtnTap: React.PropTypes.func.isRequired,
     takeawayServiceProps: React.PropTypes.object,
     openTimeList: React.PropTypes.array,
-    sendTimeList: React.PropTypes.array,
     isAcceptTakeaway: React.PropTypes.bool,
   },
   getInitialState() {
