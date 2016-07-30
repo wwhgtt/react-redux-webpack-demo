@@ -95,6 +95,7 @@ module.exports = function (
                             'online',
                             payload.diningForm,
                             false,
+                            state.serviceProps.sendAreaId,
                             orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
                             orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
                           ),
@@ -116,6 +117,7 @@ module.exports = function (
                             'offline',
                             payload.diningForm,
                             false,
+                            state.serviceProps.sendAreaId,
                             orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
                             orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
                           ),
@@ -168,6 +170,7 @@ module.exports = function (
                 payMethod.id.split('-')[0],
                 state.commercialProps.diningForm,
                 !state.serviceProps.isPickupFromFrontDesk.isChecked,
+                state.serviceProps.sendAreaId,
                 state.commercialProps.selfPayType,
                 state.commercialProps.sendPayType
               ),

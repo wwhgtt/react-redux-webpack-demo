@@ -3,9 +3,12 @@ const getDishesPrice = require('../helper/dish-hepler.js').getDishesPrice;
 const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
 const getUrlParam = require('../helper/dish-hepler.js').getUrlParam;
 const config = require('../config.js');
-exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDesk, selfPayType, sendPayType) {
+exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDesk, sendAreaId, selfPayType, sendPayType) {
   if (diningForm === 0) {
     return payment === 'offline' ? 0 : -1;
+  }
+  if (getUrlParam('type') === 'WM') {
+    return sendAreaId.toString() === '0' ? selfPayType.indexOf(payment) : sendPayType.indexOf(payment);
   }
   return isPickupFromFrontDesk ? selfPayType.indexOf(payment) : sendPayType.indexOf(payment);
 };
