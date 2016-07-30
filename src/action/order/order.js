@@ -120,13 +120,16 @@ exports.submitOrder = (note, receipt) => (dispatch, getState) => {
       if (result.code === '200') {
         localStorage.removeItem('lastOrderedDishes');
         helper.setCallbackUrl(result.data.orderId);
-        const isOnlinePay = state.serviceProps.payMethods.some(
-          payMethod => payMethod.id === 'online-payment' && payMethod.isChecked);
+        const isOnlinePay = state.serviceProps.payMethods.some(payMethod => payMethod.id === 'online-payment' && payMethod.isChecked);
+        const paramStr = `shopId=${shopId}&orderId=${result.data.orderId}`;
+        let jumpToUrl = '';
         if (isOnlinePay) {
-          location.href = `/shop/payDetail?shopId=${shopId}&orderId=${result.data.orderId}&orderType=${type}`;
+          jumpToUrl = `/shop/payDetail?${paramStr}&orderType=${type}`;
         } else {
-          location.href = `/order/orderallDetail?shopId=${shopId}&orderId=${result.data.orderId}`;
+          jumpToUrl = type === 'WM' ? '/order/takeOutDetail?' : '/order/orderallDetail?';
+          jumpToUrl += paramStr;
         }
+        location.href = jumpToUrl;
       } else {
         dispatch(setErrorMsg(result.msg));
       }
