@@ -16,7 +16,7 @@ module.exports = {
         customerId: 2103896256, // 客户id
         couponName: 'mjquana', // 优惠券模板名称
         ruleDesc: '满10减5', // 优惠券使用规则描述
-        couponType: 1, // 优惠券模板类别(1:满减券, 2:折扣券, 3:礼品券, 4:现金券)
+        couponType: 2, // 优惠券模板类别(1:满减券, 2:折扣券, 3:礼品券, 4:现金券)
         fullValue: 10, // 满额可用
         updateTime: 1448592159000, // 修改时间
         updaterId: 88888930398, // 修改人
@@ -29,7 +29,7 @@ module.exports = {
             id: 6298, // 规则ID
             couponId: 1718, // 优惠券模板ID
             ruleName: 'offerValue', // 优惠券规则名称
-            ruleValue: 5, // 优惠券规则值
+            ruleValue: 0.5, // 优惠券规则值
             brandId: 2479, // 品牌ID
           },
         ],
