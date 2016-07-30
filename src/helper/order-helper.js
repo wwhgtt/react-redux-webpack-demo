@@ -146,7 +146,7 @@ const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, tota
     return coupon.coupRuleBeanList[0].ruleValue;
   } else if (coupon.couponType === 2) {
     // '折扣券';
-    return totalPrice * (1 - Number(coupon.coupRuleBeanList[0].ruleValue));
+    return parseFloat((totalPrice * (1 - Number(coupon.coupRuleBeanList[0].ruleValue) / 10)).toFixed(2));
   } else if (coupon.couponType === 3) {
     // '礼品券';
     return 0;
