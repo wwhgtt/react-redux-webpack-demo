@@ -405,3 +405,14 @@ exports.initializeTimeTable = times => {
   }
   return times;
 };
+exports.setCallbackUrl = function (id) {
+  const callbackUrlWithEncode = getUrlParam('type') === 'TS' ?
+    encodeURIComponent(
+      location.host + '/order/orderallDetail?shopId=' + getUrlParam('shopId') + '&orderId=' + id
+    )
+    :
+    encodeURIComponent(
+      location.host + '/order/takeOutDetail?shopId=' + getUrlParam('shopId') + '&orderId=' + id
+    );
+  sessionStorage.setItem('rurl_payDetaill', callbackUrlWithEncode);
+};

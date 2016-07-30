@@ -1,6 +1,6 @@
 const React = require('react');
 const Counter = require('../mui/counter.jsx');
-
+const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 require('./customer-info-editor.scss');
 
 module.exports = React.createClass({
@@ -82,13 +82,17 @@ module.exports = React.createClass({
               <input className="editor-input" placeholder={customerProps.mobile} onChange={this.handleBasicInfoChange} disabled="disabled" />
             </label>
           </div>
-
-          <div className="options-group">
-            <div className="order-prop-option">
-              <span className="option-title">就餐人数：</span>
-              <Counter minimum={1} count={customerProps.customerCount} maximum={99} step={1} onCountChange={this.onCountChange} />
+          {getUrlParam('type') === 'TS' ?
+            <div className="options-group">
+              <div className="order-prop-option">
+                <span className="option-title">就餐人数：</span>
+                <Counter minimum={1} count={customerProps.customerCount} maximum={99} step={1} onCountChange={this.onCountChange} />
+              </div>
             </div>
-          </div>
+            :
+            false
+          }
+
         </div>
 
         <button className="order-subpage-submit btn--yellow" onTouchTap={this.onSubmitBtntap}>确定</button>
