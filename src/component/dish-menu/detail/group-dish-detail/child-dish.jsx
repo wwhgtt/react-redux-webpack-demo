@@ -95,6 +95,39 @@ module.exports = React.createClass({
   onPropsBtnTap(evt) {
     this.setState({ expand:!this.state.expand });
   },
+  buildDishCounter(args) {
+    const { dish, count, remainCount } = args;
+    const leastCellNum = Math.max(dish.leastCellNum, 1);
+    let maximum = count + remainCount;
+    let minimum = 0;
+    // 必选
+    if (dish.isReplace) {
+      minimum = leastCellNum;
+      if (!dish.isMulti) {
+        maximum = minimum;
+      }
+    } else {
+      minimum = 0;
+      if (dish.isMulti) {
+        if (maximum < leastCellNum) {
+          maximum = 0;
+        }
+      } else {
+        maximum = leastCellNum > maximum ? 0 : leastCellNum;
+      }
+    }
+
+    if (maximum < minimum) {
+      maximum = minimum = 0;
+    }
+    return (
+      <Counter
+        count={count}
+        maximum={maximum} minimum={minimum}
+        onCountChange={this.onCountChange}
+      />
+    );
+  },
   render() {
     const { dish, remainCount } = this.props;
     const { expand } = this.state;
@@ -116,12 +149,7 @@ module.exports = React.createClass({
                 <span className={classnames({ 'dish-count' : true, 'count-hide' : expand || count <= 0 })}>{count}</span>
                 <a className="dish-dropdown-trigger btn--ellips" onTouchTap={this.onPropsBtnTap}>{expand ? '收起' : '菜品选项'}</a>
               </div>
-            :
-              <Counter
-                count={count}
-                maximum={dish.isMulti ? count + remainCount : 1} minimum={dish.isReplace ? dish.leastCellNum : 0}
-                onCountChange={this.onCountChange}
-              />
+            : this.buildDishCounter({ dish, remainCount, count })
           }
         </div>
         {
@@ -129,11 +157,7 @@ module.exports = React.createClass({
             <div className="dish-dropdown">
               <div className="counter-container">
                 <span className="counter-label">份数：</span>
-                <Counter
-                  count={count}
-                  maximum={dish.isMulti ? count + remainCount : 1} minimum={dish.isReplace ? dish.leastCellNum : 0}
-                  onCountChange={this.onCountChange}
-                />
+                {this.buildDishCounter({ dish, remainCount, count })}
               </div>
               <DishPropsSelect
                 props={dish.order[0].dishPropertyTypeInfos} ingredients={dish.order[0].dishIngredientInfos}
