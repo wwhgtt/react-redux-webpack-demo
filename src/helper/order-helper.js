@@ -18,6 +18,12 @@ exports.shouldPaymentAutoChecked = function (payment, diningForm, isPickupFromFr
   }
   return sendPayType.indexOf(',') !== -1 ? payment === sendPayType.split(',')[0] : payment === sendPayType;
 };
+exports.getOfflinePaymentName = function (sendAreaId) {
+  if (getUrlParam('type') === 'TS') {
+    return '货到付款';
+  }
+  return sendAreaId === 0 ? '线下支付' : '货到付款';
+};
 const getDishBoxPrice = exports.getDishBoxPrice = function () {
   const dishBoxPrice = localStorage.getItem('dishBoxPrice');
   if (!dishBoxPrice || dishBoxPrice === 0) {
