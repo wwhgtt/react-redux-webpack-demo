@@ -82,8 +82,8 @@
   }
 
   &-max > &-add {
-    &.btn-disabled::before,
-    &.btn-disabled::after {
+    &::before,
+    &::after {
       background: darken($color-mischka, 10%);
     }
   }
