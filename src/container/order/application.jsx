@@ -4,7 +4,6 @@ const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const connect = require('react-redux').connect;
 const actions = require('../../action/order/order');
 const helper = require('../../helper/order-helper');
-const config = require('../../config.js');
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const CustomerTakeawayInfoEditor = require('../../component/order/customer-takeaway-info-editor.jsx');
@@ -276,10 +275,7 @@ const OrderApplication = React.createClass({
             <div className="options-group">
               <a
                 className="order-prop-option"
-                href={type === 'TS' ?
-                config.getMoreTSDishesURL + '?type=TS&shopId=' + shopId
-                :
-                config.getMoreWMDishesURL + '?type=WM&shopId=' + shopId}
+                href={helper.getMoreDishesUrl()}
               >
                 <span className="order-add-text">我要加菜</span>
                 <span className="option-btn btn-arrow-right">共{getDishesCount(orderedDishesProps.dishes)}份</span>

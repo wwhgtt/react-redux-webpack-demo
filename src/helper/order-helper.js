@@ -2,6 +2,7 @@ const _find = require('lodash.find');
 const getDishesPrice = require('../helper/dish-hepler.js').getDishesPrice;
 const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
 const getUrlParam = require('../helper/dish-hepler.js').getUrlParam;
+const config = require('../config.js');
 exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDesk, selfPayType, sendPayType) {
   if (diningForm === 0) {
     return payment === 'offline' ? 0 : -1;
@@ -415,4 +416,14 @@ exports.setCallbackUrl = function (id) {
       location.host + '/order/takeOutDetail?shopId=' + getUrlParam('shopId') + '&orderId=' + id
     );
   sessionStorage.setItem('rurl_payDetaill', callbackUrlWithEncode);
+};
+exports.getMoreDishesUrl = function () {
+  const type = getUrlParam('type');
+  const shopId = getUrlParam('shopId');
+  const tableId = getUrlParam('tableId');
+  const initializeUrl = type === 'TS' ?
+      config.getMoreTSDishesURL + '?type=TS&shopId=' + shopId
+      :
+      config.getMoreWMDishesURL + '?type=WM&shopId=' + shopId;
+  return !tableId ? initializeUrl : initializeUrl + '&tableId=' + tableId;
 };
