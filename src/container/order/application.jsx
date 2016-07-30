@@ -295,7 +295,7 @@ const OrderApplication = React.createClass({
                         <span className="text-dove-grey">待支付: </span>
                         <span className="order-cart-price price">
                           {
-                            parseFloat((helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)).toFixed(2))
+                            helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
                           }
                         </span>
                       </div>

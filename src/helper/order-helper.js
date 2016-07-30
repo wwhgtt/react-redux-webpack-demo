@@ -324,13 +324,12 @@ const countDecreasePrice = exports.countDecreasePrice = function (orderedDishesP
 exports.countFinalNeedPayMoney = function (orderedDishesProps, serviceProps, commercialProps) {
   const dishesPrice = getDishesPrice(orderedDishesProps.dishes);
   const clearSmallChangeProps = clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps);
+  const initializePayMement = countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps) -
+    countDecreasePrice(orderedDishesProps, serviceProps, commercialProps);
   return clearSmallChangeProps.smallChange >= 0 ?
-    parseFloat((countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps) -
-      countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)).toFixed(2))
+    parseFloat(initializePayMement.toFixed(2))
     :
-    parseFloat((countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps) -
-      countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)).toFixed(2))
-      - clearSmallChangeProps.smallChange;
+    parseFloat((initializePayMement - parseFloat(clearSmallChangeProps.smallChange)).toFixed(2));
 };
 
 exports.getSubmitUrlParams = function (state, note, receipt) {

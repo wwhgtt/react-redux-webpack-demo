@@ -160,7 +160,7 @@ module.exports = React.createClass({
                       <span className="text-dove-grey">实付: </span>
                       <span className="price">
                         {
-                          parseFloat((helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)).toFixed(2))
+                          helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
                         }
                       </span>
                     </div>
