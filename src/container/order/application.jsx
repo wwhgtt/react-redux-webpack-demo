@@ -156,12 +156,35 @@ const OrderApplication = React.createClass({
       }
       return '到店取餐';
     };
+    const buildCoustomerPropElement = function () {
+      if (serviceProps.sendAreaId !== 0) {
+        if (customerProps.addresses && customerProps.addresses.length) {
+          const isCheckedAddressInfo = _find(customerProps.addresses, { isChecked:true });
+          return isCheckedAddressInfo ?
+          (
+            <div className="option-stripes-title">
+              {customerProps.name}{customerProps.sex === '1' ? '先生' : '女士'}
+              {customerProps.mobile}
+            </div>
+          )
+          :
+          false;
+        }
+        return false;
+      }
+      return (
+        <div className="option-stripes-title">
+          {customerProps.name}{customerProps.sex === '1' ? '先生' : '女士'}
+          {customerProps.mobile}
+        </div>
+      );
+    };
     const isSelfFetch = serviceProps.sendAreaId === 0;
     return (
       <div className="application">
         {type === 'WM' ?
           <a className="options-group options-group--stripes" href="#customer-info" >
-            <div className="option-stripes-title">{customerProps.name}{customerProps.sex === '1' ? '先生' : '女士'} {customerProps.mobile}</div>
+            {buildCoustomerPropElement()}
             <div className="clearfix">
               <div className="option-desc">
                 {getDefaultAddressProps()}
