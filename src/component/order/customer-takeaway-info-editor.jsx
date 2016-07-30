@@ -46,7 +46,7 @@ module.exports = React.createClass({
         ...customerPropsWithoutId,
         address:selectedAddress,
       }
-    )) onDone('');
+    )) onDone(evt, '');
   },
   onAddressSelect(evt, option) {
     const { onAddressEditor } = this.props;

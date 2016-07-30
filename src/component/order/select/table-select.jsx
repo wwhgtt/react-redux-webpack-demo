@@ -72,13 +72,13 @@ module.exports = React.createClass({
     });
     evt.stopPropagation();
     evt.preventDefault();
-    onDone();
+    onDone(evt);
   },
   onCancel(evt) {
     const { onDone } = this.props;
     evt.stopPropagation();
     evt.preventDefault();
-    onDone();
+    onDone(evt);
   },
   getTablesOfSelectedArea(areas, tables) {
     const selectedArea = _find(areas, { isChecked:true });
