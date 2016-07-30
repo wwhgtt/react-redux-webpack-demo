@@ -110,7 +110,7 @@ module.exports = function (
                         type: 'tickbox',
                       },
                       {
-                        name:'线下支付',
+                        name:helper.getOfflinePaymentName(state.serviceProps.sendAreaId),
                         isAvaliable:
                           helper.isPaymentAvaliable(
                             'offline',
