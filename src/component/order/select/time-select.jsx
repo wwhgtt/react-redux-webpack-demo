@@ -69,13 +69,13 @@ module.exports = React.createClass({
 
     evt.stopPropagation();
     evt.preventDefault();
-    onDone();
+    onDone(evt);
   },
   onCancel(evt) {
     const { onDone } = this.props;
     evt.stopPropagation();
     evt.preventDefault();
-    onDone();
+    onDone(evt);
   },
   getTimeOfSelectedDate(dateTimes) {
     const selectedDate = _find(dateTimes, { isChecked:true });

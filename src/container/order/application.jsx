@@ -75,7 +75,8 @@ const OrderApplication = React.createClass({
     const hash = location.hash;
     setChildView(hash);
   },
-  resetChildView() {
+  resetChildView(evt) {
+    evt.preventDefault();
     const { setChildView } = this.props;
     if (location.hash !== '') {
       location.hash = '';

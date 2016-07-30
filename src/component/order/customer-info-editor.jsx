@@ -28,7 +28,7 @@ module.exports = React.createClass({
   onSubmitBtntap(evt) {
     const { customerProps } = this.state;
     const { onDone, onCustomerPropsChange } = this.props;
-    if (onCustomerPropsChange(evt, customerProps)) onDone('');
+    if (onCustomerPropsChange(evt, customerProps)) onDone(evt, '');
   },
   handleBasicInfoChange(event) {
     const { customerProps } = this.state;
