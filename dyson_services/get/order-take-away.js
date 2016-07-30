@@ -47,7 +47,7 @@ module.exports = {
         ],
       },
       'toHomePayType': 'online,offline',
-      'toShopPayType': 'online,offline',
+      'toShopPayType': 'online',
       'ma': null,
       'toShopFlag': false,
       'disable': false,
