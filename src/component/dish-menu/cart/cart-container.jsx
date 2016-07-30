@@ -14,7 +14,6 @@ module.exports = React.createClass({
     onClearBtnTap: React.PropTypes.func.isRequired,
     takeawayServiceProps: React.PropTypes.object,
     openTimeList: React.PropTypes.array,
-    sendTimeList: React.PropTypes.array,
     isAcceptTakeaway: React.PropTypes.bool,
   },
   getInitialState() {
@@ -33,17 +32,16 @@ module.exports = React.createClass({
     }
   },
   render() {
-    const { dishes, takeawayServiceProps, onBillBtnTap, onOrderBtnTap, openTimeList, sendTimeList, isAcceptTakeaway } = this.props;
+    const { dishes, takeawayServiceProps, onBillBtnTap, onOrderBtnTap, openTimeList, isAcceptTakeaway } = this.props;
     const { expand } = this.state;
     const orderedDishes = helper.getOrderedDishes(dishes);
     const dishesCount = helper.getDishesCount(orderedDishes);
-    const openingTime = helper.getUrlParam('type') === 'TS' ? openTimeList : sendTimeList;
     let isShopOpen;
 
     if (helper.getUrlParam('type') === 'WM' && isAcceptTakeaway) {
       isShopOpen = true;
     } else {
-      isShopOpen = helper.isShopOpen(openingTime);
+      isShopOpen = helper.isShopOpen(openTimeList);
     }
 
     return (
