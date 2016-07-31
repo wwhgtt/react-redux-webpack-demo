@@ -9,6 +9,7 @@ module.exports = function (
     dishDetailData: undefined,
     takeawayServiceProps:undefined,
     dishBoxChargeInfo:null,
+    errorMessage:null,
   }),
   action
 ) {
@@ -89,14 +90,18 @@ module.exports = function (
       return state.update(
           'dishesData', dishesData => dishesData.flatMap(
             dishData => dishData.set(
-                'isMember', payload.dishList && _findIndex(payload.dishList, { dishId:dishData.id }) !== -1
+                'isMember', payload.dishList && payload.dishList.length && _findIndex(payload.dishList, { dishId:dishData.id }) !== -1
               ).set(
-                'memberPrice', payload.dishList && _findIndex(payload.dishList, { dishId:dishData.id }) !== -1 ?
+                'memberPrice', payload.dishList && payload.dishList.length && _findIndex(payload.dishList, { dishId:dishData.id }) !== -1 ?
                   payload.dishList[_findIndex(payload.dishList, { dishId:dishData.id })].value
                   :
                   false
               )
           )
+      );
+    case 'SET_ERROR_MSG':
+      return state.set(
+        'errorMessage', payload
       );
     default:
       return state;

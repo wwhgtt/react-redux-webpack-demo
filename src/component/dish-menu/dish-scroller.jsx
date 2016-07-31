@@ -5,6 +5,7 @@ const _find = require('lodash.find');
 const IScroll = require('iscroll/build/iscroll-lite');
 const classnames = require('classnames');
 const DishListItem = require('./dish-list-item.jsx');
+const setErrorMsg = require('../../action/dish-menu/dish-menu.js').setErrorMsg;
 
 require('./dish-scroller.scss');
 
@@ -83,7 +84,7 @@ module.exports = React.createClass({
     function getDishById(dishId) {
       const dish = _find(dishesData, { id:dishId });
       if (!dish) {
-        throw new Error(`Can not find dish for dishId ${dishId}, check the dishTypesData.`);
+        setErrorMsg(`无法找到 ${dishId} 对应的子菜...`);
       }
       return dish;
     }
