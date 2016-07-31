@@ -373,12 +373,12 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
     if (sendAreaId === 0) {
       // 表示到店取餐
       selectedAddress = 0;
-    } else if (state.customerProps.addresses !== null && state.customerProps.addresses.length !== 0) {
+    } else if (state.customerProps.addresses instanceof Array && state.customerProps.addresses.length) {
       selectedAddress = state.customerProps.addresses.filter(address => address.isChecked)[0].address;
     } else {
       return { success:false, msg:'请选择送餐地址' };
     }
-    const selectedAddressId = state.customerProps.addresses !== null && state.customerProps.addresses.length !== 0 ?
+    const selectedAddressId = state.customerProps.addresses instanceof Array && state.customerProps.addresses.length ?
           state.customerProps.addresses.filter(address => address.isChecked)[0].id
           :
           0;
