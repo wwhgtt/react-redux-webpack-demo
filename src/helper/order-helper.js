@@ -23,7 +23,7 @@ exports.shouldPaymentAutoChecked = function (payment, diningForm, isPickupFromFr
 };
 exports.getOfflinePaymentName = function (sendAreaId) {
   if (getUrlParam('type') === 'TS') {
-    return '货到付款';
+    return '线下支付';
   }
   return sendAreaId === 0 ? '线下支付' : '货到付款';
 };
