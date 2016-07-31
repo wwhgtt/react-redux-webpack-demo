@@ -189,7 +189,7 @@ const getDishCookieObject = exports.getDishCookieObject = function (dish, orderI
   }
   const splitPropsIds = [].concat.apply([], dish.order[orderIdx].groups.map(group => {
     const groupId = group.id;
-    const result = group.childInfos.map(childInfo => {
+    const result = group.childInfos.filter(childInfos => getDishesCount([childInfos])).map(childInfo => {
       const spliceResultOfPropIds = isSingleDishWithoutProps(childInfo)
        ? '-' :
         `${getOrderPropIds(childInfo.order[0])[1].join('^')}-${getOrderPropIds(childInfo.order[0])[0].join('^')}`;
