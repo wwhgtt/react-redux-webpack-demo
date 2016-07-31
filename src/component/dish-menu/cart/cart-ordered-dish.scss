@@ -110,7 +110,11 @@
 .detail-props-info {
   font-size: 12px;
   line-height: 16px;
-  display: block;
-  padding-bottom: 6px;
+  clear: both;
+  padding-top: 5px;
   color: $color-dusty-grey;
+
+  &:empty {
+    padding-top: 0;
+  }
 }

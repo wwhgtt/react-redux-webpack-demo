@@ -47,24 +47,22 @@ module.exports = React.createClass({
       return '';
     }
     return (
-      <div className="ordered-dish-dropdown">
-        <span className="detail-props-info">
-          {
-            RecipeProps.map(propInfo => (buildPropsText(propInfo))).filter(propsText => propsText)
-            .concat(
-              [buildPropsText({ name:'配料', properties:dishIngredientInfos })].filter(propsText => propsText),
-              NoteProps.map(propInfo => (buildPropsText(propInfo))).filter(propsText => propsText),
-            )
-            .join(' | ')
+      <div className="detail-props-info">
+        {
+          RecipeProps.map(propInfo => (buildPropsText(propInfo))).filter(propsText => propsText)
+                     .concat(
+                       [buildPropsText({ name:'配料', properties:dishIngredientInfos })].filter(propsText => propsText),
+                       NoteProps.map(propInfo => (buildPropsText(propInfo))).filter(propsText => propsText),
+                     )
+                     .join(' | ')
         }
-        </span>
       </div>
     );
   },
   buildDetailInfoForGroupDish(dish) {
     const orderedChildDishes = [].concat.apply([], dish.order[0].groups.map(
       group => helper.getOrderedDishes(group.childInfos)
-    ));
+    )).filter(childDish => helper.getDishesCount([childDish]));
     return (
       <div className="ordered-dish-dropdown">
       {
