@@ -99,7 +99,7 @@ const countDeliveryRemission = exports.countDeliveryRemission = function (dishes
   }
   return false;
 };
-// 计算会员价格
+// 计算会员价格 优惠了多少钱
 
 exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDishesProps) {
   if (isDiscountChecked) {
@@ -129,7 +129,7 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDis
           orderedDish => {
             if (orderedDish.id === dishcount.dishId) {
               disCountPriceList.push(
-                parseFloat((dishcount.value * getDishesCount([orderedDish])).toFixed(2))
+                parseFloat(((orderedDish.marketPrice - dishcount.value) * getDishesCount([orderedDish])).toFixed(2))
               );
             }
           }
