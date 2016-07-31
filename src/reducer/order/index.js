@@ -69,7 +69,7 @@ module.exports = function (
                     'customerProps',
                     Immutable.from({
                       name:payload.member.name, mobile:payload.member.mobile,
-                      sex:payload.member.sex ? payload.member.sex : 1, isMember:payload.isMember, customerCount:1,
+                      sex:payload.member.sex ? payload.member.sex : -1, isMember:payload.isMember, customerCount:1,
                       addresses:payload.ma ? [{ id:payload.ma.id, address:payload.ma.address, isChecked:true }] : null,
                     })
                   )
