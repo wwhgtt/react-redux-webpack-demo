@@ -84,7 +84,7 @@ module.exports = React.createClass({
     function getDishById(dishId) {
       const dish = _find(dishesData, { id:dishId });
       if (!dish) {
-        setErrorMsg(`Can not find dish for dishId ${dishId}, check the dishTypesData.`);
+        setErrorMsg(`无法找到 ${dishId} 对应的子菜...`);
       }
       return dish;
     }
