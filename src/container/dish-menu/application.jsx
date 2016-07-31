@@ -8,6 +8,7 @@ const DishScroller = require('../../component/dish-menu/dish-scroller.jsx');
 const CartContainer = require('../../component/dish-menu/cart/cart-container.jsx');
 const DishDetailContainer = require('../../component/dish-menu/detail/dish-detail-container.jsx');
 const DishDescPopup = require('../../component/dish-menu/detail/dish-desc-popup.jsx');
+const Toast = require('../../component/mui/toast.jsx');
 
 const DishMenuApplication = React.createClass({
   displayName: 'DishMenuApplication',
@@ -22,6 +23,7 @@ const DishMenuApplication = React.createClass({
     confirmOrder: React.PropTypes.func.isRequired,
     removeAllOrders: React.PropTypes.func.isRequired,
     fetchOrderDiscountInfo:React.PropTypes.func.isRequired,
+    clearErrorMsg:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     activeDishTypeId: React.PropTypes.number.isRequired,
     dishTypesData: React.PropTypes.array,
@@ -31,6 +33,7 @@ const DishMenuApplication = React.createClass({
     takeawayServiceProps: React.PropTypes.object,
     openTimeList: React.PropTypes.array,
     isAcceptTakeaway: React.PropTypes.bool,
+    errorMessage: React.PropTypes.string,
   },
   componentDidMount() {
     const { fetchMenuData, fetchServiceProps, fetchOrderDiscountInfo } = this.props;
@@ -49,9 +52,9 @@ const DishMenuApplication = React.createClass({
   render() {
     // states
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, confirmOrder, takeawayServiceProps,
-            openTimeList, isAcceptTakeaway } = this.props;
+            openTimeList, isAcceptTakeaway, errorMessage } = this.props;
     // actions
-    const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders } = this.props;
+    const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders, clearErrorMsg } = this.props;
     return (
       <div className="application">
         <DishTypeScroller
@@ -75,6 +78,11 @@ const DishMenuApplication = React.createClass({
         {dishDescData !== undefined ?
           <DishDescPopup dish={dishDescData} onCloseBtnTap={showDishDesc} />
           : false
+        }
+        {errorMessage ?
+          <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
+          :
+          false
         }
       </div>
     );
