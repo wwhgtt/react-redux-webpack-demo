@@ -7,7 +7,7 @@ module.exports = {
     'code': '200',
     'data': {
       'member': {
-        'name': '李斌',
+        'name': '',
         'mobile': '15908198592',
         'sex': '1',
         'iconUri':

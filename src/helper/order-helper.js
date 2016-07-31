@@ -348,6 +348,10 @@ exports.countFinalNeedPayMoney = function (orderedDishesProps, serviceProps, com
 };
 
 exports.getSubmitUrlParams = function (state, note, receipt) {
+  const name = state.customerProps.name;
+  if (!name) {
+    return { success:false, msg:'未填写姓名' };
+  }
   const payMethodScope = state.serviceProps.payMethods.filter(payMethod => payMethod.isChecked)[0].name === '在线支付' ? '1' : '0';
   const dishesPrice = getDishesPrice(state.orderedDishesProps.dishes);
   const integral = state.serviceProps.integralsInfo.isChecked ? countIntegralsToCash(
