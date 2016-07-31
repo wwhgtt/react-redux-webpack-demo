@@ -368,10 +368,16 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   }
   let params;
   if (type === 'WM') {
-    const selectedAddress = state.customerProps.addresses !== null && state.customerProps.addresses.length !== 0 ?
-          state.customerProps.addresses.filter(address => address.isChecked)[0].address
-          :
-          0;
+    const sendAreaId = state.serviceProps.sendAreaId;
+    let selectedAddress = '';
+    if (sendAreaId === 0) {
+      // 表示到店取餐
+      selectedAddress = 0;
+    } else if (state.customerProps.addresses !== null && state.customerProps.addresses.length !== 0) {
+      selectedAddress = state.customerProps.addresses.filter(address => address.isChecked)[0].address;
+    } else {
+      return { success:false, msg:'请选择送餐地址' };
+    }
     const selectedAddressId = state.customerProps.addresses !== null && state.customerProps.addresses.length !== 0 ?
           state.customerProps.addresses.filter(address => address.isChecked)[0].id
           :
@@ -392,7 +398,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
         + '&time=' + state.timeProps.selectedDateTime.date + '%20' + (state.timeProps.selectedDateTime.time || '')
         + '&address=' + selectedAddress
         + '&memberAddressId=' + selectedAddressId
-        + '&sendAreaId=' + state.serviceProps.sendAreaId
+        + '&sendAreaId=' + sendAreaId
         + '&toShopFlag=' + toShopFlag;
   } else {
     params = '?name=' + state.customerProps.name
