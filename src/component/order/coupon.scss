@@ -11,10 +11,9 @@
 
   // coupon card styles
   &-card {
-    font-size: 11px;
+    font-size: 12px;
     line-height: 14px;
     position: relative;
-    overflow: hidden;
     padding: 5px 0;
     border: 1px solid $color-mercury;
     border-left: 0;
@@ -30,6 +29,7 @@
       left: 0;
       width: 5px;
       content: '';
+      border-radius: 4px 0 0 4px;
       background: currentColor;
     }
 
@@ -117,7 +117,7 @@
 
   // coupon dropdown styles
   &-dropdown {
-    font-size: 11px;
+    font-size: 12px;
     line-height: 14px;
     margin: 0 5px;
     padding: 5px 10px;
@@ -210,7 +210,7 @@
     top: 3px;
     right: -35px;
     width: 13px;
-    height: 11px;
+    height: 12px;
     content: '';
     background-image: url('../../asset/images/tick-white.png');
     // images size 26px 22px
