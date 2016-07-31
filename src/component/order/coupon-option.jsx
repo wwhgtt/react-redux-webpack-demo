@@ -46,8 +46,8 @@ module.exports = React.createClass({
     evt.preventDefault();
   },
   deleteHtmlTag(html) {
-    const reg = new RegExp('<[^<]*>', 'gi');
-    return html.replace(reg, '');
+    if (html) return html.replace(/<.+?>/g, '');
+    return false;
   },
   composeGiftCouponProps(giftCoupons) {
     let gift = { name:'', number:'' };
