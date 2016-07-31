@@ -116,7 +116,7 @@ module.exports = React.createClass({
                   :
                   false
                 }
-                {serviceProps.deliveryProps && serviceProps.deliveryProps.freeDeliveryPrice
+                {serviceProps.deliveryProps && serviceProps.deliveryProps.freeDeliveryPrice >= 0 && serviceProps.deliveryProps.deliveryPrice
                   && dishesPrice >= serviceProps.deliveryProps.freeDeliveryPrice && serviceProps.deliveryProps.deliveryPrice !== 0 ?
                   <p className="order-summary-entry clearfix">
                     <span className="order-title">满{serviceProps.deliveryProps.freeDeliveryPrice}元减免配送费</span>
