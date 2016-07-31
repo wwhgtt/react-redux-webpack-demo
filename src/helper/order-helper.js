@@ -12,9 +12,15 @@ exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDes
   }
   return isPickupFromFrontDesk ? selfPayType.indexOf(payment) : sendPayType.indexOf(payment);
 };
-exports.shouldPaymentAutoChecked = function (payment, diningForm, isPickupFromFrontDesk, selfPayType, sendPayType) {
+exports.shouldPaymentAutoChecked = function (payment, diningForm, isPickupFromFrontDesk, sendAreaId, selfPayType, sendPayType) {
   if (diningForm === 0) {
     return payment === 'offline';
+  }
+  if (getUrlParam('type') === 'WM') {
+    if (sendAreaId.toString() === '0') {
+      return selfPayType.indexOf(',') !== -1 ? payment === selfPayType.split(',')[0] : payment === selfPayType;
+    }
+    return sendPayType.indexOf(',') !== -1 ? payment === sendPayType.split(',')[0] : payment === sendPayType;
   }
   if (isPickupFromFrontDesk) {
     return selfPayType.indexOf(',') !== -1 ? payment === selfPayType.split(',')[0] : payment === selfPayType;

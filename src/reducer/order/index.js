@@ -69,7 +69,7 @@ module.exports = function (
                     'customerProps',
                     Immutable.from({
                       name:payload.member.name, mobile:payload.member.mobile,
-                      sex:payload.member.sex, isMember:payload.isMember, customerCount:1,
+                      sex:payload.member.sex ? payload.member.sex : 1, isMember:payload.isMember, customerCount:1,
                       addresses:payload.ma ? [{ id:payload.ma.id, address:payload.ma.address, isChecked:true }] : null,
                     })
                   )
@@ -104,6 +104,7 @@ module.exports = function (
                             'online',
                             payload.diningForm,
                             false,
+                            state.serviceProps.sendAreaId,
                             orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
                             orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
                           ),
@@ -126,6 +127,7 @@ module.exports = function (
                             'offline',
                             payload.diningForm,
                             false,
+                            state.serviceProps.sendAreaId,
                             orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
                             orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
                           ),
@@ -186,6 +188,7 @@ module.exports = function (
                 payMethod.id.split('-')[0],
                 state.commercialProps.diningForm,
                 !state.serviceProps.isPickupFromFrontDesk.isChecked,
+                state.serviceProps.sendAreaId,
                 state.commercialProps.selfPayType,
                 state.commercialProps.sendPayType
               ),
