@@ -18,17 +18,20 @@ module.exports = React.createClass({
 
   },
   onSelectCoupon(evt, optionData) {
-    const { onSelectCoupon } = this.props;
-    const selectedCouponId = evt.currentTarget.getAttribute('data-id');
-    const setCouponProp = {
-      id:'coupon-prop',
-      changedCouponId:selectedCouponId,
-      isChecked:optionData.isChecked,
-    };
-    onSelectCoupon(null, setCouponProp);
-    this.setState({
-      couponDataId:selectedCouponId,
-    });
+    // when clicking on coupon dropdown trigger, do nothing
+    if (evt.target.className.indexOf('coupon-dropdown-trigger') === -1) {
+      const { onSelectCoupon } = this.props;
+      const selectedCouponId = evt.currentTarget.getAttribute('data-id');
+      const setCouponProp = {
+        id:'coupon-prop',
+        changedCouponId:selectedCouponId,
+        isChecked:optionData.isChecked,
+      };
+      onSelectCoupon(null, setCouponProp);
+      this.setState({
+        couponDataId:selectedCouponId,
+      });
+    }
   },
   onSubmitBtnTap() {
     const { onSelectCoupon } = this.props;
