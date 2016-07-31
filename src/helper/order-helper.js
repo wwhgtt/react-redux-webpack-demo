@@ -105,7 +105,7 @@ const countDeliveryRemission = exports.countDeliveryRemission = function (dishes
   }
   return false;
 };
-// 计算会员价格
+// 计算会员价格 优惠了多少钱
 
 exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDishesProps) {
   if (isDiscountChecked) {
@@ -135,7 +135,7 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDis
           orderedDish => {
             if (orderedDish.id === dishcount.dishId) {
               disCountPriceList.push(
-                parseFloat((dishcount.value * getDishesCount([orderedDish])).toFixed(2))
+                parseFloat(((orderedDish.marketPrice - dishcount.value) * getDishesCount([orderedDish])).toFixed(2))
               );
             }
           }
@@ -378,11 +378,17 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   }
   let params;
   if (type === 'WM') {
-    const selectedAddress = state.customerProps.addresses !== null && state.customerProps.addresses.length !== 0 ?
-          state.customerProps.addresses.filter(address => address.isChecked)[0].address
-          :
-          0;
-    const selectedAddressId = state.customerProps.addresses !== null && state.customerProps.addresses.length !== 0 ?
+    const sendAreaId = state.serviceProps.sendAreaId;
+    let selectedAddress = '';
+    if (sendAreaId === 0) {
+      // 表示到店取餐
+      selectedAddress = 0;
+    } else if (state.customerProps.addresses instanceof Array && state.customerProps.addresses.length) {
+      selectedAddress = state.customerProps.addresses.filter(address => address.isChecked)[0].address;
+    } else {
+      return { success:false, msg:'请选择送餐地址' };
+    }
+    const selectedAddressId = state.customerProps.addresses instanceof Array && state.customerProps.addresses.length ?
           state.customerProps.addresses.filter(address => address.isChecked)[0].id
           :
           0;
@@ -402,7 +408,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
         + '&time=' + state.timeProps.selectedDateTime.date + '%20' + (state.timeProps.selectedDateTime.time || '')
         + '&address=' + selectedAddress
         + '&memberAddressId=' + selectedAddressId
-        + '&sendAreaId=' + state.serviceProps.sendAreaId
+        + '&sendAreaId=' + sendAreaId
         + '&toShopFlag=' + toShopFlag;
   } else {
     params = '?name=' + state.customerProps.name

@@ -3,8 +3,17 @@ module.exports = {
   template:{
     data: {
       isDiscount: true,
-      type: 2,
-      dishList:null,
+      type: 1,
+      dishList:[
+        {
+          dishId:599399,
+          value:8,
+        },
+        {
+          dishId:599414,
+          value:9,
+        },
+      ],
     },
     time :1467713952401,
     code : 200,
