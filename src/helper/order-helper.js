@@ -370,7 +370,11 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   const type = getUrlParam('type');
   const useDiscount = !state.serviceProps.discountProps.inUseDiscount ? '0' : '1';
   const serviceApproach = state.serviceProps.isPickupFromFrontDesk.isChecked ? 'pickup' : 'totable';
-  const coupId = state.serviceProps.couponsProps.inUseCouponDetail.id ? state.serviceProps.couponsProps.inUseCouponDetail.id : '0';
+  const coupId = state.serviceProps.couponsProps.inUseCoupon &&
+                state.serviceProps.couponsProps.inUseCouponDetail.id ?
+                state.serviceProps.couponsProps.inUseCouponDetail.id
+                :
+                '';
   let tableId;
   if (type === 'TS' && serviceApproach === 'totable' && state.tableProps.tables && state.tableProps.tables.length) {
     if (state.tableProps.tables.filter(table => table.isChecked).length === 0) {
