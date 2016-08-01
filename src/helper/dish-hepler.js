@@ -234,7 +234,7 @@ exports.restoreDishesLocalStorage = function (data) {
 };
 exports.isShopOpen = function (timeList) {
   // timeList == [] or null, shop opens 24 hours
-  if (!timeList) {
+  if (!timeList || timeList.length === 0) {
     return true;
   }
 
