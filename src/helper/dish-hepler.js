@@ -293,8 +293,10 @@ exports.deleteOldDishCookie = function () {
   if (oldCookieCollection && oldCookieCollection.length) {
     oldCookieCollection.forEach(cookie => {
       let date = new Date();
+      console.log(123);
       date.setTime(date.getTime() - 10000);
       document.cookie = cookie + '=a; expires=' + date.toGMTString();
     });
+    console.log(document.cookie);
   }
 };
