@@ -79,7 +79,7 @@ module.exports = function (
                       name:payload.commercialName, integral:payload.integral, commercialLogo:payload.commercialLogo,
                       selfPayType:orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
                       sendPayType:orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType,
-                      diningForm: payload.diningForm ? payload.diningForm : '1',
+                      diningForm: payload.diningForm >= 0 ? payload.diningForm : 1,
                       carryRuleVO:payload.carryRuleVO && payload.carryRuleVO.transferType ?
                         payload.carryRuleVO : { transferType: 1, scale: 2 },
                       isSupportInvoice:payload.isInvoice,
