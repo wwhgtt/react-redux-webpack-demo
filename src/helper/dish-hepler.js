@@ -270,10 +270,6 @@ exports.isShopOpen = function (timeList) {
     return isOpenDay && isOpenTime;
   });
 };
-exports.trimZeroDecimal = (number) => {
-  if (number % 1) return number;
-  return parseInt(number, 10);
-};
 exports.setDishCookie = (dishesData, orderedData) => {
   // 下面开始区分套餐cookie和单品菜cookie
   orderedData.map(orderData => {

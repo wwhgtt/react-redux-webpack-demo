@@ -19,7 +19,7 @@ module.exports = React.createClass({
     } else if (totalPrice === 0 && takeawayServiceProps && takeawayServiceProps.minPrice) {
       return <span className="tiny-cart-text">{`${takeawayServiceProps.minPrice} 元起卖`}</span>;
     } else if (totalPrice > 0 && takeawayServiceProps && takeawayServiceProps.minPrice) {
-      return <span className="tiny-cart-text">{`还差 ${(takeawayServiceProps.minPrice - totalPrice).toFixed(2)} 元起卖`}</span>;
+      return <span className="tiny-cart-text">{`还差 ${parseFloat((takeawayServiceProps.minPrice - totalPrice).toFixed(2), 10)} 元起卖`}</span>;
     }
     return false;
   },

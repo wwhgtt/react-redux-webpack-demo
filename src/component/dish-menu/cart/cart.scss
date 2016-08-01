@@ -12,7 +12,7 @@
 }
 
 .tiny-cart {
-  $cart-right-width: 110px;
+  $cart-right-width: 120px;
 
   @inclue clearfix;
   width: 100%;
@@ -75,7 +75,7 @@
 
 
   &-text {
-    font-size: 14px;
+    font-size: 13px;
     line-height: $cart-trigger-height;
   }
 
