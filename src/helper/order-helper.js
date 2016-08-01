@@ -382,7 +382,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
     let selectedAddress = '';
     if (sendAreaId === 0) {
       // 表示到店取餐
-      selectedAddress = 0;
+      selectedAddress = '';
     } else if (state.customerProps.addresses instanceof Array && state.customerProps.addresses.length) {
       selectedAddress = state.customerProps.addresses.filter(address => address.isChecked)[0].address;
     } else {
