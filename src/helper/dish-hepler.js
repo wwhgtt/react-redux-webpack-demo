@@ -288,3 +288,13 @@ exports.setDishCookie = (dishesData, orderedData) => {
     return setCookie(setSignleDishCookie.key, setSignleDishCookie.value);
   });
 };
+exports.deleteOldDishCookie = function () {
+  const oldCookieCollection = document.cookie.match(/(WM|TS).+?((?=;)|$)/g);
+  if (oldCookieCollection && oldCookieCollection.length) {
+    oldCookieCollection.forEach(cookie => {
+      let date = new Date();
+      date.setTime(date.getTime() - 10000);
+      document.cookie = cookie + '=a; expires=' + date.toGMTString();
+    });
+  }
+};

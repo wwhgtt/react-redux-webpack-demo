@@ -67,6 +67,7 @@ exports.confirmOrder = () => (dispatch, getStates) => {
   const dishesData = getStates().dishesData;
   const orderedData = helper.getOrderedDishes(dishesData);
   const dishBoxChargeInfo = getStates().dishBoxChargeInfo;
+  helper.deleteOldDishCookie();
   helper.setDishCookie(dishesData, orderedData);
   localStorage.setItem('dishBoxPrice', helper.getDishBoxprice(orderedData, dishBoxChargeInfo));
   if (type === 'TS') {
