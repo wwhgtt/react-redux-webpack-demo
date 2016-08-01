@@ -54,18 +54,18 @@ module.exports = React.createClass({
               </a>
               {orderedElements}
               <div className="order-summary">
-                {helper.getDishBoxPrice() ?
-                  <p className="order-summary-entry clearfix">
-                    <span className="order-title">餐盒费:</span>
-                    <span className="order-discount price">{helper.getDishBoxPrice()}</span>
-                  </p>
-                  :
-                  false
-                }
                 {serviceProps.deliveryProps && serviceProps.deliveryProps.deliveryPrice ?
                   <p className="order-summary-entry clearfix">
                     <span className="order-title">配送费:</span>
                     <span className="order-discount price">{serviceProps.deliveryProps.deliveryPrice}</span>
+                  </p>
+                  :
+                  false
+                }
+                {helper.getDishBoxPrice() ?
+                  <p className="order-summary-entry clearfix">
+                    <span className="order-title">餐盒费:</span>
+                    <span className="order-discount price">{helper.getDishBoxPrice()}</span>
                   </p>
                   :
                   false
