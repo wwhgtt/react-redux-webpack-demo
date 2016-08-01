@@ -146,6 +146,7 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDis
   return disCountPriceList.reduce((p, c) => p + c, 0);
 };
 const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedCommutation, integralsInfo) {
+  console.log(canBeUsedCommutation);
   if (canBeUsedCommutation <= 0 || !integralsInfo) {
     return {
       commutation:0,
@@ -212,7 +213,8 @@ const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, tota
     return 0;
   } else if (coupon.couponType === 4) {
     // '现金券';
-    return coupon.coupRuleBeanList[0].ruleValue;
+    return coupon.coupRuleBeanList[0].ruleValue <= totalPriceWithoutDeliveryRemission ?
+      coupon.coupRuleBeanList[0].ruleValue : totalPriceWithoutDeliveryRemission;
   }
   return true;
 };
@@ -238,9 +240,9 @@ const countPriceWithCouponAndDiscount = exports.countPriceWithCouponAndDiscount 
 const countPriceWithBenefit = exports.countPriceWithBenefit = function (dishesPrice, serviceProps) {
   const totalPrice = Number(countPriceWithCouponAndDiscount(dishesPrice, serviceProps));
   // 至此处理完了配送费和优惠券 还有折扣信息  需要考虑积分抵扣了
-  console.log(totalPrice);
+  const IntergralsPrice = totalPrice - Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps));
   const priceWithIntergrals = serviceProps.integralsInfo.isChecked ?
-    totalPrice - countIntegralsToCash(totalPrice, serviceProps.integralsInfo.integralsDetail).commutation
+    totalPrice - countIntegralsToCash(IntergralsPrice, serviceProps.integralsInfo.integralsDetail).commutation
     :
     totalPrice;
   // 至此各种优惠信息已经处理完

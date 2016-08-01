@@ -107,13 +107,15 @@ module.exports = React.createClass({
                     <span className="order-title">积分抵扣:</span>
                     <span className="order-discount discount">
                       {helper.countIntegralsToCash(
-                        Number(helper.countPriceWithCouponAndDiscount(dishesPrice, serviceProps)),
+                        Number(helper.countPriceWithCouponAndDiscount(dishesPrice, serviceProps))
+                          - Number(helper.countDeliveryRemission(dishesPrice, serviceProps.deliveryProps)),
                         serviceProps.integralsInfo.integralsDetail
                       ).commutation}
                     </span>
                     <span className="order-integral">
                       {helper.countIntegralsToCash(
-                        Number(helper.countPriceWithCouponAndDiscount(dishesPrice, serviceProps)),
+                        Number(helper.countPriceWithCouponAndDiscount(dishesPrice, serviceProps))
+                          - Number(helper.countDeliveryRemission(dishesPrice, serviceProps.deliveryProps)),
                         serviceProps.integralsInfo.integralsDetail
                       ).integralInUsed}
                     </span>
