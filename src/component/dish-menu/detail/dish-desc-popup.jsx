@@ -16,6 +16,15 @@ module.exports = React.createClass({
   },
   render() {
     const { dish } = this.props;
+
+    let memberPrice;
+    if (dish.isMember && dish.type === 1) {
+      // dish.memberPrice = discount, e.g. 5 means 50% discount
+      memberPrice = dish.marketPrice * dish.memberPrice * 0.1;
+    } else if (dish.isMember && dish.type === 2) {
+      memberPrice = dish.memberPrice;
+    }
+
     return (
       <div className="dish-detail-container">
         <a className="dish-detail-close" onTouchTap={this.onCloseBtnTap}></a>
@@ -23,11 +32,11 @@ module.exports = React.createClass({
           <img className="dish-desc-image" src={dish.largeImgUrl || imagePlaceholder} alt="" />
           <div className="dish-desc-content">
             <h2 className="dish-desc-title">{dish.name}</h2>
-            {dish.memberPrice ?
+            {dish.isMember ?
               <p className="clearfix">
                 <span className="dish-desc-price--del price">{dish.marketPrice}</span>
                 <span className="dish-desc-price-title">会员价:</span>
-                <span className="dish-desc-price--bold price">{dish.memberPrice}</span>
+                <span className="dish-desc-price--bold price">{memberPrice}</span>
               </p>
               : <p className="clearfix"><span className="dish-desc-price--bold price">{dish.marketPrice}</span></p>
             }
