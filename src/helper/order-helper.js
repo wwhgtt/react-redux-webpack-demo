@@ -374,7 +374,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
                 state.serviceProps.couponsProps.inUseCouponDetail.id ?
                 state.serviceProps.couponsProps.inUseCouponDetail.id
                 :
-                '';
+                '0';
   let tableId;
   if (type === 'TS' && serviceApproach === 'totable' && state.tableProps.tables && state.tableProps.tables.length) {
     if (state.tableProps.tables.filter(table => table.isChecked).length === 0) {
