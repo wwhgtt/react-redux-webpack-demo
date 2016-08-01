@@ -5,7 +5,7 @@ module.exports = React.createClass({
   propTypes: {
     instructions:React.PropTypes.string.isRequired,
     coupRuleBeanList:React.PropTypes.array.isRequired,
-    fullValue:React.PropTypes.string.isRequired,
+    fullValue:React.PropTypes.any.isRequired,
     couponType:React.PropTypes.number.isRequired,
     validStartDate:React.PropTypes.any.isRequired,
     validEndDate:React.PropTypes.any.isRequired,
