@@ -82,14 +82,19 @@ module.exports = React.createClass({
                 }
               </div>
               <div className="order-summary">
-                {serviceProps.couponsProps.inUseCoupon ?
+                {serviceProps.couponsProps.inUseCoupon && helper.countPriceByCoupons(
+                  serviceProps.couponsProps.inUseCouponDetail,
+                  helper.countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps),
+                  serviceProps.deliveryProps
+                ) !== 0 ?
                   <p className="order-summary-entry clearfix">
                     <span className="order-title">优惠券优惠:</span>
                     <span className="order-discount discount">
                       {
                         helper.countPriceByCoupons(
                           serviceProps.couponsProps.inUseCouponDetail,
-                          dishesPrice
+                          helper.countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps),
+                          serviceProps.deliveryProps
                         )
                       }
                     </span>

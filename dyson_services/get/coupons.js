@@ -29,7 +29,7 @@ module.exports = {
             id: 6298, // 规则ID
             couponId: 1718, // 优惠券模板ID
             ruleName: 'offerValue', // 优惠券规则名称
-            ruleValue: 0.5, // 优惠券规则值
+            ruleValue: 5, // 优惠券规则值
             brandId: 2479, // 品牌ID
           },
         ],

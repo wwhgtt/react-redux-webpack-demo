@@ -13,7 +13,20 @@ module.exports = {
         'iconUri':
           'http://wx.qlogo.cn/mmopen/jVC41HQcvjE07KibwoTRtwKEO3RTVCJ81KgrZqib6UdPY6yhWrkztMKep8uay3ibFbU8ibN7deGUemia7pIPq3yG0kXxa3MruDXnQ/0',
       },
-      'integral':null,
+      'integral': {
+	// 客户积分账户积分数
+        'integral': 183,
+	// 所在等级是否可抵现
+        'isExchangeCash': 0,
+	// 抵现消耗积分数
+        'exchangeIntegralValue': 23,
+	// 抵现金额数
+        'exchangeCashValue': 8,
+	// 抵现限制类型
+        'limitType': 2,
+	// 抵现限制积分数据
+        'limitIntegral': 223,
+      },
       'isMember': true,
       'carryRuleVO': {
         'transferType': 3,
