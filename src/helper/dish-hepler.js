@@ -80,8 +80,8 @@ const getDishPrice = exports.getDishPrice = function (dish) {
 exports.getDishesPrice = function (dishes) {
   const dishesPrice = dishes.map(dish => getDishPrice(dish)).
     reduce((c, p) => c + p, 0);
-  if (Number.isInteger(dishesPrice)) {
-    return dishesPrice;
+  if (isFinite(dishesPrice) && Math.floor(dishesPrice) === dishesPrice) {
+    return true;
   }
   return parseFloat(dishesPrice.toFixed(2));
 };
