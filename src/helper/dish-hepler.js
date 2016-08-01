@@ -289,6 +289,7 @@ exports.setDishCookie = (dishesData, orderedData) => {
 };
 exports.deleteOldDishCookie = function () {
   const oldCookieCollection = document.cookie.match(/(WM|TS).+?((?=;)|$)/g);
+  console.log(oldCookieCollection);
   if (oldCookieCollection && oldCookieCollection.length) {
     oldCookieCollection.forEach(cookie => {
       let date = new Date();
