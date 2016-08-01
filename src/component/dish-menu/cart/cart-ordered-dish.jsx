@@ -66,8 +66,8 @@ module.exports = React.createClass({
     return (
       <div className="ordered-dish-dropdown">
       {
-        orderedChildDishes.map(childDish => (
-          <div key={childDish.id} className="child-dish-info">
+        orderedChildDishes.map((childDish, index) => (
+          <div key={`${childDish.id}_${index}`} className="child-dish-info">
             <div className="child-dish-head">
               <span className="child-dish-name ellipsis">{childDish.name}</span>
               {
