@@ -146,7 +146,6 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDis
   return disCountPriceList.reduce((p, c) => p + c, 0);
 };
 const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedCommutation, integralsInfo) {
-  console.log(canBeUsedCommutation);
   if (canBeUsedCommutation <= 0 || !integralsInfo) {
     return {
       commutation:0,
