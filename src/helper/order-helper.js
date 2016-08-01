@@ -97,7 +97,7 @@ const countDeliveryRemission = exports.countDeliveryRemission = function (dishes
   if (getUrlParam('type') === 'TS') {
     return false;
   }
-  if (!deliveryProps || !deliveryProps.freeDeliveryPrice || !deliveryProps.deliveryPrice) {
+  if (!deliveryProps || deliveryProps.freeDeliveryPrice < 0 || deliveryProps.deliveryPrice < 0) {
     return false;
   }
   if (dishesPrice >= deliveryProps.freeDeliveryPrice) {
