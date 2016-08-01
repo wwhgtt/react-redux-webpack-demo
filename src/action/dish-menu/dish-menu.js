@@ -93,7 +93,7 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
     }).
     then(discount => {
       if (discount.code.toString() !== '200') {
-        dispatch(setErrorMsg('获取会员价信息失败...'));
+        dispatch(setErrorMsg(discount.msg));
       }
       dispatch(setDiscountToOrder(discount.data));
     }).
