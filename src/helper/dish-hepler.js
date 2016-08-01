@@ -295,7 +295,7 @@ exports.deleteOldDishCookie = function () {
       let date = new Date();
       console.log(123);
       date.setTime(date.getTime() - 10000);
-      document.cookie = cookie + '=a; expires=' + date.toGMTString();
+      document.cookie = cookie + '=a; expires=' + date.toGMTString() + '; path=/';
     });
     console.log(document.cookie);
   }
