@@ -1,5 +1,4 @@
 const React = require('react');
-const helper = require('../../../helper/dish-hepler');
 
 module.exports = React.createClass({
   displayName: 'TinyCart',
@@ -28,7 +27,7 @@ module.exports = React.createClass({
       return false;
     }
     if (totalPrice < takeawayServiceProps.shipFreePrice && takeawayServiceProps.shipmentFee > 0) {
-      return <small>{`另有 ${helper.trimZeroDecimal(takeawayServiceProps.shipmentFee)} 元配送费`}</small>;
+      return <small>{`另有 ${parseFloat(takeawayServiceProps.shipmentFee, 10)} 元配送费`}</small>;
     }
     return false;
   },
