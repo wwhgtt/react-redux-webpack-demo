@@ -51,7 +51,7 @@ module.exports = React.createClass({
     } else if (totalPrice === 0 && takeawayServiceProps && takeawayServiceProps.minPrice) {
       return <span className="tiny-cart-text">{`${takeawayServiceProps.minPrice} 元起卖`}</span>;
     } else if (totalPrice > 0 && takeawayServiceProps && takeawayServiceProps.minPrice) {
-      return <span className="tiny-cart-text">{`还差 ${takeawayServiceProps.minPrice - totalPrice} 元起卖`}</span>;
+      return <span className="tiny-cart-text">{`还差 ${parseFloat((takeawayServiceProps.minPrice - totalPrice).toFixed(2), 10)} 元起卖`}</span>;
     }
     return false;
   },
@@ -60,7 +60,7 @@ module.exports = React.createClass({
       return false;
     }
     if (totalPrice < takeawayServiceProps.shipFreePrice && takeawayServiceProps.shipmentFee > 0) {
-      return <small>{`另有 ${takeawayServiceProps.shipmentFee} 元配送费`}</small>;
+      return <small>{`另有 ${parseFloat(takeawayServiceProps.shipmentFee, 10)} 元配送费`}</small>;
     }
     return false;
   },
