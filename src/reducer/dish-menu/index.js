@@ -96,7 +96,7 @@ module.exports = function (
                   payload.dishList[_findIndex(payload.dishList, { dishId:dishData.id })].value
                   :
                   false
-              )
+              ).set('discountType', payload.type)
           )
       );
     case 'SET_ERROR_MSG':

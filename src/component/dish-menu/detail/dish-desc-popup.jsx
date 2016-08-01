@@ -18,10 +18,10 @@ module.exports = React.createClass({
     const { dish } = this.props;
 
     let memberPrice;
-    if (dish.isMember && dish.type === 1) {
+    if (dish.isMember && dish.discountType === 1) {
       // dish.memberPrice = discount, e.g. 5 means 50% discount
       memberPrice = dish.marketPrice * dish.memberPrice * 0.1;
-    } else if (dish.isMember && dish.type === 2) {
+    } else if (dish.isMember && dish.discountType === 2) {
       memberPrice = dish.memberPrice;
     }
 
