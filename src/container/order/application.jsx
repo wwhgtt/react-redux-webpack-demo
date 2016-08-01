@@ -129,7 +129,7 @@ const OrderApplication = React.createClass({
     }
     return (
       <div className="order-prop-option">
-        <span className="options-title">没有可用桌台</span>
+        <span className="options-title text-froly">该桌台已被占用</span>
       </div>
     );
   },
