@@ -6,7 +6,7 @@ module.exports = {
       type: 1,
       dishList:[
         {
-          dishId:599399,
+          dishId:57472,
           value:8,
         },
         {

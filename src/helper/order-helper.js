@@ -145,23 +145,6 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDis
   }
   return disCountPriceList.reduce((p, c) => p + c, 0);
 };
-// 计算优惠券多少价格
-const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, totalPrice) {
-  if (coupon.couponType === 1) {
-    // '满减券'
-    return coupon.coupRuleBeanList[0].ruleValue;
-  } else if (coupon.couponType === 2) {
-    // '折扣券';
-    return parseFloat((totalPrice * (1 - Number(coupon.coupRuleBeanList[0].ruleValue) / 10)).toFixed(2));
-  } else if (coupon.couponType === 3) {
-    // '礼品券';
-    return 0;
-  } else if (coupon.couponType === 4) {
-    // '现金券';
-    return coupon.coupRuleBeanList[0].ruleValue;
-  }
-  return true;
-};
 const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedCommutation, integralsInfo) {
   if (canBeUsedCommutation <= 0 || !integralsInfo) {
     return {
@@ -215,7 +198,25 @@ const countTotalPriceWithoutBenefit = exports.countTotalPriceWithoutBenefit = fu
   //  计算菜品初始价格加配送费和配送费优惠
   return parseFloat((dishesPrice + getDishBoxPrice() + Number(countDeliveryPrice(deliveryProps))).toFixed(2));
 };
-
+// 计算优惠券多少价格
+const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, totalPrice, deliveryProps) {
+  const totalPriceWithoutDeliveryRemission = totalPrice - Number(countDeliveryRemission(totalPrice, deliveryProps));
+  if (coupon.couponType === 1) {
+    // '满减券'
+    return coupon.coupRuleBeanList[0].ruleValue;
+  } else if (coupon.couponType === 2) {
+    // '折扣券';
+    return parseFloat((totalPriceWithoutDeliveryRemission * (1 - Number(coupon.coupRuleBeanList[0].ruleValue) / 10)).toFixed(2));
+  } else if (coupon.couponType === 3) {
+    // '礼品券';
+    return 0;
+  } else if (coupon.couponType === 4) {
+    // '现金券';
+    return coupon.coupRuleBeanList[0].ruleValue <= totalPriceWithoutDeliveryRemission ?
+      coupon.coupRuleBeanList[0].ruleValue : totalPriceWithoutDeliveryRemission;
+  }
+  return true;
+};
 
 const countPriceWithCouponAndDiscount = exports.countPriceWithCouponAndDiscount = function (dishesPrice, serviceProps) {
   // 计算出优惠券和会员价后的价格
@@ -224,7 +225,9 @@ const countPriceWithCouponAndDiscount = exports.countPriceWithCouponAndDiscount 
     // 即没有使用任何优惠
     totalPrice = parseFloat(totalPrice.toFixed(2));
   } else if (serviceProps.couponsProps.inUseCoupon) {
-    totalPrice = parseFloat((totalPrice - countPriceByCoupons(serviceProps.couponsProps.inUseCouponDetail, totalPrice)).toFixed(2));
+    totalPrice = parseFloat(
+      (totalPrice - countPriceByCoupons(serviceProps.couponsProps.inUseCouponDetail, totalPrice, serviceProps.deliveryProps)
+    ).toFixed(2));
   } else if (serviceProps.discountProps.inUseDiscount) {
     totalPrice = parseFloat((totalPrice - serviceProps.discountProps.inUseDiscount).toFixed(2));
   }
@@ -236,8 +239,9 @@ const countPriceWithCouponAndDiscount = exports.countPriceWithCouponAndDiscount 
 const countPriceWithBenefit = exports.countPriceWithBenefit = function (dishesPrice, serviceProps) {
   const totalPrice = Number(countPriceWithCouponAndDiscount(dishesPrice, serviceProps));
   // 至此处理完了配送费和优惠券 还有折扣信息  需要考虑积分抵扣了
+  const IntergralsPrice = totalPrice - Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps));
   const priceWithIntergrals = serviceProps.integralsInfo.isChecked ?
-    totalPrice - countIntegralsToCash(totalPrice, serviceProps.integralsInfo.integralsDetail).commutation
+    totalPrice - countIntegralsToCash(IntergralsPrice, serviceProps.integralsInfo.integralsDetail).commutation
     :
     totalPrice;
   // 至此各种优惠信息已经处理完
@@ -248,14 +252,14 @@ const countPriceWithBenefit = exports.countPriceWithBenefit = function (dishesPr
 const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishesPrice, serviceProps) {
   // serviceProps.integralsInfo.integralsDetail  前提条件
   const { transferType, scale } = carryRuleVO;
-  const priceWithIntergrals = countPriceWithBenefit(dishesPrice, serviceProps);
+  const priceWithBenefit = countPriceWithBenefit(dishesPrice, serviceProps);
   if (transferType === 1) {
     // 四舍五入
     return {
-      smallChange:parseFloat((priceWithIntergrals - parseFloat(priceWithIntergrals.toFixed(scale))).toFixed(2)),
+      smallChange:parseFloat((priceWithBenefit - parseFloat(priceWithBenefit.toFixed(scale))).toFixed(2)),
       priceWithClearSmallChange:parseFloat((
-        priceWithIntergrals - parseFloat(
-          Math.abs(priceWithIntergrals - parseFloat(priceWithIntergrals.toFixed(scale))).toFixed(scale)
+        priceWithBenefit - parseFloat(
+          Math.abs(priceWithBenefit - parseFloat(priceWithBenefit.toFixed(scale))).toFixed(scale)
         )).toFixed(scale)
       ),
     };
@@ -264,29 +268,29 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
     if (scale === 2) {
       return {
         smallChange:0,
-        priceWithClearSmallChange:priceWithIntergrals,
+        priceWithClearSmallChange:priceWithBenefit,
       };
     } else if (scale === 1) {
-      return priceWithIntergrals.toString().indexOf('.') !== -1 ?
+      return priceWithBenefit.toString().indexOf('.') !== -1 ?
       {
-        smallChange:priceWithIntergrals.toString().split('.')[1].length === 1 ?
+        smallChange:priceWithBenefit.toString().split('.')[1].length === 1 ?
         0
         :
-        parseFloat((priceWithIntergrals - Math.floor(priceWithIntergrals * 10 + 1) / 10).toFixed(2)),
-        priceWithClearSmallChange:priceWithIntergrals.toString().split('.')[1].length === 1 ?
-        priceWithIntergrals
+        parseFloat((priceWithBenefit - Math.floor(priceWithBenefit * 10 + 1) / 10).toFixed(2)),
+        priceWithClearSmallChange:priceWithBenefit.toString().split('.')[1].length === 1 ?
+        priceWithBenefit
         :
-        parseFloat((Math.floor(priceWithIntergrals * 10 + 1) / 10).toFixed(2)),
+        parseFloat((Math.floor(priceWithBenefit * 10 + 1) / 10).toFixed(2)),
       }
         :
       {
         smallChange:0,
-        priceWithClearSmallChange:priceWithIntergrals,
+        priceWithClearSmallChange:priceWithBenefit,
       };
     } else if (scale === 0) {
       return {
-        smallChange:parseFloat((priceWithIntergrals - Math.ceil(priceWithIntergrals)).toFixed(2)),
-        priceWithClearSmallChange:Math.ceil(priceWithIntergrals),
+        smallChange:parseFloat((priceWithBenefit - Math.ceil(priceWithBenefit)).toFixed(2)),
+        priceWithClearSmallChange:Math.ceil(priceWithBenefit),
       };
     }
   } else if (transferType === 3) {
@@ -294,29 +298,29 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
     if (scale === 2) {
       return {
         smallChange:0,
-        priceWithClearSmallChange:priceWithIntergrals,
+        priceWithClearSmallChange:priceWithBenefit,
       };
     } else if (scale === 1) {
-      return priceWithIntergrals.toString().indexOf('.') !== -1 ?
+      return priceWithBenefit.toString().indexOf('.') !== -1 ?
       {
-        smallChange:priceWithIntergrals.toString().split('.')[1].length === 1 ?
+        smallChange:priceWithBenefit.toString().split('.')[1].length === 1 ?
         0
         :
-        parseFloat((priceWithIntergrals - Math.floor(priceWithIntergrals * 10) / 10).toFixed(2)),
-        priceWithClearSmallChange:priceWithIntergrals.toString().split('.')[1].length === 1 ?
-        priceWithIntergrals
+        parseFloat((priceWithBenefit - Math.floor(priceWithBenefit * 10) / 10).toFixed(2)),
+        priceWithClearSmallChange:priceWithBenefit.toString().split('.')[1].length === 1 ?
+        priceWithBenefit
         :
-        parseFloat((Math.floor(priceWithIntergrals * 10) / 10).toFixed(2)),
+        parseFloat((Math.floor(priceWithBenefit * 10) / 10).toFixed(2)),
       }
         :
       {
         smallChange:0,
-        priceWithClearSmallChange:priceWithIntergrals,
+        priceWithClearSmallChange:priceWithBenefit,
       };
     } else if (scale === 0) {
       return {
-        smallChange:parseFloat((priceWithIntergrals - Math.floor(priceWithIntergrals)).toFixed(2)),
-        priceWithClearSmallChange:Math.floor(priceWithIntergrals),
+        smallChange:parseFloat((priceWithBenefit - Math.floor(priceWithBenefit)).toFixed(2)),
+        priceWithClearSmallChange:Math.floor(priceWithBenefit),
       };
     }
   }
