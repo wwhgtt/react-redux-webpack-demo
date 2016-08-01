@@ -356,6 +356,10 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   if (!name) {
     return { success:false, msg:'未填写姓名' };
   }
+  let sex = state.customerProps.sex;
+  if (!sex) {
+    sex = -1;
+  }
   const payMethodScope = state.serviceProps.payMethods.filter(payMethod => payMethod.isChecked)[0].name === '在线支付' ? '1' : '0';
   const dishesPrice = getDishesPrice(state.orderedDishesProps.dishes);
   const integral = state.serviceProps.integralsInfo.isChecked ? countIntegralsToCash(
@@ -404,7 +408,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
     params = '?name=' + state.customerProps.name
         + '&Invoice=' + receipt + '&memo=' + note
         + '&mobile=' + state.customerProps.mobile
-        + '&sex=' + state.customerProps.sex
+        + '&sex=' + sex
         + '&payMethod=' + payMethodScope
         + '&coupId=' + coupId
         + '&integral=' + Number(integral)
@@ -422,7 +426,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
     params = '?name=' + state.customerProps.name
         + '&Invoice=' + receipt + '&memo=' + note
         + '&mobile=' + state.customerProps.mobile
-        + '&sex=' + state.customerProps.sex
+        + '&sex=' + sex
         + '&payMethod=' + payMethodScope
         + '&coupId=' + coupId
         + '&integral=' + Number(integral)
