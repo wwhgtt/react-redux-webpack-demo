@@ -102,6 +102,16 @@ module.exports = React.createClass({
                   :
                   false
                 }
+                {serviceProps.discountProps.inUseDiscount ?
+                  <p className="order-summary-entry clearfix">
+                    <span className="order-title">会员价优惠:</span>
+                    <span className="order-discount discount">
+                      {serviceProps.discountProps.inUseDiscount}
+                    </span>
+                  </p>
+                  :
+                  false
+                }
                 {serviceProps.integralsInfo && serviceProps.integralsInfo.isChecked && commercialProps.carryRuleVO ?
                   <p className="order-summary-entry clearfix">
                     <span className="order-title">积分抵扣:</span>
