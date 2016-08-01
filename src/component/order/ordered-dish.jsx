@@ -58,7 +58,12 @@ module.exports = React.createClass({
           <div key={childDish.id} className="child-dish-info">
             <div className="child-dish-head">
               <span className="child-dish-name ellipsis">{childDish.name}</span>
-              <span className="child-dish-price badge-price">{helper.getDishPrice(childDish)}元</span>
+              {
+                childDish.marketPrice !== 0 ?
+                  <span className="child-dish-price badge-price">
+                    {childDish.marketPrice > 0 ? '+' : ''}{childDish.marketPrice}元
+                  </span> : false
+              }
               {childDish.isReplace ? <span className="badge-bi"></span> : false}
               <span className="child-dish-count">{helper.getDishesCount([childDish])}</span>
               {helper.isSingleDishWithoutProps(childDish) ? false : this.buildDetailInfoForSingleDish(childDish)}
