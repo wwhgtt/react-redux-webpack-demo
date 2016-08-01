@@ -289,14 +289,11 @@ exports.setDishCookie = (dishesData, orderedData) => {
 };
 exports.deleteOldDishCookie = function () {
   const oldCookieCollection = document.cookie.match(/(WM|TS).+?((?=;)|$)/g);
-  console.log(oldCookieCollection);
   if (oldCookieCollection && oldCookieCollection.length) {
     oldCookieCollection.forEach(cookie => {
       let date = new Date();
-      console.log(123);
       date.setTime(date.getTime() - 10000);
       document.cookie = cookie + '=a; expires=' + date.toGMTString() + '; path=/';
     });
-    console.log(document.cookie);
   }
 };
