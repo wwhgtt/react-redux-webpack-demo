@@ -5,7 +5,7 @@ module.exports = React.createClass({
   propTypes: {
     instructions:React.PropTypes.string.isRequired,
     coupRuleBeanList:React.PropTypes.array.isRequired,
-    ruleDesc:React.PropTypes.string.isRequired,
+    fullValue:React.PropTypes.string.isRequired,
     couponType:React.PropTypes.number.isRequired,
     validStartDate:React.PropTypes.any.isRequired,
     validEndDate:React.PropTypes.any.isRequired,
@@ -63,7 +63,7 @@ module.exports = React.createClass({
     return giftElement;
   },
   render() {
-    const { instructions, coupRuleBeanList, ruleDesc, couponType, validStartDate, codeNumber, validEndDate, isChecked, ...otherProps } = this.props;
+    const { instructions, coupRuleBeanList, fullValue, couponType, validStartDate, codeNumber, validEndDate, isChecked, ...otherProps } = this.props;
     const { isInstructionsOpen } = this.state;
     return (
       <div
@@ -77,7 +77,7 @@ module.exports = React.createClass({
               :
               <div className="coupon-rate">{coupRuleBeanList[0].ruleValue}</div>
             }
-            <p className="coupon-text--grey">{ruleDesc}</p>
+            <p className="coupon-text--grey">消费满{fullValue}可用</p>
           </div>
           <div className="coupon-card-right flex-rest">
             <h3 className="coupon-title">
