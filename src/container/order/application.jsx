@@ -356,7 +356,6 @@ const OrderApplication = React.createClass({
           : false
         }
 
-        <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
           {childView === 'table-select' ?
             <TableSelect
               areas={tableProps.areas} tables={tableProps.tables}
@@ -373,7 +372,6 @@ const OrderApplication = React.createClass({
             />
             : false
           }
-        </ReactCSSTransitionGroup>
         {errorMessage ?
           <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
           :
