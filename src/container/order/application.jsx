@@ -262,14 +262,14 @@ const OrderApplication = React.createClass({
 
         <div className="options-group">
           {type === 'WM' && timeProps.timeTable !== {} && timeProps.timeTable !== undefined ?
-            <button className="order-prop-option" onTouchTap={evt => setChildView('#time-select')} >
+            <div className="order-prop-option">
               <span className="options-title">{isSelfFetch ? '取餐时间' : '送达时间'}</span>
-              <span className="option-btn btn-arrow-right">
+              <button className="option-btn btn-arrow-right" onTouchTap={evt => setChildView('#time-select')}>
                 {`${timeProps.selectedDateTime.date} ${timeProps.selectedDateTime.time || '立即'}`}
                 {`${timeProps.selectedDateTime.time ? ' ' : ''}`}
                 {isSelfFetch ? '取餐' : '送达'}
-              </span>
-            </button>
+              </button>
+            </div>
             :
             false
           }
