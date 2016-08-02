@@ -29,7 +29,11 @@ module.exports = React.createClass({
         <li
           key={id} data-idx={idx}
           className={classnames('group', { 'is-active':activeGroupIdx === idx, 'is-error':isError })}
-          style={{ flex: `1 0 ${1 / groups.length * 100}%` }}
+          style={{
+            '-webkit-flex': `1 0 ${1 / groups.length * 100}%`,
+            '-ms-flex': `1 0 ${1 / groups.length * 100}%`,
+            flex: `1 0 ${1 / groups.length * 100}%`,
+          }}
           onTouchTap={onGroupTap}
         >
           <div className="group-text">

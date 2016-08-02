@@ -47,9 +47,15 @@
 
 // select columns' width
 .flex-area-select {
+  -webkit-box-flex: 4;
+  -webkit-flex: 4;
+  -ms-flex: 4;
   flex: 4;
 }
 
 .flex-table-select {
+  -webkit-box-flex: 6;
+  -webkit-flex: 6;
+  -ms-flex: 6;
   flex: 6;
 }

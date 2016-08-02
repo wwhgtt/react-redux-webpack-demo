@@ -49,6 +49,9 @@
     &-left {
       padding: 15px 15px 10px 20px;
       border-right: 1px dotted $color-mercury;
+      -webkit-box-flex: 0 0 110px;
+      -webkit-flex: 0 0 110px;
+      -ms-flex: 0 0 110px;
       flex: 0 0 110px;
     }
 
@@ -202,6 +205,9 @@
   height: 0;
   border-right: 40px solid $color-crusta;
   border-bottom: 30px solid transparent;
+  -webkit-box-flex: none;
+  -webkit-flex: none;
+  -ms-flex: none;
   flex: none;
 
   &::after {
