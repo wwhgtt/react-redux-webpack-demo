@@ -94,7 +94,9 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
     }).
     then(discount => {
       if (discount.code.toString() !== '200') {
-        dispatch(setErrorMsg(discount.msg));
+        if (discount.msg !== '未登录') {
+          dispatch(setErrorMsg(discount.msg));
+        }
       }
       dispatch(setDiscountToOrder(discount.data));
     }).
