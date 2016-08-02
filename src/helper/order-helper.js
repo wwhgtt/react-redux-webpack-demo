@@ -400,6 +400,10 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
     } else {
       return { success:false, msg:'请选择送餐地址' };
     }
+
+    if (!state.timeProps.selectedDateTime.date) {
+      return { success:false, msg: `请选择${sendAreaId === 0 ? '取餐' : '送达'}时间` };
+    }
     const selectedAddressId = state.customerProps.addresses instanceof Array && state.customerProps.addresses.length ?
           state.customerProps.addresses.filter(address => address.isChecked)[0].id
           :
@@ -441,14 +445,23 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   return { success:true, params };
 };
 
-exports.initializeTimeTable = times => {
+exports.initializeTimeTable = (times, averageSendTime) => {
   if (!times || typeof times !== 'object') {
     return times;
   }
 
-  const todayTime = times[new Date().toISOString().substr(0, 10)];
-  if (todayTime && todayTime.length) {
-    todayTime.unshift(0);
+  const now = new Date();
+  const todayTimes = times[now.toISOString().substr(0, 10)];
+  if (!todayTimes || todayTimes.length < 2) {
+    return times;
+  }
+
+  const getTimeSeconds = (hour, second) => parseInt(hour, 10) * 60 + parseInt(second, 10);
+  const start = getTimeSeconds.apply(null, todayTimes[0].split(':'));
+  const end = getTimeSeconds.apply(null, todayTimes[todayTimes.length - 1].split(':'));
+  const allTimeSeconds = getTimeSeconds.apply(null, [now.getHours(), now.getSeconds()]) + (averageSendTime || 0);
+  if (allTimeSeconds >= start && allTimeSeconds <= end) {
+    todayTimes.unshift(0);
   }
   return times;
 };
@@ -472,4 +485,31 @@ exports.getMoreDishesUrl = function () {
       :
       config.getMoreWMDishesURL + '?type=WM&shopId=' + shopId;
   return !tableId ? initializeUrl : initializeUrl + '&tableId=' + tableId;
+};
+
+exports.getDefaultSelectedDateTime = (timeTable) => {
+  const selectedDateTime = { date: '', time: '' };
+  if (!timeTable) {
+    return selectedDateTime;
+  }
+
+  const todayStr = new Date().toISOString().substr(0, 10);
+  let defaultDate = '';
+  for (const key in timeTable) {
+    if (!timeTable.hasOwnProperty(key)) {
+      continue;
+    }
+
+    const firstValue = timeTable[key] && timeTable[key][0];
+    if (!defaultDate) {
+      selectedDateTime.date = defaultDate = key;
+      selectedDateTime.time = firstValue;
+    }
+    if (todayStr === key) {
+      selectedDateTime.date = key;
+      selectedDateTime.time = firstValue;
+      break;
+    }
+  }
+  return selectedDateTime;
 };

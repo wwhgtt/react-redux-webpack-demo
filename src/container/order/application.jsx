@@ -180,6 +180,21 @@ const OrderApplication = React.createClass({
       );
     };
     const isSelfFetch = serviceProps.sendAreaId === 0;
+
+    const getFetchTimeTitle = () => {
+      const selectedDateTime = timeProps.selectedDateTime || {};
+      const postfix = isSelfFetch ? '取餐' : '送达';
+      const todayStr = new Date().toISOString().substr(0, 10);
+      const dateStr = selectedDateTime.date;
+      const timeStr = selectedDateTime.time;
+      if (!dateStr) {
+        return `选择${postfix}时间`;
+      }
+      if (dateStr === todayStr) {
+        return timeStr ? `今日 ${timeStr} ${postfix}` : `立即${postfix}`;
+      }
+      return `${dateStr} ${timeStr} ${postfix}`;
+    };
     return (
       <div className="application">
         {type === 'WM' ?
@@ -265,9 +280,7 @@ const OrderApplication = React.createClass({
             <div className="order-prop-option">
               <span className="options-title">{isSelfFetch ? '取餐时间' : '送达时间'}</span>
               <button className="option-btn btn-arrow-right" onTouchTap={evt => setChildView('#time-select')}>
-                {`${timeProps.selectedDateTime.date} ${timeProps.selectedDateTime.time || '立即'}`}
-                {`${timeProps.selectedDateTime.time ? ' ' : ''}`}
-                {isSelfFetch ? '取餐' : '送达'}
+                {getFetchTimeTitle()}
               </button>
             </div>
             :
