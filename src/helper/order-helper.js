@@ -47,7 +47,7 @@ exports.getSelectedTable = function (tableProps) {
   };
 };
 exports.initializeAreaAdnTableProps = function (areaList, tableList) {
-  if (!areaList || !tableList) {
+  if (!areaList || !tableList || !areaList.length || !tableList.length) {
     return {
       areaList:null,
       tableList:null,
