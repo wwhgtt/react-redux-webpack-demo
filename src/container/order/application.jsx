@@ -127,11 +127,14 @@ const OrderApplication = React.createClass({
         </a>
       );
     }
-    return (
+    return tableProps.isEditable ?
       <div className="order-prop-option">
         <span className="options-title text-froly">该桌台已被占用</span>
       </div>
-    );
+      :
+      <div className="order-prop-option">
+        <span className="options-title text-froly">没有可用桌台</span>
+      </div>;
   },
   submitOrder() {
     const { submitOrder } = this.props;

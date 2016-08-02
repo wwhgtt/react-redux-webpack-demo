@@ -77,10 +77,13 @@ exports.initializeAreaAdnTableProps = function (areaList, tableList) {
       isEditable:false,
     };
   }
+  // url中有传tableID且能找到的情况下  返回找到的tableID   如果没有找到的情况下返回的是
+  // 空的areaList和tableList 这种情况会与后台没有返回数据的情况重合 前端无法判断  所以
+  // 将这种情况下的isEditable设置为true  作为区分
   return {
     areaList:null,
     tableList:null,
-    isEditable:false,
+    isEditable:true,
   };
 };
 // 计算配送费
