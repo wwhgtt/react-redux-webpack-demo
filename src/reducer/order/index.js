@@ -62,7 +62,7 @@ module.exports = function (
                   )
                   .setIn(['timeProps', 'timeTable'],
                     Immutable.from(
-                      helper.initializeTimeTable(payload.timeJson, payload.averageSendTime)
+                      helper.initializeTimeTable(payload.timeJson)
                     )
                   )
                   .setIn(['timeProps', 'selectedDateTime'],

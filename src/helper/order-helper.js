@@ -391,6 +391,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   let params;
   if (type === 'WM') {
     const sendAreaId = state.serviceProps.sendAreaId;
+    const selectedDateTime = state.timeProps.selectedDateTime;
     let selectedAddress = '';
     if (sendAreaId === 0) {
       // 表示到店取餐
@@ -401,7 +402,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
       return { success:false, msg:'请选择送餐地址' };
     }
 
-    if (!state.timeProps.selectedDateTime.date) {
+    if (!selectedDateTime.date) {
       return { success:false, msg: `请选择${sendAreaId === 0 ? '取餐' : '送达'}时间` };
     }
     const selectedAddressId = state.customerProps.addresses instanceof Array && state.customerProps.addresses.length ?
@@ -421,11 +422,13 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
         + '&peopleCount=' + state.customerProps.customerCount
         + '&shopId=' + getUrlParam('shopId')
         + '&needPayPrice=' + needPayPrice
-        + '&time=' + state.timeProps.selectedDateTime.date + '%20' + (state.timeProps.selectedDateTime.time || '')
         + '&address=' + selectedAddress
         + '&memberAddressId=' + selectedAddressId
         + '&sendAreaId=' + sendAreaId
         + '&toShopFlag=' + toShopFlag;
+    if (selectedDateTime.time) {
+      params += `&time=${selectedDateTime.date}%20${selectedDateTime.time}`;
+    }
   } else {
     params = '?name=' + state.customerProps.name
         + '&Invoice=' + receipt + '&memo=' + note
@@ -445,23 +448,19 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   return { success:true, params };
 };
 
-exports.initializeTimeTable = (times, averageSendTime) => {
+exports.initializeTimeTable = (times) => {
   if (!times || typeof times !== 'object') {
     return times;
   }
 
   const now = new Date();
   const todayTimes = times[now.toISOString().substr(0, 10)];
-  if (!todayTimes || todayTimes.length < 2) {
+  if (!todayTimes || !todayTimes.length) {
     return times;
   }
-
-  const getTimeSeconds = (hour, second) => parseInt(hour, 10) * 60 + parseInt(second, 10);
-  const start = getTimeSeconds.apply(null, todayTimes[0].split(':'));
-  const end = getTimeSeconds.apply(null, todayTimes[todayTimes.length - 1].split(':'));
-  const allTimeSeconds = getTimeSeconds.apply(null, [now.getHours(), now.getSeconds()]) + (averageSendTime || 0);
-  if (allTimeSeconds >= start && allTimeSeconds <= end) {
-    todayTimes.unshift(0);
+  const firstItem = todayTimes[0];
+  if (['立即取餐', '立即送餐'].indexOf(firstItem) !== -1) {
+    todayTimes[0] = 0;
   }
   return times;
 };
@@ -501,14 +500,13 @@ exports.getDefaultSelectedDateTime = (timeTable) => {
     }
 
     const firstValue = timeTable[key] && timeTable[key][0];
-    if (!defaultDate) {
+    const isToday = todayStr === key;
+    if (!defaultDate || isToday) {
       selectedDateTime.date = defaultDate = key;
       selectedDateTime.time = firstValue;
-    }
-    if (todayStr === key) {
-      selectedDateTime.date = key;
-      selectedDateTime.time = firstValue;
-      break;
+      if (isToday) {
+        break;
+      }
     }
   }
   return selectedDateTime;
