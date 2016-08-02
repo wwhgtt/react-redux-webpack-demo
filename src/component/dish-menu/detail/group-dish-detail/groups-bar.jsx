@@ -30,8 +30,8 @@ module.exports = React.createClass({
           key={id} data-idx={idx}
           className={classnames('group', { 'is-active':activeGroupIdx === idx, 'is-error':isError })}
           style={{
-            '-webkit-flex': `1 0 ${1 / groups.length * 100}%`,
-            '-ms-flex': `1 0 ${1 / groups.length * 100}%`,
+            WebkitFlex: `1 0 ${1 / groups.length * 100}%`,
+            msFlex: `1 0 ${1 / groups.length * 100}%`,
             flex: `1 0 ${1 / groups.length * 100}%`,
           }}
           onTouchTap={onGroupTap}
