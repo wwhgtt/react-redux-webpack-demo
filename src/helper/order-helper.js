@@ -513,12 +513,6 @@ exports.getDefaultSelectedDateTime = (timeTable) => {
   }
   return selectedDateTime;
 };
-exports.getCoustomerPropsLocalStorage = function () {
-  JSON.parse(localStorage.getItem('coustomerProps'));
-};
-exports.setCoustomerPropsLocalStorage = function (coustomerProps) {
-  localStorage.setItem('coustomerProps', coustomerProps);
-};
 exports.isEmptyObject = (obj) => {
   for (let n in obj) { console.log(n); return false; }
   return true;
