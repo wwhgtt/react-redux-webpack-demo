@@ -153,7 +153,7 @@ exports.clearErrorMsg = () => (dispatch, getState) =>
   dispatch(setErrorMsg(null));
 
 exports.setSessionAndForwardChaining = (id) => (dispatch, getState) => {
-  sessionStorage.setItem('rurl_address', location.href);
+  sessionStorage.setItem('rurl_address', JSON.stringify(location.href));
   if (typeof id !== 'string') {
     location.href = `${config.editUserAddressURL}?shopId=${getUrlParam('shopId')}`;
   } else {

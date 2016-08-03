@@ -476,7 +476,7 @@ exports.setCallbackUrl = function (id) {
     encodeURIComponent(
       'http://' + location.host + '/order/takeOutDetail?shopId=' + getUrlParam('shopId') + '&orderId=' + id
     );
-  sessionStorage.setItem('rurl_payDetaill', callbackUrlWithEncode);
+  sessionStorage.setItem('rurl_payDetaill', JSON.stringify(callbackUrlWithEncode));
 };
 exports.getMoreDishesUrl = function () {
   const type = getUrlParam('type');
