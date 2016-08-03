@@ -429,7 +429,9 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
         + '&sendAreaId=' + sendAreaId
         + '&toShopFlag=' + toShopFlag;
     if (selectedDateTime.time) {
-      params += `&time=${selectedDateTime.date}%20${selectedDateTime.time}`;
+      if (selectedDateTime.time !== '立即取餐' && selectedDateTime.time !== '立即送餐') {
+        params += `&time=${selectedDateTime.date}%20${selectedDateTime.time}`;
+      }
     }
   } else {
     params = '?name=' + state.customerProps.name
