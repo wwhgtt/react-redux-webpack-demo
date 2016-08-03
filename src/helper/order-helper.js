@@ -422,7 +422,6 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
         + '&integral=' + Number(integral)
         + '&useDiscount=' + useDiscount
         + '&orderType=WM'
-        + '&peopleCount=' + state.customerProps.customerCount
         + '&shopId=' + getUrlParam('shopId')
         + '&needPayPrice=' + needPayPrice
         + '&address=' + selectedAddress
