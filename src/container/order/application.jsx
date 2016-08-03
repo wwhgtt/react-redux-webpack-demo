@@ -200,6 +200,24 @@ const OrderApplication = React.createClass({
       }
       return `${dateStr} ${timeStr} ${postfix}`;
     };
+    const buildSelectTimeElemnet = function () {
+      if (getUrlParam('type') === 'TS') {
+        return false;
+      }
+      if (getUrlParam('type') === 'WM' && !helper.isEmptyObject(timeProps.timeTable) && timeProps.timeTable !== undefined) {
+        return (
+          <div className="order-prop-option">
+            <span className="options-title">{isSelfFetch ? '取餐时间' : '送达时间'}</span>
+            <button className="option-btn btn-arrow-right" onTouchTap={evt => setChildView('#time-select')}>
+              {getFetchTimeTitle()}
+            </button>
+          </div>
+        );
+      }
+      return (
+        <div className="order-prop-option">没有可用{isSelfFetch ? '取餐时间' : '送达时间'}</div>
+      );
+    };
     return (
       <div className="application">
         {type === 'WM' ?
@@ -281,16 +299,7 @@ const OrderApplication = React.createClass({
         </div>
 
         <div className="options-group">
-          {type === 'WM' && !helper.isEmptyObject(timeProps.timeTable) && timeProps.timeTable !== undefined ?
-            <div className="order-prop-option">
-              <span className="options-title">{isSelfFetch ? '取餐时间' : '送达时间'}</span>
-              <button className="option-btn btn-arrow-right" onTouchTap={evt => setChildView('#time-select')}>
-                {getFetchTimeTitle()}
-              </button>
-            </div>
-            :
-            <div className="order-prop-option">没有可用{isSelfFetch ? '取餐时间' : '送达时间'}</div>
-          }
+          {buildSelectTimeElemnet()}
           <label className="order-prop-option">
             <span className="option-title">备注: </span>
             <input className="option-input" name="note" placeholder="输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />
