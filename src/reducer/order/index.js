@@ -65,6 +65,11 @@ module.exports = function (
                       helper.initializeTimeTable(payload.timeJson)
                     )
                   )
+                  .setIn(['timeProps', 'selectedDateTime'],
+                    Immutable.from(
+                      helper.getDefaultSelectedDateTime(payload.timeJson)
+                    )
+                  )
                   .set(
                     'customerProps',
                     Immutable.from({
