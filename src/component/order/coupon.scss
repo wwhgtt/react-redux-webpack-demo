@@ -99,12 +99,11 @@
       height: 13px;
       margin-left: 5px;
       content: '';
+      transform: rotate(180deg);
       background-image: url('../../asset/images/arrow-top-grey.png'); // image size 20 * 12px
       background-repeat: no-repeat;
       background-position: center center;
       background-size: 10px 6px;
-      -webkit-transform: -webkit-rotate(180deg);
-      transform: rotate(180deg);
     }
   }
 

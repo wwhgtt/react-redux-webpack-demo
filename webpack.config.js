@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 
 module.exports = {
   entry: {
@@ -33,9 +34,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: ['style', 'css?sourceMap',
-          'sass?&sourceMap&includePaths[]=./node_modules/compass-mixins/lib&includePaths[]=./src/asset/style',
-        ],
+        loaders: ['style', 'css?sourceMap', 'postcss', 'sass?&sourceMap&includePaths[]=./src/asset/style'],
       },
       {
         test: /\.png$/,
@@ -46,6 +45,9 @@ module.exports = {
         loaders: ['json'],
       },
     ],
+  },
+  postcss() {
+    return [autoprefixer({ browsers: ['last 5 versions'] })];
   },
   plugins: [
     // new webpack.HotModuleReplacementPlugin(),
