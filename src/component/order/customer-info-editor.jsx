@@ -19,6 +19,9 @@ module.exports = React.createClass({
   componentDidMount() {
 
   },
+  componentWillReceiveProps(newProps) {
+    this.setState(newProps);
+  },
   onCountChange(newCount, increment) {
     const { customerProps } = this.state;
     this.setState({
