@@ -281,7 +281,7 @@ const OrderApplication = React.createClass({
         </div>
 
         <div className="options-group">
-          {type === 'WM' && timeProps.timeTable !== {} && timeProps.timeTable !== undefined ?
+          {type === 'WM' && !helper.isEmptyObject(timeProps.timeTable) && timeProps.timeTable !== undefined ?
             <div className="order-prop-option">
               <span className="options-title">{isSelfFetch ? '取餐时间' : '送达时间'}</span>
               <button className="option-btn btn-arrow-right" onTouchTap={evt => setChildView('#time-select')}>
@@ -289,7 +289,7 @@ const OrderApplication = React.createClass({
               </button>
             </div>
             :
-            false
+            <div className="order-prop-option">没有可用{isSelfFetch ? '取餐时间' : '送达时间'}</div>
           }
           <label className="order-prop-option">
             <span className="option-title">备注: </span>

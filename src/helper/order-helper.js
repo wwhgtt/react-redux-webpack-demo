@@ -513,3 +513,7 @@ exports.getDefaultSelectedDateTime = (timeTable) => {
   }
   return selectedDateTime;
 };
+exports.isEmptyObject = (obj) => {
+  for (let n in obj) { console.log(n); return false; }
+  return true;
+};
