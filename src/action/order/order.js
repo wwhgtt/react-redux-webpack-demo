@@ -123,7 +123,7 @@ exports.submitOrder = (note, receipt) => (dispatch, getState) => {
         const isOnlinePay = state.serviceProps.payMethods.some(payMethod => payMethod.id === 'online-payment' && payMethod.isChecked);
         const paramStr = `shopId=${shopId}&orderId=${result.data.orderId}`;
         let jumpToUrl = '';
-        if (isOnlinePay) {
+        if (isOnlinePay && paramsData.params.needPayPrice !== 0) {
           jumpToUrl = `/shop/payDetail?${paramStr}&orderType=${type}`;
         } else {
           jumpToUrl = type === 'WM' ? '/order/takeOutDetail?' : '/order/orderallDetail?';
