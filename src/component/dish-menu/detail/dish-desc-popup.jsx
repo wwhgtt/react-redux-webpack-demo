@@ -38,7 +38,7 @@ module.exports = React.createClass({
                 <span className="dish-desc-price-title">会员价:</span>
                 <span className="dish-desc-price--bold price">{memberPrice}</span>
               </p>
-              : <p className="clearfix"><span className="dish-desc-price--bold price">{dish.marketPrice}</span></p>
+              : <p className="clearfix"><span className="dish-desc-price--bold price">{dish.marketPrice.toFixed(2)}</span></p>
             }
             <h3 className="dish-desc-subtitle">美食简介</h3>
             <p className="dish-desc-desc">{dish.dishDesc}</p>
