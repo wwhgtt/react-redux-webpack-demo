@@ -456,7 +456,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
         + '&shopId=' + getUrlParam('shopId')
         + '&needPayPrice=' + needPayPrice;
   }
-  return { success:true, params };
+  return { success:true, params, needPayPrice };
 };
 
 exports.initializeTimeTable = (times) => {
