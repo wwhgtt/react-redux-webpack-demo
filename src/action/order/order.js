@@ -105,7 +105,6 @@ exports.submitOrder = (note, receipt) => (dispatch, getState) => {
   const submitUrl = type === 'WM' ? config.submitWMOrderAPI : config.submitTSOrderAPI;
   const state = getState();
   const paramsData = helper.getSubmitUrlParams(state, note, receipt);
-  console.log(paramsData);
   if (!paramsData.success) {
     dispatch(setErrorMsg(paramsData.msg));
     return false;
