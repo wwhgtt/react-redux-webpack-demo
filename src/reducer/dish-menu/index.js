@@ -90,13 +90,13 @@ module.exports = function (
       return state.update(
           'dishesData', dishesData => dishesData.flatMap(
             dishData => dishData.set(
-                'isMember', payload.dishList && payload.dishList.length && _findIndex(payload.dishList, { dishId:dishData.id }) !== -1
+                'isMember', payload && payload.dishList && payload.dishList.length && _findIndex(payload.dishList, { dishId:dishData.id }) !== -1
               ).set(
-                'memberPrice', payload.dishList && payload.dishList.length && _findIndex(payload.dishList, { dishId:dishData.id }) !== -1 ?
+                'memberPrice', payload && payload.dishList && payload.dishList.length && _findIndex(payload.dishList, { dishId:dishData.id }) !== -1 ?
                   payload.dishList[_findIndex(payload.dishList, { dishId:dishData.id })].value
                   :
                   false
-              ).set('discountType', payload.type)
+              ).set('discountType', payload && payload.type ? payload.type : false)
           )
       );
     case 'SET_ERROR_MSG':
