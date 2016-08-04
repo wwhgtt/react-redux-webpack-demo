@@ -17,16 +17,24 @@ module.exports = function (
   let dishIdx;
   let orderIdx;
   let newState;
+
+  const getFirstValidDishTypeId = (_payload) => {
+    const dishTypeList = _payload.dishTypeList || [];
+    const dishList = _payload.dishList || [];
+    let i = 0;
+    while (i < dishTypeList.length) {
+      const isEmpty = dishList.filter(dish => dishTypeList[i].dishIds.indexOf(dish.id) > -1).every(dish => dish.currRemainTotal !== 0);
+      if (isEmpty) return dishTypeList[i].id;
+      i++;
+    }
+    return -1;
+  };
+
   switch (type) {
     case 'SET_MENU_DATA':
       return state.setIn(['dishTypesData'], payload.dishTypeList)
       .setIn(['dishesData'], payload.dishList)
-      .setIn(
-        ['activeDishTypeId'],
-        payload.dishTypeList && payload.dishTypeList.length ?
-        payload.dishTypeList[0].id
-        :
-        -1)
+      .setIn(['activeDishTypeId'], getFirstValidDishTypeId(payload))
       .set('dishBoxChargeInfo', helper.getUrlParam('type') === 'WM' && payload.extraCharge ? payload.extraCharge : null)
       .setIn(['openTimeList'], payload.openTimeList)
       // equal to 0, means accepting takeaway 24 hours, 2016-07-30 16:46:31 后端调整为bool型
