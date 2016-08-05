@@ -21,6 +21,23 @@ module.exports = React.createClass({
   componentDidMount() {
 
   },
+  getCouponValue(couponType, coupRuleBeanList) {
+    if (coupRuleBeanList && coupRuleBeanList.length) {
+      let ruleValue = '';
+      coupRuleBeanList.map(coupon => {
+        if (couponType === 1 && coupon.ruleName === 'offerValue') {
+          ruleValue = coupon.ruleValue;
+        } else if (couponType === 2 && coupon.ruleName === 'zkValue') {
+          ruleValue = coupon.ruleValue;
+        } else if (couponType === 4 && coupon.ruleName === 'faceValue') {
+          ruleValue = coupon.ruleValue;
+        }
+        return true;
+      });
+      return ruleValue;
+    }
+    return false;
+  },
   judgeCouponInfoByCouponType(couponType) {
     let identifyCouponInfo = { couponName:'', classNameForCoupon:'' };
     if (couponType === 1) {
@@ -62,6 +79,7 @@ module.exports = React.createClass({
     const giftElement = (<div className="coupon-rate" data-gift-amount={gift.number}>{gift.name}</div>);
     return giftElement;
   },
+
   render() {
     const { instructions, coupRuleBeanList, fullValue, couponType, validStartDate, codeNumber, validEndDate, isChecked, ...otherProps } = this.props;
     const { isInstructionsOpen } = this.state;
@@ -75,7 +93,7 @@ module.exports = React.createClass({
             {couponType === 3 ?
               this.composeGiftCouponProps(coupRuleBeanList)
               :
-              <div className="coupon-rate">{coupRuleBeanList[0].ruleValue}</div>
+              <div className="coupon-rate">{this.getCouponValue(couponType, coupRuleBeanList)}</div>
             }
             <p className="coupon-text--grey">消费满{fullValue}可用</p>
           </div>

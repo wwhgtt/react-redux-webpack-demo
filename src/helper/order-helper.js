@@ -206,17 +206,22 @@ const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, tota
   const totalPriceWithoutDeliveryRemission = totalPrice - Number(countDeliveryRemission(totalPrice, deliveryProps));
   if (coupon.couponType === 1) {
     // '满减券'
-    return coupon.coupRuleBeanList[0].ruleValue;
+    return coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'offerValue')[0].ruleValue;
   } else if (coupon.couponType === 2) {
     // '折扣券';
-    return parseFloat((totalPriceWithoutDeliveryRemission * (1 - Number(coupon.coupRuleBeanList[0].ruleValue) / 10)).toFixed(2));
+    return parseFloat(
+      (
+        totalPriceWithoutDeliveryRemission *
+        (1 - Number(coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'zkValue')[0].ruleValue) / 10)
+      ).toFixed(2)
+    );
   } else if (coupon.couponType === 3) {
     // '礼品券';
     return 0;
   } else if (coupon.couponType === 4) {
     // '现金券';
-    return coupon.coupRuleBeanList[0].ruleValue <= totalPriceWithoutDeliveryRemission ?
-      coupon.coupRuleBeanList[0].ruleValue : totalPriceWithoutDeliveryRemission;
+    return coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'faceValue').ruleValue <= totalPriceWithoutDeliveryRemission ?
+      coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'faceValue')[0].ruleValue : totalPriceWithoutDeliveryRemission;
   }
   return true;
 };
