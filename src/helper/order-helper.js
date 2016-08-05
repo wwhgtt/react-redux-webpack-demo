@@ -220,7 +220,8 @@ const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, tota
     return 0;
   } else if (coupon.couponType === 4) {
     // '现金券';
-    return coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'faceValue').ruleValue <= totalPriceWithoutDeliveryRemission ?
+    return coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'faceValue')[0].ruleValue
+      <= totalPriceWithoutDeliveryRemission ?
       coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'faceValue')[0].ruleValue : totalPriceWithoutDeliveryRemission;
   }
   return true;
