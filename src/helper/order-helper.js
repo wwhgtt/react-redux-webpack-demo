@@ -203,7 +203,7 @@ const countTotalPriceWithoutBenefit = exports.countTotalPriceWithoutBenefit = fu
 };
 // 计算优惠券多少价格
 const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, totalPrice, deliveryProps) {
-  const totalPriceWithoutDeliveryRemission = totalPrice - Number(countDeliveryRemission(totalPrice, deliveryProps));
+  const totalPriceWithoutDeliveryRemission = parseFloat((totalPrice - Number(countDeliveryRemission(totalPrice, deliveryProps))).toFixed(2));
   if (coupon.couponType === 1) {
     // '满减券'
     return coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'offerValue')[0].ruleValue;
