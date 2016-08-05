@@ -3,6 +3,78 @@ const getDishesPrice = require('../helper/dish-hepler.js').getDishesPrice;
 const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
 const getUrlParam = require('../helper/dish-hepler.js').getUrlParam;
 const config = require('../config.js');
+// 判断一个对象是否为空
+exports.isEmptyObject = (obj) => {
+  for (let n in obj) { console.log(n); return false; }
+  return true;
+};
+// 判断默认应该选中的配送时间
+exports.getDefaultSelectedDateTime = (timeTable) => {
+  const selectedDateTime = { date: '', time: '' };
+  if (!timeTable) {
+    return selectedDateTime;
+  }
+
+  const todayStr = new Date().toISOString().substr(0, 10);
+  let defaultDate = '';
+  for (const key in timeTable) {
+    if (!timeTable.hasOwnProperty(key)) {
+      continue;
+    }
+
+    const firstValue = timeTable[key] && timeTable[key][0];
+    const isToday = todayStr === key;
+    if (!defaultDate || isToday) {
+      selectedDateTime.date = defaultDate = key;
+      selectedDateTime.time = firstValue;
+      if (isToday) {
+        break;
+      }
+    }
+  }
+  return selectedDateTime;
+};
+// 获取加菜的URL
+exports.getMoreDishesUrl = function () {
+  const type = getUrlParam('type');
+  const shopId = getUrlParam('shopId');
+  const tableId = getUrlParam('tableId');
+  const initializeUrl = type === 'TS' ?
+      config.getMoreTSDishesURL + '?type=TS&shopId=' + shopId
+      :
+      config.getMoreWMDishesURL + '?type=WM&shopId=' + shopId;
+  return !tableId ? initializeUrl : initializeUrl + '&tableId=' + tableId;
+};
+// 下单成功以后为后台设置一个callbackUrl
+exports.setCallbackUrl = function (id) {
+  const callbackUrlWithEncode = getUrlParam('type') === 'TS' ?
+    encodeURIComponent(
+      'http://' + location.host + '/order/orderallDetail?shopId=' + getUrlParam('shopId') + '&orderId=' + id
+    )
+    :
+    encodeURIComponent(
+      'http://' + location.host + '/order/takeOutDetail?shopId=' + getUrlParam('shopId') + '&orderId=' + id
+    );
+  sessionStorage.setItem('rurl_payDetaill', JSON.stringify(callbackUrlWithEncode));
+};
+// 初始化时间选择器
+exports.initializeTimeTable = (times) => {
+  if (!times || typeof times !== 'object') {
+    return times;
+  }
+
+  const now = new Date();
+  const todayTimes = times[now.toISOString().substr(0, 10)];
+  if (!todayTimes || !todayTimes.length) {
+    return times;
+  }
+  const firstItem = todayTimes[0];
+  if (['立即取餐', '立即送餐'].indexOf(firstItem) !== -1) {
+    todayTimes[0] = 0;
+  }
+  return times;
+};
+// 判断支付方式是否可用
 exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDesk, sendAreaId, selfPayType, sendPayType) {
   if (diningForm === 0) {
     return payment === 'offline' ? 0 : -1;
@@ -12,6 +84,7 @@ exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDes
   }
   return isPickupFromFrontDesk ? selfPayType.indexOf(payment) : sendPayType.indexOf(payment);
 };
+// 判断支付方式是否应该checked
 exports.shouldPaymentAutoChecked = function (payment, diningForm, isPickupFromFrontDesk, sendAreaId, selfPayType, sendPayType) {
   if (diningForm === 0) {
     return payment === 'offline';
@@ -27,25 +100,21 @@ exports.shouldPaymentAutoChecked = function (payment, diningForm, isPickupFromFr
   }
   return sendPayType.indexOf(',') !== -1 ? payment === sendPayType.split(',')[0] : payment === sendPayType;
 };
+// 获取线下支付方式在不通场景中的名字
 exports.getOfflinePaymentName = function (sendAreaId) {
   if (getUrlParam('type') === 'TS') {
     return '线下支付';
   }
   return sendAreaId === 0 ? '线下支付' : '货到付款';
 };
-const getDishBoxPrice = exports.getDishBoxPrice = function () {
-  const dishBoxPrice = localStorage.getItem('dishBoxPrice');
-  if (!dishBoxPrice || dishBoxPrice === 0) {
-    return false;
-  }
-  return parseFloat(dishBoxPrice);
-};
+// 获取被选中的桌台信息
 exports.getSelectedTable = function (tableProps) {
   return {
     area:_find(tableProps.areas, { isChecked:true }),
     table: _find(tableProps.tables, { isChecked:true }),
   };
 };
+// 初始化桌台信息
 exports.initializeAreaAdnTableProps = function (areaList, tableList) {
   if (!areaList || !tableList || !areaList.length || !tableList.length) {
     return {
@@ -86,6 +155,14 @@ exports.initializeAreaAdnTableProps = function (areaList, tableList) {
     isEditable:true,
   };
 };
+// 从localStorage中获取餐盒费
+const getDishBoxPrice = exports.getDishBoxPrice = function () {
+  const dishBoxPrice = localStorage.getItem('dishBoxPrice');
+  if (!dishBoxPrice || dishBoxPrice === 0) {
+    return false;
+  }
+  return parseFloat(dishBoxPrice);
+};
 // 计算配送费
 const countDeliveryPrice = exports.countDeliveryPrice = function (deliveryProps) {
   if (getUrlParam('type') === 'TS') {
@@ -96,6 +173,7 @@ const countDeliveryPrice = exports.countDeliveryPrice = function (deliveryProps)
   }
   return deliveryProps.deliveryPrice;
 };
+// 计算减免的配送费
 const countDeliveryRemission = exports.countDeliveryRemission = function (dishesPrice, deliveryProps) {
   if (getUrlParam('type') === 'TS') {
     return false;
@@ -108,8 +186,14 @@ const countDeliveryRemission = exports.countDeliveryRemission = function (dishes
   }
   return false;
 };
+// 计算进入页面时的总价
+//  自动抹零现规则是在积分，优惠券，折扣换算完以后才执行
+//  计算优惠券信息是countPriceByCoupons 折扣信息为serviceProps.discountProps.inUseDiscount,已经计算好了的
+const countTotalPriceWithoutBenefit = exports.countTotalPriceWithoutBenefit = function (dishesPrice, deliveryProps) {
+  //  计算菜品初始价格加配送费和配送费优惠
+  return parseFloat((dishesPrice + getDishBoxPrice() + Number(countDeliveryPrice(deliveryProps))).toFixed(2));
+};
 // 计算会员价格 优惠了多少钱
-
 exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDishesProps) {
   if (isDiscountChecked) {
     return false;
@@ -148,6 +232,7 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDis
   }
   return disCountPriceList.reduce((p, c) => p + c, 0);
 };
+// 计算积分换算金额
 const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedCommutation, integralsInfo) {
   if (canBeUsedCommutation <= 0 || !integralsInfo) {
     return {
@@ -195,15 +280,8 @@ const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedC
   }
   return false;
 };
-//  自动抹零现规则是在积分，优惠券，折扣换算完以后才执行
-//  计算优惠券信息是countPriceByCoupons 折扣信息为serviceProps.discountProps.inUseDiscount,已经计算好了的
-const countTotalPriceWithoutBenefit = exports.countTotalPriceWithoutBenefit = function (dishesPrice, deliveryProps) {
-  //  计算菜品初始价格加配送费和配送费优惠
-  return parseFloat((dishesPrice + getDishBoxPrice() + Number(countDeliveryPrice(deliveryProps))).toFixed(2));
-};
 // 计算优惠券多少价格
-const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, totalPrice, deliveryProps) {
-  const totalPriceWithoutDeliveryRemission = parseFloat((totalPrice - Number(countDeliveryRemission(totalPrice, deliveryProps))).toFixed(2));
+const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, totalPrice) {
   if (coupon.couponType === 1) {
     // '满减券'
     return coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'offerValue')[0].ruleValue;
@@ -211,7 +289,7 @@ const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, tota
     // '折扣券';
     return parseFloat(
       (
-        totalPriceWithoutDeliveryRemission *
+        totalPrice *
         (1 - Number(coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'zkValue')[0].ruleValue) / 10)
       ).toFixed(2)
     );
@@ -221,43 +299,45 @@ const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, tota
   } else if (coupon.couponType === 4) {
     // '现金券';
     return coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'faceValue')[0].ruleValue
-      <= totalPriceWithoutDeliveryRemission ?
-      coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'faceValue')[0].ruleValue : totalPriceWithoutDeliveryRemission;
+      <= totalPrice ?
+      coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'faceValue')[0].ruleValue : totalPrice;
   }
   return true;
 };
-
+// 计算出优惠券和会员价后的价格
 const countPriceWithCouponAndDiscount = exports.countPriceWithCouponAndDiscount = function (dishesPrice, serviceProps) {
-  // 计算出优惠券和会员价后的价格
-  let totalPrice = countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps);
+	// 这里需要判断一下  如果此时有配送费 并且配送费时可以减去的  那么不应该把配送费算作计入优惠的总价
+  let totalPrice = '';
+  if (Number(countDeliveryPrice(serviceProps.deliveryProps)) === Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps))) {
+    totalPrice = countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
+    - Number(countDeliveryPrice(serviceProps.deliveryProps));
+  } else {
+    totalPrice = countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps);
+  }
   if (!serviceProps.couponsProps.inUseCoupon && !serviceProps.discountProps.inUseDiscount) {
     // 即没有使用任何优惠
     totalPrice = parseFloat(totalPrice.toFixed(2));
   } else if (serviceProps.couponsProps.inUseCoupon) {
     totalPrice = parseFloat(
-      (totalPrice - countPriceByCoupons(serviceProps.couponsProps.inUseCouponDetail, totalPrice, serviceProps.deliveryProps)
+      (totalPrice - countPriceByCoupons(serviceProps.couponsProps.inUseCouponDetail, totalPrice)
     ).toFixed(2));
   } else if (serviceProps.discountProps.inUseDiscount) {
     totalPrice = parseFloat((totalPrice - serviceProps.discountProps.inUseDiscount).toFixed(2));
   }
   return totalPrice;
 };
-
-
-// 处理优惠信息
+// 处理积分优惠后还有多少待支付
 const countPriceWithBenefit = exports.countPriceWithBenefit = function (dishesPrice, serviceProps) {
   const totalPrice = Number(countPriceWithCouponAndDiscount(dishesPrice, serviceProps));
   // 至此处理完了配送费和优惠券 还有折扣信息  需要考虑积分抵扣了
-  const IntergralsPrice = totalPrice - Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps));
   const priceWithIntergrals = serviceProps.integralsInfo.isChecked ?
-    totalPrice - countIntegralsToCash(IntergralsPrice, serviceProps.integralsInfo.integralsDetail).commutation
+    totalPrice - countIntegralsToCash(totalPrice, serviceProps.integralsInfo.integralsDetail).commutation
     :
     totalPrice;
   // 至此各种优惠信息已经处理完
   return parseFloat(priceWithIntergrals.toFixed(2));
 };
-
-
+// 计算自动进位规则
 const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishesPrice, serviceProps) {
   // serviceProps.integralsInfo.integralsDetail  前提条件
   const { transferType, scale } = carryRuleVO;
@@ -335,8 +415,6 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
   }
   return false;
 };
-
-
 // 计算优惠价格;
 const countDecreasePrice = exports.countDecreasePrice = function (orderedDishesProps, serviceProps, commercialProps) {
   const dishesPrice = getDishesPrice(orderedDishesProps.dishes);
@@ -344,11 +422,14 @@ const countDecreasePrice = exports.countDecreasePrice = function (orderedDishesP
   // smallChange>=0表示总数减少
   return clearSmallChangeProps.smallChange >= 0 ?
           parseFloat((countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
-          - clearSmallChangeProps.priceWithClearSmallChange + Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps))).toFixed(2))
+          - clearSmallChangeProps.priceWithClearSmallChange
+          + Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps))).toFixed(2))
           :
           parseFloat((countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
-          - countPriceWithBenefit(dishesPrice, serviceProps) + Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps))).toFixed(2));
+          - countPriceWithBenefit(dishesPrice, serviceProps)
+          + Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps))).toFixed(2));
 };
+// 计算最终该付多少钱
 exports.countFinalNeedPayMoney = function (orderedDishesProps, serviceProps, commercialProps) {
   const dishesPrice = getDishesPrice(orderedDishesProps.dishes);
   const clearSmallChangeProps = clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps);
@@ -359,7 +440,6 @@ exports.countFinalNeedPayMoney = function (orderedDishesProps, serviceProps, com
     :
     parseFloat((initializePayMement - parseFloat(clearSmallChangeProps.smallChange)).toFixed(2));
 };
-
 exports.getSubmitUrlParams = function (state, note, receipt) {
   const name = state.customerProps.name;
   if (!name) {
@@ -463,72 +543,4 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
         + '&needPayPrice=' + needPayPrice;
   }
   return { success:true, params, needPayPrice };
-};
-
-exports.initializeTimeTable = (times) => {
-  if (!times || typeof times !== 'object') {
-    return times;
-  }
-
-  const now = new Date();
-  const todayTimes = times[now.toISOString().substr(0, 10)];
-  if (!todayTimes || !todayTimes.length) {
-    return times;
-  }
-  const firstItem = todayTimes[0];
-  if (['立即取餐', '立即送餐'].indexOf(firstItem) !== -1) {
-    todayTimes[0] = 0;
-  }
-  return times;
-};
-exports.setCallbackUrl = function (id) {
-  const callbackUrlWithEncode = getUrlParam('type') === 'TS' ?
-    encodeURIComponent(
-      'http://' + location.host + '/order/orderallDetail?shopId=' + getUrlParam('shopId') + '&orderId=' + id
-    )
-    :
-    encodeURIComponent(
-      'http://' + location.host + '/order/takeOutDetail?shopId=' + getUrlParam('shopId') + '&orderId=' + id
-    );
-  sessionStorage.setItem('rurl_payDetaill', JSON.stringify(callbackUrlWithEncode));
-};
-exports.getMoreDishesUrl = function () {
-  const type = getUrlParam('type');
-  const shopId = getUrlParam('shopId');
-  const tableId = getUrlParam('tableId');
-  const initializeUrl = type === 'TS' ?
-      config.getMoreTSDishesURL + '?type=TS&shopId=' + shopId
-      :
-      config.getMoreWMDishesURL + '?type=WM&shopId=' + shopId;
-  return !tableId ? initializeUrl : initializeUrl + '&tableId=' + tableId;
-};
-
-exports.getDefaultSelectedDateTime = (timeTable) => {
-  const selectedDateTime = { date: '', time: '' };
-  if (!timeTable) {
-    return selectedDateTime;
-  }
-
-  const todayStr = new Date().toISOString().substr(0, 10);
-  let defaultDate = '';
-  for (const key in timeTable) {
-    if (!timeTable.hasOwnProperty(key)) {
-      continue;
-    }
-
-    const firstValue = timeTable[key] && timeTable[key][0];
-    const isToday = todayStr === key;
-    if (!defaultDate || isToday) {
-      selectedDateTime.date = defaultDate = key;
-      selectedDateTime.time = firstValue;
-      if (isToday) {
-        break;
-      }
-    }
-  }
-  return selectedDateTime;
-};
-exports.isEmptyObject = (obj) => {
-  for (let n in obj) { console.log(n); return false; }
-  return true;
 };
