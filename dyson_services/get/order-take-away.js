@@ -15,7 +15,7 @@ module.exports = {
       },
       'integral': {
 	// 客户积分账户积分数
-        'integral': 183,
+        'integral': 1803,
 	// 所在等级是否可抵现
         'isExchangeCash': 0,
 	// 抵现消耗积分数
@@ -25,7 +25,7 @@ module.exports = {
 	// 抵现限制类型
         'limitType': 2,
 	// 抵现限制积分数据
-        'limitIntegral': 223,
+        'limitIntegral': 2203,
       },
       'isMember': true,
       'carryRuleVO': {

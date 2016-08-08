@@ -90,11 +90,16 @@ module.exports = React.createClass({
                   <p className="order-summary-entry clearfix">
                     <span className="order-title">优惠券优惠:</span>
                     <span className="order-discount discount">
-                      {
+                      {serviceProps.discountProps.discountInfo && serviceProps.discountProps.discountInfo.isChecked ?
                         helper.countPriceByCoupons(
                           serviceProps.couponsProps.inUseCouponDetail,
-                          helper.countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps),
-                          serviceProps.deliveryProps
+                          helper.getPriceCanBeUsedToBenefit(dishesPrice, serviceProps.deliveryProps)
+                            - serviceProps.discountProps.inUseDiscount,
+                        )
+                        :
+                        helper.countPriceByCoupons(
+                          serviceProps.couponsProps.inUseCouponDetail,
+                          helper.getPriceCanBeUsedToBenefit(dishesPrice, serviceProps.deliveryProps),
                         )
                       }
                     </span>
@@ -117,15 +122,13 @@ module.exports = React.createClass({
                     <span className="order-title">积分抵扣:</span>
                     <span className="order-discount discount">
                       {helper.countIntegralsToCash(
-                        Number(helper.countPriceWithCouponAndDiscount(dishesPrice, serviceProps))
-                          - Number(helper.countDeliveryRemission(dishesPrice, serviceProps.deliveryProps)),
+                        Number(helper.countPriceWithCouponAndDiscount(dishesPrice, serviceProps)),
                         serviceProps.integralsInfo.integralsDetail
                       ).commutation}
                     </span>
                     <span className="order-integral">
                       {helper.countIntegralsToCash(
-                        Number(helper.countPriceWithCouponAndDiscount(dishesPrice, serviceProps))
-                          - Number(helper.countDeliveryRemission(dishesPrice, serviceProps.deliveryProps)),
+                        Number(helper.countPriceWithCouponAndDiscount(dishesPrice, serviceProps)),
                         serviceProps.integralsInfo.integralsDetail
                       ).integralInUsed}
                     </span>

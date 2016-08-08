@@ -207,8 +207,6 @@ module.exports = function (
          ).setIn(
            ['serviceProps', 'discountProps', 'inUseDiscount'],
            helper.countMemberPrice(payload.isChecked, state.orderedDishesProps.dishes, state.serviceProps.discountProps)
-         ).setIn(
-           ['serviceProps', 'couponsProps', 'inUseCoupon'], false
          );
       } else if (payload.id === 'customer-info') {
         return state.set(
@@ -251,8 +249,7 @@ module.exports = function (
           .setIn(
             ['serviceProps', 'couponsProps', 'inUseCouponDetail'],
             selectedCoupon
-          )
-          .setIn(['serviceProps', 'discountProps', 'inUseDiscount'], null);
+          );
         }
         return state.setIn(
             ['serviceProps', 'couponsProps', 'inUseCoupon'], false
