@@ -304,25 +304,33 @@ const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, tota
   }
   return true;
 };
+// 计算可以参与优惠的价格(针对的是有配送费减免的情况)
+const getPriceCanBeUsedToBenefit = exports.getPriceCanBeUsedToBenefit = function (dishesPrice, deliveryProps) {
+  // 这里需要判断一下  如果此时有配送费 并且配送费时可以减去的  那么不应该把配送费算作计入优惠的总价
+  let totalPrice = '';
+  if (Number(countDeliveryPrice(deliveryProps)) === Number(countDeliveryRemission(dishesPrice, deliveryProps))) {
+    totalPrice = countTotalPriceWithoutBenefit(dishesPrice, deliveryProps)
+    - Number(countDeliveryPrice(deliveryProps));
+  } else {
+    totalPrice = countTotalPriceWithoutBenefit(dishesPrice, deliveryProps);
+  }
+  return totalPrice;
+};
 // 计算出优惠券和会员价后的价格
 const countPriceWithCouponAndDiscount = exports.countPriceWithCouponAndDiscount = function (dishesPrice, serviceProps) {
-	// 这里需要判断一下  如果此时有配送费 并且配送费时可以减去的  那么不应该把配送费算作计入优惠的总价
-  let totalPrice = '';
-  if (Number(countDeliveryPrice(serviceProps.deliveryProps)) === Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps))) {
-    totalPrice = countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
-    - Number(countDeliveryPrice(serviceProps.deliveryProps));
-  } else {
-    totalPrice = countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps);
-  }
+  let totalPrice = getPriceCanBeUsedToBenefit(dishesPrice, serviceProps.deliveryProps);
   if (!serviceProps.couponsProps.inUseCoupon && !serviceProps.discountProps.inUseDiscount) {
     // 即没有使用任何优惠
     totalPrice = parseFloat(totalPrice.toFixed(2));
-  } else if (serviceProps.couponsProps.inUseCoupon) {
-    totalPrice = parseFloat(
-      (totalPrice - countPriceByCoupons(serviceProps.couponsProps.inUseCouponDetail, totalPrice)
-    ).toFixed(2));
-  } else if (serviceProps.discountProps.inUseDiscount) {
-    totalPrice = parseFloat((totalPrice - serviceProps.discountProps.inUseDiscount).toFixed(2));
+  } else {
+    if (serviceProps.discountProps.inUseDiscount) {
+      totalPrice = parseFloat((totalPrice - serviceProps.discountProps.inUseDiscount).toFixed(2));
+    }
+    if (serviceProps.couponsProps.inUseCoupon) {
+      totalPrice = parseFloat(
+        (totalPrice - countPriceByCoupons(serviceProps.couponsProps.inUseCouponDetail, totalPrice)
+      ).toFixed(2));
+    }
   }
   return totalPrice;
 };
