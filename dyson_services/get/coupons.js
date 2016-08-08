@@ -26,9 +26,16 @@ module.exports = {
         instructions: '', // 用法说明
         coupRuleBeanList: [// 优惠券使用规则列表
           {
+            id: 6208, // 规则ID
+            couponId: 1738, // 优惠券模板ID
+            ruleName: 'asValue', // 优惠券规则名称
+            ruleValue: 22, // 优惠券规则值
+            brandId: 2479, // 品牌ID
+          },
+          {
             id: 6298, // 规则ID
             couponId: 1718, // 优惠券模板ID
-            ruleName: 'offerValue', // 优惠券规则名称
+            ruleName: 'faceValue', // 优惠券规则名称
             ruleValue: 1000, // 优惠券规则值
             brandId: 2479, // 品牌ID
           },
