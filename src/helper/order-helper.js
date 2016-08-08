@@ -230,7 +230,7 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDis
       }
     );
   }
-  return disCountPriceList.reduce((p, c) => p + c, 0);
+  return parseFloat((disCountPriceList.reduce((p, c) => p + c, 0)).toFixed(2));
 };
 // 计算积分换算金额
 const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedCommutation, integralsInfo) {
