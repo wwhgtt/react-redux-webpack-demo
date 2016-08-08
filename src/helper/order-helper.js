@@ -422,12 +422,10 @@ const countDecreasePrice = exports.countDecreasePrice = function (orderedDishesP
   // smallChange>=0表示总数减少
   return clearSmallChangeProps.smallChange >= 0 ?
           parseFloat((countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
-          - clearSmallChangeProps.priceWithClearSmallChange
-          + Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps))).toFixed(2))
+          - clearSmallChangeProps.priceWithClearSmallChange).toFixed(2))
           :
           parseFloat((countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
-          - countPriceWithBenefit(dishesPrice, serviceProps)
-          + Number(countDeliveryRemission(dishesPrice, serviceProps.deliveryProps))).toFixed(2));
+          - countPriceWithBenefit(dishesPrice, serviceProps)).toFixed(2));
 };
 // 计算最终该付多少钱
 exports.countFinalNeedPayMoney = function (orderedDishesProps, serviceProps, commercialProps) {
