@@ -23,8 +23,9 @@ module.exports = function (
     const dishList = _payload.dishList || [];
     let i = 0;
     while (i < dishTypeList.length) {
-      const isEmpty = dishList.filter(dish => dishTypeList[i].dishIds.indexOf(dish.id) > -1).every(dish => dish.currRemainTotal !== 0);
-      if (isEmpty) return dishTypeList[i].id;
+      const dishTypeDishes = dishList.filter(dish => dishTypeList[i].dishIds && dishTypeList[i].dishIds.indexOf(dish.id) > -1);
+      const isNotEmpty = dishTypeDishes.some(dish => dish.currRemainTotal !== 0);
+      if (isNotEmpty) return dishTypeList[i].id;
       i++;
     }
     return -1;
