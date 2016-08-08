@@ -1,0 +1,86 @@
+@import 'settings.colors';
+@import 'settings.sizes';
+@import 'tools.mixins';
+
+.dish-list-item {
+  @include clearfix;
+  padding: 10px 0;
+}
+
+.dish-item {
+  $dish-image-size: 65px;
+
+  &-img {
+    float: left;
+    overflow: hidden;
+    width: $dish-image-size;
+    height: $dish-image-size;
+    border-radius: 4px;
+    background-position: center center;
+    background-size: cover;
+  }
+
+  &-content {
+    float: right;
+    width: calc(100% - #{$dish-image-size + 8});
+  }
+
+  &-name {
+    $dish-item-name-line-height: 20px;
+
+    font-size: 16px;
+    line-height: $dish-item-name-line-height;
+    display: block;
+    clear: both;
+    margin-bottom: .5em;
+    padding: #{($counter-size - $dish-item-name-line-height) / 2} 0;
+  }
+
+  &-price {
+    font-size: 17px;
+    font-weight: bold;
+    line-height: $counter-size;
+    float: left;
+    color: $color-neon-carrot;
+
+    &::before {
+      font-size: 12px;
+      line-height: 1;
+      vertical-align: 1px;
+    }
+  }
+
+  &-soldout {
+    line-height: $counter-size;
+    float: right;
+    color: $color-dusty-grey;
+  }
+}
+
+// member-dish
+
+.is-memberdish {
+  position: relative;
+
+  &::before {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    content: '';
+    border-bottom: 30px solid transparent;
+    border-left: 40px solid $color-sunset-orange;
+  }
+
+  &::after {
+    font-size: 11px;
+    position: absolute;
+    z-index: 2;
+    top: 5px;
+    left: 4px;
+    content: '会';
+    color: $color-white;
+  }
+}

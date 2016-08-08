@@ -1,0 +1,37 @@
+@import 'settings.colors';
+@import 'settings.sizes';
+
+.dish-detail-head {
+  overflow: hidden;
+  padding: 8px;
+  border-bottom: 1px solid $color-mercury;
+  background: $color-white;
+
+  > .head-main {
+    float: left;
+    max-width: calc(100% - #{$counter-max-width});
+
+    > .dish-price {
+      font-size: 16px;
+      font-weight: normal;
+      line-height: 20px;
+      display: block;
+      color: $color-neon-carrot;
+    }
+
+    > .dish-name {
+      font-size: 16px;
+      line-height: 20px;
+      font-weight: bolder;
+
+      > .price {
+        margin-left: .25em;
+      }
+    }
+
+    // adjust counter position
+    + .counter {
+      padding-top: 7px;
+    }
+  }
+}

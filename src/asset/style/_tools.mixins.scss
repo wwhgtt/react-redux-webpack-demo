@@ -1,0 +1,30 @@
+// clearfix
+@mixin clearfix {
+  &::after {
+    display: table;
+    clear: both;
+    content: '';
+  }
+}
+
+
+// React animation
+@mixin react-animation($name) {
+  @content;
+
+  .#{$name}-enter {
+    @extend %enter-start;
+
+    &-active {
+      @extend %enter-end;
+    }
+  }
+
+  .#{$name}-leave {
+    @extend %leave-start;
+
+    &-active {
+      @extend %leave-end;
+    }
+  }
+}

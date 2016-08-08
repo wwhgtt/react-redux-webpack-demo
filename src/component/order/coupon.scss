@@ -1,0 +1,227 @@
+@import 'settings.colors';
+
+.coupons-container {
+  overflow: auto;
+  padding: 5px 8px 0;
+  background: $color-gallery;
+}
+
+.coupon {
+  margin-bottom: 15px;
+
+  // coupon card styles
+  &-card {
+    font-size: 12px;
+    line-height: 14px;
+    position: relative;
+    padding: 5px 0;
+    border: 1px solid $color-mercury;
+    border-left: 0;
+    border-radius: 4px;
+    background: $color-white;
+
+    // dotted pattern
+    &::before {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 5px;
+      content: '';
+      border-radius: 4px 0 0 4px;
+      background: currentColor;
+    }
+
+    &::after {
+      position: absolute;
+      z-index: 2;
+      top: 4px;
+      bottom: 4px;
+      left: 1px;
+      width: 8px;
+      content: '';
+      background: radial-gradient(circle, $color-white 2px, transparent 2px);
+      background-size: 8px 8px;
+    }
+
+
+    &-left {
+      padding: 15px 15px 10px 20px;
+      border-right: 1px dotted $color-mercury;
+      -webkit-box-flex: 0 0 110px;
+      -webkit-flex: 0 0 110px;
+      -ms-flex: 0 0 110px;
+      flex: 0 0 110px;
+    }
+
+    &-right {
+      padding: 15px 15px 10px 20px;
+      color: $color-dusty-grey;
+    }
+  }
+
+  // coupon text styles
+  &-text--dark {
+    padding: 3px 0;
+    color: $color-shuttle-grey;
+  }
+
+  &-text--grey {
+    padding: 3px 0;
+    color: $color-dusty-grey;
+  }
+
+
+  // coupon card left styles
+  &-rate {
+    font-size: 30px;
+    line-height: 1;
+    text-align: center;
+    color: currentColor;
+  }
+
+  // coupon card right styles
+  &-title {
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 24px;
+    color: $color-shuttle-grey;
+  }
+
+  &-dropdown-trigger {
+    float: left;
+    padding: 6px 0 4px;
+
+    &::after {
+      float: right;
+      width: 10px;
+      height: 13px;
+      margin-left: 5px;
+      content: '';
+      background-image: url('../../asset/images/arrow-top-grey.png'); // image size 20 * 12px
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 10px 6px;
+      -webkit-transform: -webkit-rotate(180deg);
+      transform: rotate(180deg);
+    }
+  }
+
+  &-go-order {
+    float: right;
+    padding: 5px 6px 3px;
+    text-decoration: none;
+    color: $color-shuttle-grey;
+    border: 1px solid $color-mischka;
+    border-radius: 3px;
+  }
+
+
+  // coupon dropdown styles
+  &-dropdown {
+    font-size: 12px;
+    line-height: 14px;
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid $color-mercury;
+    border-top: 0;
+    border-radius: 0 0 4px 4px;
+    background: $color-white;
+  }
+
+  &-rules {
+    margin: 0;
+    padding: 3px 0;
+    // padding-left: 12px;
+    color: $color-dusty-grey;
+
+    &:empty {
+      padding: 0;
+    }
+  }
+}
+
+
+// coupon types
+
+.coupon-xianjin {
+  color: #feb813;
+
+  .coupon-rate::before {
+    font-size: 16px;
+    margin-right: 3px;
+    content: '¥';
+  }
+}
+
+.coupon-manjian {
+  color: #65a1ed;
+
+  .coupon-rate::before {
+    font-size: 14px;
+    display: inline-block;
+    margin-right: 3px;
+    content: '减';
+    vertical-align: middle;
+  }
+}
+
+.coupon-zhekou {
+  color: #ff678d;
+
+  .coupon-rate::after {
+    font-size: 14px;
+    margin-left: 2px;
+    content: '折';
+  }
+}
+
+.coupon-lipin {
+  color: #33d371;
+
+  .coupon-rate {
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+
+  .coupon-rate::after {
+    font-size: 14px;
+    font-weight: 200;
+    margin-left: 3px;
+    content: 'x' attr(data-gift-amount);
+  }
+}
+
+
+// coupon flag
+
+.coupon-flag {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-right: 40px solid $color-crusta;
+  border-bottom: 30px solid transparent;
+  -webkit-box-flex: none;
+  -webkit-flex: none;
+  -ms-flex: none;
+  flex: none;
+
+  &::after {
+    position: absolute;
+    z-index: 1;
+    top: 3px;
+    right: -35px;
+    width: 13px;
+    height: 12px;
+    content: '';
+    background-image: url('../../asset/images/tick-white.png');
+    // images size 26px 22px
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 13px 11px;
+  }
+}

@@ -1,0 +1,34 @@
+@import 'settings.colors';
+@import 'settings.sizes';
+
+.dish-scroller {
+  overflow: hidden;
+  height: calc(100% - #{$cart-trigger-height});
+  margin-left: $dish-type-scroller-width;
+  padding: 0 8px;
+  background: $color-white;
+}
+
+.dish-item-type {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  min-height: 30px;
+  margin-right: -10px;
+  margin-left: -10px;
+  padding: 6px 10px 4px;
+  background: $color-porcelain;
+
+  // overwride border-top of the first .dish-item-dish from each type
+  + .dish-item-dish {
+    border-top: 0;
+  }
+}
+
+.dish-item-dish {
+  border-top: 1px solid $color-alto;
+}
+
+.dish-type-desc {
+  color: lighten($color-dusty-grey, 10%);
+}

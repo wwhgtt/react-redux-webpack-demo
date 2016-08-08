@@ -1,0 +1,41 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "commonjs": true,
+    "browser": true,
+    "mocha": true
+  },
+  "ecmaFeatures": {
+    "jsx": true,
+    "experimentalObjectRestSpread": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 7,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "plugins": ["react"],
+  "extends": ["airbnb", "plugin:react/recommended"],
+  "rules": {
+    "key-spacing": 0,
+    "react/prefer-es6-class": 1,
+    "react/no-multi-comp": 1,
+    "react/prefer-stateless-function": 1,
+    "object-shorthand": 2,
+    "no-restricted-syntax": 0,
+    "prefer-const": 1,
+    "prefer-template": 1,
+    "guard-for-in": 1,
+    "max-len": [2, 150],
+    "no-unused-vars": [2, {
+      "args": "none"
+    }],
+    "no-underscore-dangle": 0,
+    "no-param-reassign": 1,
+    "no-return-assign": 1,
+    "no-confusing-arrow": 1,
+    "no-loop-func": 1,
+    "prefer-arrow-callback": 1
+  }
+}

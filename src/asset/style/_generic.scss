@@ -1,0 +1,59 @@
+html {
+  height: 100%;
+  cursor: default;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  cursor: pointer;
+  color: inherit;
+  outline: 0;
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+}
+
+img {
+  border-style: none;
+}
+
+main {
+  display: block;
+}
+
+input,
+textarea,
+button {
+  font: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  -webkit-tap-highlight-color: $tap-highlight-color;
+
+  &::-moz-focus-inner {
+    padding: 0;
+    border-style: none;
+  }
+}
+
+a, li, button, input, textarea, label {
+  -webkit-tap-highlight-color: $tap-highlight-color;
+}

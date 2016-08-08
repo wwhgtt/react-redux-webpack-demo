@@ -1,0 +1,35 @@
+@import 'settings.colors';
+
+// Styles in this file are based on ../../component/dish-menu/cart/cart-ordered-dish.scss
+
+// reset entry size
+.cart-ordered-dish {
+  padding: 0 10px !important;
+}
+
+.dish-name {
+  width: calc(100% - 120px) !important;
+}
+
+.child-dish-count {
+  margin-right: 0 !important;
+}
+
+// new styles
+.order-dish-count {
+  font-size: 14px;
+  line-height: 28px;
+  float: right;
+  width: 40px;
+  padding: 6px 0;
+  text-align: center;
+  color: $color-dusty-grey;
+}
+
+.order-dish-price {
+  line-height: 28px;
+  float: right;
+  width: 70px;
+  padding: 6px 0;
+  text-align: right;
+}

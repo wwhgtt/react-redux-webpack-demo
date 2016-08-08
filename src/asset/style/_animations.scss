@@ -1,0 +1,45 @@
+@include react-animation('slideup') {
+  %enter-start {
+    .scroll-select-content {
+      transform: translate3D(0, 100%, 0);
+    }
+
+    .scroll-select-close {
+      opacity: 0;
+    }
+  }
+
+  %enter-end {
+    .scroll-select-content {
+      transition: transform .3s ease-in-out;
+      transform: translate3D(0, 0, 0);
+    }
+
+    .scroll-select-close {
+      transition: opacity .3s ease-in-out;
+      opacity: 1;
+    }
+  }
+
+  %leave-start {
+    .scroll-select-content {
+      transform: translate3D(0, 0, 0);
+    }
+
+    .scroll-select-close {
+      opacity: 1;
+    }
+  }
+
+  %leave-end {
+    .scroll-select-content {
+      transition: transform .3s ease-in-out;
+      transform: translate3D(0, 100%, 0);
+    }
+
+    .scroll-select-close {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+    }
+  }
+}

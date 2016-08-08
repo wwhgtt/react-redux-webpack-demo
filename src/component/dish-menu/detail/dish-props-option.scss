@@ -1,0 +1,43 @@
+@import 'settings.colors';
+@import 'settings.sizes';
+
+.dish-porps-option {
+  font-size: 12px;
+  line-height: 16px;
+  float: left;
+  width: 49%;
+  margin-bottom: 8px;
+  padding: 10px 6px;
+  color: $color-dove-grey;
+  border: 1px solid $color-gallery;
+  border-radius: 3px;
+  background: $color-white;
+
+  &:nth-of-type(2n-1) {
+    margin-right: 2%;
+  }
+
+  &.is-checked {
+    color: $color-white;
+    border-color: $color-neon-carrot;
+    background: $color-neon-carrot;
+  }
+
+  $extar-max-width: 50px;
+
+  > .name {
+    display: block;
+    text-align: left;
+  }
+
+  > .extra {
+    float: right;
+    width: $extar-max-width;
+    text-align: right;
+
+    + .name {
+      float: left;
+      width: calc(100% - #{$extar-max-width});
+    }
+  }
+}

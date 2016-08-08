@@ -1,0 +1,89 @@
+.price::before {
+  margin-right: 1px;
+  content: '¥';
+}
+
+.discount::before {
+  margin-right: 1px;
+  content: '-¥';
+}
+
+// badges
+.badge-price {
+  font-size: 12px;
+  line-height: 18px;
+  display: inline-block;
+  height: 20px;
+  margin-left: .5em;
+  padding: 0 6px;
+  vertical-align: 1px;
+  color: $color-alto;
+  border: 1px solid $color-alto;
+  border-radius: 10px;
+}
+
+.badge-coupon {
+  font-size: 12px;
+  line-height: 18px;
+  display: inline-block;
+  height: 20px;
+  padding: 0 6px;
+  vertical-align: 1px;
+  color: $color-froly;
+  border: 1px solid;
+  border-radius: 10px;
+}
+
+.badge-bi {
+  font-size: 12px;
+  line-height: 18px;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-left: .5em;
+  text-align: center;
+  color: $color-white;
+  border-radius: 50%;
+  background: $color-malibu;
+
+  &::before {
+    content: '必';
+  }
+}
+
+// toast
+.toast {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding-top: 150px;
+  padding-top: 30vh;
+  background: transparent;
+
+  &-content {
+    font-size: 14px;
+    line-height: 18px;
+    position: relative;
+    left: 50%;
+    float: left;
+    max-width: 150px;
+    padding: 15px;
+    transform: translateX(-50%);
+    text-align: center;
+    color: $color-white;
+    border-radius: 5px;
+    background: $opacity-background;
+  }
+
+  &-content::before {
+    font-size: 64px;
+    font-weight: bold;
+    line-height: 1;
+    display: block;
+    margin: 5px 0;
+    content: '!';
+  }
+}

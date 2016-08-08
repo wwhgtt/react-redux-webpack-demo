@@ -1,0 +1,15 @@
+@import 'settings.colors';
+@import 'settings.sizes';
+
+.dish-props-select {
+  padding: 8px;
+  border-top: 5px solid $color-gallery;
+}
+
+.recipe-title,
+.note-title,
+.ingredient-title {
+  font-size: 14px;
+  display: block;
+  padding: 5px 0 10px;
+}
