@@ -32,7 +32,6 @@ $scroll-select-option-height: 40px;
     left: 0;
     content: '';
     pointer-events: none;
-    background-image: -webkit-linear-gradient(top, $color-white 0%, $transparent 40%, $transparent 60%, $color-white 100%);
     background-image: linear-gradient(to bottom, $color-white 0%, $transparent 40%, $transparent 60%, $color-white 100%);
   }
 }
