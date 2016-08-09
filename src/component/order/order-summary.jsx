@@ -82,6 +82,27 @@ module.exports = React.createClass({
                 }
               </div>
               <div className="order-summary">
+                {serviceProps.discountProps.inUseDiscount ?
+                  <p className="order-summary-entry clearfix">
+                    <span className="order-title">会员价优惠:</span>
+                    <span className="order-discount discount">
+                      {serviceProps.discountProps.inUseDiscount}
+                    </span>
+                  </p>
+                  :
+                  false
+                }
+                {serviceProps.deliveryProps && serviceProps.deliveryProps.freeDeliveryPrice >= 0 && serviceProps.deliveryProps.deliveryPrice
+                  && dishesPrice >= serviceProps.deliveryProps.freeDeliveryPrice && serviceProps.deliveryProps.deliveryPrice !== 0 ?
+                  <p className="order-summary-entry clearfix">
+                    <span className="order-title">满{serviceProps.deliveryProps.freeDeliveryPrice}元减免配送费</span>
+                    <span className="order-discount discount">
+                      {serviceProps.deliveryProps.deliveryPrice}
+                    </span>
+                  </p>
+                  :
+                  false
+                }
                 {serviceProps.couponsProps.inUseCoupon && helper.countPriceByCoupons(
                   serviceProps.couponsProps.inUseCouponDetail,
                   helper.countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps),
@@ -107,16 +128,7 @@ module.exports = React.createClass({
                   :
                   false
                 }
-                {serviceProps.discountProps.inUseDiscount ?
-                  <p className="order-summary-entry clearfix">
-                    <span className="order-title">会员价优惠:</span>
-                    <span className="order-discount discount">
-                      {serviceProps.discountProps.inUseDiscount}
-                    </span>
-                  </p>
-                  :
-                  false
-                }
+
                 {serviceProps.integralsInfo && serviceProps.integralsInfo.isChecked && commercialProps.carryRuleVO ?
                   <p className="order-summary-entry clearfix">
                     <span className="order-title">积分抵扣:</span>
@@ -136,17 +148,6 @@ module.exports = React.createClass({
                   :
                   false
                 }
-                {serviceProps.deliveryProps && serviceProps.deliveryProps.freeDeliveryPrice >= 0 && serviceProps.deliveryProps.deliveryPrice
-                  && dishesPrice >= serviceProps.deliveryProps.freeDeliveryPrice && serviceProps.deliveryProps.deliveryPrice !== 0 ?
-                  <p className="order-summary-entry clearfix">
-                    <span className="order-title">满{serviceProps.deliveryProps.freeDeliveryPrice}元减免配送费</span>
-                    <span className="order-discount discount">
-                      {serviceProps.deliveryProps.deliveryPrice}
-                    </span>
-                  </p>
-                  :
-                  false
-                }
                 {commercialProps.carryRuleVO && helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).smallChange > 0 ?
                   <p className="order-summary-entry clearfix">
                     <span className="order-title">自动抹零:</span>
@@ -157,7 +158,6 @@ module.exports = React.createClass({
                   :
                   false
                 }
-
               </div>
               <div className="order-prop-option order-total clearfix">
                 <div className="order-total-left">

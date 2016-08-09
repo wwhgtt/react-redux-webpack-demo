@@ -194,14 +194,13 @@ const countTotalPriceWithoutBenefit = exports.countTotalPriceWithoutBenefit = fu
   return parseFloat((dishesPrice + getDishBoxPrice() + Number(countDeliveryPrice(deliveryProps))).toFixed(2));
 };
 // 计算会员价格 优惠了多少钱
-exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDishesProps) {
+exports.countMemberPrice = function (isDiscountChecked, orderedDishes, discountList, discountType) {
   if (isDiscountChecked) {
     return false;
   }
-  const discountType = memberDishesProps.discountType;
   const disCountPriceList = [];
   if (discountType === 1) {
-    memberDishesProps.discountList.forEach(
+    discountList.forEach(
       dishcount => {
         orderedDishes.forEach(
           orderedDish => {
@@ -216,7 +215,7 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDis
     );
   } else if (discountType === 2) {
     // 表示会员价格
-    memberDishesProps.discountList.forEach(
+    discountList.forEach(
       dishcount => {
         orderedDishes.forEach(
           orderedDish => {
