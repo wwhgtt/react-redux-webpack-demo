@@ -235,6 +235,15 @@ module.exports = function (
           coupon => coupon.id.toString() === payload.selectedCouponId
         );
         if (selectedCoupon.isChecked) {
+          if (selectedCoupon.coupRuleBeanList.length) {
+            return state.setIn(
+              ['serviceProps', 'couponsProps', 'inUseCoupon'], true
+            )
+            .setIn(
+              ['serviceProps', 'couponsProps', 'inUseCouponDetail'],
+              selectedCoupon
+            );
+          }
           return state.setIn(
             ['serviceProps', 'couponsProps', 'inUseCoupon'], true
           )
@@ -244,9 +253,6 @@ module.exports = function (
           );
         }
         return state.setIn(
-            ['serviceProps', 'couponsProps', 'inUseCoupon'], false
-          )
-          .setIn(
             ['serviceProps', 'couponsProps', 'inUseCoupon'], false
           );
       } else if (payload.id === 'integrals') {

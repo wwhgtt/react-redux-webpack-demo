@@ -280,16 +280,28 @@ const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedC
   return false;
 };
 // 获取与礼品券有关的菜品信息
-exports.getRelatedToDishCouponProps = function (coupon) {
+const getRelatedToDishCouponProps = exports.getRelatedToDishCouponProps = function (coupon) {
   const lastOrderedDishes = JSON.parse(localStorage.getItem('lastOrderedDishes'));
-  let relatedCouponDish = { name:null, number:null };
+  let relatedCouponDish = { name:null, number:null, couponValue:null, joinBenefitDishesNumber:0 };
+  let benefitMoneyCollection = [];
   lastOrderedDishes.dishes.map(dish => {
     if (dish.brandDishId === coupon.dishId) {
       relatedCouponDish.name = dish.name;
       relatedCouponDish.number = coupon.num;
+      if ((coupon.num - relatedCouponDish.joinBenefitDishesNumber) > 0) {
+        benefitMoneyCollection.push((coupon.num - relatedCouponDish.joinBenefitDishesNumber) < getDishesCount([dish]) ?
+         dish.marketPrice * (coupon.num - relatedCouponDish.joinBenefitDishesNumber)
+         :
+         dish.marketPrice * getDishesCount([dish]));
+        relatedCouponDish.joinBenefitDishesNumber = (coupon.num - relatedCouponDish.joinBenefitDishesNumber) < getDishesCount([dish]) ?
+          coupon.num
+          :
+          relatedCouponDish.joinBenefitDishesNumber + getDishesCount([dish]);
+      }
     }
     return true;
   });
+  relatedCouponDish.couponValue = parseFloat((benefitMoneyCollection.reduce((c, p) => c + p)).toFixed(2));
   return relatedCouponDish;
 };
 // 计算优惠券多少价格
@@ -307,7 +319,10 @@ const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, tota
     );
   } else if (coupon.couponType === 3) {
     // '礼品券';
-    return 0;
+    if (coupon.coupRuleBeanList.length) {
+      return 0;
+    }
+    return getRelatedToDishCouponProps(coupon.coupDishBeanList[0]).couponValue;
   } else if (coupon.couponType === 4) {
     // '现金券';
     return coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'faceValue')[0].ruleValue
