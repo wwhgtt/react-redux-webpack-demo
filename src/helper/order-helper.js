@@ -195,7 +195,7 @@ const countTotalPriceWithoutBenefit = exports.countTotalPriceWithoutBenefit = fu
 };
 // 计算会员价格 优惠了多少钱
 exports.countMemberPrice = function (isDiscountChecked, orderedDishes, discountList, discountType) {
-  if (isDiscountChecked) {
+  if (!isDiscountChecked) {
     return false;
   }
   const disCountPriceList = [];

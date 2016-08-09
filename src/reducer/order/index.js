@@ -200,14 +200,6 @@ module.exports = function (
             )
           )
         );
-      } else if (payload.id === 'discount') {
-        return state.setIn(
-          ['serviceProps', 'discountProps', 'discountInfo', 'isChecked'],
-           !state.serviceProps.discountProps.discountInfo.isChecked
-         ).setIn(
-           ['serviceProps', 'discountProps', 'inUseDiscount'],
-           helper.countMemberPrice(payload.isChecked, state.orderedDishesProps.dishes, state.serviceProps.discountProps)
-         );
       } else if (payload.id === 'customer-info') {
         return state.set(
           'customerProps', payload
@@ -314,7 +306,7 @@ module.exports = function (
          .setIn(['serviceProps', 'discountProps', 'discountType'], payload.type)
          .setIn(
            ['serviceProps', 'discountProps', 'inUseDiscount'],
-           helper.countMemberPrice(payload.isChecked, state.orderedDishesProps.dishes, payload.dishList, payload.type)
+           helper.countMemberPrice(true, state.orderedDishesProps.dishes, payload.dishList, payload.type)
          )
          .updateIn(
            ['orderedDishesProps', 'dishes'],
