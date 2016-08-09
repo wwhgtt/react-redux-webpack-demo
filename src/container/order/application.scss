@@ -112,6 +112,20 @@ div[data-reactroot] {
 .option-title {
   float: left;
   width: 110px;
+
+  &--icon {
+    width: auto;
+
+    &::before {
+      float: left;
+      width: 18px;
+      height: 18px;
+      margin: 3px 4px 0 0;
+      content: '';
+      background-repeat: no-repeat;
+      background-size: 18px;
+    }
+  }
 }
 
 .option-desc {
@@ -185,10 +199,16 @@ div[data-reactroot] {
     border-style: none;
   }
 
-
   &-entry {
     line-height: 28px;
     padding: 6px 0;
+  }
+
+  // order-summary icons
+  @for $i from 1 through 4 {
+    &-icon#{$i}:before {
+      background-image: url('../../asset/images/summary-#{$i}.png');
+    }
   }
 
   @at-root {
