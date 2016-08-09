@@ -103,11 +103,7 @@ module.exports = React.createClass({
                   :
                   false
                 }
-                {serviceProps.couponsProps.inUseCoupon && helper.countPriceByCoupons(
-                  serviceProps.couponsProps.inUseCouponDetail,
-                  helper.countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps),
-                  serviceProps.deliveryProps
-                ) !== 0 ?
+                {serviceProps.couponsProps.inUseCoupon ?
                   <p className="order-summary-entry clearfix">
                     <span className="option-title option-title--icon order-summary-icon2">优惠券优惠:</span>
                     <span className="order-discount discount">
