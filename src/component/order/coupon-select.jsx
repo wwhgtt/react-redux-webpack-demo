@@ -8,6 +8,7 @@ module.exports = React.createClass({
   propTypes: {
     couponsProps:React.PropTypes.object.isRequired,
     onSelectCoupon:React.PropTypes.func.isRequired,
+    orderedDishes:React.PropTypes.any.isRequired,
   },
   getInitialState() {
     return {

@@ -369,7 +369,7 @@ const OrderApplication = React.createClass({
           : false
         }
         {childView === 'coupon-select' ?
-          <CouponSelect couponsProps={serviceProps.couponsProps} onSelectCoupon={setOrderProps} />
+          <CouponSelect couponsProps={serviceProps.couponsProps} orderedDishes={orderedDishesProps.dishes} onSelectCoupon={setOrderProps} />
           : false
         }
 

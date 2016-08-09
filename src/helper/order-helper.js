@@ -279,6 +279,19 @@ const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedC
   }
   return false;
 };
+// 获取与礼品券有关的菜品信息
+exports.getRelatedToDishCouponProps = function (coupon) {
+  const lastOrderedDishes = JSON.parse(localStorage.getItem('lastOrderedDishes'));
+  let relatedCouponDish = { name:null, number:null };
+  lastOrderedDishes.dishes.map(dish => {
+    if (dish.brandDishId === coupon.dishId) {
+      relatedCouponDish.name = dish.name;
+      relatedCouponDish.number = coupon.num;
+    }
+    return true;
+  });
+  return relatedCouponDish;
+};
 // 计算优惠券多少价格
 const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, totalPrice) {
   if (coupon.couponType === 1) {
