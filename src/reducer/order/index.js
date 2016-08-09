@@ -308,10 +308,14 @@ module.exports = function (
       if (payload.isDiscount) {
         return state.setIn(
           ['serviceProps', 'discountProps', 'discountInfo'],
-          Immutable.from({ name:'享受会员价', isChecked:false, id:'discount' })
+          Immutable.from({ name:'享受会员价', isChecked:true, id:'discount' })
          )
          .setIn(['serviceProps', 'discountProps', 'discountList'], payload.dishList)
          .setIn(['serviceProps', 'discountProps', 'discountType'], payload.type)
+         .setIn(
+           ['serviceProps', 'discountProps', 'inUseDiscount'],
+           helper.countMemberPrice(payload.isChecked, state.orderedDishesProps.dishes, payload.dishList, payload.type)
+         )
          .updateIn(
            ['orderedDishesProps', 'dishes'],
            dishes => dishes.flatMap(
