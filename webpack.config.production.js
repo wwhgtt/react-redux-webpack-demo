@@ -60,6 +60,14 @@ module.exports = {
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'CustomerAddressApplication',
+        filename: 'customer-address.html',
+        chunks: ['common', 'customer-address-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template-customer-address.html',
+      }
+    ),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
