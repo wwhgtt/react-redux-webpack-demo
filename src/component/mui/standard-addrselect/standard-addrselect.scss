@@ -110,7 +110,8 @@
     background-size: cover;
   }
 
-  &-inner{
+  &-inner {
+    width: 100%;
     height: 100%;
   }
 
@@ -122,7 +123,7 @@
     transform: translate(-50%, -50%);
   }
 
-  &-cur{
+  &-cur {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -150,96 +151,54 @@
 
 // address list
 .addrselect-list {
-  > li{
-    position: relative;
-    box-sizing: border-box;
-    height: 60px;
-    padding: 10px 0 5px 30px;
-    border-bottom: 1px solid #eee;
-    font-size: 14px;
-    color: #444;
-    &.recommend {
-      h4{
-        color: #fe2947;
-      }
-      i{
-        // background-image:url(../../../asset/images/map-marker-recommend.png);
-        opacity: 1;
-      }
-    }
-    &:last-child{
-      border: none;
-    }
-    i {
-      position: absolute;
-      top: 10px;
-      left: 0;
-      width: 22px;
-      height: 22px;
-      // background:url(../../../asset/images/map-marker-default.png) no-repeat 0 0;
-      background-size: 22px 22px;
-      opacity: 0.6;
-    }
-    h4, p{
-      margin:0;
-      font-size: 16px;
-      font-weight: normal;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-    }
-    p{
-      font-size: 14px;
-      margin: 8px 0 0;
-    }
-  }
-}
+  padding-top: 10px;
 
-.addrselect-mask {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #000;
-  opacity: 0.2;
-  z-index: 1;
-}
-.suggest {
-  display: none;
-  position: absolute;
-  top: 34px;
-  left: 0;
-  width: 100%;
-  max-height: 400px;
-  border:1px solid #eee;
-  border: 1px 0;
-  overflow: auto;
-  background: #fff;
-  >li{
-    padding: 0 10px;
-    border-bottom: 1px solid #eee;
-    &:last-child{
-      border-bottom: none;
+  > li:first-child {
+    .addrselect-list-title {
+      color: $color-neon-carrot;
+    }
+
+    .addrselect-list-item:before {
+      background-image: url('../../../asset/images/location-orange.png');
     }
   }
-  &-title{
+
+  &-item {
+    position: relative;
     display: block;
-    line-height: 38px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    font-size: 16px;
-    color: #333;
-    text-decoration: none;
-    a:hover{
-      text-decoration: none;
+    width: 100%;
+    padding: 10px 10px 0 40px;
+    text-align: left;
+
+    &::before {
+      position: absolute;
+      z-index: 1;
+      top: 8px;
+      left: 15px;
+      width: 15px;
+      height: 18px;
+      content: '';
+      background-image: url('../../../asset/images/location-grey.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 15px 18px;
     }
-    span{
-      margin: 0 0 0 10px;
-      font-size: 14px;
-      color: #888;
-    }
+  }
+
+  &-title {
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 16px;
+    position: relative;
+    margin-bottom: .5em;
+    color: $color-dove-grey;
+  }
+
+  &-address {
+    font-size: 11px;
+    line-height: 12px;
+    padding-bottom: 10px;
+    color: $color-dusty-grey;
+    border-bottom: 1px solid $color-gallery;
   }
 }
