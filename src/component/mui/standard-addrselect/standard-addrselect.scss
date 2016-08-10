@@ -67,6 +67,7 @@
   right: 0;
   bottom: 0;
   left: 0;
+  display: none;
   background: $opacity-background;
 }
 
@@ -77,6 +78,7 @@
   top: 100%;
   right: 0;
   left: 0;
+  display: none;
   border-top: 1px solid $color-mercury;
   background: $color-white;
 }
