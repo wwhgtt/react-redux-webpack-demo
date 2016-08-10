@@ -200,14 +200,6 @@ module.exports = function (
             )
           )
         );
-      } else if (payload.id === 'discount') {
-        return state.setIn(
-          ['serviceProps', 'discountProps', 'discountInfo', 'isChecked'],
-           !state.serviceProps.discountProps.discountInfo.isChecked
-         ).setIn(
-           ['serviceProps', 'discountProps', 'inUseDiscount'],
-           helper.countMemberPrice(payload.isChecked, state.orderedDishesProps.dishes, state.serviceProps.discountProps)
-         );
       } else if (payload.id === 'customer-info') {
         return state.set(
           'customerProps', payload
@@ -243,18 +235,33 @@ module.exports = function (
           coupon => coupon.id.toString() === payload.selectedCouponId
         );
         if (selectedCoupon.isChecked) {
+          if (selectedCoupon.coupRuleBeanList.length) {
+            return state.setIn(
+              ['serviceProps', 'couponsProps', 'inUseCoupon'], true
+            )
+            .setIn(
+              ['serviceProps', 'couponsProps', 'inUseCouponDetail'],
+              selectedCoupon
+            );
+          }
           return state.setIn(
             ['serviceProps', 'couponsProps', 'inUseCoupon'], true
           )
           .setIn(
             ['serviceProps', 'couponsProps', 'inUseCouponDetail'],
             selectedCoupon
+          )
+          .updateIn(
+            ['orderedDishesProps', 'dishes'],
+            dishes => dishes.flatMap(
+              dish => dish.brandDishId === selectedCoupon.coupDishBeanList[0].dishId ?
+              dish.set('isRelatedToCoupon', true).set('relatedCouponCount', selectedCoupon.coupDishBeanList[0].num)
+              :
+              dish.set('isRelatedToCoupon', false)
+            )
           );
         }
         return state.setIn(
-            ['serviceProps', 'couponsProps', 'inUseCoupon'], false
-          )
-          .setIn(
             ['serviceProps', 'couponsProps', 'inUseCoupon'], false
           );
       } else if (payload.id === 'integrals') {
@@ -308,10 +315,14 @@ module.exports = function (
       if (payload.isDiscount) {
         return state.setIn(
           ['serviceProps', 'discountProps', 'discountInfo'],
-          Immutable.from({ name:'享受会员价', isChecked:false, id:'discount' })
+          Immutable.from({ name:'享受会员价', isChecked:true, id:'discount' })
          )
          .setIn(['serviceProps', 'discountProps', 'discountList'], payload.dishList)
          .setIn(['serviceProps', 'discountProps', 'discountType'], payload.type)
+         .setIn(
+           ['serviceProps', 'discountProps', 'inUseDiscount'],
+           helper.countMemberPrice(true, state.orderedDishesProps.dishes, payload.dishList, payload.type)
+         )
          .updateIn(
            ['orderedDishesProps', 'dishes'],
            dishes => dishes.flatMap(
@@ -344,6 +355,14 @@ module.exports = function (
         return state.set('childView', 'coupon-select');
       } else if (payload === '#time-select') {
         return state.set('childView', 'time-select');
+      } else if (payload === '#selectCoupon') {
+        return state.setIn(
+          ['serviceProps', 'discountProps', 'inUseDiscount'],
+          helper.countMemberPrice(
+            true, state.orderedDishesProps.dishes, state.serviceProps.discountProps.discountList, state.serviceProps.discountProps.discountType
+          )
+        )
+        .set('childView', '');
       }
       return state.set('childView', '');
     case 'SET_ORDERED_DISHES_TO_ORDER':

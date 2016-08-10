@@ -266,14 +266,6 @@ const OrderApplication = React.createClass({
           )}
         </div>
         <div className="options-group">
-          {serviceProps.discountProps.discountInfo && orderedDishesProps.dishes && orderedDishesProps.dishes.length
-            && orderedDishesProps.dishes.filter(dish => dish.isMember).length !== 0
-            && commercialProps.diningForm !== 0 ?
-            <ActiveSelect
-              optionsData={[serviceProps.discountProps.discountInfo]} onSelectOption={setOrderProps}
-              optionComponent={OrderPropOption}
-            />
-          : false}
           {serviceProps.couponsProps.couponsList &&
             serviceProps.couponsProps.couponsList.length && commercialProps.diningForm !== 0 ?
             <a className="order-prop-option" href="#coupon-select">
