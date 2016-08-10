@@ -2,6 +2,7 @@ const _find = require('lodash.find');
 const getDishesPrice = require('../helper/dish-hepler.js').getDishesPrice;
 const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
 const getUrlParam = require('../helper/dish-hepler.js').getUrlParam;
+const isSingleDishWithoutProps = require('../helper/dish-hepler.js').isSingleDishWithoutProps;
 const config = require('../config.js');
 // 判断一个对象是否为空
 exports.isEmptyObject = (obj) => {
@@ -199,16 +200,34 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, discountL
     return false;
   }
   const disCountPriceList = [];
-  console.log(orderedDishes);
-  orderedDishes.forEach(dish => {
-    if (orderedDishes.isRelatedToCoupon === true) {
-      console.log(orderedDishes);
+  let newOrderedDishes = orderedDishes.asMutable({ deep: true });
+  for (let i = 0; i < newOrderedDishes.length; i++) {
+    if (newOrderedDishes[i].isRelatedToCoupon) {
+      let dishCount = getDishesCount([newOrderedDishes[i]]);
+      if (dishCount <= newOrderedDishes[i].relatedCouponCount) {
+        newOrderedDishes.splice(i, 1);
+      } else {
+        if (isSingleDishWithoutProps(newOrderedDishes[i])) {
+          newOrderedDishes[i].order = dishCount - newOrderedDishes[i].relatedCouponCount;
+        } else {
+          const orderLength = newOrderedDishes[i].order.length;
+          for (let j = 0; j < orderLength; j++) {
+            if (newOrderedDishes[i].order[j].count <= newOrderedDishes[i].relatedCouponCount) {
+              newOrderedDishes[i].relatedCouponCount = newOrderedDishes[i].relatedCouponCount - newOrderedDishes[i].order[j].count;
+              newOrderedDishes[i].order[j].count = 0;
+            } else {
+              newOrderedDishes[i].order[j].count = newOrderedDishes[i].order[j].count - newOrderedDishes[i].relatedCouponCount;
+            }
+          }
+        }
+      }
     }
-  });
+  }
+  console.log(newOrderedDishes);
   if (discountType === 1) {
     discountList.forEach(
       dishcount => {
-        orderedDishes.forEach(
+        newOrderedDishes.forEach(
           orderedDish => {
             if (orderedDish.id === dishcount.dishId) {
               disCountPriceList.push(
@@ -223,7 +242,7 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, discountL
     // 表示会员价格
     discountList.forEach(
       dishcount => {
-        orderedDishes.forEach(
+        newOrderedDishes.forEach(
           orderedDish => {
             if (orderedDish.id === dishcount.dishId) {
               disCountPriceList.push(
@@ -307,7 +326,7 @@ const getRelatedToDishCouponProps = exports.getRelatedToDishCouponProps = functi
     }
     return true;
   });
-  relatedCouponDish.couponValue = parseFloat((benefitMoneyCollection.reduce((c, p) => c + p)).toFixed(2));
+  relatedCouponDish.couponValue = benefitMoneyCollection.length ? parseFloat((benefitMoneyCollection.reduce((c, p) => c + p)).toFixed(2)) : 0;
   return relatedCouponDish;
 };
 // 计算优惠券多少价格
