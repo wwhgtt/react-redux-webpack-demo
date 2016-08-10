@@ -54,7 +54,7 @@ module.exports = React.createClass({
       if (this._mapLocal) {
         this._mapLocal.search(searchKey);
       }
-    }, 80);
+    }, 100);
   },
   handleCenterPointChange(point) {
     const geocoder = new BMap.Geocoder();

@@ -12,12 +12,12 @@ module.exports = React.createClass({
   componentDidMount() {
     this._now = new Date().getTime();
   },
-  handleClick(evt) {
+  handleTouchTap(evt) {
     if (!this.props.onSelectComplete) {
       return;
     }
 
-    const data = evt.target.dataset;
+    const data = evt.currentTarget.dataset;
     const pos = this.props.list[data.index];
     if (!pos) {
       return;
@@ -42,8 +42,8 @@ module.exports = React.createClass({
       }
       return (
         <li key={item.uid || (now + index)}>
-          <button data-index={index} className="addrselect-list-item">
-            <h4 className="addrselect-list-title ellipsis" onClick={this.handleClick}>{title}</h4>
+          <button data-index={index} className="addrselect-list-item" onTouchTap={this.handleTouchTap}>
+            <h4 className="addrselect-list-title ellipsis">{title}</h4>
             <p className="addrselect-list-address ellipsis">{item.address}</p>
           </button>
         </li>
