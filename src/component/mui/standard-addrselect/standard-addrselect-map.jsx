@@ -87,6 +87,7 @@ module.exports = React.createClass({
             地图加载中...
           </p>
         </div>
+        <button className="addrselect-map-center"></button>
       </div>
     );
   },

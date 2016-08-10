@@ -37,18 +37,15 @@ module.exports = React.createClass({
     const now = this._now;
     let items = this.props.list.map((item, index) => {
       let title = item.title;
-      let className;
       if (index === 0) {
         title = `[推荐位置] ${name}`;
-        className = 'recommend';
       }
       return (
-        <li key={item.uid || (now + index)} className={className}>
-          <h4 data-index={index} onClick={this.handleClick}>
-            <i></i>
-            {title}
-          </h4>
-          <p>{item.address}</p>
+        <li key={item.uid || (now + index)}>
+          <button data-index={index} className="addrselect-list-item">
+            <h4 className="addrselect-list-title ellipsis" onClick={this.handleClick}>{title}</h4>
+            <p className="addrselect-list-address ellipsis">{item.address}</p>
+          </button>
         </li>
       );
     });
