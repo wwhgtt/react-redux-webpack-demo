@@ -199,6 +199,12 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, discountL
     return false;
   }
   const disCountPriceList = [];
+  console.log(orderedDishes);
+  orderedDishes.forEach(dish => {
+    if (orderedDishes.isRelatedToCoupon === true) {
+      console.log(orderedDishes);
+    }
+  });
   if (discountType === 1) {
     discountList.forEach(
       dishcount => {
