@@ -1,35 +1,100 @@
-.addrselect-search {
-  position: absolute;
+@import 'settings.colors';
+
+// address select header
+.addrselect-header {
+  position: relative;
   z-index: 10;
-  top: 5px;
-  left: 5px;
-  right: 5px;
-  height: 40px;
-  input{
+  width: 100%;
+  padding: 10px 15px;
+  background: $color-white;
+  box-shadow: 0 2px 4px $color-mercury;
+}
+
+.addrselect-search {
+  &box {
     display: block;
     width: 100%;
-    height: 34px;
-    padding: 5px 10px;
-    box-sizing: border-box;
+    height: 40px;
+    border-radius: 4px;
+    background: $color-wild-sand;
+  }
+
+  &-input {
     font-size: 14px;
-    line-height: 1.42857143;
-    color: #555;
-    background-color: #f3f3f3;
-    background-image: none;
-    border: none;
-    &:focus{
-      outline: 0;
+    float: left;
+    width: calc(100% - 80px);
+    height: 20px;
+    margin-top: 11px;
+    border: 0;
+    background: transparent;
+  }
+
+  &-icon {
+    float: left;
+
+    &::before {
+      display: block;
+      width: 40px;
+      height: 40px;
+      content: '';
+      background-image: url('../../../asset/images/location-grey.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 15px 18px;
+    }
+  }
+
+  &-close {
+    float: right;
+
+    &::before {
+      display: block;
+      width: 40px;
+      height: 40px;
+      content: '';
+      background-image: url('../../../asset/images/input-cancel.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 18px 18px;
     }
   }
 }
-.addrselect-map {
+
+// header suggestions dorpdown
+.addrselect-suggestions {
   position: absolute;
-  top: 45px;
+  z-index: 1;
+  top: 100%;
+  right: 0;
   left: 0;
-  height: 300px;
+  border-top: 1px solid $color-mercury;
+  background: $color-white;
+}
+
+.addrselect-suggestion {
+  font-size: 14px;
+  display: block;
+  padding: 10px 15px;
+  color: $color-dove-grey;
+  border-bottom: 1px solid $color-gallery;
+
+  > small {
+    margin-left: 10px;
+    color: $color-dusty-grey;
+
+    &::before {
+      content: '一';
+    }
+  }
+}
+
+// address map
+.addrselect-map {
   width: 100%;
+  height: 200px;
   background-color: #eee;
 }
+
 .addrselect-map-inner{
   height: 100%;
 }
@@ -52,7 +117,7 @@
   height: 25px;
   margin: -25px 0 0 -10px;
   content: " ";
-  background: url(../../../asset/images/map-marker-red.png) no-repeat;
+  // background: url(../../../asset/images/map-marker-red.png) no-repeat;
 }
 .addrselect-map-cur{
   position: absolute;
@@ -76,7 +141,7 @@
         color: #fe2947;
       }
       i{
-        background-image:url(../../../asset/images/map-marker-recommend.png);
+        // background-image:url(../../../asset/images/map-marker-recommend.png);
         opacity: 1;
       }
     }
@@ -89,7 +154,7 @@
       left: 0;
       width: 22px;
       height: 22px;
-      background:url(../../../asset/images/map-marker-default.png) no-repeat 0 0;
+      // background:url(../../../asset/images/map-marker-default.png) no-repeat 0 0;
       background-size: 22px 22px;
       opacity: 0.6;
     }

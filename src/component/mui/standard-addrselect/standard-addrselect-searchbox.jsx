@@ -75,7 +75,7 @@ module.exports = React.createClass({
       return (
         <li key={key}>
           <a
-            className="suggest-title"
+            className="addrselect-suggestion"
             onClick={this.handleItemClick}
             data-index={index}
             data-name={item.title}
@@ -83,22 +83,27 @@ module.exports = React.createClass({
             data-longitude={item.point.lng}
           >
             {item.title}
-            <span>{item.address}</span>
+            <small>{item.address}</small>
           </a>
         </li>
       );
     });
 
     return (
-      <div className="addrselect-search" ref="wrap">
-        <input
-          type="text"
-          ref="input"
-          placeholder={this.props.placeholder}
-          onClick={this.handleInputClick}
-          onChange={this.handleChange}
-        />
-        <ul className="suggest" style={{ display: this.props.suggestVisible ? 'block' : '' }}>
+      <div className="addrselect-header" ref="wrap">
+        <label className="addrselect-searchbox clearfix">
+          <span className="addrselect-search-icon"></span>
+          <input
+            type="text"
+            ref="input"
+            className="addrselect-search-input"
+            placeholder={this.props.placeholder}
+            onClick={this.handleInputClick}
+            onChange={this.handleChange}
+          />
+          <button className="addrselect-search-close"></button>
+        </label>
+        <ul className="addrselect-suggestions" style={{ display: this.props.suggestVisible ? 'block' : '' }}>
           {items}
         </ul>
       </div>
