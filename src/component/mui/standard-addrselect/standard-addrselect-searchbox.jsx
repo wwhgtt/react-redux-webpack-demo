@@ -74,7 +74,7 @@ module.exports = React.createClass({
       const key = item.uid;
       return (
         <li key={key}>
-          <a
+          <button
             className="addrselect-suggestion"
             onClick={this.handleItemClick}
             data-index={index}
@@ -84,7 +84,7 @@ module.exports = React.createClass({
           >
             {item.title}
             <small>{item.address}</small>
-          </a>
+          </button>
         </li>
       );
     });
