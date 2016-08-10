@@ -1,3 +1,4 @@
+// flex layout
 .flex-columns {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -36,6 +37,17 @@
   -ms-flex: 1;
   flex: 1;
   -webkit-overflow-scrolling: touch;
+}
+
+
+// float layout
+.clearfix {
+  @include clearfix;
+}
+
+.half {
+  float: left;
+  width: 50%;
 }
 
 .vertical-center {
