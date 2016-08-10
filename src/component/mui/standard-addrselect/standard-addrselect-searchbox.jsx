@@ -17,15 +17,6 @@ module.exports = React.createClass({
     };
   },
   componentDidMount() {
-    document.body.addEventListener('click', evt => {
-      if (this.refs.wrap.contains(evt.target)) {
-        return;
-      }
-
-      if (this.props.onSetSuggestVisible) {
-        this.props.onSetSuggestVisible(false);
-      }
-    }, false);
   },
   handleChange(evt) {
     if (this.props.onUserInput) {
@@ -61,8 +52,8 @@ module.exports = React.createClass({
       title: pos.title,
       address: pos.address,
       point: {
-        lng: pos.point.lng,
-        lat: pos.point.lat,
+        longitude: pos.point.lng.toString(),
+        latitude: pos.point.lat.toString(),
       },
     };
     this.refs.input.value = pos.address;

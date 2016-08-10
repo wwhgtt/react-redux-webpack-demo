@@ -26,7 +26,9 @@ module.exports = React.createClass({
     const ret = {
       title: pos.title,
       address: pos.address,
-      point: Object.assign({}, pos.point),
+      point: {
+        longitude: pos.point.lng.toString(),
+        latitude: pos.point.lat.toString() },
     };
     this.props.onSelectComplete(ret);
   },

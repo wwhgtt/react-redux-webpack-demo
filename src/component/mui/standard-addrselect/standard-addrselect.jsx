@@ -22,6 +22,8 @@ module.exports = React.createClass({
       suggestVisible: false,
     };
   },
+  componentDidMount() {
+  },
   handleMapInited(map) {
     this._map = map;
     const that = this;

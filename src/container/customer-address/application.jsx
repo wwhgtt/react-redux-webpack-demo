@@ -1,65 +1,89 @@
 const React = require('react');
 const connect = require('react-redux').connect;
 const actions = require('../../action/customer-address/customer-address');
+const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const StandardAddressSelect = require('../../component/mui/standard-addrselect/standard-addrselect.jsx');
 const CustomerAddressEditor = require('../../component/customer-address/customer-address-editor.jsx');
 const Toast = require('../../component/mui/toast.jsx');
+const shopId = getUrlParam('shopId');
+const addressId = getUrlParam('type') || '1';
 require('../../asset/style/style.scss');
 require('./application.scss');
 const CustomerAddressApplication = React.createClass({
   displayName: 'CustomerAddressApplication',
   propTypes: {
     // MapedActionsToProps
+    fetchCustomerAddressInfo: React.PropTypes.func.isRequired,
+    setChildView: React.PropTypes.func,
+    setErrorMsg: React.PropTypes.func,
+    setAddressInfo: React.PropTypes.func,
     // MapedStatesToProps
     errorMessage: React.PropTypes.string,
     clearErrorMsg: React.PropTypes.func,
-    setChildView: React.PropTypes.func,
     childView: React.PropTypes.string,
     customerProps: React.PropTypes.object.isRequired,
-  },
-  getInitialState() {
-    return {
-    };
   },
   componentWillMount() {
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
   },
   componentDidMount() {
-    this.setChildViewAccordingToHash();
-  },
-  componentDidUpdate() {
+    const { fetchCustomerAddressInfo } = this.props;
+    Promise.all([fetchCustomerAddressInfo(shopId, addressId)]).then(() => {
+      this.setChildViewAccordingToHash();
+    });
   },
   setChildViewAccordingToHash() {
     const { setChildView } = this.props;
     const hash = location.hash;
     setChildView(hash);
   },
-  resetChildView(evt) {
-    evt.preventDefault();
-    const { setChildView } = this.props;
-    if (location.hash !== '') {
-      location.hash = '';
-    } else {
-      setChildView('');
+  handleAddressPropertyChange(propertys) {
+    const { setAddressInfo } = this.props;
+    setAddressInfo(propertys);
+  },
+  handleSelectComplete(pos) {
+    const { setAddressInfo } = this.props;
+    const propertys = {
+      street: pos.title,
+      baseAddress: pos.address,
+      latitude: pos.point.latitude,
+      longitude: pos.point.longitude,
+    };
+    setAddressInfo(propertys);
+    location.hash = '';
+  },
+  saveAddress(validateRet, data) {
+    const { setErrorMsg } = this.props;
+    if (!validateRet.valid) {
+      setErrorMsg(validateRet.msg);
+      return;
     }
   },
-  submitOrder() {
+  removeAddress(data) {
+    const { setErrorMsg } = this.props;
+    setErrorMsg('删除成功');
   },
   render() {
     const { childView, errorMessage, clearErrorMsg, customerProps } = this.props;
-    const customerAddressProps = {
-      currentPoint: { lng: 104.066082, lat: 30.542718 },
-      placeholder: '请选择收货地址',
-      onSelectComplete(poi) {
-      },
+    const currentPoint = {
+      latitude: customerProps.latitude,
+      longitude: customerProps.longitude,
+      isGPSPoint: customerProps._isGPSPoint === true,
     };
     return (
       <div className="application">
+        <div style={{ display: childView ? 'none' : '' }}>
+        </div>
         {
           childView ?
-            <StandardAddressSelect {...customerAddressProps} />
+            <StandardAddressSelect placeholder="请选择收货地址" currentPoint={currentPoint} onSelectComplete={this.handleSelectComplete} />
             :
-            <CustomerAddressEditor customerProps={customerProps} />
+            <CustomerAddressEditor
+              customerProps={customerProps}
+              onPropertyChange={this.handleAddressPropertyChange}
+              onSaveAddress={this.saveAddress}
+              onRemoveAddress={this.removeAddress}
+            />
         }
         {errorMessage ?
           <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
