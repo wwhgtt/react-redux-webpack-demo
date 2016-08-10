@@ -250,6 +250,15 @@ module.exports = function (
           .setIn(
             ['serviceProps', 'couponsProps', 'inUseCouponDetail'],
             selectedCoupon
+          )
+          .updateIn(
+            ['orderedDishesProps', 'dishes'],
+            dishes => dishes.flatMap(
+              dish => dish.brandDishId === selectedCoupon.coupDishBeanList.dishId ?
+              dish.set('isRelatedToCoupon', true)
+              :
+              dish.set('isRelatedToCoupon', false)
+            )
           );
         }
         return state.setIn(
