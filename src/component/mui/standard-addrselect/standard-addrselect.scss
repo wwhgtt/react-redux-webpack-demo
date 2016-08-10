@@ -60,6 +60,16 @@
   }
 }
 
+.addrselect-mask {
+  position: fixed;
+  z-index: 5;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: $opacity-background;
+}
+
 // header suggestions dorpdown
 .addrselect-suggestions {
   position: absolute;
@@ -73,8 +83,11 @@
 
 .addrselect-suggestion {
   font-size: 14px;
+  line-height: 16px;
   display: block;
-  padding: 10px 15px;
+  width: 100%;
+  padding: 10px 15px 8px;
+  text-align: left;
   color: $color-dove-grey;
   border-bottom: 1px solid $color-gallery;
 
