@@ -6,7 +6,7 @@ const StandardAddressSelect = require('../../component/mui/standard-addrselect/s
 const CustomerAddressEditor = require('../../component/customer-address/customer-address-editor.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const shopId = getUrlParam('shopId');
-const addressId = getUrlParam('type') || '1';
+const addressId = getUrlParam('addressId');
 require('../../asset/style/style.scss');
 require('./application.scss');
 const CustomerAddressApplication = React.createClass({
@@ -17,6 +17,8 @@ const CustomerAddressApplication = React.createClass({
     setChildView: React.PropTypes.func,
     setErrorMsg: React.PropTypes.func,
     setAddressInfo: React.PropTypes.func,
+    saveCustomerAddressInfo: React.PropTypes.func,
+    deleteCustomerAddressInfo: React.PropTypes.func,
     // MapedStatesToProps
     errorMessage: React.PropTypes.string,
     clearErrorMsg: React.PropTypes.func,
@@ -53,15 +55,19 @@ const CustomerAddressApplication = React.createClass({
     location.hash = '';
   },
   saveAddress(validateRet, data) {
-    const { setErrorMsg } = this.props;
+    const { setErrorMsg, saveCustomerAddressInfo, customerProps } = this.props;
     if (!validateRet.valid) {
       setErrorMsg(validateRet.msg);
       return;
     }
+
+    const address = Object.assign({}, customerProps);
+    saveCustomerAddressInfo(address);
   },
-  removeAddress(data) {
-    const { setErrorMsg } = this.props;
-    setErrorMsg('删除成功');
+  deleteAddress(data) {
+    const { deleteCustomerAddressInfo, customerProps } = this.props;
+    const address = Object.assign({}, customerProps);
+    deleteCustomerAddressInfo(address);
   },
   render() {
     const { childView, errorMessage, clearErrorMsg, customerProps } = this.props;
@@ -82,7 +88,7 @@ const CustomerAddressApplication = React.createClass({
               customerProps={customerProps}
               onPropertyChange={this.handleAddressPropertyChange}
               onSaveAddress={this.saveAddress}
-              onRemoveAddress={this.removeAddress}
+              onRemoveAddress={this.deleteAddress}
             />
         }
         {errorMessage ?

@@ -57,8 +57,13 @@ module.exports = React.createClass({
   },
   handleBasicInfoChange(evt) {
     const input = evt.target;
+    const { customerProps } = this.props;
     const propertys = {};
-    propertys[input.name] = input.value.trim();
+    const value = propertys[input.name] = input.value.trim();
+    if (value === customerProps[input.name]) {
+      return;
+    }
+
     if (this.props.onPropertyChange) {
       this.props.onPropertyChange(propertys);
     }

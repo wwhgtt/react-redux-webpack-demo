@@ -18,6 +18,9 @@
     border-radius: 4px;
     background: $color-wild-sand;
   }
+  &box.is-empty button{
+    display: none;
+  }
 
   &-input {
     font-size: 14px;
@@ -46,7 +49,7 @@
 
   &-close {
     float: right;
-
+    display: block;
     &::before {
       display: block;
       width: 40px;

@@ -1,6 +1,8 @@
 const React = require('react');
 const BMap = window.BMap;
-
+const baiduMapConfig = {
+  zoomLevel: 16,
+};
 module.exports = React.createClass({
   displayName: 'StandardAddrSelectMap',
   propTypes: {
@@ -30,7 +32,7 @@ module.exports = React.createClass({
       const url = 'src/asset/images/map-marker-cur.png';
       const myIcon = new BMap.Icon(url, new BMap.Size(32, 32), {});
       const marker = new BMap.Marker(_point, { icon: myIcon });
-      this.map.centerAndZoom(_point, 16);
+      this.map.centerAndZoom(_point, baiduMapConfig.zoomLevel);
       this.map.addOverlay(marker);
       this._currentPoint = _point;
       this.handleCenterPointChange();
@@ -79,6 +81,13 @@ module.exports = React.createClass({
       this.props.onMapInited(this.map);
     }
   },
+  handleMoveToCurrent() {
+    const point = this._currentPoint;
+    if (point) {
+      this.map.centerAndZoom(point, baiduMapConfig.zoomLevel);
+      this.handleCenterPointChange();
+    }
+  },
   render() {
     return (
       <div className="addrselect-map">
@@ -87,7 +96,7 @@ module.exports = React.createClass({
             地图加载中...
           </p>
         </div>
-        <button className="addrselect-map-center"></button>
+        <button className="addrselect-map-center" onTouchTap={this.handleMoveToCurrent}></button>
       </div>
     );
   },

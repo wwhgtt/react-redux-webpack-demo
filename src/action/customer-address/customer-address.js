@@ -45,5 +45,47 @@ exports.fetchCustomerAddressInfo = (shopId, addressId) => (dispatch, getState) =
       console.log(err);
     });
 };
+exports.saveCustomerAddressInfo = (address) => (dispatch, getState) => {
+  const requestOptions = Object.assign({}, config.requestOptions);
+  requestOptions.method = 'POST';
+  requestOptions.body = JSON.stringify(address);
+  return fetch(config.saveAddressAPI, requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('保存收货地址失败'));
+      }
+      return res.json();
+    }).
+    then(result => {
+      if (result.code === '200') {
+        dispatch(setErrorMsg('保存收货地址成功'));
+      } else {
+        dispatch(setErrorMsg(result.msg));
+      }
+    }).
+    catch(err => {
+      console.log(err);
+    });
+};
+exports.deleteCustomerAddressInfo = (address) => (dispatch, getState) => {
+  const addressId = address.id;
+  return fetch(`${config.deleteAddressAPI}?addressId=${addressId}`, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('删除收货地址失败'));
+      }
+      return res.json();
+    }).
+    then(result => {
+      if (result.code === '200') {
+        dispatch(setErrorMsg('删除收货地址成功'));
+      } else {
+        dispatch(setErrorMsg(result.msg));
+      }
+    }).
+    catch(err => {
+      console.log(err);
+    });
+};
 exports.clearErrorMsg = () => (dispatch, getState) =>
   dispatch(setErrorMsg(null));
