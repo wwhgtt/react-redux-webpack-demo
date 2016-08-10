@@ -355,6 +355,14 @@ module.exports = function (
         return state.set('childView', 'coupon-select');
       } else if (payload === '#time-select') {
         return state.set('childView', 'time-select');
+      } else if (payload === '#selectCoupon') {
+        return state.setIn(
+          ['serviceProps', 'discountProps', 'inUseDiscount'],
+          helper.countMemberPrice(
+            true, state.orderedDishesProps.dishes, state.serviceProps.discountProps.discountList, state.serviceProps.discountProps.discountType
+          )
+        )
+        .set('childView', '');
       }
       return state.set('childView', '');
     case 'SET_ORDERED_DISHES_TO_ORDER':
