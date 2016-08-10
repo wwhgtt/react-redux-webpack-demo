@@ -205,7 +205,7 @@ div[data-reactroot] {
   }
 
   // order-summary icons
-  @for $i from 1 through 4 {
+  @for $i from 1 through 5 {
     &-icon#{$i}:before {
       background-image: url('../../asset/images/summary-#{$i}.png');
     }

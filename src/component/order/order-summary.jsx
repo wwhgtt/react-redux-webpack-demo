@@ -95,7 +95,7 @@ module.exports = React.createClass({
                 {serviceProps.deliveryProps && serviceProps.deliveryProps.freeDeliveryPrice >= 0 && serviceProps.deliveryProps.deliveryPrice
                   && dishesPrice >= serviceProps.deliveryProps.freeDeliveryPrice && serviceProps.deliveryProps.deliveryPrice !== 0 ?
                   <p className="order-summary-entry clearfix">
-                    <span className="option-title">满{serviceProps.deliveryProps.freeDeliveryPrice}元减免配送费</span>
+                    <span className="option-title option-title--icon order-summary-icon2">满{serviceProps.deliveryProps.freeDeliveryPrice}元减免配送费</span>
                     <span className="order-discount discount">
                       {serviceProps.deliveryProps.deliveryPrice}
                     </span>
@@ -105,7 +105,7 @@ module.exports = React.createClass({
                 }
                 {serviceProps.couponsProps.inUseCoupon ?
                   <p className="order-summary-entry clearfix">
-                    <span className="option-title option-title--icon order-summary-icon2">优惠券优惠:</span>
+                    <span className="option-title option-title--icon order-summary-icon3">优惠券优惠:</span>
                     <span className="order-discount discount">
                       {serviceProps.discountProps.discountInfo && serviceProps.discountProps.discountInfo.isChecked ?
                         helper.countPriceByCoupons(
@@ -127,7 +127,7 @@ module.exports = React.createClass({
 
                 {serviceProps.integralsInfo && serviceProps.integralsInfo.isChecked && commercialProps.carryRuleVO ?
                   <p className="order-summary-entry clearfix">
-                    <span className="option-title option-title--icon order-summary-icon3">积分抵扣:</span>
+                    <span className="option-title option-title--icon order-summary-icon4">积分抵扣:</span>
                     <span className="order-discount discount">
                       {helper.countIntegralsToCash(
                         Number(helper.countPriceWithCouponAndDiscount(dishesPrice, serviceProps)),
@@ -146,7 +146,7 @@ module.exports = React.createClass({
                 }
                 {commercialProps.carryRuleVO && helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).smallChange > 0 ?
                   <p className="order-summary-entry clearfix">
-                    <span className="option-title option-title--icon order-summary-icon4">自动抹零:</span>
+                    <span className="option-title option-title--icon order-summary-icon5">自动抹零:</span>
                     <span className="order-discount discount">
                       {Math.abs(helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).smallChange)}
                     </span>
