@@ -1,7 +1,6 @@
 const React = require('react');
 const imagePlaceholder = require('../../../asset/images/dish-placeholder-large.png');
 const helper = require('../../../helper/dish-hepler');
-
 require('./dish-detail-container.scss');
 require('./dish-desc-popup.scss');
 
@@ -38,6 +37,7 @@ module.exports = React.createClass({
                 <span className="dish-desc-price--del price">{dish.marketPrice}</span>
                 <span className="dish-desc-price-title">会员价:</span>
                 <span className="dish-desc-price--bold price">{memberPrice}</span>
+                <span>{dish.discountLevel}专享价</span>
               </p>
               : <p className="clearfix"><span className="dish-desc-price--bold price">{dish.marketPrice.toFixed(2)}</span></p>
             }

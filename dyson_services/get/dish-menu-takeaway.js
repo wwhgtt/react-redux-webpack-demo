@@ -3,6 +3,18 @@ module.exports = {
   path: '/takeaway/dishAll.json',
   template: {
     'data': {
+      'discountInfo': {
+        'isDiscount': true,
+        'type': 2,
+        'levelId':9992836,
+        'levelName':'黄金会员',
+        'dishList': [
+          {
+            'dishId': 57472,
+            'value': 10,
+          },
+        ],
+      },
       'dishTypeList': [{
         'id': 18,
         'name': '小炒美食',

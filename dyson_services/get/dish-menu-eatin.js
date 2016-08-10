@@ -3,6 +3,18 @@ module.exports = {
   path: '/orderall/dishAll.json',
   template: {
     'data': {
+      'discountInfo': {
+        'isDiscount': true,
+        'type': 2,
+        'levelId':9992836,
+        'levelName':'黄金会员',
+        'dishList': [
+          {
+            'dishId': 599397,
+            'value': 10,
+          },
+        ],
+      },
       'dishTypeList': [
         {
           'id': 18,

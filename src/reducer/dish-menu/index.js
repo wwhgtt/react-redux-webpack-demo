@@ -9,6 +9,7 @@ module.exports = function (
     dishDetailData: undefined,
     takeawayServiceProps:undefined,
     dishBoxChargeInfo:null,
+    normalDiscountProps:null,
     errorMessage:null,
   }),
   action
@@ -39,7 +40,8 @@ module.exports = function (
       .set('dishBoxChargeInfo', helper.getUrlParam('type') === 'WM' && payload.extraCharge ? payload.extraCharge : null)
       .setIn(['openTimeList'], payload.openTimeList)
       // equal to 0, means accepting takeaway 24 hours, 2016-07-30 16:46:31 后端调整为bool型
-      .setIn(['isAcceptTakeaway'], payload.isAcceptTakeaway === true);
+      .setIn(['isAcceptTakeaway'], payload.isAcceptTakeaway === true)
+      .set('normalDiscountProps', payload.discountInfo);
     case 'ACTIVE_DISH_TYPE':
       return state.setIn(['activeDishTypeId'], payload);
     case 'SHOW_DISH_DETAIL':
@@ -98,14 +100,46 @@ module.exports = function (
     case 'SET_DISCOUNT_TO_ORDER':
       return state.update(
           'dishesData', dishesData => dishesData.flatMap(
-            dishData => dishData.set(
-                'isMember', payload && payload.dishList && payload.dishList.length && _findIndex(payload.dishList, { dishId:dishData.id }) !== -1
-              ).set(
-                'memberPrice', payload && payload.dishList && payload.dishList.length && _findIndex(payload.dishList, { dishId:dishData.id }) !== -1 ?
-                  payload.dishList[_findIndex(payload.dishList, { dishId:dishData.id })].value
-                  :
-                  false
-              ).set('discountType', payload && payload.type ? payload.type : false)
+            dishData => {
+              if (payload && payload.dishList && payload.dishList.length && payload.type) {
+                return dishData
+                  .set(
+                    'isMember', _findIndex(payload.dishList, { dishId:dishData.id }) !== -1
+                  )
+                  .set(
+                    'memberPrice', _findIndex(payload.dishList, { dishId:dishData.id }) !== -1 ?
+                      payload.dishList[_findIndex(payload.dishList, { dishId:dishData.id })].value
+                      :
+                      false
+                  )
+                  .set('discountType', payload.type)
+                  .set('discountLevel', payload.levelName)
+                  .set('isUserMember', payload.isMember);
+              } else if (state.normalDiscountProps && state.normalDiscountProps.dishList
+                && state.normalDiscountProps.dishList.length && state.normalDiscountProps.type && state.normalDiscountProps.isDiscount) {
+                return dishData
+                  .set(
+                    'isMember', _findIndex(state.normalDiscountProps.dishList, { dishId:dishData.id }) !== -1
+                  )
+                  .set(
+                    'memberPrice', _findIndex(state.normalDiscountProps.dishList, { dishId:dishData.id }) !== -1 ?
+                      state.normalDiscountProps.dishList[_findIndex(state.normalDiscountProps.dishList, { dishId:dishData.id })].value
+                      :
+                      false
+                  )
+                  .set('discountType', state.normalDiscountProps.type)
+                  .set('discountLevel', state.normalDiscountProps.levelName);
+              }
+              return dishData
+                .set(
+                  'isMember', false
+                )
+                .set(
+                  'memberPrice', false
+                )
+                .set('discountType', false)
+                .set('discountLevel', false);
+            }
           )
       );
     case 'SET_ERROR_MSG':
