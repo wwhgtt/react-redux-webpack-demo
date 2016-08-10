@@ -10,45 +10,60 @@ module.exports = React.createClass({
     onCenterPointChange: React.PropTypes.func,
   },
   componentDidMount() {
-    window.setTimeout(x => {
-      this.initMap();
-    }, 1);
+    window.setTimeout(this.initMap, 1);
   },
-  convertGPSPointToBaiduPoint(gpsPoint, callback) {
+  componentWillReceiveProps(nextProps) {
+    const { currentPoint } = this.props;
+    const nextCurrentPoint = nextProps.currentPoint;
+    if (!nextCurrentPoint || !nextCurrentPoint.latitude) {
+      return;
+    }
+
+    if (currentPoint.latitude === nextCurrentPoint.latitude && currentPoint.longitude === nextCurrentPoint.longitude) {
+      return;
+    }
+
+    this.mapCenter(nextCurrentPoint);
+  },
+  mapCenter(point) {
+    const centerThePoint = _point => {
+      const url = 'src/asset/images/map-marker-cur.png';
+      const myIcon = new BMap.Icon(url, new BMap.Size(32, 32), {});
+      const marker = new BMap.Marker(_point, { icon: myIcon });
+      this.map.centerAndZoom(_point, 16);
+      this.map.addOverlay(marker);
+      this._currentPoint = _point;
+      this.handleCenterPointChange();
+    };
+    if (!point.latitude || !point.longitude) {
+      centerThePoint(new BMap.Point(0, 0));
+      return;
+    }
+
+    if (point.isGPSPoint !== true) {
+      centerThePoint(new BMap.Point(point.longitude, point.latitude));
+      return;
+    }
+
     const convertor = new BMap.Convertor();
     const pointArr = [
-      new BMap.Point(gpsPoint.lng, gpsPoint.lat),
+      new BMap.Point(point.longitude, point.latitude),
     ];
     convertor.translate(pointArr, 1, 5, data => {
       if (data.status === 0) {
-        if (callback) {
-          callback(data.points && data.points[0]);
-        }
+        centerThePoint(data.points && data.points[0]);
       }
     });
   },
   initMap() {
     const map = this.map = new BMap.Map(this.refs.content);
-    const { currentPoint } = this.props;
-    this.convertGPSPointToBaiduPoint(currentPoint, point => {
-      map.centerAndZoom(point, 16);
-      map.addControl(new BMap.NavigationControl());
-      map.addControl(new BMap.OverviewMapControl());
-      map.addEventListener('tilesloaded', evt => {
-        if (!this.initMaped) {
-          this.handleCenterPointChange();
-          this.initMaped = true;
-        }
-      });
-      map.addEventListener('dragend', evt => {
-        this.handleCenterPointChange();
-      });
-      this.handleMapInited();
-      const url = 'src/asset/images/map-marker-cur.png';
-      const myIcon = new BMap.Icon(url, new BMap.Size(32, 32), {});
-      const marker = new BMap.Marker(point, { icon: myIcon });
-      map.addOverlay(marker);
+    this.mapCenter(this.props.currentPoint);
+    map.addEventListener('tilesloaded', evt => {
     });
+    map.addEventListener('dragend', evt => {
+      this.handleCenterPointChange();
+    });
+    this.handleMapInited();
   },
   handleCenterPointChange() {
     const point = this.map.getCenter();
