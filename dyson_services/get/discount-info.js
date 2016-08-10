@@ -10,7 +10,7 @@ module.exports = {
           value:8,
         },
         {
-          dishId:599414,
+          dishId:61,
           value:9,
         },
       ],

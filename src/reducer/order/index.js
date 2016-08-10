@@ -254,8 +254,8 @@ module.exports = function (
           .updateIn(
             ['orderedDishesProps', 'dishes'],
             dishes => dishes.flatMap(
-              dish => dish.brandDishId === selectedCoupon.coupDishBeanList.dishId ?
-              dish.set('isRelatedToCoupon', true)
+              dish => dish.brandDishId === selectedCoupon.coupDishBeanList[0].dishId ?
+              dish.set('isRelatedToCoupon', true).set('relatedCouponCount', selectedCoupon.coupDishBeanList[0].num)
               :
               dish.set('isRelatedToCoupon', false)
             )
