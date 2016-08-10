@@ -279,7 +279,7 @@ const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedC
   }
   return false;
 };
-// 获取与礼品券有关的菜品信息
+// 获取与礼品券有关的菜品优惠情况
 const getRelatedToDishCouponProps = exports.getRelatedToDishCouponProps = function (coupon) {
   const lastOrderedDishes = JSON.parse(localStorage.getItem('lastOrderedDishes'));
   let relatedCouponDish = { name:null, number:null, couponValue:null, joinBenefitDishesNumber:0 };
