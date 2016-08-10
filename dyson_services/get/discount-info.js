@@ -4,6 +4,9 @@ module.exports = {
     data: {
       isDiscount: true,
       type: 1,
+      levelId:9992836,
+      levelName:'黄金会员',
+      isMember:false,
       dishList:[
         {
           dishId:57472,
