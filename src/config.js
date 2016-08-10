@@ -36,5 +36,6 @@ module.exports = {
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
   editUserAddressURL: `${apiBase}/user/address`,
+  getDefaultArea: `${apiBase}/user/getDefaultArea.json`,
   requestOptions,
 };
