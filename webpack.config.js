@@ -15,6 +15,9 @@ module.exports = {
       './src/order.jsx',
     ],
     'storyboard-entry':'./src/storyboard.jsx',
+    'customer-address-entry': [
+      './src/customer-address.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -73,6 +76,14 @@ module.exports = {
         filename: 'storyboard.html',
         chunks: ['common', 'storyboard-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'CustomerAddressApplication',
+        filename: 'customer-address.html',
+        chunks: ['common', 'customer-address-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template-customer-address.html',
       }
     ),
     new webpack.optimize.CommonsChunkPlugin({

@@ -29,10 +29,13 @@ module.exports = {
   submitTSOrderAPI:`${apiBase}/orderall/subOrder.json`,
   submitWMOrderAPI:`${apiBase}/takeaway/subOrder.json`,
   userAddressAPI: `${apiBase}/user/addressList.json`,
+  getUserAddressListAPI: `${apiBase}/user/getAddressList.json`,
+  customerAddressAPI: `${apiBase}/user/address.json`,
+  saveAddressAPI: `${apiBase}/user/saveAddress.json`,
+  deleteAddressAPI: `${apiBase}/user/deleteAddress.json`,
   shopDetailURL:`${apiBase}/shop/detail`,
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
   editUserAddressURL: `${apiBase}/user/address`,
-
   requestOptions,
 };

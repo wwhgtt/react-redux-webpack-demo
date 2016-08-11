@@ -30,14 +30,15 @@ const OrderApplication = React.createClass({
     setOrderPropsAndResetChildView: React.PropTypes.func.isRequired,
     fetchLastOrderedDishes:React.PropTypes.func.isRequired,
     submitOrder:React.PropTypes.func.isRequired,
-    fetchUserAddressInfo: React.PropTypes.func.isRequired,
+    fetchUserAddressListInfo: React.PropTypes.func.isRequired,
     fetchSendAreaId:React.PropTypes.func.isRequired,
     fetchDeliveryPrice:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
-    setSessionAndForwardChaining:React.PropTypes.func.isRequired,
+    setSessionAndForwardEditUserAddress:React.PropTypes.func.isRequired,
     setCustomerProps:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
+    customerAddressListInfo:React.PropTypes.object,
     serviceProps:React.PropTypes.object.isRequired,
     commercialProps:React.PropTypes.object.isRequired,
     orderedDishesProps:React.PropTypes.object.isRequired,
@@ -145,9 +146,10 @@ const OrderApplication = React.createClass({
   render() {
     const {
       customerProps, serviceProps, childView, tableProps, clearErrorMsg, setCustomerProps,
-      timeProps, orderedDishesProps, commercialProps, errorMessage, setSessionAndForwardChaining,
+      timeProps, orderedDishesProps, commercialProps, errorMessage, setSessionAndForwardEditUserAddress,
+      customerAddressListInfo,
     } = this.props; // state
-    const { setOrderProps, fetchUserAddressInfo, setChildView } = this.props;// actions
+    const { setOrderProps, fetchUserAddressListInfo, setChildView } = this.props;// actions
     const type = getUrlParam('type');
     const shopId = getUrlParam('shopId');
     const getDefaultAddressProps = function () {
@@ -363,8 +365,13 @@ const OrderApplication = React.createClass({
         }
         {childView === 'customer-info' && type === 'WM' ?
           <CustomerTakeawayInfoEditor
-            customerProps={customerProps} sendAreaId={serviceProps.sendAreaId} onAddressEditor={setSessionAndForwardChaining}
-            onCustomerPropsChange={setCustomerProps} onComponentWillMount={fetchUserAddressInfo} onDone={this.resetChildView}
+            customerProps={customerProps}
+            customerAddressListInfo={customerAddressListInfo}
+            sendAreaId={serviceProps.sendAreaId}
+            onAddressEditor={setSessionAndForwardEditUserAddress}
+            onCustomerPropsChange={setCustomerProps}
+            onComponentWillMount={fetchUserAddressListInfo}
+            onDone={this.resetChildView}
           />
           : false
         }

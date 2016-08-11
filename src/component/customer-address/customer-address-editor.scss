@@ -1,0 +1,75 @@
+@import 'settings.colors';
+
+// reset option layout
+.option {
+  $option-left-width: 90px;
+
+  &-title {
+    width: $option-left-width;
+  }
+
+  &-content {
+    width: calc(100% - #{$option-left-width});
+  }
+}
+
+// page styles
+.customer-address-page {
+  min-height: 100%;
+  border-top: 10px solid $color-gallery;
+  border-bottom: 50px solid $color-gallery;
+  background: $color-gallery;
+}
+
+.customer {
+  &-name {
+    float: left;
+    width: 40%;
+  }
+
+  &-gender {
+    float: right;
+    width: 60%;
+  }
+
+  &-address {
+    position: relative;
+    display: block;
+    height: 22px;
+    padding-left: 30px;
+    text-decoration: none;
+
+    &::before {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      width: 30px;
+      height: 22px;
+      content: '';
+      background-image: url('../../asset/images/location-grey.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 15px 18px;
+    }
+
+    &-text {
+      float: left;
+      width: calc(100% - 20px);
+
+      &:not(:empty) + .customer-address-placeholder {
+        display: none;
+      }
+    }
+
+    &-placeholder {
+      color: $color-sliver;
+    }
+  }
+
+
+  &-address-delete {
+    width: 100%;
+    color: $color-radical-red;
+  }
+}
