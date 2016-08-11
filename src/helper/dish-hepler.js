@@ -9,7 +9,7 @@ const getUrlParam = exports.getUrlParam = function (param) {
 const isSingleDishWithoutProps = exports.isSingleDishWithoutProps = function (dish) {
   if (dish.type !== 1 && dish.dishPropertyTypeInfos.length === 0) {
     return true;
-  } else if (dish.type !== 1 && dish.dishPropertyTypeInfos.length === 1 && dish.dishPropertyTypeInfos[0].type === 4) {
+  } else if (dish.type !== 1 && Array.isArray(dish.dishPropertyTypeInfos) && dish.dishPropertyTypeInfos.every(prop => prop.type === 4)) {
     return true;
   }
   return false;
