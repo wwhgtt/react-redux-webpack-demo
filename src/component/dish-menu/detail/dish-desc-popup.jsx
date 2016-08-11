@@ -1,5 +1,6 @@
 const React = require('react');
 const imagePlaceholder = require('../../../asset/images/dish-placeholder-large.png');
+const helper = require('../../../helper/dish-hepler');
 require('./dish-detail-container.scss');
 require('./dish-desc-popup.scss');
 
@@ -41,7 +42,7 @@ module.exports = React.createClass({
               : <p className="clearfix"><span className="dish-desc-price--bold price">{dish.marketPrice.toFixed(2)}</span></p>
             }
             {!dish.isUserMember ?
-              <a className="dish-desc-register" href="">注册会员</a>
+              <a className="dish-desc-register" href={`http://${location.host}/member/register?shopId=${helper.getUrlParam('shopId')}`}>注册会员</a>
               :
               false
             }
