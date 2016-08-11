@@ -41,6 +41,11 @@ module.exports = React.createClass({
               </p>
               : <p className="clearfix"><span className="dish-desc-price--bold price">{dish.marketPrice.toFixed(2)}</span></p>
             }
+            {!dish.isUserMember ?
+              <a className="dish-desc-register" href="">注册会员</a>
+              :
+              false
+            }
             <h3 className="dish-desc-subtitle">美食简介</h3>
             <p className="dish-desc-desc">{dish.dishDesc}</p>
           </div>
