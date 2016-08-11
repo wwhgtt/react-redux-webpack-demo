@@ -217,7 +217,7 @@ const getDishCookieObject = exports.getDishCookieObject = function (dish, orderI
     if (isSingleDishWithoutProps(dish)) {
       if (dish.dishPropertyTypeInfos && dish.dishPropertyTypeInfos.length) {
         // 到这里就剩下只有规格的菜品了
-        spliceResultOfPropIds = getSignleDishRuleIds(dish);
+        spliceResultOfPropIds = `-${getSignleDishRuleIds(dish)}`;
       } else {
         spliceResultOfPropIds = '-';
       }
