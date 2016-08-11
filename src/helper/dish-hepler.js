@@ -147,6 +147,15 @@ const getOrderPropIds = function (order) {
   ).map(ingredient => ingredient.id);
   return [propsIds, ingredientIds];
 };
+const getSignleDishRuleIds = function (dish) {
+  let rulePropertyCollection = [];
+  dish.dishPropertyTypeInfos.map(
+    property => property.properties.map(
+      prop => rulePropertyCollection.push(prop.id)
+    )
+  );
+  return rulePropertyCollection.join('ˆ');
+};
 const getDishBoxCount = exports.getDishBoxCount = function (orderedDishes) {
   let dishBoxContainer = [];
   orderedDishes.map(
@@ -204,9 +213,17 @@ const getDishCookieObject = exports.getDishCookieObject = function (dish, orderI
   const { id, marketPrice } = dish;
   const orderCount = isSingleDishWithoutProps(dish) ? getDishesCount([dish]) : dish.order[orderIdx].count;
   if (isSingleDish) {
-    const spliceResultOfPropIds = isSingleDishWithoutProps(dish)
-     ? '-' :
-      `${getOrderPropIds(dish.order[orderIdx])[1].join('^')}-${getOrderPropIds(dish.order[orderIdx])[0].join('^')}`;
+    let spliceResultOfPropIds = null;
+    if (isSingleDishWithoutProps(dish)) {
+      if (dish.dishPropertyTypeInfos && dish.dishPropertyTypeInfos.length) {
+        // 到这里就剩下只有规格的菜品了
+        spliceResultOfPropIds = `-${getSignleDishRuleIds(dish)}`;
+      } else {
+        spliceResultOfPropIds = '-';
+      }
+    } else {
+      spliceResultOfPropIds = `${getOrderPropIds(dish.order[orderIdx])[1].join('^')}-${getOrderPropIds(dish.order[orderIdx])[0].join('^')}`;
+    }
     return { key : `${consumeType}_${shopId}_${id}_${id}|1-${spliceResultOfPropIds}`, value : `${orderCount}|${marketPrice}` };
   }
   const splitPropsIds = [].concat.apply([], dish.order[orderIdx].groups.map(group => {
