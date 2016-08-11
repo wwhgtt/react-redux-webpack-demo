@@ -56,9 +56,17 @@ module.exports = React.createClass({
       </div>
     );
   },
+  buildDishName(dishData) {
+    if (helper.isSingleDishWithoutProps(dishData) && Array.isArray(dishData.dishPropertyTypeInfos) && dishData.dishPropertyTypeInfos.length) {
+      const properties = dishData.dishPropertyTypeInfos.map(prop => prop.properties[0].name).join(', ');
+      return `${dishData.name} ${properties}/${dishData.unitName}`;
+    }
+    return dishData.name;
+  },
   render() {
     const { dishData } = this.props;
     const orderBtn = this.buildOrderBtn(dishData);
+    const dishName = this.buildDishName(dishData);
     return (
       <div className="dish-on-selling">
         {dishData.currRemainTotal !== 0 ?
@@ -70,7 +78,7 @@ module.exports = React.createClass({
             ></button>
 
             <div className="dish-item-content">
-              <span className="dish-item-name ellipsis">{dishData.name}</span>
+              <span className="dish-item-name ellipsis">{dishName}</span>
               <span className="dish-item-price price">{dishData.marketPrice}</span>
               {orderBtn}
             </div>
