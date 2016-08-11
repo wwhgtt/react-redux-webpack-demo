@@ -236,7 +236,7 @@ const getDishCookieObject = exports.getDishCookieObject = function (dish, orderI
     });
     return [].concat.apply([], result);
   }));
-  const groupChildDishIds = !splitPropsIds.join('#') || splitPropsIds.join('#') === '' ? id : splitPropsIds.join('#');
+  const groupChildDishIds = !splitPropsIds.join('#') || splitPropsIds.join('#') === '' ? id + '|1--' : splitPropsIds.join('#');
   return { key : `${consumeType}_${shopId}_${id}_${groupChildDishIds}`, value : `${orderCount}|${marketPrice}` };
 };
 exports.storeDishesLocalStorage = function (data) {
