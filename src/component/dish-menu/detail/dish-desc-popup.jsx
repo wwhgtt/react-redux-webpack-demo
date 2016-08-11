@@ -17,7 +17,7 @@ module.exports = React.createClass({
   buildDishName(dishData) {
     if (helper.isSingleDishWithoutProps(dishData) && Array.isArray(dishData.dishPropertyTypeInfos) && dishData.dishPropertyTypeInfos.length) {
       const properties = dishData.dishPropertyTypeInfos.map(prop => prop.properties[0].name).join(', ');
-      return `${dishData.name} ${properties}/${dishData.unitName}`;
+      return `${dishData.name} (${properties}/${dishData.unitName})`;
     }
     return dishData.name;
   },
