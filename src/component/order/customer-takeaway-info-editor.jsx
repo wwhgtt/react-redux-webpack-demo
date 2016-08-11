@@ -23,14 +23,12 @@ module.exports = React.createClass({
     const { onComponentWillMount, customerAddressListInfo } = this.props;
     if (!customerAddressListInfo || !customerAddressListInfo.isAddressesLoaded) {
       onComponentWillMount();
+    } else {
+      this.initStateByProps(this.props);
     }
   },
   componentWillReceiveProps(newProps) {
-    const { customerAddressListInfo, customerProps } = newProps;
-    if (customerAddressListInfo !== undefined) {
-      const newState = this.getAddressesState(customerAddressListInfo.data, customerProps);
-      this.setState(newState);
-    }
+    this.initStateByProps(newProps);
   },
   onAddressSelect(evt, option, func) {
     const addressEditor = evt.target.getAttribute('data-editor');
@@ -63,16 +61,21 @@ module.exports = React.createClass({
       }
     });
   },
-  getAddressesState(addressListInfo, customerProps) {
-    let info = addressListInfo;
-    if (addressListInfo.toShopInfo.toShopFlag) {
-      info = addressListInfo.update('inList', list => list.concat({ name: 'xxx', address: '到店取餐', id: 1 }));
+  initStateByProps(props) {
+    const { customerAddressListInfo, customerProps } = props;
+    if (!customerAddressListInfo) {
+      return;
     }
-    info = info.updateIn(['inList', '0'], item => item.set('isChecked', true));
-    return {
-      addressListInfo: info,
+
+    let data = customerAddressListInfo.data;
+    if (data.toShopInfo.toShopFlag) {
+      data = data.update('inList', list => list.concat({ name: 'xxx', address: '到店取餐', id: 1 }));
+    }
+    data = data.updateIn(['inList', '0'], item => item.set('isChecked', true));
+    this.setState({
+      addressListInfo: data,
       id: customerProps.id,
-    };
+    });
   },
   buildAddressElement() {
     const { inList, outList } = this.state.addressListInfo;
