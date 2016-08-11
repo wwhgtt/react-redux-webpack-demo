@@ -303,6 +303,7 @@ module.exports = {
         'videoUrl': '',
         'dishIncreaseUnit': 1.0,
         'stepNum': 1.0,
+        'clearStatus':1,
         'currRemainTotal': 19,
         'dishTypeId': 19,
         'brandDishId': 23,
