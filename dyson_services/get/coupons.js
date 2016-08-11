@@ -107,7 +107,7 @@ module.exports = {
           {
             id: 924,
             couponId: 1150,
-            dishId: 474003,
+            dishId: 27,
             num:9,
             ruleValue: '2',
             brandId: 2192,

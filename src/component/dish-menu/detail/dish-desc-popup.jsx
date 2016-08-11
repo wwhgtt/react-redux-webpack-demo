@@ -1,6 +1,5 @@
 const React = require('react');
 const imagePlaceholder = require('../../../asset/images/dish-placeholder-large.png');
-const _has = require('lodash').has;
 require('./dish-detail-container.scss');
 require('./dish-desc-popup.scss');
 
@@ -41,7 +40,7 @@ module.exports = React.createClass({
               </p>
               : <p className="clearfix"><span className="dish-desc-price--bold price">{dish.marketPrice.toFixed(2)}</span></p>
             }
-            {_has(dish, 'isUserMember') && !dish.isUserMember ?
+            {!dish.isUserMember ?
               <a className="dish-desc-register" href="">注册会员</a>
               :
               false
