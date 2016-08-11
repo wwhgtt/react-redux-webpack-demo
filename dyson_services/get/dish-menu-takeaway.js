@@ -651,21 +651,6 @@ module.exports = {
         'dishTypeId': 3467,
         'brandDishId': 122563,
         'dishPropertyTypeInfos': [{
-          'id': 0,
-          'name': '备注',
-          'type': 3,
-          'properties': [{
-            'id': 8026,
-            'name': '冰镇',
-            'reprice': 0.0,
-            'isChecked': false,
-          }, {
-            'id': 3594,
-            'name': '少油',
-            'reprice': 0.0,
-            'isChecked': false,
-          }],
-        }, {
           'id': 6,
           'name': '容量',
           'type': 4,
@@ -673,16 +658,6 @@ module.exports = {
             'id': 58,
             'name': '小杯',
             'reprice': 0.0,
-            'isChecked': false,
-          }],
-        }, {
-          'id': 2136,
-          'name': '冰度',
-          'type': 1,
-          'properties': [{
-            'id': 8027,
-            'name': '多加冰',
-            'reprice': 0.5,
             'isChecked': false,
           }],
         }],
