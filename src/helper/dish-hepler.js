@@ -290,9 +290,10 @@ exports.isShopOpen = function (timeList) {
 
   return timeList.some(entry => {
     const startTime = timeToSeconds(entry.startTime);
-    const endTime = timeToSeconds(entry.endTime) || timeToSeconds('24:00:00');
-    const isOpenTime = currentTime >= startTime && currentTime <= endTime;
+    let endTime = timeToSeconds(entry.endTime) || timeToSeconds('24:00:00');
+    if (endTime < startTime) endTime += timeToSeconds('24:00:00'); // if endTime is in the next day
 
+    const isOpenTime = currentTime >= startTime && currentTime <= endTime;
     let isOpenDay = false;
 
     // open in 7 days a week
@@ -306,7 +307,7 @@ exports.isShopOpen = function (timeList) {
     }
 
     // open in weekend
-    if (entry.week === 1 && currentDay === 0 && currentDay === 6) {
+    if (entry.week === 1 && (currentDay === 0 || currentDay === 6)) {
       isOpenDay = true;
     }
 
