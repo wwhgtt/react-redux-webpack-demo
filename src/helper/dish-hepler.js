@@ -299,3 +299,15 @@ exports.deleteOldDishCookie = function () {
     });
   }
 };
+
+exports.generateDishNameWithUnit = (dishData) => {
+  if (Array.isArray(dishData.dishPropertyTypeInfos) && dishData.dishPropertyTypeInfos.length) {
+    const avaliableDishProps = dishData.dishPropertyTypeInfos.filter(prop => prop.type === 4);
+    if (avaliableDishProps.length) {
+      const properties = avaliableDishProps.map(prop => prop.properties[0].name).join(', ');
+      return `${dishData.name}(${properties})/${dishData.unitName}`;
+    }
+    return `${dishData.name}/${dishData.unitName}`;
+  }
+  return `${dishData.name}/${dishData.unitName}`;
+};

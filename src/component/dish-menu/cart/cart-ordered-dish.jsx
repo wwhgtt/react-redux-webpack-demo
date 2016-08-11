@@ -123,7 +123,7 @@ module.exports = React.createClass({
                 {dish.name}{this.splitPropsSpecifications(dish)}
               </a>
               :
-              <span className="ellipsis dish-name">{dish.name}{this.splitPropsSpecifications(dish)}</span>
+              <span className="ellipsis dish-name">{helper.generateDishNameWithUnit(dish)}</span>
           }
           <span className="dish-price price">{helper.getDishPrice(dish)}</span>
           <Counter count={helper.getDishesCount([dish])} onCountChange={this.onOrderBtnTap} step={dish.stepNum} />
