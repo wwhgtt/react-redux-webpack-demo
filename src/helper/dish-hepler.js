@@ -16,6 +16,26 @@ const isSingleDishWithoutProps = exports.isSingleDishWithoutProps = function (di
   }
   return false;
 };
+exports.setDishPropertyTypeInfos = function (dishesList) {
+  if (dishesList && dishesList.length) {
+    dishesList.map(
+      dish => {
+        if (dish.dishPropertyTypeInfos && dish.dishPropertyTypeInfos.length) {
+          return dish.dishPropertyTypeInfos.map(
+           property => {
+             if (property.type === 4 && Array.isArray(property.properties) && property.properties.length) {
+               return property.properties.forEach(prop => prop.isChecked = true);
+             }
+             return property;
+           }
+         );
+        }
+        return dish;
+      }
+    );
+  }
+  return dishesList;
+};
 const isGroupDish = exports.isGroupDish = function (dish) {
   return dish.groups !== undefined;
 };

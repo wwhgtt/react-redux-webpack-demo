@@ -34,7 +34,7 @@ module.exports = function (
   switch (type) {
     case 'SET_MENU_DATA':
       return state.setIn(['dishTypesData'], payload.dishTypeList)
-      .setIn(['dishesData'], payload.dishList)
+      .setIn(['dishesData'], helper.setDishPropertyTypeInfos(payload.dishList))
       .setIn(['activeDishTypeId'], getFirstValidDishTypeId(payload))
       .set('dishBoxChargeInfo', helper.getUrlParam('type') === 'WM' && payload.extraCharge ? payload.extraCharge : null)
       .setIn(['openTimeList'], payload.openTimeList)
