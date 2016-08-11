@@ -224,7 +224,6 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, discountL
       }
     }
   }
-  console.log(newOrderedDishes);
   if (discountType === 1) {
     discountList.forEach(
       dishcount => {
@@ -341,6 +340,22 @@ const getRelatedToDishCouponProps = exports.getRelatedToDishCouponProps = functi
   });
   relatedCouponDish.couponValue = benefitMoneyCollection.length ? parseFloat((benefitMoneyCollection.reduce((c, p) => c + p)).toFixed(2)) : 0;
   return relatedCouponDish;
+};
+// 计算实际可用的优惠券的数量
+exports.getCouponsLength = function (couponsList) {
+  let couponLength = 0;
+  couponsList.map(coupon => {
+    if (Array.isArray(coupon.coupRuleBeanList) && coupon.coupRuleBeanList.length) {
+      couponLength = couponLength + 1;
+    } else if (Array.isArray(coupon.coupDishBeanList) && coupon.coupDishBeanList.length) {
+      // 表明优惠券与已点菜品相关
+      if (getRelatedToDishCouponProps(coupon.coupDishBeanList[0]).name) {
+        couponLength = couponLength + 1;
+      }
+    }
+    return true;
+  });
+  return couponLength;
 };
 // 计算优惠券多少价格
 const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, totalPrice) {

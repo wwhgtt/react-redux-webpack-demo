@@ -274,7 +274,7 @@ const OrderApplication = React.createClass({
                 {serviceProps.couponsProps.inUseCoupon ?
                   '已使用一张优惠券'
                   :
-                  `${serviceProps.couponsProps.couponsList.length}张可用`
+                  `${helper.getCouponsLength(serviceProps.couponsProps.couponsList)}张可用`
                 }
               </span>
               <span className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
