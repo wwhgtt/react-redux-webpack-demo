@@ -98,7 +98,7 @@ module.exports = React.createClass({
                 {dish.name}
               </a>
               :
-              <span className="ellipsis dish-name">{dish.name}</span>
+              <span className="ellipsis dish-name">{helper.generateDishNameWithUnit(dish)}</span>
           }
           <span className="order-dish-price price">{helper.getDishPrice(dish)}</span>
           <span className="order-dish-count">x{helper.getDishesCount([dish])}</span>

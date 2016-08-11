@@ -14,16 +14,8 @@ module.exports = React.createClass({
     evt.preventDefault();
     this.props.onCloseBtnTap();
   },
-  buildDishName(dishData) {
-    if (helper.isSingleDishWithoutProps(dishData) && Array.isArray(dishData.dishPropertyTypeInfos) && dishData.dishPropertyTypeInfos.length) {
-      const properties = dishData.dishPropertyTypeInfos.map(prop => prop.properties[0].name).join(', ');
-      return `${dishData.name} (${properties}/${dishData.unitName})`;
-    }
-    return dishData.name;
-  },
   render() {
     const { dish } = this.props;
-    const dishName = this.buildDishName(dish);
 
     let memberPrice;
     if (dish.isMember && dish.discountType === 1) {
@@ -39,7 +31,7 @@ module.exports = React.createClass({
         <div className="dish-detail-content dish-detail-content--white">
           <img className="dish-desc-image" src={dish.largeImgUrl || imagePlaceholder} alt="" />
           <div className="dish-desc-content">
-            <h2 className="dish-desc-title">{dishName}</h2>
+            <h2 className="dish-desc-title">{helper.generateDishNameWithUnit(dish)}</h2>
             {dish.isMember ?
               <p className="clearfix">
                 <span className="dish-desc-price--del price">{dish.marketPrice}</span>
