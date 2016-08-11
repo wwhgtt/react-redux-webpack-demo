@@ -327,6 +327,8 @@ module.exports = function (
         ['customerProps', 'addresses'],
         Immutable.from((state.customerProps.addresses || []).concat(payload))
       ).setIn(['customerProps', 'isAddressesLoaded'], true);
+    case 'SET_ADDRESS_LIST_INFO_TO_ORDER':
+      return state.set('customerAddressListInfo', { isAddressesLoaded: true, data: payload });
     case 'SET_SEND_AREA_ID':
       if (!payload || payload === 0) {
         // 表示到店取餐的情况

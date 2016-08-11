@@ -59,7 +59,10 @@ module.exports = React.createClass({
     const input = evt.target;
     const { customerProps } = this.props;
     const propertys = {};
-    const value = propertys[input.name] = input.value.trim();
+    let value = propertys[input.name] = input.value.trim();
+    if (input.name === 'sex') {
+      value = parseInt(value, 10) || 0;
+    }
     if (value === customerProps[input.name]) {
       return;
     }
@@ -90,7 +93,7 @@ module.exports = React.createClass({
                 <label className="half">
                   <input
                     className="option-radio" type="radio" name="sex" defaultValue="1"
-                    onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === '1'}
+                    onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === 1}
                   />
                   <span className="btn-tickbox"></span>
                   <span className="option-desc">先生</span>
