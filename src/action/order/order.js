@@ -58,8 +58,12 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
     catch(err => {
       console.log(err);
     });
-exports.fetchOrderCoupons = () => (dispatch, getState) =>
-  fetch(`${config.orderCouponsAPI}?shopId=${shopId}&orderAccount=${getDishesPrice(getState().orderedDishesProps.dishes)}`, config.requestOptions).
+exports.fetchOrderCoupons = () => (dispatch, getState) => {
+  let brandDishidsCollection = [];
+  const brandDishIds = getState().orderedDishesProps.dishes.map(dish => brandDishidsCollection.push(dish.brandDishId)).join(',');
+  fetch(`${config.orderCouponsAPI}?
+    shopId=${shopId}&orderAccount=${getDishesPrice(getState().orderedDishesProps.dishes)}&brandDishIds=${brandDishIds}`,
+    config.requestOptions).
     then(res => {
       if (!res.ok) {
         dispatch(setErrorMsg('获取折扣信息失败...'));
@@ -72,6 +76,7 @@ exports.fetchOrderCoupons = () => (dispatch, getState) =>
     catch(err => {
       console.log(err);
     });
+};
 
 exports.fetchUserAddressInfo = () => (dispatch, getState) =>
   fetch(config.userAddressAPI, config.requestOptions).
