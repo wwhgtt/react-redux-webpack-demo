@@ -1,7 +1,4 @@
 const React = require('react');
-const _find = require('lodash.find');
-const _findIndex = require('lodash.findindex');
-const CustomerInfoEditor = require('./customer-info-editor.jsx');
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const CustomerAddressOption = require('./customer-address-option.jsx');
 require('./customer-takeaway-info-editor.scss');
@@ -9,100 +6,128 @@ require('./customer-takeaway-info-editor.scss');
 module.exports = React.createClass({
   displayName: 'TakeawayCustomerInfoEditor',
   propTypes: {
+    customerAddressListInfo:React.PropTypes.object,
+    customerProps:React.PropTypes.object,
     onComponentWillMount: React.PropTypes.func.isRequired,
-    sendAreaId:React.PropTypes.number.isRequired,
     onAddressEditor:React.PropTypes.func.isRequired,
-    ...CustomerInfoEditor.propTypes,
+    onCustomerPropsChange:React.PropTypes.func.isRequired,
+    onDone:React.PropTypes.func.isRequired,
   },
   getInitialState() {
-    // set local state for address select
-    const { sendAreaId } = this.props;
     return {
-      addresses:sendAreaId !== 0 ?
-        this.getAddressesState(this.props.customerProps.addresses).addresses : null,
+      id: '',
+      addressListInfo: { inList: [], outList: [], toShopInfo:{ toShopFlag:true } },
     };
   },
   componentWillMount() {
-    const { onComponentWillMount, sendAreaId, customerProps } = this.props;
-    // If no default address, push address list from server.
-    if (sendAreaId !== 0 && !customerProps.isAddressesLoaded) {
+    const { onComponentWillMount, customerAddressListInfo } = this.props;
+    if (!customerAddressListInfo || !customerAddressListInfo.isAddressesLoaded) {
       onComponentWillMount();
     }
   },
   componentWillReceiveProps(newProps) {
-    const { sendAreaId } = this.props;
-    if (sendAreaId !== 0) {
-      const newState = this.getAddressesState(newProps.customerProps.addresses);
+    const { customerAddressListInfo, customerProps } = newProps;
+    if (customerAddressListInfo !== undefined) {
+      const newState = this.getAddressesState(customerAddressListInfo.data, customerProps);
       this.setState(newState);
     }
   },
-  onCustomerPropsChange(evt, customerProps) {
-    const { onDone } = this.props;
-    const selectedAddress = _find(this.state.addresses, { isChecked:true });
-    const customerPropsWithoutId = customerProps.without('id');
-    if (this.props.onCustomerPropsChange(evt,
-      {
-        id: 'customer-info-with-address',
-        ...customerPropsWithoutId,
-        address:selectedAddress,
-      }
-    )) onDone(evt, '');
-  },
-  onAddressSelect(evt, option) {
-    const { onAddressEditor } = this.props;
+  onAddressSelect(evt, option, func) {
     const addressEditor = evt.target.getAttribute('data-editor');
-    if (!addressEditor) {
-      this.setState({
-        addresses: this.state.addresses.flatMap(
-          address => address.id === option.id ? address.set('isChecked', true) : address.set('isChecked', false)
-        ),
-      });
-    } else {
-      onAddressEditor(addressEditor);
-    }
+    func(addressEditor);
   },
-  getAddressesState(addresses) {
-    const selectedAddressIdx = _findIndex(addresses, { isChecked:true });
-    if (addresses && addresses.length && selectedAddressIdx === -1) {
-      addresses = addresses.update(0, address => address.set('isChecked', true));
+  onAddressSelectInList(evt, option) {
+    this.onAddressSelect(evt, option, (editor) => {
+      if (editor) {
+        this.props.onAddressEditor(editor);
+        return;
+      }
+
+      const { addressListInfo } = this.state;
+      this.setState({
+        addressListInfo: addressListInfo.update('inList', inList => inList.map(item =>
+          item.set('isChecked', option.id === item.id)
+        )),
+      });
+
+      const selectedAddress = addressListInfo.inList.find(item => item.id === option.id);
+      if (selectedAddress) {
+        this.completeSelect(evt, selectedAddress);
+      }
+    });
+  },
+  onAddressSelectOutList(evt, option) {
+    this.onAddressSelect(evt, option, (editor) => {
+      if (editor) {
+        this.props.onAddressEditor(editor);
+      }
+    });
+  },
+  getAddressesState(addressListInfo, customerProps) {
+    let info = addressListInfo;
+    if (addressListInfo.toShopInfo.toShopFlag) {
+      info = addressListInfo.update('inList', list => list.concat({ name: 'xxx', address: '到店取餐', id: 1 }));
     }
+    info = info.updateIn(['inList', '0'], item => item.set('isChecked', true));
     return {
-      addresses,
+      addressListInfo: info,
+      id: customerProps.id,
     };
   },
-  buildAddressElement(addresses, sendAreaId) {
-    if (sendAreaId === 0) {
-      return (<div className="pickup-option is-checked">到店取餐</div>);
-    } else if (addresses instanceof Array && addresses.length) {
-      return (
+  buildAddressElement() {
+    const { inList, outList } = this.state.addressListInfo;
+    const elems = [];
+    const addressListToOptionsData = addressList => addressList.map(item => {
+      const { address, name, sex, mobile } = item;
+      return {
+        id: item.id,
+        address,
+        label: address,
+        name,
+        mobile,
+        isChecked: item.isChecked,
+        sex: sex === 1 ? '先生' : '女士 ',
+      };
+    });
+    // 在配送范围
+    if (inList && inList.length) {
+      elems.push(<p className="address-title">可选收货地址</p>);
+      elems.push(
         <ActiveSelect
           className="address-group"
-          optionsData={addresses}
+          optionsData={addressListToOptionsData(inList)}
           optionComponent={CustomerAddressOption}
-          onSelectOption={this.onAddressSelect}
+          onSelectOption={this.onAddressSelectInList}
         />
       );
     }
-    return false;
+    // 不在配送范围
+    if (outList && outList.length) {
+      elems.push(<p className="address-title">不在配送范围内</p>);
+      elems.push(
+        <ActiveSelect
+          className="address-group"
+          optionsData={addressListToOptionsData(outList)}
+          optionComponent={CustomerAddressOption}
+          onSelectOption={this.onAddressSelectOutList}
+        />
+      );
+    }
+    return elems;
+  },
+  completeSelect(evt, customerAddressInfo) {
+    const { onCustomerPropsChange, onDone } = this.props;
+    const { name, sex, mobile, address } = customerAddressInfo;
+    const info = { name, sex, mobile, address, id: 'customer-info' };
+    if (onCustomerPropsChange(evt, info)) onDone(evt, '');
   },
   render() {
-    const { customerProps, onDone, sendAreaId, onAddressEditor } = this.props;
-    const { addresses } = this.state;
-
+    const { onAddressEditor } = this.props;
     return (
       <div className="order-subpage">
         <div className="order-subpage-content">
-          <CustomerInfoEditor
-            onCustomerPropsChange={this.onCustomerPropsChange}
-            customerProps={customerProps.without('addresses')} onDone={onDone}
-          />
-          <p className="address-title">请选择收货地址或到店取餐</p>
-          {this.buildAddressElement(addresses, sendAreaId)}
-          {sendAreaId !== 0 ?
-            <a className="address-add-more" onTouchTap={onAddressEditor}>增加地址</a>
-            :
-            false
-          }
+          {this.buildAddressElement()}
+          <a className="address-add-more" onTouchTap={onAddressEditor}>增加地址</a>
         </div>
       </div>
     );

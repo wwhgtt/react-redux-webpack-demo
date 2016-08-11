@@ -5,11 +5,22 @@ const config = require('../../config');
 const setAddressInfo = exports.setAddressInfo = createAction('SET_ADDRESS_INFO', address => address);
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 
+const backCustomerAdressListPage = () => {
+  const key = 'rurl_address';
+  let url = sessionStorage.getItem(key);
+  if (!url) {
+    return;
+  }
+
+  sessionStorage.removeItem(key);
+  url = JSON.parse(url);
+  location.href = url;
+};
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 exports.fetchCustomerAddressInfo = (shopId, addressId) => (dispatch, getState) => {
   // 取新增数据
   if (!addressId) {
-    const data = { _isGPSPoint: true, sex: '1' };
+    const data = { _isGPSPoint: true, sex: 1 };
     navigator.geolocation.getCurrentPosition(pos => {
       Object.assign(data, {
         latitude: pos.coords.latitude,
@@ -58,7 +69,7 @@ exports.saveCustomerAddressInfo = (address) => (dispatch, getState) => {
     }).
     then(result => {
       if (result.code === '200') {
-        dispatch(setErrorMsg('保存收货地址成功'));
+        backCustomerAdressListPage();
       } else {
         dispatch(setErrorMsg(result.msg));
       }
@@ -78,7 +89,7 @@ exports.deleteCustomerAddressInfo = (address) => (dispatch, getState) => {
     }).
     then(result => {
       if (result.code === '200') {
-        dispatch(setErrorMsg('删除收货地址成功'));
+        backCustomerAdressListPage();
       } else {
         dispatch(setErrorMsg(result.msg));
       }

@@ -13,6 +13,7 @@ const setCouponsToOrder = createAction('SET_COUPONS_TO_ORDER', coupons => coupon
 const setChildView = exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const setOrderedDishesToOrder = createAction('SET_ORDERED_DISHES_TO_ORDER', dishes => dishes);
 const setAddressInfoToOrder = createAction('SET_ADDRESS_INFO_TO_ORDER', address => address);
+const setAddressListInfoToOrder = createAction('SET_ADDRESS_LIST_INFO_TO_ORDER', data => data);
 const setDeliveryPrice = createAction('SET_DELIVERY_PRICE', freeDeliveryPrice => freeDeliveryPrice);
 const setSendAreaId = createAction('SET_SEND_AREA_ID', areaId => areaId);
 const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
@@ -92,6 +93,21 @@ exports.fetchUserAddressInfo = () => (dispatch, getState) =>
     catch(err => {
       console.log(err);
     });
+exports.fetchUserAddressListInfo = () => (dispatch, getState) => {
+  fetch(`${config.getUserAddressListAPI}?shopId=${shopId}`, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('获取用户地址列表信息失败...'));
+      }
+      return res.json();
+    }).
+    then(coupons => {
+      dispatch(setAddressListInfoToOrder(coupons.data));
+    }).
+    catch(err => {
+      console.log(err);
+    });
+};
 exports.setOrderPropsAndResetChildView = (evt, option) => (dispatch, getState) => {
   dispatch(setOrderProps(evt, option));
   dispatch(setChildView(''));
@@ -164,6 +180,14 @@ exports.setSessionAndForwardChaining = (id) => (dispatch, getState) => {
   } else {
     location.href = `${config.editUserAddressURL}?shopId=${getUrlParam('shopId')}&id=${id}`;
   }
+};
+exports.setSessionAndForwardEditUserAddress = (id) => (dispatch, getState) => {
+  sessionStorage.setItem('rurl_address', JSON.stringify(location.href));
+  let url = `/customer-address.html?shopId=${shopId}`;
+  if (typeof id === 'string') {
+    url += `&addressId=${id}`;
+  }
+  location.href = url;
 };
 exports.setCustomerProps = (evt, customerProps) => (dispatch, getState) => {
   if (!customerProps.name) {

@@ -62,6 +62,7 @@ const CustomerAddressApplication = React.createClass({
     }
 
     const address = Object.assign({}, customerProps);
+    address.shopId = shopId;
     saveCustomerAddressInfo(address);
   },
   deleteAddress(data) {
@@ -81,7 +82,7 @@ const CustomerAddressApplication = React.createClass({
         <div style={{ display: childView ? 'none' : '' }}>
         </div>
         {
-          childView ?
+          childView === '#address-select' ?
             <StandardAddressSelect placeholder="请选择收货地址" currentPoint={currentPoint} onSelectComplete={this.handleSelectComplete} />
             :
             <CustomerAddressEditor
