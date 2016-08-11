@@ -3,6 +3,7 @@ const getDishesPrice = require('../helper/dish-hepler.js').getDishesPrice;
 const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
 const getUrlParam = require('../helper/dish-hepler.js').getUrlParam;
 const isSingleDishWithoutProps = require('../helper/dish-hepler.js').isSingleDishWithoutProps;
+const getDishPrice = require('../helper/dish-hepler.js').getDishPrice;
 const config = require('../config.js');
 // 判断一个对象是否为空
 exports.isEmptyObject = (obj) => {
@@ -311,17 +312,29 @@ const getRelatedToDishCouponProps = exports.getRelatedToDishCouponProps = functi
   let benefitMoneyCollection = [];
   lastOrderedDishes.dishes.map(dish => {
     if (dish.brandDishId === coupon.dishId) {
+      const dishCount = getDishesCount([dish]);
+      const dishPrice = getDishPrice(dish);
       relatedCouponDish.name = dish.name;
       relatedCouponDish.number = coupon.num;
+
       if ((coupon.num - relatedCouponDish.joinBenefitDishesNumber) > 0) {
-        benefitMoneyCollection.push((coupon.num - relatedCouponDish.joinBenefitDishesNumber) < getDishesCount([dish]) ?
-         dish.marketPrice * (coupon.num - relatedCouponDish.joinBenefitDishesNumber)
-         :
-         dish.marketPrice * getDishesCount([dish]));
-        relatedCouponDish.joinBenefitDishesNumber = (coupon.num - relatedCouponDish.joinBenefitDishesNumber) < getDishesCount([dish]) ?
+        if ((coupon.num - relatedCouponDish.joinBenefitDishesNumber) < dishCount) {
+          benefitMoneyCollection.push(dish.marketPrice * (coupon.num - relatedCouponDish.joinBenefitDishesNumber) < dishPrice ?
+            dish.marketPrice * (coupon.num - relatedCouponDish.joinBenefitDishesNumber)
+            :
+            dishPrice
+          );
+        } else {
+          benefitMoneyCollection.push(dish.marketPrice * dishCount < dishPrice ?
+            dish.marketPrice * dishCount
+            :
+            dishPrice
+          );
+        }
+        relatedCouponDish.joinBenefitDishesNumber = (coupon.num - relatedCouponDish.joinBenefitDishesNumber) < dishCount ?
           coupon.num
           :
-          relatedCouponDish.joinBenefitDishesNumber + getDishesCount([dish]);
+          relatedCouponDish.joinBenefitDishesNumber + dishCount;
       }
     }
     return true;

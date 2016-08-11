@@ -1,4 +1,5 @@
 const _findIndex = require('lodash.findindex');
+const _has = require('lodash').has;
 const Immutable = require('seamless-immutable');
 const helper = require('../../helper/dish-hepler');
 module.exports = function (
@@ -101,44 +102,32 @@ module.exports = function (
       return state.update(
           'dishesData', dishesData => dishesData.flatMap(
             dishData => {
+              let haveDiscountPropsData = null;
               if (payload && payload.dishList && payload.dishList.length && payload.type) {
-                return dishData
-                  .set(
-                    'isMember', _findIndex(payload.dishList, { dishId:dishData.id }) !== -1
-                  )
-                  .set(
-                    'memberPrice', _findIndex(payload.dishList, { dishId:dishData.id }) !== -1 ?
-                      payload.dishList[_findIndex(payload.dishList, { dishId:dishData.id })].value
-                      :
-                      false
-                  )
-                  .set('discountType', payload.type)
-                  .set('discountLevel', payload.levelName)
-                  .set('isUserMember', payload.isMember);
+                haveDiscountPropsData = payload;
               } else if (state.normalDiscountProps && state.normalDiscountProps.dishList
-                && state.normalDiscountProps.dishList.length && state.normalDiscountProps.type && state.normalDiscountProps.isDiscount) {
+                && state.normalDiscountProps.dishList.length && state.normalDiscountProps.type) {
+                haveDiscountPropsData = state.normalDiscountProps;
+              } else {
                 return dishData
-                  .set(
-                    'isMember', _findIndex(state.normalDiscountProps.dishList, { dishId:dishData.id }) !== -1
-                  )
-                  .set(
-                    'memberPrice', _findIndex(state.normalDiscountProps.dishList, { dishId:dishData.id }) !== -1 ?
-                      state.normalDiscountProps.dishList[_findIndex(state.normalDiscountProps.dishList, { dishId:dishData.id })].value
-                      :
-                      false
-                  )
-                  .set('discountType', state.normalDiscountProps.type)
-                  .set('discountLevel', state.normalDiscountProps.levelName);
+                  .set('isMember', false)
+                  .set('memberPrice', false)
+                  .set('discountType', false)
+                  .set('discountLevel', false);
               }
               return dishData
-                .set(
-                  'isMember', false
-                )
-                .set(
-                  'memberPrice', false
-                )
-                .set('discountType', false)
-                .set('discountLevel', false);
+                  .set(
+                    'isMember', _findIndex(haveDiscountPropsData.dishList, { dishId:dishData.id }) !== -1
+                  )
+                  .set(
+                    'memberPrice', _findIndex(haveDiscountPropsData.dishList, { dishId:dishData.id }) !== -1 ?
+                      haveDiscountPropsData.dishList[_findIndex(haveDiscountPropsData.dishList, { dishId:dishData.id })].value
+                      :
+                      false
+                  )
+                  .set('discountType', haveDiscountPropsData.type)
+                  .set('discountLevel', haveDiscountPropsData.levelName)
+                  .set('isUserMember', _has(haveDiscountPropsData, 'isMember') ? haveDiscountPropsData.isMember : true);
             }
           )
       );
