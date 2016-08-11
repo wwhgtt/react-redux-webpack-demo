@@ -154,7 +154,7 @@ const getSignleDishRuleIds = function (dish) {
       prop => rulePropertyCollection.push(prop.id)
     )
   );
-  return rulePropertyCollection.join('ˆ');
+  return rulePropertyCollection.join('^');
 };
 const getDishBoxCount = exports.getDishBoxCount = function (orderedDishes) {
   let dishBoxContainer = [];
