@@ -32,7 +32,7 @@ module.exports = {
   getUserAddressListAPI: `${apiBase}/user/getAddressList.json`,
   customerAddressAPI: `${apiBase}/user/address.json`,
   saveAddressAPI: `${apiBase}/user/saveAddress.json`,
-  deleteAddressAPI: `${apiBase}/user/deleteAddress.json`,
+  deleteAddressAPI: `${apiBase}/user/delAddress.json`,
   shopDetailURL:`${apiBase}/shop/detail`,
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
