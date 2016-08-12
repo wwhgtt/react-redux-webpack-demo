@@ -86,21 +86,6 @@ module.exports = React.createClass({
       </div>
     );
   },
-  splitPropsSpecifications(dish) {
-    if (!helper.isSingleDishWithoutProps(dish) && dish.dishPropertyTypeInfos) {
-      const specification = [];
-      dish.dishPropertyTypeInfos.map(
-        dishProperty => {
-          if (dishProperty.type === 4) {
-            specification.push(dishProperty.properties[0].name);
-          }
-          return false;
-        }
-      );
-      return specification.length !== 0 ? '(' + specification.join(',') + ')' : false;
-    }
-    return false;
-  },
   render() {
     const { dish } = this.props;
     const { expand } = this.state;
