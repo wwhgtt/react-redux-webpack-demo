@@ -62,8 +62,8 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
 exports.fetchOrderCoupons = () => (dispatch, getState) => {
   let brandDishidsCollection = [];
   const brandDishIds = getState().orderedDishesProps.dishes.map(dish => brandDishidsCollection.push(dish.brandDishId)).join(',');
-  fetch(`${config.orderCouponsAPI}?
-    shopId=${shopId}&orderAccount=${getDishesPrice(getState().orderedDishesProps.dishes)}&brandDishIds=${brandDishIds}`,
+  fetch(
+    `${config.orderCouponsAPI}?shopId=${shopId}&orderAccount=${getDishesPrice(getState().orderedDishesProps.dishes)}&brandDishIds=${brandDishIds}`,
     config.requestOptions).
     then(res => {
       if (!res.ok) {
