@@ -3,6 +3,7 @@
 // override background color
 .dish-detail-content--white {
   overflow: auto;
+  height: calc(100% - 50px - 72px);
   background: $color-white;
 }
 
@@ -55,6 +56,18 @@
         font-size: 12px;
       }
     }
+
+    &-badge {
+      font-size: 11px;
+      line-height: 12px;
+      float: left;
+      margin-top: 2px;
+      margin-right: 5px;
+      padding: 4px 5px;
+      color: $color-white;
+      border-radius: 2px;
+      background: $color-sunglow;
+    }
   }
 
   // &-login {
@@ -88,5 +101,34 @@
     font-size: 14px;
     line-height: 18px;
     color: $color-dusty-grey;
+  }
+
+  &-register {
+    position: fixed;
+    z-index: 10;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 72px; // 10*2 + 12 + 40
+    background: $color-white;
+
+    &-text {
+      font-size: 11px;
+      line-height: 12px;
+      display: block;
+      padding: 10px;
+      color: $color-dusty-grey;
+    }
+
+    &-btn {
+      font-size: 15px;
+      line-height: 40px;
+      display: block;
+      height: 40px;
+      text-align: center;
+      text-decoration: none;
+      color: $color-white;
+      background: $color-texas-rose;
+    }
   }
 }
