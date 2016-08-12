@@ -342,7 +342,13 @@ module.exports = function (
     case 'SET_ADDRESS_TOSHOP_TO_ORDER':
       return state.set('defaultCustomerProps', payload);
     case 'SET_ADDRESS_LIST_INFO_TO_ORDER':
-      return state.set('customerAddressListInfo', { isAddressesLoaded: true, data: payload });
+      return state.set('customerAddressListInfo', {
+        isAddressesLoaded: true,
+        data: Immutable.from(payload).update('inList', list => list.map((item, index) => {
+          const address = item.wXMemberAddress;
+          return Object.assign({ rangeId: item.rangeId }, address);
+        })),
+      });
     case 'SET_SEND_AREA_ID':
       if (!payload || payload === 0) {
         // 表示到店取餐的情况

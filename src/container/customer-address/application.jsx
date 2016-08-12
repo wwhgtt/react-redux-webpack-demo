@@ -62,7 +62,6 @@ const CustomerAddressApplication = React.createClass({
     }
 
     const address = Object.assign({}, customerProps);
-    address.shopId = shopId;
     saveCustomerAddressInfo(address);
   },
   deleteAddress(data) {
