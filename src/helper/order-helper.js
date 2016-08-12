@@ -345,7 +345,7 @@ const getRelatedToDishCouponProps = exports.getRelatedToDishCouponProps = functi
 exports.getCouponsLength = function (couponsList) {
   let couponLength = 0;
   couponsList.map(coupon => {
-    if (Array.isArray(coupon.coupRuleBeanList) && coupon.coupRuleBeanList.length) {
+    if (Array.isArray(coupon.coupRuleBeanList) && coupon.coupRuleBeanList.length && !coupon.coupDishBeanList.length) {
       couponLength = couponLength + 1;
     } else if (Array.isArray(coupon.coupDishBeanList) && coupon.coupDishBeanList.length) {
       // 表明优惠券与已点菜品相关
@@ -372,7 +372,7 @@ const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, tota
     );
   } else if (coupon.couponType === 3) {
     // '礼品券';
-    if (coupon.coupRuleBeanList.length) {
+    if (coupon.coupRuleBeanList.length && !coupon.coupDishBeanList.length) {
       return 0;
     }
     return getRelatedToDishCouponProps(coupon.coupDishBeanList[0]).couponValue;

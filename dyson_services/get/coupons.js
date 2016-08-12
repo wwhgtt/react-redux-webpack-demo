@@ -102,12 +102,27 @@ module.exports = {
         creatorId: 99999999,
         isDelete: 0,
         instructions: '<p>这是礼品券使用说明：拿到国家动物园找原主自动兑换<br /></p>',
-        coupRuleBeanList: [],
+        coupRuleBeanList: [
+          {
+            id: 924,
+            couponId: 1157,
+            ruleName: 'giftName',
+            ruleValue: '天堂伞',
+            brandId: 2192,
+          },
+          {
+            id: 925,
+            couponId: 1157,
+            ruleName: 'giftNumber',
+            ruleValue: '2',
+            brandId: 2192,
+          },
+        ],
         coupDishBeanList: [
           {
             id: 924,
             couponId: 1150,
-            dishId: 2,
+            dishId: 122565,
             num:9,
             ruleValue: '2',
             brandId: 2192,
