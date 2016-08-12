@@ -108,6 +108,7 @@ module.exports = React.createClass({
       elems.push(<p key="in" className="address-title">可选收货地址</p>);
       elems.push(
         <ActiveSelect
+          key="inSelect"
           className="address-group"
           optionsData={addressListToOptionsData(inList)}
           optionComponent={CustomerAddressOption}
@@ -120,6 +121,7 @@ module.exports = React.createClass({
       elems.push(<p key="out" className="address-title">不在配送范围内</p>);
       elems.push(
         <ActiveSelect
+          key="outSelect"
           className="address-group"
           optionsData={addressListToOptionsData(outList)}
           optionComponent={CustomerAddressOption}
