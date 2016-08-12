@@ -10,6 +10,9 @@ module.exports = {
     'order-entry': [
       './src/order.jsx',
     ],
+    'customer-address-entry': [
+      './src/customer-address.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
