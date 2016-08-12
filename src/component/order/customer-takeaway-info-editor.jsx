@@ -17,6 +17,7 @@ module.exports = React.createClass({
   getInitialState() {
     return {
       addressListInfo: { inList: [], outList: [], toShopInfo:{ toShopFlag:true } },
+      addressCount: 0,
     };
   },
   componentDidMount() {
@@ -62,13 +63,21 @@ module.exports = React.createClass({
     });
   },
   initStateByProps(props) {
-    const { customerAddressListInfo, customerProps, defaultCustomerProps } = props;
+    const { customerAddressListInfo, customerProps } = props;
     if (!customerAddressListInfo || !customerProps) {
       return;
     }
 
     let data = customerAddressListInfo.data;
+    let addressCount = 0;
+    if (data.inList) {
+      addressCount += data.inList.length;
+    }
+    if (data.outList) {
+      addressCount += data.outList.length;
+    }
     if (data.toShopInfo.toShopFlag) {
+      const defaultCustomerProps = props.defaultCustomerProps || {};
       data = data.update('inList', list => list.concat([], {
         name: defaultCustomerProps.name || '',
         sex: parseInt(defaultCustomerProps.sex, 10) || 0,
@@ -86,9 +95,11 @@ module.exports = React.createClass({
     }
     this.setState({
       addressListInfo: data,
+      addressCount,
     });
   },
   buildAddressElement() {
+    const { onAddressEditor } = this.props;
     const { inList, outList } = this.state.addressListInfo;
     const elems = [];
     const addressListToOptionsData = addressList => addressList.map(item => {
@@ -103,8 +114,11 @@ module.exports = React.createClass({
         sex: sex === 1 ? '先生' : '女士 ',
       };
     });
+
+    let listCount = 0;
     // 在配送范围
     if (inList && inList.length) {
+      listCount += inList.length;
       elems.push(<p key="in" className="address-title">可选收货地址</p>);
       elems.push(
         <ActiveSelect
@@ -118,6 +132,7 @@ module.exports = React.createClass({
     }
     // 不在配送范围
     if (outList && outList.length) {
+      listCount += outList.length;
       elems.push(<p key="out" className="address-title">不在配送范围内</p>);
       elems.push(
         <ActiveSelect
@@ -129,6 +144,9 @@ module.exports = React.createClass({
         />
       );
     }
+    if (this.state.addressCount < 10) {
+      elems.push(<a className="address-add-more" onTouchTap={onAddressEditor}>增加地址</a>);
+    }
     return elems;
   },
   completeSelect(evt, selectedAddress) {
@@ -139,12 +157,11 @@ module.exports = React.createClass({
     if (onCustomerPropsChange(evt, info)) onDone(evt, '');
   },
   render() {
-    const { onAddressEditor } = this.props;
+    console.log('addressList.render@' + new Date());
     return (
       <div className="order-subpage">
         <div className="order-subpage-content">
           {this.buildAddressElement()}
-          <a className="address-add-more" onTouchTap={onAddressEditor}>增加地址</a>
         </div>
       </div>
     );
