@@ -2,6 +2,7 @@ const config = require('../../config');
 const createAction = require('redux-actions').createAction;
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
+const isGroupDish = require('../../helper/dish-hepler.js').isGroupDish;
 const helper = require('../../helper/order-helper.js');
 require('es6-promise');
 require('isomorphic-fetch');
@@ -62,7 +63,12 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
     });
 exports.fetchOrderCoupons = () => (dispatch, getState) => {
   let brandDishidsCollection = [];
-  const brandDishIds = getState().orderedDishesProps.dishes.map(dish => brandDishidsCollection.push(dish.brandDishId)).join(',');
+  getState().orderedDishesProps.dishes.filter(
+    dish => !isGroupDish(dish)
+  ).map(
+    dish => brandDishidsCollection.push(dish.brandDishId)
+  );
+  const brandDishIds = brandDishidsCollection.join(',');
   fetch(
     `${config.orderCouponsAPI}?shopId=${shopId}&orderAccount=${getDishesPrice(getState().orderedDishesProps.dishes)}&brandDishIds=${brandDishIds}`,
     config.requestOptions).
@@ -184,7 +190,7 @@ exports.setSessionAndForwardChaining = (id) => (dispatch, getState) => {
 };
 exports.setSessionAndForwardEditUserAddress = (id) => (dispatch, getState) => {
   sessionStorage.setItem('rurl_address', JSON.stringify(location.href));
-  let url = `/customer-address.html?shopId=${shopId}`;
+  let url = `${config.editUserAddressURL}?shopId=${shopId}`;
   if (typeof id === 'string') {
     url += `&addressId=${id}`;
   }
