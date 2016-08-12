@@ -78,7 +78,7 @@ const OrderApplication = React.createClass({
   },
   onAddressEditor(editor, option) {
     const { setSessionAndForwardEditUserAddress } = this.props;
-    if (option.id === 0) {
+    if (option && option.id === 0) {
       location.hash = 'customer-info-toshop';
     } else {
       setSessionAndForwardEditUserAddress(editor);
