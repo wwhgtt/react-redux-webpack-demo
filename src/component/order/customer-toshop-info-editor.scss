@@ -1,0 +1,57 @@
+@import 'settings.colors';
+
+// reset option layout
+.option {
+  $option-left-width: 90px;
+
+  &-title {
+    width: $option-left-width;
+  }
+
+  &-content {
+    width: calc(100% - #{$option-left-width});
+  }
+}
+
+// page styles
+.customer-address-page {
+  min-height: 100%;
+  border-top: 10px solid $color-gallery;
+  border-bottom: 50px solid $color-gallery;
+  background: $color-gallery;
+}
+
+.customer-address-page{
+  .customer {
+    &-name {
+      float: left;
+      width: 40%;
+    }
+
+    &-gender {
+      float: right;
+      width: 60%;
+    }
+  }
+
+  .option-input{
+    font-size: 16px;
+    float: left;
+    text-align: left;
+    color: $color-dove-grey;
+    border: 0;
+    outline: 0;
+  }
+
+  .option {
+    $option-left-width: 90px;
+
+    &-title {
+      width: $option-left-width;
+    }
+
+    &-content {
+      width: calc(100% - #{$option-left-width});
+    }
+  }
+}
