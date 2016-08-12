@@ -16,28 +16,42 @@ const isSingleDishWithoutProps = exports.isSingleDishWithoutProps = function (di
   }
   return false;
 };
+const isGroupDish = exports.isGroupDish = function (dish) {
+  return dish.groups !== undefined;
+};
+const setHasRulesDishProps = function (dish) {
+  return dish.dishPropertyTypeInfos.map(
+   property => {
+     if (property.type === 4 && Array.isArray(property.properties) && property.properties.length) {
+       return property.properties.forEach(prop => prop.isChecked = true);
+     }
+     return property;
+   }
+ );
+};
 exports.setDishPropertyTypeInfos = function (dishesList) {
   if (dishesList && dishesList.length) {
     dishesList.map(
       dish => {
+        // 这里判断的是单品菜的情况
         if (dish.dishPropertyTypeInfos && dish.dishPropertyTypeInfos.length) {
-          return dish.dishPropertyTypeInfos.map(
-           property => {
-             if (property.type === 4 && Array.isArray(property.properties) && property.properties.length) {
-               return property.properties.forEach(prop => prop.isChecked = true);
-             }
-             return property;
-           }
-         );
+          setHasRulesDishProps(dish);
+        } else if (isGroupDish(dish)) {
+          dish.groups.map(group => {
+            group.childInfos.map(childInfo => {
+              if (childInfo.dishPropertyTypeInfos && childInfo.dishPropertyTypeInfos.length) {
+                setHasRulesDishProps(childInfo);
+              }
+              return true;
+            });
+            return true;
+          });
         }
         return dish;
       }
     );
   }
   return dishesList;
-};
-const isGroupDish = exports.isGroupDish = function (dish) {
-  return dish.groups !== undefined;
 };
 exports.isChildDish = function (dish) {
   return dish.isChildDish;
@@ -229,9 +243,17 @@ const getDishCookieObject = exports.getDishCookieObject = function (dish, orderI
   const splitPropsIds = [].concat.apply([], dish.order[orderIdx].groups.map(group => {
     const groupId = group.id;
     const result = group.childInfos.filter(childInfos => getDishesCount([childInfos])).map(childInfo => {
-      const spliceResultOfPropIds = isSingleDishWithoutProps(childInfo)
-       ? '-' :
-        `${getOrderPropIds(childInfo.order[0])[1].join('^')}-${getOrderPropIds(childInfo.order[0])[0].join('^')}`;
+      let spliceResultOfPropIds = null;
+      if (isSingleDishWithoutProps(childInfo)) {
+        if (childInfo.dishPropertyTypeInfos && childInfo.dishPropertyTypeInfos.length) {
+          // 到这里就剩下只有规格的菜品了
+          spliceResultOfPropIds = `-${getSignleDishRuleIds(childInfo)}`;
+        } else {
+          spliceResultOfPropIds = '-';
+        }
+      } else {
+        spliceResultOfPropIds = `${getOrderPropIds(childInfo.order[0])[1].join('^')}-${getOrderPropIds(childInfo.order[0])[0].join('^')}`;
+      }
       return `${childInfo.id}A${groupId}|${getDishesCount([childInfo])}-${spliceResultOfPropIds}`;
     });
     return [].concat.apply([], result);

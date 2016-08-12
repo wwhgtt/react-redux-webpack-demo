@@ -173,6 +173,16 @@ module.exports = {
                 'isChecked': false,
               }],
             }, {
+              'id': 0,
+              'name': '容量',
+              'type': 4,
+              'properties': [{
+                'id': 37,
+                'name': '多糖',
+                'reprice': 0.0,
+                'isChecked': false,
+              }],
+            }, {
               'id': 14,
               'name': '做法类别1',
               'type': 1,
@@ -213,7 +223,19 @@ module.exports = {
             'isReplace': 2,
             'isDefault': 2,
             'isMulti': 1,
-            'dishPropertyTypeInfos': [],
+            'dishPropertyTypeInfos': [
+              {
+                'id': 0,
+                'name': '容量',
+                'type': 4,
+                'properties': [{
+                  'id': 37,
+                  'name': '多糖',
+                  'reprice': 0.0,
+                  'isChecked': false,
+                }],
+              },
+            ],
             'dishIngredientInfos': [],
           }],
         }, {
