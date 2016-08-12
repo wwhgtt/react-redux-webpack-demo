@@ -17,6 +17,7 @@ const setAddressListInfoToOrder = createAction('SET_ADDRESS_LIST_INFO_TO_ORDER',
 const setDeliveryPrice = createAction('SET_DELIVERY_PRICE', freeDeliveryPrice => freeDeliveryPrice);
 const setSendAreaId = createAction('SET_SEND_AREA_ID', areaId => areaId);
 const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
+const setCustomToShopAddress = createAction('SET_ADDRESS_TOSHOP_TO_ORDER', option => option);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 exports.fetchOrder = () => (dispatch, getState) => {
@@ -195,5 +196,14 @@ exports.setCustomerProps = (evt, customerProps) => (dispatch, getState) => {
     return false;
   }
   dispatch(setOrderProps(null, customerProps));
+  return true;
+};
+exports.setCustomerToShopAddress = (evt, customerTProps, validateRet) => (dispatch, getState) => {
+  if (!validateRet.valid) {
+    dispatch(setErrorMsg(validateRet.msg));
+    return false;
+  }
+
+  dispatch(setCustomToShopAddress(customerTProps));
   return true;
 };

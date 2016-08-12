@@ -17,14 +17,14 @@ module.exports = {
         },
         {
           id:263099,
-          address:'北京市北京市东城区王府井118号',
+          address:'天府软件园E1',
           memberID:23678882,
-          name:'小龙女',
-          sex:0,
+          name:'我是谁',
+          sex:1,
           mobile:'15102087655',
           status:0,
-          longitude:'34.32000',
-          latitude:'45.82000',
+          longitude:'104.066082',
+          latitude:'30.542718',
         }],
       outList:[
         {

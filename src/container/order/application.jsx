@@ -8,6 +8,7 @@ const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const CustomerTakeawayInfoEditor = require('../../component/order/customer-takeaway-info-editor.jsx');
 const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
+const CustomerToShopInfoEditor = require('../../component/order/customer-toshop-info-editor.jsx');
 const CouponSelect = require('../../component/order/coupon-select.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const TimeSelect = require('../../component/order/select/time-select.jsx');
@@ -36,9 +37,11 @@ const OrderApplication = React.createClass({
     clearErrorMsg:React.PropTypes.func.isRequired,
     setSessionAndForwardEditUserAddress:React.PropTypes.func.isRequired,
     setCustomerProps:React.PropTypes.func.isRequired,
+    setCustomerToShopAddress:React.PropTypes.func,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     customerAddressListInfo:React.PropTypes.object,
+    defaultCustomerProps:React.PropTypes.object,
     serviceProps:React.PropTypes.object.isRequired,
     commercialProps:React.PropTypes.object.isRequired,
     orderedDishesProps:React.PropTypes.object.isRequired,
@@ -73,16 +76,24 @@ const OrderApplication = React.createClass({
   componentDidUpdate() {
 
   },
+  onAddressEditor(editor, option) {
+    const { setSessionAndForwardEditUserAddress } = this.props;
+    if (option.id === 0) {
+      location.hash = 'customer-info-toshop';
+    } else {
+      setSessionAndForwardEditUserAddress(editor);
+    }
+  },
   setChildViewAccordingToHash() {
     const { setChildView } = this.props;
     const hash = location.hash;
     setChildView(hash);
   },
-  resetChildView(evt) {
+  resetChildView(evt, hash) {
     evt.preventDefault();
     const { setChildView } = this.props;
     if (location.hash !== '') {
-      location.hash = '';
+      location.hash = hash || '';
     } else {
       setChildView('');
     }
@@ -146,22 +157,22 @@ const OrderApplication = React.createClass({
   render() {
     const {
       customerProps, serviceProps, childView, tableProps, clearErrorMsg, setCustomerProps,
-      timeProps, orderedDishesProps, commercialProps, errorMessage, setSessionAndForwardEditUserAddress,
+      timeProps, orderedDishesProps, commercialProps, errorMessage,
       customerAddressListInfo,
+      defaultCustomerProps,
+      setCustomerToShopAddress,
     } = this.props; // state
     const { setOrderProps, fetchUserAddressListInfo, setChildView } = this.props;// actions
     const type = getUrlParam('type');
     const shopId = getUrlParam('shopId');
     const getDefaultAddressProps = function () {
-      if (serviceProps.sendAreaId !== 0) {
-        // 表示需要选择地址
-        if (customerProps.addresses && customerProps.addresses.length) {
-          const isCheckedAddressInfo = _find(customerProps.addresses, { isChecked:true });
-          return isCheckedAddressInfo ? isCheckedAddressInfo.address : '请选择送餐地址';
+      if (customerProps.addresses && customerProps.addresses.length) {
+        const isCheckedAddressInfo = _find(customerProps.addresses, { isChecked:true });
+        if (isCheckedAddressInfo) {
+          return isCheckedAddressInfo.address;
         }
-        return '请选择送餐地址';
       }
-      return '到店取餐';
+      return '请选择送餐地址';
     };
     const buildCoustomerPropElement = function () {
       if (serviceProps.sendAreaId !== 0) {
@@ -170,7 +181,7 @@ const OrderApplication = React.createClass({
           return isCheckedAddressInfo ?
           (
             <div className="option-stripes-title">
-              {customerProps.name}{customerProps.sex === '1' ? '先生' : '女士'}
+              {customerProps.name}{+customerProps.sex === 1 ? '先生' : '女士'}
               {customerProps.mobile}
             </div>
           )
@@ -181,12 +192,12 @@ const OrderApplication = React.createClass({
       }
       return (
         <div className="option-stripes-title">
-          {customerProps.name}{customerProps.sex === '1' ? '先生' : '女士'}
+          {customerProps.name}{+customerProps.sex === 1 ? '先生' : '女士'}
           {customerProps.mobile}
         </div>
       );
     };
-    const isSelfFetch = serviceProps.sendAreaId === 0;
+    const isSelfFetch = !!_find(customerProps.addresses, { isChecked:true, id: 0 });
 
     const getFetchTimeTitle = () => {
       const selectedDateTime = timeProps.selectedDateTime || {};
@@ -233,7 +244,7 @@ const OrderApplication = React.createClass({
           </a>
           :
           <a className="options-group options-group--stripes" href="#customer-info" >
-            <div className="option-stripes-title">{customerProps.name}{customerProps.sex === '1' ? '先生' : '女士'}</div>
+            <div className="option-stripes-title">{customerProps.name}{+customerProps.sex === 1 ? '先生' : '女士'}</div>
             <div className="clearfix">
               <div className="option-desc half">{customerProps.mobile}</div>
               <div className="option-desc half"><span className="text-picton-blue">{customerProps.customerCount}</span>人就餐</div>
@@ -363,12 +374,19 @@ const OrderApplication = React.createClass({
           />
           : false
         }
+        {childView === 'customer-info-toshop' ?
+          <CustomerToShopInfoEditor
+            customerProps={defaultCustomerProps} onCustomerPropsChange={setCustomerToShopAddress} onDone={this.resetChildView}
+          />
+          : false
+        }
         {childView === 'customer-info' && type === 'WM' ?
           <CustomerTakeawayInfoEditor
             customerProps={customerProps}
             customerAddressListInfo={customerAddressListInfo}
+            defaultCustomerProps={defaultCustomerProps}
             sendAreaId={serviceProps.sendAreaId}
-            onAddressEditor={setSessionAndForwardEditUserAddress}
+            onAddressEditor={this.onAddressEditor}
             onCustomerPropsChange={setCustomerProps}
             onComponentWillMount={fetchUserAddressListInfo}
             onDone={this.resetChildView}
