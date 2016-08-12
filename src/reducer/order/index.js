@@ -78,6 +78,7 @@ module.exports = function (
                       addresses:payload.ma ? [{ id:payload.ma.id, address:payload.ma.address, isChecked:true }] : null,
                     })
                   )
+                  .set('defaultCustomerProps', payload.member || {})
                   .set(
                     'commercialProps',
                     Immutable.from({
@@ -338,6 +339,8 @@ module.exports = function (
         ['customerProps', 'addresses'],
         Immutable.from((state.customerProps.addresses || []).concat(payload))
       ).setIn(['customerProps', 'isAddressesLoaded'], true);
+    case 'SET_ADDRESS_TOSHOP_TO_ORDER':
+      return state.set('defaultCustomerProps', payload);
     case 'SET_ADDRESS_LIST_INFO_TO_ORDER':
       return state.set('customerAddressListInfo', { isAddressesLoaded: true, data: payload });
     case 'SET_SEND_AREA_ID':
@@ -365,6 +368,8 @@ module.exports = function (
           )
         )
         .set('childView', '');
+      } else if (payload === '#customer-info-toshop') {
+        return state.set('childView', 'customer-info-toshop');
       }
       return state.set('childView', '');
     case 'SET_ORDERED_DISHES_TO_ORDER':

@@ -531,8 +531,8 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   if (!name) {
     return { success:false, msg:'未填写姓名' };
   }
-  let sex = state.customerProps.sex;
-  if (!sex) {
+  let sex = +state.customerProps.sex;
+  if (isNaN(sex)) {
     sex = -1;
   }
   const dishesPrice = getDishesPrice(state.orderedDishesProps.dishes);
@@ -574,24 +574,20 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   if (type === 'WM') {
     const sendAreaId = state.serviceProps.sendAreaId;
     const selectedDateTime = state.timeProps.selectedDateTime;
-    let selectedAddress = '';
-    if (sendAreaId === 0) {
-      // 表示到店取餐
-      selectedAddress = '';
-    } else if (state.customerProps.addresses instanceof Array && state.customerProps.addresses.length) {
-      selectedAddress = state.customerProps.addresses.filter(address => address.isChecked)[0].address;
-    } else {
+    let selectedAddress = null;
+    let isSelfFetch = false;
+    if (state.customerProps.addresses instanceof Array && state.customerProps.addresses.length) {
+      selectedAddress = state.customerProps.addresses.find(address => address.isChecked);
+    }
+    if (!selectedAddress) {
       return { success:false, msg:'请选择送餐地址' };
     }
 
+    isSelfFetch = selectedAddress.id === 0;
     if (!selectedDateTime.date) {
-      return { success:false, msg: `请选择${sendAreaId === 0 ? '取餐' : '送达'}时间` };
+      return { success:false, msg: `请选择${isSelfFetch ? '取餐' : '送达'}时间` };
     }
-    const selectedAddressId = state.customerProps.addresses instanceof Array && state.customerProps.addresses.length ?
-          state.customerProps.addresses.filter(address => address.isChecked)[0].id
-          :
-          0;
-    const toShopFlag = state.serviceProps.sendAreaId === 0 ? '1' : '0';
+    const toShopFlag = isSelfFetch ? '1' : '0';
     params = '?name=' + state.customerProps.name
         + '&Invoice=' + receipt + '&memo=' + note
         + '&mobile=' + state.customerProps.mobile
@@ -603,8 +599,8 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
         + '&orderType=WM'
         + '&shopId=' + getUrlParam('shopId')
         + '&needPayPrice=' + needPayPrice
-        + '&address=' + selectedAddress
-        + '&memberAddressId=' + selectedAddressId
+        + '&address=' + (isSelfFetch ? '' : selectedAddress.address)
+        + '&memberAddressId=' + selectedAddress.id
         + '&sendAreaId=' + sendAreaId
         + '&toShopFlag=' + toShopFlag;
     if (selectedDateTime.time) {
