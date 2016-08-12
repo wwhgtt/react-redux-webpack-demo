@@ -58,11 +58,11 @@ module.exports = React.createClass({
     return identifyCouponInfo;
   },
   judgeCouponAvaliabl(coupRuleBeanList, coupDishBeanList) {
-    if (coupRuleBeanList.length) {
-      // 代表普通优惠券
+    if (coupDishBeanList && coupDishBeanList.length && getRelatedToDishCouponProps(coupDishBeanList[0]).name) {
       return true;
     }
-    if (getRelatedToDishCouponProps(coupDishBeanList[0]).name) {
+    if (coupRuleBeanList.length) {
+      // 代表普通优惠券
       return true;
     }
     // 表明优惠券不可用  应该隐藏掉
@@ -80,7 +80,7 @@ module.exports = React.createClass({
     return false;
   },
   composeGiftCouponProps(coupRuleBeanList, coupDishBeanList) {
-    if (coupRuleBeanList.length) {
+    if (coupRuleBeanList.length && !coupDishBeanList.length) {
       let gift = { name:'', number:'' };
       coupRuleBeanList.map(coupon => {
         if (coupon.ruleName === 'giftName') {
