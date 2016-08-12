@@ -135,7 +135,7 @@ exports.getNewCountOfDish = function (dish, increment) {
 };
 const getOrderPropIds = function (order) {
   const { dishPropertyTypeInfos, dishIngredientInfos } = order;
-  const propsIds = [].concat.apply([], dishPropertyTypeInfos.map(
+  const propsIds = [].concat.apply([], dishPropertyTypeInfos.filter(prop => prop.type !== 4).map(
     prop => prop.properties.filter(
       property => property.isChecked
     ).map(
