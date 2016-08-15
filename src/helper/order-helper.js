@@ -583,7 +583,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
       return { success:false, msg:'请选择送餐地址' };
     }
 
-    isSelfFetch = selectedAddress.id === '';
+    isSelfFetch = selectedAddress.id === 0;
     if (!selectedDateTime.date) {
       return { success:false, msg: `请选择${isSelfFetch ? '取餐' : '送达'}时间` };
     }
