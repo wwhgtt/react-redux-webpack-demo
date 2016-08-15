@@ -63,7 +63,7 @@ module.exports = {
         createTime: 1443117693000,
         creatorId: 99999999,
         isDelete: 0,
-        instructions: '<p>这是礼品券使用说明：拿到国家动物园找原主自动兑换<br /></p>',
+        instructions: '<p>&nbsp;撒大大按时大大撒啊&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>',
         coupRuleBeanList: [
           {
             id: 924,
@@ -101,7 +101,7 @@ module.exports = {
         createTime: 1443117693000,
         creatorId: 99999999,
         isDelete: 0,
-        instructions: '<p>这是礼品券使用说明：拿到国家动物园找原主自动兑换<br /></p>',
+        instructions: '',
         coupRuleBeanList: [
           {
             id: 924,
