@@ -1,4 +1,5 @@
 const React = require('react');
+const classnames = require('classnames');
 const BMap = window.BMap;
 const baiduMapConfig = {
   zoomLevel: 16,
@@ -7,7 +8,6 @@ module.exports = React.createClass({
   displayName: 'StandardAddrSelectMap',
   propTypes: {
     currentPoint: React.PropTypes.object.isRequired,
-    zoomLevel: React.PropTypes.number,
     onMapInited: React.PropTypes.func,
     onCenterPointChange: React.PropTypes.func,
   },
@@ -29,8 +29,8 @@ module.exports = React.createClass({
   },
   mapCenter(point) {
     const centerThePoint = _point => {
-      const url = 'src/asset/images/map-marker-cur.png';
-      const myIcon = new BMap.Icon(url, new BMap.Size(32, 32), {});
+      const iconUrl = 'http://api0.map.bdimg.com/images/blank.gif';
+      const myIcon = new BMap.Icon(iconUrl, new BMap.Size(32, 32));
       const marker = new BMap.Marker(_point, { icon: myIcon });
       this.map.centerAndZoom(_point, baiduMapConfig.zoomLevel);
       this.map.addOverlay(marker);
@@ -89,8 +89,9 @@ module.exports = React.createClass({
     }
   },
   render() {
+    const { currentPoint } = this.props.currentPoint;
     return (
-      <div className="addrselect-map">
+      <div className={classnames('addrselect-map', { 'addrselect-map-isdefultpoint': currentPoint && currentPoint.isDefault })}>
         <div className="addrselect-map-inner" ref="content">
           <p className="addrselect-map-loading">
             地图加载中...
