@@ -3,6 +3,7 @@ const createAction = require('redux-actions').createAction;
 require('es6-promise');
 require('isomorphic-fetch');
 const helper = require('../../helper/dish-hepler');
+const getCurrentPosition = require('../../helper/common-helper.js').getCurrentPosition;
 const setMenuData = createAction('SET_MENU_DATA', menuData => menuData);
 const _orderDish = createAction('ORDER_DISH', (dishData, action) => [dishData, action]);
 const _removeAllOrders = createAction('REMOVE_ALL_ORDERS', orders => orders);
@@ -19,17 +20,6 @@ exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => {
   }
   return dishTypeId;
 });
-exports.fetchServiceProps = () => (dispatch, getStates) => {
-  if (helper.getUrlParam('type') !== 'WM') {
-    return false;
-  }
-  const shopId = helper.getUrlParam('shopId');
-  const shipmentFee = sessionStorage.getItem(`${shopId}_sendArea_shipment`);
-  const minPrice = sessionStorage.getItem(`${shopId}_sendArea_sendPrice`);
-  const shipFreePrice = sessionStorage.getItem(`${shopId}_sendArea_freeDeliveryPrice`);
-  dispatch(_setTakeawayServiceProps({ shipmentFee, minPrice, shipFreePrice }));
-  return true;
-};
 const type = helper.getUrlParam('type');
 const shopId = helper.getUrlParam('shopId');
 let url = '';
@@ -52,6 +42,40 @@ exports.fetchMenuData = () => (dispatch, getStates) =>
     catch(err => {
       dispatch(setErrorMsg('加载订单信息失败...'));
     });
+
+exports.fetchSendArea = () => (dispatch, getState) => {
+  if (helper.getUrlParam('type') !== 'WM') return false;
+
+  getCurrentPosition(gps => {
+    const longitude = gps.longitude || '';
+    const latitude = gps.latitude || '';
+    fetch(`${config.getDefaultArea}?shopId=${shopId}&longitude=${longitude}&latitude=${latitude}`, config.requestOptions).
+      then(res => {
+        if (!res.ok) {
+          dispatch(setErrorMsg('获取配送范围...'));
+        }
+        return res.json();
+      }).
+      then(areaData => {
+        const sendAreaData = areaData.data.sendArea;
+        const shipmentFee = sendAreaData.shipment;
+        const minPrice = sendAreaData.sendPrice;
+        const shipFreePrice = sendAreaData.freeDeliveryPrice;
+        sessionStorage.setItem(`${shopId}_sendArea_Id`, sendAreaData.sendAreaId);
+        sessionStorage.setItem(`${shopId}_sendPrice`, minPrice);
+        sessionStorage.setItem(`${shopId}_shipment`, shipmentFee);
+        sessionStorage.setItem(`${shopId}_freeDeliveryPrice`, shipFreePrice);
+        dispatch(_setTakeawayServiceProps({ shipmentFee, minPrice, shipFreePrice }));
+      }).
+      catch(err => {
+        dispatch(setErrorMsg('加载配送范围失败...'));
+      });
+  }, err => {
+    dispatch(setErrorMsg(err.message));
+  });
+
+  return true;
+};
 
 exports.orderDish = (dishData, action) => (dispatch, getStates) => {
   dispatch(_orderDish(dishData, action));
