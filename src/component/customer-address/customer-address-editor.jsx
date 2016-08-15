@@ -46,10 +46,15 @@ module.exports = React.createClass({
     };
 
     const { customerProps } = this.props;
-    for (const key of Object.getOwnPropertyNames(rules)) {
+    for (const key in rules) {
+      if (!rules.hasOwnProperty(key)) {
+        continue;
+      }
+
       const rule = rules[key];
       const value = customerProps[key];
-      for (const item of rule) {
+      for (let i = 0, len = rule.length; i < len; i++) {
+        const item = rule[i];
         const valid = item.validate(value || '');
         if (!valid) {
           return { valid: false, msg: item.msg };
@@ -76,7 +81,7 @@ module.exports = React.createClass({
   },
   render() {
     const { customerProps } = this.props;
-    if (customerProps.longitude === undefined) {
+    if (customerProps.sex === undefined) {
       return false;
     }
 

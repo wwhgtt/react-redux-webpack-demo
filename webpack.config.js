@@ -18,6 +18,9 @@ module.exports = {
     'customer-address-entry': [
       './src/customer-address.jsx',
     ],
+    'address-list-entry': [
+      './src/address-list.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -84,6 +87,14 @@ module.exports = {
         filename: 'customer-address.html',
         chunks: ['common', 'customer-address-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template-customer-address.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'AddressListApplication1',
+        filename: 'address-list.html',
+        chunks: ['common', 'address-list-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
     new webpack.optimize.CommonsChunkPlugin({
