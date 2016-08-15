@@ -411,7 +411,7 @@ module.exports = {
           'properties': [{
             'id': 37,
             'name': '多糖',
-            'reprice': 0.0,
+            'reprice': -100,
             'isChecked': false,
           }, {
             'id': 39,
@@ -468,7 +468,7 @@ module.exports = {
         'dishIngredientInfos': [{
           'id': 15845,
           'name': '蒜蓉',
-          'reprice': 0.0,
+          'reprice': -100,
           'sort': 0,
         }, {
           'id': 15848,
@@ -546,7 +546,7 @@ module.exports = {
           'properties': [{
             'id': 67,
             'name': '做法类别1做法名称5',
-            'reprice': 6.0,
+            'reprice': -100,
             'isChecked': false,
           }, {
             'id': 64,
