@@ -6,7 +6,7 @@ exports.getCurrentPosition = (success, error, config) => {
   };
   navigator.geolocation.getCurrentPosition(pos => {
     if (success) {
-      success(Object.assign({}, pos.coords));
+      success(pos.coords);
     }
   }, err => {
     if (error) {
