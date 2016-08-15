@@ -137,7 +137,7 @@ module.exports = React.createClass({
       elems.push(
         <ActiveSelect
           key="outSelect"
-          className="address-group"
+          className="address-group address-group-disabled"
           optionsData={addressListToOptionsData(outList)}
           optionComponent={CustomerAddressOption}
           onSelectOption={this.onAddressSelectOutList}
@@ -145,7 +145,7 @@ module.exports = React.createClass({
       );
     }
     if (this.state.addressCount < 10) {
-      elems.push(<a className="address-add-more" onTouchTap={onAddressEditor}>增加地址</a>);
+      elems.push(<a key="add" className="address-add-more" onTouchTap={onAddressEditor}>增加地址</a>);
     }
     return elems;
   },
@@ -157,11 +157,13 @@ module.exports = React.createClass({
     if (onCustomerPropsChange(evt, info)) onDone(evt, '');
   },
   render() {
-    console.log('addressList.render@' + new Date());
     return (
       <div className="order-subpage">
         <div className="order-subpage-content">
           {this.buildAddressElement()}
+          <div className="address-title address-count-descript">
+            最多为您保存10个常用地址，还需要新增，请删除或修改以上地址
+          </div>
         </div>
       </div>
     );

@@ -65,16 +65,15 @@ const CustomerAddressApplication = React.createClass({
     saveCustomerAddressInfo(address);
   },
   deleteAddress(data) {
-    const { deleteCustomerAddressInfo, customerProps } = this.props;
-    const address = Object.assign({}, customerProps);
-    deleteCustomerAddressInfo(address);
+    const { deleteCustomerAddressInfo } = this.props;
+    deleteCustomerAddressInfo(addressId);
   },
   render() {
     const { childView, errorMessage, clearErrorMsg, customerProps } = this.props;
     const currentPoint = {
       latitude: customerProps.latitude,
       longitude: customerProps.longitude,
-      isGPSPoint: customerProps._isGPSPoint === true,
+      isGPSPoint: customerProps.isGPSPoint === true,
     };
     return (
       <div className="application">

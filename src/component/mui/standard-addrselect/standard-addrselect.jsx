@@ -24,6 +24,9 @@ module.exports = React.createClass({
   },
   componentDidMount() {
   },
+  componentWillUnmount() {
+    this._mapLocal = this._map = null;
+  },
   handleMapInited(map) {
     this._map = map;
     const that = this;
@@ -71,7 +74,9 @@ module.exports = React.createClass({
           };
         });
       }
-      this.setState({ list });
+      if (this._mapLocal) {
+        this.setState({ list });
+      }
     }, { poiRadius: 500, numPois: 11 });
   },
   handleSelectComplete(poi) {
@@ -103,7 +108,7 @@ module.exports = React.createClass({
         <StandardAddrSelectMap
           onCenterPointChange={this.handleCenterPointChange}
           onMapInited={this.handleMapInited}
-          {...this.props}
+          currentPoint={this.props.currentPoint}
         />
         <StandardAddrSelectListBox
           onSelectComplete={this.handleSelectComplete}

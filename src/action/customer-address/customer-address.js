@@ -20,19 +20,15 @@ exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 exports.fetchCustomerAddressInfo = (shopId, addressId) => (dispatch, getState) => {
   // 取新增数据
   if (!addressId) {
-    const data = { _isGPSPoint: true, sex: 1 };
+    const defaultValue = { sex: 1, latitude: '30.542718', longitude: '104.066082', isGPSPoint: true };
     navigator.geolocation.getCurrentPosition(pos => {
-      Object.assign(data, {
+      const data = Object.assign({}, defaultValue, {
         latitude: pos.coords.latitude,
         longitude: pos.coords.longitude,
       });
       dispatch(setAddressInfo(data));
     }, error => {
-      Object.assign(data, {
-        latitude: '30.542718',
-        longitude: '104.066082',
-      });
-      dispatch(setAddressInfo(data));
+      dispatch(setAddressInfo(defaultValue));
     }, {
       enableHighAccuracy: true,
       timeout: 2000,
@@ -49,8 +45,8 @@ exports.fetchCustomerAddressInfo = (shopId, addressId) => (dispatch, getState) =
       }
       return res.json();
     }).
-    then(coupons => {
-      dispatch(setAddressInfo(coupons.data));
+    then(result => {
+      dispatch(setAddressInfo(result.data));
     }).
     catch(err => {
       console.log(err);
@@ -78,9 +74,8 @@ exports.saveCustomerAddressInfo = (address) => (dispatch, getState) => {
       console.log(err);
     });
 };
-exports.deleteCustomerAddressInfo = (address) => (dispatch, getState) => {
-  const addressId = address.id;
-  return fetch(`${config.deleteAddressAPI}?addressId=${addressId}`, config.requestOptions).
+exports.deleteCustomerAddressInfo = (addressId) => (dispatch, getState) =>
+  fetch(`${config.deleteAddressAPI}?addressId=${addressId}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         dispatch(setErrorMsg('删除收货地址失败'));
@@ -97,6 +92,5 @@ exports.deleteCustomerAddressInfo = (address) => (dispatch, getState) => {
     catch(err => {
       console.log(err);
     });
-};
 exports.clearErrorMsg = () => (dispatch, getState) =>
   dispatch(setErrorMsg(null));

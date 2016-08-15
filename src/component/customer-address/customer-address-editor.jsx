@@ -12,10 +12,13 @@ module.exports = React.createClass({
   componentDidMount() {
 
   },
+  shouldComponentUpdate(nextProps, nextState) {
+    return true;
+  },
   onRemoveLinktap(evt) {
-    const { customerProps, onRemoveAddress } = this.props;
+    const { onRemoveAddress } = this.props;
     if (onRemoveAddress) {
-      onRemoveAddress(customerProps);
+      onRemoveAddress();
     }
   },
   onSaveBtntap(evt) {
@@ -73,6 +76,10 @@ module.exports = React.createClass({
   },
   render() {
     const { customerProps } = this.props;
+    if (customerProps.longitude === undefined) {
+      return false;
+    }
+
     return (
       <div className="customer-address-page">
         <div className="options-group">
@@ -84,7 +91,7 @@ module.exports = React.createClass({
                 className="option-input customer-name"
                 name="name"
                 id="editor-name"
-                placeholder="请录入姓名"
+                placeholder="请输入姓名"
                 maxLength="30"
                 value={customerProps.name || ''}
                 onChange={this.handleBasicInfoChange}
@@ -101,7 +108,7 @@ module.exports = React.createClass({
                 <label className="half">
                   <input
                     className="option-radio" type="radio" name="sex" defaultValue="0"
-                    onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex < 1}
+                    onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === 0}
                   />
                   <span className="btn-tickbox"></span>
                   <span className="option-desc">女士</span>
