@@ -49,7 +49,7 @@ exports.fetchSendArea = () => (dispatch, getState) => {
   getCurrentPosition(gps => {
     const longitude = gps.longitude || '';
     const latitude = gps.latitude || '';
-    fetch(`${config.getDefaultArea}?shopId=${shopId}&longitude=${longitude}&latitude=${latitude}`, config.requestOptions).
+    fetch(`${config.getDefaultSendArea}?shopId=${shopId}&longitude=${longitude}&latitude=${latitude}`, config.requestOptions).
       then(res => {
         if (!res.ok) {
           dispatch(setErrorMsg('获取配送范围...'));

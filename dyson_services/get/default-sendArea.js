@@ -1,5 +1,5 @@
 module.exports = {
-  path: '/user/getDefaultArea.json',
+  path: '/user/getDefaultSendArea.json',
   template:{
     data: {
       sendArea: {
