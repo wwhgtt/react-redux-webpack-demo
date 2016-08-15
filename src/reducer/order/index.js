@@ -235,7 +235,7 @@ module.exports = function (
           state.serviceProps.couponsProps.couponsList,
           coupon => coupon.id.toString() === payload.selectedCouponId
         );
-        if (selectedCoupon.isChecked) {
+        if (selectedCoupon && selectedCoupon.isChecked) {
           if (selectedCoupon.coupRuleBeanList.length && !selectedCoupon.coupDishBeanList.length) {
             return state.setIn(
               ['serviceProps', 'couponsProps', 'inUseCoupon'], true
