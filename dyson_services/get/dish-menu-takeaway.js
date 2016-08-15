@@ -320,7 +320,7 @@ module.exports = {
         'aliasName': '',
         'unitId': null,
         'unitName': '份',
-        'marketPrice': 0.01,
+        'marketPrice': 11,
         'dishDesc': '',
         'videoUrl': '',
         'dishIncreaseUnit': 1.0,
@@ -361,7 +361,7 @@ module.exports = {
           'properties': [{
             'id': 1839,
             'name': '不辣',
-            'reprice': -0.1,
+            'reprice': -1,
             'isChecked': false,
           }, {
             'id': 1840,
