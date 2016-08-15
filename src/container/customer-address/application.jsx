@@ -61,7 +61,7 @@ const CustomerAddressApplication = React.createClass({
       return;
     }
 
-    const address = Object.assign({}, customerProps.without('_isGPSPoint'));
+    const address = Object.assign({}, customerProps.without('isGPSPoint'));
     saveCustomerAddressInfo(address);
   },
   deleteAddress(data) {
