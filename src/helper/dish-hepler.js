@@ -207,10 +207,9 @@ exports.getDishBoxprice = function (orderedDishes, dishBoxChargeInfo) {
   return getDishBoxCount(orderedDishes) * dishBoxChargeInfo.content;
 };
 exports.hasSelectedProps = function (dish) {
-  const propsIdsCollection = getOrderPropIds(dish.order[0]);
-  if (propsIdsCollection[0].length !== 0 || propsIdsCollection[1].length !== 0) {
-    return true;
-  }
+  const hasProps = dish.order[0].dishPropertyTypeInfos.some(prop => prop.type !== 4 && prop.properties.some(item => item.isChecked));
+  const hasIngredients = dish.order[0].dishIngredientInfos.some(item => item.isChecked);
+  if (hasProps || hasIngredients) return true;
   return false;
 };
 // setCookie
