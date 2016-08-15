@@ -52,20 +52,24 @@ exports.fetchSendArea = () => (dispatch, getState) => {
     fetch(`${config.getDefaultSendArea}?shopId=${shopId}&longitude=${longitude}&latitude=${latitude}`, config.requestOptions).
       then(res => {
         if (!res.ok) {
-          dispatch(setErrorMsg('获取配送范围...'));
+          dispatch(setErrorMsg('获取配送范围失败...'));
         }
         return res.json();
       }).
       then(areaData => {
-        const sendAreaData = areaData.data.sendArea;
-        const shipmentFee = sendAreaData.shipment;
-        const minPrice = sendAreaData.sendPrice;
-        const shipFreePrice = sendAreaData.freeDeliveryPrice;
-        sessionStorage.setItem(`${shopId}_sendArea_Id`, sendAreaData.sendAreaId);
-        sessionStorage.setItem(`${shopId}_sendPrice`, minPrice);
-        sessionStorage.setItem(`${shopId}_shipment`, shipmentFee);
-        sessionStorage.setItem(`${shopId}_freeDeliveryPrice`, shipFreePrice);
-        dispatch(_setTakeawayServiceProps({ shipmentFee, minPrice, shipFreePrice }));
+        if (areaData.code === '200') {
+          const sendAreaData = areaData.data;
+          const shipmentFee = sendAreaData.shipment;
+          const minPrice = sendAreaData.sendPrice;
+          const shipFreePrice = sendAreaData.freeDeliveryPrice;
+          sessionStorage.setItem(`${shopId}_sendArea_Id`, sendAreaData.sendAreaId);
+          sessionStorage.setItem(`${shopId}_sendPrice`, minPrice);
+          sessionStorage.setItem(`${shopId}_shipment`, shipmentFee);
+          sessionStorage.setItem(`${shopId}_freeDeliveryPrice`, shipFreePrice);
+          dispatch(_setTakeawayServiceProps({ shipmentFee, minPrice, shipFreePrice }));
+        } else {
+          dispatch(setErrorMsg(areaData.msg));
+        }
       }).
       catch(err => {
         dispatch(setErrorMsg('加载配送范围失败...'));
