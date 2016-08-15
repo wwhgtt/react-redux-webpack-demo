@@ -58,10 +58,13 @@ module.exports = React.createClass({
     return identifyCouponInfo;
   },
   judgeCouponAvaliabl(coupRuleBeanList, coupDishBeanList) {
-    if (coupDishBeanList && coupDishBeanList.length && getRelatedToDishCouponProps(coupDishBeanList[0]).name) {
+    if (coupDishBeanList.length && getRelatedToDishCouponProps(coupDishBeanList[0]).name) {
       return true;
     }
     if (coupRuleBeanList.length) {
+      if (coupDishBeanList.length) {
+        return getRelatedToDishCouponProps(coupDishBeanList[0]).name;
+      }
       // 代表普通优惠券
       return true;
     }
@@ -103,9 +106,7 @@ module.exports = React.createClass({
     const { instructions, coupRuleBeanList, coupDishBeanList, fullValue,
             couponType, validStartDate, codeNumber, validEndDate, isChecked, ...otherProps } = this.props;
     const { isInstructionsOpen } = this.state;
-
     if (!this.judgeCouponAvaliabl(coupRuleBeanList, coupDishBeanList)) return false;
-
     return (
       <div
         className={classnames('coupon', this.judgeCouponInfoByCouponType(couponType).classNameForCoupon)}
