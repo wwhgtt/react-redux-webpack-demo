@@ -106,11 +106,13 @@ const getOrderPrice = exports.getOrderPrice = function (dish, orderData) {
 };
 const getDishPrice = exports.getDishPrice = function (dish) {
   if (isSingleDishWithoutProps(dish)) {
-    return parseFloat((dish.marketPrice * dish.order).toFixed(2));
+    const signleDishPrice = parseFloat((dish.marketPrice * dish.order).toFixed(2));
+    return signleDishPrice >= 0 ? signleDishPrice : 0;
   }
-  return dish.order.map(
+  const hasPropsDishPrice = dish.order.map(
     eachOrder => parseFloat(getOrderPrice(dish, eachOrder))
   ).reduce((c, p) => c + p, 0);
+  return hasPropsDishPrice >= 0 ? hasPropsDishPrice : 0;
 };
 
 exports.getDishesPrice = function (dishes) {
