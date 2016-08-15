@@ -79,7 +79,7 @@ module.exports = React.createClass({
     evt.preventDefault();
   },
   deleteHtmlTag(html) {
-    if (html) return html.replace(/<.+?>/g, '');
+    if (html) return html.replace(/<.+?>/g, '').replace(/&nbsp;/g, '');
     return false;
   },
   composeGiftCouponProps(coupRuleBeanList, coupDishBeanList) {
