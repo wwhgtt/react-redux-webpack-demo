@@ -8,7 +8,7 @@ const compose = require('redux').compose;
 const Provider = require('react-redux').Provider;
 const thunkMiddleware = require('redux-thunk').default;
 const reducer = require('./reducer/customer-address/index.js');
-const CustomerAddressApplication = require('./container/customer-address/application.jsx');
+const AddressListApplication = require('./container/address-list/application.jsx');
 const injectTapEventPlugin = require('react-tap-event-plugin'); injectTapEventPlugin();
 const logger = require('./helper/logger.js');
 let storeCreator;
@@ -21,7 +21,7 @@ const store = storeCreator(reducer);
 ReactDOM.render(
   <Provider store={store}>
     <div>
-      <CustomerAddressApplication />
+      <AddressListApplication />
     </div>
   </Provider>,
   document.getElementById('app-placeholder')
