@@ -318,13 +318,13 @@ const getRelatedToDishCouponProps = exports.getRelatedToDishCouponProps = functi
 
       if ((coupon.num - relatedCouponDish.joinBenefitDishesNumber) > 0) {
         if ((coupon.num - relatedCouponDish.joinBenefitDishesNumber) < dishCount) {
-          benefitMoneyCollection.push(dish.marketPrice * (coupon.num - relatedCouponDish.joinBenefitDishesNumber) < dishPrice ?
+          benefitMoneyCollection.push(dish.marketPrice < dishPrice / dishCount ?
             dish.marketPrice * (coupon.num - relatedCouponDish.joinBenefitDishesNumber)
             :
-            dishPrice
+            dishPrice / dishCount * (coupon.num - relatedCouponDish.joinBenefitDishesNumber)
           );
         } else {
-          benefitMoneyCollection.push(dish.marketPrice * dishCount < dishPrice ?
+          benefitMoneyCollection.push(dish.marketPrice < dishPrice / dishCount ?
             dish.marketPrice * dishCount
             :
             dishPrice
