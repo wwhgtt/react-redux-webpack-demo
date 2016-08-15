@@ -17,6 +17,8 @@ module.exports = (state = defaultState, action) => {
       return state.set(
         'errorMessage', payload
       );
+    case 'SET_All_ADDRESSLIST':
+      return state.set('allAddressList', payload || []);
     default:
   }
   return state;

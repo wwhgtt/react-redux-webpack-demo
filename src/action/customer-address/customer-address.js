@@ -3,6 +3,7 @@ require('isomorphic-fetch');
 const createAction = require('redux-actions').createAction;
 const config = require('../../config');
 const setAddressInfo = exports.setAddressInfo = createAction('SET_ADDRESS_INFO', address => address);
+const setAllAddressList = exports.setAllAddressList = createAction('SET_All_ADDRESSLIST', address => address);
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 
 const backCustomerAdressListPage = () => {
@@ -52,6 +53,22 @@ exports.fetchCustomerAddressInfo = (shopId, addressId) => (dispatch, getState) =
       console.log(err);
     });
 };
+exports.fetchAllAddressList = () => (dispatch, getState) => {
+  // 取所有收货地址
+  fetch(config.getAllAddressListAPI, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        console.log('获取用户地址信息失败...');
+      }
+      return res.json();
+    }).
+    then(result => {
+      dispatch(setAllAddressList(result.data));
+    }).
+    catch(err => {
+      console.log(err);
+    });
+};
 exports.saveCustomerAddressInfo = (address) => (dispatch, getState) => {
   const requestOptions = Object.assign({}, config.requestOptions);
   requestOptions.method = 'POST';
@@ -73,6 +90,14 @@ exports.saveCustomerAddressInfo = (address) => (dispatch, getState) => {
     catch(err => {
       console.log(err);
     });
+};
+exports.setSessionAndForwardEditUserAddress = (shopId, id) => (dispatch, getState) => {
+  sessionStorage.setItem('rurl_address', JSON.stringify(location.href));
+  let url = `${config.editUserAddressURL}?shopId=${shopId}`;
+  if (typeof id === 'string') {
+    url += `&addressId=${id}`;
+  }
+  location.href = url;
 };
 exports.deleteCustomerAddressInfo = (addressId) => (dispatch, getState) =>
   fetch(`${config.deleteAddressAPI}?addressId=${addressId}`, config.requestOptions).
