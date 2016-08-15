@@ -12,9 +12,6 @@ module.exports = React.createClass({
   componentDidMount() {
 
   },
-  shouldComponentUpdate(nextProps, nextState) {
-    return true;
-  },
   onRemoveLinktap(evt) {
     const { onRemoveAddress } = this.props;
     if (onRemoveAddress) {
