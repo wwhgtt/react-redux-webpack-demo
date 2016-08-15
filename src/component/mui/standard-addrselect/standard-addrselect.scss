@@ -164,8 +164,25 @@
     background-size: 20px;
     box-shadow: 0 2px 4px $color-mercury;
   }
-}
 
+  .BMap_Marker{
+    > div{
+      background: url('../../../asset/images/map-marker-cur.png') no-repeat center center;
+    }
+
+    img{
+      display: none;
+    }
+  }
+
+  &-isdefultpoint{
+    .BMap_Marker{
+      > div{
+        background: url('../../../asset/images/map-marker-cur-default.png') no-repeat center center;
+      }
+    }
+  }
+}
 
 // address list
 .addrselect-list {
@@ -220,3 +237,5 @@
     border-bottom: 1px solid $color-gallery;
   }
 }
+
+

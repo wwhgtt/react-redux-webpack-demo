@@ -73,7 +73,8 @@ module.exports = function (
         } else {
           orderIdx = _findIndex(
             state.dishesData[dishIdx].order === undefined ? [] : state.dishesData[dishIdx].order,
-            { dishPropertyTypeInfos:payload[0].order[0].dishPropertyTypeInfos }
+            // { dishPropertyTypeInfos:payload[0].order[0].dishPropertyTypeInfos }
+            { dishIngredientInfos:payload[0].order[0].dishPropertyIngredientTypeInfos }
           );
         }
         if (orderIdx !== -1) {

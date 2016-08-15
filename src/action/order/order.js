@@ -2,6 +2,7 @@ const config = require('../../config');
 const createAction = require('redux-actions').createAction;
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
+const isGroupDish = require('../../helper/dish-hepler.js').isGroupDish;
 const helper = require('../../helper/order-helper.js');
 require('es6-promise');
 require('isomorphic-fetch');
@@ -17,6 +18,7 @@ const setAddressListInfoToOrder = createAction('SET_ADDRESS_LIST_INFO_TO_ORDER',
 const setDeliveryPrice = createAction('SET_DELIVERY_PRICE', freeDeliveryPrice => freeDeliveryPrice);
 const setSendAreaId = createAction('SET_SEND_AREA_ID', areaId => areaId);
 const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
+const setCustomToShopAddress = createAction('SET_ADDRESS_TOSHOP_TO_ORDER', option => option);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 exports.fetchOrder = () => (dispatch, getState) => {
@@ -61,7 +63,12 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
     });
 exports.fetchOrderCoupons = () => (dispatch, getState) => {
   let brandDishidsCollection = [];
-  const brandDishIds = getState().orderedDishesProps.dishes.map(dish => brandDishidsCollection.push(dish.brandDishId)).join(',');
+  getState().orderedDishesProps.dishes.filter(
+    dish => !isGroupDish(dish)
+  ).map(
+    dish => brandDishidsCollection.push(dish.brandDishId)
+  );
+  const brandDishIds = brandDishidsCollection.join(',');
   fetch(
     `${config.orderCouponsAPI}?shopId=${shopId}&orderAccount=${getDishesPrice(getState().orderedDishesProps.dishes)}&brandDishIds=${brandDishIds}`,
     config.requestOptions).
@@ -183,7 +190,7 @@ exports.setSessionAndForwardChaining = (id) => (dispatch, getState) => {
 };
 exports.setSessionAndForwardEditUserAddress = (id) => (dispatch, getState) => {
   sessionStorage.setItem('rurl_address', JSON.stringify(location.href));
-  let url = `/customer-address.html?shopId=${shopId}`;
+  let url = `${config.editUserAddressURL}?shopId=${shopId}`;
   if (typeof id === 'string') {
     url += `&addressId=${id}`;
   }
@@ -195,5 +202,14 @@ exports.setCustomerProps = (evt, customerProps) => (dispatch, getState) => {
     return false;
   }
   dispatch(setOrderProps(null, customerProps));
+  return true;
+};
+exports.setCustomerToShopAddress = (evt, customerTProps, validateRet) => (dispatch, getState) => {
+  if (!validateRet.valid) {
+    dispatch(setErrorMsg(validateRet.msg));
+    return false;
+  }
+
+  dispatch(setCustomToShopAddress(customerTProps));
   return true;
 };

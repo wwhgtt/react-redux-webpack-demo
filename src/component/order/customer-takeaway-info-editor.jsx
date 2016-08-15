@@ -8,6 +8,7 @@ module.exports = React.createClass({
   propTypes: {
     customerAddressListInfo:React.PropTypes.object,
     customerProps:React.PropTypes.object,
+    defaultCustomerProps:React.PropTypes.object,
     onComponentWillMount: React.PropTypes.func.isRequired,
     onAddressEditor:React.PropTypes.func.isRequired,
     onCustomerPropsChange:React.PropTypes.func.isRequired,
@@ -15,11 +16,11 @@ module.exports = React.createClass({
   },
   getInitialState() {
     return {
-      id: '',
       addressListInfo: { inList: [], outList: [], toShopInfo:{ toShopFlag:true } },
+      addressCount: 0,
     };
   },
-  componentWillMount() {
+  componentDidMount() {
     const { onComponentWillMount, customerAddressListInfo } = this.props;
     if (!customerAddressListInfo || !customerAddressListInfo.isAddressesLoaded) {
       onComponentWillMount();
@@ -37,7 +38,7 @@ module.exports = React.createClass({
   onAddressSelectInList(evt, option) {
     this.onAddressSelect(evt, option, (editor) => {
       if (editor) {
-        this.props.onAddressEditor(editor);
+        this.props.onAddressEditor(editor, option);
         return;
       }
 
@@ -63,21 +64,42 @@ module.exports = React.createClass({
   },
   initStateByProps(props) {
     const { customerAddressListInfo, customerProps } = props;
-    if (!customerAddressListInfo) {
+    if (!customerAddressListInfo || !customerProps) {
       return;
     }
 
     let data = customerAddressListInfo.data;
-    if (data.toShopInfo.toShopFlag) {
-      data = data.update('inList', list => list.concat({ name: 'xxx', address: '到店取餐', id: 1 }));
+    let addressCount = 0;
+    if (data.inList) {
+      addressCount += data.inList.length;
     }
-    data = data.updateIn(['inList', '0'], item => item.set('isChecked', true));
+    if (data.outList) {
+      addressCount += data.outList.length;
+    }
+    if (data.toShopInfo.toShopFlag) {
+      const defaultCustomerProps = props.defaultCustomerProps || {};
+      data = data.update('inList', list => list.concat([], {
+        name: defaultCustomerProps.name || '',
+        sex: parseInt(defaultCustomerProps.sex, 10) || 0,
+        address: '到店取餐',
+        id: 0,
+        mobile: defaultCustomerProps.mobile,
+      }));
+    }
+
+    const selectedAddress = customerProps.addresses && customerProps.addresses.find(item => item.isChecked);
+    if (selectedAddress) {
+      data = data.update('inList', list => list.map(item => item.set('isChecked', selectedAddress.id === item.id)));
+    } else {
+      data = data.updateIn(['inList', '0'], item => item.set('isChecked', true));
+    }
     this.setState({
       addressListInfo: data,
-      id: customerProps.id,
+      addressCount,
     });
   },
   buildAddressElement() {
+    const { onAddressEditor } = this.props;
     const { inList, outList } = this.state.addressListInfo;
     const elems = [];
     const addressListToOptionsData = addressList => addressList.map(item => {
@@ -92,11 +114,15 @@ module.exports = React.createClass({
         sex: sex === 1 ? '先生' : '女士 ',
       };
     });
+
+    let listCount = 0;
     // 在配送范围
     if (inList && inList.length) {
-      elems.push(<p className="address-title">可选收货地址</p>);
+      listCount += inList.length;
+      elems.push(<p key="in" className="address-title">可选收货地址</p>);
       elems.push(
         <ActiveSelect
+          key="inSelect"
           className="address-group"
           optionsData={addressListToOptionsData(inList)}
           optionComponent={CustomerAddressOption}
@@ -106,31 +132,38 @@ module.exports = React.createClass({
     }
     // 不在配送范围
     if (outList && outList.length) {
-      elems.push(<p className="address-title">不在配送范围内</p>);
+      listCount += outList.length;
+      elems.push(<p key="out" className="address-title">不在配送范围内</p>);
       elems.push(
         <ActiveSelect
-          className="address-group"
+          key="outSelect"
+          className="address-group address-group-disabled"
           optionsData={addressListToOptionsData(outList)}
           optionComponent={CustomerAddressOption}
           onSelectOption={this.onAddressSelectOutList}
         />
       );
     }
+    if (this.state.addressCount < 10) {
+      elems.push(<a key="add" className="address-add-more" onTouchTap={onAddressEditor}>增加地址</a>);
+    }
     return elems;
   },
-  completeSelect(evt, customerAddressInfo) {
+  completeSelect(evt, selectedAddress) {
     const { onCustomerPropsChange, onDone } = this.props;
-    const { name, sex, mobile, address } = customerAddressInfo;
-    const info = { name, sex, mobile, address, id: 'customer-info' };
+    const { name, sex, mobile, address } = selectedAddress;
+    const info = { name, sex, mobile, id: 'customer-info' };
+    info.addresses = [{ address, id: selectedAddress.id, isChecked: true }];
     if (onCustomerPropsChange(evt, info)) onDone(evt, '');
   },
   render() {
-    const { onAddressEditor } = this.props;
     return (
       <div className="order-subpage">
         <div className="order-subpage-content">
           {this.buildAddressElement()}
-          <a className="address-add-more" onTouchTap={onAddressEditor}>增加地址</a>
+          <div className="address-title address-count-descript">
+            最多为您保存10个常用地址，还需要新增，请删除或修改以上地址
+          </div>
         </div>
       </div>
     );
