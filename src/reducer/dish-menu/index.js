@@ -1,5 +1,5 @@
 const _findIndex = require('lodash.findindex');
-const _has = require('lodash').has;
+const _has = require('lodash.has');
 const Immutable = require('seamless-immutable');
 const helper = require('../../helper/dish-hepler');
 module.exports = function (
