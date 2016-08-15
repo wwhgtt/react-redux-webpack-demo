@@ -175,27 +175,19 @@ const OrderApplication = React.createClass({
       return '请选择送餐地址';
     };
     const buildCoustomerPropElement = function () {
-      if (serviceProps.sendAreaId !== 0) {
-        if (customerProps.addresses && customerProps.addresses.length) {
-          const isCheckedAddressInfo = _find(customerProps.addresses, { isChecked:true });
-          return isCheckedAddressInfo ?
-          (
-            <div className="option-stripes-title">
-              {customerProps.name}{+customerProps.sex === 1 ? '先生' : '女士'}
-              {customerProps.mobile}
-            </div>
-          )
-          :
-          false;
-        }
-        return false;
+      if (customerProps.addresses && customerProps.addresses.length) {
+        const isCheckedAddressInfo = _find(customerProps.addresses, { isChecked:true });
+        return isCheckedAddressInfo ?
+        (
+          <div className="option-stripes-title">
+            {customerProps.name}{+customerProps.sex === 1 ? '先生' : '女士'}
+            {customerProps.mobile}
+          </div>
+        )
+        :
+        false;
       }
-      return (
-        <div className="option-stripes-title">
-          {customerProps.name}{+customerProps.sex === 1 ? '先生' : '女士'}
-          {customerProps.mobile}
-        </div>
-      );
+      return false;
     };
     const isSelfFetch = !!_find(customerProps.addresses, { isChecked:true, id: 0 });
 

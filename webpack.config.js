@@ -91,7 +91,7 @@ module.exports = {
     ),
     new HtmlWebpackPlugin(
       {
-        title: 'AddressListApplication1',
+        title: 'AddressListApplication',
         filename: 'address-list.html',
         chunks: ['common', 'address-list-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
