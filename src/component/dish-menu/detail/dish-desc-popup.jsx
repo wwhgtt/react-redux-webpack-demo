@@ -43,16 +43,16 @@ module.exports = React.createClass({
             }
             <h3 className="dish-desc-subtitle">美食简介</h3>
             <p className="dish-desc-desc">{dish.dishDesc}</p>
-            {!dish.isUserMember ?
-              <div className="dish-desc-register">
-                <span className="dish-desc-register-text">注册会员，享受惊喜价格哦！</span>
-                <a className="dish-desc-register-btn" href={`http://${location.host}/member/register?shopId=${helper.getUrlParam('shopId')}`}>注册会员</a>
-              </div>
-              :
-              false
-            }
           </div>
         </div>
+        {!dish.isUserMember ?
+          <div className="dish-desc-register">
+            <span className="dish-desc-register-text">注册会员，享受惊喜价格哦！</span>
+            <a className="dish-desc-register-btn" href={`http://${location.host}/member/register?shopId=${helper.getUrlParam('shopId')}`}>注册会员</a>
+          </div>
+          :
+          <div className="dish-desc-register"></div>
+        }
       </div>
     );
   },
