@@ -46,6 +46,14 @@ exports.fetchMenuData = () => (dispatch, getStates) =>
 exports.fetchSendArea = () => (dispatch, getState) => {
   if (helper.getUrlParam('type') !== 'WM') return false;
 
+  if (sessionStorage.getItem(`${shopId}_sendArea_Id`)) {
+    const shipmentFee = sessionStorage.getItem(`${shopId}_shipment`);
+    const minPrice = sessionStorage.getItem(`${shopId}_sendPrice`);
+    const shipFreePrice = sessionStorage.getItem(`${shopId}_freeDeliveryPrice`);
+    dispatch(_setTakeawayServiceProps({ shipmentFee, minPrice, shipFreePrice }));
+    return false;
+  }
+
   getCurrentPosition(gps => {
     const longitude = gps.longitude || '';
     const latitude = gps.latitude || '';
