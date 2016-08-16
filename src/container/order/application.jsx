@@ -69,10 +69,8 @@ const OrderApplication = React.createClass({
     }
   },
   componentDidMount() {
-    this.setChildViewAccordingToHash();
     const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons } = this.props;
     Promise.all([fetchOrder(), fetchOrderDiscountInfo(), fetchOrderCoupons()]).then(() => {
-      this.props.setChildView('');
       this.setChildViewAccordingToHash();
     });
   },
@@ -92,7 +90,10 @@ const OrderApplication = React.createClass({
     const hash = location.hash;
     setChildView(hash);
   },
-  confirmOrderAddressInfo(info) {
+  confirmOrderAddressInfo(evt, info) {
+    if (evt) {
+      evt.preventDefault();
+    }
     const { confirmOrderAddressInfo, orderedDishesProps, serviceProps, setErrorMsg } = this.props;
     const currentAddress = info.addresses && info.addresses[0];
     if (!currentAddress) {
