@@ -38,6 +38,7 @@ const OrderApplication = React.createClass({
     setSessionAndForwardEditUserAddress:React.PropTypes.func.isRequired,
     setCustomerProps:React.PropTypes.func.isRequired,
     setCustomerToShopAddress:React.PropTypes.func,
+    confirmOrderAddressInfo:React.PropTypes.func,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     customerAddressListInfo:React.PropTypes.object,
@@ -88,6 +89,11 @@ const OrderApplication = React.createClass({
     const { setChildView } = this.props;
     const hash = location.hash;
     setChildView(hash);
+  },
+  confirmOrderAddressInfo(info) {
+    const { confirmOrderAddressInfo, orderedDishesProps, serviceProps } = this.props;
+    location.hash = '';
+    confirmOrderAddressInfo(info, orderedDishesProps, serviceProps);
   },
   resetChildView(evt, hash) {
     evt.preventDefault();
@@ -165,29 +171,29 @@ const OrderApplication = React.createClass({
     const { setOrderProps, fetchUserAddressListInfo, setChildView } = this.props;// actions
     const type = getUrlParam('type');
     const shopId = getUrlParam('shopId');
-    const getDefaultAddressProps = function () {
+    const buildCoustomerPropElement = function () {
+      const elems = [];
+      let addressText = '';
       if (customerProps.addresses && customerProps.addresses.length) {
         const isCheckedAddressInfo = _find(customerProps.addresses, { isChecked:true });
         if (isCheckedAddressInfo) {
-          return isCheckedAddressInfo.address;
+          elems.push(
+            <div className="option-stripes-title" key="title">
+              {customerProps.name}{+customerProps.sex === 1 ? '先生' : '女士'}
+              {customerProps.mobile}
+            </div>
+          );
+          addressText = isCheckedAddressInfo.address;
         }
       }
-      return '请选择送餐地址';
-    };
-    const buildCoustomerPropElement = function () {
-      if (customerProps.addresses && customerProps.addresses.length) {
-        const isCheckedAddressInfo = _find(customerProps.addresses, { isChecked:true });
-        return isCheckedAddressInfo ?
-        (
-          <div className="option-stripes-title">
-            {customerProps.name}{+customerProps.sex === 1 ? '先生' : '女士'}
-            {customerProps.mobile}
+      elems.push(
+        <div className="clearfix" key="address">
+          <div className="option-desc">
+            {addressText || '请选择送餐地址'}
           </div>
-        )
-        :
-        false;
-      }
-      return false;
+        </div>
+      );
+      return elems;
     };
     const isSelfFetch = !!_find(customerProps.addresses, { isChecked:true, id: 0 });
 
@@ -228,11 +234,6 @@ const OrderApplication = React.createClass({
         {type === 'WM' ?
           <a className="options-group options-group--stripes" href="#customer-info" >
             {buildCoustomerPropElement()}
-            <div className="clearfix">
-              <div className="option-desc">
-                {getDefaultAddressProps()}
-              </div>
-            </div>
           </a>
           :
           <a className="options-group options-group--stripes" href="#customer-info" >
@@ -379,7 +380,7 @@ const OrderApplication = React.createClass({
             defaultCustomerProps={defaultCustomerProps}
             sendAreaId={serviceProps.sendAreaId}
             onAddressEditor={this.onAddressEditor}
-            onCustomerPropsChange={setCustomerProps}
+            onCustomerAddressPropsChange={this.confirmOrderAddressInfo}
             onComponentWillMount={fetchUserAddressListInfo}
             onDone={this.resetChildView}
           />

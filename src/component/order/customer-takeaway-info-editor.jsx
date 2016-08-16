@@ -11,7 +11,7 @@ module.exports = React.createClass({
     defaultCustomerProps:React.PropTypes.object,
     onComponentWillMount: React.PropTypes.func.isRequired,
     onAddressEditor:React.PropTypes.func.isRequired,
-    onCustomerPropsChange:React.PropTypes.func.isRequired,
+    onCustomerAddressPropsChange:React.PropTypes.func.isRequired,
     onDone:React.PropTypes.func.isRequired,
   },
   getInitialState() {
@@ -150,11 +150,11 @@ module.exports = React.createClass({
     return elems;
   },
   completeSelect(evt, selectedAddress) {
-    const { onCustomerPropsChange, onDone } = this.props;
+    const { onCustomerAddressPropsChange, onDone } = this.props;
     const { name, sex, mobile, address } = selectedAddress;
     const info = { name, sex, mobile, id: 'customer-info' };
-    info.addresses = [{ address, id: selectedAddress.id, isChecked: true }];
-    if (onCustomerPropsChange(evt, info)) onDone(evt, '');
+    info.addresses = [{ address, id: selectedAddress.id, isChecked: true, rangeId: selectedAddress.rangeId }];
+    if (onCustomerAddressPropsChange(info)) onDone(evt, '');
   },
   render() {
     return (
