@@ -64,6 +64,7 @@ exports.fetchSendArea = () => (dispatch, getState) => {
         return res.json();
       }).
       then(areaData => {
+        console.log('areaData: ', areaData);
         const sendAreaData = areaData.data;
         const shipmentFee = sendAreaData.shipment;
         const minPrice = sendAreaData.sendPrice;
