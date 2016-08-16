@@ -5,6 +5,7 @@
   overflow: auto;
   border-bottom: 72px solid $color-white; // register height
   background: $color-white;
+  -webkit-overflow-scrolling: touch;
 }
 
 .dish-desc {
@@ -105,7 +106,7 @@
 
   &-register {
     position: fixed;
-    z-index: 10;
+    z-index: 100;
     right: 0;
     bottom: 0;
     left: 0;
