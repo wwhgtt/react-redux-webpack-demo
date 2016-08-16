@@ -155,7 +155,7 @@ module.exports = React.createClass({
     const { name, sex, mobile, address } = selectedAddress;
     const info = { name, sex, mobile, id: 'customer-info' };
     info.addresses = [{ address, id: selectedAddress.id, isChecked: true, rangeId: selectedAddress.rangeId }];
-    if (onCustomerAddressPropsChange(info)) onDone(evt, '');
+    if (onCustomerAddressPropsChange(evt, info)) onDone(evt, '');
   },
   render() {
     return (
