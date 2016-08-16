@@ -104,7 +104,7 @@ module.exports = function (
           'dishesData', dishesData => dishesData.flatMap(
             dishData => {
               let haveDiscountPropsData = null;
-              if (payload && payload.dishList && payload.dishList.length && payload.type) {
+              if (payload && payload.type) {
                 haveDiscountPropsData = payload;
               } else if (state.normalDiscountProps && state.normalDiscountProps.dishList
                 && state.normalDiscountProps.dishList.length && state.normalDiscountProps.type) {
