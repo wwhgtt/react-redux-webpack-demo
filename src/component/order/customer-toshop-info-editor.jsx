@@ -1,5 +1,5 @@
 const React = require('react');
-const commonHelper = require('../../helper/common-helper');
+const validateAddressInfo = require('../../helper/common-helper').validateAddressInfo;
 require('./customer-toshop-info-editor.scss');
 
 module.exports = React.createClass({
@@ -35,7 +35,7 @@ module.exports = React.createClass({
   },
   validateInput() {
     const { customerProps } = this.state;
-    return commonHelper.validateAddressInfo(customerProps, false);
+    return validateAddressInfo(customerProps, false);
   },
   handleBasicInfoChange(evt) {
     const input = evt.target;
