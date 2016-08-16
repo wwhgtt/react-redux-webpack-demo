@@ -46,7 +46,7 @@ exports.fetchMenuData = () => (dispatch, getStates) =>
 exports.fetchSendArea = () => (dispatch, getState) => {
   if (helper.getUrlParam('type') !== 'WM') return false;
 
-  if (sessionStorage.getItem(`${shopId}_sendArea_Id`)) {
+  if (!!sessionStorage.getItem(`${shopId}_sendArea_Id`)) {
     const shipmentFee = sessionStorage.getItem(`${shopId}_shipment`);
     const minPrice = sessionStorage.getItem(`${shopId}_sendPrice`);
     const shipFreePrice = sessionStorage.getItem(`${shopId}_freeDeliveryPrice`);
@@ -54,10 +54,9 @@ exports.fetchSendArea = () => (dispatch, getState) => {
     return false;
   }
 
-  getCurrentPosition(gps => {
-    const longitude = gps.longitude || '';
-    const latitude = gps.latitude || '';
-    fetch(`${config.getDefaultSendArea}?shopId=${shopId}&longitude=${longitude}&latitude=${latitude}`, config.requestOptions).
+  const getDefaultSendArea = (longitude, latitude) => {
+    const isGetLoc = !!longitude && !!latitude;
+    fetch(`${config.getDefaultSendArea}?shopId=${shopId}&longitude=${longitude}&latitude=${latitude}&isGetLoc=${isGetLoc}`, config.requestOptions).
       then(res => {
         if (!res.ok) {
           dispatch(setErrorMsg('获取配送范围失败...'));
@@ -75,11 +74,17 @@ exports.fetchSendArea = () => (dispatch, getState) => {
         sessionStorage.setItem(`${shopId}_freeDeliveryPrice`, shipFreePrice);
         dispatch(_setTakeawayServiceProps({ shipmentFee, minPrice, shipFreePrice }));
       }).
-      catch(err => {
+      catch(error => {
         dispatch(setErrorMsg('加载配送范围失败...'));
       });
-  }, err => {
-    dispatch(setErrorMsg(err.message));
+  };
+
+  getCurrentPosition(gps => {
+    getDefaultSendArea(gps.longitude, gps.latitude);
+  }, error => {
+    // if can't get gps location, pass empty longitude and latitude
+    getDefaultSendArea('', '');
+    // dispatch(setErrorMsg(error.message));
   });
 
   return true;
