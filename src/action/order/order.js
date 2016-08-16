@@ -17,7 +17,7 @@ const setAddressInfoToOrder = createAction('SET_ADDRESS_INFO_TO_ORDER', address 
 const setAddressListInfoToOrder = createAction('SET_ADDRESS_LIST_INFO_TO_ORDER', data => data);
 const setDeliveryPrice = createAction('SET_DELIVERY_PRICE', freeDeliveryPrice => freeDeliveryPrice);
 const setSendAreaId = createAction('SET_SEND_AREA_ID', areaId => areaId);
-const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
+const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setCustomToShopAddress = createAction('SET_ADDRESS_TOSHOP_TO_ORDER', option => option);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
@@ -215,13 +215,10 @@ exports.setCustomerToShopAddress = (evt, customerTProps, validateRet) => (dispat
 };
 
 exports.confirmOrderAddressInfo = (info, orderedDishesProps, serviceProps) => (dispatch, getState) => {
-  let url = `${config.getOrderAddressInfoAPI}?shopId=${shopId}`;
   const address = info.addresses && info.addresses[0] || {};
-  const rangeId = address.rangeId;
+  const rangeId = address.rangeId || 0;
   const addressId = address.id;
-  if (rangeId) {
-    url += `&rangeId=${rangeId}`;
-  }
+  let url = `${config.getOrderAddressInfoAPI}?shopId=${shopId}&rangeId=${rangeId}`;
   if (addressId) {
     url += `&addressId=${addressId}`;
   }

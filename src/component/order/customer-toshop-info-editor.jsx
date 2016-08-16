@@ -1,4 +1,5 @@
 const React = require('react');
+const commonHelper = require('../../helper/common-helper');
 require('./customer-toshop-info-editor.scss');
 
 module.exports = React.createClass({
@@ -20,56 +21,32 @@ module.exports = React.createClass({
 
   },
   componentWillReceiveProps(newProps) {
-    this.setState(newProps);
+    if (newProps) {
+      this.setState({ customerProps: newProps.customerProps.update('sex', value => +value) });
+    }
   },
   onSaveBtntap(evt) {
-    const validateRet = this.validateInput();
     const { customerProps } = this.state;
     const { onDone, onCustomerPropsChange } = this.props;
+    const validateRet = this.validateInput();
     if (onCustomerPropsChange(evt, customerProps, validateRet)) {
       onDone(evt, '#customer-info');
     }
   },
   validateInput() {
-    const rules = {
-      name: [
-        { msg: '请输入姓名', validate(value) { return !!value.trim(); } },
-      ],
-      mobile: [
-        { msg: '请输入手机号', validate(value) { return !!value.trim(); } },
-        { msg: '请录入正确的手机号', validate(value) { return /^1[34578]\d{9}$/.test(value); } },
-      ],
-    };
-
     const { customerProps } = this.state;
-    for (const key in rules) {
-      if (!rules.hasOwnProperty(key)) {
-        continue;
-      }
-
-      const rule = rules[key];
-      const value = customerProps[key];
-      for (let i = 0, len = rule.length; i < len; i++) {
-        const item = rule[i];
-        const valid = item.validate(value || '');
-        if (!valid) {
-          return { valid: false, msg: item.msg };
-        }
-      }
-    }
-    return { valid: true, msg: '' };
+    return commonHelper.validateAddressInfo(customerProps, false);
   },
   handleBasicInfoChange(evt) {
     const input = evt.target;
     const propertys = {};
     let value = propertys[input.name] = input.value.trim();
     if (input.name === 'sex') {
-      value = parseInt(value, 10) || 0;
+      value = value ? parseInt(value, 10) : -1;
     }
-
     const { customerProps } = this.state;
     this.setState({
-      customerProps:customerProps.set(input.getAttribute('name'), value),
+      customerProps:customerProps.set(input.name, value),
     });
   },
   render() {
