@@ -37,7 +37,7 @@ module.exports = React.createClass({
                 <span className="dish-desc-price--del price">{dish.marketPrice}</span>
                 <span className="dish-desc-price-title">会员价:</span>
                 <span className="dish-desc-price--bold price">{memberPrice.toFixed(2)}</span>
-                <span className="dish-desc-price-badge">{dish.discountLevel}折专享价</span>
+                <span className="dish-desc-price-badge">{dish.discountLevel}专享价</span>
               </p>
               : <p className="clearfix"><span className="dish-desc-price--bold price">{dish.marketPrice}</span></p>
             }
