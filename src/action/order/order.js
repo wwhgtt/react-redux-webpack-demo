@@ -236,14 +236,14 @@ exports.confirmOrderAddressInfo = (info, orderedDishesProps, serviceProps) => (d
       }
 
       dispatch(setOrderProps(null, info));
-      const sendArea = result.data && result.data.sendArea || {};
+      const data = result.data || {};
       const dishesPrice = getDishesPrice(orderedDishesProps.dishes || []);
-      sessionStorage.setItem(`${shopId}_sendArea_id`, sendArea.sendAreaId);
-      sessionStorage.setItem(`${shopId}_sendArea_shipment`, sendArea.shipment);
-      sessionStorage.setItem(`${shopId}_sendArea_sendPrice`, sendArea.sendPrice);
-      sessionStorage.setItem(`${shopId}_sendArea_freeDeliveryPrice`, sendArea.freeDeliveryPrice);
+      sessionStorage.setItem(`${shopId}_sendArea_id`, data.sendAreaId);
+      sessionStorage.setItem(`${shopId}_sendArea_shipment`, data.shipment);
+      sessionStorage.setItem(`${shopId}_sendArea_sendPrice`, data.sendPrice);
+      sessionStorage.setItem(`${shopId}_sendArea_freeDeliveryPrice`, data.freeDeliveryPrice);
 
-      if (sendArea.sendPrice > dishesPrice) {
+      if (data.sendPrice > dishesPrice) {
         dispatch(setErrorMsg('订单金额不满足起送价'));
         setTimeout(() => {
           location.href = `${config.getMoreWMDishesURL}?type=${type}&shopId=${shopId}`;
@@ -252,8 +252,8 @@ exports.confirmOrderAddressInfo = (info, orderedDishesProps, serviceProps) => (d
       }
 
       const deliveryProps = {
-        freeDeliveryPrice: sendArea.freeDeliveryPrice,
-        deliveryPrice: sendArea.shipment,
+        freeDeliveryPrice: data.freeDeliveryPrice,
+        deliveryPrice: data.shipment,
       };
       dispatch(setDeliveryPrice(deliveryProps));
     }).

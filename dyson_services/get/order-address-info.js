@@ -2,28 +2,18 @@ module.exports = {
   path:'/user/getAddressInfo.json',
   template:{
     data: {
-      address:
-      {
-        memberAddressId:12632,
-        name:'Alex',
-        sex:0,
-        address:'成都市武侯区软件园E区1 - 1',
-        mobile:15183748899,
-      },
-      sendArea:
-      {
-        sendAreaId:23332,
-        sendPrice:15,
-        shipment:5,
-        freeDeliveryPrice:25,
-      },
-      averageSendTime:15,
-      toShopFlag :false,
-      timeJson:
-      {
-        '2016-08-09' :['21:00', '21:15', '21:30', '21:45', '22:00'],
-      },
-
+      name:'看看',
+      memberAddressId:23,
+      sex:0,
+      address:'四川省成都市双流县天府五街',
+      mobile:'13665658575',
+      sendAreaId:124,
+      sendPrice:2.0,
+      shipment:2.0,
+      freeDeliveryPrice:70.0,
+      averageSendTime:10,
+      timeJson:{ '2016-08-16':['21:00', '21:15', '21:30', '21:45', '22:00'] },
+      toShopFlag:false,
     },
     msg: '',
     time: 1467811619403,
