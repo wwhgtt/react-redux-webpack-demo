@@ -7,7 +7,7 @@ module.exports = {
     'code': '200',
     'data': {
       'member': {
-        'name': '',
+        'name': '王刚',
         'mobile': '15908198592',
         'sex': '1',
         'iconUri':
@@ -61,7 +61,10 @@ module.exports = {
       },
       'toHomePayType': 'online',
       'toShopPayType': 'offline',
-      'ma': null,
+      'ma': {
+        id: '1000',
+        address: '天府软件园E1',
+      },
       'toShopFlag': false,
       'disable': false,
     },
