@@ -213,3 +213,53 @@ exports.setCustomerToShopAddress = (evt, customerTProps, validateRet) => (dispat
   dispatch(setCustomToShopAddress(customerTProps));
   return true;
 };
+
+exports.confirmOrderAddressInfo = (info, orderedDishesProps, serviceProps) => (dispatch, getState) => {
+  let url = `${config.getOrderAddressInfoAPI}?shopId=${shopId}`;
+  const address = info.addresses && info.addresses[0] || {};
+  const rangeId = address.rangeId;
+  const addressId = address.id;
+  if (rangeId) {
+    url += `&rangeId=${rangeId}`;
+  }
+  if (addressId) {
+    url += `&addressId=${addressId}`;
+  }
+  fetch(url, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('外卖下单确认地址...'));
+      }
+      return res.json();
+    }).
+    then(result => {
+      if (result.code !== '200') {
+        dispatch(setErrorMsg(result.msg));
+        return;
+      }
+
+      dispatch(setOrderProps(null, info));
+      const sendArea = result.data && result.data.sendArea || {};
+      const dishesPrice = getDishesPrice(orderedDishesProps.dishes || []);
+      if (sendArea.sendPrice > dishesPrice) {
+        sessionStorage.setItem(`${shopId}_sendArea_id`, sendArea.sendAreaId);
+        sessionStorage.setItem(`${shopId}_sendArea_shipment`, sendArea.shipment);
+        sessionStorage.setItem(`${shopId}_sendArea_sendPrice`, sendArea.sendPrice);
+        sessionStorage.setItem(`${shopId}_sendArea_freeDeliveryPrice`, sendArea.freeDeliveryPrice);
+        dispatch(setErrorMsg('订单金额不满足起送价'));
+        setTimeout(() => {
+          location.href = `${config.getMoreWMDishesURL}?type=${type}&shopId=${shopId}`;
+        }, 3000);
+        return;
+      }
+
+      const deliveryProps = {
+        freeDeliveryPrice: sendArea.freeDeliveryPrice,
+        deliveryPrice: dishesPrice >= sendArea.freeDeliveryPrice ? 0 : sendArea.shipment,
+      };
+      dispatch(setDeliveryPrice(deliveryProps));
+    }).
+    catch(err => {
+      console.log(err);
+    });
+};
