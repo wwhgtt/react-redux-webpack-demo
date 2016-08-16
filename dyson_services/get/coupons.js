@@ -122,7 +122,7 @@ module.exports = {
           {
             id: 924,
             couponId: 1150,
-            dishId: 23,
+            dishId: 474003,
             num:1,
             ruleValue: '2',
             brandId: 2192,

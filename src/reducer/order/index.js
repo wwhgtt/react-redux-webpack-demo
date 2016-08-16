@@ -262,8 +262,15 @@ module.exports = function (
             )
           );
         }
-        return state.setIn(
+        return state
+          .setIn(
             ['serviceProps', 'couponsProps', 'inUseCoupon'], false
+          )
+          .updateIn(
+            ['orderedDishesProps', 'dishes'],
+            dishes => dishes.flatMap(
+              dish => dish.set('isRelatedToCoupon', false)
+            )
           );
       } else if (payload.id === 'integrals') {
         return state.setIn(
