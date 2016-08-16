@@ -83,6 +83,7 @@ module.exports = React.createClass({
         sex: parseInt(defaultCustomerProps.sex, 10) || 0,
         address: '到店取餐',
         id: 0,
+        rangeId: 0,
         mobile: defaultCustomerProps.mobile,
       }));
     }

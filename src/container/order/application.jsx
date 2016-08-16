@@ -4,6 +4,7 @@ const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const connect = require('react-redux').connect;
 const actions = require('../../action/order/order');
 const helper = require('../../helper/order-helper');
+const validateAddressInfo = require('../../helper/common-helper').validateAddressInfo;
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const CustomerTakeawayInfoEditor = require('../../component/order/customer-takeaway-info-editor.jsx');
@@ -39,6 +40,7 @@ const OrderApplication = React.createClass({
     setCustomerProps:React.PropTypes.func.isRequired,
     setCustomerToShopAddress:React.PropTypes.func,
     confirmOrderAddressInfo:React.PropTypes.func,
+    setErrorMsg:React.PropTypes.func,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     customerAddressListInfo:React.PropTypes.object,
@@ -91,7 +93,19 @@ const OrderApplication = React.createClass({
     setChildView(hash);
   },
   confirmOrderAddressInfo(info) {
-    const { confirmOrderAddressInfo, orderedDishesProps, serviceProps } = this.props;
+    const { confirmOrderAddressInfo, orderedDishesProps, serviceProps, setErrorMsg } = this.props;
+    const currentAddress = info.addresses && info.addresses[0];
+    if (!currentAddress) {
+      return;
+    }
+
+    const validatingInfo = Object.assign({}, info, { baseAddress: currentAddress.address });
+    const validateResult = validateAddressInfo(validatingInfo, currentAddress.id !== 0, key => key === 'street');
+    if (!validateResult.valid) {
+      setErrorMsg(validateResult.msg);
+      return;
+    }
+
     location.hash = '';
     confirmOrderAddressInfo(info, orderedDishesProps, serviceProps);
   },
