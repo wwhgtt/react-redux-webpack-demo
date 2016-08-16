@@ -146,7 +146,7 @@ module.exports = React.createClass({
       );
     }
     if (this.state.addressCount < 10) {
-      elems.push(<a key="add" className="address-add-more" onTouchTap={onAddressEditor}>增加地址</a>);
+      elems.push(<a key="add" className="address-add-more" onTouchTap={onAddressEditor}>新增地址</a>);
     }
     return elems;
   },
@@ -163,7 +163,7 @@ module.exports = React.createClass({
         <div className="order-subpage-content">
           {this.buildAddressElement()}
           <div className="address-title address-count-descript">
-            最多为您保存10个常用地址，还需要新增，请删除或修改以上地址
+            最多为您保存10个常用地址<br />还需要新增，请删除或修改以上地址
           </div>
         </div>
       </div>
