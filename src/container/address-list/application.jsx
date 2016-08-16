@@ -29,13 +29,12 @@ const AddressListApplication = React.createClass({
   componentWillReceiveProps(newProps) {
     this.initStateByProps(newProps);
   },
-  onAddressEditor(editor, option) {
-    const { setSessionAndForwardEditUserAddress } = this.props;
-    setSessionAndForwardEditUserAddress(shopId, editor);
-  },
-  onAddressSelect(evt, option, func) {
+  onAddressSelect(evt, option) {
     const editor = evt.target.getAttribute('data-editor');
-    this.onAddressEditor(editor, option);
+    const { setSessionAndForwardEditUserAddress } = this.props;
+    if (editor) {
+      setSessionAndForwardEditUserAddress(shopId, editor);
+    }
   },
   initStateByProps(props) {
     const { allAddressList } = props;
@@ -74,7 +73,7 @@ const AddressListApplication = React.createClass({
       );
     }
     if (allAddressList.length < 10) {
-      elems.push(<a key="add" className="address-add-more" onTouchTap={this.onAddressSelect}>增加地址</a>);
+      elems.push(<a key="add" className="address-add-more" onTouchTap={this.onAddressSelect}>新增地址</a>);
     }
     return elems;
   },
@@ -84,7 +83,7 @@ const AddressListApplication = React.createClass({
         <div className="order-subpage-content">
           {this.buildAddressElement()}
           <div className="address-title address-count-descript">
-            最多为您保存10个常用地址，还需要新增，请删除或修改以上地址
+            最多为您保存10个常用地址<br />还需要新增，请删除或修改以上地址
           </div>
         </div>
       </div>
