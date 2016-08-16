@@ -64,19 +64,19 @@ exports.fetchSendArea = () => (dispatch, getState) => {
         return res.json();
       }).
       then(areaData => {
-        console.log('areaData: ', areaData);
-        const sendAreaData = areaData.data;
-        const shipmentFee = sendAreaData.shipment;
-        const minPrice = sendAreaData.sendPrice;
-        const shipFreePrice = sendAreaData.freeDeliveryPrice;
-        sessionStorage.setItem(`${shopId}_sendArea_Id`, sendAreaData.id);
-        sessionStorage.setItem(`${shopId}_sendPrice`, minPrice);
-        sessionStorage.setItem(`${shopId}_shipment`, shipmentFee);
-        sessionStorage.setItem(`${shopId}_freeDeliveryPrice`, shipFreePrice);
-        dispatch(_setTakeawayServiceProps({ shipmentFee, minPrice, shipFreePrice }));
-      }).
-      catch(error => {
-        dispatch(setErrorMsg('加载配送范围失败...'));
+        if (areaData.code === '200') {
+          const sendAreaData = areaData.data;
+          const shipmentFee = sendAreaData.shipment;
+          const minPrice = sendAreaData.sendPrice;
+          const shipFreePrice = sendAreaData.freeDeliveryPrice;
+          sessionStorage.setItem(`${shopId}_sendArea_Id`, sendAreaData.id);
+          sessionStorage.setItem(`${shopId}_sendPrice`, minPrice);
+          sessionStorage.setItem(`${shopId}_shipment`, shipmentFee);
+          sessionStorage.setItem(`${shopId}_freeDeliveryPrice`, shipFreePrice);
+          dispatch(_setTakeawayServiceProps({ shipmentFee, minPrice, shipFreePrice }));
+        } else {
+          dispatch(setErrorMsg(areaData.msg));
+        }
       });
   };
 
