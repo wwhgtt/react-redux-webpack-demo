@@ -44,22 +44,22 @@ module.exports = React.createClass({
                 <span className="dish-desc-price--del price">{dish.marketPrice}</span>
                 <span className="dish-desc-price-title">会员价:</span>
                 <span className="dish-desc-price--bold price">{memberPrice.toFixed(2)}</span>
-                <span className="dish-desc-price-badge">{dish.discountLevel}专享价</span>
+                <span className="dish-desc-price-badge">{dish.discountLevel}折专享价</span>
               </p>
               : <p className="clearfix"><span className="dish-desc-price--bold price">{dish.marketPrice}</span></p>
             }
             <h3 className="dish-desc-subtitle">美食简介</h3>
             <p className="dish-desc-desc">{dish.dishDesc}</p>
-            {!dish.isUserMember ?
-              <div className="dish-desc-register">
-                <span className="dish-desc-register-text">注册会员，享受惊喜价格哦！</span>
-                <a className="dish-desc-register-btn" href={`http://${location.host}/member/register?shopId=${helper.getUrlParam('shopId')}`}>注册会员</a>
-              </div>
-              :
-              false
-            }
           </div>
         </div>
+        {!dish.isUserMember ?
+          <div className="dish-desc-register">
+            <span className="dish-desc-register-text">注册会员，享受惊喜价格哦！</span>
+            <a className="dish-desc-register-btn" href={`http://${location.host}/member/register?shopId=${helper.getUrlParam('shopId')}`}>注册会员</a>
+          </div>
+          :
+          <div className="dish-desc-register"></div>
+        }
       </div>
     );
   },

@@ -3,7 +3,7 @@
 // override background color
 .dish-detail-content--white {
   overflow: auto;
-  border-bottom: 72px solid $color-white; // register height
+  height: calc(100% - 50px - 72px); // 72px === register height
   background: $color-white;
   -webkit-overflow-scrolling: touch;
 }
@@ -105,11 +105,6 @@
   }
 
   &-register {
-    position: fixed;
-    z-index: 100;
-    right: 0;
-    bottom: 0;
-    left: 0;
     height: 72px; // 10*2 + 12 + 40
     background: $color-white;
 
