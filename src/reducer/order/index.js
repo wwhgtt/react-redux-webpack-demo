@@ -320,7 +320,7 @@ module.exports = function (
     case 'SET_COUPONS_TO_ORDER':
       return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], payload);
     case 'SET_DISCOUNT_TO_ORDER':
-      if (payload.isDiscount) {
+      if (payload.isDiscount && payload.isMember) {
         return state.setIn(
           ['serviceProps', 'discountProps', 'discountInfo'],
           Immutable.from({ name:'享受会员价', isChecked:true, id:'discount' })
