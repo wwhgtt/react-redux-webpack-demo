@@ -4,7 +4,7 @@ const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const connect = require('react-redux').connect;
 const actions = require('../../action/order/order');
 const helper = require('../../helper/order-helper');
-const commonHelper = require('../../helper/common-helper');
+const validateAddressInfo = require('../../helper/common-helper').validateAddressInfo;
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const CustomerTakeawayInfoEditor = require('../../component/order/customer-takeaway-info-editor.jsx');
@@ -100,7 +100,7 @@ const OrderApplication = React.createClass({
     }
 
     const validatingInfo = Object.assign({}, info, { baseAddress: currentAddress.address });
-    const validateResult = commonHelper.validateAddressInfo(validatingInfo, currentAddress.id !== 0, key => key === 'street');
+    const validateResult = validateAddressInfo(validatingInfo, currentAddress.id !== 0, key => key === 'street');
     if (!validateResult.valid) {
       setErrorMsg(validateResult.msg);
       return;
