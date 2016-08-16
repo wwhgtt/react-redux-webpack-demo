@@ -1,4 +1,5 @@
 const React = require('react');
+const commonHelper = require('../../helper/common-helper');
 require('./customer-address-editor.scss');
 
 module.exports = React.createClass({
@@ -26,39 +27,8 @@ module.exports = React.createClass({
     }
   },
   validateInput() {
-    const rules = {
-      name: [
-        { msg: '请输入姓名', validate(value) { return !!value.trim(); } },
-      ],
-      mobile: [
-        { msg: '请输入手机号', validate(value) { return !!value.trim(); } },
-        { msg: '请录入正确的手机号', validate(value) { return /^1[34578]\d{9}$/.test(value); } },
-      ],
-      baseAddress: [
-        { msg: '请输入收货地址', validate(value) { return !!value.trim(); } },
-      ],
-      street: [
-        { msg: '请输入门牌号', validate(value) { return !!value.trim(); } },
-      ],
-    };
-
-    const { customerProps } = this.props;
-    for (const key in rules) {
-      if (!rules.hasOwnProperty(key)) {
-        continue;
-      }
-
-      const rule = rules[key];
-      const value = customerProps[key];
-      for (let i = 0, len = rule.length; i < len; i++) {
-        const item = rule[i];
-        const valid = item.validate(value || '');
-        if (!valid) {
-          return { valid: false, msg: item.msg };
-        }
-      }
-    }
-    return { valid: true, msg: '' };
+    const info = this.props.customerProps;
+    return commonHelper.validateAddressInfo(info, true);
   },
   handleBasicInfoChange(evt) {
     const input = evt.target;
