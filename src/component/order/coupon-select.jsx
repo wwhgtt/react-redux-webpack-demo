@@ -34,11 +34,16 @@ module.exports = React.createClass({
     }
   },
   onSubmitBtnTap() {
-    const { onSelectCoupon } = this.props;
+    const { onSelectCoupon, couponsProps } = this.props;
     const { couponDataId } = this.state;
+    const selectedCoupon = couponsProps.couponsList.filter(coupon => coupon.isChecked);
+    const selectedCouponId = selectedCoupon && selectedCoupon.length ?
+          couponsProps.couponsList.filter(coupon => coupon.isChecked)[0].id.toString()
+          :
+          couponDataId;
     const selectedCouponData = {
       id:'coupon',
-      selectedCouponId:couponDataId,
+      selectedCouponId,
     };
     onSelectCoupon(null, selectedCouponData);
     window.location.hash = 'selectCoupon';
