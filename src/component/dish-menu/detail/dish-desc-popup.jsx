@@ -36,10 +36,10 @@ module.exports = React.createClass({
               <p className="clearfix">
                 <span className="dish-desc-price--del price">{dish.marketPrice}</span>
                 <span className="dish-desc-price-title">会员价:</span>
-                <span className="dish-desc-price--bold price">{memberPrice}</span>
+                <span className="dish-desc-price--bold price">{memberPrice.toFixed(2)}</span>
                 <span className="dish-desc-price-badge">{dish.discountLevel}专享价</span>
               </p>
-              : <p className="clearfix"><span className="dish-desc-price--bold price">{dish.marketPrice.toFixed(2)}</span></p>
+              : <p className="clearfix"><span className="dish-desc-price--bold price">{dish.marketPrice}</span></p>
             }
             <h3 className="dish-desc-subtitle">美食简介</h3>
             <p className="dish-desc-desc">{dish.dishDesc}</p>
