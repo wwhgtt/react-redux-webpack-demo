@@ -46,10 +46,10 @@ exports.fetchMenuData = () => (dispatch, getStates) =>
 exports.fetchSendArea = () => (dispatch, getState) => {
   if (helper.getUrlParam('type') !== 'WM') return false;
 
-  if (!!sessionStorage.getItem(`${shopId}_sendArea_Id`)) {
-    const shipmentFee = sessionStorage.getItem(`${shopId}_shipment`);
-    const minPrice = sessionStorage.getItem(`${shopId}_sendPrice`);
-    const shipFreePrice = sessionStorage.getItem(`${shopId}_freeDeliveryPrice`);
+  if (!!sessionStorage.getItem(`${shopId}_sendArea_id`)) {
+    const shipmentFee = sessionStorage.getItem(`${shopId}_sendArea_shipment`);
+    const minPrice = sessionStorage.getItem(`${shopId}_sendArea_sendPrice`);
+    const shipFreePrice = sessionStorage.getItem(`${shopId}_sendArea_freeDeliveryPrice`);
     dispatch(_setTakeawayServiceProps({ shipmentFee, minPrice, shipFreePrice }));
     return false;
   }
@@ -69,10 +69,10 @@ exports.fetchSendArea = () => (dispatch, getState) => {
           const shipmentFee = sendAreaData.shipment;
           const minPrice = sendAreaData.sendPrice;
           const shipFreePrice = sendAreaData.freeDeliveryPrice;
-          sessionStorage.setItem(`${shopId}_sendArea_Id`, sendAreaData.id);
-          sessionStorage.setItem(`${shopId}_sendPrice`, minPrice);
-          sessionStorage.setItem(`${shopId}_shipment`, shipmentFee);
-          sessionStorage.setItem(`${shopId}_freeDeliveryPrice`, shipFreePrice);
+          sessionStorage.setItem(`${shopId}_sendArea_id`, sendAreaData.id);
+          sessionStorage.setItem(`${shopId}_sendArea_sendPrice`, minPrice);
+          sessionStorage.setItem(`${shopId}_sendArea_shipment`, shipmentFee);
+          sessionStorage.setItem(`${shopId}_sendArea_freeDeliveryPrice`, shipFreePrice);
           dispatch(_setTakeawayServiceProps({ shipmentFee, minPrice, shipFreePrice }));
         } else {
           dispatch(setErrorMsg(areaData.msg));
