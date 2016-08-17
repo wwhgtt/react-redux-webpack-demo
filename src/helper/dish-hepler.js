@@ -81,8 +81,9 @@ const getOrderPrice = exports.getOrderPrice = function (dish, orderData) {
             : getOrderPrice(childDish, childDish.order[0])
         )
     ));
-    return (orderData.count *
-      (dish.marketPrice + parseFloat(orderedChildDishPrices.reduce((c, p) => c + p, 0)))).toFixed(2);
+    const signleOrderPrice = parseFloat((orderData.count *
+      (dish.marketPrice + parseFloat(orderedChildDishPrices.reduce((c, p) => c + p, 0)))).toFixed(2));
+    return signleOrderPrice >= 0 ? signleOrderPrice : 0;
   }
   // for nongroup dish, from this line.
   const rePriceProps = orderData.dishPropertyTypeInfos.filter(prop => prop.type !== 3);
