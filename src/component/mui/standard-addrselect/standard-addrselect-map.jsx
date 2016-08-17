@@ -37,8 +37,13 @@ module.exports = React.createClass({
       this._currentPoint = _point;
       this.handleCenterPointChange();
     };
+    // 取不到用户的坐标，根据用户ip取对应的城市
     if (!point.latitude || !point.longitude) {
-      centerThePoint(new BMap.Point(0, 0));
+      const currentCity = new BMap.LocalCity();
+      currentCity.get(result => {
+        this.map.centerAndZoom(result.name, baiduMapConfig.zoomLevel);
+        this._currentPoint = null;
+      });
       return;
     }
 
@@ -61,6 +66,10 @@ module.exports = React.createClass({
     const map = this.map = new BMap.Map(this.refs.content);
     this.mapCenter(this.props.currentPoint);
     map.addEventListener('tilesloaded', evt => {
+      if (!this._currentPoint) {
+        const currentPoint = this.map.getCenter();
+        this.mapCenter({ latitude: currentPoint.lat, longitude: currentPoint.lng });
+      }
     });
     map.addEventListener('dragend', evt => {
       this.handleCenterPointChange();
@@ -91,7 +100,7 @@ module.exports = React.createClass({
   render() {
     const { currentPoint } = this.props.currentPoint;
     return (
-      <div className={classnames('addrselect-map', { 'addrselect-map-isdefultpoint': currentPoint && currentPoint.isDefault })}>
+      <div className={classnames('addrselect-map', { 'addrselect-map-isdefultpoint': currentPoint && !currentPoint.latitude })}>
         <div className="addrselect-map-inner" ref="content">
           <p className="addrselect-map-loading">
             地图加载中...
