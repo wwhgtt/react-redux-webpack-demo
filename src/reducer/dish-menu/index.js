@@ -104,8 +104,10 @@ module.exports = function (
           'dishesData', dishesData => dishesData.flatMap(
             dishData => {
               let haveDiscountPropsData = null;
+              let isUserMember = true;
               if (payload && payload.type) {
                 haveDiscountPropsData = payload;
+                isUserMember = _has(payload, 'isMember') ? payload.isMember : true;
               } else if (state.normalDiscountProps && state.normalDiscountProps.dishList
                 && state.normalDiscountProps.dishList.length && state.normalDiscountProps.type) {
                 haveDiscountPropsData = state.normalDiscountProps;
@@ -128,7 +130,7 @@ module.exports = function (
                   )
                   .set('discountType', haveDiscountPropsData.type)
                   .set('discountLevel', haveDiscountPropsData.levelName)
-                  .set('isUserMember', _has(haveDiscountPropsData, 'isMember') ? haveDiscountPropsData.isMember : true);
+                  .set('isUserMember', isUserMember);
             }
           )
       );
