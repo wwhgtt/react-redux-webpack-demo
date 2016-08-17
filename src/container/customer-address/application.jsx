@@ -45,6 +45,13 @@ const CustomerAddressApplication = React.createClass({
     const { setChildView } = this.props;
     const hash = location.hash;
     setChildView(hash);
+    this.setDocumentTitleByHash(hash);
+  },
+  setDocumentTitleByHash(hash) {
+    const title = {
+      '#address-select': '选择位置',
+    }[hash] || '编辑地址';
+    document.title = title;
   },
   handleAddressPropertyChange(propertys) {
     const { setAddressInfo } = this.props;
@@ -84,7 +91,7 @@ const CustomerAddressApplication = React.createClass({
     };
     const getElement = () => {
       if (childView === '#address-select') {
-        return (<StandardAddressSelect placeholder="请选择收货地址" currentPoint={currentPoint} onSelectComplete={this.handleSelectComplete} />);
+        return (<StandardAddressSelect placeholder="请输入收货位置" currentPoint={currentPoint} onSelectComplete={this.handleSelectComplete} />);
       }
       return (
         <CustomerAddressEditor

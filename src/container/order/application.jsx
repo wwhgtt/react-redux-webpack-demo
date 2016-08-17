@@ -89,6 +89,19 @@ const OrderApplication = React.createClass({
     const { setChildView } = this.props;
     const hash = location.hash;
     setChildView(hash);
+    this.setDocumentTitleByHash(hash);
+  },
+  setDocumentTitleByHash(hash) {
+    const type = getUrlParam('type');
+    if (type !== 'WM') {
+      return;
+    }
+
+    const title = {
+      '#customer-info': '选择收货地址',
+      '#customer-info-toshop': '编辑地址',
+    }[hash] || '确定下单-外卖';
+    document.title = title;
   },
   confirmOrderAddressInfo(evt, info) {
     if (evt) {
