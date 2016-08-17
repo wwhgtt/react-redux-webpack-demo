@@ -49,13 +49,14 @@
     }
 
     small{
-      color: $color-sliver;
       display: inline-block;
+      margin-right: 5px;
       vertical-align: top;
+      color: $color-sliver;
     }
     
     small.name{
-      max-width: 7em;
+      max-width: 5em;
     }
     small.phone{
       margin-left: 1em;
