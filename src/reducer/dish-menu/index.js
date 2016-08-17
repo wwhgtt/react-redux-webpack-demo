@@ -74,7 +74,7 @@ module.exports = function (
           orderIdx = _findIndex(
             state.dishesData[dishIdx].order === undefined ? [] : state.dishesData[dishIdx].order,
             // { dishPropertyTypeInfos:payload[0].order[0].dishPropertyTypeInfos }
-            { dishIngredientInfos:payload[0].order[0].dishIngredientInfos }
+            { dishIngredientInfos:payload[0].order[0].dishIngredientInfos, dishPropertyTypeInfos:payload[0].order[0].dishPropertyTypeInfos }
           );
         }
         if (orderIdx !== -1) {
