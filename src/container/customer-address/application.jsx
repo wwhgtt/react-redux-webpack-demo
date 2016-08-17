@@ -91,7 +91,13 @@ const CustomerAddressApplication = React.createClass({
     };
     const getElement = () => {
       if (childView === '#address-select') {
-        return (<StandardAddressSelect placeholder="请输入收货位置" currentPoint={currentPoint} onSelectComplete={this.handleSelectComplete} />);
+        return (
+          <StandardAddressSelect
+            placeholder="请输入收货位置"
+            currentPoint={currentPoint}
+            searchResultMaxLength={6}
+            onSelectComplete={this.handleSelectComplete}
+          />);
       }
       return (
         <CustomerAddressEditor
