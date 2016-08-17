@@ -69,13 +69,7 @@ module.exports = React.createClass({
     }
 
     let data = customerAddressListInfo.data;
-    let addressCount = 0;
-    if (data.inList) {
-      addressCount += data.inList.length;
-    }
-    if (data.outList) {
-      addressCount += data.outList.length;
-    }
+    const addressCount = data.inList.length + data.outList.length;
     if (data.toShopInfo.toShopFlag) {
       const defaultCustomerProps = props.defaultCustomerProps || {};
       data = data.update('inList', list => list.concat([], {
@@ -116,11 +110,11 @@ module.exports = React.createClass({
       };
     });
 
-    let listCount = 0;
     // 在配送范围
-    if (inList && inList.length) {
-      listCount += inList.length;
-      elems.push(<p key="in" className="address-title">可选收货地址</p>);
+    if (inList.length) {
+      if (outList.length) {
+        elems.push(<p key="in" className="address-title">可选收货地址</p>);
+      }
       elems.push(
         <ActiveSelect
           key="inSelect"
@@ -132,8 +126,7 @@ module.exports = React.createClass({
       );
     }
     // 不在配送范围
-    if (outList && outList.length) {
-      listCount += outList.length;
+    if (outList.length) {
       elems.push(<p key="out" className="address-title">不在配送范围内</p>);
       elems.push(
         <ActiveSelect
