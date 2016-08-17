@@ -2,10 +2,7 @@
 
 // override background color
 .dish-detail-content--white {
-  overflow: auto;
-  height: calc(100% - 50px - 72px); // 72px === register height
   background: $color-white;
-  -webkit-overflow-scrolling: touch;
 }
 
 .dish-desc {
@@ -17,6 +14,11 @@
   }
 
   &-content {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  &-info {
     padding: 20px 10px;
   }
 
