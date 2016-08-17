@@ -19,6 +19,7 @@ const setDeliveryPrice = createAction('SET_DELIVERY_PRICE', freeDeliveryPrice =>
 const setSendAreaId = createAction('SET_SEND_AREA_ID', areaId => areaId);
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setCustomToShopAddress = createAction('SET_ADDRESS_TOSHOP_TO_ORDER', option => option);
+const setOrderTimeProps = createAction('SET_ORDER_TIME_PROPS', timeJson => timeJson);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 exports.fetchOrder = () => (dispatch, getState) => {
@@ -253,6 +254,7 @@ exports.confirmOrderAddressInfo = (info, orderedDishesProps, serviceProps) => (d
         deliveryPrice: data.shipment,
       };
       dispatch(setDeliveryPrice(deliveryProps));
+      dispatch(setOrderTimeProps(data.timeJson));
     }).
     catch(err => {
       console.log(err);
