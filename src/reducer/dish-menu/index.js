@@ -105,7 +105,7 @@ module.exports = function (
             dishData => {
               let haveDiscountPropsData = null;
               let isUserMember = true;
-              if (payload && payload.type) {
+              if (payload && _has(payload, 'dishList')) {
                 haveDiscountPropsData = payload;
                 isUserMember = _has(payload, 'isMember') ? payload.isMember : true;
               } else if (state.normalDiscountProps && state.normalDiscountProps.dishList
