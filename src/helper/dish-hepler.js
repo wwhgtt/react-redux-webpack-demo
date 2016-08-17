@@ -81,9 +81,8 @@ const getOrderPrice = exports.getOrderPrice = function (dish, orderData) {
             : getOrderPrice(childDish, childDish.order[0])
         )
     ));
-    const signleOrderPrice = parseFloat((orderData.count *
-      (dish.marketPrice + parseFloat(orderedChildDishPrices.reduce((c, p) => c + p, 0)))).toFixed(2));
-    return signleOrderPrice >= 0 ? signleOrderPrice : 0;
+    return (orderData.count *
+      (dish.marketPrice + parseFloat(orderedChildDishPrices.reduce((c, p) => c + p, 0)))).toFixed(2);
   }
   // for nongroup dish, from this line.
   const rePriceProps = orderData.dishPropertyTypeInfos.filter(prop => prop.type !== 3);
@@ -99,11 +98,12 @@ const getOrderPrice = exports.getOrderPrice = function (dish, orderData) {
       ingredientsPriceProp => ingredientsPriceProp.isChecked
     ).map(ingredientsPriceProp => ingredientsPriceProp.reprice)
   );
-  return parseFloat((orderData.count *
+  const signleDishPrice = parseFloat((orderData.count *
     (dish.marketPrice +
        parseFloat(checkedRepricePropPrices.reduce((c, p) => c + p, 0)) +
        parseFloat(checkedIngredientsPropsPrice.reduce((c, p) => c + p, 0))
     )).toFixed(2), 10);
+  return signleDishPrice >= 0 ? signleDishPrice : 0;
 };
 const getDishPrice = exports.getDishPrice = function (dish) {
   if (isSingleDishWithoutProps(dish)) {
