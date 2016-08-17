@@ -30,11 +30,13 @@ const AddressListApplication = React.createClass({
     this.initStateByProps(newProps);
   },
   onAddressSelect(evt, option) {
-    const editor = evt.target.getAttribute('data-editor');
+    const dataset = evt.target.dataset;
     const { setSessionAndForwardEditUserAddress } = this.props;
-    if (editor) {
-      setSessionAndForwardEditUserAddress(shopId, editor);
+    if (!dataset.hasOwnProperty('editor')) {
+      return;
     }
+
+    setSessionAndForwardEditUserAddress(shopId, dataset.editor);
   },
   initStateByProps(props) {
     const { allAddressList } = props;
@@ -73,7 +75,9 @@ const AddressListApplication = React.createClass({
       );
     }
     if (allAddressList.length < 10) {
-      elems.push(<a key="add" className="address-add-more" onTouchTap={this.onAddressSelect}>新增地址</a>);
+      elems.push(
+        <a key="add" className="address-add-more" onTouchTap={this.onAddressSelect} data-editor="">新增地址</a>
+      );
     }
     return elems;
   },
