@@ -217,11 +217,8 @@ exports.setCustomerToShopAddress = (evt, customerTProps, validateRet) => (dispat
 exports.confirmOrderAddressInfo = (info, orderedDishesProps, serviceProps) => (dispatch, getState) => {
   const address = info.addresses && info.addresses[0] || {};
   const rangeId = address.rangeId || 0;
-  const addressId = address.id;
-  let url = `${config.getOrderAddressInfoAPI}?shopId=${shopId}&rangeId=${rangeId}`;
-  if (addressId) {
-    url += `&addressId=${addressId}`;
-  }
+  const addressId = address.id || 0;
+  const url = `${config.getOrderAddressInfoAPI}?shopId=${shopId}&rangeId=${rangeId}&addressId=${addressId}`;
   fetch(url, config.requestOptions).
     then(res => {
       if (!res.ok) {
