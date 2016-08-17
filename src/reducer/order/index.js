@@ -393,6 +393,17 @@ module.exports = function (
       return state.set(
         'errorMessage', payload
       );
+    case 'SET_ORDER_TIME_PROPS':
+      return state.setIn(['timeProps', 'timeTable'],
+          Immutable.from(
+            helper.initializeTimeTable(payload)
+          )
+        )
+        .setIn(['timeProps', 'selectedDateTime'],
+          Immutable.from(
+            helper.getDefaultSelectedDateTime(payload)
+          )
+        );
     default:
   }
   return state;
