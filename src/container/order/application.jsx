@@ -161,7 +161,7 @@ const OrderApplication = React.createClass({
       tableProps.tables && tableProps.tables.length) {
       return (
         <a
-          className="order-prop-option"
+          className="option"
           onTouchTap={evt => this.checkAddressChildViewAvailable(tableProps)}
         >
           <span className="options-title">选择桌台</span>
@@ -176,11 +176,11 @@ const OrderApplication = React.createClass({
       );
     }
     return tableProps.isEditable ?
-      <div className="order-prop-option">
+      <div className="option">
         <span className="options-title text-froly">该桌台已被占用</span>
       </div>
       :
-      <div className="order-prop-option">
+      <div className="option">
         <span className="options-title text-froly">没有可用桌台</span>
       </div>;
   },
@@ -245,7 +245,7 @@ const OrderApplication = React.createClass({
       }
       if (getUrlParam('type') === 'WM' && !helper.isEmptyObject(timeProps.timeTable) && timeProps.timeTable !== undefined) {
         return (
-          <div className="order-prop-option">
+          <div className="option">
             <span className="options-title">{isSelfFetch ? '取餐时间' : '送达时间'}</span>
             <button className="option-btn btn-arrow-right" onTouchTap={evt => setChildView('#time-select')}>
               {getFetchTimeTitle()}
@@ -254,7 +254,7 @@ const OrderApplication = React.createClass({
         );
       }
       return (
-        <div className="order-prop-option">没有可用{isSelfFetch ? '取餐时间' : '送达时间'}</div>
+        <div className="option">没有可用{isSelfFetch ? '取餐时间' : '送达时间'}</div>
       );
     };
     return (
@@ -302,7 +302,7 @@ const OrderApplication = React.createClass({
         <div className="options-group">
           {serviceProps.couponsProps.couponsList &&
             serviceProps.couponsProps.couponsList.length && commercialProps.diningForm !== 0 ?
-            <a className="order-prop-option" href="#coupon-select">
+            <a className="option" href="#coupon-select">
               <span className="option-title">使用优惠券</span>
               <span className="badge-coupon">
                 {serviceProps.couponsProps.inUseCoupon ?
@@ -324,12 +324,12 @@ const OrderApplication = React.createClass({
 
         <div className="options-group">
           {buildSelectTimeElemnet()}
-          <label className="order-prop-option">
+          <label className="option">
             <span className="option-title">备注: </span>
             <input className="option-input" name="note" placeholder="输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />
           </label>
           {commercialProps && commercialProps.isSupportInvoice === 1 ?
-            <label className="order-prop-option">
+            <label className="option">
               <span className="option-title">发票抬头: </span>
               <input className="option-input" name="receipt" placeholder="输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
             </label>
@@ -348,7 +348,7 @@ const OrderApplication = React.createClass({
           <div>
             <div className="options-group">
               <a
-                className="order-prop-option"
+                className="option"
                 href={helper.getMoreDishesUrl()}
               >
                 <span className="order-add-text">我要加菜</span>

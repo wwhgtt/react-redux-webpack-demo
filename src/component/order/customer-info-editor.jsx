@@ -45,12 +45,12 @@ module.exports = React.createClass({
       <div className="subpage flex-columns">
         <div className="flex-rest">
           <div className="options-group">
-            <div className="order-prop-option">
+            <div className="option">
               <div className="editor-one-third">
                 <span className="option-title">姓名：</span>
               </div>
               <div className="editor-two-thirds">
-                <div className="order-prop-option">
+                <div className="option">
                   <input
                     className="editor-input"
                     name="name"
@@ -59,7 +59,7 @@ module.exports = React.createClass({
                     onChange={this.handleBasicInfoChange}
                   />
                 </div>
-                <div className="order-prop-option clearfix">
+                <div className="option clearfix">
                   <label className="half">
                     <input
                       className="option-radio" type="radio" name="sex" defaultValue="1"
@@ -80,14 +80,14 @@ module.exports = React.createClass({
               </div>
             </div>
 
-            <label className="order-prop-option">
+            <label className="option">
               <span className="option-title">联系电话：</span>
               <input className="editor-input" placeholder={customerProps.mobile} onChange={this.handleBasicInfoChange} disabled="disabled" />
             </label>
           </div>
           {getUrlParam('type') === 'TS' ?
             <div className="options-group">
-              <div className="order-prop-option">
+              <div className="option">
                 <span className="option-title">就餐人数：</span>
                 <Counter minimum={1} count={customerProps.customerCount} maximum={99} step={1} onCountChange={this.onCountChange} />
               </div>
