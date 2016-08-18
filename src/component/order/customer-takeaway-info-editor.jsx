@@ -113,7 +113,7 @@ module.exports = React.createClass({
     // 在配送范围
     if (inList.length) {
       if (outList.length) {
-        elems.push(<p key="in" className="address-title">可选收货地址</p>);
+        elems.push(<p key="in" className="address-group-divider">可选收货地址</p>);
       }
       elems.push(
         <ActiveSelect
@@ -127,7 +127,7 @@ module.exports = React.createClass({
     }
     // 不在配送范围
     if (outList.length) {
-      elems.push(<p key="out" className="address-title">不在配送范围内</p>);
+      elems.push(<p key="out" className="address-group-divider">不在配送范围内</p>);
       elems.push(
         <ActiveSelect
           key="outSelect"
