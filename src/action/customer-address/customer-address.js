@@ -21,11 +21,12 @@ exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 exports.fetchCustomerAddressInfo = (shopId, addressId) => (dispatch, getState) => {
   // 取新增数据
   if (!addressId) {
-    const defaultValue = { sex: 1, latitude: '30.542718', longitude: '104.066082', isGPSPoint: true };
+    const defaultValue = { sex: 1 };
     navigator.geolocation.getCurrentPosition(pos => {
       const data = Object.assign({}, defaultValue, {
         latitude: pos.coords.latitude,
         longitude: pos.coords.longitude,
+        isGPSPoint: true,
       });
       dispatch(setAddressInfo(data));
     }, error => {
