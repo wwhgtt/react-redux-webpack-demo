@@ -11,12 +11,19 @@ module.exports = React.createClass({
     onMapInited: React.PropTypes.func,
     onCenterPointChange: React.PropTypes.func,
   },
+  getInitialState() {
+    return {
+      isDefultPoint: false,
+    };
+  },
   componentDidMount() {
     window.setTimeout(this.initMap, 1);
   },
   componentWillReceiveProps(nextProps) {
     const { currentPoint } = this.props;
     const nextCurrentPoint = nextProps.currentPoint;
+    this.setState({ isDefultPoint: currentPoint && !currentPoint.latitude });
+
     if (!nextCurrentPoint || !nextCurrentPoint.latitude) {
       return;
     }
@@ -98,9 +105,9 @@ module.exports = React.createClass({
     }
   },
   render() {
-    const { currentPoint } = this.props.currentPoint;
+    const { isDefultPoint } = this.state;
     return (
-      <div className={classnames('addrselect-map', { 'addrselect-map-isdefultpoint': currentPoint && !currentPoint.latitude })}>
+      <div className={classnames('addrselect-map', { 'addrselect-map-isdefultpoint': isDefultPoint })}>
         <div className="addrselect-map-inner" ref="content">
           <p className="addrselect-map-loading">
             地图加载中...
