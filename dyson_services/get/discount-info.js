@@ -6,10 +6,10 @@ module.exports = {
       type: 1,
       levelId:9992836,
       levelName:'黄金会员',
-      isMember:false,
+      isMember:true,
       dishList:[
         {
-          dishId:57472,
+          dishId:599385,
           value:8,
         },
         {
