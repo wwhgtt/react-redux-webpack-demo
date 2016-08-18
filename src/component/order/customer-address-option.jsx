@@ -14,12 +14,16 @@ module.exports = React.createClass({
     const { id, address, ...props, sex, name, mobile } = this.props;
     return (
       <DynamicClassDiv className="address-option" {...props}>
-        <h3 className="ellipsis">{address}</h3>
-        <p>
-          <small className="name ellipsis">{name}</small>
-          <small>{sex}</small>
-          <small className="phone">{mobile}</small>
-        </p>
+        <h3 className="address-title ellipsis">{address}</h3>
+        <div className="address-meta clearfix">
+          <div className="half ellipsis">
+            <span className="name">{name}</span>
+            <span>{sex}</span>
+          </div>
+          <div className="half">
+            <span className="phone">{mobile}</span>
+          </div>
+        </div>
         <a
           className="address-edit"
           data-editor={id}

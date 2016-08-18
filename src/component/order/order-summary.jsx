@@ -5,6 +5,8 @@ const OrderedDish = require('./ordered-dish.jsx');
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
 const isSingleDishWithoutProps = require('../../helper/dish-hepler.js').isSingleDishWithoutProps;
 
+require('./order-summary.scss');
+
 module.exports = React.createClass({
   displayName: 'OrderSummary',
   propTypes: {
@@ -48,7 +50,7 @@ module.exports = React.createClass({
         {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
           <div>
             <div className="options-group">
-              <a className="order-prop-option order-shop" href={config.shopDetailURL + '?shopId=' + shopId}>
+              <a className="option order-shop" href={config.shopDetailURL + '?shopId=' + shopId}>
                 <img className="order-shop-icon" src={commercialProps.commercialLogo} alt="" />
                 <p className="order-shop-desc ellipsis">{commercialProps.name}</p>
               </a>
@@ -155,7 +157,7 @@ module.exports = React.createClass({
                   false
                 }
               </div>
-              <div className="order-prop-option order-total clearfix">
+              <div className="option order-total clearfix">
                 <div className="order-total-left">
                   <span className="text-dove-grey">总计: </span>
                   <span className="price">{

@@ -1,0 +1,90 @@
+@import 'settings.colors';
+
+// rediret to shop button
+.order-shop {
+  position: relative;
+  padding-right: 30px;
+
+  &::after {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    right: 10px;
+    width: 10px;
+    height: 18px;
+    margin-top: -9px;
+    content: '';
+    background-image: url('../../asset/images/arrow-right-grey.png');
+    // images size 20px 36px
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: 10px 18px;
+  }
+
+  &-icon {
+    float: left;
+    width: 30px;
+    height: 30px;
+    border: 1px solid $color-alto;
+    border-radius: 50%;
+  }
+
+  &-desc {
+    font-size: 17px;
+    line-height: 30px;
+    float: left;
+    width: calc(100% - 30px);
+    padding-left: 10px;
+  }
+}
+
+
+
+.order-summary {
+  padding: 5px 10px 4px;
+  border-bottom: 1px solid $color-alto;
+
+  &:empty {
+    padding: 0;
+    border-style: none;
+  }
+
+  &-entry {
+    line-height: 32px;
+  }
+
+  // order-summary icons
+  @for $i from 1 through 5 {
+    &-icon#{$i}:before {
+      background-image: url('../../asset/images/summary-#{$i}.png');
+    }
+  }
+}
+
+.order-discount {
+  float: right;
+  width: 80px;
+  text-align: right;
+}
+
+.order-integral {
+  font-size: 14px;
+  float: right;
+  color: $color-dusty-grey;
+
+  &::before {
+    content: '-';
+  }
+}
+
+.order-total {
+  &-left {
+    font-size: 15px;
+    float: left;
+    margin-right: 15px;
+  }
+
+  &-right {
+    float: right;
+  }
+}

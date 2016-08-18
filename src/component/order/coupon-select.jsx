@@ -51,15 +51,15 @@ module.exports = React.createClass({
   render() {
     const { couponsProps } = this.props;
     return (
-      <div className="order-subpage coupons-container">
-        <div className="order-subpage-content">
+      <div className="subpage flex-columns">
+        <div className="coupons-container flex-rest">
           <ActiveSelect
             optionsData={couponsProps.couponsList}
             onSelectOption={this.onSelectCoupon}
             optionComponent={CouponOption}
           />
         </div>
-        <button className="order-subpage-submit btn--yellow" onClick={this.onSubmitBtnTap}>确定</button>
+        <button className="subpage-submit-btn btn--yellow flex-none" onClick={this.onSubmitBtnTap}>确定</button>
       </div>
     );
   },

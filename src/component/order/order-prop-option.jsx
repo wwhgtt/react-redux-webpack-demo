@@ -16,7 +16,7 @@ module.exports = React.createClass({
   render() {
     const { name, subname, type, ...otherProps } = this.props;
     return (
-      <div className="order-prop-option">
+      <div className="option">
         <span className="option-title">{name}</span>
         <small className="option-desc">{subname}</small>
         <DynamicClassLink className={classnames('option-btn', { 'btn-tickbox':type === 'tickbox', 'btn-toggle':!type })} {...otherProps} />

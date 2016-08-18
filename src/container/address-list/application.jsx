@@ -6,9 +6,10 @@ const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const CustomerAddressOption = require('../../component/order/customer-address-option.jsx');
 const shopId = getUrlParam('shopId') || '';
 
-require('../../component/order/customer-takeaway-info-editor.scss');
 require('../../asset/style/style.scss');
+require('../../component/order/customer-takeaway-info-editor.scss');
 require('./application.scss');
+
 const AddressListApplication = React.createClass({
   displayName: 'AddressListApplication',
   propTypes: {
@@ -83,12 +84,10 @@ const AddressListApplication = React.createClass({
   },
   render() {
     return (
-      <div className="order-subpage">
-        <div className="order-subpage-content">
-          {this.buildAddressElement()}
-          <div className="address-title address-count-descript">
-            最多为您保存10个常用地址<br />还需要新增，请删除或修改以上地址
-          </div>
+      <div className="address">
+        {this.buildAddressElement()}
+        <div className="address-comments">
+          最多为您保存10个常用地址<br />还需要新增，请删除或修改以上地址
         </div>
       </div>
     );
