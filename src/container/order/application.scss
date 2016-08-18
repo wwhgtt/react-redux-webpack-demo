@@ -14,21 +14,10 @@ div[data-reactroot] {
 
 // OPTIONS GROUP
 .options-group {
-  display: block;
-  margin-bottom: 10px;
-  text-decoration: none;
-  border-top: 1px solid $color-mercury;
-  border-bottom: 1px solid $color-mercury;
-  background: $color-white;
-
-  &:empty {
-    border-style: none;
-  }
-
   &--stripes {
     position: relative;
     overflow: hidden;
-    padding: 25px 30px 10px 10px;
+    padding: 20px 30px 15px 10px;
     cursor: pointer;
     border-top: 0;
     background-image: url('../../asset/images/stripes.png');
@@ -61,45 +50,8 @@ div[data-reactroot] {
     }
   }
 
-  @at-root {
-    // also the styles of the order/order-prop-option component
-    // this class name is also used for same look elements
-    // so it's placed here
-    .order-prop-option {
-      font-size: 16px;
-      line-height: 22px;
-      display: block;
-      overflow: hidden;
-      padding: 14px 10px 11px;
-      text-decoration: none;
-      color: $color-mine-shaft;
-      border-bottom: 1px solid $color-mercury;
 
-      &:last-child {
-        border-bottom: 0;
-      }
-
-      > .counter {
-        margin-top: -3px;
-        margin-bottom: -3px;
-        // color: $color-picton-blue;
-      }
-
-      // display disabled minus button
-      .counter-minus.btn-disabled {
-        display: block;
-
-        &::before {
-          background: darken($color-mischka, 10%);
-        }
-
-        ~ .counter-num {
-          display: block;
-        }
-      }
-    }
-  }
-
+  // add .option styles to active-select
   > .active-select {
     border-bottom: 1px solid $color-mercury;
 
@@ -109,11 +61,9 @@ div[data-reactroot] {
   }
 }
 
-.option-title {
-  float: left;
-  width: 110px;
-
-  &--icon {
+// override option styles
+.option {
+  &-title--icon {
     width: auto;
 
     &::before {
@@ -127,119 +77,39 @@ div[data-reactroot] {
       background-size: 18px;
     }
   }
-}
 
-.option-desc {
-  color: $color-dusty-grey;
-}
-
-
-// right side buttons or inputs
-.option-btn,
-.option-input {
-  font-size: 12px;
-  float: right;
-  text-align: right;
-  color: $color-dusty-grey;
-}
-
-.option-input {
-  width: 150px;
-  border: 0;
-  outline: 0;
-}
-
-
-// shop styles
-
-.order-shop {
-  position: relative;
-  padding-right: 30px;
-
-  &::after {
-    position: absolute;
-    z-index: 1;
-    top: 50%;
-    right: 10px;
-    width: 10px;
-    height: 18px;
-    margin-top: -9px;
-    content: '';
-    background-image: url('../../asset/images/arrow-right-grey.png');
-    // images size 20px 36px
-    background-repeat: no-repeat;
-    background-position: center right;
-    background-size: 10px 18px;
-  }
-}
-
-.order-shop-icon {
-  float: left;
-  width: 30px;
-  height: 30px;
-  border: 1px solid $color-alto;
-  border-radius: 50%;
-}
-
-.order-shop-desc {
-  font-size: 17px;
-  line-height: 30px;
-  float: left;
-  width: calc(100% - 30px);
-  padding-left: 10px;
-}
-
-
-// ORDER SUMMARY
-.order-summary {
-  padding: 5px 10px 4px;
-  border-bottom: 1px solid $color-alto;
-
-  &:empty {
-    padding: 0;
-    border-style: none;
+  // adjuster counter styles
+  > .counter {
+    margin-top: -3px;
+    margin-bottom: -3px;
   }
 
-  &-entry {
-    line-height: 32px;
-  }
+  // display disabled minus button
+  .counter-minus.btn-disabled {
+    display: block;
 
-  // order-summary icons
-  @for $i from 1 through 5 {
-    &-icon#{$i}:before {
-      background-image: url('../../asset/images/summary-#{$i}.png');
+    &::before {
+      background: darken($color-mischka, 10%);
+    }
+
+    ~ .counter-num {
+      display: block;
     }
   }
 
-  @at-root {
-    .order-discount {
-      float: right;
-      width: 80px;
-      text-align: right;
-    }
+  &-btn,
+  &-input {
+    font-size: 12px;
+    float: right;
+    text-align: right;
+    color: $color-dusty-grey;
+  }
 
-    .order-integral {
-      font-size: 14px;
-      float: right;
-      color: $color-dusty-grey;
-
-      &::before {
-        content: '-';
-      }
-    }
+  &-input {
+    width: 150px;
   }
 }
 
-// ORDER TOTAL STYLES
-.order-total-left {
-  font-size: 15px;
-  float: left;
-  margin-right: 15px;
-}
-
-.order-total-right {
-  float: right;
-}
 
 .order-add-text {
   font-size: 17px;
