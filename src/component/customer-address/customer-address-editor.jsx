@@ -11,10 +11,14 @@ module.exports = React.createClass({
     onRemoveAddress: React.PropTypes.func,
   },
   componentDidMount() {
-
   },
   onRemoveLinktap(evt) {
+    evt.preventDefault();
     const { onRemoveAddress } = this.props;
+    if (!window.confirm('您确认删除改地址吗？')) {
+      return;
+    }
+
     if (onRemoveAddress) {
       onRemoveAddress();
     }
