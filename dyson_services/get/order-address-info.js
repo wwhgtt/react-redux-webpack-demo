@@ -8,7 +8,7 @@ module.exports = {
       address:'四川省成都市双流县天府五街',
       mobile:'13665658575',
       sendAreaId:124,
-      sendPrice:2.0,
+      sendPrice:100.0,
       shipment:2.0,
       freeDeliveryPrice:70.0,
       averageSendTime:10,
