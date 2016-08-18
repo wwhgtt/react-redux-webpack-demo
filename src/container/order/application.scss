@@ -12,46 +12,43 @@ div[data-reactroot] {
   background: $color-gallery;
 }
 
-// OPTIONS GROUP
+// options group with stripes
+.options-group--stripes {
+  position: relative;
+  overflow: hidden;
+  padding: 20px 30px 15px 10px;
+  cursor: pointer;
+  border-top: 0;
+  background-image: url('../../asset/images/stripes.png');
+  background-repeat: repeat-x;
+  background-size: 320px 4px;
+
+  &::after {
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    right: 10px;
+    width: 10px;
+    height: 18px;
+    margin-top: -9px;
+    content: '';
+    background-image: url('../../asset/images/arrow-right-grey.png');
+    // images size 20px 36px
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: 10px 18px;
+  }
+}
+
+// stripes title
+.option-stripes-title {
+  font-size: 18px;
+  line-height: 22px;
+  margin-bottom: 10px;
+}
+
+// add .option styles to active-select
 .options-group {
-  &--stripes {
-    position: relative;
-    overflow: hidden;
-    padding: 20px 30px 15px 10px;
-    cursor: pointer;
-    border-top: 0;
-    background-image: url('../../asset/images/stripes.png');
-    background-repeat: repeat-x;
-    background-size: 320px 4px;
-
-    &::after {
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      right: 10px;
-      width: 10px;
-      height: 18px;
-      margin-top: -9px;
-      content: '';
-      background-image: url('../../asset/images/arrow-right-grey.png');
-      // images size 20px 36px
-      background-repeat: no-repeat;
-      background-position: center right;
-      background-size: 10px 18px;
-    }
-  }
-
-  // stripes content styles
-  @at-root {
-    .option-stripes-title {
-      font-size: 18px;
-      line-height: 22px;
-      margin-bottom: 10px;
-    }
-  }
-
-
-  // add .option styles to active-select
   > .active-select {
     border-bottom: 1px solid $color-mercury;
 
