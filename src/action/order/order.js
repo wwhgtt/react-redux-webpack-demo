@@ -37,7 +37,18 @@ exports.fetchOrder = () => (dispatch, getState) => {
       return res.json();
     }).
     then(order => {
-      dispatch(setOrder(order.data));
+      if (type === 'TS') {
+        dispatch(setOrder(order.data));
+      } else {
+        const selectedCustomerProps = JSON.parse(localStorage.getItem('receiveOrderCustomerInfo'));
+        if (selectedCustomerProps) {
+          order.data.ma = selectedCustomerProps.addresses[0];
+          order.data.member = { name:selectedCustomerProps.name, sex:selectedCustomerProps.sex, mobile:selectedCustomerProps.mobile };
+          dispatch(setOrder(order.data));
+        } else {
+          dispatch(setOrder(order.data));
+        }
+      }
       return order.data;
     }).
     catch(err => {
@@ -242,6 +253,7 @@ exports.confirmOrderAddressInfo = (info, orderedDishesProps, serviceProps) => (d
       sessionStorage.setItem(`${shopId}_sendArea_freeDeliveryPrice`, data.freeDeliveryPrice);
 
       if (data.sendPrice > dishesPrice) {
+        localStorage.setItem('receiveOrderCustomerInfo', JSON.stringify(info));
         dispatch(setErrorMsg('订单金额不满足起送价'));
         setTimeout(() => {
           location.href = `${config.getMoreWMDishesURL}?type=${type}&shopId=${shopId}`;
