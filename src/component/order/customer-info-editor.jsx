@@ -42,8 +42,8 @@ module.exports = React.createClass({
   render() {
     const { customerProps } = this.state;
     return (
-      <div className="order-subpage">
-        <div className="order-subpage-content">
+      <div className="subpage flex-columns">
+        <div className="flex-rest">
           <div className="options-group">
             <div className="order-prop-option">
               <div className="editor-one-third">
@@ -98,7 +98,7 @@ module.exports = React.createClass({
 
         </div>
 
-        <button className="order-subpage-submit btn--yellow" onTouchTap={this.onSubmitBtntap}>确定</button>
+        <button className="subpage-submit-btn btn--yellow flex-none" onTouchTap={this.onSubmitBtntap}>确定</button>
       </div>
     );
   },

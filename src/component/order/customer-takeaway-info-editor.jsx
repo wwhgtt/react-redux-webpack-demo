@@ -152,12 +152,10 @@ module.exports = React.createClass({
   },
   render() {
     return (
-      <div className="order-subpage">
-        <div className="order-subpage-content">
-          {this.buildAddressElement()}
-          <div className="address-title address-count-descript">
-            最多为您保存10个常用地址<br />还需要新增，请删除或修改以上地址
-          </div>
+      <div className="address subpage">
+        {this.buildAddressElement()}
+        <div className="address-comments">
+          最多为您保存10个常用地址<br />还需要新增，请删除或修改以上地址
         </div>
       </div>
     );
