@@ -251,7 +251,7 @@ exports.confirmOrderAddressInfo = (info, orderedDishesProps, serviceProps) => (d
       sessionStorage.setItem(`${shopId}_sendArea_shipment`, data.shipment);
       sessionStorage.setItem(`${shopId}_sendArea_sendPrice`, data.sendPrice);
       sessionStorage.setItem(`${shopId}_sendArea_freeDeliveryPrice`, data.freeDeliveryPrice);
-
+      dispatch(setSendAreaId(data.sendAreaId));
       if (data.sendPrice > dishesPrice) {
         localStorage.setItem('receiveOrderCustomerInfo', JSON.stringify(info));
         dispatch(setErrorMsg('订单金额不满足起送价'));
