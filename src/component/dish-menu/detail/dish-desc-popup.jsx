@@ -56,7 +56,10 @@ module.exports = React.createClass({
           {!dish.isUserMember ?
             <div className="dish-desc-register flex-none">
               <span className="dish-desc-register-text">注册会员，享受惊喜价格哦！</span>
-              <a className="dish-desc-register-btn" href={`http://${location.host}/member/register?shopId=${helper.getUrlParam('shopId')}`}>注册会员</a>
+              <button
+                className="dish-desc-register-btn"
+                onTouchTap={() => location.href = `http://${location.host}/member/register?shopId=${helper.getUrlParam('shopId')}`}
+              >注册会员</button>
             </div>
             :
             false
