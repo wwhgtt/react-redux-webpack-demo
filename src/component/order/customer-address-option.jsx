@@ -16,13 +16,8 @@ module.exports = React.createClass({
       <DynamicClassDiv className="address-option" {...props}>
         <h3 className="address-title ellipsis">{address}</h3>
         <div className="address-meta clearfix">
-          <div className="half ellipsis">
-            <span className="name">{name}</span>
-            <span>{sex}</span>
-          </div>
-          <div className="half">
-            <span className="phone">{mobile}</span>
-          </div>
+          <div className="half ellipsis">{name} {sex}</div>
+          <div className="half">{mobile}</div>
         </div>
         <a
           className="address-edit"
