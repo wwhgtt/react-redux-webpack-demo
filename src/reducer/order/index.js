@@ -75,7 +75,7 @@ module.exports = function (
                     Immutable.from({
                       name:payload.member.name, mobile:payload.member.mobile,
                       sex: isNaN(+payload.member.sex) ? '-1' : payload.member.sex, isMember:payload.isMember, customerCount:1,
-                      addresses:payload.ma ? [{ id:payload.ma.id, address:payload.ma.address, isChecked:true }] : null,
+                      addresses:payload.ma ? [Object.assign({ isChecked:true }, payload.ma)] : null,
                     })
                   )
                   .set('defaultCustomerProps', payload.member || {})
@@ -205,6 +205,8 @@ module.exports = function (
         return state.set(
           'customerProps', payload
         );
+      } else if (payload.id === 'customer-info-selected-address') {
+        return state.setIn(['customerProps', 'addresses'], payload.addresses);
       } else if (payload.id === 'customer-info-with-address') {
         return state.setIn(
           ['customerProps', 'name'], payload.name
