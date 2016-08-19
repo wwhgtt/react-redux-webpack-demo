@@ -84,7 +84,8 @@ module.exports = React.createClass({
 
     const selectedAddress = customerProps.addresses && customerProps.addresses.find(item => item.isChecked);
     if (selectedAddress) {
-      data = data.update('inList', list => list.map(item => item.set('isChecked', selectedAddress.id === item.id)));
+      data = data.update('inList', list => list.map(item =>
+        item.set('isChecked', selectedAddress.id === item.id || selectedAddress.memberAddressId === item.id)));
     } else if (data.inList.length) {
       data = data.updateIn(['inList', '0'], item => item.set('isChecked', true));
     }
@@ -145,9 +146,10 @@ module.exports = React.createClass({
   },
   completeSelect(evt, selectedAddress) {
     const { onCustomerAddressPropsChange, onDone } = this.props;
-    const { name, sex, mobile, address } = selectedAddress;
-    const info = { name, sex, mobile, id: 'customer-info' };
-    info.addresses = [{ address, id: selectedAddress.id, isChecked: true, rangeId: selectedAddress.rangeId }];
+    const info = { id: 'customer-info-selected-address' };
+    info.addresses = [
+      Object.assign({}, selectedAddress, { isChecked: true }),
+    ];
     if (onCustomerAddressPropsChange(evt, info)) onDone(evt, '');
   },
   render() {

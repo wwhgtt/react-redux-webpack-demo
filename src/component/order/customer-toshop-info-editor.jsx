@@ -104,8 +104,8 @@ module.exports = React.createClass({
               </label>
             </div>
           </div>
-          <button className="subpage-submit-btn btn--yellow flex-none" onTouchTap={this.onSaveBtntap}>保存</button>
         </div>
+        <button className="subpage-submit-btn btn--yellow flex-none" onTouchTap={this.onSaveBtntap}>保存</button>
       </div>
     );
   },

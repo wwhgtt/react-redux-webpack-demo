@@ -113,8 +113,9 @@ const OrderApplication = React.createClass({
       return;
     }
 
-    const validatingInfo = Object.assign({}, info, { baseAddress: currentAddress.address });
-    const validateResult = validateAddressInfo(validatingInfo, currentAddress.id !== 0, key => key === 'street');
+    currentAddress.baseAddress = currentAddress.address;
+    const validateResult = validateAddressInfo(currentAddress, currentAddress.id !== 0, key => key === 'street');
+
     if (!validateResult.valid) {
       setErrorMsg(validateResult.msg);
       return;
@@ -207,8 +208,8 @@ const OrderApplication = React.createClass({
         if (isCheckedAddressInfo) {
           elems.push(
             <div className="option-stripes-title" key="title">
-              {customerProps.name}{+customerProps.sex === 1 ? '先生' : '女士'}
-              {customerProps.mobile}
+              {isCheckedAddressInfo.name}{+isCheckedAddressInfo.sex === 1 ? '先生' : '女士'}
+              {isCheckedAddressInfo.mobile}
             </div>
           );
           addressText = isCheckedAddressInfo.address;
