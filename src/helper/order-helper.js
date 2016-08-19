@@ -11,12 +11,18 @@ exports.isEmptyObject = (obj) => {
   return true;
 };
 // 判断默认应该选中的配送时间
-exports.getDefaultSelectedDateTime = (timeTable) => {
+exports.getDefaultSelectedDateTime = (timeTable, defaultSelectedDateTime) => {
   const selectedDateTime = { date: '', time: '' };
   if (!timeTable) {
     return selectedDateTime;
   }
 
+  if (defaultSelectedDateTime) {
+    const times = timeTable[defaultSelectedDateTime.date];
+    if (times && times.indexOf(defaultSelectedDateTime.time) !== -1) {
+      return Object.assign(selectedDateTime, defaultSelectedDateTime);
+    }
+  }
   const todayStr = new Date().toISOString().substr(0, 10);
   let defaultDate = '';
   for (const key in timeTable) {

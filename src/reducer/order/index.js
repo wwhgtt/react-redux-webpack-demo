@@ -67,7 +67,7 @@ module.exports = function (
                   )
                   .setIn(['timeProps', 'selectedDateTime'],
                     Immutable.from(
-                      helper.getDefaultSelectedDateTime(payload.timeJson)
+                      helper.getDefaultSelectedDateTime(payload.timeJson, payload.defaultSelectedDateTime)
                     )
                   )
                   .set(

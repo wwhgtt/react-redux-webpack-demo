@@ -16,7 +16,7 @@ module.exports = {
       existId: true,
     },
     time: 1471330563607,
-    code: 200,
+    code: '200',
     msg: '',
   },
 };
