@@ -50,7 +50,7 @@ const CustomerAddressApplication = React.createClass({
   setDocumentTitleByHash(hash) {
     const title = {
       '#address-select': '选择位置',
-    }[hash] || '编辑地址';
+    }[hash] || (addressId ? '编辑地址' : '新增地址');
     document.title = title;
   },
   handleAddressPropertyChange(propertys) {
