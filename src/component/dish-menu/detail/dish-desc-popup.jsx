@@ -59,7 +59,7 @@ module.exports = React.createClass({
               <a className="dish-desc-register-btn" href={`http://${location.host}/member/register?shopId=${helper.getUrlParam('shopId')}`}>注册会员</a>
             </div>
             :
-            <div className="dish-desc-register flex-none"></div>
+            false
           }
         </div>
       </div>
