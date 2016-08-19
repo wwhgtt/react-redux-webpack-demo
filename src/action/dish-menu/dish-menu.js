@@ -70,6 +70,7 @@ exports.fetchSendArea = () => (dispatch, getState) => {
           const minPrice = sendAreaData.sendPrice;
           const shipFreePrice = sendAreaData.freeDeliveryPrice;
           sessionStorage.setItem(`${shopId}_sendArea_id`, sendAreaData.id);
+          sessionStorage.setItem(`${shopId}_sendArea_rangeId`, sendAreaData.id);
           sessionStorage.setItem(`${shopId}_sendArea_sendPrice`, minPrice);
           sessionStorage.setItem(`${shopId}_sendArea_shipment`, shipmentFee);
           sessionStorage.setItem(`${shopId}_sendArea_freeDeliveryPrice`, shipFreePrice);
