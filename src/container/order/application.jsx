@@ -107,7 +107,7 @@ const OrderApplication = React.createClass({
     if (evt) {
       evt.preventDefault();
     }
-    const { confirmOrderAddressInfo, orderedDishesProps, serviceProps, setErrorMsg } = this.props;
+    const { confirmOrderAddressInfo, setErrorMsg } = this.props;
     const currentAddress = info.addresses && info.addresses[0];
     if (!currentAddress) {
       return;
@@ -121,7 +121,7 @@ const OrderApplication = React.createClass({
     }
 
     location.hash = '';
-    confirmOrderAddressInfo(info, orderedDishesProps, serviceProps);
+    confirmOrderAddressInfo(info);
   },
   resetChildView(evt, hash) {
     evt.preventDefault();

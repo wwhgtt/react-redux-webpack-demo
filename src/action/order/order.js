@@ -23,12 +23,13 @@ const setOrderTimeProps = createAction('SET_ORDER_TIME_PROPS', timeJson => timeJ
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 exports.fetchOrder = () => (dispatch, getState) => {
-  const sendAreaId = JSON.parse(sessionStorage.getItem(shopId + '_sendArea_id'));
+  const sendAreaId = JSON.parse(sessionStorage.getItem(`${shopId}_sendArea_id`));
   const toShopFlag = sendAreaId === 0 || !sendAreaId ? '1' : '0';
+  const rangeId = sessionStorage.getItem(`${shopId}_sendArea_rangeId`);
   const getOrderUrl = type === 'WM' ?
-    config.orderTakeAwayAPi + '?shopId=' + shopId + '&toShopFlag=' + toShopFlag
+    `${config.orderTakeAwayAPi}?shopId=${shopId}&toShopFlag=${toShopFlag}&rangeId=${rangeId}`
     :
-    config.orderDineInAPi + '?shopId=' + shopId;
+    `${config.orderDineInAPi}?shopId=${shopId}`;
   fetch(getOrderUrl, config.requestOptions).
     then(res => {
       if (!res.ok) {
@@ -44,6 +45,12 @@ exports.fetchOrder = () => (dispatch, getState) => {
         if (selectedCustomerProps) {
           order.data.ma = selectedCustomerProps.addresses[0];
           order.data.member = { name:selectedCustomerProps.name, sex:selectedCustomerProps.sex, mobile:selectedCustomerProps.mobile };
+          const selectedDateTimeKey = 'selectedDateTime';
+          const selectedDateTime = sessionStorage.getItem(selectedDateTimeKey);
+          if (selectedDateTime) {
+            order.data.defaultSelectedDateTime = JSON.parse(selectedDateTime);
+            sessionStorage.removeItem(selectedDateTimeKey);
+          }
           dispatch(setOrder(order.data));
         } else {
           dispatch(setOrder(order.data));
@@ -226,10 +233,12 @@ exports.setCustomerToShopAddress = (evt, customerTProps, validateRet) => (dispat
   return true;
 };
 
-exports.confirmOrderAddressInfo = (info, orderedDishesProps, serviceProps) => (dispatch, getState) => {
+exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
   const address = info.addresses && info.addresses[0] || {};
   const rangeId = address.rangeId || 0;
   const addressId = address.id || 0;
+  const state = getState();
+  const { orderedDishesProps, timeProps } = state;
   const url = `${config.getOrderAddressInfoAPI}?shopId=${shopId}&rangeId=${rangeId}&addressId=${addressId}`;
   fetch(url, config.requestOptions).
     then(res => {
@@ -248,12 +257,16 @@ exports.confirmOrderAddressInfo = (info, orderedDishesProps, serviceProps) => (d
       const data = result.data || {};
       const dishesPrice = getDishesPrice(orderedDishesProps.dishes || []);
       sessionStorage.setItem(`${shopId}_sendArea_id`, data.sendAreaId);
+      sessionStorage.setItem(`${shopId}_sendArea_rangeId`, rangeId);
       sessionStorage.setItem(`${shopId}_sendArea_shipment`, data.shipment);
       sessionStorage.setItem(`${shopId}_sendArea_sendPrice`, data.sendPrice);
       sessionStorage.setItem(`${shopId}_sendArea_freeDeliveryPrice`, data.freeDeliveryPrice);
       dispatch(setSendAreaId(data.sendAreaId));
       if (data.sendPrice > dishesPrice) {
         localStorage.setItem('receiveOrderCustomerInfo', JSON.stringify(info));
+        if (timeProps && timeProps.selectedDateTime) {
+          sessionStorage.setItem('selectedDateTime', JSON.stringify(timeProps.selectedDateTime));
+        }
         dispatch(setErrorMsg('订单金额不满足起送价'));
         setTimeout(() => {
           location.href = `${config.getMoreWMDishesURL}?type=${type}&shopId=${shopId}`;
