@@ -166,6 +166,7 @@ exports.submitOrder = (note, receipt) => (dispatch, getState) => {
     then(result => {
       if (result.code === '200') {
         localStorage.removeItem('lastOrderedDishes');
+        sessionStorage.removeItem('receiveOrderCustomerInfo');
         helper.setCallbackUrl(result.data.orderId);
         const isOnlinePay = state.serviceProps.payMethods.some(payMethod => payMethod.id === 'online-payment' && payMethod.isChecked);
         const paramStr = `shopId=${shopId}&orderId=${result.data.orderId}`;

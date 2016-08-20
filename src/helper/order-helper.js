@@ -2,6 +2,7 @@ const _find = require('lodash.find');
 const getDishesPrice = require('../helper/dish-hepler.js').getDishesPrice;
 const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
 const getUrlParam = require('../helper/dish-hepler.js').getUrlParam;
+const validateAddressInfo = require('../helper/common-helper.js').validateAddressInfo;
 const isSingleDishWithoutProps = require('../helper/dish-hepler.js').isSingleDishWithoutProps;
 const getDishPrice = require('../helper/dish-hepler.js').getDishPrice;
 const config = require('../config.js');
@@ -537,9 +538,11 @@ exports.countFinalNeedPayMoney = function (orderedDishesProps, serviceProps, com
 };
 exports.getSubmitUrlParams = function (state, note, receipt) {
   const name = state.customerProps.name;
-  if (!name) {
+  const type = getUrlParam('type');
+  if (!name && type === 'TS') {
     return { success:false, msg:'未填写姓名' };
   }
+
   let sex = +state.customerProps.sex;
   if (isNaN(sex)) {
     sex = -1;
@@ -562,7 +565,6 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
     payMethodScope = '0';
   }
 
-  const type = getUrlParam('type');
   const useDiscount = !state.serviceProps.discountProps.inUseDiscount ? '0' : '1';
   const serviceApproach = state.serviceProps.isPickupFromFrontDesk.isChecked ? 'pickup' : 'totable';
   const coupId = state.serviceProps.couponsProps.inUseCoupon &&
@@ -579,6 +581,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   } else {
     tableId = 0;
   }
+
   let params;
   if (type === 'WM') {
     const sendAreaId = state.serviceProps.sendAreaId;
@@ -592,14 +595,20 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
       return { success:false, msg:'请选择送餐地址' };
     }
 
+    const validateAddressResult = validateAddressInfo(selectedAddress, true, key => ['baseAddress', 'street'].indexOf(key) !== -1);
+    if (!validateAddressResult.valid) {
+      return { success: false, msg: validateAddressResult.msg };
+    }
+
+    sex = selectedAddress.sex;
     isSelfFetch = selectedAddress.id === 0;
     if (!selectedDateTime.date) {
       return { success:false, msg: `请选择${isSelfFetch ? '取餐' : '送达'}时间` };
     }
     const toShopFlag = isSelfFetch ? '1' : '0';
-    params = '?name=' + state.customerProps.name
+    params = '?name=' + selectedAddress.name
         + '&Invoice=' + receipt + '&memo=' + note
-        + '&mobile=' + state.customerProps.mobile
+        + '&mobile=' + selectedAddress.mobile
         + '&sex=' + sex
         + '&payMethod=' + payMethodScope
         + '&coupId=' + coupId

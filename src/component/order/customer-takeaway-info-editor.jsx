@@ -84,8 +84,7 @@ module.exports = React.createClass({
 
     const selectedAddress = customerProps.addresses && customerProps.addresses.find(item => item.isChecked);
     if (selectedAddress) {
-      data = data.update('inList', list => list.map(item =>
-        item.set('isChecked', selectedAddress.id === item.id || selectedAddress.memberAddressId === item.id)));
+      data = data.update('inList', list => list.map(item => item.set('isChecked', selectedAddress.id === item.id)));
     } else if (data.inList.length) {
       data = data.updateIn(['inList', '0'], item => item.set('isChecked', true));
     }

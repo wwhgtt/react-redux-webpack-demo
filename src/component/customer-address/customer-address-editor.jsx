@@ -38,7 +38,7 @@ module.exports = React.createClass({
     const input = evt.target;
     const { customerProps } = this.props;
     const propertys = {};
-    let value = propertys[input.name] = input.value.trim();
+    let value = propertys[input.name] = input.value;
     if (input.name === 'sex') {
       value = parseInt(value, 10) || 0;
     }
@@ -119,7 +119,7 @@ module.exports = React.createClass({
               className="option-content option-input"
               name="street"
               onChange={this.handleBasicInfoChange}
-              maxLength="35"
+              maxLength="30"
               placeholder="请填写门牌号码"
               value={customerProps.street || ''}
             />
