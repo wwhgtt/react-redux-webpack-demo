@@ -1,6 +1,7 @@
 const React = require('react');
 const validateAddressInfo = require('../../helper/common-helper').validateAddressInfo;
 const replaceEmojiWith = require('../../helper/common-helper').replaceEmojiWith;
+const classnames = require('classnames');
 require('./customer-address-editor.scss');
 
 module.exports = React.createClass({
@@ -110,7 +111,7 @@ module.exports = React.createClass({
               value={customerProps.mobile || ''}
             />
           </label>
-          <label className="option">
+          <label className={classnames('option', { error: customerProps.id && !customerProps.baseAddress })}>
             <span className="option-title">收货地址：</span>
             <a className="option-content btn-arrow-right customer-address" href="#address-select">
               <span className="customer-address-text ellipsis">{customerProps.baseAddress || ''}</span>
