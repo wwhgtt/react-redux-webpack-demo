@@ -1,5 +1,6 @@
 const React = require('react');
 const validateAddressInfo = require('../../helper/common-helper').validateAddressInfo;
+const replaceEmojiWith = require('../../helper/common-helper').replaceEmojiWith;
 require('./customer-toshop-info-editor.scss');
 
 module.exports = React.createClass({
@@ -29,7 +30,9 @@ module.exports = React.createClass({
     const { customerProps } = this.state;
     const { onDone, onCustomerPropsChange } = this.props;
     const validateRet = this.validateInput();
-    if (onCustomerPropsChange(evt, customerProps, validateRet)) {
+    const address = Object.assign({}, customerProps);
+    address.name = replaceEmojiWith(address.name);
+    if (onCustomerPropsChange(evt, validateRet, address)) {
       onDone(evt, '#customer-info');
     }
   },

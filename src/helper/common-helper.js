@@ -15,11 +15,18 @@ exports.getCurrentPosition = (success, error, config) => {
   }, Object.assign({}, defaultConfig, config));
 };
 
+const replaceEmojiWith = exports.replaceEmojiWith = (value, str) => {
+  if (!value || typeof value !== 'string') {
+    return value;
+  }
+  return value.replace(/\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDE4F]/g, str || '');
+};
+
 // 校验收货地址信息
 exports.validateAddressInfo = (info, isTakeaway, filter) => {
   const rules = {
     name: [
-      { msg: '请输入姓名', validate(value) { return !!value.trim(); } },
+      { msg: '请输入姓名', validate(value) { return !!replaceEmojiWith(value.trim(), ''); } },
     ],
     sex: [
       { msg: '请选择性别', validate(value) {
@@ -39,7 +46,7 @@ exports.validateAddressInfo = (info, isTakeaway, filter) => {
         { msg: '请输入收货地址', validate(value) { return !!value.trim(); } },
       ],
       street: [
-        { msg: '请输入门牌信息', validate(value) { return !!value.trim(); } },
+        { msg: '请输入门牌信息', validate(value) { return !!replaceEmojiWith(value.trim(), ''); } },
       ],
     });
   }
