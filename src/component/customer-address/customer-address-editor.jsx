@@ -28,8 +28,8 @@ module.exports = React.createClass({
     const validateRet = this.validateInput();
     const { customerProps, onSaveAddress } = this.props;
     const address = Object.assign({}, customerProps);
-    address.name = replaceEmojiWith(address.name);
-    address.street = replaceEmojiWith(address.street);
+    address.name = replaceEmojiWith(address.name.trim());
+    address.street = replaceEmojiWith(address.street.trim());
     if (onSaveAddress) {
       onSaveAddress(evt, validateRet, address);
     }
