@@ -39,7 +39,7 @@ exports.validateAddressInfo = (info, isTakeaway, filter) => {
         { msg: '请输入收货地址', validate(value) { return !!value.trim(); } },
       ],
       street: [
-        { msg: '请输入门牌号', validate(value) { return !!value.trim(); } },
+        { msg: '请输入门牌信息', validate(value) { return !!value.trim(); } },
       ],
     });
   }
