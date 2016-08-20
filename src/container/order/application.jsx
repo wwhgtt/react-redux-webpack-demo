@@ -117,6 +117,24 @@ const OrderApplication = React.createClass({
     const validateResult = validateAddressInfo(currentAddress, currentAddress.id !== 0, key => key === 'street');
 
     if (!validateResult.valid) {
+      // 到店取餐
+      if (currentAddress.id === 0) {
+        setErrorMsg('您选择的取餐信息不完全，请填写');
+        setTimeout(() => {
+          this.onAddressEditor(null, currentAddress);
+        }, 3000);
+        return;
+      }
+
+      // 无收货地址
+      if (!currentAddress.address) {
+        setErrorMsg('所选的配送地址无收货地址，请选择');
+        setTimeout(() => {
+          this.onAddressEditor(currentAddress.id.toString());
+        }, 3000);
+        return;
+      }
+
       setErrorMsg(validateResult.msg);
       return;
     }
