@@ -11,7 +11,6 @@ module.exports = React.createClass({
   displayName: 'StandardAddressSelect',
   propTypes: {
     placeholder: React.PropTypes.string,
-    currentPoint: React.PropTypes.object,
     onSelectComplete: React.PropTypes.func,
     searchResultMaxLength: React.PropTypes.number,
   },
@@ -57,7 +56,7 @@ module.exports = React.createClass({
 
     this.timer = window.setTimeout(x => {
       if (this._mapLocal) {
-        this._mapLocal.search(searchKey);
+        this._mapLocal.search(searchKey, { forceLocal: true });
       }
     }, 100);
   },
@@ -110,7 +109,6 @@ module.exports = React.createClass({
         <StandardAddrSelectMap
           onCenterPointChange={this.handleCenterPointChange}
           onMapInited={this.handleMapInited}
-          currentPoint={this.props.currentPoint}
         />
         <StandardAddrSelectListBox
           onSelectComplete={this.handleSelectComplete}
