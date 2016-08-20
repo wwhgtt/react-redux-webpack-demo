@@ -27,11 +27,12 @@ module.exports = React.createClass({
   onSaveBtntap(evt) {
     const validateRet = this.validateInput();
     const { customerProps, onSaveAddress } = this.props;
-    const address = Object.assign({}, customerProps);
-    address.name = replaceEmojiWith(address.name);
-    address.street = replaceEmojiWith(address.street);
+    const addressInfo = Object.assign({}, customerProps);
+    addressInfo.name = replaceEmojiWith(addressInfo.name.trim());
+    addressInfo.street = replaceEmojiWith(addressInfo.street.trim());
+    addressInfo.address = addressInfo.baseAddress + addressInfo.street;
     if (onSaveAddress) {
-      onSaveAddress(evt, validateRet, address);
+      onSaveAddress(evt, validateRet, addressInfo);
     }
   },
   validateInput() {

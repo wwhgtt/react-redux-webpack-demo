@@ -31,7 +31,7 @@ module.exports = React.createClass({
     const { onDone, onCustomerPropsChange } = this.props;
     const validateRet = this.validateInput();
     const address = Object.assign({}, customerProps);
-    address.name = replaceEmojiWith(address.name);
+    address.name = replaceEmojiWith(address.name.trim());
     if (onCustomerPropsChange(evt, validateRet, address)) {
       onDone(evt, '#customer-info');
     }
