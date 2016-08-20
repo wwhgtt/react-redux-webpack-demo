@@ -74,7 +74,7 @@ const CustomerAddressApplication = React.createClass({
       return;
     }
 
-    const address = Object.assign({}, customerProps.without('isGPSPoint'));
+    const address = Object.assign({}, customerProps);
     saveCustomerAddressInfo(evt, address);
   },
   deleteAddress(data) {
@@ -83,17 +83,11 @@ const CustomerAddressApplication = React.createClass({
   },
   render() {
     const { childView, errorMessage, clearErrorMsg, customerProps } = this.props;
-    const currentPoint = {
-      latitude: customerProps.latitude,
-      longitude: customerProps.longitude,
-      isGPSPoint: customerProps.isGPSPoint === true,
-    };
     const getElement = () => {
       if (childView === '#address-select') {
         return (
           <StandardAddressSelect
             placeholder="请输入收货位置"
-            currentPoint={currentPoint}
             searchResultMaxLength={6}
             onSelectComplete={this.handleSelectComplete}
           />);
