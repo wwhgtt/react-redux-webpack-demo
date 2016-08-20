@@ -70,12 +70,15 @@ exports.fetchAllAddressList = () => (dispatch, getState) => {
       console.log(err);
     });
 };
-exports.saveCustomerAddressInfo = (address) => (dispatch, getState) => {
+exports.saveCustomerAddressInfo = (evt, address) => (dispatch, getState) => {
   const requestOptions = Object.assign({}, config.requestOptions);
   requestOptions.method = 'POST';
   requestOptions.body = JSON.stringify(address);
+  const btn = evt.target;
+  btn.disabled = true;
   return fetch(config.saveAddressAPI, requestOptions).
     then(res => {
+      btn.disabled = false;
       if (!res.ok) {
         dispatch(setErrorMsg('保存收货地址失败'));
       }
@@ -89,6 +92,7 @@ exports.saveCustomerAddressInfo = (address) => (dispatch, getState) => {
       }
     }).
     catch(err => {
+      btn.disabled = false;
       console.log(err);
     });
 };

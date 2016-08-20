@@ -68,7 +68,7 @@ const CustomerAddressApplication = React.createClass({
     setAddressInfo(propertys);
     location.hash = '';
   },
-  saveAddress(validateRet, data) {
+  saveAddress(evt, validateRet, data) {
     const { setErrorMsg, saveCustomerAddressInfo, customerProps } = this.props;
     if (!validateRet.valid) {
       setErrorMsg(validateRet.msg);
@@ -76,7 +76,7 @@ const CustomerAddressApplication = React.createClass({
     }
 
     const address = Object.assign({}, customerProps.without('isGPSPoint'));
-    saveCustomerAddressInfo(address);
+    saveCustomerAddressInfo(evt, address);
   },
   deleteAddress(data) {
     const { deleteCustomerAddressInfo } = this.props;
