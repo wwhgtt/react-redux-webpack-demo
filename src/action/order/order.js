@@ -156,6 +156,7 @@ exports.submitOrder = (note, receipt) => (dispatch, getState) => {
     dispatch(setErrorMsg(paramsData.msg));
     return false;
   }
+
   return fetch(`${submitUrl}${paramsData.params}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
@@ -167,6 +168,7 @@ exports.submitOrder = (note, receipt) => (dispatch, getState) => {
       if (result.code === '200') {
         localStorage.removeItem('lastOrderedDishes');
         sessionStorage.removeItem('receiveOrderCustomerInfo');
+        sessionStorage.removeItem(`${shopId}_sendArea_id`);
         helper.setCallbackUrl(result.data.orderId);
         const isOnlinePay = state.serviceProps.payMethods.some(payMethod => payMethod.id === 'online-payment' && payMethod.isChecked);
         const paramStr = `shopId=${shopId}&orderId=${result.data.orderId}`;
