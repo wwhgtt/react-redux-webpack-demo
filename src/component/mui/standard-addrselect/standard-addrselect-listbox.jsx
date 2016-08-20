@@ -38,7 +38,7 @@ module.exports = React.createClass({
     let items = this.props.list.map((item, index) => {
       let title = item.title;
       if (index === 0) {
-        title = `[推荐位置] ${name}`;
+        title = `[推荐位置] ${title}`;
       }
       return (
         <li key={item.uid || (now + index)}>
