@@ -40,7 +40,7 @@ module.exports = React.createClass({
   handleBasicInfoChange(evt) {
     const input = evt.target;
     const propertys = {};
-    let value = propertys[input.name] = input.value.trim();
+    let value = propertys[input.name] = input.value;
     if (input.name === 'sex') {
       value = value ? parseInt(value, 10) : -1;
     }
