@@ -70,15 +70,15 @@ module.exports = React.createClass({
 
     let data = customerAddressListInfo.data;
     const addressCount = data.inList.length + data.outList.length;
-    if (data.toShopInfo.toShopFlag) {
-      const defaultCustomerProps = props.defaultCustomerProps || {};
+    const { toShopInfo } = data;
+    if (toShopInfo.toShopFlag) {
       data = data.update('inList', list => list.concat([], {
-        name: defaultCustomerProps.name || '',
-        sex: parseInt(defaultCustomerProps.sex, 10) || 0,
+        name: toShopInfo.name || '',
+        sex: parseInt(toShopInfo.sex, 10) || 0,
         address: '到店取餐',
         id: 0,
         rangeId: 0,
-        mobile: defaultCustomerProps.mobile,
+        mobile: toShopInfo.mobile,
       }));
     }
 
