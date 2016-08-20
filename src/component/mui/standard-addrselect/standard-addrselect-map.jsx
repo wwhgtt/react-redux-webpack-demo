@@ -1,5 +1,6 @@
 const React = require('react');
 const classnames = require('classnames');
+const getCurrentPosition = require('../../../helper/common-helper.js').getCurrentPosition;
 const BMap = window.BMap;
 const baiduMapConfig = {
   zoomLevel: 16,
@@ -7,7 +8,6 @@ const baiduMapConfig = {
 module.exports = React.createClass({
   displayName: 'StandardAddrSelectMap',
   propTypes: {
-    currentPoint: React.PropTypes.object.isRequired,
     onMapInited: React.PropTypes.func,
     onCenterPointChange: React.PropTypes.func,
   },
@@ -17,22 +17,12 @@ module.exports = React.createClass({
     };
   },
   componentDidMount() {
-    window.setTimeout(this.initMap, 1);
-  },
-  componentWillReceiveProps(nextProps) {
-    const { currentPoint } = this.props;
-    const nextCurrentPoint = nextProps.currentPoint;
-    this.setState({ isDefultPoint: currentPoint && !currentPoint.latitude });
-
-    if (!nextCurrentPoint || !nextCurrentPoint.latitude) {
-      return;
-    }
-
-    if (currentPoint.latitude === nextCurrentPoint.latitude && currentPoint.longitude === nextCurrentPoint.longitude) {
-      return;
-    }
-
-    this.mapCenter(nextCurrentPoint);
+    getCurrentPosition(pos => {
+      this.initMap({ latitude: pos.latitude, longitude: pos.longitude, isGPSPoint: true });
+    }, error => {
+      this.setState({ isDefultPoint: true });
+      this.initMap({});
+    });
   },
   mapCenter(point) {
     const centerThePoint = _point => {
@@ -69,9 +59,9 @@ module.exports = React.createClass({
       }
     });
   },
-  initMap() {
+  initMap(pos) {
     const map = this.map = new BMap.Map(this.refs.content);
-    this.mapCenter(this.props.currentPoint);
+    this.mapCenter(pos);
     map.addEventListener('tilesloaded', evt => {
       if (!this._currentPoint) {
         const currentPoint = this.map.getCenter();
