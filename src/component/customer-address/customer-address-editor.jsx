@@ -120,7 +120,7 @@ module.exports = React.createClass({
               name="street"
               onChange={this.handleBasicInfoChange}
               maxLength="30"
-              placeholder="请填写门牌号码"
+              placeholder="请输入门牌信息"
               value={customerProps.street || ''}
             />
           </label>
