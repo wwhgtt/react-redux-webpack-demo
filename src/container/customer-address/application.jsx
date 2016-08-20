@@ -68,14 +68,13 @@ const CustomerAddressApplication = React.createClass({
     location.hash = '';
   },
   saveAddress(evt, validateRet, data) {
-    const { setErrorMsg, saveCustomerAddressInfo, customerProps } = this.props;
+    const { setErrorMsg, saveCustomerAddressInfo } = this.props;
     if (!validateRet.valid) {
       setErrorMsg(validateRet.msg);
       return;
     }
 
-    const address = Object.assign({}, customerProps);
-    saveCustomerAddressInfo(evt, address);
+    saveCustomerAddressInfo(evt, data);
   },
   deleteAddress(data) {
     const { deleteCustomerAddressInfo } = this.props;

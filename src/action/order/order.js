@@ -224,7 +224,7 @@ exports.setCustomerProps = (evt, customerProps) => (dispatch, getState) => {
   dispatch(setOrderProps(null, customerProps));
   return true;
 };
-exports.setCustomerToShopAddress = (evt, customerTProps, validateRet) => (dispatch, getState) => {
+exports.setCustomerToShopAddress = (evt, validateRet, customerTProps) => (dispatch, getState) => {
   if (!validateRet.valid) {
     dispatch(setErrorMsg(validateRet.msg));
     return false;
