@@ -11,6 +11,12 @@
   &-content {
     width: calc(100% - #{$option-left-width});
   }
+  &.error{
+    color: #ff0000;
+    .customer-address-placeholder{
+      color: #ff0000;
+    }
+  }
 }
 
 // page styles
