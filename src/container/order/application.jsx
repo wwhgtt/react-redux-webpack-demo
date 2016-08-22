@@ -127,15 +127,16 @@ const OrderApplication = React.createClass({
       }
 
       // 无收货地址
+      let msg = '';
       if (!currentAddress.address) {
-        setErrorMsg('所选的配送地址无收货地址，请选择');
-        setTimeout(() => {
-          this.onAddressEditor(currentAddress.id.toString());
-        }, 3000);
-        return;
+        msg = '所选的配送地址无收货地址，请选择';
+      } else {
+        msg = '所选的配送地址信息不完全，请填写';
       }
-
-      setErrorMsg(validateResult.msg);
+      setErrorMsg(msg);
+      setTimeout(() => {
+        this.onAddressEditor(currentAddress.id.toString());
+      }, 3000);
       return;
     }
 
