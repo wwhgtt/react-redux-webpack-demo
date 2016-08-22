@@ -331,10 +331,7 @@ module.exports = function (
          .setIn(['serviceProps', 'discountProps', 'discountType'], payload.type)
          .setIn(
            ['serviceProps', 'discountProps', 'inUseDiscount'],
-           +state.commercialProps.diningForm === 0 ?
-            0
-            :
-            helper.countMemberPrice(true, state.orderedDishesProps.dishes, payload.dishList, payload.type)
+           state.commercialProps.diningForm === 0 ? 0 : helper.countMemberPrice(true, state.orderedDishesProps.dishes, payload.dishList, payload.type)
          )
          .updateIn(
            ['orderedDishesProps', 'dishes'],
