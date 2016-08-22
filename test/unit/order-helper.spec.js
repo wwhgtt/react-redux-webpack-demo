@@ -21,8 +21,7 @@ describe('Helper', function () {
     });
 
     it('countPriceByCoupons', function () {
-      orderHelper.countPriceByCoupons(coupon.couponTest1, 20)
-        .should.equal(20);
+      orderHelper.countPriceByCoupons(coupon.couponTest1, 20).should.equal(20);
     });
   });
 });
