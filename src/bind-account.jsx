@@ -7,7 +7,7 @@ const applyMiddleware = require('redux').applyMiddleware;
 const compose = require('redux').compose;
 const Provider = require('react-redux').Provider;
 const thunkMiddleware = require('redux-thunk').default;
-// const reducer = require('./reducer/bind-account/index.js');
+const reducer = require('./reducer/bind-account/index.js');
 const BindAccountApplication = require('./container/bind-account/application.jsx');
 const injectTapEventPlugin = require('react-tap-event-plugin'); injectTapEventPlugin();
 const logger = require('./helper/logger.js');
@@ -17,9 +17,9 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   storeCreator = compose(applyMiddleware(thunkMiddleware, logger))(createStore);
 }
-// const store = storeCreator(reducer);
+const store = storeCreator(reducer);
 ReactDOM.render(
-  <Provider >
+  <Provider store = {store}>
     <div>
       <BindAccountApplication />
     </div>

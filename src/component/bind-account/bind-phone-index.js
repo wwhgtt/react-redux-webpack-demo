@@ -8,7 +8,7 @@ class BindPhoneIndex extends React.Component {
 				<div>
 					<p>您还没有绑定手机号</p>
 					<p>绑定手机号码可以关联原有的手机号信息</p>
-					<button>绑定手机号</button>
+					<a href="#bind-validate">绑定手机号</a>
 				</div>
 			</div>
 		)
