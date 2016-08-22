@@ -106,7 +106,7 @@ module.exports = React.createClass({
         name,
         mobile,
         isChecked: item.isChecked,
-        sex: sex === 1 ? '先生' : '女士 ',
+        sex: ['女士', '先生'][sex] || '',
       };
     });
 
