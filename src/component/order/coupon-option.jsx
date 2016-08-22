@@ -4,7 +4,7 @@ const getRelatedToDishCouponProps = require('../../helper/order-helper.js').getR
 module.exports = React.createClass({
   displayName: 'CouponOption',
   propTypes: {
-    instructions:React.PropTypes.string.isRequired,
+    ruleDesc:React.PropTypes.string.isRequired,
     coupRuleBeanList:React.PropTypes.array.isRequired,
     coupDishBeanList:React.PropTypes.array.isRequired,
     fullValue:React.PropTypes.any.isRequired,
@@ -103,7 +103,7 @@ module.exports = React.createClass({
   },
 
   render() {
-    const { instructions, coupRuleBeanList, coupDishBeanList, fullValue,
+    const { ruleDesc, coupRuleBeanList, coupDishBeanList, fullValue,
             couponType, validStartDate, codeNumber, validEndDate, isChecked, ...otherProps } = this.props;
     const { isInstructionsOpen } = this.state;
     if (!this.judgeCouponAvaliabl(coupRuleBeanList, coupDishBeanList)) return false;
@@ -141,7 +141,7 @@ module.exports = React.createClass({
           <div className="coupon-dropdown">
             <p className="coupon-text--dark">NO.{codeNumber}</p>
             <div className="coupon-rules">
-              {this.deleteHtmlTag(instructions)}
+              {this.deleteHtmlTag(ruleDesc)}
             </div>
           </div> : false
         }
