@@ -416,7 +416,9 @@ const OrderApplication = React.createClass({
         }
         {childView === 'customer-info-toshop' ?
           <CustomerToShopInfoEditor
-            customerProps={defaultCustomerProps} onCustomerPropsChange={setCustomerToShopAddress} onDone={this.resetChildView}
+            customerAddressListInfo={customerAddressListInfo}
+            onComponentWillMount={fetchUserAddressListInfo}
+            onCustomerPropsChange={setCustomerToShopAddress} onDone={this.resetChildView}
           />
           : false
         }

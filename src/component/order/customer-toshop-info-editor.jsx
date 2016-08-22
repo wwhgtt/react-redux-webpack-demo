@@ -6,35 +6,47 @@ require('./customer-toshop-info-editor.scss');
 module.exports = React.createClass({
   displayName: 'CustomerToShopInfoEditor',
   propTypes: {
-    customerProps: React.PropTypes.object,
+    customerAddressListInfo: React.PropTypes.object,
     onSaveToShopAddress: React.PropTypes.func,
     onDone: React.PropTypes.func,
     onCustomerPropsChange: React.PropTypes.func,
+    onComponentWillMount: React.PropTypes.func,
   },
   getInitialState() {
-    const { customerProps } = this.props;
-    const state = customerProps ? customerProps.set('id', 'customer-info-shop') : {};
-    return {
-      customerProps: state,
-    };
+    return { customerProps: {} };
   },
   componentDidMount() {
-
+    const { onComponentWillMount, customerAddressListInfo } = this.props;
+    if (!customerAddressListInfo || !customerAddressListInfo.isAddressesLoaded) {
+      onComponentWillMount();
+    } else {
+      this.initStateByProps(this.props);
+    }
   },
   componentWillReceiveProps(newProps) {
-    if (newProps) {
-      this.setState({ customerProps: newProps.customerProps.update('sex', value => +value) });
-    }
+    this.initStateByProps(newProps);
   },
   onSaveBtntap(evt) {
     const { customerProps } = this.state;
     const { onDone, onCustomerPropsChange } = this.props;
     const validateRet = this.validateInput();
     const address = Object.assign({}, customerProps);
-    address.name = replaceEmojiWith(address.name.trim());
+    if (validateRet.valid) {
+      address.name = replaceEmojiWith(address.name.trim());
+    }
     if (onCustomerPropsChange(evt, validateRet, address)) {
       onDone(evt, '#customer-info');
     }
+  },
+  initStateByProps(props) {
+    const { customerAddressListInfo } = props;
+    if (!customerAddressListInfo || !customerAddressListInfo.data) {
+      return;
+    }
+
+    this.setState({
+      customerProps: customerAddressListInfo.data.toShopInfo,
+    });
   },
   validateInput() {
     const { customerProps } = this.state;

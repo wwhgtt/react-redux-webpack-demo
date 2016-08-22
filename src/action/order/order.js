@@ -25,7 +25,7 @@ const type = getUrlParam('type');
 exports.fetchOrder = () => (dispatch, getState) => {
   const sendAreaId = JSON.parse(sessionStorage.getItem(`${shopId}_sendArea_id`));
   const toShopFlag = sendAreaId === 0 || !sendAreaId ? '1' : '0';
-  const rangeId = sessionStorage.getItem(`${shopId}_sendArea_rangeId`);
+  const rangeId = sessionStorage.getItem(`${shopId}_sendArea_rangeId`) || '0';
   const getOrderUrl = type === 'WM' ?
     `${config.orderTakeAwayAPi}?shopId=${shopId}&toShopFlag=${toShopFlag}&rangeId=${rangeId}`
     :
