@@ -69,10 +69,11 @@ const OrderApplication = React.createClass({
     }
   },
   componentDidMount() {
+    this.setChildViewAccordingToHash();
     const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons } = this.props;
-    Promise.all([fetchOrder(), fetchOrderDiscountInfo(), fetchOrderCoupons()]).then(() => {
-      this.setChildViewAccordingToHash();
-    });
+    Promise.all([fetchOrder(), fetchOrderCoupons()]).then(
+      fetchOrderDiscountInfo
+    ).then(() => { this.setChildViewAccordingToHash(); });
   },
   componentDidUpdate() {
 
@@ -127,15 +128,16 @@ const OrderApplication = React.createClass({
       }
 
       // 无收货地址
+      let msg = '';
       if (!currentAddress.address) {
-        setErrorMsg('所选的配送地址无收货地址，请选择');
-        setTimeout(() => {
-          this.onAddressEditor(currentAddress.id.toString());
-        }, 3000);
-        return;
+        msg = '所选的配送地址无收货地址，请选择';
+      } else {
+        msg = '所选的配送地址信息不完全，请填写';
       }
-
-      setErrorMsg(validateResult.msg);
+      setErrorMsg(msg);
+      setTimeout(() => {
+        this.onAddressEditor(currentAddress.id.toString());
+      }, 3000);
       return;
     }
 
@@ -319,8 +321,8 @@ const OrderApplication = React.createClass({
           )}
         </div>
         <div className="options-group">
-          {serviceProps.couponsProps.couponsList &&
-            serviceProps.couponsProps.couponsList.length && commercialProps.diningForm !== 0 ?
+          {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length
+            && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 && commercialProps.diningForm !== 0 ?
             <a className="option" href="#coupon-select">
               <span className="option-title">使用优惠券</span>
               <span className="badge-coupon">

@@ -1,5 +1,6 @@
 const Immutable = require('seamless-immutable');
 const _find = require('lodash.find');
+const _has = require('lodash.has');
 const helper = require('../../helper/order-helper');
 const orderTypeOfUrl = require('../../helper/dish-hepler.js').getUrlParam('type');
 module.exports = function (
@@ -331,7 +332,10 @@ module.exports = function (
          .setIn(['serviceProps', 'discountProps', 'discountType'], payload.type)
          .setIn(
            ['serviceProps', 'discountProps', 'inUseDiscount'],
-           state.commercialProps.diningForm === 0 ? 0 : helper.countMemberPrice(true, state.orderedDishesProps.dishes, payload.dishList, payload.type)
+           _has(state.commercialProps, 'diningForm') && state.commercialProps.diningForm === 0 ?
+            0
+            :
+            helper.countMemberPrice(true, state.orderedDishesProps.dishes, payload.dishList, payload.type)
          )
          .updateIn(
            ['orderedDishesProps', 'dishes'],
