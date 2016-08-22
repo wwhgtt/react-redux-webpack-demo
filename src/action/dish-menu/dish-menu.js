@@ -47,9 +47,9 @@ exports.fetchSendArea = () => (dispatch, getState) => {
   if (helper.getUrlParam('type') !== 'WM') return false;
 
   if (!!sessionStorage.getItem(`${shopId}_sendArea_id`)) {
-    const shipmentFee = sessionStorage.getItem(`${shopId}_sendArea_shipment`);
-    const minPrice = sessionStorage.getItem(`${shopId}_sendArea_sendPrice`);
-    const shipFreePrice = sessionStorage.getItem(`${shopId}_sendArea_freeDeliveryPrice`);
+    const shipmentFee = +sessionStorage.getItem(`${shopId}_sendArea_shipment`);
+    const minPrice = +sessionStorage.getItem(`${shopId}_sendArea_sendPrice`);
+    const shipFreePrice = +sessionStorage.getItem(`${shopId}_sendArea_freeDeliveryPrice`);
     dispatch(_setTakeawayServiceProps({ shipmentFee, minPrice, shipFreePrice }));
     return false;
   }
