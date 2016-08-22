@@ -127,8 +127,14 @@ exports.fetchUserAddressListInfo = () => (dispatch, getState) => {
       }
       return res.json();
     }).
-    then(coupons => {
-      dispatch(setAddressListInfoToOrder(coupons.data));
+    then(result => {
+      const sessionToShopInfoJson = sessionStorage.getItem(`${shopId}_customer_toshopinfo`);
+      const sessionToShopInfo = sessionToShopInfoJson && JSON.parse(sessionToShopInfoJson);
+      const { toShopInfo } = result.data;
+      if (toShopInfo && toShopInfo.toShopFlag && sessionToShopInfo) {
+        Object.assign(toShopInfo, sessionToShopInfo);
+      }
+      dispatch(setAddressListInfoToOrder(result.data));
     }).
     catch(err => {
       console.log(err);
@@ -169,6 +175,8 @@ exports.submitOrder = (note, receipt) => (dispatch, getState) => {
         localStorage.removeItem('lastOrderedDishes');
         sessionStorage.removeItem('receiveOrderCustomerInfo');
         sessionStorage.removeItem(`${shopId}_sendArea_id`);
+        sessionStorage.removeItem(`${shopId}_customer_toshopinfo`);
+
         helper.setCallbackUrl(result.data.orderId);
         const isOnlinePay = state.serviceProps.payMethods.some(payMethod => payMethod.id === 'online-payment' && payMethod.isChecked);
         const paramStr = `shopId=${shopId}&orderId=${result.data.orderId}`;
@@ -232,6 +240,8 @@ exports.setCustomerToShopAddress = (evt, validateRet, customerTProps) => (dispat
     return false;
   }
 
+  const json = JSON.stringify(customerTProps);
+  sessionStorage.setItem(`${shopId}_customer_toshopinfo`, json);
   dispatch(setCustomToShopAddress(customerTProps));
   return true;
 };
