@@ -13,9 +13,10 @@ describe('Helper', function () {
     });
 
     it('countIntegralsToCash', function () {
-      console.log(integralProps);
-      orderHelper.countIntegralsToCash(100, integralProps)
+      orderHelper.countIntegralsToCash(100, integralProps.intergralTest1)
         .should.deep.equal({ commutation:96, integralInUsed:276 });
+      orderHelper.countIntegralsToCash(1000, integralProps.intergralTest2)
+          .should.deep.equal({ commutation:624, integralInUsed:1794 });
     });
   });
 });
