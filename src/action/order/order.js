@@ -44,7 +44,6 @@ exports.fetchOrder = () => (dispatch, getState) => {
         const selectedCustomerProps = JSON.parse(sessionStorage.getItem('receiveOrderCustomerInfo'));
         if (selectedCustomerProps) {
           order.data.ma = selectedCustomerProps.addresses[0];
-          order.data.member = { name:selectedCustomerProps.name, sex:selectedCustomerProps.sex, mobile:selectedCustomerProps.mobile };
           const selectedDateTimeKey = 'selectedDateTime';
           const selectedDateTime = sessionStorage.getItem(selectedDateTimeKey);
           if (selectedDateTime) {
@@ -274,9 +273,10 @@ exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
       sessionStorage.setItem(`${shopId}_sendArea_shipment`, data.shipment);
       sessionStorage.setItem(`${shopId}_sendArea_sendPrice`, data.sendPrice);
       sessionStorage.setItem(`${shopId}_sendArea_freeDeliveryPrice`, data.freeDeliveryPrice);
+      sessionStorage.setItem('receiveOrderCustomerInfo', JSON.stringify(info));
+
       dispatch(setSendAreaId(data.sendAreaId));
       if (data.sendPrice > dishesPrice) {
-        sessionStorage.setItem('receiveOrderCustomerInfo', JSON.stringify(info));
         if (timeProps && timeProps.selectedDateTime) {
           sessionStorage.setItem('selectedDateTime', JSON.stringify(timeProps.selectedDateTime));
         }
