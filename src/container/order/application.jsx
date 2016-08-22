@@ -69,6 +69,7 @@ const OrderApplication = React.createClass({
     }
   },
   componentDidMount() {
+    this.setChildViewAccordingToHash();
     const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons } = this.props;
     Promise.all([fetchOrder(), fetchOrderCoupons()]).then(
       fetchOrderDiscountInfo
