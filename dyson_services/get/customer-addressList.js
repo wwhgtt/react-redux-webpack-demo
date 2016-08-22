@@ -58,6 +58,10 @@ module.exports = {
       toShopInfo:
       {
         toShopFlag:true,
+        name:'我想我是海',
+        sex:1,
+        mobile:'15102089880',
+        weixinSellPrice: 15.5,
       },
     },
     msg: '',

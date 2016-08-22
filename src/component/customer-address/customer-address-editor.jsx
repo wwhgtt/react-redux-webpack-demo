@@ -29,9 +29,11 @@ module.exports = React.createClass({
     const validateRet = this.validateInput();
     const { customerProps, onSaveAddress } = this.props;
     const addressInfo = Object.assign({}, customerProps);
-    addressInfo.name = replaceEmojiWith(addressInfo.name.trim());
-    addressInfo.street = replaceEmojiWith(addressInfo.street.trim());
-    addressInfo.address = addressInfo.baseAddress + addressInfo.street;
+    if (validateRet.valid) {
+      addressInfo.name = replaceEmojiWith(addressInfo.name.trim());
+      addressInfo.street = replaceEmojiWith(addressInfo.street.trim());
+      addressInfo.address = addressInfo.baseAddress + addressInfo.street;
+    }
     if (onSaveAddress) {
       onSaveAddress(evt, validateRet, addressInfo);
     }
