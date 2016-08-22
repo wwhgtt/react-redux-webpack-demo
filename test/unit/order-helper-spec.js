@@ -1,6 +1,7 @@
 const orderHelper = require('../../src/helper/order-helper.js');
 const integralProps = require('../data/intergral.js');
 const coupon = require('../data/coupon.js');
+const tableProps = require('../data/tableProps.js');
 describe('Helper', function () {
   describe('Order Related Helper', function () {
     it('isEmptyObject', function () {
@@ -9,8 +10,10 @@ describe('Helper', function () {
     });
 
     it('getSelectedTable', function () {
-      orderHelper.getSelectedTable({ areas:[{ isChecked:true, id:100 }], tables:[{ isChecked:true, id:200 }] })
-        .should.deep.equal({ area:{ isChecked:true, id:100 }, table:{ isChecked:true, id:200 } });
+      orderHelper.getSelectedTable(tableProps)
+        .should.have.deep.property('area.id', 8836);
+      orderHelper.getSelectedTable(tableProps)
+        .should.have.deep.property('table.tableID', 4000231922);
     });
 
     it('countIntegralsToCash', function () {
