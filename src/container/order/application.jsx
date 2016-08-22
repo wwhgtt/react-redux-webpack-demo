@@ -319,8 +319,8 @@ const OrderApplication = React.createClass({
           )}
         </div>
         <div className="options-group">
-          {serviceProps.couponsProps.couponsList &&
-            serviceProps.couponsProps.couponsList.length && commercialProps.diningForm !== 0 ?
+          {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length
+            && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 && commercialProps.diningForm !== 0 ?
             <a className="option" href="#coupon-select">
               <span className="option-title">使用优惠券</span>
               <span className="badge-coupon">
