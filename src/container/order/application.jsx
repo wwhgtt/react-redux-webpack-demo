@@ -70,9 +70,9 @@ const OrderApplication = React.createClass({
   },
   componentDidMount() {
     const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons } = this.props;
-    Promise.all([fetchOrder(), fetchOrderDiscountInfo(), fetchOrderCoupons()]).then(() => {
-      this.setChildViewAccordingToHash();
-    });
+    Promise.all([fetchOrder(), fetchOrderCoupons()]).then(
+      fetchOrderDiscountInfo
+    ).then(() => { this.setChildViewAccordingToHash(); });
   },
   componentDidUpdate() {
 
