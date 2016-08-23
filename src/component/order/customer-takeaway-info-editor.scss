@@ -107,8 +107,13 @@
   }
 
   &-meta {
-    font-size: 12px;
+    font-size: 13px;
     color: $color-sliver;
+
+    &-phone {
+      text-decoration: none;
+      pointer-events: none;
+    }
   }
   // end address entry
 
