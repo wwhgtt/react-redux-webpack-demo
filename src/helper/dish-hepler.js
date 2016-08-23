@@ -1,3 +1,6 @@
+const config = require('../config');
+
+
 const getUrlParam = exports.getUrlParam = function (param) {
   const reg = new RegExp(`(^|&)${param}=([^&]*)(&|$)`, 'i');
   const r = window.location.search.replace(/\?/g, '&').substr(1).match(reg);
@@ -297,3 +300,33 @@ exports.deleteOldDishCookie = function () {
     });
   }
 };
+
+exports.AJ = tt=>{
+   return tt.data.dishTypeList;
+};
+
+exports.decode = id=>{
+	 
+      return `${config.takeawayMenuAPI}?shopId=`+id+`&type=WM`;
+   
+	
+};
+
+exports.edit=data=>{
+	   return {
+	   	   bg(){
+	   	   	  return data.headPicUrl;
+	   	   },
+	   	   name(){
+	   	   	  return data.brand.Name||"";
+	   	   },
+	   	   icon(){
+	   	   	  return data.brand.logo||"http://test.weixin4.static.shishike.com/static/basic/images/brandNew/personal-icon.png";
+	   	   }
+	   	
+	   	
+	   }
+	
+	
+	
+}

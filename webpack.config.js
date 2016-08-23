@@ -17,6 +17,21 @@ module.exports = {
     'customer-address-entry': [
       './src/customer-address.jsx',
     ],
+    'frank-list-entry': [
+      './src/frank-list.jsx',
+    ],
+    'main-index-entry': [
+      './src/main-index.jsx',
+    ],
+    'mine-index-entry': [
+      './src/mine-index.jsx',
+    ],
+    'mine-setting-entry': [
+      './src/mine-setting.jsx',
+    ],
+    'notFound': [
+      './src/notFound.jsx',
+    ]
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -82,6 +97,46 @@ module.exports = {
         filename: 'customer-address.html',
         chunks: ['common', 'customer-address-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template-customer-address.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'FrankListApplication',
+        filename: 'frank-list.html',
+        chunks: ['common', 'frank-list-entry'],
+        inject: 'body', template: './src/helper/frank-webpack-list-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MainIndexApplication',
+        filename: 'main-index.html',
+        chunks: ['common', 'main-index-entry'],
+        inject: 'body', template: './src/helper/common-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: '我的',
+        filename: 'mine-index.html',
+        chunks: ['common', 'mine-index-entry'],
+        inject: 'body', template: './src/helper/common-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: '设置',
+        filename: 'mine-setting.html',
+        chunks: ['common', 'mine-setting-entry'],
+        inject: 'body', template: './src/helper/common-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: '404 找不到页面',
+        filename: '404.html',
+        chunks: ['common', 'notFound'],
+        inject: 'body', template: './src/helper/common-template.html',
       }
     ),
     new webpack.optimize.CommonsChunkPlugin({

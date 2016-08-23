@@ -11,7 +11,7 @@ switch (process.env.NODE_ENV) {
     };
     break;
   default:
-    apiBase = `http://${process.env.DEV_HOST}:3001`;
+    apiBase = `http://${process.env.DEV_HOST}:3000`;
     requestOptions = {
       method: 'GET', mod: 'cors',
       credentials: 'include',
@@ -30,9 +30,11 @@ module.exports = {
   submitWMOrderAPI:`${apiBase}/takeaway/subOrder.json`,
   userAddressAPI: `${apiBase}/user/addressList.json`,
   shopDetailURL:`${apiBase}/shop/detail`,
+  mineSettingURL:`${apiBase}/mine-setting.html`,
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
   editUserAddressURL: `${apiBase}/user/address`,
-
+  logAddressURL: `http://testweixin.shishike.com/user/notLogin`,
+  notFoundUrl:`${apiBase}/404.html`,
   requestOptions,
 };

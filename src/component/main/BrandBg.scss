@@ -1,0 +1,27 @@
+@import 'settings.colors';
+*{font-family: "微软雅黑";}
+
+$width:100%;
+
+$none:none;
+.fr{
+    float:right;
+}
+.of{
+    overflow:hidden;
+}
+.border-none{
+    border:1px solid #ccc;
+    border-radius:3px;
+    outline:$none;
+}
+
+.bg{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:none center top no-repeat;
+    background-size:100% auto;
+    
+    z-index:-1; //BUG z-index=0时 小米自带浏览器闪动
+}

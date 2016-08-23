@@ -22,6 +22,7 @@ const CustomerAddressApplication = React.createClass({
     };
   },
   componentWillMount() {
+  	
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
   },
   componentDidMount() {
@@ -30,9 +31,12 @@ const CustomerAddressApplication = React.createClass({
   componentDidUpdate() {
   },
   setChildViewAccordingToHash() {
+  	//debugger;
+  	
     const { setChildView } = this.props;
     const hash = location.hash;
     setChildView(hash);
+    //console.log(this.props)
   },
   resetChildView(evt) {
     evt.preventDefault();
