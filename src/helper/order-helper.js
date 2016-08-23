@@ -371,7 +371,7 @@ exports.getCouponsLength = function (couponsList) {
 const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, totalPrice) {
   if (coupon.couponType === 1) {
     // '满减券'
-    return coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'offerValue')[0].ruleValue;
+    return +coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'offerValue')[0].ruleValue || 0;
   } else if (coupon.couponType === 2) {
     // '折扣券';
     return parseFloat(
