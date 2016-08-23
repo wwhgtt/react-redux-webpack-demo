@@ -5,6 +5,7 @@ const getUrlParam = require('../helper/dish-hepler.js').getUrlParam;
 const validateAddressInfo = require('../helper/common-helper.js').validateAddressInfo;
 const isSingleDishWithoutProps = require('../helper/dish-hepler.js').isSingleDishWithoutProps;
 const getDishPrice = require('../helper/dish-hepler.js').getDishPrice;
+const getOrderPrice = require('../helper/dish-hepler.js').getOrderPrice;
 const config = require('../config.js');
 // 判断一个对象是否为空
 exports.isEmptyObject = (obj) => {
@@ -311,38 +312,54 @@ const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedC
   }
   return false;
 };
+// 获取关联菜品的礼品券可以省多少钱
+const countRelatedDishGiftCouponPrice = function (dish, dishCount, dishPrice, relatedCouponDish, coupon, benefitMoneyCollection) {
+  relatedCouponDish.name = dish.name;
+  relatedCouponDish.number = coupon.num;
+  if ((coupon.num - relatedCouponDish.joinBenefitDishesNumber) > 0) {
+    if ((coupon.num - relatedCouponDish.joinBenefitDishesNumber) < dishCount) {
+      benefitMoneyCollection.push(dish.marketPrice < dishPrice / dishCount ?
+        dish.marketPrice * (coupon.num - relatedCouponDish.joinBenefitDishesNumber)
+        :
+        dishPrice / dishCount * (coupon.num - relatedCouponDish.joinBenefitDishesNumber)
+      );
+    } else {
+      benefitMoneyCollection.push(dish.marketPrice < dishPrice / dishCount ?
+        dish.marketPrice * dishCount
+        :
+        dishPrice
+      );
+    }
+    relatedCouponDish.joinBenefitDishesNumber = (coupon.num - relatedCouponDish.joinBenefitDishesNumber) < dishCount ?
+      coupon.num
+      :
+      relatedCouponDish.joinBenefitDishesNumber + dishCount;
+  }
+};
 // 获取与礼品券有关的菜品优惠情况
 const getRelatedToDishCouponProps = exports.getRelatedToDishCouponProps = function (coupon) {
   const lastOrderedDishes = JSON.parse(localStorage.getItem('lastOrderedDishes'));
   let relatedCouponDish = { name:null, number:null, couponValue:null, joinBenefitDishesNumber:0 };
   let benefitMoneyCollection = [];
-  lastOrderedDishes.dishes.map(dish => {
-    if (dish.brandDishId === coupon.dishId) {
-      const dishCount = getDishesCount([dish]);
-      const dishPrice = getDishPrice(dish);
-      relatedCouponDish.name = dish.name;
-      relatedCouponDish.number = coupon.num;
 
-      if ((coupon.num - relatedCouponDish.joinBenefitDishesNumber) > 0) {
-        if ((coupon.num - relatedCouponDish.joinBenefitDishesNumber) < dishCount) {
-          benefitMoneyCollection.push(dish.marketPrice < dishPrice / dishCount ?
-            dish.marketPrice * (coupon.num - relatedCouponDish.joinBenefitDishesNumber)
-            :
-            dishPrice / dishCount * (coupon.num - relatedCouponDish.joinBenefitDishesNumber)
-          );
-        } else {
-          benefitMoneyCollection.push(dish.marketPrice < dishPrice / dishCount ?
-            dish.marketPrice * dishCount
-            :
-            dishPrice
-          );
-        }
-        relatedCouponDish.joinBenefitDishesNumber = (coupon.num - relatedCouponDish.joinBenefitDishesNumber) < dishCount ?
-          coupon.num
-          :
-          relatedCouponDish.joinBenefitDishesNumber + dishCount;
+  lastOrderedDishes.dishes.map(dish => {
+    if (isSingleDishWithoutProps(dish)) {
+      if (dish.brandDishId === coupon.dishId) {
+        const dishCount = getDishesCount([dish]);
+        const dishPrice = getDishPrice(dish);
+        countRelatedDishGiftCouponPrice(dish, dishCount, dishPrice, relatedCouponDish, coupon, benefitMoneyCollection);
       }
+    } else {
+      dish.order.map(order => {
+        if (dish.brandDishId === coupon.dishId) {
+          const dishCount = order.count;
+          const dishPrice = getOrderPrice(dish, order);
+          countRelatedDishGiftCouponPrice(dish, dishCount, dishPrice, relatedCouponDish, coupon, benefitMoneyCollection);
+        }
+        return true;
+      });
     }
+
     return true;
   });
   relatedCouponDish.couponValue = benefitMoneyCollection.length ? parseFloat((benefitMoneyCollection.reduce((c, p) => c + p)).toFixed(2)) : 0;
