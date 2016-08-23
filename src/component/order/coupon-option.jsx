@@ -5,6 +5,7 @@ module.exports = React.createClass({
   displayName: 'CouponOption',
   propTypes: {
     ruleDesc:React.PropTypes.string.isRequired,
+    instructions:React.PropTypes.string.isRequired,
     coupRuleBeanList:React.PropTypes.array.isRequired,
     coupDishBeanList:React.PropTypes.array.isRequired,
     fullValue:React.PropTypes.any.isRequired,
@@ -101,9 +102,16 @@ module.exports = React.createClass({
     </div>);
     return giftElement;
   },
-
+  bulidInstructions(instructions) {
+    const rawInstructions = instructions.replace(/<\/(h[1-6]|p|li)>/g, '</$1>\n').replace(/<\/?.+?>/g, '').replace(/&nbsp;/g, '');
+    return (
+      <ul className="coupon-rules">
+        {rawInstructions.split('\n').map(entry => entry ? <li>{entry}</li> : false)}
+      </ul>
+    );
+  },
   render() {
-    const { ruleDesc, coupRuleBeanList, coupDishBeanList, fullValue,
+    const { instructions, coupRuleBeanList, coupDishBeanList, fullValue,
             couponType, validStartDate, codeNumber, validEndDate, isChecked, ...otherProps } = this.props;
     const { isInstructionsOpen } = this.state;
     if (!this.judgeCouponAvaliabl(coupRuleBeanList, coupDishBeanList)) return false;
@@ -140,9 +148,7 @@ module.exports = React.createClass({
         {isInstructionsOpen ?
           <div className="coupon-dropdown">
             <p className="coupon-text--dark">NO.{codeNumber}</p>
-            <div className="coupon-rules">
-              {this.deleteHtmlTag(ruleDesc)}
-            </div>
+            {this.bulidInstructions(instructions)}
           </div> : false
         }
       </div>
