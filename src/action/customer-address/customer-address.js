@@ -62,11 +62,15 @@ exports.saveCustomerAddressInfo = (evt, address) => (dispatch, getState) => {
   requestOptions.method = 'POST';
   requestOptions.body = JSON.stringify(address);
   const btn = evt.target;
+  if (btn.disabled) {
+    return false;
+  }
+
   btn.disabled = true;
   return fetch(config.saveAddressAPI, requestOptions).
     then(res => {
-      btn.disabled = false;
       if (!res.ok) {
+        btn.disabled = false;
         dispatch(setErrorMsg('保存收货地址失败'));
       }
       return res.json();
@@ -75,6 +79,7 @@ exports.saveCustomerAddressInfo = (evt, address) => (dispatch, getState) => {
       if (result.code === '200') {
         backCustomerAdressListPage();
       } else {
+        btn.disabled = false;
         dispatch(setErrorMsg(result.msg));
       }
     }).
