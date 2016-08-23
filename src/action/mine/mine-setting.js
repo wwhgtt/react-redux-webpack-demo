@@ -17,21 +17,26 @@ const wl=window.location;
 const logUrl=`${config.logAddressURL}`;
 const notFound=`${config.notFoundUrl}`;
 
+const individualviewAPI=`${config.individualviewAPI}`;
+const individualupdateAPI=`${config.individualupdateAPI}`;
+
 exports.getInfo = (id) => (dispatch, getStates) => {
 	if(!shopId){
 		window.location.href=notFound;
 		return;
 	}
-    fetch("http://testweixin.shishike.com/user/individualView.json?shopId="+shopId+"&mId="+mid).
+    fetch(individualviewAPI+"?shopId="+shopId+"&mId="+mid).
     then(res => {
       return res.json();
     }).
     then(BasicData => {
     	//console.log(BasicData)
-      if(BasicData.msg=="未登录"){
-      	 dispatch(setErrorMsg('用户未登录...'));
+      if(BasicData.msg){
+      	 dispatch(setErrorMsg(BasicData.msg));
       	 setTimeout(function(){
-      	 	window.location.href=logUrl+"?shopId="+shopId+"&returnUrl="+encodeURIComponent(wl.pathname+wl.search);
+      	 	BasicData.msg=="未登录"?
+      	 	window.location.href=logUrl+"?shopId="+shopId+"&returnUrl="+encodeURIComponent(wl.pathname+wl.search)
+      	 	:"";
       	 },3000)
       	 return;
       }
@@ -55,20 +60,20 @@ exports.updateInfo = (sex,name) => (dispatch, getStates) => {
 		dispatch(setErrorMsg('请输入姓名!!'));
 		return;
 	}
-    fetch("http://testweixin.shishike.com/user/individualUpdate.json?shopId="+shopId+"&mId="+mid,commonHelper.fetchPost({sex:sex,name:name.replace(/(^\s+)|(\s+$)/g,"")})).
+    fetch(individualupdateAPI+"?shopId="+shopId+"&mId="+mid,commonHelper.fetchPost({sex:sex,name:name.replace(/(^\s+)|(\s+$)/g,"")})).
     then(res => {
       return res.json();
     }).
     then(BasicData => {
-      if(BasicData.msg=="未登录"){
-      	 dispatch(setErrorMsg('用户未登录...请重新登录'));
+      if(BasicData.msg){
+      	 dispatch(setErrorMsg(BasicData.msg));
       	 setTimeout(function(){
-      	 	window.location.href=logUrl+"?shopId="+shopId+"&returnUrl="+encodeURIComponent(wl.pathname+wl.search);
+      	 	BasicData.msg=="未登录"?window.location.href=logUrl+"?shopId="+shopId+"&returnUrl="+encodeURIComponent(wl.pathname+wl.search):"";
       	 },3000)
       	 return;
       }
       dispatch(setErrorMsg('修改成功'));
-      //setTimeout(function(){window.location.reload();},3000);
+      setTimeout(function(){window.location.reload();},3000);
     }).
     catch(err => {
       dispatch(setErrorMsg('修改失败!!'));

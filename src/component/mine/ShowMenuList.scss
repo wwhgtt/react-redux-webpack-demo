@@ -137,7 +137,6 @@ ul.list-ul{
 .mineInfo{
     position:relative;
     margin-bottom:1em;
-    padding:1em 0;
     background:#fff;
     &:after{
         @extend %k;
@@ -146,8 +145,12 @@ ul.list-ul{
     }
     div{
         position:relative;
+        padding:1em 0;
         width:50%;
         text-align: center;
+        &:active{
+            background:#eaeaea;
+        }
         &:after{
             position:absolute;
             content:"";

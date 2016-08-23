@@ -11,7 +11,7 @@ switch (process.env.NODE_ENV) {
     };
     break;
   default:
-    apiBase = `http://${process.env.DEV_HOST}:3000`;
+    apiBase = `http://testweixin.shishike.com`;   //测试环境//本地 `http://${process.env.DEV_HOST}:3001`;
     requestOptions = {
       method: 'GET', mod: 'cors',
       credentials: 'include',
@@ -29,12 +29,25 @@ module.exports = {
   submitTSOrderAPI:`${apiBase}/orderall/subOrder.json`,
   submitWMOrderAPI:`${apiBase}/takeaway/subOrder.json`,
   userAddressAPI: `${apiBase}/user/addressList.json`,
+  individualAPI:`${apiBase}/user/individual.json`,
+  individualviewAPI:`${apiBase}/user/individualView.json`,
+  individualupdateAPI:`${apiBase}/user/individualUpdate.json`,
+  
   shopDetailURL:`${apiBase}/shop/detail`,
-  mineSettingURL:`${apiBase}/mine-setting.html`,
+  mineSettingURL:`/mine-setting.html`,
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
   editUserAddressURL: `${apiBase}/user/address`,
   logAddressURL: `http://testweixin.shishike.com/user/notLogin`,
-  notFoundUrl:`${apiBase}/404.html`,
+  integralURL: `http://testweixin.shishike.com/member/integral`,
+  valueCardURL:`http://testweixin.shishike.com/member/valueCard`,
+  memberIndexURL:`http://testweixin.shishike.com/member/index`,
+  rechargeURL:`http://testweixin.shishike.com/shop/recharge`,
+  orderallListURL:`http://testweixin.shishike.com/order/orderallList`,
+  getCouponListURL:`http://testweixin.shishike.com/coupon/getCouponList`,
+  addressListURL:`http://testweixin.shishike.com/user/addressList`,
+  registerURL:`http://testweixin.shishike.com/member/register`,
+  modifyPwdURL:`http://testweixin.shishike.com/member/modifyPwd`,
+  notFoundUrl:`/404.html`,
   requestOptions,
 };

@@ -16,21 +16,25 @@ const wl = window.location;
 const logUrl=`${config.logAddressURL}`;
 const notFound=`${config.notFoundUrl}`;
 
+const individualAPI=`${config.individualAPI}`;
+
 exports.getInfo = (id) => (dispatch, getStates) =>{
 	if(!shopId){
 		window.location.href=notFound;
 		return;
 	}
-    fetch("http://testweixin.shishike.com/user/individual.json?shopId="+shopId+"&mId="+mid).
+    fetch(individualAPI+"?shopId="+shopId+"&mId="+mid).
     then(res => {
       return res.json();
     }).
     then(BasicData => {
     	//console.log(BasicData)
-      if(BasicData.msg=="未登录"){
-      	 dispatch(setErrorMsg('用户未登录...'));
+      if(BasicData.msg){
+      	 dispatch(setErrorMsg(BasicData.msg));
       	 setTimeout(function(){
-      	 	window.location.href=logUrl+"?shopId="+shopId+"&returnUrl="+encodeURIComponent(wl.pathname+wl.search);
+      	 	BasicData.msg=="未登录"?
+      	 	window.location.href=logUrl+"?shopId="+shopId+"&returnUrl="+encodeURIComponent(wl.pathname+wl.search)
+      	 	:"";
       	 },3000)
       	 return;
       }

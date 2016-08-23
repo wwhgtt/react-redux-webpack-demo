@@ -1,5 +1,12 @@
 const React = require('react');
 require('./ShowSettingList.scss');
+const config = require('../../config');
+const helper = require('../../helper/dish-hepler');
+const type = helper.getUrlParam('type');
+const shopId = helper.getUrlParam('shopId');
+const register_url=`${config.registerURL}?shopId=`+shopId;
+const modifypwd_url=`${config.modifyPwdURL}?shopId=`+shopId; 
+
 const restore="";
 var ShowSettingList = React.createClass({
   displayName: 'ShowSettingList',
@@ -60,7 +67,7 @@ var ShowSettingList = React.createClass({
   	this.setState({value: event.target.value.replace(/(^\s+)|""/g,"")})
   },
   render(){
-  	const condition=4;//1 微信号(未绑定手机)  2手机号非会员（未绑定微信）3手机号会员（未绑定微信） 4绑定成功
+  	const condition=1;//1 微信号(未绑定手机)  2手机号非会员（未绑定微信）3手机号会员（未绑定微信） 4绑定成功
   	const {Info}=this.props;
   	//this.setState({value: Info.name});
   	return (
@@ -91,7 +98,7 @@ var ShowSettingList = React.createClass({
 		  		             </a>
 		  		          </li>
 	  		           	<li>
-		  		             <a href="javascript:void(0)">
+		  		             <a href={modifypwd_url}>
 		  		                <span className="name">修改密码</span>
 		  		                <span className="arrow"></span>
 		  		             </a>
@@ -123,7 +130,7 @@ var ShowSettingList = React.createClass({
   		             </a>
   		          </li>
   		          <li>
-			             <a href="javascript:void(0)">
+			             <a href={register_url}>
 			                <span className="name">会员注册</span>
 			                <span className="brief">注册会员享受更多福利</span>
 			                <span className="arrow"></span>
@@ -147,7 +154,7 @@ var ShowSettingList = React.createClass({
   		             </a>
   		          </li>
   		          <li>
-			             <a href="javascript:void(0)">
+			             <a href={register_url}>
 			                <span className="name">会员注册</span>
 			                <span className="brief">注册会员享受更多福利</span>
 			                <span className="arrow"></span>
