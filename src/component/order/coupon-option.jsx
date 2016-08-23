@@ -97,7 +97,7 @@ module.exports = React.createClass({
       return giftElement;
     }
     const giftElement = (<div className="coupon-rate" data-gift-amount={getRelatedToDishCouponProps(coupDishBeanList[0]).number}>
-        {getRelatedToDishCouponProps(coupDishBeanList[0]).name}
+        {coupDishBeanList[0].dishName || getRelatedToDishCouponProps(coupDishBeanList[0]).name}
     </div>);
     return giftElement;
   },

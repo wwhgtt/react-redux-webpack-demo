@@ -123,6 +123,7 @@ module.exports = {
             id: 924,
             couponId: 1150,
             dishId: 474003,
+            dishName:'不是菜品的菜123',
             num:1,
             ruleValue: '2',
             brandId: 2192,
