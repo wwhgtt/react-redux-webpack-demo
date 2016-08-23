@@ -4,7 +4,6 @@ const getRelatedToDishCouponProps = require('../../helper/order-helper.js').getR
 module.exports = React.createClass({
   displayName: 'CouponOption',
   propTypes: {
-    ruleDesc:React.PropTypes.string.isRequired,
     instructions:React.PropTypes.string.isRequired,
     coupRuleBeanList:React.PropTypes.array.isRequired,
     coupDishBeanList:React.PropTypes.array.isRequired,
