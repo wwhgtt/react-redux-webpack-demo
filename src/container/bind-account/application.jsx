@@ -23,7 +23,7 @@ const BindAccountApplication = React.createClass( {
 	},
 
 	render() {
-		const {childView} = this.props;
+		const {childView, phoneInfo} = this.props;
 		if (childView === '#bind-phone') {
 			const {bindPhone} = this.props;
 			// 验证手机
@@ -31,8 +31,9 @@ const BindAccountApplication = React.createClass( {
 					onBindPhone = {phoneInfo => bindPhone(phoneInfo)}/>
 
 		} else if (childView === '#bind-validate') {
+			console.log('phoneinfo:'+phoneInfo.code);
 			// 手机绑定成功
-			return <BindPhoneSuccess />
+			return <BindPhoneSuccess phoneInfo={phoneInfo}/>
 		} else {
 			// 手机绑定首页
 			return <BindPhoneIndex />

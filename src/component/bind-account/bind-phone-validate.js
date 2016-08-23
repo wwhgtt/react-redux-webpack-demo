@@ -1,9 +1,9 @@
 import React from 'react';
 
 class BindPhoneValidate extends React.Component {
-    handleClick : function(){
+    handleClick(e) {
         const phoneInfo = {};
-        let phoneCode = this.refs.phoneCode.value;
+        const phoneCode = this.refs.phoneCode.value;
         phoneInfo.phoneCode = phoneCode;
         this.props.onBindPhone(phoneInfo);
     }
@@ -16,7 +16,7 @@ class BindPhoneValidate extends React.Component {
                     type="text"
                     ref="phoneCode"
                      />
-        			<a onClick = {this.handleClick}>绑定手机号</a>
+        			<a onClick = {(e) => this.handleClick(e)}>绑定手机号</a>
         		</div>
         	</form>
         )
