@@ -105,7 +105,7 @@ module.exports = React.createClass({
     const rawInstructions = instructions.replace(/<\/(h[1-6]|p|li)>/g, '</$1>\n').replace(/<\/?.+?>/g, '').replace(/&nbsp;/g, '');
     return (
       <ul className="coupon-rules">
-        {rawInstructions.split('\n').map(entry => entry ? <li>{entry}</li> : false)}
+        {rawInstructions.split('\n').map((entry, index) => (entry ? <li key={index}>{entry}</li> : false))}
       </ul>
     );
   },
