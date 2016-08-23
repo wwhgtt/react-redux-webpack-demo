@@ -22,14 +22,16 @@ const setCustomToShopAddress = createAction('SET_ADDRESS_TOSHOP_TO_ORDER', optio
 const setOrderTimeProps = createAction('SET_ORDER_TIME_PROPS', timeJson => timeJson);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
-exports.fetchOrder = () => (dispatch, getState) => {
-  const sendAreaId = JSON.parse(sessionStorage.getItem(`${shopId}_sendArea_id`));
-  const toShopFlag = sendAreaId === 0 || !sendAreaId ? '1' : '0';
-  const rangeId = sessionStorage.getItem(`${shopId}_sendArea_rangeId`) || '0';
-  const getOrderUrl = type === 'WM' ?
-    `${config.orderTakeAwayAPi}?shopId=${shopId}&toShopFlag=${toShopFlag}&rangeId=${rangeId}`
-    :
-    `${config.orderDineInAPi}?shopId=${shopId}`;
+
+const serviceAreaId = JSON.parse(sessionStorage.getItem(`${shopId}_sendArea_id`));
+const isToShop = serviceAreaId === 0 || !serviceAreaId ? '1' : '0';
+const deliveryRangeId = sessionStorage.getItem(`${shopId}_sendArea_rangeId`) || '0';
+const getOrderUrl = type === 'WM' ?
+  `${config.orderTakeAwayAPi}?shopId=${shopId}&toShopFlag=${isToShop}&rangeId=${deliveryRangeId}`
+  :
+  `${config.orderDineInAPi}?shopId=${shopId}`;
+
+exports.fetchOrder = () => (dispatch, getState) =>
   fetch(getOrderUrl, config.requestOptions).
     then(res => {
       if (!res.ok) {
@@ -60,7 +62,6 @@ exports.fetchOrder = () => (dispatch, getState) => {
     catch(err => {
       console.log(err);
     });
-};
 
 exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
   fetch(`${config.orderDiscountInfoAPI}?shopId=${shopId}`, config.requestOptions).
@@ -87,8 +88,15 @@ exports.fetchOrderCoupons = () => (dispatch, getState) => {
     dish => brandDishidsCollection.push(dish.brandDishId)
   );
   const brandDishIds = brandDishidsCollection.join(',');
+  const orderAccount = getDishesPrice(getState().orderedDishesProps.dishes)
+    - helper.countMemberPrice(
+      true,
+      getState().orderedDishesProps.dishes,
+      getState().serviceProps.discountProps.discountList,
+      getState().serviceProps.discountProps.discountType
+    );
   fetch(
-    `${config.orderCouponsAPI}?shopId=${shopId}&orderAccount=${getDishesPrice(getState().orderedDishesProps.dishes)}&brandDishIds=${brandDishIds}`,
+    `${config.orderCouponsAPI}?shopId=${shopId}&orderAccount=${orderAccount}&brandDishIds=${brandDishIds}`,
     config.requestOptions).
     then(res => {
       if (!res.ok) {
