@@ -388,9 +388,8 @@ const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, tota
     return getRelatedToDishCouponProps(coupon.coupDishBeanList[0]).couponValue;
   } else if (coupon.couponType === 4) {
     // '现金券';
-    return coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'faceValue')[0].ruleValue
-      <= totalPrice ?
-      coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'faceValue')[0].ruleValue : totalPrice;
+    const ruleValue = +coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'faceValue')[0].ruleValue || 0;
+    return ruleValue <= totalPrice ? ruleValue : totalPrice;
   }
   return true;
 };
