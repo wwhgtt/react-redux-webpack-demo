@@ -12,13 +12,49 @@ const getUrlParam = exports.getUrlParam = function (param) {
 const isSingleDishWithoutProps = exports.isSingleDishWithoutProps = function (dish) {
   if (dish.type !== 1 && dish.dishPropertyTypeInfos.length === 0) {
     return true;
-  } else if (dish.type !== 1 && dish.dishPropertyTypeInfos.length === 1 && dish.dishPropertyTypeInfos[0].type === 4) {
+  } else if (dish.type !== 1 && Array.isArray(dish.dishPropertyTypeInfos)
+    && dish.dishPropertyTypeInfos.length
+    && dish.dishPropertyTypeInfos.every(prop => prop.type === 4)) {
     return true;
   }
   return false;
 };
 const isGroupDish = exports.isGroupDish = function (dish) {
   return dish.groups !== undefined;
+};
+const setHasRulesDishProps = function (dish) {
+  return dish.dishPropertyTypeInfos.map(
+   property => {
+     if (property.type === 4 && Array.isArray(property.properties) && property.properties.length) {
+       return property.properties.forEach(prop => prop.isChecked = true);
+     }
+     return property;
+   }
+ );
+};
+exports.setDishPropertyTypeInfos = function (dishesList) {
+  if (dishesList && dishesList.length) {
+    dishesList.map(
+      dish => {
+        // 这里判断的是单品菜的情况
+        if (dish.dishPropertyTypeInfos && dish.dishPropertyTypeInfos.length) {
+          setHasRulesDishProps(dish);
+        } else if (isGroupDish(dish)) {
+          dish.groups.map(group => {
+            group.childInfos.map(childInfo => {
+              if (childInfo.dishPropertyTypeInfos && childInfo.dishPropertyTypeInfos.length) {
+                setHasRulesDishProps(childInfo);
+              }
+              return true;
+            });
+            return true;
+          });
+        }
+        return dish;
+      }
+    );
+  }
+  return dishesList;
 };
 exports.isChildDish = function (dish) {
   return dish.isChildDish;
@@ -65,19 +101,22 @@ const getOrderPrice = exports.getOrderPrice = function (dish, orderData) {
       ingredientsPriceProp => ingredientsPriceProp.isChecked
     ).map(ingredientsPriceProp => ingredientsPriceProp.reprice)
   );
-  return parseFloat((orderData.count *
+  const signleDishPrice = parseFloat((orderData.count *
     (dish.marketPrice +
        parseFloat(checkedRepricePropPrices.reduce((c, p) => c + p, 0)) +
        parseFloat(checkedIngredientsPropsPrice.reduce((c, p) => c + p, 0))
     )).toFixed(2), 10);
+  return signleDishPrice >= 0 ? signleDishPrice : 0;
 };
 const getDishPrice = exports.getDishPrice = function (dish) {
   if (isSingleDishWithoutProps(dish)) {
-    return parseFloat((dish.marketPrice * dish.order).toFixed(2));
+    const signleDishPrice = parseFloat((dish.marketPrice * dish.order).toFixed(2));
+    return signleDishPrice >= 0 ? signleDishPrice : 0;
   }
-  return dish.order.map(
+  const hasPropsDishPrice = dish.order.map(
     eachOrder => parseFloat(getOrderPrice(dish, eachOrder))
   ).reduce((c, p) => c + p, 0);
+  return hasPropsDishPrice >= 0 ? hasPropsDishPrice : 0;
 };
 
 exports.getDishesPrice = function (dishes) {
@@ -128,6 +167,15 @@ const getOrderPropIds = function (order) {
   ).map(ingredient => ingredient.id);
   return [propsIds, ingredientIds];
 };
+const getSignleDishRuleIds = function (dish) {
+  let rulePropertyCollection = [];
+  dish.dishPropertyTypeInfos.map(
+    property => property.properties.map(
+      prop => rulePropertyCollection.push(prop.id)
+    )
+  );
+  return rulePropertyCollection.join('^');
+};
 const getDishBoxCount = exports.getDishBoxCount = function (orderedDishes) {
   let dishBoxContainer = [];
   orderedDishes.map(
@@ -165,10 +213,9 @@ exports.getDishBoxprice = function (orderedDishes, dishBoxChargeInfo) {
   return getDishBoxCount(orderedDishes) * dishBoxChargeInfo.content;
 };
 exports.hasSelectedProps = function (dish) {
-  const propsIdsCollection = getOrderPropIds(dish.order[0]);
-  if (propsIdsCollection[0].length !== 0 || propsIdsCollection[1].length !== 0) {
-    return true;
-  }
+  const hasProps = dish.order[0].dishPropertyTypeInfos.some(prop => prop.type !== 4 && prop.properties.some(item => item.isChecked));
+  const hasIngredients = dish.order[0].dishIngredientInfos.some(item => item.isChecked);
+  if (hasProps || hasIngredients) return true;
   return false;
 };
 // setCookie
@@ -185,22 +232,39 @@ const getDishCookieObject = exports.getDishCookieObject = function (dish, orderI
   const { id, marketPrice } = dish;
   const orderCount = isSingleDishWithoutProps(dish) ? getDishesCount([dish]) : dish.order[orderIdx].count;
   if (isSingleDish) {
-    const spliceResultOfPropIds = isSingleDishWithoutProps(dish)
-     ? '-' :
-      `${getOrderPropIds(dish.order[orderIdx])[1].join('^')}-${getOrderPropIds(dish.order[orderIdx])[0].join('^')}`;
+    let spliceResultOfPropIds = null;
+    if (isSingleDishWithoutProps(dish)) {
+      if (dish.dishPropertyTypeInfos && dish.dishPropertyTypeInfos.length) {
+        // 到这里就剩下只有规格的菜品了
+        spliceResultOfPropIds = `-${getSignleDishRuleIds(dish)}`;
+      } else {
+        spliceResultOfPropIds = '-';
+      }
+    } else {
+      spliceResultOfPropIds = `${getOrderPropIds(dish.order[orderIdx])[1].join('^')}-${getOrderPropIds(dish.order[orderIdx])[0].join('^')}`;
+    }
     return { key : `${consumeType}_${shopId}_${id}_${id}|1-${spliceResultOfPropIds}`, value : `${orderCount}|${marketPrice}` };
   }
   const splitPropsIds = [].concat.apply([], dish.order[orderIdx].groups.map(group => {
     const groupId = group.id;
     const result = group.childInfos.filter(childInfos => getDishesCount([childInfos])).map(childInfo => {
-      const spliceResultOfPropIds = isSingleDishWithoutProps(childInfo)
-       ? '-' :
-        `${getOrderPropIds(childInfo.order[0])[1].join('^')}-${getOrderPropIds(childInfo.order[0])[0].join('^')}`;
+      let spliceResultOfPropIds = null;
+      if (isSingleDishWithoutProps(childInfo)) {
+        if (childInfo.dishPropertyTypeInfos && childInfo.dishPropertyTypeInfos.length) {
+          // 到这里就剩下只有规格的菜品了
+          spliceResultOfPropIds = `-${getSignleDishRuleIds(childInfo)}`;
+        } else {
+          spliceResultOfPropIds = '-';
+        }
+      } else {
+        spliceResultOfPropIds = `${getOrderPropIds(childInfo.order[0])[1].join('^')}-${getOrderPropIds(childInfo.order[0])[0].join('^')}`;
+      }
       return `${childInfo.id}A${groupId}|${getDishesCount([childInfo])}-${spliceResultOfPropIds}`;
     });
     return [].concat.apply([], result);
   }));
-  return { key : `${consumeType}_${shopId}_${id}_${splitPropsIds.join('#')}`, value : `${orderCount}|${marketPrice}` };
+  const groupChildDishIds = !splitPropsIds.join('#') || splitPropsIds.join('#') === '' ? id + '|1--' : splitPropsIds.join('#');
+  return { key : `${consumeType}_${shopId}_${id}_${groupChildDishIds}`, value : `${orderCount}|${marketPrice}` };
 };
 exports.storeDishesLocalStorage = function (data) {
   let lastOrderedDishes = {
@@ -253,9 +317,10 @@ exports.isShopOpen = function (timeList) {
 
   return timeList.some(entry => {
     const startTime = timeToSeconds(entry.startTime);
-    const endTime = timeToSeconds(entry.endTime) || timeToSeconds('24:00:00');
-    const isOpenTime = currentTime >= startTime && currentTime <= endTime;
+    let endTime = timeToSeconds(entry.endTime) || timeToSeconds('24:00:00');
+    if (endTime < startTime) endTime += timeToSeconds('24:00:00'); // if endTime is in the next day
 
+    const isOpenTime = currentTime >= startTime && currentTime <= endTime;
     let isOpenDay = false;
 
     // open in 7 days a week
@@ -269,7 +334,7 @@ exports.isShopOpen = function (timeList) {
     }
 
     // open in weekend
-    if (entry.week === 1 && currentDay === 0 && currentDay === 6) {
+    if (entry.week === 1 && (currentDay === 0 || currentDay === 6)) {
       isOpenDay = true;
     }
 
@@ -301,32 +366,16 @@ exports.deleteOldDishCookie = function () {
   }
 };
 
-exports.AJ = tt=>{
-   return tt.data.dishTypeList;
+
+exports.generateDishNameWithUnit = (dishData) => {
+  if (Array.isArray(dishData.dishPropertyTypeInfos) && dishData.dishPropertyTypeInfos.length) {
+    const avaliableDishProps = dishData.dishPropertyTypeInfos.filter(prop => prop.type === 4);
+    if (avaliableDishProps.length) {
+      const properties = avaliableDishProps.map(prop => prop.properties[0].name).join(', ');
+      return `${dishData.name}(${properties})/${dishData.unitName}`;
+    }
+    return `${dishData.name}/${dishData.unitName}`;
+  }
+  return `${dishData.name}/${dishData.unitName}`;
 };
 
-exports.decode = id=>{
-	 
-      return `${config.takeawayMenuAPI}?shopId=`+id+`&type=WM`;
-   
-	
-};
-
-exports.edit=data=>{
-	   return {
-	   	   bg(){
-	   	   	  return data.headPicUrl;
-	   	   },
-	   	   name(){
-	   	   	  return data.brand.Name||"";
-	   	   },
-	   	   icon(){
-	   	   	  return data.brand.logo||"http://test.weixin4.static.shishike.com/static/basic/images/brandNew/personal-icon.png";
-	   	   }
-	   	
-	   	
-	   }
-	
-	
-	
-}

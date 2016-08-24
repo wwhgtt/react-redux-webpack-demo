@@ -11,8 +11,8 @@ module.exports = React.createClass({
   displayName: 'StandardAddressSelect',
   propTypes: {
     placeholder: React.PropTypes.string,
-    currentPoint: React.PropTypes.object,
     onSelectComplete: React.PropTypes.func,
+    searchResultMaxLength: React.PropTypes.number,
   },
   getInitialState() {
     return {
@@ -22,14 +22,20 @@ module.exports = React.createClass({
       suggestVisible: false,
     };
   },
+  componentDidMount() {
+  },
+  componentWillUnmount() {
+    this._mapLocal = this._map = null;
+  },
   handleMapInited(map) {
     this._map = map;
     const that = this;
+    const maxLength = this.props.searchResultMaxLength || 10;
     const local = this._mapLocal = new window.BMap.LocalSearch(map, {
       onSearchComplete(results) {
         if (local.getStatus() === window.BMAP_STATUS_SUCCESS) {
-          let pois = [];
-          for (let i = 0; i < results.getCurrentNumPois(); i++) {
+          const pois = [];
+          for (let i = 0; i < results.getCurrentNumPois() && i < maxLength; i++) {
             const poi = results.getPoi(i);
             pois.push({
               title: poi.title,
@@ -50,9 +56,9 @@ module.exports = React.createClass({
 
     this.timer = window.setTimeout(x => {
       if (this._mapLocal) {
-        this._mapLocal.search(searchKey);
+        this._mapLocal.search(searchKey, { forceLocal: true });
       }
-    }, 80);
+    }, 120);
   },
   handleCenterPointChange(point) {
     const geocoder = new BMap.Geocoder();
@@ -69,7 +75,9 @@ module.exports = React.createClass({
           };
         });
       }
-      this.setState({ list });
+      if (this._mapLocal) {
+        this.setState({ list });
+      }
     }, { poiRadius: 500, numPois: 11 });
   },
   handleSelectComplete(poi) {
@@ -101,7 +109,6 @@ module.exports = React.createClass({
         <StandardAddrSelectMap
           onCenterPointChange={this.handleCenterPointChange}
           onMapInited={this.handleMapInited}
-          {...this.props}
         />
         <StandardAddrSelectListBox
           onSelectComplete={this.handleSelectComplete}

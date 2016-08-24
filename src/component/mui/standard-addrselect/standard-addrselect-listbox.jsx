@@ -12,12 +12,12 @@ module.exports = React.createClass({
   componentDidMount() {
     this._now = new Date().getTime();
   },
-  handleClick(evt) {
+  handleTouchTap(evt) {
     if (!this.props.onSelectComplete) {
       return;
     }
 
-    const data = evt.target.dataset;
+    const data = evt.currentTarget.dataset;
     const pos = this.props.list[data.index];
     if (!pos) {
       return;
@@ -26,7 +26,9 @@ module.exports = React.createClass({
     const ret = {
       title: pos.title,
       address: pos.address,
-      point: Object.assign({}, pos.point),
+      point: {
+        longitude: pos.point.lng.toString(),
+        latitude: pos.point.lat.toString() },
     };
     this.props.onSelectComplete(ret);
   },
@@ -35,18 +37,15 @@ module.exports = React.createClass({
     const now = this._now;
     let items = this.props.list.map((item, index) => {
       let title = item.title;
-      let className;
       if (index === 0) {
-        title = `[推荐位置] ${name}`;
-        className = 'recommend';
+        title = `[推荐位置] ${title}`;
       }
       return (
-        <li key={item.uid || (now + index)} className={className}>
-          <h4 data-index={index} onClick={this.handleClick}>
-            <i></i>
-            {title}
-          </h4>
-          <p>{item.address}</p>
+        <li key={item.uid || (now + index)}>
+          <button data-index={index} className="addrselect-list-item" onTouchTap={this.handleTouchTap}>
+            <h4 className="addrselect-list-title ellipsis">{title}</h4>
+            <p className="addrselect-list-address ellipsis">{item.address}</p>
+          </button>
         </li>
       );
     });

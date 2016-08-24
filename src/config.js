@@ -29,16 +29,26 @@ module.exports = {
   submitTSOrderAPI:`${apiBase}/orderall/subOrder.json`,
   submitWMOrderAPI:`${apiBase}/takeaway/subOrder.json`,
   userAddressAPI: `${apiBase}/user/addressList.json`,
+
   individualAPI:`${apiBase}/user/individual.json`,
   individualviewAPI:`${apiBase}/user/individualView.json`,
   individualupdateAPI:`${apiBase}/user/individualUpdate.json`,
   registerAPI:`${apiBase}/member/register.json`,
   
+
+  getUserAddressListAPI: `${apiBase}/user/getAddressList.json`,
+  getAllAddressListAPI: `${apiBase}/user/addressList.json`,
+  customerAddressAPI: `${apiBase}/user/address.json`,
+  saveAddressAPI: `${apiBase}/user/saveAddress.json`,
+  deleteAddressAPI: `${apiBase}/user/delAddress.json`,
+  getOrderAddressInfoAPI: `${apiBase}/user/getAddressInfo.json`,
+
   shopDetailURL:`${apiBase}/shop/detail`,
   mineSettingURL:`/mine-setting.html`,
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
   editUserAddressURL: `${apiBase}/user/address`,
+
   logAddressURL: `http://testweixin.shishike.com/user/notLogin`,
   integralURL: `http://testweixin.shishike.com/member/integral`,
   valueCardURL:`http://testweixin.shishike.com/member/valueCard`,
@@ -50,5 +60,8 @@ module.exports = {
   registerURL:`http://testweixin.shishike.com/member/register`,
   modifyPwdURL:`http://testweixin.shishike.com/member/modifyPwd`,
   notFoundUrl:`/404.html`,
+
+  getDefaultSendArea: `${apiBase}/user/getDefaultSendArea.json`,
+
   requestOptions,
 };

@@ -1,10 +1,12 @@
 const React = require('react');
 const classnames = require('classnames');
+const getRelatedToDishCouponProps = require('../../helper/order-helper.js').getRelatedToDishCouponProps;
 module.exports = React.createClass({
   displayName: 'CouponOption',
   propTypes: {
-    instructions:React.PropTypes.string.isRequired,
+    ruleDesc:React.PropTypes.string.isRequired,
     coupRuleBeanList:React.PropTypes.array.isRequired,
+    coupDishBeanList:React.PropTypes.array.isRequired,
     fullValue:React.PropTypes.any.isRequired,
     couponType:React.PropTypes.number.isRequired,
     validStartDate:React.PropTypes.any.isRequired,
@@ -55,6 +57,20 @@ module.exports = React.createClass({
     }
     return identifyCouponInfo;
   },
+  judgeCouponAvaliabl(coupRuleBeanList, coupDishBeanList) {
+    if (coupDishBeanList.length && getRelatedToDishCouponProps(coupDishBeanList[0]).name) {
+      return true;
+    }
+    if (coupRuleBeanList.length) {
+      if (coupDishBeanList.length) {
+        return getRelatedToDishCouponProps(coupDishBeanList[0]).name;
+      }
+      // 代表普通优惠券
+      return true;
+    }
+    // 表明优惠券不可用  应该隐藏掉
+    return false;
+  },
   expandInstructions(evt) {
     const { isInstructionsOpen } = this.state;
     this.setState({
@@ -63,26 +79,34 @@ module.exports = React.createClass({
     evt.preventDefault();
   },
   deleteHtmlTag(html) {
-    if (html) return html.replace(/<.+?>/g, '');
+    if (html) return html.replace(/<.+?>/g, '').replace(/&nbsp;/g, '');
     return false;
   },
-  composeGiftCouponProps(giftCoupons) {
-    let gift = { name:'', number:'' };
-    giftCoupons.map(coupon => {
-      if (coupon.ruleName === 'giftName') {
-        gift.name = coupon.ruleValue;
-      } else if (coupon.ruleName === 'giftNumber') {
-        gift.number = coupon.ruleValue;
-      }
-      return gift;
-    });
-    const giftElement = (<div className="coupon-rate" data-gift-amount={gift.number}>{gift.name}</div>);
+  composeGiftCouponProps(coupRuleBeanList, coupDishBeanList) {
+    if (coupRuleBeanList.length && !coupDishBeanList.length) {
+      let gift = { name:'', number:'' };
+      coupRuleBeanList.map(coupon => {
+        if (coupon.ruleName === 'giftName') {
+          gift.name = coupon.ruleValue;
+        } else if (coupon.ruleName === 'giftNumber') {
+          gift.number = coupon.ruleValue;
+        }
+        return gift;
+      });
+      const giftElement = (<div className="coupon-rate" data-gift-amount={gift.number}>{gift.name}</div>);
+      return giftElement;
+    }
+    const giftElement = (<div className="coupon-rate" data-gift-amount={getRelatedToDishCouponProps(coupDishBeanList[0]).number}>
+        {getRelatedToDishCouponProps(coupDishBeanList[0]).name}
+    </div>);
     return giftElement;
   },
 
   render() {
-    const { instructions, coupRuleBeanList, fullValue, couponType, validStartDate, codeNumber, validEndDate, isChecked, ...otherProps } = this.props;
+    const { ruleDesc, coupRuleBeanList, coupDishBeanList, fullValue,
+            couponType, validStartDate, codeNumber, validEndDate, isChecked, ...otherProps } = this.props;
     const { isInstructionsOpen } = this.state;
+    if (!this.judgeCouponAvaliabl(coupRuleBeanList, coupDishBeanList)) return false;
     return (
       <div
         className={classnames('coupon', this.judgeCouponInfoByCouponType(couponType).classNameForCoupon)}
@@ -91,7 +115,7 @@ module.exports = React.createClass({
         <div className="coupon-card flex-row" >
           <div className="coupon-card-left">
             {couponType === 3 ?
-              this.composeGiftCouponProps(coupRuleBeanList)
+              this.composeGiftCouponProps(coupRuleBeanList, coupDishBeanList)
               :
               <div className="coupon-rate">{this.getCouponValue(couponType, coupRuleBeanList)}</div>
             }
@@ -117,7 +141,7 @@ module.exports = React.createClass({
           <div className="coupon-dropdown">
             <p className="coupon-text--dark">NO.{codeNumber}</p>
             <div className="coupon-rules">
-              {this.deleteHtmlTag(instructions)}
+              {this.deleteHtmlTag(ruleDesc)}
             </div>
           </div> : false
         }

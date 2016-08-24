@@ -57,7 +57,7 @@ module.exports = React.createClass({
         orderedChildDishes.map((childDish, index) => (
           <div key={`${childDish.id}_${index}`} className="child-dish-info">
             <div className="child-dish-head">
-              <span className="child-dish-name ellipsis">{childDish.name}</span>
+              <span className="child-dish-name ellipsis">{childDish.unitName ? `${childDish.name}/${childDish.unitName}` : `${childDish.name}`}</span>
               {
                 childDish.marketPrice !== 0 ?
                   <span className="child-dish-price badge-price">
@@ -95,10 +95,10 @@ module.exports = React.createClass({
                 className={classnames('ellipsis dish-name dish-name--trigger', { 'is-open':expand })}
                 onTouchTap={this.onExpandBtnTap}
               >
-                {dish.name}
+                {helper.generateDishNameWithUnit(dish)}
               </a>
               :
-              <span className="ellipsis dish-name">{dish.name}</span>
+              <span className="ellipsis dish-name">{helper.generateDishNameWithUnit(dish)}</span>
           }
           <span className="order-dish-price price">{helper.getDishPrice(dish)}</span>
           <span className="order-dish-count">x{helper.getDishesCount([dish])}</span>

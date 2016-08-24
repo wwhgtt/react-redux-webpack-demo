@@ -1,54 +1,81 @@
 @import 'settings.colors';
 
-.editor-one-third {
-  float: left;
-  width: 110px;
-}
+// reset option layout
+.option {
+  $option-left-width: 90px;
 
-.editor-two-thirds {
-  margin-left: 110px;
-
-  > .order-prop-option:first-child {
-    padding-top: 0;
+  &-title {
+    width: $option-left-width;
   }
 
-  > .order-prop-option:last-child {
-    padding-bottom: 0;
+  &-content {
+    width: calc(100% - #{$option-left-width});
   }
-}
-
-.editor-input {
-  font-size: 16px;
-  float: left;
-  color: $color-dove-grey;
-  border: 0;
-  outline: 0;
-
-  &[disabled] {
-    background: transparent;
+  &.error{
+    color: #ff0000;
+    .customer-address-placeholder{
+      color: #ff0000;
+    }
   }
 }
 
-.option-radio {
-  display: none;
+// page styles
+.customer-address-page {
+  min-height: 100%;
+  border-top: 10px solid $color-gallery;
+  border-bottom: 50px solid $color-gallery;
+  background: $color-gallery;
+}
 
-  + .btn-tickbox {
+.customer {
+  &-name {
     float: left;
-    margin-right: 5px;
+    width: 40%;
   }
 
-  ~ .option-desc {
-    line-height: 18px;
-    float: left;
-    padding-top: 4px;
+  &-gender {
+    float: right;
+    width: 60%;
   }
 
-  &:checked + .btn-tickbox {
-    border-color: $color-neon-carrot;
-    box-shadow: inset 0 0 0 10px $color-neon-carrot;
+  &-address {
+    position: relative;
+    display: block;
+    height: 22px;
+    padding-left: 30px;
+    text-decoration: none;
 
     &::before {
-      transform: scale(1, 1);
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      width: 30px;
+      height: 22px;
+      content: '';
+      background-image: url('../../asset/images/location-grey.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 15px 18px;
     }
+
+    &-text {
+      float: left;
+      width: calc(100% - 20px);
+
+      &:not(:empty) + .customer-address-placeholder {
+        display: none;
+      }
+    }
+
+    &-placeholder {
+      color: $color-sliver;
+    }
+  }
+
+
+  &-address-delete {
+    width: 100%;
+    color: $color-radical-red;
   }
 }

@@ -1,0 +1,8 @@
+@import 'settings.colors';
+
+#app-placeholder,
+div[data-reactroot],
+.application {
+  min-height: 100%;
+  background: $color-gallery;
+}

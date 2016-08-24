@@ -1,4 +1,5 @@
 const React = require('react');
+const classnames = require('classnames');
 
 module.exports = React.createClass({
   displayName: 'StandardAddrSelectSearchBox',
@@ -16,21 +17,19 @@ module.exports = React.createClass({
       suggest: [],
     };
   },
+  getInitialState() {
+    return {
+      searchValueIsEmpty: true,
+    };
+  },
   componentDidMount() {
-    document.body.addEventListener('click', evt => {
-      if (this.refs.wrap.contains(evt.target)) {
-        return;
-      }
-
-      if (this.props.onSetSuggestVisible) {
-        this.props.onSetSuggestVisible(false);
-      }
-    }, false);
   },
   handleChange(evt) {
+    const value = evt.target.value;
     if (this.props.onUserInput) {
-      this.props.onUserInput(evt.target.value.trim());
+      this.props.onUserInput(value.trim());
     }
+    this.setState({ searchValueIsEmpty: !value });
   },
   handleInputClick(evt) {
     if (!this.props.suggest.length) {
@@ -41,16 +40,12 @@ module.exports = React.createClass({
       this.props.onSetSuggestVisible();
     }
   },
-  handleItemClick(evt) {
+  handleItemTouchTap(evt) {
     if (!this.props.onSelectComplete) {
       return;
     }
 
-    let target = evt.target;
-    if (target.nodeName === 'span'.toUpperCase()) {
-      target = target.parentNode;
-    }
-
+    const target = evt.currentTarget;
     const data = target.dataset;
     const pos = this.props.suggest[data.index];
     if (!pos) {
@@ -61,44 +56,50 @@ module.exports = React.createClass({
       title: pos.title,
       address: pos.address,
       point: {
-        lng: pos.point.lng,
-        lat: pos.point.lat,
+        longitude: pos.point.lng.toString(),
+        latitude: pos.point.lat.toString(),
       },
     };
     this.refs.input.value = pos.address;
     this.props.onSetSuggestVisible(false);
     this.props.onSelectComplete(ret);
   },
+  handleBtnClose() {
+    this.refs.input.value = '';
+    this.props.onSetSuggestVisible(false);
+  },
   render() {
-    let items = this.props.suggest.map((item, index) => {
-      const key = item.uid;
-      return (
-        <li key={key}>
-          <a
-            className="suggest-title"
-            onClick={this.handleItemClick}
-            data-index={index}
-            data-name={item.title}
-            data-latitude={item.point.lat}
-            data-longitude={item.point.lng}
-          >
-            {item.title}
-            <span>{item.address}</span>
-          </a>
-        </li>
-      );
-    });
+    let items = this.props.suggest.map((item, index) => (
+      <li key={index}>
+        <button
+          className="addrselect-suggestion"
+          onTouchTap={this.handleItemTouchTap}
+          data-index={index}
+          data-name={item.title}
+          data-latitude={item.point.lat}
+          data-longitude={item.point.lng}
+        >
+          {item.title}
+          <small>{item.address}</small>
+        </button>
+      </li>
+      ));
 
     return (
-      <div className="addrselect-search" ref="wrap">
-        <input
-          type="text"
-          ref="input"
-          placeholder={this.props.placeholder}
-          onClick={this.handleInputClick}
-          onChange={this.handleChange}
-        />
-        <ul className="suggest" style={{ display: this.props.suggestVisible ? 'block' : '' }}>
+      <div className="addrselect-header" ref="wrap">
+        <label className={classnames('addrselect-searchbox clearfix', { 'is-empty': this.state.searchValueIsEmpty })}>
+          <span className="addrselect-search-icon"></span>
+          <input
+            type="text"
+            ref="input"
+            className="addrselect-search-input"
+            placeholder={this.props.placeholder}
+            onClick={this.handleInputClick}
+            onChange={this.handleChange}
+          />
+          <button className="addrselect-search-close" onTouchTap={this.handleBtnClose}></button>
+        </label>
+        <ul className="addrselect-suggestions" style={{ display: this.props.suggestVisible ? 'block' : '' }}>
           {items}
         </ul>
       </div>

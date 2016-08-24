@@ -4,10 +4,12 @@ const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const connect = require('react-redux').connect;
 const actions = require('../../action/order/order');
 const helper = require('../../helper/order-helper');
+const validateAddressInfo = require('../../helper/common-helper').validateAddressInfo;
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const CustomerTakeawayInfoEditor = require('../../component/order/customer-takeaway-info-editor.jsx');
 const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
+const CustomerToShopInfoEditor = require('../../component/order/customer-toshop-info-editor.jsx');
 const CouponSelect = require('../../component/order/coupon-select.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const TimeSelect = require('../../component/order/select/time-select.jsx');
@@ -30,14 +32,19 @@ const OrderApplication = React.createClass({
     setOrderPropsAndResetChildView: React.PropTypes.func.isRequired,
     fetchLastOrderedDishes:React.PropTypes.func.isRequired,
     submitOrder:React.PropTypes.func.isRequired,
-    fetchUserAddressInfo: React.PropTypes.func.isRequired,
+    fetchUserAddressListInfo: React.PropTypes.func.isRequired,
     fetchSendAreaId:React.PropTypes.func.isRequired,
     fetchDeliveryPrice:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
-    setSessionAndForwardChaining:React.PropTypes.func.isRequired,
+    setSessionAndForwardEditUserAddress:React.PropTypes.func.isRequired,
     setCustomerProps:React.PropTypes.func.isRequired,
+    setCustomerToShopAddress:React.PropTypes.func,
+    confirmOrderAddressInfo:React.PropTypes.func,
+    setErrorMsg:React.PropTypes.func,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
+    customerAddressListInfo:React.PropTypes.object,
+    defaultCustomerProps:React.PropTypes.object,
     serviceProps:React.PropTypes.object.isRequired,
     commercialProps:React.PropTypes.object.isRequired,
     orderedDishesProps:React.PropTypes.object.isRequired,
@@ -64,24 +71,84 @@ const OrderApplication = React.createClass({
   componentDidMount() {
     this.setChildViewAccordingToHash();
     const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons } = this.props;
-    Promise.all([fetchOrder(), fetchOrderDiscountInfo(), fetchOrderCoupons()]).then(() => {
-      this.props.setChildView('');
-      this.setChildViewAccordingToHash();
-    });
+    Promise.all([fetchOrder(), fetchOrderCoupons()]).then(
+      fetchOrderDiscountInfo
+    ).then(() => { this.setChildViewAccordingToHash(); });
   },
   componentDidUpdate() {
 
+  },
+  onAddressEditor(editor, option) {
+    const { setSessionAndForwardEditUserAddress } = this.props;
+    if (option && option.id === 0) {
+      location.hash = 'customer-info-toshop';
+    } else {
+      setSessionAndForwardEditUserAddress(editor);
+    }
   },
   setChildViewAccordingToHash() {
     const { setChildView } = this.props;
     const hash = location.hash;
     setChildView(hash);
+    this.setDocumentTitleByHash(hash);
   },
-  resetChildView(evt) {
+  setDocumentTitleByHash(hash) {
+    const type = getUrlParam('type');
+    if (type !== 'WM') {
+      return;
+    }
+
+    const title = {
+      '#customer-info': '选择收货地址',
+      '#customer-info-toshop': '编辑地址',
+    }[hash] || '确定下单-外卖';
+    document.title = title;
+  },
+  confirmOrderAddressInfo(evt, info) {
+    if (evt) {
+      evt.preventDefault();
+    }
+    const { confirmOrderAddressInfo, setErrorMsg } = this.props;
+    const currentAddress = info.addresses && info.addresses[0];
+    if (!currentAddress) {
+      return;
+    }
+
+    currentAddress.baseAddress = currentAddress.address;
+    const validateResult = validateAddressInfo(currentAddress, currentAddress.id !== 0, key => key === 'street');
+
+    if (!validateResult.valid) {
+      // 到店取餐
+      if (currentAddress.id === 0) {
+        setErrorMsg('您选择的取餐信息不完全，请填写');
+        setTimeout(() => {
+          this.onAddressEditor(null, currentAddress);
+        }, 3000);
+        return;
+      }
+
+      // 无收货地址
+      let msg = '';
+      if (!currentAddress.address) {
+        msg = '所选的配送地址无收货地址，请选择';
+      } else {
+        msg = '所选的配送地址信息不完全，请填写';
+      }
+      setErrorMsg(msg);
+      setTimeout(() => {
+        this.onAddressEditor(currentAddress.id.toString());
+      }, 3000);
+      return;
+    }
+
+    location.hash = '';
+    confirmOrderAddressInfo(info);
+  },
+  resetChildView(evt, hash) {
     evt.preventDefault();
     const { setChildView } = this.props;
     if (location.hash !== '') {
-      location.hash = '';
+      location.hash = hash || '';
     } else {
       setChildView('');
     }
@@ -115,7 +182,7 @@ const OrderApplication = React.createClass({
       tableProps.tables && tableProps.tables.length) {
       return (
         <a
-          className="order-prop-option"
+          className="option"
           onTouchTap={evt => this.checkAddressChildViewAvailable(tableProps)}
         >
           <span className="options-title">选择桌台</span>
@@ -130,11 +197,11 @@ const OrderApplication = React.createClass({
       );
     }
     return tableProps.isEditable ?
-      <div className="order-prop-option">
+      <div className="option">
         <span className="options-title text-froly">该桌台已被占用</span>
       </div>
       :
-      <div className="order-prop-option">
+      <div className="option">
         <span className="options-title text-froly">没有可用桌台</span>
       </div>;
   },
@@ -145,46 +212,39 @@ const OrderApplication = React.createClass({
   render() {
     const {
       customerProps, serviceProps, childView, tableProps, clearErrorMsg, setCustomerProps,
-      timeProps, orderedDishesProps, commercialProps, errorMessage, setSessionAndForwardChaining,
+      timeProps, orderedDishesProps, commercialProps, errorMessage,
+      customerAddressListInfo,
+      defaultCustomerProps,
+      setCustomerToShopAddress,
     } = this.props; // state
-    const { setOrderProps, fetchUserAddressInfo, setChildView } = this.props;// actions
+    const { setOrderProps, fetchUserAddressListInfo, setChildView } = this.props;// actions
     const type = getUrlParam('type');
     const shopId = getUrlParam('shopId');
-    const getDefaultAddressProps = function () {
-      if (serviceProps.sendAreaId !== 0) {
-        // 表示需要选择地址
-        if (customerProps.addresses && customerProps.addresses.length) {
-          const isCheckedAddressInfo = _find(customerProps.addresses, { isChecked:true });
-          return isCheckedAddressInfo ? isCheckedAddressInfo.address : '请选择送餐地址';
-        }
-        return '请选择送餐地址';
-      }
-      return '到店取餐';
-    };
     const buildCoustomerPropElement = function () {
-      if (serviceProps.sendAreaId !== 0) {
-        if (customerProps.addresses && customerProps.addresses.length) {
-          const isCheckedAddressInfo = _find(customerProps.addresses, { isChecked:true });
-          return isCheckedAddressInfo ?
-          (
-            <div className="option-stripes-title">
-              {customerProps.name}{customerProps.sex === '1' ? '先生' : '女士'}
-              {customerProps.mobile}
+      const elems = [];
+      let addressText = '';
+      if (customerProps.addresses && customerProps.addresses.length) {
+        const isCheckedAddressInfo = _find(customerProps.addresses, { isChecked:true });
+        if (isCheckedAddressInfo) {
+          elems.push(
+            <div className="option-stripes-title" key="title">
+              {isCheckedAddressInfo.name}{+isCheckedAddressInfo.sex === 1 ? '先生' : '女士'}
+              {isCheckedAddressInfo.mobile}
             </div>
-          )
-          :
-          false;
+          );
+          addressText = isCheckedAddressInfo.address;
         }
-        return false;
       }
-      return (
-        <div className="option-stripes-title">
-          {customerProps.name}{customerProps.sex === '1' ? '先生' : '女士'}
-          {customerProps.mobile}
+      elems.push(
+        <div className="clearfix" key="address">
+          <div className="option-desc">
+            {addressText || '请选择送餐地址'}
+          </div>
         </div>
       );
+      return elems;
     };
-    const isSelfFetch = serviceProps.sendAreaId === 0;
+    const isSelfFetch = !!_find(customerProps.addresses, { isChecked:true, id: 0 });
 
     const getFetchTimeTitle = () => {
       const selectedDateTime = timeProps.selectedDateTime || {};
@@ -206,7 +266,7 @@ const OrderApplication = React.createClass({
       }
       if (getUrlParam('type') === 'WM' && !helper.isEmptyObject(timeProps.timeTable) && timeProps.timeTable !== undefined) {
         return (
-          <div className="order-prop-option">
+          <div className="option">
             <span className="options-title">{isSelfFetch ? '取餐时间' : '送达时间'}</span>
             <button className="option-btn btn-arrow-right" onTouchTap={evt => setChildView('#time-select')}>
               {getFetchTimeTitle()}
@@ -215,7 +275,7 @@ const OrderApplication = React.createClass({
         );
       }
       return (
-        <div className="order-prop-option">没有可用{isSelfFetch ? '取餐时间' : '送达时间'}</div>
+        <div className="option">没有可用{isSelfFetch ? '取餐时间' : '送达时间'}</div>
       );
     };
     return (
@@ -223,15 +283,10 @@ const OrderApplication = React.createClass({
         {type === 'WM' ?
           <a className="options-group options-group--stripes" href="#customer-info" >
             {buildCoustomerPropElement()}
-            <div className="clearfix">
-              <div className="option-desc">
-                {getDefaultAddressProps()}
-              </div>
-            </div>
           </a>
           :
           <a className="options-group options-group--stripes" href="#customer-info" >
-            <div className="option-stripes-title">{customerProps.name}{customerProps.sex === '1' ? '先生' : '女士'}</div>
+            <div className="option-stripes-title">{customerProps.name}{+customerProps.sex === 1 ? '先生' : '女士'}</div>
             <div className="clearfix">
               <div className="option-desc half">{customerProps.mobile}</div>
               <div className="option-desc half"><span className="text-picton-blue">{customerProps.customerCount}</span>人就餐</div>
@@ -266,23 +321,15 @@ const OrderApplication = React.createClass({
           )}
         </div>
         <div className="options-group">
-          {serviceProps.discountProps.discountInfo && orderedDishesProps.dishes && orderedDishesProps.dishes.length
-            && orderedDishesProps.dishes.filter(dish => dish.isMember).length !== 0
-            && commercialProps.diningForm !== 0 ?
-            <ActiveSelect
-              optionsData={[serviceProps.discountProps.discountInfo]} onSelectOption={setOrderProps}
-              optionComponent={OrderPropOption}
-            />
-          : false}
-          {serviceProps.couponsProps.couponsList &&
-            serviceProps.couponsProps.couponsList.length && commercialProps.diningForm !== 0 ?
-            <a className="order-prop-option" href="#coupon-select">
+          {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length
+            && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 && commercialProps.diningForm !== 0 ?
+            <a className="option" href="#coupon-select">
               <span className="option-title">使用优惠券</span>
               <span className="badge-coupon">
                 {serviceProps.couponsProps.inUseCoupon ?
                   '已使用一张优惠券'
                   :
-                  `${serviceProps.couponsProps.couponsList.length}张可用`
+                  `${helper.getCouponsLength(serviceProps.couponsProps.couponsList)}张可用`
                 }
               </span>
               <span className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
@@ -298,12 +345,12 @@ const OrderApplication = React.createClass({
 
         <div className="options-group">
           {buildSelectTimeElemnet()}
-          <label className="order-prop-option">
+          <label className="option">
             <span className="option-title">备注: </span>
             <input className="option-input" name="note" placeholder="输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />
           </label>
           {commercialProps && commercialProps.isSupportInvoice === 1 ?
-            <label className="order-prop-option">
+            <label className="option">
               <span className="option-title">发票抬头: </span>
               <input className="option-input" name="receipt" placeholder="输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
             </label>
@@ -322,7 +369,7 @@ const OrderApplication = React.createClass({
           <div>
             <div className="options-group">
               <a
-                className="order-prop-option"
+                className="option"
                 href={helper.getMoreDishesUrl()}
               >
                 <span className="order-add-text">我要加菜</span>
@@ -369,10 +416,24 @@ const OrderApplication = React.createClass({
           />
           : false
         }
+        {childView === 'customer-info-toshop' ?
+          <CustomerToShopInfoEditor
+            customerAddressListInfo={customerAddressListInfo}
+            onComponentWillMount={fetchUserAddressListInfo}
+            onCustomerPropsChange={setCustomerToShopAddress} onDone={this.resetChildView}
+          />
+          : false
+        }
         {childView === 'customer-info' && type === 'WM' ?
           <CustomerTakeawayInfoEditor
-            customerProps={customerProps} sendAreaId={serviceProps.sendAreaId} onAddressEditor={setSessionAndForwardChaining}
-            onCustomerPropsChange={setCustomerProps} onComponentWillMount={fetchUserAddressInfo} onDone={this.resetChildView}
+            customerProps={customerProps}
+            customerAddressListInfo={customerAddressListInfo}
+            defaultCustomerProps={defaultCustomerProps}
+            sendAreaId={serviceProps.sendAreaId}
+            onAddressEditor={this.onAddressEditor}
+            onCustomerAddressPropsChange={this.confirmOrderAddressInfo}
+            onComponentWillMount={fetchUserAddressListInfo}
+            onDone={this.resetChildView}
           />
           : false
         }

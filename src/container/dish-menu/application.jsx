@@ -15,7 +15,7 @@ const DishMenuApplication = React.createClass({
   propTypes: {
     // MapedActionsToProps
     fetchMenuData: React.PropTypes.func.isRequired,
-    fetchServiceProps: React.PropTypes.func.isRequired,
+    fetchSendArea: React.PropTypes.func.isRequired,
     activeDishType: React.PropTypes.func.isRequired,
     orderDish: React.PropTypes.func.isRequired,
     showDishDetail: React.PropTypes.func.isRequired,
@@ -36,11 +36,11 @@ const DishMenuApplication = React.createClass({
     errorMessage: React.PropTypes.string,
   },
   componentDidMount() {
-    const { fetchMenuData, fetchServiceProps, fetchOrderDiscountInfo } = this.props;
+    const { fetchMenuData, fetchSendArea, fetchOrderDiscountInfo } = this.props;
     fetchMenuData().then(
       fetchOrderDiscountInfo
     );
-    fetchServiceProps();
+    fetchSendArea();
   },
   componentDidUpdate() {
   },

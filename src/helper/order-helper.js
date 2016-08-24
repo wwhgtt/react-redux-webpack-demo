@@ -2,6 +2,9 @@ const _find = require('lodash.find');
 const getDishesPrice = require('../helper/dish-hepler.js').getDishesPrice;
 const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
 const getUrlParam = require('../helper/dish-hepler.js').getUrlParam;
+const validateAddressInfo = require('../helper/common-helper.js').validateAddressInfo;
+const isSingleDishWithoutProps = require('../helper/dish-hepler.js').isSingleDishWithoutProps;
+const getDishPrice = require('../helper/dish-hepler.js').getDishPrice;
 const config = require('../config.js');
 // 判断一个对象是否为空
 exports.isEmptyObject = (obj) => {
@@ -9,12 +12,18 @@ exports.isEmptyObject = (obj) => {
   return true;
 };
 // 判断默认应该选中的配送时间
-exports.getDefaultSelectedDateTime = (timeTable) => {
+exports.getDefaultSelectedDateTime = (timeTable, defaultSelectedDateTime) => {
   const selectedDateTime = { date: '', time: '' };
   if (!timeTable) {
     return selectedDateTime;
   }
 
+  if (defaultSelectedDateTime) {
+    const times = timeTable[defaultSelectedDateTime.date];
+    if (times && times.indexOf(defaultSelectedDateTime.time) !== -1) {
+      return Object.assign(selectedDateTime, defaultSelectedDateTime);
+    }
+  }
   const todayStr = new Date().toISOString().substr(0, 10);
   let defaultDate = '';
   for (const key in timeTable) {
@@ -194,16 +203,38 @@ const countTotalPriceWithoutBenefit = exports.countTotalPriceWithoutBenefit = fu
   return parseFloat((dishesPrice + getDishBoxPrice() + Number(countDeliveryPrice(deliveryProps))).toFixed(2));
 };
 // 计算会员价格 优惠了多少钱
-exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDishesProps) {
-  if (isDiscountChecked) {
+exports.countMemberPrice = function (isDiscountChecked, orderedDishes, discountList, discountType) {
+  if (!isDiscountChecked) {
     return false;
   }
-  const discountType = memberDishesProps.discountType;
   const disCountPriceList = [];
+  let newOrderedDishes = orderedDishes.asMutable({ deep: true });
+  for (let i = 0; i < newOrderedDishes.length; i++) {
+    if (newOrderedDishes[i].isRelatedToCoupon) {
+      let dishCount = getDishesCount([newOrderedDishes[i]]);
+      if (dishCount <= newOrderedDishes[i].relatedCouponCount) {
+        newOrderedDishes.splice(i, 1);
+      } else {
+        if (isSingleDishWithoutProps(newOrderedDishes[i])) {
+          newOrderedDishes[i].order = dishCount - newOrderedDishes[i].relatedCouponCount;
+        } else {
+          const orderLength = newOrderedDishes[i].order.length;
+          for (let j = 0; j < orderLength; j++) {
+            if (newOrderedDishes[i].order[j].count <= newOrderedDishes[i].relatedCouponCount) {
+              newOrderedDishes[i].relatedCouponCount = newOrderedDishes[i].relatedCouponCount - newOrderedDishes[i].order[j].count;
+              newOrderedDishes[i].order[j].count = 0;
+            } else {
+              newOrderedDishes[i].order[j].count = newOrderedDishes[i].order[j].count - newOrderedDishes[i].relatedCouponCount;
+            }
+          }
+        }
+      }
+    }
+  }
   if (discountType === 1) {
-    memberDishesProps.discountList.forEach(
+    discountList.forEach(
       dishcount => {
-        orderedDishes.forEach(
+        newOrderedDishes.forEach(
           orderedDish => {
             if (orderedDish.id === dishcount.dishId) {
               disCountPriceList.push(
@@ -216,9 +247,9 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, memberDis
     );
   } else if (discountType === 2) {
     // 表示会员价格
-    memberDishesProps.discountList.forEach(
+    discountList.forEach(
       dishcount => {
-        orderedDishes.forEach(
+        newOrderedDishes.forEach(
           orderedDish => {
             if (orderedDish.id === dishcount.dishId) {
               disCountPriceList.push(
@@ -280,6 +311,62 @@ const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedC
   }
   return false;
 };
+// 获取与礼品券有关的菜品优惠情况
+const getRelatedToDishCouponProps = exports.getRelatedToDishCouponProps = function (coupon) {
+  const lastOrderedDishes = JSON.parse(localStorage.getItem('lastOrderedDishes'));
+  let relatedCouponDish = { name:null, number:null, couponValue:null, joinBenefitDishesNumber:0 };
+  let benefitMoneyCollection = [];
+  lastOrderedDishes.dishes.map(dish => {
+    if (dish.brandDishId === coupon.dishId) {
+      const dishCount = getDishesCount([dish]);
+      const dishPrice = getDishPrice(dish);
+      relatedCouponDish.name = dish.name;
+      relatedCouponDish.number = coupon.num;
+
+      if ((coupon.num - relatedCouponDish.joinBenefitDishesNumber) > 0) {
+        if ((coupon.num - relatedCouponDish.joinBenefitDishesNumber) < dishCount) {
+          benefitMoneyCollection.push(dish.marketPrice < dishPrice / dishCount ?
+            dish.marketPrice * (coupon.num - relatedCouponDish.joinBenefitDishesNumber)
+            :
+            dishPrice / dishCount * (coupon.num - relatedCouponDish.joinBenefitDishesNumber)
+          );
+        } else {
+          benefitMoneyCollection.push(dish.marketPrice < dishPrice / dishCount ?
+            dish.marketPrice * dishCount
+            :
+            dishPrice
+          );
+        }
+        relatedCouponDish.joinBenefitDishesNumber = (coupon.num - relatedCouponDish.joinBenefitDishesNumber) < dishCount ?
+          coupon.num
+          :
+          relatedCouponDish.joinBenefitDishesNumber + dishCount;
+      }
+    }
+    return true;
+  });
+  relatedCouponDish.couponValue = benefitMoneyCollection.length ? parseFloat((benefitMoneyCollection.reduce((c, p) => c + p)).toFixed(2)) : 0;
+  return relatedCouponDish;
+};
+// 计算实际可用的优惠券的数量
+exports.getCouponsLength = function (couponsList) {
+  let couponLength = 0;
+  couponsList.map(coupon => {
+    if (coupon.coupDishBeanList.length) {
+      // 表明优惠券与已点菜品相关
+      if (getRelatedToDishCouponProps(coupon.coupDishBeanList[0]).name) {
+        couponLength = couponLength + 1;
+      }
+    } else if (coupon.coupRuleBeanList.length) {
+      if (coupon.coupDishBeanList.length) {
+        return false;
+      }
+      couponLength = couponLength + 1;
+    }
+    return true;
+  });
+  return couponLength;
+};
 // 计算优惠券多少价格
 const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, totalPrice) {
   if (coupon.couponType === 1) {
@@ -295,7 +382,10 @@ const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, tota
     );
   } else if (coupon.couponType === 3) {
     // '礼品券';
-    return 0;
+    if (coupon.coupRuleBeanList.length && !coupon.coupDishBeanList.length) {
+      return 0;
+    }
+    return getRelatedToDishCouponProps(coupon.coupDishBeanList[0]).couponValue;
   } else if (coupon.couponType === 4) {
     // '现金券';
     return coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'faceValue')[0].ruleValue
@@ -448,11 +538,13 @@ exports.countFinalNeedPayMoney = function (orderedDishesProps, serviceProps, com
 };
 exports.getSubmitUrlParams = function (state, note, receipt) {
   const name = state.customerProps.name;
-  if (!name) {
+  const type = getUrlParam('type');
+  if (!name && type === 'TS') {
     return { success:false, msg:'未填写姓名' };
   }
-  let sex = state.customerProps.sex;
-  if (!sex) {
+
+  let sex = +state.customerProps.sex;
+  if (isNaN(sex)) {
     sex = -1;
   }
   const dishesPrice = getDishesPrice(state.orderedDishesProps.dishes);
@@ -473,7 +565,6 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
     payMethodScope = '0';
   }
 
-  const type = getUrlParam('type');
   const useDiscount = !state.serviceProps.discountProps.inUseDiscount ? '0' : '1';
   const serviceApproach = state.serviceProps.isPickupFromFrontDesk.isChecked ? 'pickup' : 'totable';
   const coupId = state.serviceProps.couponsProps.inUseCoupon &&
@@ -490,31 +581,34 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   } else {
     tableId = 0;
   }
+
   let params;
   if (type === 'WM') {
     const sendAreaId = state.serviceProps.sendAreaId;
     const selectedDateTime = state.timeProps.selectedDateTime;
-    let selectedAddress = '';
-    if (sendAreaId === 0) {
-      // 表示到店取餐
-      selectedAddress = '';
-    } else if (state.customerProps.addresses instanceof Array && state.customerProps.addresses.length) {
-      selectedAddress = state.customerProps.addresses.filter(address => address.isChecked)[0].address;
-    } else {
+    let selectedAddress = null;
+    let isSelfFetch = false;
+    if (state.customerProps.addresses instanceof Array && state.customerProps.addresses.length) {
+      selectedAddress = state.customerProps.addresses.find(address => address.isChecked);
+    }
+    if (!selectedAddress) {
       return { success:false, msg:'请选择送餐地址' };
     }
 
-    if (!selectedDateTime.date) {
-      return { success:false, msg: `请选择${sendAreaId === 0 ? '取餐' : '送达'}时间` };
+    const validateAddressResult = validateAddressInfo(selectedAddress, true, key => ['baseAddress', 'street'].indexOf(key) !== -1);
+    if (!validateAddressResult.valid) {
+      return { success: false, msg: validateAddressResult.msg };
     }
-    const selectedAddressId = state.customerProps.addresses instanceof Array && state.customerProps.addresses.length ?
-          state.customerProps.addresses.filter(address => address.isChecked)[0].id
-          :
-          0;
-    const toShopFlag = state.serviceProps.sendAreaId === 0 ? '1' : '0';
-    params = '?name=' + state.customerProps.name
+
+    sex = selectedAddress.sex;
+    isSelfFetch = selectedAddress.id === 0;
+    if (!selectedDateTime.date) {
+      return { success:false, msg: `请选择${isSelfFetch ? '取餐' : '送达'}时间` };
+    }
+    const toShopFlag = isSelfFetch ? '1' : '0';
+    params = '?name=' + selectedAddress.name
         + '&Invoice=' + receipt + '&memo=' + note
-        + '&mobile=' + state.customerProps.mobile
+        + '&mobile=' + selectedAddress.mobile
         + '&sex=' + sex
         + '&payMethod=' + payMethodScope
         + '&coupId=' + coupId
@@ -523,8 +617,8 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
         + '&orderType=WM'
         + '&shopId=' + getUrlParam('shopId')
         + '&needPayPrice=' + needPayPrice
-        + '&address=' + selectedAddress
-        + '&memberAddressId=' + selectedAddressId
+        + '&address=' + (isSelfFetch ? '' : selectedAddress.address)
+        + '&memberAddressId=' + selectedAddress.id
         + '&sendAreaId=' + sendAreaId
         + '&toShopFlag=' + toShopFlag;
     if (selectedDateTime.time) {

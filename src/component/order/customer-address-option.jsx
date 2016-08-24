@@ -6,12 +6,19 @@ module.exports = React.createClass({
   propTypes: {
     id: React.PropTypes.number.isRequired,
     address: React.PropTypes.string.isRequired,
+    sex: React.PropTypes.string,
+    mobile: React.PropTypes.string,
+    name: React.PropTypes.string,
   },
   render() {
-    const { id, address, ...props } = this.props;
+    const { id, address, ...props, sex, name, mobile } = this.props;
     return (
       <DynamicClassDiv className="address-option" {...props}>
-        <span>{address}</span>
+        <h3 className="address-title ellipsis">{address}</h3>
+        <div className="address-meta clearfix">
+          <div className="half ellipsis">{name} {sex}</div>
+          <div className="half">{mobile}</div>
+        </div>
         <a
           className="address-edit"
           data-editor={id}

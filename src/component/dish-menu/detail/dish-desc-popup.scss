@@ -2,7 +2,6 @@
 
 // override background color
 .dish-detail-content--white {
-  overflow: auto;
   background: $color-white;
 }
 
@@ -15,6 +14,11 @@
   }
 
   &-content {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  &-info {
     padding: 20px 10px;
   }
 
@@ -31,7 +35,7 @@
       font-size: 16px;
       line-height: $price-line-height;
       float: left;
-      margin-right: 15px;
+      margin-right: 10px;
       color: $color-dusty-grey;
       background-image: linear-gradient(transparent 12px, currentColor 12px, currentColor 13px, transparent 13px);
     }
@@ -49,30 +53,26 @@
       font-weight: bold;
       line-height: $price-line-height;
       float: left;
+      margin-right: 5px;
       color: $color-neon-carrot;
 
       &::before {
         font-size: 12px;
       }
     }
+
+    &-badge {
+      font-size: 11px;
+      line-height: 12px;
+      float: left;
+      margin-top: 2px;
+      margin-right: 5px;
+      padding: 4px 5px;
+      color: $color-white;
+      border-radius: 2px;
+      background: $color-sunglow;
+    }
   }
-
-  // &-login {
-  //   line-height: $price-line-height - 2;
-  //   float: left;
-  //   height: $price-line-height - 2;
-  //   margin-left: 10px;
-  //   color: $color-neon-carrot;
-  //   border-color: $color-alto;
-
-  //   &-desc {
-  //     font-size: 12px;
-  //     line-height: $price-line-height;
-  //     float: left;
-  //     margin-left: 10px;
-  //     color: $color-dusty-grey;
-  //   }
-  // }
 
   &-subtitle {
     font-size: 14px;
@@ -88,5 +88,30 @@
     font-size: 14px;
     line-height: 18px;
     color: $color-dusty-grey;
+  }
+
+  &-register {
+    height: 72px; // 10*2 + 12 + 40
+    background: $color-white;
+
+    &-text {
+      font-size: 11px;
+      line-height: 12px;
+      display: block;
+      padding: 10px;
+      color: $color-dusty-grey;
+    }
+
+    &-btn {
+      font-size: 15px;
+      line-height: 40px;
+      display: block;
+      width: 100%;
+      height: 40px;
+      text-align: center;
+      text-decoration: none;
+      color: $color-white;
+      background: $color-texas-rose;
+    }
   }
 }

@@ -3,6 +3,7 @@ const createAction = require('redux-actions').createAction;
 require('es6-promise');
 require('isomorphic-fetch');
 const helper = require('../../helper/dish-hepler');
+const getCurrentPosition = require('../../helper/common-helper.js').getCurrentPosition;
 const setMenuData = createAction('SET_MENU_DATA', menuData => menuData);
 const _orderDish = createAction('ORDER_DISH', (dishData, action) => [dishData, action]);
 const _removeAllOrders = createAction('REMOVE_ALL_ORDERS', orders => orders);
@@ -19,17 +20,6 @@ exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => {
   }
   return dishTypeId;
 });
-exports.fetchServiceProps = () => (dispatch, getStates) => {
-  if (helper.getUrlParam('type') !== 'WM') {
-    return false;
-  }
-  const shopId = helper.getUrlParam('shopId');
-  const shipmentFee = sessionStorage.getItem(`${shopId}_sendArea_shipment`);
-  const minPrice = sessionStorage.getItem(`${shopId}_sendArea_sendPrice`);
-  const shipFreePrice = sessionStorage.getItem(`${shopId}_sendArea_freeDeliveryPrice`);
-  dispatch(_setTakeawayServiceProps({ shipmentFee, minPrice, shipFreePrice }));
-  return true;
-};
 const type = helper.getUrlParam('type');
 const shopId = helper.getUrlParam('shopId');
 let url = '';
@@ -52,6 +42,55 @@ exports.fetchMenuData = () => (dispatch, getStates) =>
     catch(err => {
       dispatch(setErrorMsg('加载订单信息失败...'));
     });
+
+exports.fetchSendArea = () => (dispatch, getState) => {
+  if (helper.getUrlParam('type') !== 'WM') return false;
+
+  if (!!sessionStorage.getItem(`${shopId}_sendArea_id`)) {
+    const shipmentFee = +sessionStorage.getItem(`${shopId}_sendArea_shipment`);
+    const minPrice = +sessionStorage.getItem(`${shopId}_sendArea_sendPrice`);
+    const shipFreePrice = +sessionStorage.getItem(`${shopId}_sendArea_freeDeliveryPrice`);
+    dispatch(_setTakeawayServiceProps({ shipmentFee, minPrice, shipFreePrice }));
+    return false;
+  }
+
+  const getDefaultSendArea = (longitude, latitude) => {
+    const isGetLoc = !!longitude && !!latitude;
+    fetch(`${config.getDefaultSendArea}?shopId=${shopId}&longitude=${longitude}&latitude=${latitude}&isGetLoc=${isGetLoc}`, config.requestOptions).
+      then(res => {
+        if (!res.ok) {
+          dispatch(setErrorMsg('获取配送范围失败...'));
+        }
+        return res.json();
+      }).
+      then(areaData => {
+        if (areaData.code === '200') {
+          const sendAreaData = areaData.data;
+          const shipmentFee = sendAreaData.shipment;
+          const minPrice = sendAreaData.sendPrice;
+          const shipFreePrice = sendAreaData.freeDeliveryPrice;
+          sessionStorage.setItem(`${shopId}_sendArea_id`, sendAreaData.id);
+          sessionStorage.setItem(`${shopId}_sendArea_rangeId`, sendAreaData.id);
+          sessionStorage.setItem(`${shopId}_sendArea_sendPrice`, minPrice);
+          sessionStorage.setItem(`${shopId}_sendArea_shipment`, shipmentFee);
+          sessionStorage.setItem(`${shopId}_sendArea_freeDeliveryPrice`, shipFreePrice);
+          dispatch(_setTakeawayServiceProps({ shipmentFee, minPrice, shipFreePrice }));
+        } else {
+          dispatch(setErrorMsg(areaData.msg));
+        }
+      });
+  };
+
+  getCurrentPosition(gps => {
+    getDefaultSendArea(gps.longitude, gps.latitude);
+  }, error => {
+    // if can't get gps location, pass empty longitude and latitude
+    getDefaultSendArea('', '');
+    // dispatch(setErrorMsg(error.message));
+  });
+
+  return true;
+};
 
 exports.orderDish = (dishData, action) => (dispatch, getStates) => {
   dispatch(_orderDish(dishData, action));

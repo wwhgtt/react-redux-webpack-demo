@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 
 module.exports = {
   entry: {
@@ -17,12 +18,6 @@ module.exports = {
     'customer-address-entry': [
       './src/customer-address.jsx',
     ],
-    'frank-list-entry': [
-      './src/frank-list.jsx',
-    ],
-    'main-index-entry': [
-      './src/main-index.jsx',
-    ],
     'mine-index-entry': [
       './src/mine-index.jsx',
     ],
@@ -34,6 +29,9 @@ module.exports = {
     ],
     'register-entry': [
       './src/register.jsx',
+    ],
+    'address-list-entry': [
+      './src/address-list.jsx',
     ]
   },
   resolve: {
@@ -54,9 +52,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: ['style', 'css?sourceMap',
-          'sass?&sourceMap&includePaths[]=./node_modules/compass-mixins/lib&includePaths[]=./src/asset/style',
-        ],
+        loaders: ['style', 'css?sourceMap', 'postcss', 'sass?&sourceMap&includePaths[]=./src/asset/style'],
       },
       {
         test: /\.png$/,
@@ -67,6 +63,9 @@ module.exports = {
         loaders: ['json'],
       },
     ],
+  },
+  postcss() {
+    return [autoprefixer({ browsers: ['last 5 versions'] })];
   },
   plugins: [
     // new webpack.HotModuleReplacementPlugin(),
@@ -104,22 +103,6 @@ module.exports = {
     ),
     new HtmlWebpackPlugin(
       {
-        title: 'FrankListApplication',
-        filename: 'frank-list.html',
-        chunks: ['common', 'frank-list-entry'],
-        inject: 'body', template: './src/helper/frank-webpack-list-template.html',
-      }
-    ),
-    new HtmlWebpackPlugin(
-      {
-        title: 'MainIndexApplication',
-        filename: 'main-index.html',
-        chunks: ['common', 'main-index-entry'],
-        inject: 'body', template: './src/helper/common-template.html',
-      }
-    ),
-    new HtmlWebpackPlugin(
-      {
         title: '我的',
         filename: 'mine-index.html',
         chunks: ['common', 'mine-index-entry'],
@@ -148,6 +131,14 @@ module.exports = {
         filename: 'register.html',
         chunks: ['common', 'register-entry'],
         inject: 'body', template: './src/helper/common-template.html',
+       }
+     )
+    new HtmlWebpackPlugin(
+    	{
+        title: 'AddressListApplication',
+        filename: 'address-list.html',
+        chunks: ['common', 'address-list-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
     new webpack.optimize.CommonsChunkPlugin({

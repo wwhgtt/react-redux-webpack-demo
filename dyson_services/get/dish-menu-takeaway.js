@@ -3,6 +3,19 @@ module.exports = {
   path: '/takeaway/dishAll.json',
   template: {
     'data': {
+      'discountInfo': {
+        'isDiscount': true,
+        'type': 2,
+        'levelId':9992836,
+        'levelName':'黄金会员',
+        'isMember':false,
+        'dishList': [
+          {
+            'dishId': 57472,
+            'value': 10,
+          },
+        ],
+      },
       'dishTypeList': [{
         'id': 18,
         'name': '小炒美食',
@@ -161,6 +174,16 @@ module.exports = {
                 'isChecked': false,
               }],
             }, {
+              'id': 0,
+              'name': '容量',
+              'type': 4,
+              'properties': [{
+                'id': 37,
+                'name': '多糖',
+                'reprice': 0.0,
+                'isChecked': false,
+              }],
+            }, {
               'id': 14,
               'name': '做法类别1',
               'type': 1,
@@ -201,7 +224,19 @@ module.exports = {
             'isReplace': 2,
             'isDefault': 2,
             'isMulti': 1,
-            'dishPropertyTypeInfos': [],
+            'dishPropertyTypeInfos': [
+              {
+                'id': 0,
+                'name': '容量',
+                'type': 4,
+                'properties': [{
+                  'id': 37,
+                  'name': '多糖',
+                  'reprice': 0.0,
+                  'isChecked': false,
+                }],
+              },
+            ],
             'dishIngredientInfos': [],
           }],
         }, {
@@ -286,11 +321,12 @@ module.exports = {
         'aliasName': '',
         'unitId': null,
         'unitName': '份',
-        'marketPrice': 0.01,
+        'marketPrice': 11,
         'dishDesc': '',
         'videoUrl': '',
         'dishIncreaseUnit': 1.0,
         'stepNum': 1.0,
+        'clearStatus':1,
         'currRemainTotal': 19,
         'dishTypeId': 19,
         'brandDishId': 23,
@@ -326,7 +362,7 @@ module.exports = {
           'properties': [{
             'id': 1839,
             'name': '不辣',
-            'reprice': -0.1,
+            'reprice': -1,
             'isChecked': false,
           }, {
             'id': 1840,
@@ -376,7 +412,7 @@ module.exports = {
           'properties': [{
             'id': 37,
             'name': '多糖',
-            'reprice': 0.0,
+            'reprice': -100,
             'isChecked': false,
           }, {
             'id': 39,
@@ -433,7 +469,7 @@ module.exports = {
         'dishIngredientInfos': [{
           'id': 15845,
           'name': '蒜蓉',
-          'reprice': 0.0,
+          'reprice': -100,
           'sort': 0,
         }, {
           'id': 15848,
@@ -511,7 +547,7 @@ module.exports = {
           'properties': [{
             'id': 67,
             'name': '做法类别1做法名称5',
-            'reprice': 6.0,
+            'reprice': -100,
             'isChecked': false,
           }, {
             'id': 64,
@@ -650,21 +686,6 @@ module.exports = {
         'dishTypeId': 3467,
         'brandDishId': 122563,
         'dishPropertyTypeInfos': [{
-          'id': 0,
-          'name': '备注',
-          'type': 3,
-          'properties': [{
-            'id': 8026,
-            'name': '冰镇',
-            'reprice': 0.0,
-            'isChecked': false,
-          }, {
-            'id': 3594,
-            'name': '少油',
-            'reprice': 0.0,
-            'isChecked': false,
-          }],
-        }, {
           'id': 6,
           'name': '容量',
           'type': 4,
@@ -672,16 +693,6 @@ module.exports = {
             'id': 58,
             'name': '小杯',
             'reprice': 0.0,
-            'isChecked': false,
-          }],
-        }, {
-          'id': 2136,
-          'name': '冰度',
-          'type': 1,
-          'properties': [{
-            'id': 8027,
-            'name': '多加冰',
-            'reprice': 0.5,
             'isChecked': false,
           }],
         }],

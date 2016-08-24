@@ -1,4 +1,5 @@
 const _findIndex = require('lodash.findindex');
+const _has = require('lodash.has');
 const Immutable = require('seamless-immutable');
 const helper = require('../../helper/dish-hepler');
 module.exports = function (
@@ -9,6 +10,7 @@ module.exports = function (
     dishDetailData: undefined,
     takeawayServiceProps:undefined,
     dishBoxChargeInfo:null,
+    normalDiscountProps:null,
     errorMessage:null,
   }),
   action
@@ -34,12 +36,13 @@ module.exports = function (
   switch (type) {
     case 'SET_MENU_DATA':
       return state.setIn(['dishTypesData'], payload.dishTypeList)
-      .setIn(['dishesData'], payload.dishList)
+      .setIn(['dishesData'], helper.setDishPropertyTypeInfos(payload.dishList))
       .setIn(['activeDishTypeId'], getFirstValidDishTypeId(payload))
       .set('dishBoxChargeInfo', helper.getUrlParam('type') === 'WM' && payload.extraCharge ? payload.extraCharge : null)
       .setIn(['openTimeList'], payload.openTimeList)
       // equal to 0, means accepting takeaway 24 hours, 2016-07-30 16:46:31 后端调整为bool型
-      .setIn(['isAcceptTakeaway'], payload.isAcceptTakeaway === true);
+      .setIn(['isAcceptTakeaway'], payload.isAcceptTakeaway === true)
+      .set('normalDiscountProps', payload.discountInfo);
     case 'ACTIVE_DISH_TYPE':
       return state.setIn(['activeDishTypeId'], payload);
     case 'SHOW_DISH_DETAIL':
@@ -70,7 +73,8 @@ module.exports = function (
         } else {
           orderIdx = _findIndex(
             state.dishesData[dishIdx].order === undefined ? [] : state.dishesData[dishIdx].order,
-            { dishPropertyTypeInfos:payload[0].order[0].dishPropertyTypeInfos }
+            // { dishPropertyTypeInfos:payload[0].order[0].dishPropertyTypeInfos }
+            { dishIngredientInfos:payload[0].order[0].dishIngredientInfos, dishPropertyTypeInfos:payload[0].order[0].dishPropertyTypeInfos }
           );
         }
         if (orderIdx !== -1) {
@@ -98,14 +102,36 @@ module.exports = function (
     case 'SET_DISCOUNT_TO_ORDER':
       return state.update(
           'dishesData', dishesData => dishesData.flatMap(
-            dishData => dishData.set(
-                'isMember', payload && payload.dishList && payload.dishList.length && _findIndex(payload.dishList, { dishId:dishData.id }) !== -1
-              ).set(
-                'memberPrice', payload && payload.dishList && payload.dishList.length && _findIndex(payload.dishList, { dishId:dishData.id }) !== -1 ?
-                  payload.dishList[_findIndex(payload.dishList, { dishId:dishData.id })].value
-                  :
-                  false
-              ).set('discountType', payload && payload.type ? payload.type : false)
+            dishData => {
+              let haveDiscountPropsData = null;
+              let isUserMember = true;
+              if (payload && _has(payload, 'dishList')) {
+                haveDiscountPropsData = payload;
+                isUserMember = _has(payload, 'isMember') ? payload.isMember : true;
+              } else if (state.normalDiscountProps && state.normalDiscountProps.dishList
+                && state.normalDiscountProps.dishList.length && state.normalDiscountProps.type) {
+                haveDiscountPropsData = state.normalDiscountProps;
+              } else {
+                return dishData
+                  .set('isMember', false)
+                  .set('memberPrice', false)
+                  .set('discountType', false)
+                  .set('discountLevel', false);
+              }
+              return dishData
+                  .set(
+                    'isMember', _findIndex(haveDiscountPropsData.dishList, { dishId:dishData.id }) !== -1
+                  )
+                  .set(
+                    'memberPrice', _findIndex(haveDiscountPropsData.dishList, { dishId:dishData.id }) !== -1 ?
+                      haveDiscountPropsData.dishList[_findIndex(haveDiscountPropsData.dishList, { dishId:dishData.id })].value
+                      :
+                      false
+                  )
+                  .set('discountType', haveDiscountPropsData.type)
+                  .set('discountLevel', haveDiscountPropsData.levelName)
+                  .set('isUserMember', isUserMember);
+            }
           )
       );
     case 'SET_ERROR_MSG':

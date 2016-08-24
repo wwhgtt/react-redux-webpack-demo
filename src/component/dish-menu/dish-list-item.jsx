@@ -70,7 +70,7 @@ module.exports = React.createClass({
             ></button>
 
             <div className="dish-item-content">
-              <span className="dish-item-name ellipsis">{dishData.name}</span>
+              <span className="dish-item-name ellipsis">{helper.generateDishNameWithUnit(dishData)}</span>
               <span className="dish-item-price price">{dishData.marketPrice}</span>
               {orderBtn}
             </div>

@@ -34,27 +34,32 @@ module.exports = React.createClass({
     }
   },
   onSubmitBtnTap() {
-    const { onSelectCoupon } = this.props;
+    const { onSelectCoupon, couponsProps } = this.props;
     const { couponDataId } = this.state;
+    const selectedCoupon = couponsProps.couponsList.filter(coupon => coupon.isChecked);
+    const selectedCouponId = selectedCoupon && selectedCoupon.length ?
+          couponsProps.couponsList.filter(coupon => coupon.isChecked)[0].id.toString()
+          :
+          couponDataId;
     const selectedCouponData = {
       id:'coupon',
-      selectedCouponId:couponDataId,
+      selectedCouponId,
     };
     onSelectCoupon(null, selectedCouponData);
-    window.location.hash = '';
+    window.location.hash = 'selectCoupon';
   },
   render() {
     const { couponsProps } = this.props;
     return (
-      <div className="order-subpage coupons-container">
-        <div className="order-subpage-content">
+      <div className="subpage flex-columns">
+        <div className="coupons-container flex-rest">
           <ActiveSelect
             optionsData={couponsProps.couponsList}
             onSelectOption={this.onSelectCoupon}
             optionComponent={CouponOption}
           />
         </div>
-        <button className="order-subpage-submit btn--yellow" onClick={this.onSubmitBtnTap}>确定</button>
+        <button className="subpage-submit-btn btn--yellow flex-none" onClick={this.onSubmitBtnTap}>确定</button>
       </div>
     );
   },
