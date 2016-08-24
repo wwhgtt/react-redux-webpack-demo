@@ -102,10 +102,15 @@ module.exports = React.createClass({
     return giftElement;
   },
   bulidInstructions(instructions) {
-    const rawInstructions = instructions.replace(/<\/(h[1-6]|p|li)>/g, '</$1>\n').replace(/<\/?.+?>/g, '').replace(/&nbsp;/g, '');
+    const rawInstructions = instructions
+      .replace(/<\/(h[1-6]|p|li)>/g, '</$1>\n')
+      .replace(/<\/?.+?>/g, '')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&nbsp;/g, '');
     return (
       <ul className="coupon-rules">
-        {rawInstructions.split('\n').map((entry, index) => (entry ? <li key={index}>{entry}</li> : false))}
+        {rawInstructions.split('\n').map((entry, index) => (entry && entry.trim.length ? <li key={index}>{entry}</li> : false))}
       </ul>
     );
   },
