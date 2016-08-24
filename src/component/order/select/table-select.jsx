@@ -30,6 +30,10 @@ module.exports = React.createClass({
       tables,
     };
   },
+  componentDidMount() {
+    // 强制获取焦点，解决 mobile safari 无法收起键盘的问题
+    this.refs.picker.focus();
+  },
   onAreaSelect(evt, area) {
     const { areas, tables } = this.state;
     let tableMark = true;
@@ -88,7 +92,7 @@ module.exports = React.createClass({
     const { areas, tables } = this.state;
     const tablesOfArea = this.getTablesOfSelectedArea(areas, tables);
     return (
-      <div className="scroll-select-container">
+      <div className="scroll-select-container" tabIndex="-1" ref="picker">
         <div className="scroll-select-close" onTouchTap={this.onCancel}></div>
         <div className="scroll-select-content">
           <div className="scroll-select-header">
