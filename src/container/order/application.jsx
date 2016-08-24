@@ -209,9 +209,9 @@ const OrderApplication = React.createClass({
         <span className="options-title text-froly">没有可用桌台</span>
       </div>;
   },
-  submitOrder() {
+  submitOrder(evt) {
     const { submitOrder } = this.props;
-    submitOrder(this.state.note, this.state.receipt);
+    submitOrder(evt, this.state.note, this.state.receipt);
   },
   render() {
     const {
@@ -406,7 +406,7 @@ const OrderApplication = React.createClass({
                 </div>
               </div>
               <div className="order-cart-right">
-                <a className="order-cart-btn btn--yellow" onTouchTap={this.submitOrder}>提交订单</a>
+                <button className="order-cart-btn btn--yellow" onTouchTap={this.submitOrder}>提交订单</button>
               </div>
             </div>
           </div>
