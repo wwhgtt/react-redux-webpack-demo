@@ -110,7 +110,14 @@ module.exports = React.createClass({
       .replace(/&nbsp;/g, '');
     return (
       <ul className="coupon-rules">
-        {rawInstructions.split('\n').map((entry, index) => (entry && entry.trim.length ? <li key={index}>{entry}</li> : false))}
+        {rawInstructions.split('\n').map(
+          (entry, index) => {
+            if (entry && entry.trim().length) {
+              return <li key={index}>{entry}</li>;
+            }
+            return false;
+          }
+          )}
       </ul>
     );
   },
