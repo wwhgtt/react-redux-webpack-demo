@@ -1,0 +1,30 @@
+@import 'settings.colors';
+
+.btn{
+	display: inline-block;
+	padding: 0.5em 2em;
+	border-radius: 4px;
+	// font-size: 14px;
+	text-decoration: none;
+}
+
+.bind-account{
+	text-align: center;
+}
+
+.account-info {
+	margin-bottom: 40px;
+	&-state {
+		font-size: 18px;
+		margin-bottom: 5px;
+	}
+
+	&-tips{
+		font-size: 12px;
+		color: #999;
+	}
+}
+
+.account-btn{
+	
+}
