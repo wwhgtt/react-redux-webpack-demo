@@ -163,7 +163,7 @@ exports.fetchLastOrderedDishes = () => (dispatch, getState) => {
   }
   dispatch(setOrderedDishesToOrder(JSON.parse(lastOrderedDishes)));
 };
-exports.submitOrder = (evt, note, receipt) => (dispatch, getState) => {
+exports.submitOrder = (note, receipt) => (dispatch, getState) => {
   const submitUrl = type === 'WM' ? config.submitWMOrderAPI : config.submitTSOrderAPI;
   const state = getState();
   const paramsData = helper.getSubmitUrlParams(state, note, receipt);
@@ -172,21 +172,14 @@ exports.submitOrder = (evt, note, receipt) => (dispatch, getState) => {
     return false;
   }
 
-  const btn = evt.target;
-  if (btn.disabled) {
-    return false;
-  }
-
   return fetch(`${submitUrl}${paramsData.params}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
-        btn.disabled = false;
         dispatch(setErrorMsg('提交订单信息失败'));
       }
       return res.json();
     }).
     then(result => {
-      btn.disabled = false;
       if (result.code === '200') {
         localStorage.removeItem('lastOrderedDishes');
         sessionStorage.removeItem('receiveOrderCustomerInfo');
