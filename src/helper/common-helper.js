@@ -28,3 +28,9 @@ const delCookie=exports.delCookie=function(name){
 	var c = getCookie(name);
 	null != c && (document.cookie = name + "=" + c + ";expires=" + b.toGMTString() + "; path=/")
 }
+
+//校验手机号
+const phoneNumber=exports.phoneNumber=function(phone){
+	var rule=/(^1([358][0-9]{9})|([7][3678][0-9]{8})|([4][57][0-9]{8})|(^09[0-9]{8}))$/;
+	return rule.test(phone);
+}

@@ -67,7 +67,7 @@ var ShowSettingList = React.createClass({
   	this.setState({value: event.target.value.replace(/(^\s+)|""/g,"")})
   },
   render(){
-  	const condition=1;//1 微信号(未绑定手机)  2手机号非会员（未绑定微信）3手机号会员（未绑定微信） 4绑定成功
+  	const condition=4;//1 微信号(未绑定手机)  2手机号非会员（未绑定微信）3手机号会员（未绑定微信） 4绑定成功
   	const {Info}=this.props;
   	//this.setState({value: Info.name});
   	return (

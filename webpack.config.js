@@ -31,6 +31,9 @@ module.exports = {
     ],
     'notFound': [
       './src/notFound.jsx',
+    ],
+    'register-entry': [
+      './src/register.jsx',
     ]
   },
   resolve: {
@@ -136,6 +139,14 @@ module.exports = {
         title: '404 找不到页面',
         filename: '404.html',
         chunks: ['common', 'notFound'],
+        inject: 'body', template: './src/helper/common-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: '会员注册',
+        filename: 'register.html',
+        chunks: ['common', 'register-entry'],
         inject: 'body', template: './src/helper/common-template.html',
       }
     ),

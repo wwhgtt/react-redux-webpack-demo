@@ -32,6 +32,7 @@ module.exports = {
   individualAPI:`${apiBase}/user/individual.json`,
   individualviewAPI:`${apiBase}/user/individualView.json`,
   individualupdateAPI:`${apiBase}/user/individualUpdate.json`,
+  registerAPI:`${apiBase}/member/register.json`,
   
   shopDetailURL:`${apiBase}/shop/detail`,
   mineSettingURL:`/mine-setting.html`,
