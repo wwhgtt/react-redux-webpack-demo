@@ -97,7 +97,6 @@ exports.fetchOrderCoupons = () => (dispatch, getState) => {
       getState().serviceProps.discountProps.discountList,
       getState().serviceProps.discountProps.discountType
     );
-  console.log(orderAccount);
   fetch(
     `${config.orderCouponsAPI}?shopId=${shopId}&orderAccount=${orderAccount}&brandDishIds=${brandDishIds}`,
     config.requestOptions).
