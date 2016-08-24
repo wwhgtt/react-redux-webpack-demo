@@ -88,13 +88,16 @@ exports.fetchOrderCoupons = () => (dispatch, getState) => {
     dish => brandDishidsCollection.push(dish.brandDishId)
   );
   const brandDishIds = brandDishidsCollection.join(',');
-  const orderAccount = getDishesPrice(getState().orderedDishesProps.dishes)
-    - helper.countMemberPrice(
+  const orderAccount = helper.getPriceCanBeUsedToBenefit(
+    getDishesPrice(getState().orderedDishesProps.dishes),
+    getState().serviceProps.deliveryProps
+  ) - helper.countMemberPrice(
       true,
       getState().orderedDishesProps.dishes,
       getState().serviceProps.discountProps.discountList,
       getState().serviceProps.discountProps.discountType
     );
+  console.log(orderAccount);
   fetch(
     `${config.orderCouponsAPI}?shopId=${shopId}&orderAccount=${orderAccount}&brandDishIds=${brandDishIds}`,
     config.requestOptions).
