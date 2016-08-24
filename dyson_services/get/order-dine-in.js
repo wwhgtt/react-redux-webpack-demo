@@ -47,7 +47,7 @@ module.exports = {
 	/** 门店logo*/
       'commercialLogo': null,
 	/** 送餐到桌totable 前台自取 pickup*/
-      'serviceApproach': 'totable',
+      'serviceApproach': 'pickup',
 	/** 桌台区域 */
       'areaList': [{
         'id': 8836,

@@ -53,6 +53,7 @@
       font-weight: bold;
       line-height: $price-line-height;
       float: left;
+      margin-right: 5px;
       color: $color-neon-carrot;
 
       &::before {
@@ -73,22 +74,18 @@
     }
   }
 
-  // &-login {
-  //   line-height: $price-line-height - 2;
-  //   float: left;
-  //   height: $price-line-height - 2;
-  //   margin-left: 10px;
-  //   color: $color-neon-carrot;
-  //   border-color: $color-alto;
-
-  //   &-desc {
-  //     font-size: 12px;
-  //     line-height: $price-line-height;
-  //     float: left;
-  //     margin-left: 10px;
-  //     color: $color-dusty-grey;
-  //   }
-  // }
+    &-badge {
+      font-size: 11px;
+      line-height: 12px;
+      float: left;
+      margin-top: 2px;
+      margin-right: 5px;
+      padding: 4px 5px;
+      color: $color-white;
+      border-radius: 2px;
+      background: $color-sunglow;
+    }
+  }
 
   &-subtitle {
     font-size: 14px;

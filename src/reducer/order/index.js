@@ -146,9 +146,12 @@ module.exports = function (
                   .setIn(
                     ['serviceProps', 'isPickupFromFrontDesk'],
                     payload.serviceApproach && payload.serviceApproach.indexOf('pickup') !== -1 ?
-                        Immutable.from({ name:'前台取餐', isChecked:false, id:'way-of-get-diner' })
+                        Immutable.from(helper.isPickUpAutoChecked(payload.serviceApproach))
                         :
                         false
+                   )
+                   .setIn(
+                     ['serviceProps', 'serviceApproach'], payload.serviceApproach
                    )
                    .setIn(
                      ['serviceProps', 'integralsInfo'],

@@ -124,6 +124,13 @@ exports.getSelectedTable = function (tableProps) {
     table: _find(tableProps.tables, { isChecked:true }),
   };
 };
+// 判断前台取餐是否应该自动选中
+exports.isPickUpAutoChecked = function (serviceProps) {
+  if (serviceProps.indexOf('totable') !== -1) {
+    return { name:'前台取餐', isChecked:false, id:'way-of-get-diner' };
+  }
+  return { name:'前台取餐', isChecked:true, id:'way-of-get-diner' };
+};
 // 初始化桌台信息
 exports.initializeAreaAdnTableProps = function (areaList, tableList) {
   if (!areaList || !tableList || !areaList.length || !tableList.length) {

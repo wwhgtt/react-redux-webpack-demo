@@ -177,9 +177,12 @@ const OrderApplication = React.createClass({
     }
     return setChildView('#table-select');
   },
-  buildSelectedTableElement(isPickupFromFrontDesk, tableProps) {
+  buildSelectedTableElement(serviceProps, tableProps) {
+    if (serviceProps.serviceApproach && serviceProps.serviceApproach.indexOf('totable') < 0) {
+      return false;
+    }
     const selectedTable = helper.getSelectedTable(tableProps);
-    if (isPickupFromFrontDesk && isPickupFromFrontDesk.isChecked) {
+    if (serviceProps.isPickupFromFrontDesk && serviceProps.isPickupFromFrontDesk.isChecked) {
       return false;
     } else if (
       tableProps.areas && tableProps.areas.length &&
@@ -209,9 +212,9 @@ const OrderApplication = React.createClass({
         <span className="options-title text-froly">没有可用桌台</span>
       </div>;
   },
-  submitOrder() {
+  submitOrder(evt) {
     const { submitOrder } = this.props;
-    submitOrder(this.state.note, this.state.receipt);
+    submitOrder(evt, this.state.note, this.state.receipt);
   },
   render() {
     const {
@@ -308,7 +311,7 @@ const OrderApplication = React.createClass({
               />
               : false
             }
-            {this.buildSelectedTableElement(serviceProps.isPickupFromFrontDesk, tableProps)}
+            {this.buildSelectedTableElement(serviceProps, tableProps)}
           </div>
         }
         <div className="options-group">
@@ -406,7 +409,7 @@ const OrderApplication = React.createClass({
                 </div>
               </div>
               <div className="order-cart-right">
-                <a className="order-cart-btn btn--yellow" onTouchTap={this.submitOrder}>提交订单</a>
+                <button className="order-cart-btn btn--yellow" onTouchTap={this.submitOrder}>提交订单</button>
               </div>
             </div>
           </div>
