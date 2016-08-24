@@ -576,9 +576,9 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   // 金额为0的时候只有线下支付
   let payMethodScope = null;
   if (needPayPrice !== 0) {
-    payMethodScope = state.serviceProps.payMethods.filter(payMethod => payMethod.isChecked)[0].name === '在线支付' ? '1' : '0';
+    payMethodScope = state.serviceProps.payMethods.filter(payMethod => payMethod.isChecked)[0].name === '在线支付' ? '2' : '1';
   } else {
-    payMethodScope = '0';
+    payMethodScope = '1';
   }
 
   const useDiscount = !state.serviceProps.discountProps.inUseDiscount ? '0' : '1';
