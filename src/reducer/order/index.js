@@ -228,7 +228,7 @@ module.exports = function (
             :
             addresses => []
         );
-      } else if (payload.id.indexOf('payment') !== -1) {
+      } else if (payload.id && payload.id.indexOf('payment') !== -1) {
         return state.updateIn(
           ['serviceProps', 'payMethods'],
           payMethods => payMethods.flatMap(
