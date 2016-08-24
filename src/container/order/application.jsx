@@ -57,8 +57,10 @@ const OrderApplication = React.createClass({
     return {
       note:'',
       receipt:'',
+      isSubmitBtnDisabled:false,
     };
   },
+
   componentWillMount() {
     const { fetchLastOrderedDishes, fetchSendAreaId, fetchDeliveryPrice } = this.props;
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
@@ -78,6 +80,11 @@ const OrderApplication = React.createClass({
     .then(
       () => { this.setChildViewAccordingToHash(); }
     );
+  },
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      isSubmitBtnDisabled:false,
+    });
   },
   componentDidUpdate() {
 
@@ -212,9 +219,17 @@ const OrderApplication = React.createClass({
         <span className="options-title text-froly">没有可用桌台</span>
       </div>;
   },
-  submitOrder(evt) {
+  submitOrder() {
     const { submitOrder } = this.props;
-    submitOrder(evt, this.state.note, this.state.receipt);
+    const { isSubmitBtnDisabled } = this.state;
+    if (!isSubmitBtnDisabled) {
+      // 表示可用状态
+      this.setState({
+        isSubmitBtnDisabled:!isSubmitBtnDisabled,
+      });
+      submitOrder(this.state.note, this.state.receipt);
+    }
+    return false;
   },
   render() {
     const {
@@ -409,7 +424,13 @@ const OrderApplication = React.createClass({
                 </div>
               </div>
               <div className="order-cart-right">
-                <button className="order-cart-btn btn--yellow" onTouchTap={this.submitOrder}>提交订单</button>
+                <button
+                  className="order-cart-btn btn--yellow"
+                  disabled={this.state.isSubmitBtnDisabled}
+                  onTouchTap={this.submitOrder}
+                >
+                  提交订单
+                </button>
               </div>
             </div>
           </div>
