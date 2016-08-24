@@ -177,9 +177,12 @@ const OrderApplication = React.createClass({
     }
     return setChildView('#table-select');
   },
-  buildSelectedTableElement(isPickupFromFrontDesk, tableProps) {
+  buildSelectedTableElement(serviceProps, tableProps) {
+    if (serviceProps.serviceApproach && serviceProps.serviceApproach.indexOf('totable') < 0) {
+      return false;
+    }
     const selectedTable = helper.getSelectedTable(tableProps);
-    if (isPickupFromFrontDesk && isPickupFromFrontDesk.isChecked) {
+    if (serviceProps.isPickupFromFrontDesk && serviceProps.isPickupFromFrontDesk.isChecked) {
       return false;
     } else if (
       tableProps.areas && tableProps.areas.length &&
@@ -308,7 +311,7 @@ const OrderApplication = React.createClass({
               />
               : false
             }
-            {this.buildSelectedTableElement(serviceProps.isPickupFromFrontDesk, tableProps)}
+            {this.buildSelectedTableElement(serviceProps, tableProps)}
           </div>
         }
         <div className="options-group">
