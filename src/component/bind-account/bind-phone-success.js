@@ -7,8 +7,7 @@ class BindPhoneSuccess extends React.Component {
     		<div>
     			<div>图片</div>
     			<div>当前绑定手机号</div>
-                <span>{this.props.phoneInfo.phoneCode}</span>
-    			<p>13281283611</p>
+                <span>{this.props.phoneNum}</span>
     		</div>
         	
         )
