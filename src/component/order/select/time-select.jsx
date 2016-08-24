@@ -20,6 +20,10 @@ module.exports = React.createClass({
       dateTimes: this.buildState(selectedDateTime, timeTable),
     };
   },
+  componentDidMount() {
+    // 强制获取焦点，解决 mobile safari 无法收起键盘的问题
+    this.refs.picker.focus();
+  },
   onDateSelect(evt, option) {
     const { dateTimes } = this.state;
     if (evt) {
@@ -112,7 +116,7 @@ module.exports = React.createClass({
     const { dateTimes } = this.state;
     const timeOfSelectedDate = this.getTimeOfSelectedDate(dateTimes);
     return (
-      <div className="scroll-select-container">
+      <div className="scroll-select-container" tabIndex="-1" ref="picker">
         <div className="scroll-select-close" onTouchTap={this.onCancel}></div>
         <div className="scroll-select-content">
           <div className="scroll-select-header">
