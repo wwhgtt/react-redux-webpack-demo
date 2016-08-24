@@ -31,6 +31,8 @@ module.exports = React.createClass({
       this.setState({
         couponDataId:selectedCouponId,
       });
+      evt.preventDefault();
+      evt.stopPropagation();
     }
   },
   onSubmitBtnTap() {
