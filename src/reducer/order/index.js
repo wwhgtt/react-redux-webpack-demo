@@ -151,6 +151,9 @@ module.exports = function (
                         false
                    )
                    .setIn(
+                     ['serviceProps', 'serviceApproach'], payload.serviceApproach
+                   )
+                   .setIn(
                      ['serviceProps', 'integralsInfo'],
                      payload.isMember && payload.integral && payload.integral.isExchangeCash === 0 && payload.integral.integral !== 0 ?
                          Immutable.from({
