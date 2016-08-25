@@ -5,7 +5,7 @@ const setPhone = createAction('SET_PHONE', phoneInfo => phoneInfo);
 exports.bindPhone = phoneInfo => () => {
 	if (phoneInfo) {
 		window.sessionStorage.setItem('phoneNum', phoneInfo.phoneNum);
-		location.hash = '#bind-success';
+		location.hash = '#phone-success';
 	} else {
 		return false;
 	}

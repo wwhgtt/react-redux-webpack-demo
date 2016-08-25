@@ -8,7 +8,7 @@ import BindPhoneValidate from '../../component/bind-account/bind-phone-validate.
 import BindPhoneSuccess from '../../component/bind-account/bind-phone-success.js';
 import BindWxIndex from '../../component/bind-account/bind-wx-index.js';
 import BindWxInfo from '../../component/bind-account/bind-wx-info.js';
-// import BindWxSuccess from '../../component/bind-account/bind-wx-success.js';
+import BindWxSuccess from '../../component/bind-account/bind-wx-success.js';
 import * as actions from '../../action/bind-account/bind-account.js';
 
 
@@ -31,22 +31,27 @@ const BindAccountApplication = React.createClass( {
 		if (childView === '#bind-phone') {
 			// 手机绑定首页
 			return <BindPhoneIndex />
-		} else if (childView === '#bind-validate') {
+		} else if (childView === '#phone-validate') {
 			// 验证手机
 			return <BindPhoneValidate 
 					onBindPhone = {phoneInfo => bindPhone(phoneInfo)}
 					/>
-		} else if (childView === '#bind-success') {
+		} else if (childView === '#phone-success') {
 			const phoneNum = window.sessionStorage.getItem('phoneNum');
 			// 手机绑定成功
 			return <BindPhoneSuccess phoneNum={phoneNum}/>
 		} else if (childView === '#bind-wx') {
 			// 微信绑定首页
 			return <BindWxIndex />
-		} else if (childView === '#bind-info') {
+		} else if (childView === '#wx-info') {
 			// 微信信息展示
-			const wxInfo = {'phoneNum': '1234'};
+			const wxInfo = {
+				'phoneNum': '13498000384',
+				'userName': '黎逝33'
+			};
 			return <BindWxInfo wxInfo= {wxInfo}/>
+		} else if (childView === '#wx-success') {
+			return <BindWxSuccess />
 		} else {
 			return <div></div>;
 		}

@@ -3,11 +3,12 @@ import React from 'react';
 class BindPhoneSuccess extends React.Component {
     render() {
         return (
-        	
-    		<div>
-    			<div>图片</div>
-    			<div>当前绑定手机号</div>
-                <span>{this.props.phoneNum}</span>
+    		<div className="bind-account mt40">
+    			<div className="phone-img-green"></div>
+                <div className="account-info">
+        			<div className="account-info-current">当前绑定的手机号</div>
+                    <span className="account-info-userName">{this.props.phoneNum}</span>
+                </div>
     		</div>
         	
         )

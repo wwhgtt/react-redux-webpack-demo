@@ -13,18 +13,20 @@ class BindPhoneValidate extends React.Component {
 
     render() {
         return (
-        	<form>
-        		<div>
-                    <input
-                    type="text"
-                    ref="phoneNum" />
-        			<input
-                    type="text"
-                    ref="phoneCode"
-                     />
-        			<a onClick = {(e) => this.handleClick(e)}>绑定手机号</a>
-        		</div>
-        	</form>
+            <div>
+            	<form className="">
+            		<div>
+                        <input
+                        type="text"
+                        ref="phoneNum" />
+            			<input
+                        type="text"
+                        ref="phoneCode"
+                         />
+            			<a className="btn btn--yellow" onClick = {(e) => this.handleClick(e)}>绑定手机号</a>
+            		</div>
+            	</form>
+            </div>
         )
     }
 }
