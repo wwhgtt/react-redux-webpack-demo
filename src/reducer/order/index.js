@@ -101,7 +101,7 @@ module.exports = function (
                           helper.isPaymentAvaliable(
                             'online',
                             payload.diningForm,
-                            false,
+                            helper.isPickUpAutoChecked(payload.serviceApproach).isChecked,
                             state.serviceProps.sendAreaId,
                             orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
                             orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
@@ -110,7 +110,7 @@ module.exports = function (
                           helper.shouldPaymentAutoChecked(
                             'online',
                             payload.diningForm,
-                            false,
+                            helper.isPickUpAutoChecked(payload.serviceApproach).isChecked,
                             state.serviceProps.sendAreaId,
                             orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
                             orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
@@ -124,7 +124,7 @@ module.exports = function (
                           helper.isPaymentAvaliable(
                             'offline',
                             payload.diningForm,
-                            false,
+                            helper.isPickUpAutoChecked(payload.serviceApproach).isChecked,
                             state.serviceProps.sendAreaId,
                             orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
                             orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
@@ -133,7 +133,7 @@ module.exports = function (
                           helper.shouldPaymentAutoChecked(
                             'offline',
                             payload.diningForm,
-                            false,
+                            helper.isPickUpAutoChecked(payload.serviceApproach).isChecked,
                             state.serviceProps.sendAreaId,
                             orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
                             orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
