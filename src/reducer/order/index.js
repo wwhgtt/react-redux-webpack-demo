@@ -171,7 +171,7 @@ module.exports = function (
       if (payload.id === 'way-of-get-diner') {
         return state.setIn(
           ['serviceProps', 'isPickupFromFrontDesk', 'isChecked'],
-          !state.serviceProps.isPickupFromFrontDesk.isChecked
+          helper.isPickUpAutoChecked(payload.serviceApproach).isChecked
         )
         .updateIn(
           ['serviceProps', 'payMethods'],
