@@ -101,14 +101,14 @@ exports.shouldPaymentAutoChecked = function (payment, diningForm, isPickupFromFr
   }
   if (getUrlParam('type') === 'WM') {
     if (sendAreaId.toString() === '0') {
-      return selfPayType.indexOf(',') !== -1 ? payment === selfPayType.split(',')[0] : payment === selfPayType;
+      return selfPayType && selfPayType.indexOf(',') !== -1 ? payment === selfPayType.split(',')[0] : payment === selfPayType;
     }
-    return sendPayType.indexOf(',') !== -1 ? payment === sendPayType.split(',')[0] : payment === sendPayType;
+    return selfPayType && sendPayType.indexOf(',') !== -1 ? payment === sendPayType.split(',')[0] : payment === sendPayType;
   }
   if (isPickupFromFrontDesk) {
-    return selfPayType.indexOf(',') !== -1 ? payment === selfPayType.split(',')[0] : payment === selfPayType;
+    return selfPayType && selfPayType.indexOf(',') !== -1 ? payment === selfPayType.split(',')[0] : payment === selfPayType;
   }
-  return sendPayType.indexOf(',') !== -1 ? payment === sendPayType.split(',')[0] : payment === sendPayType;
+  return selfPayType && sendPayType.indexOf(',') !== -1 ? payment === sendPayType.split(',')[0] : payment === sendPayType;
 };
 // 获取线下支付方式在不通场景中的名字
 exports.getOfflinePaymentName = function (sendAreaId) {
@@ -126,7 +126,7 @@ exports.getSelectedTable = function (tableProps) {
 };
 // 判断前台取餐是否应该自动选中
 exports.isPickUpAutoChecked = function (serviceProps) {
-  if (serviceProps.indexOf('totable') !== -1) {
+  if (!serviceProps || serviceProps.indexOf('totable') !== -1) {
     return { name:'前台取餐', isChecked:false, id:'way-of-get-diner' };
   }
   return { name:'前台取餐', isChecked:true, id:'way-of-get-diner' };

@@ -35,7 +35,7 @@ module.exports = {
       'commercialName': '南粉北面王霞',
       'commercialLogo': null,
       'timeJson': {
-        '2016-07-15': [
+        '2016-09-15': [
           '12:00',
           '12:30',
           '13:00',
@@ -59,8 +59,8 @@ module.exports = {
           '22:00',
         ],
       },
-      'toHomePayType': 'online',
-      'toShopPayType': 'offline',
+      'toHomePayType': 'online,offline',
+      'toShopPayType': 'online',
       'ma': {
         memberAddressId:263099,
         address:'天府软件园E1',
