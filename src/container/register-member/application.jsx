@@ -15,7 +15,36 @@ const RegisterMemberApplication = React.createClass( {
 
 	render() {
 		
-		return <div>会员注册</div>;
+		return (
+			<div className="flex-columns">
+				<div><img /></div>
+				<div className="flex-rest">
+					<div className="options-group">
+						<div className="option">
+							<span className="option-title">手机号</span>
+							<input type="tel" className="option-input" />	
+						</div>
+					</div>
+
+					<div className="options-group">
+						<div className="option">
+							<span className="option-title">姓名</span>
+							<input type="text" className="option-input" />	
+						</div>
+						<div className="option">
+							<span className="option-title">生日</span>
+							<input type="text" className="option-input" />	
+						</div>
+						<div className="option">
+							<span className="option-title">交易密码</span>
+							<input type="text" className="option-input" />
+							<input type="password" />	
+						</div>
+					</div>
+				</div>
+				<button className="btn--yellow">注册会员</button>
+			</div>
+		)
 		
 		
 		
