@@ -17,7 +17,7 @@ module.exports = React.createClass({
   onRemoveLinktap(evt) {
     evt.preventDefault();
     const { onRemoveAddress } = this.props;
-    if (!window.confirm('您确认删除改地址吗？')) {
+    if (!window.confirm('您确定删除该地址吗？')) {
       return;
     }
 

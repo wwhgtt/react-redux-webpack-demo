@@ -1,0 +1,22 @@
+exports.tableProps = {
+  areas:[
+    {
+      id:100,
+      isChecked:true,
+    },
+    {
+      id:101,
+      isChecked:false,
+    },
+  ],
+  tables:[
+    {
+      id:200,
+      isChecked:true,
+    },
+    {
+      id:201,
+      isChecked:false,
+    },
+  ],
+};

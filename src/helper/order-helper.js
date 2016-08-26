@@ -607,7 +607,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
 
   let params;
   if (type === 'WM') {
-    const sendAreaId = state.serviceProps.sendAreaId;
+    const sendAreaId = state.serviceProps.sendAreaId === -1 ? 0 : state.serviceProps.sendAreaId;
     const selectedDateTime = state.timeProps.selectedDateTime;
     let selectedAddress = null;
     let isSelfFetch = false;

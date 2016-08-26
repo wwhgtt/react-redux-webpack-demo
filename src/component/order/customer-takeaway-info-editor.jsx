@@ -78,6 +78,7 @@ module.exports = React.createClass({
         address: '到店取餐',
         id: 0,
         rangeId: 0,
+        toShopFlag: true,
         mobile: toShopInfo.mobile,
       }));
     }
