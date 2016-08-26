@@ -1,5 +1,4 @@
 import React from 'react';
-require('./bind-account.scss');
 
 class BindPhoneIndex extends React.Component {
 	render() {
