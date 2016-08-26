@@ -1,14 +1,34 @@
 import React from 'react';
+const PhoneVerficationCode = require('../mui/phone-verification-code.jsx');
 
 class BindPhoneValidate extends React.Component {
-    handleClick(e) {
-        const phoneInfo = {};
-        const phoneCode = this.refs.phoneCode.value;
-        const phoneNum = this.refs.phoneNum.value;
+    getInitialState() {
+        return {
+            phoneNum: '',
+            phoneCode: ''  
+        };
+    }
 
-        phoneInfo.phoneCode = phoneCode;
-        phoneInfo.phoneNum = phoneNum;
-        this.props.onBindPhone(phoneInfo);
+    handleClick(e) {
+        // const phoneInfo = {};
+        // const phoneCode = this.refs.phoneCode.value;
+        // const phoneNum = this.refs.phoneNum.value;
+        // phoneInfo.phoneCode = phoneCode;
+        // phoneInfo.phoneNum = phoneNum;
+        // this.props.onBindPhone(phoneInfo);
+
+        const {phoneNum, phoneCode} = this.state || {};
+        if(!phoneNum){
+            alert('不能为空');
+        }
+
+        alert(JSON.stringify(this.state));
+        this.props.onBindPhone({phoneNum, phoneCode});
+    }
+
+    handleChange(obj) {
+        debugger;
+        this.setState({phoneCode: obj.code, phoneNum: obj.phoneNum});
     }
 
     render() {
@@ -16,14 +36,8 @@ class BindPhoneValidate extends React.Component {
             <div>
             	<form className="">
             		<div>
-                        <input
-                        type="text"
-                        ref="phoneNum" />
-            			<input
-                        type="text"
-                        ref="phoneCode"
-                         />
-            			<a className="btn btn--yellow" onClick = {(e) => this.handleClick(e)}>绑定手机号</a>
+                    <PhoneVerficationCode onVerificationCodeChange={this.handleChange} />
+            			<a className="btn btn--yellow" onClick = {this.handleClick}>绑定手机号</a>
             		</div>
             	</form>
             </div>
