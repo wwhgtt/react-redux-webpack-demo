@@ -5,15 +5,11 @@ module.exports = React.createClass({
   displayName: 'PhoneVerificationCode',
   propTypes: {
     nations: React.PropTypes.array,
-    shopId: React.PropTypes.string,
     onGetVerificationCode: React.PropTypes.func,
     onVerificationCodeChange: React.PropTypes.func,
   },
   getDefaultProps() {
-    return {
-      nations: [],
-      shopId: '',
-    };
+    return { nations: [] };
   },
   getInitialState() {
     return {
@@ -31,14 +27,12 @@ module.exports = React.createClass({
     this.setState({ phoneNum: reg.test(value) ? value : '' });
   },
   handleVerificationCodeChange(evt) {
-    const value = parseInt(evt.target.value.trim(), 10) || 0;
-    if (value) {
-      if (this.props.onVerificationCodeChange) {
-        this.props.onVerificationCodeChange({
-          code: value,
-          phoneNum: this.state.phoneNum,
-        });
-      }
+    const value = evt.target.value.trim();
+    if (this.props.onVerificationCodeChange) {
+      this.props.onVerificationCodeChange({
+        code: value,
+        phoneNum: this.state.phoneNum,
+      });
     }
   },
   handleFetchCodeBtnTouchTap(evt) {
@@ -49,6 +43,10 @@ module.exports = React.createClass({
 
     this.sendFetchVerificationCodeRequest();
     this.waitOneMinute();
+  },
+  handleNationChange() {
+    this.clearTimeout();
+    this.refs.phone.value = '';
   },
   clearWaiting() {
     if (this._timer) {
@@ -93,6 +91,7 @@ module.exports = React.createClass({
     } else {
       btnInfo = { text: '获取验证码', disabled: !phoneNum };
     }
+
     return (
       <div className="options-group phone-verification-code">
         <div className="option phone">
@@ -101,7 +100,13 @@ module.exports = React.createClass({
             {btnInfo.text}
           </button>
           <div className="option-content">
-            <input className="option-input" type="tel" placeholder="请输入手机号" onChange={this.handlePhoneNumChange} />
+            <input
+              className="option-input"
+              type="tel"
+              ref="phone"
+              placeholder="请输入手机号"
+              onChange={this.handlePhoneNumChange}
+            />
           </div>
         </div>
         <div className="option verification-code">
