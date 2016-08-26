@@ -1,6 +1,6 @@
 const should = require('chai').should();
 const dishHelper = require('../../src/helper/dish-hepler');
-const fakeDishes = require('./fake-data/fake-dishes.js');
+const fakeDishes = require('../fake-data/fake-dishes.js');
 /* eslint no-unused-expressions: 1 */
 describe('Helper', function () {
   describe('Dish Related Helper', function () {
