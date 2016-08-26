@@ -20,35 +20,12 @@
 .editor-input {
   font-size: 16px;
   float: left;
+  width: 150px;
   color: $color-dove-grey;
   border: 0;
   outline: 0;
 
   &[disabled] {
     background: transparent;
-  }
-}
-
-.option-radio {
-  display: none;
-
-  + .btn-tickbox {
-    float: left;
-    margin-right: 5px;
-  }
-
-  ~ .option-desc {
-    line-height: 18px;
-    float: left;
-    padding-top: 4px;
-  }
-
-  &:checked + .btn-tickbox {
-    border-color: $color-neon-carrot;
-    box-shadow: inset 0 0 0 10px $color-neon-carrot;
-
-    &::before {
-      transform: scale(1, 1);
-    }
   }
 }

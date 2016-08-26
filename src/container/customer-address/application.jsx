@@ -60,7 +60,7 @@ const CustomerAddressApplication = React.createClass({
   handleSelectComplete(pos) {
     const { setAddressInfo } = this.props;
     const propertys = {
-      baseAddress: `${pos.title}(${pos.address})`,
+      baseAddress: pos.address ? `${pos.title}(${pos.address})` : pos.title,
       latitude: pos.point.latitude,
       longitude: pos.point.longitude,
     };

@@ -5,6 +5,7 @@ const getUrlParam = require('../helper/dish-hepler.js').getUrlParam;
 const validateAddressInfo = require('../helper/common-helper.js').validateAddressInfo;
 const isSingleDishWithoutProps = require('../helper/dish-hepler.js').isSingleDishWithoutProps;
 const getDishPrice = require('../helper/dish-hepler.js').getDishPrice;
+const getOrderPrice = require('../helper/dish-hepler.js').getOrderPrice;
 const config = require('../config.js');
 // 判断一个对象是否为空
 exports.isEmptyObject = (obj) => {
@@ -100,14 +101,14 @@ exports.shouldPaymentAutoChecked = function (payment, diningForm, isPickupFromFr
   }
   if (getUrlParam('type') === 'WM') {
     if (sendAreaId.toString() === '0') {
-      return selfPayType.indexOf(',') !== -1 ? payment === selfPayType.split(',')[0] : payment === selfPayType;
+      return selfPayType && selfPayType.indexOf(',') !== -1 ? payment === selfPayType.split(',')[0] : payment === selfPayType;
     }
-    return sendPayType.indexOf(',') !== -1 ? payment === sendPayType.split(',')[0] : payment === sendPayType;
+    return selfPayType && sendPayType.indexOf(',') !== -1 ? payment === sendPayType.split(',')[0] : payment === sendPayType;
   }
   if (isPickupFromFrontDesk) {
-    return selfPayType.indexOf(',') !== -1 ? payment === selfPayType.split(',')[0] : payment === selfPayType;
+    return selfPayType && selfPayType.indexOf(',') !== -1 ? payment === selfPayType.split(',')[0] : payment === selfPayType;
   }
-  return sendPayType.indexOf(',') !== -1 ? payment === sendPayType.split(',')[0] : payment === sendPayType;
+  return selfPayType && sendPayType.indexOf(',') !== -1 ? payment === sendPayType.split(',')[0] : payment === sendPayType;
 };
 // 获取线下支付方式在不通场景中的名字
 exports.getOfflinePaymentName = function (sendAreaId) {
@@ -122,6 +123,13 @@ exports.getSelectedTable = function (tableProps) {
     area:_find(tableProps.areas, { isChecked:true }),
     table: _find(tableProps.tables, { isChecked:true }),
   };
+};
+// 判断前台取餐是否应该自动选中
+exports.isPickUpAutoChecked = function (serviceProps) {
+  if (!serviceProps || serviceProps.indexOf('totable') !== -1) {
+    return { name:'前台取餐', isChecked:false, id:'way-of-get-diner' };
+  }
+  return { name:'前台取餐', isChecked:true, id:'way-of-get-diner' };
 };
 // 初始化桌台信息
 exports.initializeAreaAdnTableProps = function (areaList, tableList) {
@@ -311,38 +319,54 @@ const countIntegralsToCash = exports.countIntegralsToCash = function (canBeUsedC
   }
   return false;
 };
+// 获取关联菜品的礼品券可以省多少钱
+const countRelatedDishGiftCouponPrice = function (dish, dishCount, dishPrice, relatedCouponDish, coupon, benefitMoneyCollection) {
+  relatedCouponDish.name = dish.name;
+  relatedCouponDish.number = coupon.num;
+  if ((coupon.num - relatedCouponDish.joinBenefitDishesNumber) > 0) {
+    if ((coupon.num - relatedCouponDish.joinBenefitDishesNumber) < dishCount) {
+      benefitMoneyCollection.push(dish.marketPrice < dishPrice / dishCount ?
+        dish.marketPrice * (coupon.num - relatedCouponDish.joinBenefitDishesNumber)
+        :
+        dishPrice / dishCount * (coupon.num - relatedCouponDish.joinBenefitDishesNumber)
+      );
+    } else {
+      benefitMoneyCollection.push(dish.marketPrice < dishPrice / dishCount ?
+        dish.marketPrice * dishCount
+        :
+        dishPrice
+      );
+    }
+    relatedCouponDish.joinBenefitDishesNumber = (coupon.num - relatedCouponDish.joinBenefitDishesNumber) < dishCount ?
+      coupon.num
+      :
+      relatedCouponDish.joinBenefitDishesNumber + dishCount;
+  }
+};
 // 获取与礼品券有关的菜品优惠情况
 const getRelatedToDishCouponProps = exports.getRelatedToDishCouponProps = function (coupon) {
   const lastOrderedDishes = JSON.parse(localStorage.getItem('lastOrderedDishes'));
   let relatedCouponDish = { name:null, number:null, couponValue:null, joinBenefitDishesNumber:0 };
   let benefitMoneyCollection = [];
-  lastOrderedDishes.dishes.map(dish => {
-    if (dish.brandDishId === coupon.dishId) {
-      const dishCount = getDishesCount([dish]);
-      const dishPrice = getDishPrice(dish);
-      relatedCouponDish.name = dish.name;
-      relatedCouponDish.number = coupon.num;
 
-      if ((coupon.num - relatedCouponDish.joinBenefitDishesNumber) > 0) {
-        if ((coupon.num - relatedCouponDish.joinBenefitDishesNumber) < dishCount) {
-          benefitMoneyCollection.push(dish.marketPrice < dishPrice / dishCount ?
-            dish.marketPrice * (coupon.num - relatedCouponDish.joinBenefitDishesNumber)
-            :
-            dishPrice / dishCount * (coupon.num - relatedCouponDish.joinBenefitDishesNumber)
-          );
-        } else {
-          benefitMoneyCollection.push(dish.marketPrice < dishPrice / dishCount ?
-            dish.marketPrice * dishCount
-            :
-            dishPrice
-          );
-        }
-        relatedCouponDish.joinBenefitDishesNumber = (coupon.num - relatedCouponDish.joinBenefitDishesNumber) < dishCount ?
-          coupon.num
-          :
-          relatedCouponDish.joinBenefitDishesNumber + dishCount;
+  lastOrderedDishes.dishes.map(dish => {
+    if (isSingleDishWithoutProps(dish)) {
+      if (dish.brandDishId === coupon.dishId) {
+        const dishCount = getDishesCount([dish]);
+        const dishPrice = getDishPrice(dish);
+        countRelatedDishGiftCouponPrice(dish, dishCount, dishPrice, relatedCouponDish, coupon, benefitMoneyCollection);
       }
+    } else {
+      dish.order.map(order => {
+        if (dish.brandDishId === coupon.dishId) {
+          const dishCount = order.count;
+          const dishPrice = getOrderPrice(dish, order);
+          countRelatedDishGiftCouponPrice(dish, dishCount, dishPrice, relatedCouponDish, coupon, benefitMoneyCollection);
+        }
+        return true;
+      });
     }
+
     return true;
   });
   relatedCouponDish.couponValue = benefitMoneyCollection.length ? parseFloat((benefitMoneyCollection.reduce((c, p) => c + p)).toFixed(2)) : 0;
@@ -371,7 +395,7 @@ exports.getCouponsLength = function (couponsList) {
 const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, totalPrice) {
   if (coupon.couponType === 1) {
     // '满减券'
-    return coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'offerValue')[0].ruleValue;
+    return +coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'offerValue')[0].ruleValue || 0;
   } else if (coupon.couponType === 2) {
     // '折扣券';
     return parseFloat(
@@ -388,9 +412,8 @@ const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, tota
     return getRelatedToDishCouponProps(coupon.coupDishBeanList[0]).couponValue;
   } else if (coupon.couponType === 4) {
     // '现金券';
-    return coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'faceValue')[0].ruleValue
-      <= totalPrice ?
-      coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'faceValue')[0].ruleValue : totalPrice;
+    const ruleValue = +coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'faceValue')[0].ruleValue || 0;
+    return ruleValue <= totalPrice ? ruleValue : totalPrice;
   }
   return true;
 };
@@ -560,9 +583,9 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   // 金额为0的时候只有线下支付
   let payMethodScope = null;
   if (needPayPrice !== 0) {
-    payMethodScope = state.serviceProps.payMethods.filter(payMethod => payMethod.isChecked)[0].name === '在线支付' ? '1' : '0';
+    payMethodScope = state.serviceProps.payMethods.filter(payMethod => payMethod.isChecked)[0].name === '在线支付' ? '2' : '1';
   } else {
-    payMethodScope = '0';
+    payMethodScope = '1';
   }
 
   const useDiscount = !state.serviceProps.discountProps.inUseDiscount ? '0' : '1';

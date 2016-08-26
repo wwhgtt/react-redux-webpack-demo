@@ -29,6 +29,11 @@ const setHasRulesDishProps = function (dish) {
    }
  );
 };
+const setHasIngredientProps = function (dish) {
+  return dish.dishIngredientInfos.map(
+   Ingredient => Ingredient.isChecked = false
+ );
+};
 exports.setDishPropertyTypeInfos = function (dishesList) {
   if (dishesList && dishesList.length) {
     dishesList.map(
@@ -41,6 +46,19 @@ exports.setDishPropertyTypeInfos = function (dishesList) {
             group.childInfos.map(childInfo => {
               if (childInfo.dishPropertyTypeInfos && childInfo.dishPropertyTypeInfos.length) {
                 setHasRulesDishProps(childInfo);
+              }
+              return true;
+            });
+            return true;
+          });
+        }
+        if (dish.dishIngredientInfos && dish.dishIngredientInfos.length) {
+          setHasIngredientProps(dish);
+        } else if (isGroupDish(dish)) {
+          dish.groups.map(group => {
+            group.childInfos.map(childInfo => {
+              if (childInfo.dishIngredientInfos && childInfo.dishIngredientInfos.length) {
+                setHasIngredientProps(childInfo);
               }
               return true;
             });

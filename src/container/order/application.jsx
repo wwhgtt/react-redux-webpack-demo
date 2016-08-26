@@ -57,8 +57,10 @@ const OrderApplication = React.createClass({
     return {
       note:'',
       receipt:'',
+      isSubmitBtnDisabled:false,
     };
   },
+
   componentWillMount() {
     const { fetchLastOrderedDishes, fetchSendAreaId, fetchDeliveryPrice } = this.props;
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
@@ -71,9 +73,18 @@ const OrderApplication = React.createClass({
   componentDidMount() {
     this.setChildViewAccordingToHash();
     const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons } = this.props;
-    Promise.all([fetchOrder(), fetchOrderCoupons()]).then(
+    fetchOrder().then(
       fetchOrderDiscountInfo
-    ).then(() => { this.setChildViewAccordingToHash(); });
+    )
+    .then(fetchOrderCoupons)
+    .then(
+      () => { this.setChildViewAccordingToHash(); }
+    );
+  },
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      isSubmitBtnDisabled:false,
+    });
   },
   componentDidUpdate() {
 
@@ -173,9 +184,12 @@ const OrderApplication = React.createClass({
     }
     return setChildView('#table-select');
   },
-  buildSelectedTableElement(isPickupFromFrontDesk, tableProps) {
+  buildSelectedTableElement(serviceProps, tableProps) {
+    if (serviceProps.serviceApproach && serviceProps.serviceApproach.indexOf('totable') < 0) {
+      return false;
+    }
     const selectedTable = helper.getSelectedTable(tableProps);
-    if (isPickupFromFrontDesk && isPickupFromFrontDesk.isChecked) {
+    if (serviceProps.isPickupFromFrontDesk && serviceProps.isPickupFromFrontDesk.isChecked) {
       return false;
     } else if (
       tableProps.areas && tableProps.areas.length &&
@@ -207,7 +221,15 @@ const OrderApplication = React.createClass({
   },
   submitOrder() {
     const { submitOrder } = this.props;
-    submitOrder(this.state.note, this.state.receipt);
+    const { isSubmitBtnDisabled } = this.state;
+    if (!isSubmitBtnDisabled) {
+      // 表示可用状态
+      this.setState({
+        isSubmitBtnDisabled:!isSubmitBtnDisabled,
+      });
+      submitOrder(this.state.note, this.state.receipt);
+    }
+    return false;
   },
   render() {
     const {
@@ -304,7 +326,7 @@ const OrderApplication = React.createClass({
               />
               : false
             }
-            {this.buildSelectedTableElement(serviceProps.isPickupFromFrontDesk, tableProps)}
+            {this.buildSelectedTableElement(serviceProps, tableProps)}
           </div>
         }
         <div className="options-group">
@@ -402,7 +424,13 @@ const OrderApplication = React.createClass({
                 </div>
               </div>
               <div className="order-cart-right">
-                <a className="order-cart-btn btn--yellow" onTouchTap={this.submitOrder}>提交订单</a>
+                <button
+                  className="order-cart-btn btn--yellow"
+                  disabled={this.state.isSubmitBtnDisabled}
+                  onTouchTap={this.submitOrder}
+                >
+                  提交订单
+                </button>
               </div>
             </div>
           </div>

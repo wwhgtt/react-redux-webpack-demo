@@ -101,7 +101,7 @@ module.exports = function (
                           helper.isPaymentAvaliable(
                             'online',
                             payload.diningForm,
-                            false,
+                            helper.isPickUpAutoChecked(payload.serviceApproach).isChecked,
                             state.serviceProps.sendAreaId,
                             orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
                             orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
@@ -110,7 +110,7 @@ module.exports = function (
                           helper.shouldPaymentAutoChecked(
                             'online',
                             payload.diningForm,
-                            false,
+                            helper.isPickUpAutoChecked(payload.serviceApproach).isChecked,
                             state.serviceProps.sendAreaId,
                             orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
                             orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
@@ -124,7 +124,7 @@ module.exports = function (
                           helper.isPaymentAvaliable(
                             'offline',
                             payload.diningForm,
-                            false,
+                            helper.isPickUpAutoChecked(payload.serviceApproach).isChecked,
                             state.serviceProps.sendAreaId,
                             orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
                             orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
@@ -133,7 +133,7 @@ module.exports = function (
                           helper.shouldPaymentAutoChecked(
                             'offline',
                             payload.diningForm,
-                            false,
+                            helper.isPickUpAutoChecked(payload.serviceApproach).isChecked,
                             state.serviceProps.sendAreaId,
                             orderTypeOfUrl === 'TS' ? payload.pickupPayType : payload.toShopPayType,
                             orderTypeOfUrl === 'TS' ? payload.totablePayType : payload.toHomePayType
@@ -146,9 +146,12 @@ module.exports = function (
                   .setIn(
                     ['serviceProps', 'isPickupFromFrontDesk'],
                     payload.serviceApproach && payload.serviceApproach.indexOf('pickup') !== -1 ?
-                        Immutable.from({ name:'前台取餐', isChecked:false, id:'way-of-get-diner' })
+                        Immutable.from(helper.isPickUpAutoChecked(payload.serviceApproach))
                         :
                         false
+                   )
+                   .setIn(
+                     ['serviceProps', 'serviceApproach'], payload.serviceApproach
                    )
                    .setIn(
                      ['serviceProps', 'integralsInfo'],
@@ -225,7 +228,7 @@ module.exports = function (
             :
             addresses => []
         );
-      } else if (payload.id.indexOf('payment') !== -1) {
+      } else if (payload.id && payload.id.indexOf('payment') !== -1) {
         return state.updateIn(
           ['serviceProps', 'payMethods'],
           payMethods => payMethods.flatMap(
