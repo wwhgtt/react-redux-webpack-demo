@@ -278,7 +278,8 @@ exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
       dispatch(setOrderProps(null, info));
       const data = result.data || {};
       const dishesPrice = getDishesPrice(orderedDishesProps.dishes || []);
-      sessionStorage.setItem(`${shopId}_sendArea_id`, data.sendAreaId);
+      const sendAreaId = data.sendAreaId === null ? -1 : data.sendAreaId;
+      sessionStorage.setItem(`${shopId}_sendArea_id`, sendAreaId);
       sessionStorage.setItem(`${shopId}_sendArea_rangeId`, rangeId);
       sessionStorage.setItem(`${shopId}_sendArea_shipment`, data.shipment);
       sessionStorage.setItem(`${shopId}_sendArea_sendPrice`, data.sendPrice);
