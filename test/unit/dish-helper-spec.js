@@ -30,6 +30,12 @@ describe('Helper', function () {
     });
 
     // getDishesCount
+    it('getDishesCount', function () {
+      // Except return an array with two ordered dish objects.
+      dishHelper.getDishesCount(fakeDishes.orderedSingleDishesAndGroupDishes).should.equal(10);
+      dishHelper.getDishesCount(fakeDishes.orderedSingleDishesOnly).should.equal(10);
+      dishHelper.getDishesCount(fakeDishes.orderedGroupDishesOnly).should.equal(10);
+    });
 
     // getOrderPrice
 

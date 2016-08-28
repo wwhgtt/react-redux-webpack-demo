@@ -280,21 +280,30 @@ exports.groupDish = {
 };
 
 exports.orderedSingleDishesAndGroupDishes = [{
+  type: 2,
   order: 3,
+  dishPropertyTypeInfos: [],
 }, {
+  type: 1,
   order: [{
     id: 99991,
+    count: 3,
   }, {
     id: 99992,
+    count: 4,
   }],
 }, {
   id: 99993,
 }];
 
 exports.orderedSingleDishesOnly = [{
-  order: 2,
+  type: 3,
+  order: 6,
+  dishPropertyTypeInfos: [],
 }, {
-  order: 1,
+  type: 4,
+  order: 4,
+  dishPropertyTypeInfos: [],
 }, {
   id: 99991,
 }, {
@@ -306,15 +315,21 @@ exports.orderedSingleDishesOnly = [{
 exports.orderedGroupDishesOnly = [{
   id: 99993,
 }, {
+  type: 1,
   order: [{
     id: 99991,
+    count: 1,
   }, {
     id: 99992,
+    count: 2,
   }],
 }, {
+  type: 1,
   order: [{
     id: 99991,
+    count: 3,
   }, {
     id: 99992,
+    count: 4,
   }],
 }];
