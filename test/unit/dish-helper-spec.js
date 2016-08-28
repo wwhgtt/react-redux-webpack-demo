@@ -145,7 +145,7 @@ describe('Helper', function () {
       dishHelper.getDishBoxprice([groupDish], { orderFlag: 1, content: 10 }).should.to.equal(10);
     });
 
-    it('getDisBoxCount', () => {
+    it('getDishBoxCount', () => {
       dishHelper.getDishBoxprice([], null).should.to.equal(0);
       const singleDishWithoutProps = cloneObject(fakeDishes.singleDishWithoutProps);
       const groupDish = cloneObject(fakeDishes.groupDish);
