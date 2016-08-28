@@ -45,9 +45,9 @@ describe('Helper', function () {
 
     // getNewCountOfDish *
 
-    // getOrderedPropIds
+    // getOrderedPropIds ?
 
-    // getSignleDishRuleIds
+    // getSignleDishRuleIds ?
 
     // getDishBoxCount *
 
@@ -58,7 +58,10 @@ describe('Helper', function () {
     // isShopOpen *
 
     // generateDishNameWithUnit
-
+    it('generateDishNameWithUnit', function () {
+      dishHelper.generateDishNameWithUnit(fakeDishes.singleDishWithUnit).should.equal('菜品名称/份');
+      dishHelper.generateDishNameWithUnit(fakeDishes.singleDishWithPropAndUnit).should.equal('菜品名称(显示)/份');
+    });
 
     /* dish-helper part-2 */
     const cloneObject = source => source && JSON.parse(JSON.stringify(source));

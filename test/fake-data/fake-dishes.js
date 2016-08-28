@@ -333,3 +333,39 @@ exports.orderedGroupDishesOnly = [{
     count: 4,
   }],
 }];
+
+exports.singleDishWithUnit = {
+  id: 123456,
+  name: '菜品名称',
+  unitName: '份',
+  type: 4,
+  dishPropertyTypeInfos: [],
+};
+
+exports.singleDishWithPropAndUnit = {
+  id: 123456,
+  name: '菜品名称',
+  unitName: '份',
+  type: 4,
+  dishPropertyTypeInfos: [{
+    id: 123,
+    type: 1,
+    properties: [{
+      id: 1,
+      name: '不显示',
+    }, {
+      id: 2,
+      name: '不显示',
+    }],
+  }, {
+    id: 1234,
+    type: 4,
+    properties: [{
+      id: 3,
+      name: '显示',
+    }, {
+      id: 4,
+      name: '不显示',
+    }],
+  }],
+};
