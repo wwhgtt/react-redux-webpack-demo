@@ -278,3 +278,43 @@ exports.groupDish = {
     },
   ],
 };
+
+exports.orderedSingleDishesAndGroupDishes = [{
+  order: 3,
+}, {
+  order: [{
+    id: 99991,
+  }, {
+    id: 99992,
+  }],
+}, {
+  id: 99993,
+}];
+
+exports.orderedSingleDishesOnly = [{
+  order: 2,
+}, {
+  order: 1,
+}, {
+  id: 99991,
+}, {
+  id: 99992,
+}, {
+  id: 99993,
+}];
+
+exports.orderedGroupDishesOnly = [{
+  id: 99993,
+}, {
+  order: [{
+    id: 99991,
+  }, {
+    id: 99992,
+  }],
+}, {
+  order: [{
+    id: 99991,
+  }, {
+    id: 99992,
+  }],
+}];

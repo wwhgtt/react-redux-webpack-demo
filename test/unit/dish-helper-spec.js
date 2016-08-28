@@ -22,6 +22,12 @@ describe('Helper', function () {
     });
 
     // getOrderedDishes
+    it('getOrderedDishes', function () {
+      // Except return an array with two ordered dish objects.
+      dishHelper.getOrderedDishes(fakeDishes.orderedSingleDishesAndGroupDishes).should.have.lengthOf(2);
+      dishHelper.getOrderedDishes(fakeDishes.orderedSingleDishesOnly).should.have.lengthOf(2);
+      dishHelper.getOrderedDishes(fakeDishes.orderedGroupDishesOnly).should.have.lengthOf(2);
+    });
 
     // getDishesCount
 
