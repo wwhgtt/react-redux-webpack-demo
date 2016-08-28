@@ -4,6 +4,12 @@ const fakeDishes = require('../fake-data/fake-dishes.js');
 /* eslint no-unused-expressions: 1 */
 describe('Helper', function () {
   describe('Dish Related Helper', function () {
+    it('isSingleDishWithoutProps', function () {
+      dishHelper.isSingleDishWithoutProps(fakeDishes.groupDish).should.to.be.false;
+      dishHelper.isSingleDishWithoutProps(fakeDishes.singleDishWithProps).should.to.be.false;
+      dishHelper.isSingleDishWithoutProps(fakeDishes.singleDishWithoutProps).should.to.be.true;
+    });
+
     it('isGroupDish', function () {
       dishHelper.isGroupDish(fakeDishes.groupDish).should.to.be.true;
       dishHelper.isGroupDish(fakeDishes.singleDishWithoutProps).should.to.be.false;
@@ -15,11 +21,32 @@ describe('Helper', function () {
       should.equal(!!dishHelper.isChildDish({}), false);
     });
 
-    it('isSingleDishWithoutProps', function () {
-      dishHelper.isSingleDishWithoutProps(fakeDishes.groupDish).should.to.be.false;
-      dishHelper.isSingleDishWithoutProps(fakeDishes.singleDishWithProps).should.to.be.false;
-      dishHelper.isSingleDishWithoutProps(fakeDishes.singleDishWithoutProps).should.to.be.true;
-    });
+    // getOrderedDishes
+
+    // getDishesCount
+
+    // getOrderPrice
+
+    // getDishPrice
+
+    // getDishesPrice *
+
+    // getNewCountOfDish *
+
+    // getOrderedPropIds
+
+    // getSignleDishRuleIds
+
+    // getDishBoxCount *
+
+    // getDishBoxprice *
+
+    // hasSelectedProps *
+
+    // isShopOpen *
+
+    // generateDishNameWithUnit
+
 
     /* dish-helper part-2 */
     const cloneObject = source => source && JSON.parse(JSON.stringify(source));
