@@ -13,9 +13,9 @@ const PlaceOrderApplication = React.createClass({
   displayName:'PlaceOrderApplication',
   propTypes:{
     // MapedActionsToProps
-    fetchCommercialProps:React.propTypes.func.isRequired,
+    fetchCommercialProps:React.PropTypes.func.isRequired,
     // MapedStatesToProps
-    commercialProps:React.propTypes.object.isRequired,
+    commercialProps:React.PropTypes.object.isRequired,
   },
   getInitialState() {
     return {

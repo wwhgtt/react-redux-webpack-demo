@@ -1,7 +1,12 @@
 const Immutable = require('seamless-immutable');
 module.exports = function (
   state = Immutable.from({
-    commercialProps:null,
+    commercialProps:{
+      logo:null,
+      name:null,
+    },
+    timeProps:null,
+    tableProps:null,
   }),
   action
 ) {
