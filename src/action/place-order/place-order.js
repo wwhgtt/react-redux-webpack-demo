@@ -4,6 +4,8 @@ require('es6-promise');
 require('isomorphic-fetch');
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setCommercialProps = createAction('SET_COMMERCIAL_PROPS', props => props);
+exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
+exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const shopId = getUrlParam('shopId');
 exports.fetchCommercialProps = () => (dispatch, getState) =>
