@@ -10,8 +10,8 @@ switch (process.env.NODE_ENV) {
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
     };
     break;
-  default:
-    apiBase = `http://testweixin.shishike.com`;   //测试环境//本地 `http://${process.env.DEV_HOST}:3001`;
+  default: 
+    apiBase = 'http://testweixin.shishike.com';   // 测试环境//本地 `http://${process.env.DEV_HOST}:3001`;
     requestOptions = {
       method: 'GET', mod: 'cors',
       credentials: 'include',
@@ -34,7 +34,6 @@ module.exports = {
   individualviewAPI:`${apiBase}/user/individualView.json`,
   individualupdateAPI:`${apiBase}/user/individualUpdate.json`,
   registerAPI:`${apiBase}/member/register.json`,
-  
 
   getUserAddressListAPI: `${apiBase}/user/getAddressList.json`,
   getAllAddressListAPI: `${apiBase}/user/addressList.json`,
@@ -44,22 +43,22 @@ module.exports = {
   getOrderAddressInfoAPI: `${apiBase}/user/getAddressInfo.json`,
 
   shopDetailURL:`${apiBase}/shop/detail`,
-  mineSettingURL:`/mine-setting.html`,
+  mineSettingURL:'/mine-setting.html',
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
   editUserAddressURL: `${apiBase}/user/address`,
 
-  logAddressURL: `http://testweixin.shishike.com/user/notLogin`,
-  integralURL: `http://testweixin.shishike.com/member/integral`,
-  valueCardURL:`http://testweixin.shishike.com/member/valueCard`,
-  memberIndexURL:`http://testweixin.shishike.com/member/index`,
-  rechargeURL:`http://testweixin.shishike.com/shop/recharge`,
-  orderallListURL:`http://testweixin.shishike.com/order/orderallList`,
-  getCouponListURL:`http://testweixin.shishike.com/coupon/getCouponList`,
-  addressListURL:`http://testweixin.shishike.com/user/addressList`,
-  registerURL:`http://testweixin.shishike.com/member/register`,
-  modifyPwdURL:`http://testweixin.shishike.com/member/modifyPwd`,
-  notFoundUrl:`/404.html`,
+  logAddressURL: 'http://testweixin.shishike.com/user/notLogin',
+  integralURL: 'http://testweixin.shishike.com/member/integral',
+  valueCardURL:'http://testweixin.shishike.com/member/valueCard',
+  memberIndexURL:'http://testweixin.shishike.com/member/index',
+  rechargeURL:'http://testweixin.shishike.com/shop/recharge',
+  orderallListURL:'http://testweixin.shishike.com/order/orderallList',
+  getCouponListURL:'http://testweixin.shishike.com/coupon/getCouponList',
+  addressListURL:'http://testweixin.shishike.com/user/addressList',
+  registerURL:'http://testweixin.shishike.com/member/register',
+  modifyPwdURL:'http://testweixin.shishike.com/member/modifyPwd',
+  notFoundUrl:'/404.html',
 
   getDefaultSendArea: `${apiBase}/user/getDefaultSendArea.json`,
 

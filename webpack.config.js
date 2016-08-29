@@ -24,15 +24,9 @@ module.exports = {
     'mine-setting-entry': [
       './src/mine-setting.jsx',
     ],
-    'notFound': [
-      './src/notFound.jsx',
-    ],
-    'register-entry': [
-      './src/register.jsx',
-    ],
     'address-list-entry': [
       './src/address-list.jsx',
-    ]
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -119,22 +113,6 @@ module.exports = {
     ),
     new HtmlWebpackPlugin(
       {
-        title: '404 找不到页面',
-        filename: '404.html',
-        chunks: ['common', 'notFound'],
-        inject: 'body', template: './src/helper/common-template.html',
-      }
-    ),
-    new HtmlWebpackPlugin(
-      {
-        title: '会员注册',
-        filename: 'register.html',
-        chunks: ['common', 'register-entry'],
-        inject: 'body', template: './src/helper/common-template.html',
-       }
-     )
-    new HtmlWebpackPlugin(
-    	{
         title: 'AddressListApplication',
         filename: 'address-list.html',
         chunks: ['common', 'address-list-entry'],
