@@ -14,6 +14,7 @@ const CouponSelect = require('../../component/order/coupon-select.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const TimeSelect = require('../../component/order/select/time-select.jsx');
 const OrderSummary = require('../../component/order/order-summary.jsx');
+const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
@@ -234,7 +235,7 @@ const OrderApplication = React.createClass({
   render() {
     const {
       customerProps, serviceProps, childView, tableProps, clearErrorMsg, setCustomerProps,
-      timeProps, orderedDishesProps, commercialProps, errorMessage,
+      timeProps, orderedDishesProps, commercialProps, errorMessage, setErrorMsg,
       customerAddressListInfo,
       defaultCustomerProps,
       setCustomerToShopAddress,
@@ -307,9 +308,15 @@ const OrderApplication = React.createClass({
             {buildCoustomerPropElement()}
           </a>
           :
-          <CustomerInfoEditor
-            customerProps={customerProps} onCustomerPropsChange={setCustomerProps}
-          />
+          <div className="customerInfo">
+            <CustomerInfoEditor
+              customerProps={customerProps} onCustomerPropsChange={setCustomerProps}
+            />
+            <div className="importable-counter">
+              <span>就餐人数</span>
+              <ImportableCounter setErrorMsg={setErrorMsg} onCountChange={setOrderProps} />
+            </div>
+          </div>
         }
         {type === 'WM' ?
           false
