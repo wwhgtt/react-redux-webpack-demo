@@ -314,7 +314,13 @@ const OrderApplication = React.createClass({
             />
             <div className="importable-counter">
               <span>就餐人数</span>
-              <ImportableCounter setErrorMsg={setErrorMsg} onCountChange={setOrderProps} />
+              <ImportableCounter
+                setErrorMsg={setErrorMsg}
+                onCountChange={setOrderProps}
+                count={customerProps.customerCount}
+                maximum={99}
+                minimum={1}
+              />
             </div>
           </div>
         }
