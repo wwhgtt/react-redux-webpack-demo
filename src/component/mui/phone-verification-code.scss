@@ -1,9 +1,11 @@
 @import 'settings.colors';
-.phone-verification-code{
+.phone-verification-code.options-group{
+  border-top:none;
   .option {
     font-size: 14px;
     position: relative;
-    padding-left: 45px;
+    padding: 15px 10px 10px 40px;
+    line-height: 24px;
     &-content{
       float: none;
       width: auto;
@@ -12,12 +14,12 @@
 
     &::before{
       position: absolute;
-      top: 16px;
+      top: 18px;
       left: 10px;
       width: 20px;
       height: 20px;
       content: '';
-      opacity: 0.5;
+      opacity: 0.4;
       background-repeat: no-repeat;
       background-size: 16px 16px;
     }
@@ -28,7 +30,8 @@
 
     .btn{
       float: right;
-      padding: 2px 5px;
+      height: 24px;
+      padding: 0 5px;
       font-size: 12px;
       border-radius: 3px;
     }
@@ -38,9 +41,6 @@
     }
 
     &.phone{
-      .option-content{
-        margin-top: 2px;
-      }
       &::before{
         background-image:url('../../asset/images/phone.png');
         background-size: 16px 16px;
@@ -49,7 +49,7 @@
 
     &.verification-code{
       &::before{
-        top: 12px;
+        top: 16px;
         left: 8px;
         background-image:url('../../asset/images/verification.png');
         background-size: 20px 20px;
