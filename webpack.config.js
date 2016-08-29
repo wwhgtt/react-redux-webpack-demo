@@ -24,7 +24,7 @@ module.exports = {
     'mine-setting-entry': [
       './src/mine-setting.jsx',
     ],
-    'notFound': [
+    'notFound-entry': [
       './src/notFound.jsx',
     ],
     'register-entry': [
@@ -32,7 +32,7 @@ module.exports = {
     ],
     'address-list-entry': [
       './src/address-list.jsx',
-    ]
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -121,7 +121,7 @@ module.exports = {
       {
         title: '404 找不到页面',
         filename: '404.html',
-        chunks: ['common', 'notFound'],
+        chunks: ['common', 'notFound-entry'],
         inject: 'body', template: './src/helper/common-template.html',
       }
     ),
@@ -131,10 +131,10 @@ module.exports = {
         filename: 'register.html',
         chunks: ['common', 'register-entry'],
         inject: 'body', template: './src/helper/common-template.html',
-       }
+      }
     ),
     new HtmlWebpackPlugin(
-    	{
+      {
         title: 'AddressListApplication',
         filename: 'address-list.html',
         chunks: ['common', 'address-list-entry'],
