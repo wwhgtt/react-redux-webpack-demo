@@ -1,8 +1,8 @@
 const Immutable = require('seamless-immutable');
-const helper = require('../../helper/dish-hepler');
+
 module.exports = function (
   state = Immutable.from({
-    Info:{"a":"1"},
+    info:{},
     errorMessage:""
   }),
   action
@@ -11,11 +11,11 @@ module.exports = function (
   const { type, payload } = action;
 
   switch (type) {
-    case 'setInfo':
-      return state.set("Info",payload||"");
+    case 'SET_INFO':
+      let data=payload || {};
+      return state.set("info",data);
     case 'SET_ERROR_MSG':
       return state.set("errorMessage",payload||"");
-      //window.location.href="http://www.baidu.com"; 跳转到登陆页面
     default:
   }
   return state;

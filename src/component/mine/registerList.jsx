@@ -7,75 +7,79 @@ const shopId = helper.getUrlParam('shopId');
 
 const restore="";
 var RegisterList = React.createClass({
-  displayName: 'ShowSettingList',
+  displayName: 'RegisterList',
   propTypes:{
-  	Info:React.PropTypes.object,
-  	getInfo:React.PropTypes.func,
-  	updateInfo:React.PropTypes.func
+  	Info:React.PropTypes.object	
   },
   getInitialState(){
-  	return {"value":"","sex":""};	
+  	return {
+  		name:"",
+  		sex:"",
+  		birth:"",
+  		pwd:""
+  		};
   },
   componentWillMount(){},
   componentDidMount(){},
-  componentWillReceiveProps(nextProps){
-  	if(this.props.Info.name==nextProps.Info.name && this.props.Info.sex==nextProps.Info.sex ){
-  		return;
-  	}
-  	this.setState({value: nextProps.Info.name,sex:nextProps.Info.sex});
-  },
+  componentWillReceiveProps(nextProps){},
   sex_switch(sex,e){
-  	if(sex===0){
-  		if(e.target.className=="active"){}
-  		else{
-		  		this.refs.male.className="";
-		  		e.target.className="active"; 
+  	switch(sex){
+  		case 0:{
+  			this.setState({sex:0});
+  			this.commonMethod();
+  			break;
   		}
-  	}
-  	else if(sex===1){
-  		if(e.target.className=="active"){}
-  		else{
-  	      this.refs.female.className="";
-  		    e.target.className="active";
+  		case 1:{
+  			this.setState({sex:1});
+  			this.commonMethod();
+  			break;
   		}
+  		default:break;
   	}
   },
-  action(e){
-  	let name=this.refs.name.value;
-  	let {updateInfo}=this.props;
-
-  	updateInfo(this.state.sex,name);
-  	
+  commonMethod(){
+  	const {name,sex,birth,pwd}=this.state;
+  	const {getBasic}=this.props;
+  	getBasic({name:name,sex:sex,birth:birth,pwd:pwd});
   },
-  imgError(e){
-  	e.target.src="../../../src/asset/images/register-banner-default.jpg";
+  inputName(){
+  	this.setState({name:this.refs.name.value});
+  	this.commonMethod();
+  },
+  inputBirth(){
+  	this.setState({birth:this.refs.birth.value});
+  	this.commonMethod();
+  },
+  inputPwd(){
+  	this.setState({pwd:this.refs.pwd.value});
+  	this.commonMethod();
   },
   render(){
-  	const {Info}=this.props;
+  	const {name,sex,birth,pwd}=this.state;
   	//this.setState({value: Info.name});
   	return (
   		  <ul className="register-list-ul">
   		      <li style={{padding:"0.75em 0"}}>
-  		         <div className="input-outer fr">
-  		              <input type="text" placeholder="请填写姓名" className="fr"/>
-  		         </div>
-  		         <span className="name">姓名</span>
-  		         <div className="sex-switch">
-                  <i className={Info.sex==0?"active":""} onClick={this.sex_switch.bind(this,0)} ref="female">女士</i>
-                  <i className={Info.sex==1?"active":""} onClick={this.sex_switch.bind(this,1)} ref="male">先生</i>
+  		         <div className="sex-switch fr">
+                  <i className={sex===0?"active":""} onClick={this.sex_switch.bind(this,0)} ref="female">女士</i>
+                  <i className={sex===1?"active":""} onClick={this.sex_switch.bind(this,1)} ref="male">先生</i>
                </div>
-  		         
+  		         <div className="input-outer fr">
+  		              <input type="text" placeholder="请填写姓名" className="fr" defaultValue={name} onInput={this.inputName} ref="name"/>
+  		         </div>
+  		         <span className="middle"></span>
+  		         <span className="name">姓名</span>
   		      </li>
   		      <li>
   		         <span className="name">生日</span>
   		         <div className="input-outer fr">
-  		              <input type="text" placeholder="请填写生日" className="fr"/>
+  		              <input type="text" placeholder="请填写生日" className="fr" defaultValue={birth} onInput={this.inputBirth} ref="birth"/>
   		         </div>
   		      </li>
   		      <li>
   		         <span className="name">交易密码</span>
   		         <div className="input-outer fr">
-  		              <input type="password" placeholder="请填写交易密码" className="fr" maxLength="6"/>
+  		              <input type="password" placeholder="请填写交易密码" className="fr" defaultValue={pwd} maxLength="6" onInput={this.inputPwd} ref="pwd"/>
   		         </div>
   		      </li>
   		  </ul>   

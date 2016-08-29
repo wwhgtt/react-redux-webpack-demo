@@ -1,199 +1,88 @@
 @import 'settings.colors';
+@import '_objects/border';
+
 *{font-family: "微软雅黑";}
 
 $width:100%;
-
 $none:none;
 $background:url(../../asset/images/mine-spirit.png) left top/6.25em auto no-repeat ;
-$border:1px solid #e7e7ef;
 
-.fl{
-    float:left;
-}
-.fr{
-    float:right;
-}
-.of{
-    overflow:hidden;
-}
 body{
     background:#fafafa;
 }
 
-%k{
-    position:absolute;
-    content: "";
-    left:0;
-    width:200%;
-    transform: scale(0.5,0.5);
-    -webkit-transform:scale(0.5,0.5);
-    transform-origin: 0 0;
-    -webkit-transform-origin: 0 0;   
-};
-
-ul.list-ul{
-    position:relative;
-    background:#fff;
-    margin-top:1em;
-    &:before{
-        @extend %k;
-        top:0;
-        border-top:$border;
-    }
-    &:after{
-        @extend %k;
-        bottom:0;
-        border-bottom:$border;
-    }
-    li{
-      padding: 0 1.187em; 
-      &.spe{
-          &:active{
-              background:none ;
-          }
+.settingLink{
+      position:relative;
+      display:block;
+      padding:1em 0;
+      height:100%;
+      &:after{
+           @extend .border-thin;
+           bottom:0;
+           border-bottom:borderSolid(1,#e7e7ef);
       }
-      a{
-          position:relative;
-          display:block;
-          padding:1em 0;
-          &:after{
-               @extend %k;
-               bottom:0;
-               border-bottom:$border;
+      span{
+          &.name{
+              display:inline-block;
+              font-size:14px;
+              text-decoration: $none;
+              vertical-align:middle;
+              //border:1px solid red;
           }
-          span{
-              &.name{
-                  display:inline-block;
-                  font-size:14px;
-                  text-decoration: $none;
-                  vertical-align:middle;
-                  //border:1px solid red;
-              }
-              &.arrow{
-                  position:absolute;
-                  top:50%;
-                  right:0;
-                  margin-top:-0.344em;
-                  width:0.438em;
-                  height:0.688em;
-                  background:$background;
-                  background-position:-5.7em -1.5em;
-              }
-              &.brief{
-                  position:absolute;
-                  top:50%;
-                  right:1em;
-                  line-height:1;
-                  font-size:13px;
-                  margin-top:-0.5em;
-                  color:#bcbcbc;
-              }
-          }
-          img.logo{
+          &.arrow{
               position:absolute;
               top:50%;
-              right:0.813em;
-              margin-top:-1.06em;
-              width:2.125em;
-              height:2.125em;
-              border-radius:2em;
+              right:0;
+              margin-top:-0.344em;
+              width:0.438em;
+              height:0.688em;
+              background:$background;
+              background-position:-5.7em -1.5em;
           }
-          div.sex-switch{
-              display:inline-block;
-              padding:0 1em;
-              vertical-align: middle;
-              *{
-                 display:inline-block;
-                 padding:0.357em 0.6em;
-                 margin-left:0.8em;
-                 border:1px solid #d1d7de;
-                 border-radius:1em;
-                 font-size:14px;
-                 font-style: normal; 
-                 color:#999;
-                 
-                 &.active{
-                     background:#f37e53;
-                     color:#fff;
-                     border-color:#f37e53;
-                 }
-              }
-          }
-          div.input-outer{
+          &.brief{
               position:absolute;
-              display:block;
-              top:1px;
-              bottom:1px;
+              top:50%;
               right:1em;
-              width:8em;
+              line-height:1;
               font-size:13px;
-              input{
-                  width:100%;
-                  height:100%;
-                  text-align: right;
-                  border:none;
-                  outline: none;
-                  color:#666;
-                  &::-webkit-input-placeholder{ /* WebKit browsers */
-                    line-height: 1.4em;
-                  }
+              margin-top:-0.5em;
+              color:#bcbcbc;
+              &.spe{
+                  right:0;
               }
           }
-        }
-        &:active{
-            background:#eaeaea;
-        }
-        &:last-child{
-          a{
-            border:none;
-        }
       }
-    }
-    
-    
+      .logo{
+          position:absolute;
+          top:50%;
+          right:0.813em;
+          margin-top:-1.06em;
+          width:2.125em;
+          height:2.125em;
+          border-radius:2em;
+          &.spe{
+                  right:0;
+              }
+      }
 }
 
-.logoff{
-    position:relative;
-    display:block;
-    margin-top:1em;
-    padding:1em 0;
-    font-size:14px;
-    text-align: center;
-    text-decoration: none;
-    background:#fff;
-    &:after{
-        @extend %k;
-        bottom:0;
-        border-bottom:$border;
-    }
-    &:before{
-        @extend %k;
-        top:0;
-        border-top:$border;
-    }
-    &:active{
-        background:#eaeaea;
-    }
+.input-outer{
+      padding:0 1em;
+      width:10em;
+      height:100%;
+      font-size:13px;
+      .input{
+          width:100%;
+          height:100%;
+          text-align: right;
+          border:none;
+          outline: none;
+          color:#666;
+          &::-webkit-input-placeholder{ /* WebKit browsers */
+            line-height: 1.4em;
+          }
+      }
 }
 
-.save{
-    @extend .logoff;
-    position:absolute;
-    bottom:0;
-    width:100%;
-    background:#ffc150;
-    color:#fff;
-    &:after{
-        display:none;
-    }
-    &:before{
-        display:none;
-    }
-    &:active{
-        background:#ffc150;
-        opacity:0.8;
-    }
-}
 
 

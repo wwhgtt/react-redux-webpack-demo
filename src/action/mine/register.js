@@ -42,30 +42,22 @@ exports.getInfo = (id) => (dispatch, getStates) => {
     });
     }
 
-exports.getCode = (phoneNumber) => (dispatch, getStates) => {
-	if(!phoneNumber){
-		alert("请输入手机号码!!")
-		return;
-	}
+//得到验证码
+exports.getCode = (phoneNumber,trp) => (dispatch, getStates) => {
     fetch(registerAPI+"?shopId="+shopId+"&mId="+mid).
     then(res => {
       return res.json();
     }).
     then(BasicData => {
-    	//console.log(BasicData)
-      if(BasicData.msg){
-      	 dispatch(setErrorMsg(BasicData.msg));
-      	 setTimeout(function(){
-      	 	BasicData.msg=="未登录"?
-      	 	window.location.href=logUrl+"?shopId="+shopId+"&returnUrl="+encodeURIComponent(wl.pathname+wl.search)
-      	 	:"";
-      	 },3000)
-      	 return;
-      }
-      //console.log(BasicData.data);
-      dispatch(setInfo(BasicData.data));
+      let code="1111"; //此处模拟验证码
     }).
     catch(err => {
-      dispatch(setErrorMsg('获取基本信息失败...'));
+      dispatch(setErrorMsg('获取验证码失败...'));
     });
-    }
+}
+
+//保存信息
+exports.saveInfo = (obj) => (dispatch, getStates) => {
+	console.log(obj);
+	
+}

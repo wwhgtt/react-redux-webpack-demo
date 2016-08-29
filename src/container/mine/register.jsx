@@ -11,33 +11,41 @@ require('./register.scss');
 
 const RegisterApplication = React.createClass({
   displayName: 'RegisterApplication',
-  propTypes:{
-  	Info:React.PropTypes.object,
-  	getInfo:React.PropTypes.func,
-  	updateInfo:React.PropTypes.func
-  },
+  propTypes:{},
   getInitialState() {
-    return {};
+    return {phoneNum:"",code:"",name:"",sex:"",birth:"",pwd:""};
   },
-  componentWillMount(){
-  	
-  },
+  componentWillMount(){},
   componentDidMount(){
   	const {getInfo}=this.props;
   	getInfo();
+  },
+  getPhone(obj){
+  	this.setState({phoneNum:obj.phoneNum||"",code:obj.code||""});
+  },
+  getBasic(obj){
+  	this.setState({name:obj.name||"",sex:obj.sex||"",birth:obj.birth||"",pwd:obj.pwd||""});
+  },
+  submit(){
+  	const {saveInfo}=this.props;
+  	if(this.valid(this.state)){
+  	   saveInfo(this.state);
+  	}
+  },
+  valid(obj){ //在此处进行验证
+  	//在此处进行验证
+  	return true;
   },
   render(){
   	const {Info,getCode}=this.props;
   	return (
   		 <div> 
 	  		 	<RegisterBanner Info={Info}/>
-	  		 	<PhoneInput getCode={getCode} />
-	  		 	<RegisterList Info={Info} />
+	  		 	<PhoneInput getCode={getCode} getPhone={this.getPhone} />
+	  		 	<RegisterList getBasic={this.getBasic}/>
+	  		 	<a href="javascript:void(0)" className="registerBtn" onClick={this.submit}>注册会员</a>
   		 </div>
   	)
-  	
-  	
-  	
   }
 });
 

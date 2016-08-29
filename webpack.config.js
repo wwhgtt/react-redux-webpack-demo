@@ -132,7 +132,7 @@ module.exports = {
         chunks: ['common', 'register-entry'],
         inject: 'body', template: './src/helper/common-template.html',
        }
-     )
+    ),
     new HtmlWebpackPlugin(
     	{
         title: 'AddressListApplication',

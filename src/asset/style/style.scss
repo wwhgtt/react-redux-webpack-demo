@@ -12,11 +12,13 @@
 @import 'base';
 
 // objects
+@import '_objects/border';
 @import '_objects/buttons';
 @import '_objects/typo';
 @import '_objects/symbol';
 @import '_objects/layout';
 @import '_objects/options';
+@import '_objects/list';
 
 // components
 @import '_components/subpage';

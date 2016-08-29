@@ -18,9 +18,7 @@ if (process.env.NODE_ENV === 'production') {
 const store = storeCreator(reducer);
 ReactDOM.render(
   <Provider store={store}>
-    
-      <MainIndexApplication />
-    
+    <MainIndexApplication />
   </Provider>,
   document.getElementById('app-holder')
 );
