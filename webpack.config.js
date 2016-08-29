@@ -21,6 +21,9 @@ module.exports = {
     'address-list-entry': [
       './src/address-list.jsx',
     ],
+    'user-login-entry': [
+      './src/user-login.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -94,6 +97,14 @@ module.exports = {
         title: 'AddressListApplication',
         filename: 'address-list.html',
         chunks: ['common', 'address-list-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'UserLoginApplication',
+        filename: 'user-login.html',
+        chunks: ['common', 'user-login-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
