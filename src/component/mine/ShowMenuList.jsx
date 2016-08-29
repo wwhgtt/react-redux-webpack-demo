@@ -1,9 +1,9 @@
 const React = require('react');
 const config = require('../../config');
-const helperCommon = require('../../helper/common-helper');
+const commonHelper = require('../../helper/common-helper');
 
-const shopId = helperCommon.getUrlParam('shopId');
-// const mid = helperCommon.getCookie('mid');
+const shopId = commonHelper.getUrlParam('shopId');
+// const mid = commonHelper.getCookie('mid');
 const settingUrl = `${config.mineSettingURL}?shopId=${shopId}`;
 const creditUrl = `${config.integralURL}?shopId=${shopId}`;
 const remainUrl = `${config.valueCardURL}?shopId=${shopId}`;

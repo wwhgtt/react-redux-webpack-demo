@@ -2,8 +2,8 @@ const React = require('react');
 require('./ShowSettingList.scss');
 const SexSwitch = require('../../component/mui/sexSwitch.jsx');
 const config = require('../../config');
-const helperCommon = require('../../helper/common-helper');
-const shopId = helperCommon.getUrlParam('shopId');
+const commonHelper = require('../../helper/common-helper');
+const shopId = commonHelper.getUrlParam('shopId');
 const registerUrl = ` ${config.registerURL}?shopId=${shopId}`;
 const modifypwdUrl = ` ${config.modifyPwdURL}?shopId=${shopId}`;
 

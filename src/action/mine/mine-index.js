@@ -1,15 +1,15 @@
 const config = require('../../config');
-const helperCommon = require('../../helper/common-helper');
+const commonHelper = require('../../helper/common-helper');
 
 const createAction = require('redux-actions').createAction;
 require('es6-promise');
 require('isomorphic-fetch');
 const setInfo = createAction('SET_INFO', setinfo => setinfo);
 const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
-// helperCommon.setCookie('mid',"b5d13adbc9d8d6ce93ad9f8ea4cc");
+// commonHelper.setCookie('mid',"b5d13adbc9d8d6ce93ad9f8ea4cc");
 
-const shopId = helperCommon.getUrlParam('shopId');
-const mid = helperCommon.getCookie('mid');
+const shopId = commonHelper.getUrlParam('shopId');
+const mid = commonHelper.getCookie('mid');
 const wl = window.location;
 
 const logUrl = `${config.logAddressURL}`;
@@ -22,7 +22,7 @@ exports.getInfo = (id) => (dispatch, getStates) => {
     wl.href = notFound;
     return;
   }
-  fetch(`${individualAPI}shopId=${shopId}&mId=${mid}`).
+  fetch(`${individualAPI}?shopId=${shopId}&mId=${mid}`).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('请求数据失败'));
