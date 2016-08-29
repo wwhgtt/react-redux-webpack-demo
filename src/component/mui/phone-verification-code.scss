@@ -1,6 +1,6 @@
 @import 'settings.colors';
 .phone-verification-code.options-group{
-  border-top:none;
+  border-top: none;
   .option {
     font-size: 14px;
     position: relative;
@@ -55,5 +55,46 @@
         background-size: 20px 20px;
       }
     }
+  }
+}
+
+.phone-verification-code.multi-nations{
+  .option{
+    &.phone{
+      padding-left: 110px;
+      &::before{
+        left: 90px;
+      }
+    }
+  }
+
+  select {
+    position: absolute;
+    top: 15px;
+    left: 5px;
+    height: 24px;
+    font-size: 14px;
+    outline: none;
+    background: #fff;
+    border: 1px solid #eaeaea;
+    border-radius: 3px;
+  }
+}
+
+.phone-verification-code.foreign{
+  .verification-code{
+    display: none;
+  }
+
+  .btn{
+    display: none;
+  }
+
+  .option{
+    border-bottom: none;
+  }
+
+  .option {
+    padding-left: 110px;
   }
 }
