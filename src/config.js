@@ -10,7 +10,7 @@ switch (process.env.NODE_ENV) {
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
     };
     break;
-  default: 
+  default:
     apiBase = 'http://testweixin.shishike.com';   // 测试环境//本地 `http://${process.env.DEV_HOST}:3001`;
     requestOptions = {
       method: 'GET', mod: 'cors',
