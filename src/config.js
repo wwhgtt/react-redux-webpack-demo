@@ -48,5 +48,6 @@ module.exports = {
   getCheckTableAvaliable:`${apiBase}/booking/getTableByAreaAndNum.json`,
   getOrderInLineAPI: `${apiBase}/queue/info.json`,
   submitOrderInLineAPI: `${apiBase}/queue/add.json`,
+  placeOrderAPI:`${apiBase}/order/getOrder.json`,
   requestOptions,
 };
