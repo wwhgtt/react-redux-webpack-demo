@@ -31,7 +31,7 @@ describe('Helper', function () {
 
     // getDishesCount
     it('getDishesCount', function () {
-      // Except return an array with two ordered dish objects.
+      // Except return 10.
       dishHelper.getDishesCount(fakeDishes.orderedSingleDishesAndGroupDishes).should.equal(10);
       dishHelper.getDishesCount(fakeDishes.orderedSingleDishesOnly).should.equal(10);
       dishHelper.getDishesCount(fakeDishes.orderedGroupDishesOnly).should.equal(10);
@@ -40,22 +40,14 @@ describe('Helper', function () {
     // getOrderPrice
 
     // getDishPrice
-
-    // getDishesPrice *
-
-    // getNewCountOfDish *
-
-    // getOrderedPropIds ?
-
-    // getSignleDishRuleIds ?
-
-    // getDishBoxCount *
-
-    // getDishBoxprice *
-
-    // hasSelectedProps *
-
-    // isShopOpen *
+    it('getDishPrice', function () {
+      // Except return 36. (12 * 3)
+      dishHelper.getDishPrice(fakeDishes.singleDishWithoutProps).should.equal(36);
+      // Except return 72. [(21 + 1) * 1 + (21 + 2 + 2) * 2]
+      dishHelper.getDishPrice(fakeDishes.singleDishWithProps).should.equal(72);
+      // Except return 56. (28 * 2)
+      dishHelper.getDishPrice(fakeDishes.groupDish).should.equal(56);
+    });
 
     // generateDishNameWithUnit
     it('generateDishNameWithUnit', function () {
