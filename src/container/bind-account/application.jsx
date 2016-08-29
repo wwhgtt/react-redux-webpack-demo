@@ -1,6 +1,6 @@
 const React = require('react');
 const connect = require('react-redux').connect;
-const Toast = require('../../component/mui/toast.jsx');
+// const Toast = require('../../component/mui/toast.jsx');
 require('../../asset/style/style.scss');
 require('./application.scss');
 import BindPhoneIndex from '../../component/bind-account/bind-phone-index.js';
@@ -12,52 +12,61 @@ import BindWxSuccess from '../../component/bind-account/bind-wx-success.js';
 import * as actions from '../../action/bind-account/bind-account.js';
 
 
-const BindAccountApplication = React.createClass( {
-	// 监听hash变化
-	componentWillMount () {
-		window.addEventListener('hashchange', this.setChildViewAccordingToHash);
-		window.addEventListener('load', this.setChildViewAccordingToHash);
-	},
+const BindAccountApplication = React.createClass({
+  propTypes: {
+    // actions
+    setChildView: React.PropTypes.func,
+    bindPhone: React.PropTypes.func,
+    // states
+    childView: React.PropTypes.string,
+  },
+  // 监听hash变化
+  componentWillMount() {
+    window.addEventListener('hashchange', this.setChildViewAccordingToHash);
+    window.addEventListener('load', this.setChildViewAccordingToHash);
+  },
 
-	// 获得页面hash并发送action
-	setChildViewAccordingToHash() {
-		const {setChildView} = this.props;
-		const hash = location.hash;
-	    setChildView(hash);
-	},
+  // 获得页面hash并发送action
+  setChildViewAccordingToHash() {
+    const { setChildView } = this.props;
+    const hash = location.hash;
+    setChildView(hash);
+  },
 
-	render() {
-		const {childView, bindPhone} = this.props;
-		if (childView === '#bind-phone') {
-			// 手机绑定首页
-			return <BindPhoneIndex />
-		} else if (childView === '#phone-validate') {
-			// 验证手机
-			return <BindPhoneValidate 
-					onBindPhone = {phoneInfo => bindPhone(phoneInfo)}
-					/>
-		} else if (childView === '#phone-success') {
-			const phoneNum = window.sessionStorage.getItem('phoneNum');
-			// 手机绑定成功
-			return <BindPhoneSuccess phoneNum={phoneNum}/>
-		} else if (childView === '#bind-wx') {
-			// 微信绑定首页
-			return <BindWxIndex />
-		} else if (childView === '#wx-info') {
-			// 微信信息展示
-			const wxInfo = {
-				'phoneNum': '13498000384',
-				'userName': '黎逝33'
-			};
-			return <BindWxInfo wxInfo= {wxInfo}/>
-		} else if (childView === '#wx-success') {
-			return <BindWxSuccess />
-		} else {
-			return <div></div>;
-		}
-		
-		
-	}
-})
+  render() {
+    const { childView, bindPhone } = this.props;
+    let phoneNum = '';
+    let wxInfo = {
+      phoneNum: '13498000384',
+      userName: '黎逝33',
+    };
+    switch (childView) {
+      case '#bind-phone':
+        // 手机绑定首页
+        return <BindPhoneIndex />;
+      case '#phone-validate':
+        // 验证手机
+        return (
+          <BindPhoneValidate
+            onBindPhone={phoneInfo => bindPhone(phoneInfo)}
+          />
+        );
+      case '#phone-success':
+        phoneNum = window.sessionStorage.getItem('phoneNum');
+        // 手机绑定成功
+        return <BindPhoneSuccess phoneNum={phoneNum} />;
+      case '#bind-wx':
+        // 微信绑定首页
+        return <BindWxIndex />;
+      case '#wx-info':
+        // 微信信息展示
+        return <BindWxInfo wxInfo={wxInfo} />;
+      case '#wx-success':
+        return <BindWxSuccess />;
+      default:
+        return <div></div>;
+    }
+  },
+});
 
 module.exports = connect(state => state, actions)(BindAccountApplication);
