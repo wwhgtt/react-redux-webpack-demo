@@ -17,6 +17,7 @@ const PlaceOrderApplication = React.createClass({
     fetchCommercialProps:React.PropTypes.func.isRequired,
     setChildView:React.PropTypes.func.isRequired,
     setOrderProps:React.PropTypes.func.isRequired,
+    placeOrder:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     commercialProps:React.PropTypes.object.isRequired,
     tableProps:React.PropTypes.object.isRequired,
@@ -52,6 +53,10 @@ const PlaceOrderApplication = React.createClass({
       setChildView('');
     }
   },
+  placeOrder() {
+    // const { placeOrder, tableProps, timeProps } = this.props;
+
+  },
   render() {
     // mapStateToProps
     const { commercialProps, childView, tableProps, timeProps } = this.props;
@@ -74,7 +79,7 @@ const PlaceOrderApplication = React.createClass({
           <span className="option-title">备注: </span>
           <input className="option-input" name="note" placeholder="输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />
         </label>
-
+        <button className="place-order" onTouchTap={this.placeOrder}>立即预定</button>
         <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
           {childView === 'table-select' ?
             <TableSelect
