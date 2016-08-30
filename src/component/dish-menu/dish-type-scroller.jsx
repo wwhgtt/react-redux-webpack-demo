@@ -17,7 +17,10 @@ module.exports = React.createClass({
   },
   componentDidMount() {
     this._cache = {};
-    this._cache.iScroll = new IScroll(findDOMNode(this), {});
+    this._cache.iScroll = new IScroll(findDOMNode(this), {
+      click: true,
+      tap: true,
+    });
   },
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
