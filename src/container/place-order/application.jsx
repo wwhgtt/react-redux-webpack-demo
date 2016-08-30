@@ -4,6 +4,7 @@ const connect = require('react-redux').connect;
 const actions = require('../../action/place-order/place-order');
 const config = require('../../config.js');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getSelectedTable = require('../../helper/order-helper.js').getSelectedTable;
 // const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const TimeSelect = require('../../component/order/select/time-select.jsx');
@@ -15,6 +16,7 @@ const PlaceOrderApplication = React.createClass({
   propTypes:{
     // MapedActionsToProps
     fetchCommercialProps:React.PropTypes.func.isRequired,
+    fetchTables:React.PropTypes.func.isRequired,
     setChildView:React.PropTypes.func.isRequired,
     setOrderProps:React.PropTypes.func.isRequired,
     placeOrder:React.PropTypes.func.isRequired,
@@ -34,10 +36,12 @@ const PlaceOrderApplication = React.createClass({
   },
   componentDidMount() {
     this.setChildViewAccordingToHash();
-    const { fetchCommercialProps } = this.props;
-    fetchCommercialProps().then(
-      () => { this.setChildViewAccordingToHash(); }
-    );
+    const { fetchCommercialProps, fetchTables } = this.props;
+    fetchCommercialProps()
+      .then(fetchTables)
+      .then(
+        () => { this.setChildViewAccordingToHash(); }
+      );
   },
   setChildViewAccordingToHash() {
     const { setChildView } = this.props;
@@ -57,16 +61,38 @@ const PlaceOrderApplication = React.createClass({
     // const { placeOrder, tableProps, timeProps } = this.props;
 
   },
+  buildSelectTablesElement(tableProps) {
+    const { setChildView } = this.props;
+    if (tableProps.areas && tableProps.areas.length && tableProps.tables && tableProps.tables.length) {
+      const selectedTable = getSelectedTable(tableProps);
+      return (
+        <a
+          className="option"
+          onTouchTap={evt => setChildView('#table-select')}
+        >
+          <span className="options-title">桌台类型</span>
+          <span className="option-btn btn-arrow-right">
+            {selectedTable.area && selectedTable.table ?
+              `${selectedTable.area.areaName} ${selectedTable.table.tableName}`
+              :
+              false
+            }
+          </span>
+        </a>
+      );
+    }
+    return false;
+  },
   render() {
     // mapStateToProps
     const { commercialProps, childView, tableProps, timeProps } = this.props;
-    // mapActionsToState
+    // mapActionsToProps
     const { setChildView, setOrderProps } = this.props;
     return (
       <div className="application">
         <a className="option order-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
-          <img className="order-shop-icon" src={commercialProps.commercialLogo} alt="" />
-          <p className="order-shop-desc ellipsis">{commercialProps.name}</p>
+          <img className="order-shop-icon" src={commercialProps.shopLogo} alt="" />
+          <p className="order-shop-desc ellipsis">{commercialProps.shopName}</p>
         </a>
 
         <div className="option">
@@ -75,6 +101,9 @@ const PlaceOrderApplication = React.createClass({
             选择预定时间
           </button>
         </div>
+
+        {this.buildSelectTablesElement(tableProps)}
+
         <label className="option">
           <span className="option-title">备注: </span>
           <input className="option-input" name="note" placeholder="输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />

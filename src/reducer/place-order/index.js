@@ -1,22 +1,42 @@
 const Immutable = require('seamless-immutable');
 const _find = require('lodash.find');
+const helper = require('../../helper/place-order-helper.js');
+const getDefaultSelectedDateTime = require('../../helper/order-helper.js').getDefaultSelectedDateTime;
 module.exports = function (
   state = Immutable.from({
     commercialProps:{
-      logo:null,
-      name:null,
+      shopLogo:null,
+      shopName:null,
     },
     childView:null,
-    timeProps:null,
-    tableProps:null,
+    timeProps:{
+      selectedDateTime:{ date:'', time:'' },
+      timeTable:null,
+    },
+    tableProps:{
+      areas:[],
+      tables:[],
+    },
     errorMessage:null,
   }),
   action
 ) {
   const { type, payload } = action;
   switch (type) {
-    case '':
-      return state;
+    case 'SET_COMMERCIAL_PROPS':
+      return state
+        .setIn(['commercialProps', 'shopLogo'], payload.shopLogo)
+        .setIn(['commercialProps', 'shopName'], payload.shopName)
+        .setIn(['timeProps', 'selectedDateTime'],
+          Immutable.from(
+            getDefaultSelectedDateTime(payload.timeJson, payload.defaultSelectedDateTime)
+          )
+        )
+        .setIn(['timeProps', 'timeTable'], payload.timeJson);
+    case 'SET_TABLE_PROPS':
+      return state
+        .setIn(['tableProps', 'areas'], helper.initializeTableProps(payload.areaList)).areas
+        .setIn(['tableProps', 'tables'], helper.initializeTableProps(payload.areaList)).tables;
     case 'SET_ERROR_MSG':
       return state.set('errorMessage', payload);
     case 'SET_CHILDVIEW':
