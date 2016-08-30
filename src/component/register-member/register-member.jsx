@@ -15,7 +15,7 @@ const RegisterMember = React.createClass({
       errorMsgC: '', // 密码提示信息
       phoneNum: '', // 手机号码
       password: '', // 注册密码
-      sex: '',
+      userSex: '',
     };
   },
 
@@ -28,18 +28,32 @@ const RegisterMember = React.createClass({
   },
 
   handleSex(obj) {
-    this.setState({ sex: obj.sex });
+    this.setState({ userSex: obj.sex });
   },
 
   registerMember() {
-    const { errorMsgP, phoneNum } = this.state;
-    // console.log(this.state);
+    const { errorMsgP, errorMsgC, phoneNum, password, userSex } = this.state;
     if (!phoneNum) {
       this.setState({ errorMsg: '请填写手机号码' });
     } else if (errorMsgP) {
       this.setState({ errorMsg: errorMsgP });
     } else if (!this.refs.userName.value) {
       this.setState({ errorMsg: '请填写用户名' });
+    } else if (!userSex) {
+      this.setState({ errorMsg: '请选择性别' });
+    } else if (!password) {
+      this.setState({ errorMsg: '请设置密码' });
+    } else if (errorMsgC) {
+      this.setState({ errorMsg: errorMsgC });
+    } else {
+      const registerInfo = {
+        shopId: '123',
+        birth: 'fasd',
+        phone: phoneNum,
+        sex: userSex,
+        pwd: password,
+      };
+      console.log(registerInfo);
     }
   },
 
@@ -48,7 +62,7 @@ const RegisterMember = React.createClass({
   },
 
   render() {
-    const { password, sex, errorMsg } = this.state;
+    const { password, userSex, errorMsg } = this.state;
     // 中国手机号码验证规则
     const regPhone = /^(1(?:[358]\d{9}|7[3678]\d{8}|4[57]\d{8}))|0[49]\d{8}$/;
     // const regEmpty = /\S/; // 非空验证规则
@@ -92,7 +106,7 @@ const RegisterMember = React.createClass({
                 maxLength="30"
                 ref="userName"
               />
-              <SexSwitch sex={sex} getSex={this.handleSex} />
+              <SexSwitch sex={userSex} getSex={this.handleSex} />
             </div>
             <div className="option">
               <span className="option-title">生日</span>
