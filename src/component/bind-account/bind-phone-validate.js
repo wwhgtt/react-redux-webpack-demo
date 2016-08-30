@@ -1,6 +1,6 @@
-import React from 'react';
-import PhoneVerficationCode from '../mui/phone-verification-code.jsx';
-import Toast from '../mui/toast.jsx';
+const React = require('react');
+const PhoneVerficationCode = require('../mui/phone-verification-code.jsx');
+const Toast = require('../mui/toast.jsx');
 
 const BindPhoneValidate = React.createClass({
   propTypes:{

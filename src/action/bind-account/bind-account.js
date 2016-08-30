@@ -1,13 +1,10 @@
-import {createAction} from 'redux-actions';
+import { createAction } from 'redux-actions';
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
-const setPhone = createAction('SET_PHONE', phoneInfo => phoneInfo);
+// const setPhone = createAction('SET_PHONE', phoneInfo => phoneInfo);
 
 exports.bindPhone = phoneInfo => () => {
-	if (phoneInfo) {
-		window.sessionStorage.setItem('phoneNum', phoneInfo.phoneNum);
-		location.hash = '#phone-success';
-	} else {
-		return false;
-	}
-	
-}
+  if (phoneInfo) {
+    window.sessionStorage.setItem('phoneNum', phoneInfo.phoneNum);
+    location.hash = '#phone-success';
+  }
+};

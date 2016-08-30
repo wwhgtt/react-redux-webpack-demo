@@ -3,13 +3,13 @@ const connect = require('react-redux').connect;
 // const Toast = require('../../component/mui/toast.jsx');
 require('../../asset/style/style.scss');
 require('./application.scss');
-import BindPhoneIndex from '../../component/bind-account/bind-phone-index.js';
-import BindPhoneValidate from '../../component/bind-account/bind-phone-validate.js';
-import BindPhoneSuccess from '../../component/bind-account/bind-phone-success.js';
-import BindWxIndex from '../../component/bind-account/bind-wx-index.js';
-import BindWxInfo from '../../component/bind-account/bind-wx-info.js';
-import BindWxSuccess from '../../component/bind-account/bind-wx-success.js';
-import * as actions from '../../action/bind-account/bind-account.js';
+const BindPhoneIndex = require('../../component/bind-account/bind-phone-index.js');
+const BindPhoneValidate = require('../../component/bind-account/bind-phone-validate.js');
+const BindPhoneSuccess = require('../../component/bind-account/bind-phone-success.js');
+const BindWxIndex = require('../../component/bind-account/bind-wx-index.js');
+const BindWxInfo = require('../../component/bind-account/bind-wx-info.js');
+const BindWxSuccess = require('../../component/bind-account/bind-wx-success.js');
+const actions = require('../../action/bind-account/bind-account.js');
 
 
 const BindAccountApplication = React.createClass({

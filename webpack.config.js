@@ -22,7 +22,7 @@ module.exports = {
       './src/address-list.jsx',
     ],
     'bind-account-entry': './src/bind-account.jsx',
-    'register-member-entry' : './src/register-member.jsx'
+    'register-member-entry' : './src/register-member.jsx',
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
