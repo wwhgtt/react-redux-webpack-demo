@@ -11,7 +11,7 @@ switch (process.env.NODE_ENV) {
     };
     break;
   default:
-    apiBase = 'http://testweixin.shishike.com';   // 测试环境//本地 `http://${process.env.DEV_HOST}:3001`;
+    apiBase = 'http://testweixin.shishike.com';   // 测试环境 //本地 `http://${process.env.DEV_HOST}:3001`;
     requestOptions = {
       method: 'GET', mod: 'cors',
       credentials: 'include',
