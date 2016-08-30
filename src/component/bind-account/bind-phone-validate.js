@@ -20,7 +20,6 @@ const BindPhoneValidate = React.createClass({
 
   handleClick(e) {
     const { phoneNum, phoneCode } = this.state || {};
-    // console.log(this.state);
     if (!phoneNum) {
       this.setState({ showMsg: true });
       return;

@@ -1,40 +1,39 @@
 const React = require('react');
 
-const InputPhone = React.createClass({
+const InputNum = React.createClass({
   propTypes: {
-    type: React.PropTypes.string,
-    onGetPhoneNum: React.PropTypes.func,
+    onGetNum: React.PropTypes.func,
+    regs: React.PropTypes.Array,
   },
   getInitialState() {
-    return { phoneVal: '' };
+    return { numVal: '' };
   },
   handleCheck(e) {
-    let phoneNum = e.target.value;
-    const regPhone = /^(1(?:[358]\d{9}|7[3678]\d{8}|4[57]\d{8})|0[49]\d{10})$/;
+    let inputNum = e.target.value;
     const regNum = /[^0-9]/g;
-    let errorFlag = 0;
+    let errorFlag = 'success'; // 提示信息
+    const { regs } = this.props; // 来自父级的验证规则
 
-    // console.log(phoneNum);
-    if (regNum.test(phoneNum)) {
-      phoneNum = phoneNum.replace(regNum, '');
+    // 禁止输入数字以外的字符
+    if (regNum.test(inputNum)) {
+      inputNum = inputNum.replace(regNum, '');
     }
-    this.setState({ phoneVal: phoneNum });
-    // // errorFlag
-    // 1:验证通过 0:空字符串 2:格式错误
-    // ===========================
-    // debugger;
-    if (!phoneNum) {
-      errorFlag = 0;
-    } else if (!regPhone.test(phoneNum)) {
-      errorFlag = 2;
-    } else {
-      errorFlag = 1;
+    this.setState({ numVal: inputNum });
+    // 遍历验证规则
+    if (regs) {
+      const regLen = regs.length;
+      for (let i = 0; i < regLen; i ++) {
+        if (!(regs[i].reg).test(inputNum)) {
+          errorFlag = regs[i].regMsg;
+          break;
+        }
+      }
     }
-
-    if (this.props.onGetPhoneNum) {
-      this.props.onGetPhoneNum({
-        errorCode: errorFlag,
-        phoneVal: phoneNum,
+    // 将提示信息和值传出
+    if (this.props.onGetNum) {
+      this.props.onGetNum({
+        errorMsg: errorFlag,
+        numVal: inputNum,
       });
     }
   },
@@ -44,12 +43,13 @@ const InputPhone = React.createClass({
     return (
       <input
         type="tel"
+        pattern={"\\d*"}
         onChange={this.handleCheck}
         {...props}
-        value={this.state.phoneVal}
+        value={this.state.numVal}
       />
     );
   },
 });
 
-module.exports = InputPhone;
+module.exports = InputNum;

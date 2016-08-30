@@ -2,19 +2,42 @@ import React from 'react';
 import InputPhone from '../mui/input/input-number.js';
 
 const RegisterMember = React.createClass({
+  propTypes: {
+    regs: React.PropTypes.Array,
+  },
   getInitialState() {
-    return { errorCode: 0, phoneNum: '' };
+    return {
+      errorMsgP: '电话空的', // 手机提示信息
+      errorMsgC: '密码空的', // 密码提示信息
+      phoneNum: '', // 手机号码
+      password: '', // 注册密码
+    };
   },
   getPhoneNum(obj) {
-    this.setState({ errorCode: obj.errorCode, phoneNum: obj.phoneVal });
+    // console.log(obj);
+    this.setState({ errorMsgP: obj.errorMsg, phoneNum: obj.numVal });
+  },
+  getPassword(obj) {
+    this.setState({ errorMsgC: obj.errorMsg, password: obj.numVal });
   },
   registerMember() {
     console.log(this.state);
   },
   render() {
-    // const abs = {
-    //   maxLength: 12,
-    // };
+    // 中国手机号码验证规则
+    const regPhone = /^(1(?:[358]\d{9}|7[3678]\d{8}|4[57]\d{8})|0[49]\d{10})$/;
+    const regEmpty = /\S/; // 非空验证规则
+    const regCode = /\d{6}/; // 6位数字验证规则
+    // 手机验证
+    const regP = [
+      { regMsg: '电话空的', reg: regEmpty },
+      { regMsg: '电话格式错误', reg: regPhone },
+    ];
+    // 6位密码验证
+    const regC = [
+      { regMsg: '密码空的', reg: regEmpty },
+      { regMsg: '6位密码', reg: regCode },
+    ];
     return (
       <div className="register-member ">
         <div className="register-banner">
@@ -27,9 +50,9 @@ const RegisterMember = React.createClass({
               <InputPhone
                 maxLength={11}
                 placeholder={"请填写手机号"}
-                pattern={"\\d*"}
+                regs={regP}
                 className={'option-input register-input'}
-                onGetPhoneNum={this.getPhoneNum}
+                onGetNum={this.getPhoneNum}
               />
             </div>
           </div>
@@ -48,8 +71,14 @@ const RegisterMember = React.createClass({
             <div className="option">
               <span className="option-title">交易密码</span>
               <span className="btn-arrow-right"></span>
-              <input type="tel" className="option-input register-input" placeholder="请填写6位数字密码" maxLength="6" />
-              <input type="password" className="option-input register-input" />
+              <InputPhone
+                maxLength={6}
+                placeholder={"请填写6位数字密码"}
+                regs={regC}
+                className={'option-input register-input'}
+                onGetNum={this.getPassword}
+              />
+              <input type="password" ref="inputPwd" value={this.state.password} className="option-input register-input" placeholder="请填写6位数字密码" />
             </div>
           </div>
         </div>
