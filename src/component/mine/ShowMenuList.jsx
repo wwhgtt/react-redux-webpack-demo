@@ -12,7 +12,7 @@ const rechargeUrl = `${config.registerMemberURL}?shopId=${shopId}${shopId}`;
 const orderallListUrl = `${config.orderallListURL}?shopId=${shopId}`;
 const getCouponListUrl = ` ${config.getCouponListURL}?shopId=${shopId}`;
 const addressListUrl = `${config.addressListURL}?shopId=${shopId}`;
-const registerUrl = ` ${config.registerURL}?shopId=${shopId}`;
+const registerUrl = ` ${config.registerMemberURL}?shopId=${shopId}`;
 const bindaccountUrlphone = ` ${config.bindAccountURL}?shopId=${shopId}#bind-phone`;
 const bindaccountUrlwx = ` ${config.bindAccountURL}?shopId=${shopId}#bind-wx`;
 
