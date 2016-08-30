@@ -28,11 +28,6 @@ module.exports = React.createClass({
       onPropsBtnTap(dishData);
     }
   },
-  onTouchTap(evt) {
-    // prevent event bubble to iscroll
-    evt.preventDefault();
-    evt.stopPropagation();
-  },
   onDishImageTap() {
     const { dishData, onImageBtnTap } = this.props;
     onImageBtnTap(dishData);
@@ -62,7 +57,7 @@ module.exports = React.createClass({
     return (
       <div className="dish-on-selling">
         {dishData.currRemainTotal !== 0 ?
-          <div className="dish-list-item" onTouchTap={this.onTouchTap}>
+          <div className="dish-list-item">
             <button
               className={classnames('dish-item-img', { 'is-memberdish': dishData.isMember })}
               onTouchTap={this.onDishImageTap}

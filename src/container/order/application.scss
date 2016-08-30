@@ -5,8 +5,12 @@ div[data-reactroot] {
   height: 100%;
 }
 
+div[data-reactroot] {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .application {
-  min-height: 100%;
   border-top: 10px solid $color-gallery;
   border-bottom: 50px solid $color-gallery;
   background: $color-gallery;
