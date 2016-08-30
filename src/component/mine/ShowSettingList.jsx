@@ -43,8 +43,20 @@ module.exports = React.createClass({
     getInfo({ name: this.state.name, sex: this.state.sex });
   },
   render() {
-    const condition = 4;// 1 微信号(未绑定手机)  2手机号非会员（未绑定微信）3手机号会员（未绑定微信） 4绑定成功
+    let condition = '';// 1 微信号(未绑定手机)  2手机号非会员（未绑定微信）3手机号会员（未绑定微信） 4绑定成功
     const { info } = this.props;
+    // 几种状态的判断
+    if (info.loginType === 'weixin' && !info.bindMobile) {
+      condition = 1;
+    } else if (info.loginType === 'mobile' && !info.bindWx) {
+      if (!info.isMember) {
+        condition = 2;
+      } else {
+        condition = 3;
+      }
+    } else if (info.bindWx && info.bindMobile) {
+      condition = 4;
+    }
     const { name, sex } = this.state;
     return (
       <div className="list-outer of">
@@ -64,7 +76,7 @@ module.exports = React.createClass({
                             placeholder="请输入姓名"
                             ref="name"
                             value={name}
-                            onInput={this.onInputName}
+                            onChange={this.onInputName}
                           />
                         </div>
                       </a>

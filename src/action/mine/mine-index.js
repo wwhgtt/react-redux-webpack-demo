@@ -13,13 +13,12 @@ const mid = commonHelper.getCookie('mid');
 const wl = window.location;
 
 const logUrl = `${config.logAddressURL}`;
-const notFound = `${config.notFoundUrl}`;
 
 const individualAPI = `${config.individualAPI}`;
 
 exports.getInfo = (id) => (dispatch, getStates) => {
   if (!shopId) {
-    wl.href = notFound;
+    dispatch(setErrorMsg('找不到门店号'));
     return;
   }
   fetch(`${individualAPI}?shopId=${shopId}&mId=${mid}`).
@@ -31,7 +30,7 @@ exports.getInfo = (id) => (dispatch, getStates) => {
   }).
   then(BasicData => {
     // console.log(BasicData)
-    if (BasicData.msg) {
+    if (BasicData.code !== '200') {
       dispatch(setErrorMsg(BasicData.msg));
       setTimeout(() => {
         if (BasicData.msg === '未登录') {

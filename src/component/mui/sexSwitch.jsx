@@ -13,10 +13,7 @@ module.exports = React.createClass({ // SexSwitch
   componentWillMount() {},
   componentDidMount() {},
   componentWillReceiveProps(nextProps) {   // 接收props
-    if (this.props.sex === nextProps.sex) {
-      return;
-    }
-    this.setState({ sex:nextProps.sex }, () => this.commonMethod()); // 把props赋值给state(需要的值)
+    this.setState({ sex:nextProps.sex }); // 把props赋值给state(需要的值)
   },
   sex_switch(sex, e) {
     switch (sex) {

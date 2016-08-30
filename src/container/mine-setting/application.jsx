@@ -5,7 +5,7 @@ const ShowSettingList = require('../../component/mine/ShowSettingList.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 
 require('../../asset/style/style.scss');
-require('./mine-setting.scss');
+require('./application.scss');
 
 const MineSettingApplication = React.createClass({
   displayName: 'MineSettingApplication',
@@ -35,11 +35,11 @@ const MineSettingApplication = React.createClass({
     this.setState({ name:obj.name, sex:obj.sex });
   },
   render() {
-    const { info, clearErrorMsg, errorMessage } = this.props;
+    const { info, logOff, clearErrorMsg, errorMessage } = this.props;
     return (
       <div>
         <div className="scroll-part">
-          <ShowSettingList info={info} getInfo={this.getInfo} logOff={this.logOff} />
+          <ShowSettingList info={info} getInfo={this.getInfo} logOff={logOff} />
         </div>
         <a href=" javascript:void(0);" className="btn-row btn-row-sure btn-ab" onTouchTap={this.onSave}>保存</a>
         {

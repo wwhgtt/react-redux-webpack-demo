@@ -11,7 +11,7 @@ switch (process.env.NODE_ENV) {
     };
     break;
   default:
-    apiBase = 'http://testweixin.shishike.com';   // 测试环境 //本地 `http://${process.env.DEV_HOST}:3001`;
+    apiBase = `http://${process.env.DEV_HOST}:3001`;   // 测试环境 //本地 `http://${process.env.DEV_HOST}:3001`;
     requestOptions = {
       method: 'GET', mod: 'cors',
       credentials: 'include',
@@ -30,8 +30,9 @@ module.exports = {
   submitWMOrderAPI:`${apiBase}/takeaway/subOrder.json`,
   userAddressAPI: `${apiBase}/user/addressList.json`,
 
-  individualAPI:`${apiBase}/user/individual.json`,
-  individualviewAPI:`${apiBase}/user/individualView.json`,
+  individualAPI:`${apiBase}/user/individual.json`, // 获取用户基本信息(我的页面)
+  individualviewAPI:`${apiBase}/user/individualView.json`,  // 获取用户基本信息(设置页面)
+  logoffAPI:`${apiBase}/user/logout.json`,  // 注销用户页面
   individualupdateAPI:`${apiBase}/user/individualUpdate.json`,
   registerAPI:`${apiBase}/member/register.json`,
 
@@ -43,7 +44,7 @@ module.exports = {
   getOrderAddressInfoAPI: `${apiBase}/user/getAddressInfo.json`,
 
   shopDetailURL:`${apiBase}/shop/detail`,
-  mineSettingURL:'/mine-setting.html',
+  mineSettingURL:'/mineSetting.html',
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
   editUserAddressURL: `${apiBase}/user/address`,
@@ -64,3 +65,4 @@ module.exports = {
 
   requestOptions,
 };
+

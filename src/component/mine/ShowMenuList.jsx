@@ -12,12 +12,15 @@ const rechargeUrl = `${config.rechargeURL}?shopId=${shopId}${shopId}`;
 const orderallListUrl = `${config.orderallListURL}?shopId=${shopId}`;
 const getCouponListUrl = ` ${config.getCouponListURL}?shopId=${shopId}`;
 const addressListUrl = `${config.addressListURL}?shopId=${shopId}`;
+const registerUrl = ` ${config.registerURL}?shopId=${shopId}`;
 
 require('./ShowMenuList.scss');
 
 module.exports = React.createClass({
   displayName: 'Name',
-  propTypes:{},
+  propTypes:{
+    info:React.PropTypes.object,
+  },
   componentWillMount() {},
   componentDidMount() {},
   jumpToCredit() {
@@ -27,7 +30,20 @@ module.exports = React.createClass({
     window.location.href = remainUrl;
   },
   render() {
-    const condition = 4; // 1 微信号(未绑定手机)  2手机号非会员（未绑定微信）3手机号会员（未绑定微信） 4绑定成功
+    let condition = ''; // 1 微信号(未绑定手机)  2手机号非会员（未绑定微信）3手机号会员（未绑定微信） 4绑定成功
+    const { info } = this.props;
+    // 几种状态的判断
+    if (info.loginType === 'weixin' && !info.bindMobile) {
+      condition = 1;
+    } else if (info.loginType === 'mobile' && !info.bindWx) {
+      if (!info.isMember) {
+        condition = 2;
+      } else {
+        condition = 3;
+      }
+    } else if (info.bindWx && info.bindMobile) {
+      condition = 4;
+    }
     return (
       <div className="list-outer">
         {
@@ -36,11 +52,11 @@ module.exports = React.createClass({
             <div className="mineInfo of">
               <div className="mineInfo-holder fl" onTouchTap={this.jumpToCredit}>
                 <p className="mineInfo-holder-p title">我的积分</p>
-                <p className="mineInfo-holder-p num">466</p>
+                <p className="mineInfo-holder-p num">{info.score}</p>
               </div>
               <div className="mineInfo-holder fl" onTouchTap={this.jumpToRemain}>
                 <p className="mineInfo-holder-p title">我的余额</p>
-                <p className="mineInfo-holder-p num">78.50</p>
+                <p className="mineInfo-holder-p num">{info.balance}</p>
               </div>
             </div>
             <ul className="list-ul">
@@ -102,7 +118,7 @@ module.exports = React.createClass({
         condition !== 3 && condition !== 4 ?
           <ul className="list-ul">
             <li className="list-ul-li" name="会员注册">
-              <a className="menuLink" href=" javascript:void(0)">
+              <a className="menuLink" href={registerUrl}>
                 <i name="HYZC"></i>
                 <span className="name">会员注册</span>
                 <span className="brief">注册会员享受更多福利</span>

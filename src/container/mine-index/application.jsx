@@ -6,7 +6,7 @@ const ShowMenuList = require('../../component/mine/ShowMenuList.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 
 require('../../asset/style/style.scss');
-require('./mine-index.scss');
+require('./application.scss');
 
 const MineIndexApplication = React.createClass({
   displayName: 'MineIndexApplication',
@@ -28,7 +28,7 @@ const MineIndexApplication = React.createClass({
     return (
       <div>
         <ShowBasicInfo info={info} />
-        <ShowMenuList />
+        <ShowMenuList info={info} />
         {
           errorMessage ?
             <Toast clearErrorMsg={clearErrorMsg} errorMessage={errorMessage} />

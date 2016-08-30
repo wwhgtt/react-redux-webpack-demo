@@ -6,7 +6,7 @@ const compose = require('redux').compose;
 const Provider = require('react-redux').Provider;
 const thunkMiddleware = require('redux-thunk').default;
 const reducer = require('./reducer/mine/index.js');
-const MineIndexApplication = require('./container/mine/mine-index.jsx');
+const MineIndexApplication = require('./container/mine-index/application.jsx');
 const injectTapEventPlugin = require('react-tap-event-plugin'); injectTapEventPlugin();
 const logger = require('./helper/logger.js');
 let storeCreator;

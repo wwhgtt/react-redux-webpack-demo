@@ -3,17 +3,19 @@ module.exports = {
   path:'/user/individualView.json',
   template:{
     "data": {
-        "name": "高仿的fdsf",
+        "name": "啦啦啦",
         "sex": "0",
-        "balance": 0,
         "score": 0,
-        "isMember": true,
-        "iconUri": "http://wx.qlogo.cn/mmopen/ajNVdqHZLLC4Bp6zLoqQicZiauJE5KyXvicWAr4ic6bgw5g7SzibUQEzLvPRGY2tCdAiblvt8LPHEefAeSbn4cauvIQar07Dic2vkUdIuoCtQ4XgAA/0",
-        "birthday": "2016-06-17",
-        "mobile": "15908198592",
-        "isDisable": false
+        "isMember": false,
+        "loginType": "weixin",
+        "iconUri": "http://wx.qlogo.cn/mmopen/ajNVdqHZLLC6Q1uomrOlfpCyJOxuDUcoXIzibCZGQeElFuy3UVFxlHMn8kzECiaJicWqe8icJySHoNOS9iadia0fDTiag/0",
+        "birthday": "1970-01-01",
+        "mobile": "13980691506",
+        "isDisable": false,
+        "bindWx": true,
+        "bindMobile": false
     },
-    "time": 1471933951372,
+    "time": 1472458598918,
     "code": "200",
     "msg": ""
   }
