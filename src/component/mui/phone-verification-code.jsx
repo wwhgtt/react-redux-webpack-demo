@@ -1,16 +1,23 @@
 const React = require('react');
 const classnames = require('classnames');
 require('./phone-verification-code.scss');
-
 module.exports = React.createClass({
   displayName: 'PhoneVerificationCode',
   propTypes: {
-    nations: React.PropTypes.array,
+    placeholder: React.PropTypes.object,
+    completeFlag: React.PropTypes.number,
+    hasForeignZone: React.PropTypes.bool,
     onGetVerificationCode: React.PropTypes.func,
-    onInputInfoChange: React.PropTypes.func,
+    onCompleteInput: React.PropTypes.func,
   },
   getDefaultProps() {
-    return { nations: [] };
+    return {
+      hasForeignZone: false,
+      placeholder: {
+        phoneNum: '请输入手机号',
+        code: '请输入验证码',
+      },
+    };
   },
   getInitialState() {
     return {
@@ -20,11 +27,50 @@ module.exports = React.createClass({
       seconds: 0,
     };
   },
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.completeFlag !== this.props.completeFlag) {
+      this.handleCompleteInput();
+    }
+  },
+  getInputInfo() {
+    const keys = ['phoneNum', 'code'];
+    const info = {};
+    keys.forEach(key => {
+      info[key] = this.state[key];
+    });
+    info.isForeignZone = this.isForeignZone(info.currentNation || this.state.currentNation);
+    const validation = this.validateInput(info);
+    return { data: info, validation };
+  },
   isForeignZone(currentNation) {
     return currentNation !== 'China';
   },
   isNumberStr(value) {
     return /^\d*$/.test(value);
+  },
+  isValidPhoneNum(phoneNum) {
+    return /^(1(?:[358]\d{9}|7[3678]\d{8}|4[57]\d{8})|0[49]\d{8})$/.test(phoneNum);
+  },
+  validateInput(info) {
+    const { phoneNum, code, isForeignZone } = info;
+    const { placeholder } = this.props;
+    if (!phoneNum) {
+      return { valid: false, code: 'PHONENUM_EMPTY', msg: placeholder.phoneNum };
+    }
+
+    if (!this.isValidPhoneNum(phoneNum)) {
+      return { valid: false, code: 'PHONENUM_INVALID', msg: '请输入正确的手机号' };
+    }
+
+    if (!isForeignZone) {
+      if (!code) {
+        return { valid: false, code: 'CODE_EMPTY', msg: placeholder.code };
+      }
+      if (!/^\d{4}$/.test(code)) {
+        return { valid: false, code: 'CODE_INVALID', msg: '请输入正确的验证码' };
+      }
+    }
+    return { valid: true, code: '', msg: '' };
   },
   handlePhoneNumChange(evt) {
     const value = evt.target.value.trim();
@@ -32,19 +78,12 @@ module.exports = React.createClass({
       return;
     }
 
-    const info = { phoneNum: value };
-    this.setState(info);
-    this.handleInputInfoChange(info);
+    this.setState({ phoneNum: value });
   },
-  handleInputInfoChange(info) {
-    const keys = ['phoneNum', 'code'];
-    const _info = {};
-    keys.forEach(key => {
-      _info[key] = info.hasOwnProperty(key) ? info[key] : this.state[key];
-    });
-    _info.isForeignZone = this.isForeignZone(info.currentNation || this.state.currentNation);
-    if (this.props.onInputInfoChange) {
-      this.props.onInputInfoChange(_info);
+  handleCompleteInput() {
+    const info = this.getInputInfo();
+    if (this.props.onCompleteInput) {
+      this.props.onCompleteInput(info);
     }
   },
   handleVerificationCodeChange(evt) {
@@ -53,9 +92,7 @@ module.exports = React.createClass({
       return;
     }
 
-    const info = { code: value };
-    this.setState(info);
-    this.handleInputInfoChange(info);
+    this.setState({ code: value });
   },
   handleFetchCodeBtnTouchTap(evt) {
     const btn = evt.target;
@@ -69,10 +106,8 @@ module.exports = React.createClass({
   handleNationChange(evt) {
     const select = evt.target;
     const selectedOption = select.options[select.selectedIndex];
-    const info = { currentNation: selectedOption.value, phoneNum: '', code: '' };
     this.clearWaiting();
-    this.setState(info);
-    this.handleInputInfoChange(info);
+    this.setState({ currentNation: selectedOption.value, phoneNum: '', code: '' });
   },
   clearWaiting() {
     if (this._timer) {
@@ -99,10 +134,17 @@ module.exports = React.createClass({
     };
     next(60);
   },
+  _getNations() {
+    return [
+      { text: '中国', value: 'China' },
+      { text: '澳大利亚', value: 'Australia' },
+    ];
+  },
   render() {
-    const { nations } = this.props;
+    const { hasForeignZone, placeholder } = this.props;
     let nationsSelect = null;
-    if (nations && nations.length) {
+    if (hasForeignZone) {
+      const nations = this._getNations();
       nationsSelect = (
         <select onChange={this.handleNationChange} defaultValue="China">);
           {nations.map(item => (<option key={item.value} value={item.value}>{item.text}</option>))}
@@ -110,18 +152,17 @@ module.exports = React.createClass({
       );
     }
 
-    const regPhoneNum = /^(1(?:[358]\d{9}|7[3678]\d{8}|4[57]\d{8})|0[49]\d{10})$/;
     const { seconds, phoneNum, code } = this.state;
     let btnInfo = null;
     if (seconds > 0) {
       btnInfo = { text: `${seconds}s后获取`, disabled: true };
     } else {
-      btnInfo = { text: '获取验证码', disabled: !regPhoneNum.test(phoneNum) };
+      btnInfo = { text: '获取验证码', disabled: !this.isValidPhoneNum(phoneNum) };
     }
 
     const className = classnames('options-group phone-verification-code', {
       foreign: this.isForeignZone(this.state.currentNation),
-      'multi-nations': nations && nations.length > 0,
+      'multi-nations': hasForeignZone,
     });
     return (
       <div className={className}>
@@ -135,7 +176,7 @@ module.exports = React.createClass({
               className="option-input"
               type="tel"
               value={phoneNum}
-              placeholder="请输入手机号"
+              placeholder={placeholder.phoneNum}
               onChange={this.handlePhoneNumChange}
             />
           </div>
@@ -145,7 +186,7 @@ module.exports = React.createClass({
             className="option-content option-input"
             type="tel"
             value={code}
-            placeholder="请输入验证码"
+            placeholder={placeholder.code}
             maxLength="4"
             onChange={this.handleVerificationCodeChange}
           />
