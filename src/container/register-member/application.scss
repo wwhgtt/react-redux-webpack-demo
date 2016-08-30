@@ -36,6 +36,23 @@ div[data-reactroot],
 	&-btn {
 		height: 50px;
 	}
+
+	&-pwd{
+		position: relative;
+
+		&-in {
+			opacity: 0;
+			position: absolute;
+			right: 25px;
+			z-index: 100;
+		}
+
+		&-out {
+			position: absolute;
+			right: 25px;
+			z-index: 1;
+		}
+	}
 }
 
 .btn-arrow-right::after {
