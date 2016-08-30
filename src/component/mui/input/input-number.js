@@ -1,6 +1,21 @@
 const React = require('react');
 
 const InputNum = React.createClass({
+  // =====================================
+  // 传入格式：验证数组
+  // 传入属性：regs
+  // 格式：
+  // [
+  //    {reg: '正则表达式', regMsg: '提示信息'},
+  //    {reg: '/^(1(?:[358]\d{9}|7[3678]\d{8}|4[57]\d{8})|0[49]\d{10})$/', regMsg: '请输入手机号码'}
+  // ]
+  // ======================================
+  // 输出: onGetNum(obj)
+  // 格式：
+  // {errorMsg: regMsg, numVal: 'input值'}
+  // 示例：
+  // {errorMsg: '请输入手机号码', numVal: '12'}
+  // ======================================
   propTypes: {
     onGetNum: React.PropTypes.func,
     regs: React.PropTypes.Array,
@@ -11,7 +26,7 @@ const InputNum = React.createClass({
   handleCheck(e) {
     let inputNum = e.target.value;
     const regNum = /[^0-9]/g;
-    let errorFlag = 'success'; // 提示信息
+    let errorFlag = ''; // 提示信息
     const { regs } = this.props; // 来自父级的验证规则
 
     // 禁止输入数字以外的字符
