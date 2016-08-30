@@ -32,7 +32,7 @@ module.exports = {
 
   individualAPI:`${apiBase}/user/individual.json`, // 获取用户基本信息(我的页面)
   individualviewAPI:`${apiBase}/user/individualView.json`,  // 获取用户基本信息(设置页面)
-  logoffAPI:`${apiBase}/user/logout.json`,  // 注销用户页面
+  logoutAPI:`${apiBase}/user/logout.json`,  // 注销用户页面
   individualupdateAPI:`${apiBase}/user/individualUpdate.json`,
   registerAPI:`${apiBase}/member/register.json`,
 
@@ -44,11 +44,13 @@ module.exports = {
   getOrderAddressInfoAPI: `${apiBase}/user/getAddressInfo.json`,
 
   shopDetailURL:`${apiBase}/shop/detail`,
+  mineIndexURL:'/mineIndex.html',
   mineSettingURL:'/mineSetting.html',
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
   editUserAddressURL: `${apiBase}/user/address`,
-
+  bindAccountURL:'/bind-account.html',  // 绑定页面 手机 #bind-phone 微信 #bind-wx
+  
   logAddressURL: 'http://testweixin.shishike.com/user/notLogin',
   integralURL: 'http://testweixin.shishike.com/member/integral',
   valueCardURL:'http://testweixin.shishike.com/member/valueCard',

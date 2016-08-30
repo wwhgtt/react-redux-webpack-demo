@@ -13,6 +13,8 @@ const orderallListUrl = `${config.orderallListURL}?shopId=${shopId}`;
 const getCouponListUrl = ` ${config.getCouponListURL}?shopId=${shopId}`;
 const addressListUrl = `${config.addressListURL}?shopId=${shopId}`;
 const registerUrl = ` ${config.registerURL}?shopId=${shopId}`;
+const bindaccountUrlphone = ` ${config.bindAccountURL}?shopId=${shopId}#bind-phone`;
+const bindaccountUrlwx = ` ${config.bindAccountURL}?shopId=${shopId}#bind-wx`;
 
 require('./ShowMenuList.scss');
 
@@ -104,7 +106,7 @@ module.exports = React.createClass({
           {
           condition === 3 ?
             <li className="list-ul-li" name="绑定微信号">
-              <a className="menuLink" href=" javascript:void(0)">
+              <a className="menuLink" href={bindaccountUrlwx}>
                 <i name="BDWX"></i>
                 <span className="name">绑定微信号</span>
                 <span className="arrow"></span>
@@ -128,7 +130,7 @@ module.exports = React.createClass({
             {
               condition === 1 ?
                 <li className="list-ul-li" name="绑定手机号">
-                  <a className="menuLink" href=" javascript:void(0)">
+                  <a className="menuLink" href={bindaccountUrlphone}>
                     <i name="BDSJ"></i>
                     <span className="name">绑定手机号</span>
                     <span className="arrow"></span>
@@ -140,7 +142,7 @@ module.exports = React.createClass({
             {
               condition === 2 ?
                 <li className="list-ul-li" name="绑定微信号">
-                  <a className="menuLink" href=" javascript:void(0)">
+                  <a className="menuLink" href={bindaccountUrlwx}>
                     <i name="BDWX"></i>
                     <span className="name">绑定微信号</span>
                     <span className="arrow"></span>

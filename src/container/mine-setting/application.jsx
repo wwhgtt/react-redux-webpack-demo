@@ -25,23 +25,28 @@ const MineSettingApplication = React.createClass({
     getInfo();
   },
   componentDidMount() {},
-  onSave() {
+  onSave(condition) {
     // 保存
     const { updateInfo } = this.props;
     const { name, sex } = this.state;
-    updateInfo(name, sex);
+    updateInfo(name, sex, condition);
   },
   getInfo(obj) {
     this.setState({ name:obj.name, sex:obj.sex });
   },
   render() {
+    let condition = '';// 1 微信号(未绑定手机)  2手机号非会员（未绑定微信）3手机号会员（未绑定微信） 4绑定成功
     const { info, logOff, clearErrorMsg, errorMessage } = this.props;
+    // 几种状态的判断
+    if (info.loginType === 'weixin' && !info.bindMobile) {
+      condition = 1;
+    }
     return (
       <div>
         <div className="scroll-part">
           <ShowSettingList info={info} getInfo={this.getInfo} logOff={logOff} />
         </div>
-        <a href=" javascript:void(0);" className="btn-row btn-row-sure btn-ab" onTouchTap={this.onSave}>保存</a>
+        <a href=" javascript:void(0);" className="btn-row btn-row-sure btn-ab" onTouchTap={() => this.onSave(condition)}>保存</a>
         {
         errorMessage ?
           <Toast clearErrorMsg={clearErrorMsg} errorMessage={errorMessage} />

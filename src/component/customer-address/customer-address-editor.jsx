@@ -64,6 +64,11 @@ module.exports = React.createClass({
       return false;
     }
 
+    let baseAddress = customerProps.baseAddress || '';
+    const bracketIndex = baseAddress.indexOf('(');
+    if (~bracketIndex) {
+      baseAddress = baseAddress.substr(0, bracketIndex);
+    }
     return (
       <div className="customer-address-page">
         <div className="options-group">
@@ -116,7 +121,7 @@ module.exports = React.createClass({
           <label className={classnames('option', { error: customerProps.id && !customerProps.baseAddress })}>
             <span className="option-title">收货地址：</span>
             <a className="option-content btn-arrow-right customer-address" href="#address-select">
-              <span className="customer-address-text ellipsis">{customerProps.baseAddress || ''}</span>
+              <span className="customer-address-text ellipsis">{baseAddress}</span>
               <span className="customer-address-placeholder">请选择收货地址</span>
             </a>
           </label>

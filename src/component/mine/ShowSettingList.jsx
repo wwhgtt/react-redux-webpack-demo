@@ -6,6 +6,8 @@ const commonHelper = require('../../helper/common-helper');
 const shopId = commonHelper.getUrlParam('shopId');
 const registerUrl = ` ${config.registerURL}?shopId=${shopId}`;
 const modifypwdUrl = ` ${config.modifyPwdURL}?shopId=${shopId}`;
+const bindaccountUrlphone = ` ${config.bindAccountURL}?shopId=${shopId}#bind-phone`;
+const bindaccountUrlwx = ` ${config.bindAccountURL}?shopId=${shopId}#bind-wx`;
 
 module.exports = React.createClass({
   displayName: 'ShowSettingList',
@@ -114,9 +116,9 @@ module.exports = React.createClass({
                       </a>
                     </li>
                     <li className="list-ul-li">
-                      <a className="settingLink" href=" javascript:void(0)">
+                      <a className="settingLink" href={bindaccountUrlphone}>
                         <span className="name">手机号</span>
-                        <span className="brief">未注册</span>
+                        <span className="brief">未绑定</span>
                         <span className="arrow"></span>
                       </a>
                     </li>
@@ -135,7 +137,7 @@ module.exports = React.createClass({
                 condition === 2 ?
                   <ul className="list-ul list-ul-mt">
                     <li className="list-ul-li">
-                      <a className="settingLink" href=" javascript:void(0)">
+                      <a className="settingLink" href={bindaccountUrlwx}>
                         <span className="name">微信号</span>
                         <span className="brief">未绑定</span>
                         <span className="arrow"></span>
@@ -162,7 +164,7 @@ module.exports = React.createClass({
                 condition === 3 ?
                   <ul className="list-ul list-ul-mt">
                     <li className="list-ul-li">
-                      <a className="settingLink" href=" javascript:void(0)">
+                      <a className="settingLink" href={bindaccountUrlwx}>
                         <span className="name">微信号</span>
                         <span className="brief">未绑定</span>
                         <span className="arrow"></span>

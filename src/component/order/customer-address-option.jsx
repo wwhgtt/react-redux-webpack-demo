@@ -17,7 +17,7 @@ module.exports = React.createClass({
         <h3 className="address-title ellipsis">{address}</h3>
         <div className="address-meta clearfix">
           <div className="half ellipsis">{name} {sex}</div>
-          <div className="half">{mobile}</div>
+          <div className="half address-meta-phone">{mobile}</div>
         </div>
         <a
           className="address-edit"

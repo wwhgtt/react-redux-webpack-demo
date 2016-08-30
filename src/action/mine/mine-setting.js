@@ -13,11 +13,11 @@ const shopId = commonHelper.getUrlParam('shopId');
 const wl = window.location;
 
 const logUrl = `${config.logAddressURL}`;
-const notFound = `${config.notFoundUrl}`;
 
 const individualviewAPI = `${config.individualviewAPI}`;
 const individualupdateAPI = `${config.individualupdateAPI}`;
-const logoffAPI = `${config.logoffAPI}`;
+const logoutAPI = `${config.logoutAPI}`;
+const mineIndexUrl = `${config.mineIndexURL}?shopId=${shopId}`;
 
 exports.getInfo = (id) => (dispatch, getStates) => {
   if (!shopId) {
@@ -49,15 +49,19 @@ exports.getInfo = (id) => (dispatch, getStates) => {
     dispatch(setErrorMsg('获取基本信息失败...'));
   });
 };
-exports.updateInfo = (nameT, sexT) => (dispatch, getStates) => {
+exports.updateInfo = (nameT, sexT, conditionT) => (dispatch, getStates) => {
   if (!shopId) {
-    wl.href = notFound;
+    dispatch(setErrorMsg('找不到门店号'));
     return;
   } else if (!sexT.toString()) {
     dispatch(setErrorMsg('请选择性别!!'));
     return;
   } else if (!nameT.replace(/(^\s+)|(\s+$)/g, '')) {
     dispatch(setErrorMsg('请输入姓名!!'));
+    return;
+  }
+  if (conditionT === 1) { // 此时点击跳转到"我的" 页面
+    wl.href = mineIndexUrl;
     return;
   }
   fetch(`${individualupdateAPI}?shopId=${shopId}`, commonHelper.fetchPost({ sex:sexT, name:nameT.replace(/(^\s+)|(\s+$)/g, '') })).
@@ -78,15 +82,15 @@ exports.updateInfo = (nameT, sexT) => (dispatch, getStates) => {
       return;
     }
     dispatch(setErrorMsg('保存成功'));
-    setTimeout(() => { window.location.reload(); }, 3000);
+    setTimeout(() => { wl.href = mineIndexUrl; }, 3000);
   }).
   catch(err => {
     dispatch(setErrorMsg('保存失败!!'));
-    setTimeout(() => { window.location.reload(); }, 3000);
+    setTimeout(() => { wl.reload(); }, 3000);
   });
 };
 exports.logOff = () => (dispatch, getStates) => {
-  fetch(`${logoffAPI}`).
+  fetch(`${logoutAPI}`).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('请求数据失败'));
@@ -112,7 +116,7 @@ exports.logOff = () => (dispatch, getStates) => {
   }).
   catch(err => {
     dispatch(setErrorMsg('注销失败!!'));
-    setTimeout(() => { window.location.reload(); }, 3000);
+    setTimeout(() => { wl.reload(); }, 3000);
   });
 };
 exports.clearErrorMsg = () => (dispatch, getStates) =>

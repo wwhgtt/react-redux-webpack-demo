@@ -27,6 +27,8 @@ module.exports = {
     'address-list-entry': [
       './src/address-list.jsx',
     ],
+    'bind-account-entry': './src/bind-account.jsx',
+    'register-member-entry' : './src/register-member.jsx',
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -116,6 +118,22 @@ module.exports = {
         title: 'AddressListApplication',
         filename: 'address-list.html',
         chunks: ['common', 'address-list-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'BindAccountApplication',
+        filename: 'bind-account.html',
+        chunks: ['common', 'bind-account-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'RegisterMember',
+        filename: 'register-member.html',
+        chunks: ['common', 'register-member-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
