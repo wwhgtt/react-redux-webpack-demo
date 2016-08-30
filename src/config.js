@@ -33,8 +33,8 @@ module.exports = {
   individualAPI:`${apiBase}/user/individual.json`, // 获取用户基本信息(我的页面)
   individualviewAPI:`${apiBase}/user/individualView.json`,  // 获取用户基本信息(设置页面)
   logoutAPI:`${apiBase}/user/logout.json`,  // 注销用户页面
-  individualupdateAPI:`${apiBase}/user/individualUpdate.json`,
-  registerAPI:`${apiBase}/member/register.json`,
+  individualupdateAPI:`${apiBase}/user/individualUpdate.json`, // 设置页面 更新信息
+  registerAPI:`${apiBase}/member/register.json`, // 注册接口
   getUserAddressListAPI: `${apiBase}/user/getAddressList.json`,
   getAllAddressListAPI: `${apiBase}/user/addressList.json`,
   customerAddressAPI: `${apiBase}/user/address.json`,
@@ -50,17 +50,16 @@ module.exports = {
   editUserAddressURL: `${apiBase}/user/address`,
   bindAccountURL:'/bind-account.html',  // 绑定页面 手机 #bind-phone 微信 #bind-wx
   registerMemberURL:'/register-member.html',
-  logAddressURL: 'http://testweixin.shishike.com/user/notLogin',
-  integralURL: 'http://testweixin.shishike.com/member/integral',
-  valueCardURL:'http://testweixin.shishike.com/member/valueCard',
-  memberIndexURL:'http://testweixin.shishike.com/member/index',
-  rechargeURL:'http://testweixin.shishike.com/shop/recharge',
-  orderallListURL:'http://testweixin.shishike.com/order/orderallList',
-  getCouponListURL:'http://testweixin.shishike.com/coupon/getCouponList',
-  addressListURL:'http://testweixin.shishike.com/user/addressList',
-  registerURL:'http://testweixin.shishike.com/member/register',
-  modifyPwdURL:'http://testweixin.shishike.com/member/modifyPwd',
-  notFoundUrl:'/404.html',
+  logAddressURL: 'http://testweixin.shishike.com/user/notLogin', // 登陆页面
+  integralURL: 'http://testweixin.shishike.com/member/integral', // 我的积分
+  valueCardURL:'http://testweixin.shishike.com/member/valueCard', // 我的余额
+  memberIndexURL:'http://testweixin.shishike.com/member/index', // 会员页面
+  rechargeURL:'http://testweixin.shishike.com/shop/recharge', // 充值页面
+  orderallListURL:'http://testweixin.shishike.com/order/orderallList', // 订单列表
+  getCouponListURL:'http://testweixin.shishike.com/coupon/getCouponList', // 优惠券
+  addressListURL:'http://testweixin.shishike.com/user/addressList', // 地址管理
+  modifyPwdURL:'http://testweixin.shishike.com/member/modifyPwd', // 修改密码
+  notFoundUrl:'/404.html', // 404
 
   getDefaultSendArea: `${apiBase}/user/getDefaultSendArea.json`,
 
