@@ -29,6 +29,9 @@ module.exports = {
     ],
     'bind-account-entry': './src/bind-account.jsx',
     'register-member-entry' : './src/register-member.jsx',
+    'user-login-entry': [
+      './src/user-login.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -134,6 +137,14 @@ module.exports = {
         title: 'RegisterMember',
         filename: 'register-member.html',
         chunks: ['common', 'register-member-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'UserLoginApplication',
+        filename: 'user-login.html',
+        chunks: ['common', 'user-login-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
