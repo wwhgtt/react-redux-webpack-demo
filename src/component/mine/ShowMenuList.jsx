@@ -8,7 +8,7 @@ const settingUrl = `${config.mineSettingURL}?shopId=${shopId}`;
 const creditUrl = `${config.integralURL}?shopId=${shopId}`;
 const remainUrl = `${config.valueCardURL}?shopId=${shopId}`;
 const mainIndexUrl = `${config.memberIndexURL}?shopId=${shopId}`;
-const rechargeUrl = `${config.rechargeURL}?shopId=${shopId}${shopId}`;
+const rechargeUrl = `${config.registerMemberURL}?shopId=${shopId}${shopId}`;
 const orderallListUrl = `${config.orderallListURL}?shopId=${shopId}`;
 const getCouponListUrl = ` ${config.getCouponListURL}?shopId=${shopId}`;
 const addressListUrl = `${config.addressListURL}?shopId=${shopId}`;

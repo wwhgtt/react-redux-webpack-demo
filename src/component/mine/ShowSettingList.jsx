@@ -4,7 +4,7 @@ const SexSwitch = require('../../component/mui/sexSwitch.jsx');
 const config = require('../../config');
 const commonHelper = require('../../helper/common-helper');
 const shopId = commonHelper.getUrlParam('shopId');
-const registerUrl = ` ${config.registerURL}?shopId=${shopId}`;
+const registerUrl = ` ${config.registerMemberURL}?shopId=${shopId}`;
 const modifypwdUrl = ` ${config.modifyPwdURL}?shopId=${shopId}`;
 const bindaccountUrlphone = ` ${config.bindAccountURL}?shopId=${shopId}#bind-phone`;
 const bindaccountUrlwx = ` ${config.bindAccountURL}?shopId=${shopId}#bind-wx`;

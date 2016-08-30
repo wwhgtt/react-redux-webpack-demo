@@ -35,7 +35,6 @@ module.exports = {
   logoutAPI:`${apiBase}/user/logout.json`,  // 注销用户页面
   individualupdateAPI:`${apiBase}/user/individualUpdate.json`,
   registerAPI:`${apiBase}/member/register.json`,
-
   getUserAddressListAPI: `${apiBase}/user/getAddressList.json`,
   getAllAddressListAPI: `${apiBase}/user/addressList.json`,
   customerAddressAPI: `${apiBase}/user/address.json`,
@@ -50,7 +49,7 @@ module.exports = {
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
   editUserAddressURL: `${apiBase}/user/address`,
   bindAccountURL:'/bind-account.html',  // 绑定页面 手机 #bind-phone 微信 #bind-wx
-  
+  registerMemberURL:'/register-member.html',
   logAddressURL: 'http://testweixin.shishike.com/user/notLogin',
   integralURL: 'http://testweixin.shishike.com/member/integral',
   valueCardURL:'http://testweixin.shishike.com/member/valueCard',
