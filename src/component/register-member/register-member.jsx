@@ -68,17 +68,23 @@ const RegisterMember = React.createClass({
               <input type="text" className="option-input register-input" placeholder="请选择出生日期" />
 
             </div>
-            <div className="option">
+            <div className="option register-pwd">
               <span className="option-title">交易密码</span>
               <span className="btn-arrow-right"></span>
               <InputPhone
                 maxLength={6}
                 placeholder={"请填写6位数字密码"}
                 regs={regC}
-                className={'option-input register-input'}
+                className={'option-input register-input register-pwd-in'}
                 onGetNum={this.getPassword}
               />
-              <input type="password" ref="inputPwd" value={this.state.password} className="option-input register-input" placeholder="请填写6位数字密码" />
+              <input
+                type="password"
+                ref="inputPwd"
+                value={this.state.password}
+                className="option-input register-input register-pwd-out"
+                placeholder="请填写6位数字密码"
+              />
             </div>
           </div>
         </div>
