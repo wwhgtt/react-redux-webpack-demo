@@ -7,7 +7,7 @@ require('isomorphic-fetch');
 const setInfo = createAction('SET_INFO', setinfo => setinfo);
 const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 
-// commonHelper.setCookie('mid',"b5d13adbc9d8d6ce93ad9f8ea4cc" );
+// commonHelper.setCookie('mid',"b5d13adbc9d8d6ce93ad9f8ea4cc");
 
 const shopId = commonHelper.getUrlParam('shopId');
 const mid = commonHelper.getCookie('mid');
