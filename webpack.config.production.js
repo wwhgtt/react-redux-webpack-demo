@@ -16,6 +16,9 @@ module.exports = {
     'address-list-entry': [
       './src/address-list.jsx',
     ],
+    'order-inLine': [
+      './src/order-inLine.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -79,6 +82,14 @@ module.exports = {
         title: 'AddressListApplication',
         filename: 'address-list.html',
         chunks: ['common', 'address-list-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'OrderInLineApplication',
+        filename: 'order-inLine.html',
+        chunks: ['common', 'order-inLine'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

@@ -40,5 +40,6 @@ module.exports = {
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
   editUserAddressURL: `${apiBase}/user/address`,
   getDefaultSendArea: `${apiBase}/user/getDefaultSendArea.json`,
+  getOrderInLineAPI: `${apiBase}/queue/info.json`,
   requestOptions,
 };
