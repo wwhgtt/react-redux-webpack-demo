@@ -4,7 +4,7 @@ const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const connect = require('react-redux').connect;
 const actions = require('../../action/order/order');
 const helper = require('../../helper/order-helper');
-const validateAddressInfo = require('../../helper/common-helper').validateAddressInfo;
+const validateAddressInfo = require('../../helper/order-helper').validateAddressInfo;
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const CustomerTakeawayInfoEditor = require('../../component/order/customer-takeaway-info-editor.jsx');
@@ -14,6 +14,7 @@ const CouponSelect = require('../../component/order/coupon-select.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const TimeSelect = require('../../component/order/select/time-select.jsx');
 const OrderSummary = require('../../component/order/order-summary.jsx');
+const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
@@ -234,7 +235,7 @@ const OrderApplication = React.createClass({
   render() {
     const {
       customerProps, serviceProps, childView, tableProps, clearErrorMsg, setCustomerProps,
-      timeProps, orderedDishesProps, commercialProps, errorMessage,
+      timeProps, orderedDishesProps, commercialProps, errorMessage, setErrorMsg,
       customerAddressListInfo,
       defaultCustomerProps,
       setCustomerToShopAddress,
@@ -307,13 +308,21 @@ const OrderApplication = React.createClass({
             {buildCoustomerPropElement()}
           </a>
           :
-          <a className="options-group options-group--stripes" href="#customer-info" >
-            <div className="option-stripes-title">{customerProps.name}{+customerProps.sex === 1 ? '先生' : '女士'}</div>
-            <div className="clearfix">
-              <div className="option-desc half">{customerProps.mobile}</div>
-              <div className="option-desc half"><span className="text-picton-blue">{customerProps.customerCount}</span>人就餐</div>
+          <div className="customerInfo">
+            <CustomerInfoEditor
+              customerProps={customerProps} onCustomerPropsChange={setCustomerProps}
+            />
+            <div className="importable-counter">
+              <span>就餐人数</span>
+              <ImportableCounter
+                setErrorMsg={setErrorMsg}
+                onCountChange={setOrderProps}
+                count={customerProps.customerCount}
+                maximum={99}
+                minimum={1}
+              />
             </div>
-          </a>
+          </div>
         }
         {type === 'WM' ?
           false

@@ -208,7 +208,7 @@ module.exports = {
           tableStatus: 1,
         },
       ],
-      pickupPayType: null,
+      pickupPayType: 'offline',
       totablePayType: 'offline',
       disable: false,
     },

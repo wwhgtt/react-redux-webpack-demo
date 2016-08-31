@@ -1,5 +1,5 @@
 const React = require('react');
-const validateAddressInfo = require('../../helper/common-helper').validateAddressInfo;
+const validateAddressInfo = require('../../helper/order-helper').validateAddressInfo;
 const replaceEmojiWith = require('../../helper/common-helper').replaceEmojiWith;
 require('./customer-toshop-info-editor.scss');
 
