@@ -6,7 +6,7 @@ module.exports = {
     data: {
       shopId:247900001, // 门店ID
       shopName:'南粉北面南粉北面高攀路店面', // 门店名称
-      shopLogo:'http://img.keruyun.net/791e5ca029eb15f34ad7aa80e1111fae.png', // 门店logo
+      shopLogo:'http://kry-test-2.qiniudn.com/5e9008fc4e9143e1b0e28fe60ec87470.png?imageView/2/w/512/h/512', // 门店logo
       openStatus:'营业中', // 营业状态
       orderId:null, // 订单ID
       queueTip:false, // 是否已排队
