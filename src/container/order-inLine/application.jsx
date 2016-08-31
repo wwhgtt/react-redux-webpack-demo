@@ -2,11 +2,10 @@ const React = require('react');
 const connect = require('react-redux').connect;
 const config = require('../../config.js');
 const actions = require('../../action/order-inLine/order-inLine.js');
-// const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
-// const ImportableCounter = require('../../component/mui/importable-counter.jsx');
+const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
+const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
-const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 require('../../asset/style/style.scss');
 require('./application.scss');
 
@@ -19,11 +18,13 @@ const OrderInlineApplication = React.createClass({
     clearErrorMsg:React.PropTypes.func.isRequired,
     placeOrder:React.PropTypes.func.isRequired,
     setOrderProps:React.PropTypes.func.isRequired,
+    setCustomerProps:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     commercialProps:React.PropTypes.object.isRequired,
     customerProps:React.PropTypes.object.isRequired,
     queueList:React.PropTypes.array.isRequired,
     errorMessage:React.PropTypes.string,
+    dinePersonCount:React.PropTypes.oneOfType([React.PropTypes.nember, React.PropTypes.string]).isRequired,
   },
   componentDidMount() {
     const { fetchOrderInLineProps } = this.props;
@@ -48,17 +49,20 @@ const OrderInlineApplication = React.createClass({
     return element;
   },
   render() {
-    const { commercialProps, errorMessage, queueList, customerProps } = this.props; // state
-    const { clearErrorMsg, placeOrder, setErrorMsg } = this.props;// actions
+    const { commercialProps, errorMessage, queueList, customerProps, dinePersonCount } = this.props; // state
+    const { clearErrorMsg, placeOrder, setErrorMsg, setCustomerProps } = this.props;// actions
     return (
       <div className="application">
         <a className="option order-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
           <img className="order-shop-icon" src={commercialProps.shopLogo} alt="" />
           <p className="order-shop-desc ellipsis">{commercialProps.shopName}</p>
         </a>
+
+        <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setCustomerProps} />
+
         <p>
           <span>就餐人数</span>
-          <ImportableCounter count={customerProps.dinePersonCount} onCountChange={this.onCountChange} setErrorMsg={setErrorMsg} />
+          <ImportableCounter count={dinePersonCount} onCountChange={this.onCountChange} setErrorMsg={setErrorMsg} />
         </p>
         <button onToutap={placeOrder} className="submit-order">立即取号</button>
 
