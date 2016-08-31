@@ -1,0 +1,21 @@
+@import 'settings.colors';
+
+.loading-hover{
+    position:fixed;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    background:rgba(0,0,0,0.1);
+    z-index:1;
+    text-align:center;
+}
+.span-null{
+    display:inline-block;
+    height:100%;
+    vertical-align: middle;
+}
+
+.load-img{
+    width:2.5em;
+}
