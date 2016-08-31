@@ -22,6 +22,9 @@ module.exports = {
     'place-order': [
       './src/place-order.jsx',
     ],
+    'order-inLine': [
+      './src/order-inLine.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -101,6 +104,14 @@ module.exports = {
         title: 'PlaceOrderApplication',
         filename: 'place-order.html',
         chunks: ['common', 'place-order'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'OrderInLineApplication',
+        filename: 'order-inLine.html',
+        chunks: ['common', 'order-inLine'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
