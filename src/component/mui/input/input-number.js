@@ -18,7 +18,10 @@ const InputNum = React.createClass({
   // ======================================
   propTypes: {
     onGetNum: React.PropTypes.func,
-    regs: React.PropTypes.Array,
+    regs: React.PropTypes.array,
+    maxLength: React.PropTypes.number,
+    placeholder: React.PropTypes.string,
+    className: React.PropTypes.string,
   },
   getInitialState() {
     return { numVal: '' };
@@ -53,14 +56,14 @@ const InputNum = React.createClass({
     }
   },
   render() {
-    let props = {};
-    props = this.props;
     return (
       <input
         type="tel"
-        pattern={"\\d*"}
+        pattern="\\d*"
         onChange={this.handleCheck}
-        {...props}
+        maxLength={this.props.maxLength}
+        placeholder={this.props.placeholder}
+        className={this.props.className}
         value={this.state.numVal}
       />
     );

@@ -5,7 +5,7 @@ import Toast from '../mui/toast.jsx';
 
 const RegisterMember = React.createClass({
   propTypes: {
-    regs: React.PropTypes.Array,
+    regs: React.PropTypes.array,
   },
 
   getInitialState() {
@@ -134,7 +134,7 @@ const RegisterMember = React.createClass({
             </div>
           </div>
         </div>
-        <button className="register-btn btn--yellow btn-bottom" onClick={this.registerMember}>注册会员</button>
+        <button className="register-btn btn--yellow btn-bottom" onTouchTap={this.registerMember}>注册会员</button>
         {
           errorMsg ?
             <Toast errorMessage={errorMsg} clearErrorMsg={this.handleClearErrorMsg} />
