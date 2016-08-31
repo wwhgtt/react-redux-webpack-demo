@@ -60,10 +60,10 @@ const OrderInlineApplication = React.createClass({
 
         <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setCustomerProps} />
 
-        <p>
+        <div>
           <span>就餐人数</span>
           <ImportableCounter count={dinePersonCount} onCountChange={this.onCountChange} setErrorMsg={setErrorMsg} />
-        </p>
+        </div>
         <button onToutap={placeOrder} className="submit-order">立即取号</button>
 
         {queueList && queueList.length ?
