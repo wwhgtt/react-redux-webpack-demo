@@ -62,3 +62,6 @@ exports.setTableProps = (evt, props) => (dispatch, getState) => {
       console.log(err);
     });
 };
+
+exports.clearErrorMsg = () => (dispatch, getState) =>
+  dispatch(setErrorMsg(null));

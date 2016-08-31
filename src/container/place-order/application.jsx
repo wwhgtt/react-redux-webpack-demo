@@ -8,6 +8,7 @@ const getSelectedTable = require('../../helper/order-helper.js').getSelectedTabl
 // const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const TimeSelect = require('../../component/order/select/time-select.jsx');
+const Toast = require('../../component/mui/toast.jsx');
 require('../../asset/style/style.scss');
 require('./application.scss');
 
@@ -21,11 +22,13 @@ const PlaceOrderApplication = React.createClass({
     setOrderProps:React.PropTypes.func.isRequired,
     placeOrder:React.PropTypes.func.isRequired,
     setTableProps:React.PropTypes.func.isRequired,
+    clearErrorMsg:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     commercialProps:React.PropTypes.object.isRequired,
     tableProps:React.PropTypes.object.isRequired,
     timeProps:React.PropTypes.object.isRequired,
     childView: React.PropTypes.string,
+    errorMessage: React.PropTypes.string,
   },
   getInitialState() {
     return {
@@ -48,6 +51,12 @@ const PlaceOrderApplication = React.createClass({
     const { setChildView } = this.props;
     const hash = location.hash;
     setChildView(hash);
+  },
+  getFetchTimeTitle(timeProps) {
+    const selectedDateTime = timeProps.selectedDateTime || {};
+    const dateStr = selectedDateTime.date;
+    const timeStr = selectedDateTime.time;
+    return `${dateStr} ${timeStr}`;
   },
   resetChildView(evt, hash) {
     evt.preventDefault();
@@ -84,11 +93,12 @@ const PlaceOrderApplication = React.createClass({
     }
     return false;
   },
+
   render() {
     // mapStateToProps
-    const { commercialProps, childView, tableProps, timeProps, setTableProps } = this.props;
+    const { commercialProps, childView, tableProps, timeProps, setTableProps, clearErrorMsg } = this.props;
     // mapActionsToProps
-    const { setChildView, setOrderProps } = this.props;
+    const { setChildView, setOrderProps, errorMessage } = this.props;
     return (
       <div className="application">
         <a className="option order-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
@@ -99,7 +109,7 @@ const PlaceOrderApplication = React.createClass({
         <div className="option">
           <span className="options-title">预定时间</span>
           <button className="option-btn btn-arrow-right" onTouchTap={evt => setChildView('#time-select')}>
-            选择预定时间
+            {this.getFetchTimeTitle(timeProps) || '选择预定时间'}
           </button>
         </div>
 
@@ -128,6 +138,11 @@ const PlaceOrderApplication = React.createClass({
             : false
           }
         </ReactCSSTransitionGroup>
+        {errorMessage ?
+          <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
+          :
+          false
+        }
       </div>
     );
   },
