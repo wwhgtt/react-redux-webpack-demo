@@ -21,3 +21,5 @@ fetch(`${config.getOrderInLineAPI}?shopId=${shopId}`, config.requestOptions).
   catch(err => {
     console.log(err);
   });
+exports.clearErrorMsg = () => (dispatch, getState) =>
+    dispatch(setErrorMsg(null));

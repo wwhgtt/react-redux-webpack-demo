@@ -14,6 +14,7 @@ module.exports = function (
       sex:null,
     },
     queueList:[],
+    errorMessage:null,
   }),
   action
 ) {
