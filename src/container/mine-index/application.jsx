@@ -3,6 +3,7 @@ const connect = require('react-redux').connect;
 const actions = require('../../action/mine/mine-index.js');
 const ShowBasicInfo = require('../../component/mine/ShowBasicInfo.jsx');
 const ShowMenuList = require('../../component/mine/ShowMenuList.jsx');
+const Loading = require('../../component/mui/loading.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 
 require('../../asset/style/style.scss');
@@ -17,16 +18,21 @@ const MineIndexApplication = React.createClass({
     errorMessage:React.PropTypes.string,
   },
   getInitialState() {
-    return {};
+    return { load : true ,word : '加载中' };
   },
   componentWillMount() {
     const { getInfo } = this.props;
     getInfo();
   },
+  componentWillReceiveProps(nextProps) {   // 接收props
+    this.setState({ load : false });
+  },
   render() {
     const { info, clearErrorMsg, errorMessage } = this.props;
+    const { load , word } = this.state;
     return (
       <div>
+        <Loading word={word}/>
         <ShowBasicInfo info={info} />
         <ShowMenuList info={info} />
         {

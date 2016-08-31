@@ -12,10 +12,10 @@ const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const shopId = commonHelper.getUrlParam('shopId');
 const wl = window.location;
 
-const logUrl = `${config.logAddressURL}`;
+const logUrl = `${config.logAddressURL}?shopId=${shopId}`;
 
-const individualviewAPI = `${config.individualviewAPI}`;
-const individualupdateAPI = `${config.individualupdateAPI}`;
+const individualviewAPI = `${config.individualviewAPI}?shopId=${shopId}`;
+const individualupdateAPI = `${config.individualupdateAPI}?shopId=${shopId}`;
 const logoutAPI = `${config.logoutAPI}`;
 const mineIndexUrl = `${config.mineIndexURL}?shopId=${shopId}`;
 
@@ -24,7 +24,7 @@ exports.getInfo = (id) => (dispatch, getStates) => {
     dispatch(setErrorMsg('找不到门店号'));
     return;
   }
-  fetch(`${individualviewAPI}?shopId=${shopId}`).
+  fetch(`${individualviewAPI}`).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('请求数据失败'));
@@ -37,7 +37,7 @@ exports.getInfo = (id) => (dispatch, getStates) => {
       dispatch(setErrorMsg(BasicData.msg));
       setTimeout(() => {
         if (BasicData.msg === '未登录') {
-          wl.href = `${logUrl}?shopId=${shopId}&returnUrl=${encodeURIComponent(wl.pathname + wl.search)}`;
+          wl.href = `${logUrl}&returnUrl=${encodeURIComponent(wl.pathname + wl.search)}`;
         }
       }, 3000);
       return;
@@ -47,6 +47,9 @@ exports.getInfo = (id) => (dispatch, getStates) => {
   }).
   catch(err => {
     dispatch(setErrorMsg('获取基本信息失败...'));
+    setTimeout(() => {
+      wl.href = `${logUrl}`;
+    }, 3000);
   });
 };
 exports.updateInfo = (nameT, sexT, conditionT) => (dispatch, getStates) => {
@@ -64,7 +67,7 @@ exports.updateInfo = (nameT, sexT, conditionT) => (dispatch, getStates) => {
     wl.href = mineIndexUrl;
     return;
   }
-  fetch(`${individualupdateAPI}?shopId=${shopId}`, commonHelper.fetchPost({ sex:sexT, name:nameT.replace(/(^\s+)|(\s+$)/g, '') })).
+  fetch(`${individualupdateAPI}`, commonHelper.fetchPost({ sex:sexT, name:nameT.replace(/(^\s+)|(\s+$)/g, '') })).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('请求数据失败'));
@@ -76,7 +79,7 @@ exports.updateInfo = (nameT, sexT, conditionT) => (dispatch, getStates) => {
       dispatch(setErrorMsg(BasicData.msg));
       setTimeout(() => {
         if (BasicData.msg === '未登录') {
-          wl.href = `${logUrl}?shopId=${shopId}&returnUrl=${encodeURIComponent(wl.pathname + wl.search)}`;
+          wl.href = `${logUrl}&returnUrl=${encodeURIComponent(wl.pathname + wl.search)}`;
         }
       }, 3000);
       return;
@@ -102,7 +105,7 @@ exports.logOff = () => (dispatch, getStates) => {
       dispatch(setErrorMsg(BasicData.msg));
       setTimeout(() => {
         if (BasicData.msg === '未登录') {
-          wl.href = `${logUrl}?shopId=${shopId}&returnUrl=${encodeURIComponent(wl.pathname + wl.search)}`;
+          wl.href = `${logUrl}&returnUrl=${encodeURIComponent(wl.pathname + wl.search)}`;
         }
       }, 3000);
       return;

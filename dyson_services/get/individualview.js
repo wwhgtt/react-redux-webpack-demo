@@ -3,7 +3,7 @@ module.exports = {
   path:'/user/individualView.json',
   template:{
     'data': {
-      'name': '啦啦啦',
+      'name': '小林',
       'sex': '0',
       'score': 0,
       'isMember': false,

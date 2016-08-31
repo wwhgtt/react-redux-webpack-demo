@@ -15,6 +15,7 @@ module.exports = React.createClass({
     info:React.PropTypes.object,
     getInfo:React.PropTypes.func,
     logOff:React.PropTypes.func,
+    setLoad:React.PropTypes.func,
   },
   getInitialState() {
     return { name : '', sex : '' }; // 两个参数姓名和性别
@@ -32,8 +33,9 @@ module.exports = React.createClass({
     this.setState({ name :nameValue }, () => this.commonMethod());
   },
   onLogOff() {   // 注销
-    const { logOff } = this.props;
+    const { logOff, setLoad } = this.props;
     logOff();
+    setLoad();
   },
   getSex(obj) {  // 获取选择的性别
     this.setState({ sex:obj.sex }, () => this.commonMethod());

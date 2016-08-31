@@ -11,7 +11,7 @@ exports.fetchPost = params => {
   str = str.substring(0, str.length - 1);
   return { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: str };
 };
-// 获取url参数s
+// 获取url参数
 exports.getUrlParam = param => {
   const reg = new RegExp(`(^|&)${param}=([^&]*)(&|$)`, 'i');
   const r = window.location.search.replace(/\?/g, '&').substr(1).match(reg);

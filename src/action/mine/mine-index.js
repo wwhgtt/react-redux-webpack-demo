@@ -44,6 +44,9 @@ exports.getInfo = (id) => (dispatch, getStates) => {
   }).
   catch(err => {
     dispatch(setErrorMsg('获取基本信息失败...'));
+    setTimeout(() => {
+      wl.href = `${logUrl}?shopId=${shopId}`;
+    }, 3000);
   });
 };
 

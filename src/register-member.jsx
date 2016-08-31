@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 const store = storeCreator(reducer);
 ReactDOM.render(
-  <Provider store = {store}>
+  <Provider store={store}>
     <div>
       <RegisterMemberApplication />
     </div>
