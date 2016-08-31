@@ -235,13 +235,8 @@ exports.setSessionAndForwardEditUserAddress = (id) => (dispatch, getState) => {
   }
   location.href = url;
 };
-exports.setCustomerProps = (evt, customerProps) => (dispatch, getState) => {
-  if (!customerProps.name) {
-    dispatch(setErrorMsg('请输入您的姓名'));
-    return false;
-  }
+exports.setCustomerProps = (customerProps) => (dispatch, getState) => {
   dispatch(setOrderProps(null, customerProps));
-  return true;
 };
 exports.setCustomerToShopAddress = (evt, validateRet, customerTProps) => (dispatch, getState) => {
   if (!validateRet.valid) {

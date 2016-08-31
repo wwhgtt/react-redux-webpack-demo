@@ -1,13 +1,10 @@
 const React = require('react');
-const Counter = require('../mui/counter.jsx');
-const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 require('./customer-info-editor.scss');
 
 module.exports = React.createClass({
   displayName: 'CustomerInfoEditor',
   propTypes: {
     customerProps:React.PropTypes.object.isRequired,
-    onDone:React.PropTypes.func.isRequired,
     onCustomerPropsChange:React.PropTypes.func.isRequired,
   },
   getInitialState() {
@@ -22,22 +19,13 @@ module.exports = React.createClass({
   componentWillReceiveProps(newProps) {
     this.setState(newProps);
   },
-  onCountChange(newCount, increment) {
-    const { customerProps } = this.state;
-    this.setState({
-      customerProps:customerProps.set('customerCount', newCount),
-    });
-  },
-  onSubmitBtntap(evt) {
-    const { customerProps } = this.state;
-    const { onDone, onCustomerPropsChange } = this.props;
-    if (onCustomerPropsChange(evt, customerProps)) onDone(evt, '');
-  },
   handleBasicInfoChange(event) {
     const { customerProps } = this.state;
+    const { onCustomerPropsChange } = this.props;
     this.setState({
       customerProps:customerProps.set(event.target.getAttribute('name'), event.target.value),
     });
+    onCustomerPropsChange(customerProps);
   },
   render() {
     const { customerProps } = this.state;
@@ -81,24 +69,13 @@ module.exports = React.createClass({
             </div>
 
             <label className="option">
-              <span className="option-title">联系电话：</span>
+              <span className="option-title">手机号：</span>
               <input className="editor-input" placeholder={customerProps.mobile} onChange={this.handleBasicInfoChange} disabled="disabled" />
             </label>
           </div>
-          {getUrlParam('type') === 'TS' ?
-            <div className="options-group">
-              <div className="option">
-                <span className="option-title">就餐人数：</span>
-                <Counter minimum={1} count={customerProps.customerCount} maximum={99} step={1} onCountChange={this.onCountChange} />
-              </div>
-            </div>
-            :
-            false
-          }
 
         </div>
 
-        <button className="subpage-submit-btn btn--yellow flex-none" onTouchTap={this.onSubmitBtntap}>确定</button>
       </div>
     );
   },
