@@ -5,11 +5,7 @@ const actions = require('../../action/place-order/place-order');
 const config = require('../../config.js');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getSelectedTable = require('../../helper/order-helper.js').getSelectedTable;
-<<<<<<< fb9eb1c768ccdfc07b3a89ca93b2bb5edf60bd65
 const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
-=======
-// const ActiveSelect = require('../../component/mui/select/active-select.jsx');
->>>>>>> taskID:6621
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const TimeSelect = require('../../component/order/select/time-select.jsx');
 const Toast = require('../../component/mui/toast.jsx');
