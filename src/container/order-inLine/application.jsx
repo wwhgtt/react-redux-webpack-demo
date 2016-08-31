@@ -1,15 +1,11 @@
 const React = require('react');
 const connect = require('react-redux').connect;
-<<<<<<< 3491d7d58ba679422ee8996c9827abb7c29c299a
 const config = require('../../config.js');
 const actions = require('../../action/order-inLine/order-inLine.js');
 const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
 const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
-=======
-const actions = require('../../action/order-inLine/order-inLine.js');
->>>>>>> taskID:6621
 require('../../asset/style/style.scss');
 require('./application.scss');
 
