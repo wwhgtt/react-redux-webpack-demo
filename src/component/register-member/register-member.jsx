@@ -1,7 +1,8 @@
 import React from 'react';
-import InputPhone from '../mui/input/input-number.js';
+import InputNum from '../mui/input/input-number.js';
 import SexSwitch from '../mui/sexSwitch.jsx';
 import Toast from '../mui/toast.jsx';
+const InputDate = require('../mui/date-select.jsx');
 
 const RegisterMember = React.createClass({
   propTypes: {
@@ -16,6 +17,8 @@ const RegisterMember = React.createClass({
       phoneNum: '', // 手机号码
       password: '', // 注册密码
       userSex: '',
+      isShow: false,
+      birth: '2012-08-15',
     };
   },
 
@@ -29,6 +32,15 @@ const RegisterMember = React.createClass({
 
   handleSex(obj) {
     this.setState({ userSex: obj.sex });
+  },
+
+  handleCancelDate() {
+    this.setState({ isShow: false });
+  },
+
+  handleCompleteDate(obj) {
+    this.setState({ birth: obj.text });
+    this.setState({ isShow: false });
   },
 
   registerMember() {
@@ -77,6 +89,7 @@ const RegisterMember = React.createClass({
       // { regMsg: '密码空的', reg: regEmpty },
       { regMsg: '6位密码', reg: regCode },
     ];
+    const currentY = new Date().getFullYear();
     return (
       <div className="register-member ">
         <div className="register-banner">
@@ -86,7 +99,7 @@ const RegisterMember = React.createClass({
           <div className="options-group">
             <div className="option">
               <span className="option-title">手机号</span>
-              <InputPhone
+              <InputNum
                 maxLength={11}
                 placeholder={"请填写手机号"}
                 regs={regP}
@@ -111,13 +124,29 @@ const RegisterMember = React.createClass({
             <div className="option">
               <span className="option-title">生日</span>
               <span className="btn-arrow-right"></span>
-              <input type="text" className="option-input register-input" placeholder="请选择出生日期" />
+              {this.state.isShow ?
+                <InputDate
+                  startYear={currentY - 120}
+                  endYear={currentY}
+                  date={this.state.birth}
+                  onCancelDateSelect={this.handleCancelDate}
+                  onCompleteDateSelect={this.handleCompleteDate}
+                /> : false
+              }
+              <input
+                type="text"
+                className="option-input register-input"
+                placeholder="请选择出生日期"
+                onClick={() => { this.setState({ isShow: true }); }}
+                value={this.state.birth}
+                readOnly
+              />
 
             </div>
             <div className="option register-pwd">
               <span className="option-title">交易密码</span>
               <span className="btn-arrow-right"></span>
-              <InputPhone
+              <InputNum
                 maxLength={6}
                 placeholder={"请填写6位数字密码"}
                 regs={regC}
