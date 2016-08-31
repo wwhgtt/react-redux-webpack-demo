@@ -9,6 +9,7 @@ const getSelectedTable = require('../../helper/order-helper.js').getSelectedTabl
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const TimeSelect = require('../../component/order/select/time-select.jsx');
 const Toast = require('../../component/mui/toast.jsx');
+const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 require('../../asset/style/style.scss');
 require('./application.scss');
 
@@ -22,9 +23,11 @@ const PlaceOrderApplication = React.createClass({
     setOrderProps:React.PropTypes.func.isRequired,
     placeOrder:React.PropTypes.func.isRequired,
     setTableProps:React.PropTypes.func.isRequired,
+    setErrorMsg:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     commercialProps:React.PropTypes.object.isRequired,
+    dinePersonCount:React.PropTypes.number.isRequired,
     tableProps:React.PropTypes.object.isRequired,
     timeProps:React.PropTypes.object.isRequired,
     childView: React.PropTypes.string,
@@ -57,6 +60,11 @@ const PlaceOrderApplication = React.createClass({
     const dateStr = selectedDateTime.date;
     const timeStr = selectedDateTime.time;
     return `${dateStr} ${timeStr}`;
+  },
+  setOrderProps(newCount, increment) {
+    const { setOrderProps } = this.props;
+    const countProps = { id:'dine-person-count', newCount };
+    setOrderProps(null, countProps);
   },
   resetChildView(evt, hash) {
     evt.preventDefault();
@@ -96,9 +104,9 @@ const PlaceOrderApplication = React.createClass({
 
   render() {
     // mapStateToProps
-    const { commercialProps, childView, tableProps, timeProps, setTableProps, clearErrorMsg } = this.props;
+    const { commercialProps, childView, tableProps, timeProps, setTableProps, setErrorMsg, clearErrorMsg } = this.props;
     // mapActionsToProps
-    const { setChildView, setOrderProps, errorMessage } = this.props;
+    const { setChildView, setOrderProps, errorMessage, dinePersonCount } = this.props;
     return (
       <div className="application">
         <a className="option order-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
@@ -114,6 +122,11 @@ const PlaceOrderApplication = React.createClass({
         </div>
 
         {this.buildSelectTablesElement(tableProps)}
+
+        <div className="option">
+          <span className="options-title">就餐人数</span>
+          <ImportableCounter setErrorMsg={setErrorMsg} count={dinePersonCount} onCountChange={this.setOrderProps} />
+        </div>
 
         <label className="option">
           <span className="option-title">备注: </span>

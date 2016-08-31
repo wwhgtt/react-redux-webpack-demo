@@ -18,6 +18,7 @@ module.exports = function (
       tables:[],
       selectedTableId:null,
     },
+    dinePersonCount:1,
     errorMessage:null,
   }),
   action
@@ -71,6 +72,8 @@ module.exports = function (
             ['timeProps', 'selectedDateTime', 'time'],
             _find(payload.dateTime.times, { isChecked:true }).id
           );
+      } else if (payload.id === 'dine-person-count') {
+        return state.set('dinePersonCount', payload.newCount);
       }
       break;
     case 'SET_TABLE_AVALIABLE':
