@@ -3,6 +3,7 @@ const createAction = require('redux-actions').createAction;
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setOrderInLineProps = createAction('SET_ORDER_INLINE_PROPS', props => props);
+const setCustomerProps = createAction('SET_CUSTOMER_PROPS', props => props);
 require('es6-promise');
 require('isomorphic-fetch');
 const shopId = getUrlParam('shopId');
@@ -27,3 +28,5 @@ exports.clearErrorMsg = () => (dispatch, getState) =>
 exports.placeOrder = () => (dispatch, getState) => {
   // name,mobile,sex,peopleCount
 };
+exports.setOrderProps = (evt, option) => (dispatch, getState) =>
+  dispatch(setCustomerProps(option));

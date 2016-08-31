@@ -12,6 +12,7 @@ module.exports = function (
       name:null,
       mobile:null,
       sex:null,
+      dinePersonCount:1,
     },
     queueList:[],
     errorMessage:null,
@@ -33,6 +34,8 @@ module.exports = function (
         .setIn(['customerProps', 'mobile'], payload.mobile)
         .setIn(['customerProps', 'sex'], payload.sex >= 0 ? payload.sex : -1)
         .set('queueList', payload.queList);
+    case 'SET_CUSTOMER_PROPS':
+      return state.setIn(['customerProps', 'dinePersonCount'], payload.newCount);
     default:
   }
   return state;

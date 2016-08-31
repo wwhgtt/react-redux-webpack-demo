@@ -6,6 +6,7 @@ const actions = require('../../action/order-inLine/order-inLine.js');
 // const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 require('../../asset/style/style.scss');
 require('./application.scss');
 
@@ -14,8 +15,10 @@ const OrderInlineApplication = React.createClass({
   propTypes: {
     // MapedActionsToProps
     fetchOrderInLineProps:React.PropTypes.func.isRequired,
+    setErrorMsg:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
     placeOrder:React.PropTypes.func.isRequired,
+    setOrderProps:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     commercialProps:React.PropTypes.object.isRequired,
     customerProps:React.PropTypes.object.isRequired,
@@ -25,6 +28,11 @@ const OrderInlineApplication = React.createClass({
   componentDidMount() {
     const { fetchOrderInLineProps } = this.props;
     fetchOrderInLineProps();
+  },
+  onCountChange(newCount, increment) {
+    const { setOrderProps } = this.props;
+    const dinePersonCount = { id:'dine-person-count', newCount };
+    setOrderProps(null, dinePersonCount);
   },
   buildLinePropsElement() {
     const { queueList } = this.props;
@@ -40,8 +48,8 @@ const OrderInlineApplication = React.createClass({
     return element;
   },
   render() {
-    const { commercialProps, errorMessage, queueList } = this.props; // state
-    const { clearErrorMsg, placeOrder } = this.props;// actions
+    const { commercialProps, errorMessage, queueList, customerProps } = this.props; // state
+    const { clearErrorMsg, placeOrder, setErrorMsg } = this.props;// actions
     return (
       <div className="application">
         <a className="option order-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
@@ -50,6 +58,7 @@ const OrderInlineApplication = React.createClass({
         </a>
         <p>
           <span>就餐人数</span>
+          <ImportableCounter count={customerProps.dinePersonCount} onCountChange={this.onCountChange} setErrorMsg={setErrorMsg} />
         </p>
         <button onToutap={placeOrder} className="submit-order">立即取号</button>
 

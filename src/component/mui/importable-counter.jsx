@@ -17,25 +17,29 @@ module.exports = React.createClass({
   getDefaultProps() {
     return {
       count:4,
-      minimum:0,
+      minimum:1,
+      maximum:99,
       step:1,
       hiddenNum:0,
     };
   },
   getInitialState() {
-    const { minimum } = this.props;
+    const { count } = this.props;
     return {
-      count:minimum,
+      count,
     };
+  },
+  componentWillReceiveProps(newProps) {
+    this.setState({ count:Number(newProps.count) });
   },
   componentDidUpdate() {
   },
   onChange(evt) {
-    const { setErrorMsg, maximum, minimum } = this.props;
-    // console.log(value);
+    const { setErrorMsg, maximum, minimum, onCountChange } = this.props;
     const { count } = this.state;
     const value = evt.target.value;
-    if (value.match(/^\+?[1-9][0-9]*$/) === null) {
+    if (value === '') { return this.setState({ count:'' }); }
+    if (value.match(/^\+?\d*$/) === null) {
       setErrorMsg('只能输入数字');
       this.setState({ count });
       return false;
@@ -48,7 +52,7 @@ module.exports = React.createClass({
       this.setState({ count });
       return false;
     }
-    return this.setState({ count:value });
+    return (this.setState({ count:value }), onCountChange(value));
   },
   onBtnsTap(count, increment) {
     const { maximum, minimum, onCountChange } = this.props;
@@ -63,7 +67,8 @@ module.exports = React.createClass({
     return false;
   },
   render() {
-    const { count, step, maximum, minimum, hiddenNum } = this.props;
+    const { step, maximum, minimum, hiddenNum } = this.props;
+    const { count } = this.state;
     const className = classnames('counter', {
       'counter-max': count === maximum,
       'counter-min': count === minimum && count !== hiddenNum,
@@ -74,7 +79,7 @@ module.exports = React.createClass({
         <a className="counter-minus">
           <span className="counter-click-mask" onTouchTap={evt => this.onBtnsTap(count, -step)} />
         </a>
-        <input className="counter-num" placeholder={this.state.count} value={this.state.count} type="number" onChange={this.onChange} />
+        <input className="counter-num" value={count} type="tel" onChange={this.onChange} />
         <a className="counter-add">
           <span className="counter-click-mask" onTouchTap={evt => this.onBtnsTap(count, step)} />
         </a>
