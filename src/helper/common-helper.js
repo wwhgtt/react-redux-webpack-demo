@@ -21,3 +21,13 @@ exports.replaceEmojiWith = (value, str) => {
   }
   return value.replace(/\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDE4F]/g, str || '');
 };
+
+exports.getWeixinVersionInfo = () => {
+  const result = { weixin: false, version: 0 };
+  const match = /micromessenger\/([\d.]+)/i.exec(navigator.userAgent);
+  if (match) {
+    result.weixin = true;
+    result.version = match[1];
+  }
+  return result;
+};

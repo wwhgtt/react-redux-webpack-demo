@@ -35,6 +35,8 @@ module.exports = {
   saveAddressAPI: `${apiBase}/user/saveAddress.json`,
   deleteAddressAPI: `${apiBase}/user/delAddress.json`,
   getOrderAddressInfoAPI: `${apiBase}/user/getAddressInfo.json`,
+  userLogin: `${apiBase}/user/login.json`,
+  userLoginWX: `${apiBase}/user/login4WX.json`,
   shopDetailURL:`${apiBase}/shop/detail`,
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
