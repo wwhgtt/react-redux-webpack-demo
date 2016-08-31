@@ -18,6 +18,7 @@ const BindAccountApplication = React.createClass({
     setChildView: React.PropTypes.func,
     bindPhone: React.PropTypes.func,
     setErrorMsg: React.PropTypes.func,
+    sendCode: React.PropTypes.func,
     // states
     childView: React.PropTypes.string,
     errorMessage: React.PropTypes.string,
@@ -40,7 +41,7 @@ const BindAccountApplication = React.createClass({
   },
 
   render() {
-    const { childView, bindPhone, errorMessage, setErrorMsg } = this.props;
+    const { childView, bindPhone, errorMessage, setErrorMsg, sendCode } = this.props;
     let phoneNum = '';
     let wxInfo = {
       phoneNum: '13498000384',
@@ -58,6 +59,7 @@ const BindAccountApplication = React.createClass({
             <BindPhoneValidate
               onBindPhone={phoneInfo => bindPhone(phoneInfo)}
               setErrorMsg={setErrorMsg}
+              sendCode={sendCode}
             />
           : false
         }

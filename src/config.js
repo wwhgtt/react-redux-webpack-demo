@@ -64,6 +64,12 @@ module.exports = {
 
   getDefaultSendArea: `${apiBase}/user/getDefaultSendArea.json`,
 
+  // ================================
+  // 账号绑定
+  // ================================
+  sendCodeAPI: `${apiBase}/user/sendCode.json`, // 发送验证码
+  bindPhoneAPI: `${apiBase}/user/bindMobile.json`, // 绑定手机
+
   requestOptions,
 };
 

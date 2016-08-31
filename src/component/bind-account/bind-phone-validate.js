@@ -5,6 +5,7 @@ const BindPhoneValidate = React.createClass({
   propTypes:{
     onBindPhone: React.PropTypes.func,
     setErrorMsg: React.PropTypes.func,
+    sendCode: React.PropTypes.func,
   },
 
   getInitialState() {
@@ -23,10 +24,11 @@ const BindPhoneValidate = React.createClass({
   },
 
   render() {
+    const { sendCode } = this.props;
     return (
       <div>
         <div>
-          <PhoneVerficationCode ref="verificationCode" />
+          <PhoneVerficationCode ref="verificationCode" onGetVerificationCode={sendCode} />
           <a className="btn btn--yellow" onClick={this.handleBindAccount}>绑定手机号</a>
         </div>
       </div>
