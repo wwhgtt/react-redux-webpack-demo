@@ -235,13 +235,8 @@ exports.setSessionAndForwardEditUserAddress = (id) => (dispatch, getState) => {
   }
   location.href = url;
 };
-exports.setCustomerProps = (evt, customerProps) => (dispatch, getState) => {
-  if (!customerProps.name) {
-    dispatch(setErrorMsg('请输入您的姓名'));
-    return false;
-  }
+exports.setCustomerProps = (customerProps) => (dispatch, getState) => {
   dispatch(setOrderProps(null, customerProps));
-  return true;
 };
 exports.setCustomerToShopAddress = (evt, validateRet, customerTProps) => (dispatch, getState) => {
   if (!validateRet.valid) {
@@ -278,14 +273,18 @@ exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
       dispatch(setOrderProps(null, info));
       const data = result.data || {};
       const dishesPrice = getDishesPrice(orderedDishesProps.dishes || []);
-      sessionStorage.setItem(`${shopId}_sendArea_id`, data.sendAreaId);
+      let sendAreaId = data.sendAreaId === null ? -1 : data.sendAreaId;
+      if (address.toShopFlag) {
+        sendAreaId = 0;
+      }
+      sessionStorage.setItem(`${shopId}_sendArea_id`, sendAreaId);
       sessionStorage.setItem(`${shopId}_sendArea_rangeId`, rangeId);
       sessionStorage.setItem(`${shopId}_sendArea_shipment`, data.shipment);
       sessionStorage.setItem(`${shopId}_sendArea_sendPrice`, data.sendPrice);
       sessionStorage.setItem(`${shopId}_sendArea_freeDeliveryPrice`, data.freeDeliveryPrice);
       sessionStorage.setItem('receiveOrderCustomerInfo', JSON.stringify(info));
 
-      dispatch(setSendAreaId(data.sendAreaId));
+      dispatch(setSendAreaId(sendAreaId));
       if (data.sendPrice > dishesPrice) {
         if (timeProps && timeProps.selectedDateTime) {
           sessionStorage.setItem('selectedDateTime', JSON.stringify(timeProps.selectedDateTime));

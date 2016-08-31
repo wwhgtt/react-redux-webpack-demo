@@ -1,5 +1,5 @@
 const React = require('react');
-const validateAddressInfo = require('../../helper/common-helper').validateAddressInfo;
+const validateAddressInfo = require('../../helper/order-helper').validateAddressInfo;
 const replaceEmojiWith = require('../../helper/common-helper').replaceEmojiWith;
 const classnames = require('classnames');
 require('./customer-address-editor.scss');
@@ -17,7 +17,7 @@ module.exports = React.createClass({
   onRemoveLinktap(evt) {
     evt.preventDefault();
     const { onRemoveAddress } = this.props;
-    if (!window.confirm('您确认删除改地址吗？')) {
+    if (!window.confirm('您确定删除该地址吗？')) {
       return;
     }
 

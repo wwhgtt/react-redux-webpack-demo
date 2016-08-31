@@ -1,7 +1,7 @@
 const orderHelper = require('../../src/helper/order-helper.js');
-const integralProps = require('../data/intergral.js');
-const coupon = require('../data/coupon.js');
-const tableProps = require('../data/tableProps.js');
+const integralProps = require('../fake-data/fake-intergral.js');
+const coupon = require('../fake-data/fake-coupon.js');
+const tableProps = require('../fake-data/fake-tableProps.js');
 describe('Helper', function () {
   describe('Order Related Helper', function () {
     it('isEmptyObject', function () {
