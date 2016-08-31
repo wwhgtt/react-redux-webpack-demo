@@ -29,6 +29,9 @@ module.exports = {
     ],
     'bind-account-entry': './src/bind-account.jsx',
     'register-member-entry' : './src/register-member.jsx',
+    'register-entry': [   // ajfrank的注册页面
+      './src/register.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -135,6 +138,14 @@ module.exports = {
         filename: 'register-member.html',
         chunks: ['common', 'register-member-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: '注册',
+        filename: 'register.html',
+        chunks: ['common', 'register-entry'],
+        inject: 'body', template: './src/helper/common-template.html',
       }
     ),
     new webpack.optimize.CommonsChunkPlugin({

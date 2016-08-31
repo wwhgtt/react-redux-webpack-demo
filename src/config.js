@@ -11,7 +11,7 @@ switch (process.env.NODE_ENV) {
     };
     break;
   default:
-    apiBase = `http://${process.env.DEV_HOST}:3001`;   // 测试环境 //本地 `http://${process.env.DEV_HOST}:3001`;
+    apiBase = `http://${process.env.DEV_HOST}:3001`;   // 测试环境 //本地 `http://testweixin.shishike.com`;
     requestOptions = {
       method: 'GET', mod: 'cors',
       credentials: 'include',
@@ -34,7 +34,7 @@ module.exports = {
   individualviewAPI:`${apiBase}/user/individualView.json`,  // 获取用户基本信息(设置页面)
   logoutAPI:`${apiBase}/user/logout.json`,  // 注销用户页面
   individualupdateAPI:`${apiBase}/user/individualUpdate.json`, // 设置页面 更新信息
-  registerAPI:`${apiBase}/member/register.json`, // 注册接口
+  registerAPI:`http://testweixin.shishike.com/member/register.json`, // 注册接口**
   getUserAddressListAPI: `${apiBase}/user/getAddressList.json`,
   getAllAddressListAPI: `${apiBase}/user/addressList.json`,
   customerAddressAPI: `${apiBase}/user/address.json`,

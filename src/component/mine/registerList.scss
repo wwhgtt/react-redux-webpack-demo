@@ -1,0 +1,108 @@
+@import 'settings.colors';
+*{font-family: "微软雅黑";}
+
+$width:100%;
+
+$none:none;
+$background:url(../../asset/images/mine-spirit.png) left top/6.25em auto no-repeat ;
+$border:1px solid #e7e7ef;
+
+.fl{
+    float:left;
+}
+.fr{
+    float:right;
+}
+.of{
+    overflow:hidden;
+}
+%k{
+    position:absolute;
+    content: "";
+    left:0;
+    width:200%;
+    transform: scale(0.5,0.5);
+    -webkit-transform:scale(0.5,0.5);
+    transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;   
+}
+
+ul.register-list-ul{
+    position:relative;
+    margin-top:1em;
+    padding:0 1.187em;
+    background:#fff;
+    li{
+       position:relative;
+       padding: 1em 0;
+       height:3.125em;
+       span{
+           &.name{
+               display: inline-block;
+               font-size: 14px;
+               vertical-align: middle;
+           }
+           &.middle{
+               display:inline-block;
+               height:100%;
+               vertical-align: middle;
+           }
+           
+       }
+       div.sex-switch{
+              vertical-align: middle;
+              *{
+                 display:inline-block;
+                 padding:0.357em 0.6em;
+                 margin-left:0.8em;
+                 border:1px solid #d1d7de;
+                 border-radius:1em;
+                 font-size:14px;
+                 font-style: normal; 
+                 color:#999;
+                 
+                 &.active{
+                     background:#f37e53;
+                     color:#fff;
+                     border-color:#f37e53;
+                 }
+              }
+       }
+       div.input-outer{
+           width:8em;
+           height:100%;
+           input{
+               //padding:0 1em;
+               font-size:13px;
+               text-align: right;
+               height:100%;
+               width:100%;
+               outline:$none;
+               background:$none;
+               border:$none;
+               
+               &::-webkit-input-placeholder{ /* WebKit browsers */
+                  line-height: 1.4em;
+               }
+               
+           }
+       }
+       &:after{
+           @extend %k;
+           bottom:0;
+           border-bottom:$border;
+       }
+    }
+    &:before{
+           @extend %k;
+           top:0;
+           border-top:$border;
+    }
+    &:after{
+           @extend %k;
+           bottom:0;
+           border-bottom:$border;
+    }
+    
+    
+}
