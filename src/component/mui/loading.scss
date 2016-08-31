@@ -16,6 +16,19 @@
     vertical-align: middle;
 }
 
-.load-img{
-    width:2.5em;
+.load{
+    &-div{
+        display:inline-block;
+        vertical-align: middle;
+        max-width:5em;
+    }
+    &-img{
+        width:2.5em;
+    }
+    &-word{
+        margin:0.2em 0;
+        font-size:14px;
+        color:#999;
+        font-weight:bold;
+    }
 }

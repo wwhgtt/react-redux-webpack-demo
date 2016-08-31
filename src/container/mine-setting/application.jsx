@@ -19,7 +19,7 @@ const MineSettingApplication = React.createClass({
     errorMessage:React.PropTypes.string,
   },
   getInitialState() {
-    return { name:'', sex:'', load:true };
+    return { name:'', sex:'', load:true ,word:'加载中' };
   },
   componentWillMount() {
     const { getInfo } = this.props;
@@ -45,7 +45,7 @@ const MineSettingApplication = React.createClass({
   render() {
     let condition = '';// 1 微信号(未绑定手机)  2手机号非会员（未绑定微信）3手机号会员（未绑定微信） 4绑定成功
     const { info, logOff, clearErrorMsg, errorMessage } = this.props;
-    const { load } = this.state;
+    const { load, word} = this.state;
     // 几种状态的判断
     if (info.loginType === 'weixin' && !info.bindMobile) {
       condition = 1;
@@ -54,7 +54,7 @@ const MineSettingApplication = React.createClass({
       <div>
         {
           load ?
-            <Loading />
+            <Loading word={word}/>
           :
             false
         }

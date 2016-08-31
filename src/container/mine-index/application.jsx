@@ -18,7 +18,7 @@ const MineIndexApplication = React.createClass({
     errorMessage:React.PropTypes.string,
   },
   getInitialState() {
-    return { load : true };
+    return { load : true ,word : '加载中' };
   },
   componentWillMount() {
     const { getInfo } = this.props;
@@ -29,15 +29,10 @@ const MineIndexApplication = React.createClass({
   },
   render() {
     const { info, clearErrorMsg, errorMessage } = this.props;
-    const { load } = this.state;
+    const { load , word } = this.state;
     return (
       <div>
-        {
-          load ?
-            <Loading />
-          :
-            false
-        }
+        <Loading word={word}/>
         <ShowBasicInfo info={info} />
         <ShowMenuList info={info} />
         {

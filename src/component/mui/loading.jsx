@@ -11,10 +11,14 @@ module.exports = React.createClass({ // SexSwitch
   componentDidMount() {},
   componentWillReceiveProps(nextProps) {},
   render() {
+  	const { word } = this.props;
     return (
       <div className="loading-hover">
         <span className="span-null"></span>
-        <img src="../../../src/asset/images/load.gif" alt="加载中" title="加载中" className="load-img" />
+          <div className="load-div">
+            <img src="../../../src/asset/images/load.gif" alt="加载中" title="加载中" className="load-img" />
+            <p className="load-word">{word}</p>
+          </div>
         <span className="span-null"></span>
       </div>
     );
