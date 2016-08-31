@@ -23,3 +23,7 @@ fetch(`${config.getOrderInLineAPI}?shopId=${shopId}`, config.requestOptions).
   });
 exports.clearErrorMsg = () => (dispatch, getState) =>
     dispatch(setErrorMsg(null));
+
+exports.placeOrder = () => (dispatch, getState) => {
+  // name,mobile,sex,peopleCount
+};

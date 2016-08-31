@@ -15,6 +15,7 @@ const OrderInlineApplication = React.createClass({
     // MapedActionsToProps
     fetchOrderInLineProps:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
+    placeOrder:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     commercialProps:React.PropTypes.object.isRequired,
     customerProps:React.PropTypes.object.isRequired,
@@ -25,9 +26,22 @@ const OrderInlineApplication = React.createClass({
     const { fetchOrderInLineProps } = this.props;
     fetchOrderInLineProps();
   },
+  buildLinePropsElement() {
+    const { queueList } = this.props;
+    let element = [];
+    if (queueList && queueList.length) {
+      queueList.map(quene => element.push(<p className="order-inLine" key={quene.queueLineId}>
+        <span>{quene.queueName}</span>
+        <span>{quene.minPersonCount}-{quene.maxPersonCount}人</span>
+        <span>{quene.count}桌</span>
+      </p>)
+      );
+    }
+    return element;
+  },
   render() {
-    const { commercialProps, errorMessage } = this.props; // state
-    const { clearErrorMsg } = this.props;// actions
+    const { commercialProps, errorMessage, queueList } = this.props; // state
+    const { clearErrorMsg, placeOrder } = this.props;// actions
     return (
       <div className="application">
         <a className="option order-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
@@ -37,7 +51,22 @@ const OrderInlineApplication = React.createClass({
         <p>
           <span>就餐人数</span>
         </p>
-        <button>立即取号</button>
+        <button onToutap={placeOrder} className="submit-order">立即取号</button>
+
+        {queueList && queueList.length ?
+          <div>
+            <p className="order-inLine">
+              <span>队列名称</span>
+              <span>就餐人数</span>
+              <span>等待桌数</span>
+            </p>
+            {this.buildLinePropsElement()}
+          </div>
+          :
+          false
+        }
+
+
         {errorMessage ?
           <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
           :

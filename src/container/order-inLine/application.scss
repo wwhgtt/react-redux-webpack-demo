@@ -37,3 +37,20 @@
     padding-left: 10px;
   }
 }
+.order-inLine{
+  width: 100%;
+}
+.order-inLine span{
+  display: inline-block;
+  width:33%;
+  height:30px;
+  line-height:30px;
+  text-align: center;
+}
+.submit-order{
+  width:86%;
+  margin-left:7%;
+  background-color: #fdc05a;
+  color: white;
+  height: 40px;
+}

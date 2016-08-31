@@ -41,5 +41,6 @@ module.exports = {
   editUserAddressURL: `${apiBase}/user/address`,
   getDefaultSendArea: `${apiBase}/user/getDefaultSendArea.json`,
   getOrderInLineAPI: `${apiBase}/queue/info.json`,
+  submitOrderInLineAPI: `${apiBase}/queue/add.json`,
   requestOptions,
 };
