@@ -20,6 +20,7 @@ const PlaceOrderApplication = React.createClass({
     setChildView:React.PropTypes.func.isRequired,
     setOrderProps:React.PropTypes.func.isRequired,
     placeOrder:React.PropTypes.func.isRequired,
+    setTableProps:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     commercialProps:React.PropTypes.object.isRequired,
     tableProps:React.PropTypes.object.isRequired,
@@ -85,7 +86,7 @@ const PlaceOrderApplication = React.createClass({
   },
   render() {
     // mapStateToProps
-    const { commercialProps, childView, tableProps, timeProps } = this.props;
+    const { commercialProps, childView, tableProps, timeProps, setTableProps } = this.props;
     // mapActionsToProps
     const { setChildView, setOrderProps } = this.props;
     return (
@@ -113,7 +114,7 @@ const PlaceOrderApplication = React.createClass({
           {childView === 'table-select' ?
             <TableSelect
               areas={tableProps.areas} tables={tableProps.tables}
-              onTableSelect={setOrderProps} onDone={this.resetChildView}
+              onTableSelect={setTableProps} onDone={this.resetChildView}
             />
             : false
           }

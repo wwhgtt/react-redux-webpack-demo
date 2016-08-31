@@ -5,6 +5,7 @@ require('isomorphic-fetch');
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setCommercialProps = createAction('SET_COMMERCIAL_PROPS', props => props);
 const setTableProps = createAction('SET_TABLE_PROPS', props => props);
+const setTableAvaliable = createAction('SET_TABLE_AVALIABLE', props => props);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
@@ -24,16 +25,40 @@ exports.fetchCommercialProps = () => (dispatch, getState) =>
       console.log(err);
     });
 exports.fetchTables = () => (dispatch, getState) =>
-fetch(`${config.getPlaceOrderTablesAPI}?shopId=${shopId}`, config.requestOptions)
-  .then(res => {
-    if (!res.ok) {
-      dispatch(setErrorMsg('获取商户桌台信息失败...'));
-    }
-    return res.json();
-  })
-  .then(tables => {
-    dispatch(setTableProps(tables.data));
-  })
-  .catch(err => {
-    console.log(err);
-  });
+  fetch(`${config.getPlaceOrderTablesAPI}?shopId=${shopId}`, config.requestOptions)
+    .then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('获取商户桌台信息失败...'));
+      }
+      return res.json();
+    })
+    .then(tables => {
+      dispatch(setTableProps(tables.data));
+    })
+    .catch(err => {
+      console.log(err);
+    });
+exports.setTableProps = (evt, props) => (dispatch, getState) => {
+  const areaId = props.area.areaId;
+  const num = props.table.pNum;
+  const orderTime = getState().timeProps.selectedDateTime;
+  if (!orderTime.time) {
+    dispatch(setErrorMsg('请先选择预定时间...'));
+    return false;
+  }
+  return fetch(`${config.getCheckTableAvaliable}?shopId=${shopId}&areaId=${areaId}&num=${num}&orderTime=${orderTime.date}%20${orderTime.time}`,
+    config.requestOptions
+  )
+    .then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('获取商户桌台信息失败...'));
+      }
+      return res.json();
+    })
+    .then(result => {
+      dispatch(setTableAvaliable(Object.assign({}, result.data, props)));
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};

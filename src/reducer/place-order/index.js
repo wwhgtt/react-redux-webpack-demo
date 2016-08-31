@@ -16,6 +16,7 @@ module.exports = function (
     tableProps:{
       areas:[],
       tables:[],
+      selectedTableId:null,
     },
     errorMessage:null,
   }),
@@ -35,8 +36,8 @@ module.exports = function (
         .setIn(['timeProps', 'timeTable'], payload.timeJson);
     case 'SET_TABLE_PROPS':
       return state
-        .setIn(['tableProps', 'areas'], helper.initializeTableProps(payload.areaList)).areas
-        .setIn(['tableProps', 'tables'], helper.initializeTableProps(payload.areaList)).tables;
+        .setIn(['tableProps', 'areas'], Immutable.from(helper.initializeTableProps(payload.areaList).areas))
+        .setIn(['tableProps', 'tables'], Immutable.from(helper.initializeTableProps(payload.areaList).tables));
     case 'SET_ERROR_MSG':
       return state.set('errorMessage', payload);
     case 'SET_CHILDVIEW':
@@ -72,6 +73,24 @@ module.exports = function (
           );
       }
       break;
+    case 'SET_TABLE_AVALIABLE':
+      if (payload.status !== 0) {
+        return state.set('errorMessage', '预定桌台失败');
+      }
+      return state
+        .updateIn(
+          ['tableProps', 'areas'],
+          areas => areas.flatMap(
+            area => area.id === payload.area.id ? area.set('isChecked', true) : area.set('isChecked', false)
+          )
+        )
+        .updateIn(
+          ['tableProps', 'tables'],
+          tables => tables.flatMap(
+            table => table.id === payload.table.id ? table.set('isChecked', true) : table.set('isChecked', false)
+          )
+        )
+        .setIn(['tableProps', 'selectedTableId'], payload.tableId);
     default:
   }
   return state;
