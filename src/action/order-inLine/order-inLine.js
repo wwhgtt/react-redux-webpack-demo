@@ -29,3 +29,5 @@ exports.clearErrorMsg = () => (dispatch, getState) =>
 exports.placeOrder = () => (dispatch, getState) => {
   // name,mobile,sex,peopleCount
 };
+exports.setOrderProps = (evt, option) => (dispatch, getState) =>
+  dispatch(setCustomerProps(option));

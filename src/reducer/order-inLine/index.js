@@ -12,6 +12,7 @@ module.exports = function (
       name:null,
       mobile:null,
       sex:null,
+      dinePersonCount:1,
     },
     dinePersonCount:1,
     queueList:[],
