@@ -71,6 +71,11 @@ module.exports = {
   sendCodeAPI: `${apiBase}/user/sendCode.json`, // 发送验证码
   bindPhoneAPI: `${apiBase}/user/bindMobile.json`, // 绑定手机
 
+  // 会员注册
+  // =======
+  registerInfoAPI: `${apiBase}/member/register.json`, // 获取用户信息
+  registerAPI: `${apiBase}member/register.json`, // 申请会员
+
   requestOptions,
 };
 

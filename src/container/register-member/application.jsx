@@ -4,21 +4,43 @@ const connect = require('react-redux').connect;
 const RegisterMember = require('../../component/register-member/register-member.jsx');
 require('../../asset/style/style.scss');
 require('./application.scss');
-
-// import * as actions from '../../action/register-member/register-member.js';
+import * as actions from '../../action/register-member/register-member.js';
+const Toast = require('../../component/mui/toast.jsx');
 
 
 const RegisterMemberApplication = React.createClass({
-  // 监听hash变化
-  componentWillMount() {
+  propTypes: {
+    // MapedActionsToProps
+    userInfo: React.PropTypes.object,
+    getUserInfo: React.PropTypes.func,
+    errorMessage: React.PropTypes.string,
+    setErrorMsg: React.PropTypes.func,
 
+    // MapedStatesToProps
+  },
+
+  componentWillMount() {
+    const { getUserInfo } = this.props;
+    getUserInfo();
+  },
+
+  handleClearErrorMsg() {
+    this.props.setErrorMsg('');
   },
 
   render() {
+    const { errorMessage, userInfo } = this.props;
     return (
-      <RegisterMember />
+      <div>
+        <RegisterMember userInfo={userInfo} />
+        {
+          errorMessage ?
+            <Toast errorMessage={errorMessage} clearErrorMsg={this.handleClearErrorMsg} />
+          : ''
+        }
+      </div>
     );
   },
 });
 
-module.exports = connect()(RegisterMemberApplication);
+module.exports = connect(state => state, actions)(RegisterMemberApplication);

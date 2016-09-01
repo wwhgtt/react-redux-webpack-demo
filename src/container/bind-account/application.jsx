@@ -14,12 +14,12 @@ const actions = require('../../action/bind-account/bind-account.js');
 
 const BindAccountApplication = React.createClass({
   propTypes: {
-    // actions
+    // MapedActionsToProps
     setChildView: React.PropTypes.func,
     bindPhone: React.PropTypes.func,
     setErrorMsg: React.PropTypes.func,
     sendCode: React.PropTypes.func,
-    // states
+    // MapedStatesToProps
     childView: React.PropTypes.string,
     errorMessage: React.PropTypes.string,
   },
