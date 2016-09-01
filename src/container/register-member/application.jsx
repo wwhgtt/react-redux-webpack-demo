@@ -25,8 +25,8 @@ const RegisterMemberApplication = React.createClass({
     getUserInfo();
   },
 
-  handleRegister() {
-    this.props.saveRegisterMember();
+  handleRegister(info) {
+    this.props.saveRegisterMember(info);
   },
 
   handleClearErrorMsg() {

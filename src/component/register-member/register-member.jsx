@@ -24,17 +24,22 @@ const RegisterMember = React.createClass({
       isShow: false,
       birthDay: '2012-08-15',
       userName: '',
-      isDisabled: true,
+      isDisabled: false,
+      brandPicUrl: '',
     };
   },
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     const { userInfo } = nextProps;
     this.setState({
       userSex: userInfo.sex,
       userName: userInfo.name,
       phoneNum: userInfo.mobile,
+      brandPicUrl: userInfo.picUrl,
     });
+
+    if (userInfo.loginType === 0) {
+      this.setState({ isDisabled: true });
+    }
   },
 
   // 获取电话号码
@@ -71,30 +76,31 @@ const RegisterMember = React.createClass({
 
   // 注册会员
   registerMember() {
-    const { errorMsgP, errorMsgC, phoneNum, password, userSex, birthDay } = this.state;
+    const { errorMsgP, errorMsgC, phoneNum, password, userSex, birthDay, userName } = this.state;
     if (!phoneNum) {
       this.setState({ errorMsg: '请填写手机号码' });
     } else if (errorMsgP) {
       this.setState({ errorMsg: errorMsgP });
     } else if (!this.refs.userName.value) {
-      this.setState({ errorMsg: '请填写用户名' });
+      this.setState({ errorMsg: '请填写姓名' });
     } else if (!userSex) {
       this.setState({ errorMsg: '请选择性别' });
     } else if (!birthDay) {
       this.setState({ errorMsg: '请选择出生日期' });
     } else if (!password) {
-      this.setState({ errorMsg: '请设置密码' });
+      this.setState({ errorMsg: '请填写交易密码' });
     } else if (errorMsgC) {
       this.setState({ errorMsg: errorMsgC });
     } else {
       const registerInfo = {
-        shopId: '123',
+        name: userName,
         birth: birthDay,
         phone: phoneNum,
         sex: userSex,
         pwd: password,
+        code: '', // 验证码
       };
-
+      console.log(registerInfo);
       this.props.onRegisterMember(registerInfo);
     }
   },
@@ -104,7 +110,7 @@ const RegisterMember = React.createClass({
   },
 
   render() {
-    const { password, userSex, errorMsg, userName, phoneNum, isDisabled, birthDay } = this.state;
+    const { password, userSex, errorMsg, userName, phoneNum, isDisabled, birthDay, brandPicUrl } = this.state;
     // 中国手机号码验证规则
     const regPhone = /^(1(?:[358]\d{9}|7[3678]\d{8}|4[57]\d{8}))|0[49]\d{8}$/;
     // const regEmpty = /\S/; // 非空验证规则
@@ -112,19 +118,19 @@ const RegisterMember = React.createClass({
     // 手机验证
     const regP = [
       // { regMsg: '电话空的', reg: regEmpty },
-      { regMsg: '电话格式错误', reg: regPhone },
+      { regMsg: '手机号码格式错误', reg: regPhone },
     ];
     // 6位密码验证
     const regC = [
       // { regMsg: '密码空的', reg: regEmpty },
-      { regMsg: '6位密码', reg: regCode },
+      { regMsg: '请输入6位密码', reg: regCode },
     ];
     const currentY = new Date().getFullYear();
     // debugger;
     return (
       <div className="register-member ">
         <div className="register-banner">
-          <img className="register-banner-img" alt="" src="http://7i7ie3.com2.z0.glb.qiniucdn.com/o_1an1m1l19j5hapvdl468i18jf9.jpg" />
+          <img className="register-banner-img" alt="" src={brandPicUrl} />
         </div>
         <div className="">
           <div className="options-group">

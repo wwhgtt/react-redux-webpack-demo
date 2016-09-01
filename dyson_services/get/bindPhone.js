@@ -1,5 +1,5 @@
 module.exports = {
-  path:'/user/sendCode.json',
+  path:'/user/bindMobile.json',
   template:{
     data: {
       customerId: '2324325432',
