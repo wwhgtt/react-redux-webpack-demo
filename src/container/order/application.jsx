@@ -220,6 +220,36 @@ const OrderApplication = React.createClass({
         <span className="options-title text-froly">没有可用桌台</span>
       </div>;
   },
+  buildTSCustomerPropsElement() {
+    const { customerProps } = this.props;
+    const { setCustomerProps, setErrorMsg, setOrderProps } = this.props;
+    if (customerProps.loginType === 1) {
+      // 表示手机号登陆
+      return (
+        <div className="customerInfo">
+          <CustomerInfoEditor
+            customerProps={customerProps} onCustomerPropsChange={setCustomerProps}
+          />
+          <div className="importable-counter">
+            <span>就餐人数</span>
+            <ImportableCounter
+              setErrorMsg={setErrorMsg}
+              onCountChange={setOrderProps}
+              count={customerProps.customerCount}
+              maximum={99}
+              minimum={1}
+            />
+          </div>
+        </div>
+      );
+    }
+    return (
+      <a className="option order-shop">
+        <img className="order-shop-icon" src={customerProps.iconUri} alt="用户头像" />
+        <p className="order-shop-desc ellipsis">{customerProps.name}</p>
+      </a>
+    );
+  },
   submitOrder() {
     const { submitOrder } = this.props;
     const { isSubmitBtnDisabled } = this.state;
@@ -235,7 +265,7 @@ const OrderApplication = React.createClass({
   render() {
     const {
       customerProps, serviceProps, childView, tableProps, clearErrorMsg, setCustomerProps,
-      timeProps, orderedDishesProps, commercialProps, errorMessage, setErrorMsg,
+      timeProps, orderedDishesProps, commercialProps, errorMessage,
       customerAddressListInfo,
       defaultCustomerProps,
       setCustomerToShopAddress,
@@ -308,21 +338,7 @@ const OrderApplication = React.createClass({
             {buildCoustomerPropElement()}
           </a>
           :
-          <div className="customerInfo">
-            <CustomerInfoEditor
-              customerProps={customerProps} onCustomerPropsChange={setCustomerProps}
-            />
-            <div className="importable-counter">
-              <span>就餐人数</span>
-              <ImportableCounter
-                setErrorMsg={setErrorMsg}
-                onCountChange={setOrderProps}
-                count={customerProps.customerCount}
-                maximum={99}
-                minimum={1}
-              />
-            </div>
-          </div>
+          this.buildTSCustomerPropsElement()
         }
         {type === 'WM' ?
           false
@@ -352,7 +368,7 @@ const OrderApplication = React.createClass({
           )}
         </div>
         <div className="options-group">
-          {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length
+          {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length && customerProps.loginType === 1
             && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 && commercialProps.diningForm !== 0 ?
             <a className="option" href="#coupon-select">
               <span className="option-title">使用优惠券</span>
@@ -366,7 +382,7 @@ const OrderApplication = React.createClass({
               <span className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
             </a>
           : false}
-          {serviceProps.integralsInfo && commercialProps.diningForm !== 0 ?
+          {serviceProps.integralsInfo && commercialProps.diningForm !== 0 && customerProps.loginType === 1 ?
             <ActiveSelect
               optionsData={[serviceProps.integralsInfo]} onSelectOption={setOrderProps}
               optionComponent={OrderPropOption}
