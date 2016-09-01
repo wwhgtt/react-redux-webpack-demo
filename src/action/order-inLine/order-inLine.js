@@ -26,7 +26,7 @@ fetch(`${config.getOrderInLineAPI}?shopId=${shopId}`, config.requestOptions).
 exports.clearErrorMsg = () => (dispatch, getState) =>
     dispatch(setErrorMsg(null));
 
-exports.placeOrder = () => (dispatch, getState) => {
+exports.submitOrder = () => (dispatch, getState) => {
   // name,mobile,sex,peopleCount
   const state = getState();
   const params = '?shopId=' + shopId
