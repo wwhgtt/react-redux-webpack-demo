@@ -42,7 +42,7 @@
 
     &.phone{
       &::before{
-        background-image:url('../../asset/images/phone.png');
+        background-image:url('../../../asset/images/phone.png');
         background-size: 16px 16px;
       }
     }
@@ -51,7 +51,7 @@
       &::before{
         top: 16px;
         left: 8px;
-        background-image:url('../../asset/images/verification.png');
+        background-image:url('../../../asset/images/verification.png');
         background-size: 20px 20px;
       }
     }

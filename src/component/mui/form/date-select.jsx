@@ -1,7 +1,7 @@
 const React = require('react');
-const ActiveScrollSelect = require('./select/active-scroll-select.jsx');
-const DateTimeOption = require('./misc/dynamic-class-hoc.jsx')('a');
-require('../order/select/select-container.scss');
+const ActiveScrollSelect = require('../select/active-scroll-select.jsx');
+const DateTimeOption = require('../misc/dynamic-class-hoc.jsx')('a');
+require('../../order/select/select-container.scss');
 require('./date-select.scss');
 const stringPadStr = (str, targetLength, padCh) => {
   const padLength = targetLength - str.length;
