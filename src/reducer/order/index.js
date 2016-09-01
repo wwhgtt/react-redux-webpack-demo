@@ -74,8 +74,9 @@ module.exports = function (
                   .set(
                     'customerProps',
                     Immutable.from({
-                      name:payload.member.name, mobile:payload.member.mobile,
-                      sex: isNaN(+payload.member.sex) ? '-1' : payload.member.sex, isMember:payload.isMember, customerCount:1,
+                      name:payload.member.name, mobile:payload.member.mobile, loginType:payload.member.loginType,
+                      iconUri:payload.member.iconUri, sex: isNaN(+payload.member.sex) ? '-1' : payload.member.sex,
+                      isMember:payload.isMember, customerCount:1,
                       addresses:payload.ma ? [Object.assign({ isChecked:true, id: payload.ma.memberAddressId }, payload.ma)] : null,
                     })
                   )
@@ -338,7 +339,7 @@ module.exports = function (
            _has(state.commercialProps, 'diningForm') && state.commercialProps.diningForm === 0 ?
             0
             :
-            helper.countMemberPrice(true, state.orderedDishesProps.dishes, payload.dishList, payload.type)
+            helper.countMemberPrice(state.customerProps.loginType === 1, state.orderedDishesProps.dishes, payload.dishList, payload.type)
          )
          .updateIn(
            ['orderedDishesProps', 'dishes'],
