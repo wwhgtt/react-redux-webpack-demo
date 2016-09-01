@@ -10,7 +10,6 @@ const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 // commonHelper.setCookie('mid',"b5d13adbc9d8d6ce93ad9f8ea4cc");
 
 const shopId = commonHelper.getUrlParam('shopId');
-const wl = window.location;
 
 const logUrl = `${config.logAddressURL}?shopId=${shopId}`;
 
@@ -24,7 +23,7 @@ exports.getInfo = (id) => (dispatch, getStates) => {
     dispatch(setErrorMsg('找不到门店号'));
     return;
   }
-  fetch(`${individualviewAPI}`).
+  fetch(`${individualviewAPI}`, config.requestOptions).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('请求数据失败'));
@@ -37,7 +36,7 @@ exports.getInfo = (id) => (dispatch, getStates) => {
       dispatch(setErrorMsg(BasicData.msg));
       setTimeout(() => {
         if (BasicData.msg === '未登录') {
-          wl.href = `${logUrl}&returnUrl=${encodeURIComponent(wl.pathname + wl.search)}`;
+          window.location.href = `${logUrl}&returnUrl=${encodeURIComponent(window.location.pathname + window.location.search)}`;
         }
       }, 3000);
       return;
@@ -46,28 +45,25 @@ exports.getInfo = (id) => (dispatch, getStates) => {
     dispatch(setInfo(BasicData.data));
   }).
   catch(err => {
-    dispatch(setErrorMsg('获取基本信息失败...'));
-    setTimeout(() => {
-      wl.href = `${logUrl}`;
-    }, 3000);
+    console.info(err);
   });
 };
-exports.updateInfo = (nameT, sexT, conditionT) => (dispatch, getStates) => {
+exports.updateInfo = (name, sex, condition) => (dispatch, getStates) => {
   if (!shopId) {
     dispatch(setErrorMsg('找不到门店号'));
     return;
-  } else if (!sexT.toString()) {
+  } else if (!sex.toString()) {
     dispatch(setErrorMsg('请选择性别!!'));
     return;
-  } else if (!nameT.replace(/(^\s+)|(\s+$)/g, '')) {
+  } else if (!name.replace(/(^\s+)|(\s+$)/g, '')) {
     dispatch(setErrorMsg('请输入姓名!!'));
     return;
   }
-  if (conditionT === 1) { // 此时点击跳转到"我的" 页面
-    wl.href = mineIndexUrl;
+  if (condition === 1) { // 此时点击跳转到"我的" 页面
+    window.location.href = mineIndexUrl;
     return;
   }
-  fetch(`${individualupdateAPI}`, commonHelper.fetchPost({ sex:sexT, name:nameT.replace(/(^\s+)|(\s+$)/g, '') })).
+  fetch(`${individualupdateAPI}`, commonHelper.fetchPost({ sex, name:name.replace(/(^\s+)|(\s+$)/g, '') })).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('请求数据失败'));
@@ -79,21 +75,20 @@ exports.updateInfo = (nameT, sexT, conditionT) => (dispatch, getStates) => {
       dispatch(setErrorMsg(BasicData.msg));
       setTimeout(() => {
         if (BasicData.msg === '未登录') {
-          wl.href = `${logUrl}&returnUrl=${encodeURIComponent(wl.pathname + wl.search)}`;
+          window.location.href = `${logUrl}&returnUrl=${encodeURIComponent(window.location.pathname + window.location.search)}`;
         }
       }, 3000);
       return;
     }
     dispatch(setErrorMsg('保存成功'));
-    setTimeout(() => { wl.href = mineIndexUrl; }, 3000);
+    setTimeout(() => { window.location.href = mineIndexUrl; }, 3000);
   }).
   catch(err => {
-    dispatch(setErrorMsg('保存失败!!'));
-    setTimeout(() => { wl.reload(); }, 3000);
+    console.info(err);
   });
 };
 exports.logOff = () => (dispatch, getStates) => {
-  fetch(`${logoutAPI}`).
+  fetch(`${logoutAPI}`, config.requestOptions).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('请求数据失败'));
@@ -105,7 +100,7 @@ exports.logOff = () => (dispatch, getStates) => {
       dispatch(setErrorMsg(BasicData.msg));
       setTimeout(() => {
         if (BasicData.msg === '未登录') {
-          wl.href = `${logUrl}&returnUrl=${encodeURIComponent(wl.pathname + wl.search)}`;
+          window.location.href = `${logUrl}&returnUrl=${encodeURIComponent(window.location.pathname + window.location.search)}`;
         }
       }, 3000);
       return;
@@ -113,13 +108,12 @@ exports.logOff = () => (dispatch, getStates) => {
     if (BasicData.data.isLogout) {
       dispatch(setErrorMsg('注销成功，请重新登陆'));
       setTimeout(() => {
-        wl.href = logUrl;
+        window.location.href = logUrl;
       }, 3000);
     }
   }).
   catch(err => {
-    dispatch(setErrorMsg('注销失败!!'));
-    setTimeout(() => { wl.reload(); }, 3000);
+    console.info(err);
   });
 };
 exports.clearErrorMsg = () => (dispatch, getStates) =>

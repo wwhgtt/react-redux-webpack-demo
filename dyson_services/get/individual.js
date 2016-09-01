@@ -8,7 +8,7 @@ module.exports = {
       'balance': 0,
       'score': 0,
       'isMember': false,
-      'loginType': 'weixin',
+      'loginType': 1,
       'iconUri': 'http://wx.qlogo.cn/mmopen/v8bZAJ5Dh4TftRPIt9THzpNVTk24bHGz9mhGWG79av9y66xLOV6cjgNUick0F75GtXGTsDalNaqED0mUZy5A2rhtqYGFED4Td/0',
       'birthday': '1970-01-01',
       'mobile': '15196696240',

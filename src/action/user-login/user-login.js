@@ -1,13 +1,14 @@
 const config = require('../../config');
 const createAction = require('redux-actions').createAction;
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 require('es6-promise');
 require('isomorphic-fetch');
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setLoadingInfo = exports.setLoadingInfo = createAction('SET_LOADING_INFO', info => info);
+const shopId = getUrlParam('shopId');
 
 exports.login = (info) => (dispatch, getState) => {
-  const shopId = getUrlParam('shopId');
   if (!shopId) {
     dispatch(setErrorMsg('门店编码不能为空'));
     return false;
@@ -16,8 +17,8 @@ exports.login = (info) => (dispatch, getState) => {
   dispatch(setLoadingInfo({ ing: true, text: '系统处理中...' }));
   const returnUrl = getUrlParam('returnUrl');
   const url = info.isWeixin ?
-    `${config.userLoginWX}?shopId=${shopId}&returnUrl=${returnUrl || ''}` :
-    `${config.userLogin}?shopId=${shopId}&mobile=${info.phoneNum}&code=${info.code}`;
+    `${config.userLoginWXAPI}?shopId=${shopId}&returnUrl=${returnUrl || ''}` :
+    `${config.userLoginAPI}?shopId=${shopId}&mobile=${info.phoneNum}&code=${info.code}`;
   return fetch(url, config.requestOptions).
     then(res => {
       if (!res.ok) {
@@ -34,6 +35,31 @@ exports.login = (info) => (dispatch, getState) => {
       }
       if (returnUrl) {
         location.href = decodeURIComponent(returnUrl);
+      }
+    }).
+    catch(err => {
+      console.log(err);
+    });
+};
+
+exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
+  const obj = Object.assign({}, { shopId, mobile: phoneNum, timestamp: new Date().getTime() });
+  const paramStr = getSendCodeParamStr(obj);
+  const url = `${config.sendCodeAPI}?${paramStr}`;
+  dispatch(setLoadingInfo({ ing: true, text: '发送中...' }));
+  return fetch(url, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('验证码获取失败'));
+        dispatch(setLoadingInfo({ ing: false }));
+      }
+      return res.json();
+    }).
+    then(result => {
+      dispatch(setLoadingInfo({ ing: false }));
+      if (result.code !== '200') {
+        dispatch(setErrorMsg(result.msg));
+        return;
       }
     }).
     catch(err => {
