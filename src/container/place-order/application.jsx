@@ -37,7 +37,7 @@ const PlaceOrderApplication = React.createClass({
   },
   getInitialState() {
     return {
-
+      note:'',
     };
   },
   componentWillMount() {
@@ -68,6 +68,12 @@ const PlaceOrderApplication = React.createClass({
     const countProps = { id:'dine-person-count', newCount };
     setOrderProps(null, countProps);
   },
+  noteChange(evt) {
+    const value = evt.target.value;
+    this.setState({
+      note:value,
+    });
+  },
   resetChildView(evt, hash) {
     evt.preventDefault();
     const { setChildView } = this.props;
@@ -78,8 +84,9 @@ const PlaceOrderApplication = React.createClass({
     }
   },
   placeOrder() {
-    // const { placeOrder, tableProps, timeProps } = this.props;
-
+    const { placeOrder } = this.props;
+    const { note } = this.state;
+    placeOrder(note);
   },
   buildSelectTablesElement(tableProps) {
     const { setChildView } = this.props;
@@ -134,7 +141,7 @@ const PlaceOrderApplication = React.createClass({
 
         <label className="option">
           <span className="option-title">备注: </span>
-          <input className="option-input" name="note" placeholder="输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />
+          <input className="option-input" name="note" placeholder="输入备注" maxLength="35" onChange={this.noteChange} />
         </label>
         <button className="place-order" onTouchTap={this.placeOrder}>立即预定</button>
         <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
