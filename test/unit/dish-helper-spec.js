@@ -56,13 +56,6 @@ describe('Helper', function () {
     });
 
     /* dish-helper part-2 */
-    it('isSingleDishWithoutProps', function () {
-      dishHelper.isSingleDishWithoutProps(fakeDishes.groupDish).should.to.be.false;
-      dishHelper.isSingleDishWithoutProps(fakeDishes.singleDishWithProps).should.to.be.false;
-      dishHelper.isSingleDishWithoutProps(fakeDishes.singleDishWithoutProps).should.to.be.true;
-    });
-
-    // dish-helper part-2
     const cloneObject = source => source && JSON.parse(JSON.stringify(source));
     it('isShopOpen', () => {
     // null or [] 表示24小时营业
@@ -186,7 +179,7 @@ describe('Helper', function () {
       dishHelper.getDishBoxprice([groupDish], { orderFlag: 1, content: 10 }).should.to.equal(10);
     });
 
-    it('getDisBoxCount', () => {
+    it('getDishBoxCount', () => {
       dishHelper.getDishBoxprice([], null).should.to.equal(0);
       const singleDishWithoutProps = cloneObject(fakeDishes.singleDishWithoutProps);
       const groupDish = cloneObject(fakeDishes.groupDish);
