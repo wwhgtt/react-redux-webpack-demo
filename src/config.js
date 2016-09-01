@@ -41,6 +41,9 @@ module.exports = {
   deleteAddressAPI: `${apiBase}/user/delAddress.json`,
   getOrderAddressInfoAPI: `${apiBase}/user/getAddressInfo.json`,
 
+  userLogin: `${apiBase}/user/login.json`,
+  userLoginWX: `${apiBase}/user/login4WX.json`,
+
   shopDetailURL:`${apiBase}/shop/detail`,
   mineIndexURL:'/mineIndex.html',
   mineSettingURL:'/mineSetting.html',
@@ -61,6 +64,12 @@ module.exports = {
   notFoundUrl:'/404.html', // 404
 
   getDefaultSendArea: `${apiBase}/user/getDefaultSendArea.json`,
+
+  // ================================
+  // 账号绑定
+  // ================================
+  sendCodeAPI: `${apiBase}/user/sendCode.json`, // 发送验证码
+  bindPhoneAPI: `${apiBase}/user/bindMobile.json`, // 绑定手机
 
   requestOptions,
 };

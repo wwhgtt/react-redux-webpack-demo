@@ -7,7 +7,7 @@ div[data-reactroot],
 .btn-bottom{
 	width: 100%;
 	height: 50px;
-	position: fixed;
+	position: relative;
 	left: 0;
 	right: 0;
 	bottom: 0;
@@ -51,6 +51,21 @@ div[data-reactroot],
 			position: absolute;
 			right: 25px;
 			z-index: 1;
+		}
+	}
+
+	&-user {
+		&-name {
+			float: initial;
+		}
+
+		&-input {
+			float: initial;
+		}
+
+		.sex-switch {
+			float: initial;
+			display: inline-block;
 		}
 	}
 }
