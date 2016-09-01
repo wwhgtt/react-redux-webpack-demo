@@ -7,7 +7,7 @@ const InputDate = require('../mui/form/date-select.jsx');
 const RegisterMember = React.createClass({
   propTypes: {
     // MapedActionsToProps
-
+    onRegisterMember:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     // regs: React.PropTypes.array,
     userInfo: React.PropTypes.object,
@@ -24,20 +24,17 @@ const RegisterMember = React.createClass({
       isShow: false,
       birthDay: '2012-08-15',
       userName: '',
+      isDisabled: true,
     };
   },
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
     const { userInfo } = nextProps;
-    if (userInfo.sex) {
-      this.setState({ userSex: userInfo.sex });
-    }
-    if (userInfo.name) {
-      this.setState({ userName: userInfo.name });
-    }
-    if (userInfo.mobile) {
-      this.setState({ phoneNum: userInfo.mobile });
-    }
+    this.setState({
+      userSex: userInfo.sex,
+      userName: userInfo.name,
+      phoneNum: userInfo.mobile,
+    });
   },
 
   // 获取电话号码
@@ -68,7 +65,7 @@ const RegisterMember = React.createClass({
 
   // 选择日期、隐藏日历
   handleCompleteDate(obj) {
-    this.setState({ birth: obj.text });
+    this.setState({ birthDay: obj.text });
     this.setState({ isShow: false });
   },
 
@@ -97,7 +94,8 @@ const RegisterMember = React.createClass({
         sex: userSex,
         pwd: password,
       };
-      console.log(registerInfo);
+
+      this.props.onRegisterMember(registerInfo);
     }
   },
 
@@ -106,8 +104,7 @@ const RegisterMember = React.createClass({
   },
 
   render() {
-    const { userInfo } = this.props;
-    const { password, userSex, errorMsg, userName, phoneNum } = this.state;
+    const { password, userSex, errorMsg, userName, phoneNum, isDisabled, birthDay } = this.state;
     // 中国手机号码验证规则
     const regPhone = /^(1(?:[358]\d{9}|7[3678]\d{8}|4[57]\d{8}))|0[49]\d{8}$/;
     // const regEmpty = /\S/; // 非空验证规则
@@ -124,10 +121,6 @@ const RegisterMember = React.createClass({
     ];
     const currentY = new Date().getFullYear();
     // debugger;
-    if (!userInfo.name) {
-      return false;
-    }
-    console.log(userInfo.sex);
     return (
       <div className="register-member ">
         <div className="register-banner">
@@ -139,11 +132,12 @@ const RegisterMember = React.createClass({
               <span className="option-title">手机号</span>
               <InputNum
                 maxLength={11}
-                placeholder={"请填写手机号"}
+                placeholder={'请填写手机号'}
                 regs={regP}
                 className={'option-input register-input'}
                 onGetNum={this.getPhoneNum}
                 defaultVal={phoneNum}
+                disabled={isDisabled}
               />
             </div>
           </div>
@@ -179,7 +173,7 @@ const RegisterMember = React.createClass({
                 className="option-input register-input"
                 placeholder="请选择出生日期"
                 onClick={() => { this.setState({ isShow: true }); }}
-                value={this.state.birthDay}
+                value={birthDay}
                 readOnly
               />
 
@@ -193,6 +187,7 @@ const RegisterMember = React.createClass({
                 regs={regC}
                 className={'option-input register-input register-pwd-in'}
                 onGetNum={this.getPassword}
+                defaultVal={password}
               />
               <input
                 type="password"
@@ -204,7 +199,7 @@ const RegisterMember = React.createClass({
             </div>
           </div>
         </div>
-        <button className="register-btn btn--yellow btn-bottom" onTouchTap={this.registerMember}>注册会员</button>
+        <button className="register-btn btn--yellow btn-submit" onTouchTap={this.registerMember}>注册会员</button>
         {
           errorMsg ?
             <Toast errorMessage={errorMsg} clearErrorMsg={this.handleClearErrorMsg} />

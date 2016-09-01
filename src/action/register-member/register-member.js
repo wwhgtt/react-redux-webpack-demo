@@ -23,3 +23,25 @@ exports.getUserInfo = () => (dispatch, getStates) => {
     }
   });
 };
+
+exports.saveRegisterMember = (info) => (dispatch, getStates) => {
+  const requestOptions = Object.assign({}, config.requestOptions);
+  requestOptions.method = 'POST';
+  requestOptions.body = JSON.stringify(info);
+
+  fetch(config.registerAPI, requestOptions).
+  then(res => {
+    if (!res.ok) {
+      dispatch(setErrorMsg('用户注册失败'));
+    }
+
+    return res.json();
+  }).
+  then(res => {
+    if (res.code === '200') {
+      console.log(res);
+    } else {
+      dispatch(setErrorMsg(res.msg));
+    }
+  });
+};
