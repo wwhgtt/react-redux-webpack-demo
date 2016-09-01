@@ -1,6 +1,6 @@
 const React = require('react');
 require('./ShowSettingList.scss');
-const SexSwitch = require('../../component/mui/sexSwitch.jsx');
+const SexSwitch = require('../../component/mui/form/sex-switch.jsx');
 const config = require('../../config');
 const commonHelper = require('../../helper/common-helper');
 const shopId = commonHelper.getUrlParam('shopId');
