@@ -50,18 +50,17 @@ module.exports = {
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
   editUserAddressURL: `${apiBase}/user/address`,
-  bindAccountURL:'/bind-account.html',  // 绑定页面 手机 #bind-phone 微信 #bind-wx
-  registerMemberURL:'/register-member.html',
-  logAddressURL: 'http://testweixin.shishike.com/user/notLogin', // 登陆页面
-  integralURL: 'http://testweixin.shishike.com/member/integral', // 我的积分
-  valueCardURL:'http://testweixin.shishike.com/member/valueCard', // 我的余额
-  memberIndexURL:'http://testweixin.shishike.com/member/index', // 会员页面
-  rechargeURL:'http://testweixin.shishike.com/shop/recharge', // 充值页面
-  orderallListURL:'http://testweixin.shishike.com/order/orderallList', // 订单列表
-  getCouponListURL:'http://testweixin.shishike.com/coupon/getCouponList', // 优惠券
-  addressListURL:'http://testweixin.shishike.com/user/addressList', // 地址管理
-  modifyPwdURL:'http://testweixin.shishike.com/member/modifyPwd', // 修改密码
-  notFoundUrl:'/404.html', // 404
+  bindAccountURL:'${apiBase}/bind-account.html',  // 绑定页面 手机 #bind-phone 微信 #bind-wx
+  registerMemberURL:'${apiBase}/register-member.html',
+  logAddressURL: `${apiBase}/user/notLogin`, // 登陆页面
+  integralURL: `${apiBase}/member/integral`, // 我的积分
+  valueCardURL:`${apiBase}/member/valueCard`, // 我的余额
+  memberIndexURL:`${apiBase}/member/index`, // 会员页面
+  rechargeURL:`${apiBase}/shop/recharge`, // 充值页面
+  orderallListURL:`${apiBase}/order/orderallList`, // 订单列表
+  getCouponListURL:`${apiBase}/coupon/getCouponList`, // 优惠券
+  addressListURL:`${apiBase}/user/addressList`, // 地址管理
+  modifyPwdURL:`${apiBase}/member/modifyPwd`, // 修改密码
 
   getDefaultSendArea: `${apiBase}/user/getDefaultSendArea.json`,
 

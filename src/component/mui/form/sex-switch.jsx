@@ -12,20 +12,14 @@ module.exports = React.createClass({ // SexSwitch
   },
   componentWillMount() {},
   componentDidMount() {},
-  componentWillReceiveProps(nextProps) {   // 接收props
-    this.setState({ sex:nextProps.sex }); // 把props赋值给state(需要的值)
-  },
-  sex_switch(sexT, e) {
-    this.setState({ sex: sexT }, () => this.commonMethod());
-  },
-  commonMethod() {
+  sex_switch(sex, e) {
     // 回传值给component
     const { getSex } = this.props;
-    getSex({ sex : this.state.sex });
+    getSex({ sex });
   },
   render() {
     // this.setState({value: Info.name});
-    const { sex } = this.state;
+    const { sex } = this.props;
     return (
       <div className="sex-switch fr">
         <i className={sex === '0' ? 'active' : ''} onTouchTap={() => this.sex_switch('0')} ref="female">女士</i>
