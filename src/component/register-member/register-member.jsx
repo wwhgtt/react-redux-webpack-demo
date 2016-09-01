@@ -18,7 +18,7 @@ const RegisterMember = React.createClass({
       password: '', // 注册密码
       userSex: '',
       isShow: false,
-      birth: '2012-08-15',
+      birthDay: '2012-08-15',
     };
   },
 
@@ -44,7 +44,7 @@ const RegisterMember = React.createClass({
   },
 
   registerMember() {
-    const { errorMsgP, errorMsgC, phoneNum, password, userSex } = this.state;
+    const { errorMsgP, errorMsgC, phoneNum, password, userSex, birthDay } = this.state;
     if (!phoneNum) {
       this.setState({ errorMsg: '请填写手机号码' });
     } else if (errorMsgP) {
@@ -53,6 +53,8 @@ const RegisterMember = React.createClass({
       this.setState({ errorMsg: '请填写用户名' });
     } else if (!userSex) {
       this.setState({ errorMsg: '请选择性别' });
+    } else if (!birthDay) {
+      this.setState({ errorMsg: '请选择出生日期' });
     } else if (!password) {
       this.setState({ errorMsg: '请设置密码' });
     } else if (errorMsgC) {
@@ -60,7 +62,7 @@ const RegisterMember = React.createClass({
     } else {
       const registerInfo = {
         shopId: '123',
-        birth: 'fasd',
+        birth: birthDay,
         phone: phoneNum,
         sex: userSex,
         pwd: password,
@@ -90,6 +92,7 @@ const RegisterMember = React.createClass({
       { regMsg: '6位密码', reg: regCode },
     ];
     const currentY = new Date().getFullYear();
+    // this.setState({errorMsg: this.props.});//错误提示信息来自reducer
     return (
       <div className="register-member ">
         <div className="register-banner">
