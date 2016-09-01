@@ -1,5 +1,5 @@
 const React = require('react');
-require('./sexSwitch.scss');
+require('./sex-switch.scss');
 
 module.exports = React.createClass({ // SexSwitch
   displayName: 'SexSwitch',
