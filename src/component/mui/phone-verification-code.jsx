@@ -9,6 +9,7 @@ module.exports = React.createClass({
     hasForeignZone: React.PropTypes.bool,
     onGetVerificationCode: React.PropTypes.func,
     onCompleteInput: React.PropTypes.func,
+    disabled:React.PropTypes.string,
   },
   getDefaultProps() {
     return {
@@ -17,6 +18,7 @@ module.exports = React.createClass({
         phoneNum: '请输入手机号',
         code: '请输入验证码',
       },
+      disabled:false,
     };
   },
   getInitialState() {
@@ -141,7 +143,7 @@ module.exports = React.createClass({
     ];
   },
   render() {
-    const { hasForeignZone, placeholder } = this.props;
+    const { hasForeignZone, placeholder, disabled } = this.props;
     let nationsSelect = null;
     if (hasForeignZone) {
       const nations = this._getNations();
@@ -178,6 +180,7 @@ module.exports = React.createClass({
               value={phoneNum}
               placeholder={placeholder.phoneNum}
               onChange={this.handlePhoneNumChange}
+              disabled={disabled}
             />
           </div>
         </div>
