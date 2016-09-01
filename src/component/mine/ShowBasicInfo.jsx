@@ -1,4 +1,7 @@
 const React = require('react');
+const malePic = require('../../../src/asset/images/head-male.png');
+const femalePic = require('../../../src/asset/images/head-female.png');
+const defaultPic = require('../../../src/asset/images/head-default.png');
 require('./ShowBasicInfo.scss');
 
 module.exports = React.createClass({ // ShowBasicInfo
@@ -6,35 +9,39 @@ module.exports = React.createClass({ // ShowBasicInfo
   propTypes:{
     info:React.PropTypes.object,
   },
+  getInitialState() {
+    return { realImage : '', realSex : '' };
+  },
   componentWillMount() { },
   componentDidMount() { },
+  componentWillReceiveProps(nextProps) {   // 接收props
+    // 获取Icon
+    if (nextProps.info.iconUri) {
+      this.setState({ realImage : nextProps.info.iconUri });
+    } else if (nextProps.info.sex === '1') {
+      this.setState({ realImage : malePic });
+    } else if (nextProps.info.sex === '0') {
+      this.setState({ realImage : femalePic });
+    } else {
+      this.setState({ realImage : defaultPic });
+    }
+    // 转义性别
+    if (nextProps.info.sex === '1') {
+      this.setState({ realSex : '先生' });
+    } else if (nextProps.info.sex === '0') {
+      this.setState({ realSex : '女士' });
+    }
+  },
   imgError(sex, e) {
     switch (sex) {
-      case '1': { this.refs.logo.src = '../../../src/asset/images/head-male.png'; break; }
-      case '0': { this.refs.logo.src = '../../../src/asset/images/head-female.png'; break; }
-      default: { this.refs.logo.src = '../../../src/asset/images/head-default.png'; break; }
+      case '1': { this.setState({ realImage : malePic }); break; }
+      case '0': { this.setState({ realImage : femalePic }); break; }
+      default: { this.setState({ realImage : defaultPic }); break; }
     }
   },
   render() {
     const { info } = this.props;
-    let realImage = '';
-    let realSex = '';
-    // 获取Icon
-    if (info.iconUri) {
-      realImage = info.iconUri;
-    } else if (info.sex === '1') {
-      realImage = '../../../src/asset/images/head-male.png';
-    } else if (info.sex === '0') {
-      realImage = '../../../src/asset/images/head-male.png';
-    } else {
-      realImage = '../../../src/asset/images/head-default.png';
-    }
-    // 转义性别
-    if (info.sex === '1') {
-      realSex = '先生';
-    } else if (info.sex === '0') {
-      realSex = '女士';
-    }
+    const { realImage, realSex } = this.state;
     return (
       <div className="BasicInfoBg">
         <img className="BasicInfoBg-img" src={realImage} alt="用户头像" title={info.name || ''} ref="logo" onError={() => this.imgError(info.sex)} />

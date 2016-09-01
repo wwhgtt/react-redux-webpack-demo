@@ -11,7 +11,7 @@ module.exports = function (
 
   switch (type) {
     case 'SET_INFO': {
-      let data = payload || {};
+      const data = payload || {};
       return state.set('info', data);
     }
     case 'SET_ERROR_MSG': {

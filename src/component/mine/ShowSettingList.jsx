@@ -8,6 +8,7 @@ const registerUrl = ` ${config.registerMemberURL}?shopId=${shopId}`;
 const modifypwdUrl = ` ${config.modifyPwdURL}?shopId=${shopId}`;
 const bindaccountUrlphone = ` ${config.bindAccountURL}?shopId=${shopId}#bind-phone`;
 const bindaccountUrlwx = ` ${config.bindAccountURL}?shopId=${shopId}#bind-wx`;
+const defaultPic = require('../../../src/asset/images/head-default.png');
 
 module.exports = React.createClass({
   displayName: 'ShowSettingList',
@@ -50,9 +51,9 @@ module.exports = React.createClass({
     let condition = '';// 1 微信号(未绑定手机)  2手机号非会员（未绑定微信）3手机号会员（未绑定微信） 4绑定成功
     const { info } = this.props;
     // 几种状态的判断
-    if (info.loginType === 'weixin' && !info.bindMobile) {
+    if (info.loginType === 1 && !info.bindMobile) {
       condition = 1;
-    } else if (info.loginType === 'mobile' && !info.bindWx) {
+    } else if (info.loginType === 0 && !info.bindWx) {
       if (!info.isMember) {
         condition = 2;
       } else {
@@ -114,7 +115,7 @@ module.exports = React.createClass({
                     <li className="list-ul-li spe">
                       <a className="settingLink" href=" javascript:void(0)">
                         <span className="name">微信号</span>
-                        <img src={info.iconUri || '../../../src/asset/images/head-default.png'} alt="微信头像" title="微信头像" className="logo spe" />
+                        <img src={info.iconUri || defaultPic} alt="微信头像" title="微信头像" className="logo spe" />
                       </a>
                     </li>
                     <li className="list-ul-li">
@@ -188,7 +189,7 @@ module.exports = React.createClass({
                     <li className="list-ul-li spe">
                       <a className="settingLink" href=" javascript:void(0)">
                         <span className="name">微信号</span>
-                        <img src={info.iconUri || '../../../src/asset/images/head-default.png'} alt="微信头像" title="微信头像" className="logo spe" />
+                        <img src={info.iconUri || defaultPic} alt="微信头像" title="微信头像" className="logo spe" />
                       </a>
                     </li>
                     <li className="list-ul-li spe">

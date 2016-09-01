@@ -35,9 +35,9 @@ module.exports = React.createClass({
     let condition = ''; // 1 微信号(未绑定手机)  2手机号非会员（未绑定微信）3手机号会员（未绑定微信） 4绑定成功
     const { info } = this.props;
     // 几种状态的判断
-    if (info.loginType === 'weixin' && !info.bindMobile) {
+    if (info.loginType === 1 && !info.bindMobile) {
       condition = 1;
-    } else if (info.loginType === 'mobile' && !info.bindWx) {
+    } else if (info.loginType === 0 && !info.bindWx) {
       if (!info.isMember) {
         condition = 2;
       } else {
