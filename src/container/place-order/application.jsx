@@ -9,6 +9,7 @@ const CustomerInfoEditor = require('../../component/order/customer-info-editor.j
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const TimeSelect = require('../../component/order/select/time-select.jsx');
 const Toast = require('../../component/mui/toast.jsx');
+const PhoneVerificationCode = require('../../component/mui/phone-verification-code.jsx');
 const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 require('../../asset/style/style.scss');
 require('./application.scss');
@@ -26,6 +27,7 @@ const PlaceOrderApplication = React.createClass({
     setErrorMsg:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
     setCustomerProps:React.PropTypes.func.isRequired,
+    submitOrderWithCode:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     commercialProps:React.PropTypes.object.isRequired,
     dinePersonCount:React.PropTypes.number.isRequired,
@@ -34,6 +36,7 @@ const PlaceOrderApplication = React.createClass({
     customerProps:React.PropTypes.object.isRequired,
     childView: React.PropTypes.string,
     errorMessage: React.PropTypes.string,
+    shuoldPhoneValidateShow:React.PropTypes.bool.isRequired,
   },
   getInitialState() {
     return {
@@ -110,12 +113,21 @@ const PlaceOrderApplication = React.createClass({
     }
     return false;
   },
-
+  buildPhoneValidateElement() {
+    const { customerProps, submitOrderWithCode } = this.props;
+    const placeholder = { phoneNum:customerProps.mobile, code:'' };
+    return (
+      <div className="phone-validate-WM">
+        <PhoneVerificationCode placeholder={placeholder} disabled="disabled" />
+        <button className="submit-validate-code" onTouchTap={evt => submitOrderWithCode(this.state.note)}>确定</button>
+      </div>
+    );
+  },
   render() {
     // mapStateToProps
     const { commercialProps, childView, tableProps, timeProps, setTableProps, setErrorMsg, clearErrorMsg, setCustomerProps } = this.props;
     // mapActionsToProps
-    const { setChildView, setOrderProps, errorMessage, dinePersonCount, customerProps } = this.props;
+    const { setChildView, setOrderProps, errorMessage, dinePersonCount, customerProps, shuoldPhoneValidateShow } = this.props;
     return (
       <div className="application">
         <a className="option order-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
@@ -164,6 +176,11 @@ const PlaceOrderApplication = React.createClass({
         </ReactCSSTransitionGroup>
         {errorMessage ?
           <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
+          :
+          false
+        }
+        {shuoldPhoneValidateShow ?
+          this.buildPhoneValidateElement()
           :
           false
         }
