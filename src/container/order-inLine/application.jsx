@@ -16,7 +16,7 @@ const OrderInlineApplication = React.createClass({
     fetchOrderInLineProps:React.PropTypes.func.isRequired,
     setErrorMsg:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
-    placeOrder:React.PropTypes.func.isRequired,
+    submitOrder:React.PropTypes.func.isRequired,
     setOrderProps:React.PropTypes.func.isRequired,
     setCustomerProps:React.PropTypes.func.isRequired,
     // MapedStatesToProps
@@ -50,7 +50,7 @@ const OrderInlineApplication = React.createClass({
   },
   render() {
     const { commercialProps, errorMessage, queueList, customerProps, dinePersonCount } = this.props; // state
-    const { clearErrorMsg, placeOrder, setErrorMsg, setCustomerProps } = this.props;// actions
+    const { clearErrorMsg, submitOrder, setErrorMsg, setCustomerProps } = this.props;// actions
     return (
       <div className="application">
         <a className="option order-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
@@ -64,7 +64,7 @@ const OrderInlineApplication = React.createClass({
           <span>就餐人数</span>
           <ImportableCounter count={dinePersonCount} onCountChange={this.onCountChange} setErrorMsg={setErrorMsg} />
         </div>
-        <button onToutap={placeOrder} className="submit-order">立即取号</button>
+        <button onTouchTap={submitOrder} className="submit-order">立即取号</button>
 
         {queueList && queueList.length ?
           <div>
@@ -78,7 +78,6 @@ const OrderInlineApplication = React.createClass({
           :
           false
         }
-
 
         {errorMessage ?
           <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
