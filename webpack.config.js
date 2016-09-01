@@ -103,7 +103,7 @@ module.exports = {
     new HtmlWebpackPlugin(
       {
         title: '我的',
-        filename: 'mineIndex.html',
+        filename: 'mine-index.html',
         chunks: ['common', 'mine-index-entry'],
         inject: 'body', template: './src/helper/common-template.html',
       }
@@ -111,7 +111,7 @@ module.exports = {
     new HtmlWebpackPlugin(
       {
         title: '设置',
-        filename: 'mineSetting.html',
+        filename: 'mine-setting.html',
         chunks: ['common', 'mine-setting-entry'],
         inject: 'body', template: './src/helper/common-template.html',
       }

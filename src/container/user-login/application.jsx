@@ -13,7 +13,7 @@ const UserLoginApplication = React.createClass({
   displayName: 'UserLoginApplication',
   propTypes: {
     setErrorMsg: React.PropTypes.func,
-    fetchVericationCode: React.PropTypes.func,
+    fetchVericationCode: React.PropTypes.func.isRequired,
     errorMessage: React.PropTypes.string,
     login: React.PropTypes.func,
     loadingInfo: React.PropTypes.object,

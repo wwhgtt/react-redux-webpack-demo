@@ -18,7 +18,7 @@ const MineIndexApplication = React.createClass({
     errorMessage:React.PropTypes.string,
   },
   getInitialState() {
-    return { load : true ,word : '加载中' };
+    return { load : true, word : '加载中' };
   },
   componentWillMount() {
     const { getInfo } = this.props;

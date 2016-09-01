@@ -16,10 +16,11 @@ exports.getSendCodeParamStr = obj => {
   props.sort();
   let paramStr = '';
   function concat(length) {
+    const preIndex = length - 1;
     if (length === 1) {
       paramStr = `${props[0]}=${obj[props[0]]}`;
     } else {
-      paramStr = `${concat(length - 1)}&${props[length - 1]}=${obj[props[length - 1]]}`;
+      paramStr = `${concat(preIndex)}&${props[preIndex]}=${obj[props[preIndex]]}`;
     }
     return paramStr;
   }
