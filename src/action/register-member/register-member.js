@@ -5,9 +5,9 @@ const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error =>
 const setUserInfo = createAction('SET_USER_INFO', userInfo => userInfo);
 // const shopId = helper.getUrlParam('shopId');
 
-exports.getUserInfo = () => (dispatch) => {
+exports.getUserInfo = () => (dispatch, getStates) => {
   // const getRegisterInfoURL = `${config.registerInfoAPI}?shopId=${shopId}`;
-  fetch(config.registerInfoAPI).
+  fetch(config.registerInfoAPI, config.requestOptions).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('获取用户信息失败'));
