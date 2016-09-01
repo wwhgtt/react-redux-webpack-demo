@@ -2,7 +2,7 @@ const React = require('react');
 const malePic = require('../../../src/asset/images/head-male.png');
 const femalePic = require('../../../src/asset/images/head-female.png');
 const defaultPic = require('../../../src/asset/images/head-default.png');
-require('./ShowBasicInfo.scss');
+require('./showBasicInfo.scss');
 
 module.exports = React.createClass({ // ShowBasicInfo
   displayName: 'BrandBg',

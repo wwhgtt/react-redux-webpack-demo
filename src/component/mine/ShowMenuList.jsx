@@ -16,7 +16,7 @@ const registerUrl = ` ${config.registerMemberURL}?shopId=${shopId}`;
 const bindaccountUrlphone = ` ${config.bindAccountURL}?shopId=${shopId}#bind-phone`;
 const bindaccountUrlwx = ` ${config.bindAccountURL}?shopId=${shopId}#bind-wx`;
 
-require('./ShowMenuList.scss');
+require('./showMenuList.scss');
 
 module.exports = React.createClass({
   displayName: 'Name',
