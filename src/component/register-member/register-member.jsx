@@ -166,7 +166,7 @@ const RegisterMember = React.createClass({
             </div>
           </div>
         </div>
-        <button className="register-btn btn--yellow btn-bottom" onTouchTap={this.registerMember}>注册会员</button>
+        <button className="register-btn btn--yellow btn-submit" onTouchTap={this.registerMember}>注册会员</button>
         {
           errorMsg ?
             <Toast errorMessage={errorMsg} clearErrorMsg={this.handleClearErrorMsg} />
