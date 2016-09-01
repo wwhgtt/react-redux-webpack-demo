@@ -1,8 +1,8 @@
 import React from 'react';
-import InputNum from '../mui/input/input-number.js';
-import SexSwitch from '../mui/sexSwitch.jsx';
+import InputNum from '../mui/form/input/input-number.js';
+import SexSwitch from '../mui/form/sexSwitch.jsx';
 import Toast from '../mui/toast.jsx';
-const InputDate = require('../mui/date-select.jsx');
+const InputDate = require('../mui/form/date-select.jsx');
 
 const RegisterMember = React.createClass({
   propTypes: {
