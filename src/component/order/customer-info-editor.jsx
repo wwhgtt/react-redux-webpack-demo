@@ -30,7 +30,7 @@ module.exports = React.createClass({
   render() {
     const { customerProps } = this.state;
     return (
-      <div className="subpage flex-columns">
+      <div className="flex-columns">
         <div className="flex-rest">
           <div className="options-group">
             <div className="option">

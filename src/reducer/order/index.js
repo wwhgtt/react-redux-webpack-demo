@@ -212,6 +212,8 @@ module.exports = function (
         return state.set(
           'customerProps', payload
         );
+      } else if (payload.id === 'customer-count') {
+        return state.setIn(['customerProps', 'customerCount'], payload.newCount);
       } else if (payload.id === 'customer-info-selected-address') {
         return state.setIn(['customerProps', 'addresses'], payload.addresses);
       } else if (payload.id === 'customer-info-with-address') {

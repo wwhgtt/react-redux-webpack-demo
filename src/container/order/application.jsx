@@ -119,6 +119,10 @@ const OrderApplication = React.createClass({
     }[hash] || '确定下单-外卖';
     document.title = title;
   },
+  setOrderProps(newCount) {
+    const { setOrderProps } = this.props;
+    setOrderProps(null, Object.assign({}, { newCount }, { id:'customer-count' }));
+  },
   confirmOrderAddressInfo(evt, info) {
     if (evt) {
       evt.preventDefault();
@@ -225,7 +229,7 @@ const OrderApplication = React.createClass({
   },
   buildTSCustomerPropsElement() {
     const { customerProps } = this.props;
-    const { setCustomerProps, setErrorMsg, setOrderProps } = this.props;
+    const { setCustomerProps, setErrorMsg } = this.props;
     if (customerProps.loginType === 1) {
       // 表示手机号登陆
       return (
@@ -237,7 +241,7 @@ const OrderApplication = React.createClass({
             <span>就餐人数</span>
             <ImportableCounter
               setErrorMsg={setErrorMsg}
-              onCountChange={setOrderProps}
+              onCountChange={this.setOrderProps}
               count={customerProps.customerCount}
               maximum={99}
               minimum={1}
