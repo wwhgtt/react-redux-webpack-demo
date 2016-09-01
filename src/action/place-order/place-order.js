@@ -9,6 +9,7 @@ const setTableAvaliable = createAction('SET_TABLE_AVALIABLE', props => props);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
 exports.setCustomerProps = createAction('SET_CUSTOMER_PROPS', option => option);
+const setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const shopId = getUrlParam('shopId');
 exports.fetchCommercialProps = () => (dispatch, getState) =>
@@ -86,7 +87,46 @@ exports.placeOrder = (note) => (dispatch, getState) => {
       return res.json();
     })
     .then(result => {
-      dispatch(setErrorMsg('提交预定信息成功...'));
+      if (result.code.toString() === '200') {
+        dispatch(setErrorMsg('提交排队信息成功...'));
+      } else if (result.code.toString() === '20013') {
+        dispatch(setPhoneValidateProps(true));
+      } else {
+        dispatch(setErrorMsg(result.msg));
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+exports.submitOrderWithCode = (note) => (dispatch, getState) => {
+  const state = getState();
+  const orderTime = `${state.timeProps.selectedDateTime.date}20%${state.timeProps.selectedDateTime.time}`;
+  const params = '?name=' + state.customerProps.name
+      + '&memo=' + note
+      + '&mobile=' + state.customerProps.mobile
+      + '&sex=' + state.customerProps.sex
+      + '&tableId=' + state.tableProps.selectedTableId
+      + '&orderNumber=' + state.dinePersonCount
+      + '&orderTime=' + orderTime
+      + '&shopId=' + getUrlParam('shopId')
+      + '&code=' + state.phoneValidateCode;
+  fetch(`${config.submitPlaceOrderAPI}${params}`, config.requestOptions)
+    .then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('提交预定信息失败...'));
+      }
+      return res.json();
+    })
+    .then(result => {
+      if (result.code.toString() === '200') {
+        dispatch(setErrorMsg('提交排队信息成功...'));
+      } else if (result.code.toString() === '20013') {
+        dispatch(setPhoneValidateProps(true));
+      } else {
+        dispatch(setErrorMsg(result.msg));
+      }
     })
     .catch(err => {
       console.log(err);

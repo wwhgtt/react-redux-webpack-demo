@@ -16,6 +16,8 @@ module.exports = function (
     dinePersonCount:1,
     queueList:[],
     errorMessage:null,
+    shuoldPhoneValidateShow:false,
+    phoneValidateCode:'',
   }),
   action
 ) {
@@ -47,6 +49,8 @@ module.exports = function (
     case 'SET_ERROR_MSG':
       return state
           .set('errorMessage', payload);
+    case 'SET_PHONE_VALIDATE_PROPS':
+      return state.set('shuoldPhoneValidateShow', payload);
     default:
   }
   return state;

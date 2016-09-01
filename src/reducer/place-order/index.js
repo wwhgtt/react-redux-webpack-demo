@@ -25,6 +25,8 @@ module.exports = function (
     },
     dinePersonCount:1,
     errorMessage:null,
+    shuoldPhoneValidateShow:false,
+    phoneValidateCode:'',
   }),
   action
 ) {
@@ -113,6 +115,8 @@ module.exports = function (
           )
         )
         .setIn(['tableProps', 'selectedTableId'], payload.tableId);
+    case 'SET_PHONE_VALIDATE_PROPS':
+      return state.set('shuoldPhoneValidateShow', payload);
     default:
   }
   return state;
