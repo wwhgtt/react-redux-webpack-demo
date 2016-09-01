@@ -41,8 +41,8 @@ module.exports = {
   deleteAddressAPI: `${apiBase}/user/delAddress.json`,
   getOrderAddressInfoAPI: `${apiBase}/user/getAddressInfo.json`,
 
-  userLogin: `${apiBase}/user/login.json`,
-  userLoginWX: `${apiBase}/user/login4WX.json`,
+  userLoginAPI: `${apiBase}/user/login.json`,
+  userLoginWXAPI: `${apiBase}/user/login4WX.json`,
 
   shopDetailURL:`${apiBase}/shop/detail`,
   mineIndexURL:'/mineIndex.html',
