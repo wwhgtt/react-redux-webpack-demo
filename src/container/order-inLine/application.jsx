@@ -64,7 +64,7 @@ const OrderInlineApplication = React.createClass({
           <span>就餐人数</span>
           <ImportableCounter count={dinePersonCount} onCountChange={this.onCountChange} setErrorMsg={setErrorMsg} />
         </div>
-        <button onToutap={placeOrder} className="submit-order">立即取号</button>
+        <button onTouchTap={placeOrder} className="submit-order">立即取号</button>
 
         {queueList && queueList.length ?
           <div>
@@ -78,7 +78,6 @@ const OrderInlineApplication = React.createClass({
           :
           false
         }
-
 
         {errorMessage ?
           <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />

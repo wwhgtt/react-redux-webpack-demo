@@ -28,4 +28,23 @@ exports.clearErrorMsg = () => (dispatch, getState) =>
 
 exports.placeOrder = () => (dispatch, getState) => {
   // name,mobile,sex,peopleCount
+  const state = getState();
+  const params = '?shopId=' + shopId
+    + '&name=' + state.customerProps.name
+    + '&sex=' + state.customerProps.sex
+    + '&mobile=' + state.customerProps.mobile
+    + '&peopleCount=' + state.dinePersonCount;
+  fetch(`${config.submitOrderInLineAPI}${params}`, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('提交排队信息失败...'));
+      }
+      return res.json();
+    }).
+      then(result => {
+        dispatch(setErrorMsg('提交排队信息成功...'));
+      }).
+      catch(err => {
+        console.log(err);
+      });
 };
