@@ -29,10 +29,15 @@ const MineIndexApplication = React.createClass({
   },
   render() {
     const { info, clearErrorMsg, errorMessage } = this.props;
-    const { load , word } = this.state;
+    const { load, word } = this.state;
     return (
       <div>
-        <Loading word={word}/>
+        {
+          load ?
+            <Loading word={word} />
+          :
+            false
+        }
         <ShowBasicInfo info={info} />
         <ShowMenuList info={info} />
         {

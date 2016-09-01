@@ -1,5 +1,5 @@
 const React = require('react');
-require('./sexSwitch.scss');
+require('./sex-switch.scss');
 
 module.exports = React.createClass({ // SexSwitch
   displayName: 'SexSwitch',
@@ -15,18 +15,8 @@ module.exports = React.createClass({ // SexSwitch
   componentWillReceiveProps(nextProps) {   // 接收props
     this.setState({ sex:nextProps.sex }); // 把props赋值给state(需要的值)
   },
-  sex_switch(sex, e) {
-    switch (sex) {
-      case '0': {
-        this.setState({ sex: '0' }, () => this.commonMethod());
-        break;
-      }
-      case '1': {
-        this.setState({ sex:'1' }, () => this.commonMethod());
-        break;
-      }
-      default:break;
-    }
+  sex_switch(sexT, e) {
+    this.setState({ sex: sexT }, () => this.commonMethod());
   },
   commonMethod() {
     // 回传值给component
