@@ -29,7 +29,6 @@ const CustomerAddressApplication = React.createClass({
     customerProps: React.PropTypes.object.isRequired,
   },
   componentWillMount() {
-  	
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
   },
   componentDidMount() {
@@ -43,8 +42,7 @@ const CustomerAddressApplication = React.createClass({
     setSessionAndForwardEditUserAddress(shopId, editor);
   },
   setChildViewAccordingToHash() {
-  	//debugger;
-  	
+    // debugger;
     const { setChildView } = this.props;
     const hash = location.hash;
     setChildView(hash);
