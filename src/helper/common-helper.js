@@ -79,4 +79,3 @@ exports.getWeixinVersionInfo = () => {
   }
   return result;
 };
-

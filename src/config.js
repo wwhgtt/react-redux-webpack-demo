@@ -41,8 +41,8 @@ module.exports = {
   deleteAddressAPI: `${apiBase}/user/delAddress.json`,
   getOrderAddressInfoAPI: `${apiBase}/user/getAddressInfo.json`,
 
-  userLogin: `${apiBase}/user/login.json`,
-  userLoginWX: `${apiBase}/user/login4WX.json`,
+  userLoginAPI: `${apiBase}/user/login.json`,
+  userLoginWXAPI: `${apiBase}/user/login4WX.json`,
 
   shopDetailURL:`${apiBase}/shop/detail`,
   mineIndexURL:'/mineIndex.html',
@@ -69,6 +69,11 @@ module.exports = {
   // ================================
   sendCodeAPI: `${apiBase}/user/sendCode.json`, // 发送验证码
   bindPhoneAPI: `${apiBase}/user/bindMobile.json`, // 绑定手机
+
+  // 会员注册
+  // =======
+  registerInfoAPI: `${apiBase}/member/register.json`, // 获取用户信息
+  registerAPI: `${apiBase}member/register.json`, // 申请会员
 
   requestOptions,
 };

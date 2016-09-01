@@ -68,6 +68,14 @@ module.exports = {
     ),
     new HtmlWebpackPlugin(
       {
+        title: 'StoryboardApplication',
+        filename: 'storyboard.html',
+        chunks: ['common', 'storyboard-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
         title: 'CustomerAddressApplication',
         filename: 'customer-address.html',
         chunks: ['common', 'customer-address-entry'],
@@ -76,9 +84,49 @@ module.exports = {
     ),
     new HtmlWebpackPlugin(
       {
+        title: '我的',
+        filename: 'mine-index.html',
+        chunks: ['common', 'mine-index-entry'],
+        inject: 'body', template: './src/helper/common-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: '设置',
+        filename: 'mine-setting.html',
+        chunks: ['common', 'mine-setting-entry'],
+        inject: 'body', template: './src/helper/common-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
         title: 'AddressListApplication',
         filename: 'address-list.html',
         chunks: ['common', 'address-list-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'BindAccountApplication',
+        filename: 'bind-account.html',
+        chunks: ['common', 'bind-account-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'RegisterMember',
+        filename: 'register-member.html',
+        chunks: ['common', 'register-member-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'UserLoginApplication',
+        filename: 'user-login.html',
+        chunks: ['common', 'user-login-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

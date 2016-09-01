@@ -6,7 +6,11 @@ const InputDate = require('../mui/form/date-select.jsx');
 
 const RegisterMember = React.createClass({
   propTypes: {
-    regs: React.PropTypes.array,
+    // MapedActionsToProps
+
+    // MapedStatesToProps
+    // regs: React.PropTypes.array,
+    userInfo: React.PropTypes.object,
   },
 
   getInitialState() {
@@ -18,33 +22,59 @@ const RegisterMember = React.createClass({
       password: '', // 注册密码
       userSex: '',
       isShow: false,
-      birth: '2012-08-15',
+      birthDay: '2012-08-15',
+      userName: '',
     };
   },
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    const { userInfo } = nextProps;
+    if (userInfo.sex) {
+      this.setState({ userSex: userInfo.sex });
+    }
+    if (userInfo.name) {
+      this.setState({ userName: userInfo.name });
+    }
+    if (userInfo.mobile) {
+      this.setState({ phoneNum: userInfo.mobile });
+    }
+  },
 
+  // 获取电话号码
   getPhoneNum(obj) {
     this.setState({ errorMsgP: obj.errorMsg, phoneNum: obj.numVal });
   },
 
+  // 获取密码
   getPassword(obj) {
     this.setState({ errorMsgC: obj.errorMsg, password: obj.numVal });
   },
 
+  // 获取性别
   handleSex(obj) {
     this.setState({ userSex: obj.sex });
   },
 
+  // 获取姓名
+  handleName(e) {
+    let nameVal = e.target.value;
+    this.setState({ userName: nameVal });
+  },
+
+  // 取消、隐藏日历
   handleCancelDate() {
     this.setState({ isShow: false });
   },
 
+  // 选择日期、隐藏日历
   handleCompleteDate(obj) {
     this.setState({ birth: obj.text });
     this.setState({ isShow: false });
   },
 
+  // 注册会员
   registerMember() {
-    const { errorMsgP, errorMsgC, phoneNum, password, userSex } = this.state;
+    const { errorMsgP, errorMsgC, phoneNum, password, userSex, birthDay } = this.state;
     if (!phoneNum) {
       this.setState({ errorMsg: '请填写手机号码' });
     } else if (errorMsgP) {
@@ -53,6 +83,8 @@ const RegisterMember = React.createClass({
       this.setState({ errorMsg: '请填写用户名' });
     } else if (!userSex) {
       this.setState({ errorMsg: '请选择性别' });
+    } else if (!birthDay) {
+      this.setState({ errorMsg: '请选择出生日期' });
     } else if (!password) {
       this.setState({ errorMsg: '请设置密码' });
     } else if (errorMsgC) {
@@ -60,7 +92,7 @@ const RegisterMember = React.createClass({
     } else {
       const registerInfo = {
         shopId: '123',
-        birth: 'fasd',
+        birth: birthDay,
         phone: phoneNum,
         sex: userSex,
         pwd: password,
@@ -74,7 +106,8 @@ const RegisterMember = React.createClass({
   },
 
   render() {
-    const { password, userSex, errorMsg } = this.state;
+    const { userInfo } = this.props;
+    const { password, userSex, errorMsg, userName, phoneNum } = this.state;
     // 中国手机号码验证规则
     const regPhone = /^(1(?:[358]\d{9}|7[3678]\d{8}|4[57]\d{8}))|0[49]\d{8}$/;
     // const regEmpty = /\S/; // 非空验证规则
@@ -90,6 +123,11 @@ const RegisterMember = React.createClass({
       { regMsg: '6位密码', reg: regCode },
     ];
     const currentY = new Date().getFullYear();
+    // debugger;
+    if (!userInfo.name) {
+      return false;
+    }
+    console.log(userInfo.sex);
     return (
       <div className="register-member ">
         <div className="register-banner">
@@ -105,6 +143,7 @@ const RegisterMember = React.createClass({
                 regs={regP}
                 className={'option-input register-input'}
                 onGetNum={this.getPhoneNum}
+                defaultVal={phoneNum}
               />
             </div>
           </div>
@@ -118,6 +157,8 @@ const RegisterMember = React.createClass({
                 placeholder="请填写姓名"
                 maxLength="30"
                 ref="userName"
+                value={userName}
+                onChange={this.handleName}
               />
               <SexSwitch sex={userSex} getSex={this.handleSex} />
             </div>
@@ -128,7 +169,7 @@ const RegisterMember = React.createClass({
                 <InputDate
                   startYear={currentY - 120}
                   endYear={currentY}
-                  date={this.state.birth}
+                  date={this.state.birthDay}
                   onCancelDateSelect={this.handleCancelDate}
                   onCompleteDateSelect={this.handleCompleteDate}
                 /> : false
@@ -138,7 +179,7 @@ const RegisterMember = React.createClass({
                 className="option-input register-input"
                 placeholder="请选择出生日期"
                 onClick={() => { this.setState({ isShow: true }); }}
-                value={this.state.birth}
+                value={this.state.birthDay}
                 readOnly
               />
 
@@ -163,7 +204,7 @@ const RegisterMember = React.createClass({
             </div>
           </div>
         </div>
-        <button className="register-btn btn--yellow btn-bottom" onTouchTap={this.registerMember}>注册会员</button>
+        <button className="register-btn btn--yellow btn-submit" onTouchTap={this.registerMember}>注册会员</button>
         {
           errorMsg ?
             <Toast errorMessage={errorMsg} clearErrorMsg={this.handleClearErrorMsg} />

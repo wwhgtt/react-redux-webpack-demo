@@ -13,11 +13,15 @@ const UserLoginApplication = React.createClass({
   displayName: 'UserLoginApplication',
   propTypes: {
     setErrorMsg: React.PropTypes.func,
+    fetchVericationCode: React.PropTypes.func.isRequired,
     errorMessage: React.PropTypes.string,
     login: React.PropTypes.func,
     loadingInfo: React.PropTypes.object,
   },
   componentDidMount() {
+  },
+  onGetVerificationCode(phoneNum) {
+    this.props.fetchVericationCode(phoneNum);
   },
   onLogin() {
     const info = this.refs.verificationCode.getInputInfo();
@@ -50,7 +54,10 @@ const UserLoginApplication = React.createClass({
     }
     return (
       <div>
-        <PhoneVerificationCode ref="verificationCode" />
+        <PhoneVerificationCode
+          onGetVerificationCode={this.onGetVerificationCode}
+          ref="verificationCode"
+        />
         <div>
           <button className="btn btn--yellow btn-login" onTouchTap={this.onLogin}>登录</button>
         </div>

@@ -19,12 +19,19 @@ const InputNum = React.createClass({
   propTypes: {
     onGetNum: React.PropTypes.func,
     regs: React.PropTypes.array,
+    defaultVal: React.PropTypes.string,
     maxLength: React.PropTypes.number,
     placeholder: React.PropTypes.string,
     className: React.PropTypes.string,
   },
+
   getInitialState() {
     return { numVal: '' };
+  },
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.defaultVal) {
+      this.setState({ numVal: nextProps.defaultVal });
+    }
   },
   handleCheck(e) {
     let inputNum = e.target.value;

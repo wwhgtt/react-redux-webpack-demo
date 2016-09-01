@@ -10,10 +10,10 @@ require('isomorphic-fetch');
 
 const shopId = helper.getUrlParam('shopId');
 
-exports.sendCode = phoneNum => (dispatch) => {
+exports.sendCode = phoneNum => (dispatch, getStates) => {
   const sendCodeURl = `${config.sendCodeAPI}?shopId=${shopId}&mobile=${phoneNum}`;
   // const sendCodeURl = `${config.sendCodeAPI}`;
-  fetch(sendCodeURl).
+  fetch(sendCodeURl, config.requestOptions).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('验证码发送失败'));
@@ -29,12 +29,12 @@ exports.sendCode = phoneNum => (dispatch) => {
   });
 };
 
-exports.bindPhone = phoneInfo => (dispatch) => {
+exports.bindPhone = phoneInfo => (dispatch, getStates) => {
   const phoneNum = phoneInfo.phoneNum;
   const code = phoneInfo.code;
   const bindPhoneURL = `${config.bindPhoneAPI}?shopId=${shopId}&mobile=${phoneNum}&code=${code}`;
 
-  fetch(bindPhoneURL).
+  fetch(bindPhoneURL, config.requestOptions).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('绑定手机失败'));
