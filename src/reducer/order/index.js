@@ -37,6 +37,8 @@ module.exports = function (
     },
     childView:null,
     errorMessage:null,
+    shuoldPhoneValidateShow:false,
+    phoneValidateCode:'',
   }),
   action
 ) {
@@ -414,6 +416,8 @@ module.exports = function (
             helper.getDefaultSelectedDateTime(payload)
           )
         );
+    case 'SET_PHONE_VALIDATE_PROPS':
+      return state.set('shuoldPhoneValidateShow', payload);
     default:
   }
   return state;

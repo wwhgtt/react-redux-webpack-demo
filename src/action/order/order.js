@@ -20,6 +20,7 @@ const setSendAreaId = createAction('SET_SEND_AREA_ID', areaId => areaId);
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setCustomToShopAddress = createAction('SET_ADDRESS_TOSHOP_TO_ORDER', option => option);
 const setOrderTimeProps = createAction('SET_ORDER_TIME_PROPS', timeJson => timeJson);
+const setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 
@@ -197,6 +198,8 @@ exports.submitOrder = (note, receipt) => (dispatch, getState) => {
           jumpToUrl += paramStr;
         }
         location.href = jumpToUrl;
+      } else if (result.code.toString() === '20013') {
+        dispatch(setPhoneValidateProps(true));
       } else {
         dispatch(setErrorMsg(result.msg));
       }
@@ -302,6 +305,49 @@ exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
       };
       dispatch(setDeliveryPrice(deliveryProps));
       dispatch(setOrderTimeProps(data.timeJson));
+    }).
+    catch(err => {
+      console.log(err);
+    });
+};
+
+exports.submitOrderWithCode = (note, receipt) => (dispatch, getState) => {
+  const state = getState();
+  const paramsData = helper.getSubmitUrlParams(state, note, receipt);
+  if (!paramsData.success) {
+    dispatch(setErrorMsg(paramsData.msg));
+    return false;
+  }
+  return fetch(`${config.submitWMOrderAPI}${paramsData.params}&code=${state.phoneValidateCode}`, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('提交订单信息失败'));
+      }
+      return res.json();
+    }).
+    then(result => {
+      if (result.code === '200') {
+        localStorage.removeItem('lastOrderedDishes');
+        sessionStorage.removeItem('receiveOrderCustomerInfo');
+        sessionStorage.removeItem(`${shopId}_sendArea_id`);
+        sessionStorage.removeItem(`${shopId}_customer_toshopinfo`);
+
+        helper.setCallbackUrl(result.data.orderId);
+        const isOnlinePay = state.serviceProps.payMethods.some(payMethod => payMethod.id === 'online-payment' && payMethod.isChecked);
+        const paramStr = `shopId=${shopId}&orderId=${result.data.orderId}`;
+        let jumpToUrl = '';
+        if (isOnlinePay && paramsData.needPayPrice.toString() !== '0') {
+          jumpToUrl = `/shop/payDetail?${paramStr}&orderType=${type}`;
+        } else {
+          jumpToUrl = type === 'WM' ? '/order/takeOutDetail?' : '/order/orderallDetail?';
+          jumpToUrl += paramStr;
+        }
+        location.href = jumpToUrl;
+      } else if (result.code.toString() === '20013') {
+        dispatch(setPhoneValidateProps(true));
+      } else {
+        dispatch(setErrorMsg(result.msg));
+      }
     }).
     catch(err => {
       console.log(err);

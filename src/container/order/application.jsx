@@ -16,6 +16,7 @@ const TimeSelect = require('../../component/order/select/time-select.jsx');
 const OrderSummary = require('../../component/order/order-summary.jsx');
 const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const Toast = require('../../component/mui/toast.jsx');
+const PhoneVerificationCode = require('../../component/mui/phone-verification-code.jsx');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 require('../../asset/style/style.scss');
@@ -38,6 +39,7 @@ const OrderApplication = React.createClass({
     fetchDeliveryPrice:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
     setSessionAndForwardEditUserAddress:React.PropTypes.func.isRequired,
+    submitOrderWithCode:React.PropTypes.func.isRequired,
     setCustomerProps:React.PropTypes.func.isRequired,
     setCustomerToShopAddress:React.PropTypes.func,
     confirmOrderAddressInfo:React.PropTypes.func,
@@ -50,6 +52,7 @@ const OrderApplication = React.createClass({
     commercialProps:React.PropTypes.object.isRequired,
     orderedDishesProps:React.PropTypes.object.isRequired,
     tableProps: React.PropTypes.object.isRequired,
+    shuoldPhoneValidateShow:React.PropTypes.bool.isRequired,
     timeProps: React.PropTypes.object,
     childView: React.PropTypes.string,
     errorMessage: React.PropTypes.string,
@@ -250,6 +253,18 @@ const OrderApplication = React.createClass({
       </a>
     );
   },
+  buildPhoneValidateElement() {
+    const { customerProps, submitOrderWithCode } = this.props;
+    const selectedAddressInfo = customerProps.addresses.filter(address => address.isChecked);
+    // selectedAddressInfo一定是有长度的
+    const placeholder = { phoneNum:selectedAddressInfo[0].mobile, code:'' };
+    return (
+      <div className="phone-validate-WM">
+        <PhoneVerificationCode placeholder={placeholder} disabled="disabled" />
+        <button className="submit-validate-code" onTouchTap={evt => submitOrderWithCode(this.state.note, this.state.receipt)}>确定</button>
+      </div>
+    );
+  },
   submitOrder() {
     const { submitOrder } = this.props;
     const { isSubmitBtnDisabled } = this.state;
@@ -269,6 +284,7 @@ const OrderApplication = React.createClass({
       customerAddressListInfo,
       defaultCustomerProps,
       setCustomerToShopAddress,
+      shuoldPhoneValidateShow,
     } = this.props; // state
     const { setOrderProps, fetchUserAddressListInfo, setChildView } = this.props;// actions
     const type = getUrlParam('type');
@@ -515,6 +531,11 @@ const OrderApplication = React.createClass({
         </ReactCSSTransitionGroup>
         {errorMessage ?
           <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
+          :
+          false
+        }
+        {shuoldPhoneValidateShow ?
+          this.buildPhoneValidateElement()
           :
           false
         }
