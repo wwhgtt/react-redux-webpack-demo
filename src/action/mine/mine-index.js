@@ -10,7 +10,6 @@ const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 
 const shopId = commonHelper.getUrlParam('shopId');
 const mid = commonHelper.getCookie('mid');
-const wl = window.location;
 
 const logUrl = `${config.logAddressURL}`;
 
@@ -21,7 +20,7 @@ exports.getInfo = (id) => (dispatch, getStates) => {
     dispatch(setErrorMsg('找不到门店号'));
     return;
   }
-  fetch(`${individualAPI}?shopId=${shopId}&mId=${mid}`).
+  fetch(`${individualAPI}?shopId=${shopId}&mId=${mid}`, config.requestOptions).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('请求数据失败'));
@@ -34,7 +33,7 @@ exports.getInfo = (id) => (dispatch, getStates) => {
       dispatch(setErrorMsg(BasicData.msg));
       setTimeout(() => {
         if (BasicData.msg === '未登录') {
-          window.location.href = `${logUrl}?shopId=${shopId}&returnUrl=${encodeURIComponent(wl.pathname + wl.search)}`;
+          window.location.href = `${logUrl}?shopId=${shopId}&returnUrl=${encodeURIComponent(window.location.pathname + window.location.search)}`;
         }
       }, 3000);
       return;
@@ -43,10 +42,7 @@ exports.getInfo = (id) => (dispatch, getStates) => {
     dispatch(setInfo(BasicData.data));
   }).
   catch(err => {
-    dispatch(setErrorMsg('获取基本信息失败...'));
-    setTimeout(() => {
-      wl.href = `${logUrl}?shopId=${shopId}`;
-    }, 3000);
+    console.info(err);
   });
 };
 
