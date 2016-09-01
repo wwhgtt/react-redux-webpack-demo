@@ -2,9 +2,9 @@ const React = require('react');
 require('./loading.scss');
 
 module.exports = React.createClass({ // SexSwitch
-  displayName: 'loading',
+  displayName: 'SexSwitch',
   propTypes:{
-    word:React.PropTypes.string.isRequired,
+    word: React.PropTypes.string,
   },
   getInitialState() {
     return {};
