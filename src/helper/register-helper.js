@@ -10,7 +10,7 @@ exports.getSendCodeParamStr = obj => {
     }
 
     props[n] = prop;
-    n ++;
+    n++;
   }
 
   props.sort();
