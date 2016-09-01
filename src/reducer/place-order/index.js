@@ -18,6 +18,11 @@ module.exports = function (
       tables:[],
       selectedTableId:null,
     },
+    customerProps:{
+      name:null,
+      sex:-1,
+      mobile:null,
+    },
     dinePersonCount:1,
     errorMessage:null,
   }),
@@ -34,11 +39,25 @@ module.exports = function (
             getDefaultSelectedDateTime(payload.timeJson, payload.defaultSelectedDateTime)
           )
         )
-        .setIn(['timeProps', 'timeTable'], payload.timeJson);
+        .setIn(['timeProps', 'timeTable'], payload.timeJson)
+        .setIn(['customerProps', 'name'], payload.m.name)
+        .setIn(['customerProps', 'mobile'], payload.m.mobile)
+        .setIn(['customerProps', 'sex'], payload.m.sex);
     case 'SET_TABLE_PROPS':
       return state
         .setIn(['tableProps', 'areas'], Immutable.from(helper.initializeTableProps(payload.areaList).areas))
         .setIn(['tableProps', 'tables'], Immutable.from(helper.initializeTableProps(payload.areaList).tables));
+    case 'SET_CUSTOMER_PROPS':
+      return state
+        .setIn(
+          ['customerProps', 'name'], payload.name
+        )
+        .setIn([
+          'customerProps', 'mobile'], payload.mobile
+        )
+        .setIn(
+          ['customerProps', 'sex'], payload.sex
+        );
     case 'SET_ERROR_MSG':
       return state.set('errorMessage', payload);
     case 'SET_CHILDVIEW':

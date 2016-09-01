@@ -5,7 +5,7 @@ const actions = require('../../action/place-order/place-order');
 const config = require('../../config.js');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getSelectedTable = require('../../helper/order-helper.js').getSelectedTable;
-// const ActiveSelect = require('../../component/mui/select/active-select.jsx');
+const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const TimeSelect = require('../../component/order/select/time-select.jsx');
 const Toast = require('../../component/mui/toast.jsx');
@@ -25,11 +25,13 @@ const PlaceOrderApplication = React.createClass({
     setTableProps:React.PropTypes.func.isRequired,
     setErrorMsg:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
+    setCustomerProps:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     commercialProps:React.PropTypes.object.isRequired,
     dinePersonCount:React.PropTypes.number.isRequired,
     tableProps:React.PropTypes.object.isRequired,
     timeProps:React.PropTypes.object.isRequired,
+    customerProps:React.PropTypes.object.isRequired,
     childView: React.PropTypes.string,
     errorMessage: React.PropTypes.string,
   },
@@ -104,9 +106,9 @@ const PlaceOrderApplication = React.createClass({
 
   render() {
     // mapStateToProps
-    const { commercialProps, childView, tableProps, timeProps, setTableProps, setErrorMsg, clearErrorMsg } = this.props;
+    const { commercialProps, childView, tableProps, timeProps, setTableProps, setErrorMsg, clearErrorMsg, setCustomerProps } = this.props;
     // mapActionsToProps
-    const { setChildView, setOrderProps, errorMessage, dinePersonCount } = this.props;
+    const { setChildView, setOrderProps, errorMessage, dinePersonCount, customerProps } = this.props;
     return (
       <div className="application">
         <a className="option order-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
@@ -127,6 +129,8 @@ const PlaceOrderApplication = React.createClass({
           <span className="options-title">就餐人数</span>
           <ImportableCounter setErrorMsg={setErrorMsg} count={dinePersonCount} onCountChange={this.setOrderProps} />
         </div>
+
+        <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setCustomerProps} />
 
         <label className="option">
           <span className="option-title">备注: </span>
