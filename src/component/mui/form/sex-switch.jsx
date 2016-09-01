@@ -13,7 +13,6 @@ module.exports = React.createClass({ // SexSwitch
   componentWillMount() {},
   componentDidMount() {},
   sexSwitch(sex, e) {
-    // 回传值给component
     const { getSex } = this.props;
     getSex({ sex });
   },
