@@ -1,15 +1,17 @@
 const React = require('react');
 const connect = require('react-redux').connect;
 const Toast = require('../../component/mui/toast.jsx');
+const actions = require('../../action/bind-account/bind-wx.js');
 require('../../asset/style/style.scss');
 require('./application.scss');
+
 const BindWxIndex = require('../../component/bind-account/bind-wx/bind-wx-index.js');
 const BindWxInfo = require('../../component/bind-account/bind-wx/bind-wx-info.js');
 const BindWxSuccess = require('../../component/bind-account/bind-wx/bind-wx-success.js');
-const actions = require('../../action/bind-account/bind-wx.js');
 
 
 const BindWXApplication = React.createClass({
+  displayName: 'BindWXApplication',
   propTypes: {
     // MapedActionsToProps
     setChildView: React.PropTypes.func,

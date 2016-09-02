@@ -2,15 +2,11 @@ const React = require('react');
 const PhoneVerficationCode = require('../../mui/form/phone-verification-code.jsx');
 
 const BindPhoneValidate = React.createClass({
+  displayName:'BindPhoneValidate',
   propTypes:{
     onBindPhone: React.PropTypes.func,
     setErrorMsg: React.PropTypes.func,
     sendCode: React.PropTypes.func,
-  },
-
-  getInitialState() {
-    return {
-    };
   },
 
   handleBindAccount(e) {

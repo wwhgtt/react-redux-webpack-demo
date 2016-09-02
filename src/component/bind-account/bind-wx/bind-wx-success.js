@@ -1,6 +1,7 @@
 const React = require('react');
 
 const BindWxSuccess = React.createClass({
+  displayName:'BindWxSuccess',
   getInitialState() {
     return {
       wxInfo: {},

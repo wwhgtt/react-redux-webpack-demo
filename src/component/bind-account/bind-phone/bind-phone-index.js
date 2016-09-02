@@ -1,6 +1,7 @@
 const React = require('react');
 
 const BindPhoneIndex = React.createClass({
+  displayName:'BindPhoneIndex',
   render() {
     return (
       <div className="bind-account mt40">

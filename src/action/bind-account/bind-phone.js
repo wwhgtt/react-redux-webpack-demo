@@ -1,3 +1,5 @@
+require('es6-promise');
+require('isomorphic-fetch');
 import { createAction } from 'redux-actions';
 const config = require('../../config');
 const helper = require('../../helper/common-helper.js');
@@ -6,8 +8,6 @@ exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 
-require('es6-promise');
-require('isomorphic-fetch');
 
 const shopId = helper.getUrlParam('shopId');
 
@@ -26,7 +26,6 @@ exports.sendCode = phoneNum => (dispatch, getStates) => {
   then(res => {
     if (res.code === '200') {
       dispatch(setErrorMsg('验证码发送成功注意查收'));
-      console.log(res);
     } else {
       dispatch(setErrorMsg(res.msg));
     }
@@ -48,7 +47,7 @@ exports.bindPhone = phoneInfo => (dispatch, getStates) => {
   }).
   then(res => {
     if (res.code === '200') {
-      window.sessionStorage.setItem('phoneNum', phoneInfo.phoneNum);
+      sessionStorage.setItem('phoneNum', phoneInfo.phoneNum);
       location.hash = '#phone-success';
     } else {
       dispatch(setErrorMsg(res.msg));

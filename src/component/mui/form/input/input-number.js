@@ -1,21 +1,7 @@
 const React = require('react');
 
 const InputNum = React.createClass({
-  // =====================================
-  // 传入格式：验证数组
-  // 传入属性：regs
-  // 格式：
-  // [
-  //    {reg: '正则表达式', regMsg: '提示信息'},
-  //    {reg: '/^(1(?:[358]\d{9}|7[3678]\d{8}|4[57]\d{8})|0[49]\d{10})$/', regMsg: '请输入手机号码'}
-  // ]
-  // ======================================
-  // 输出: onGetNum(obj)
-  // 格式：
-  // {errorMsg: regMsg, numVal: 'input值'}
-  // 示例：
-  // {errorMsg: '请输入手机号码', numVal: '12'}
-  // ======================================
+  displayName:'InputNum',
   propTypes: {
     onGetNum: React.PropTypes.func,
     regs: React.PropTypes.array,
@@ -62,16 +48,17 @@ const InputNum = React.createClass({
     }
   },
   render() {
+    const { maxLength, placeholder, className, disabled } = this.props;
     return (
       <input
         type="tel"
         pattern="\\d*"
         onChange={this.handleCheck}
-        maxLength={this.props.maxLength}
-        placeholder={this.props.placeholder}
-        className={this.props.className}
+        maxLength={maxLength}
+        placeholder={placeholder}
+        className={className}
         value={this.state.numVal}
-        disabled={this.props.disabled}
+        disabled={disabled}
       />
     );
   },

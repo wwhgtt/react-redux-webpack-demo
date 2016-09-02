@@ -1,15 +1,16 @@
 const React = require('react');
 const connect = require('react-redux').connect;
 const Toast = require('../../component/mui/toast.jsx');
+const actions = require('../../action/bind-account/bind-phone.js');
 require('../../asset/style/style.scss');
 require('./application.scss');
+
 const BindPhoneIndex = require('../../component/bind-account/bind-phone/bind-phone-index.js');
 const BindPhoneValidate = require('../../component/bind-account/bind-phone/bind-phone-validate.js');
 const BindPhoneSuccess = require('../../component/bind-account/bind-phone/bind-phone-success.js');
-const actions = require('../../action/bind-account/bind-phone.js');
-
 
 const BindPhoneApplication = React.createClass({
+  displayName: 'BindPhoneApplication',
   propTypes: {
     // MapedActionsToProps
     setChildView: React.PropTypes.func,
