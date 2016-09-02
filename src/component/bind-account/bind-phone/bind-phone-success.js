@@ -4,6 +4,14 @@ const BindPhoneSuccess = React.createClass({
   propTypes: {
     phoneNum: React.PropTypes.string,
   },
+
+  // 3秒后跳转到**页面
+  componentDidMount() {
+    setTimeout(() => {
+      window.location.href = '/register-member.html';
+    }, 3000);
+  },
+
   render() {
     return (
       <div className="bind-account mt40">

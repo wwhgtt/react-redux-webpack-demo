@@ -27,7 +27,8 @@ module.exports = {
     'address-list-entry': [
       './src/address-list.jsx',
     ],
-    'bind-account-entry': './src/bind-account.jsx',
+    'bind-phone-entry': './src/bind-phone.jsx',
+    'bind-wx-entry': './src/bind-wx.jsx',
     'register-member-entry' : './src/register-member.jsx',
     'user-login-entry': [
       './src/user-login.jsx',
@@ -126,9 +127,17 @@ module.exports = {
     ),
     new HtmlWebpackPlugin(
       {
-        title: 'BindAccountApplication',
-        filename: 'bind-account.html',
-        chunks: ['common', 'bind-account-entry'],
+        title: 'BindWXApplication',
+        filename: 'bind-wx.html',
+        chunks: ['common', 'bind-wx-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'BindPhoneApplication',
+        filename: 'bind-phone.html',
+        chunks: ['common', 'bind-phone-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

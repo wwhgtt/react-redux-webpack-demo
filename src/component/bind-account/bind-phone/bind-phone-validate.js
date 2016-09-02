@@ -1,5 +1,5 @@
 const React = require('react');
-const PhoneVerficationCode = require('../mui/form/phone-verification-code.jsx');
+const PhoneVerficationCode = require('../../mui/form/phone-verification-code.jsx');
 
 const BindPhoneValidate = React.createClass({
   propTypes:{

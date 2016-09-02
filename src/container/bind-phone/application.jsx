@@ -3,16 +3,13 @@ const connect = require('react-redux').connect;
 const Toast = require('../../component/mui/toast.jsx');
 require('../../asset/style/style.scss');
 require('./application.scss');
-const BindPhoneIndex = require('../../component/bind-account/bind-phone-index.js');
-const BindPhoneValidate = require('../../component/bind-account/bind-phone-validate.js');
-const BindPhoneSuccess = require('../../component/bind-account/bind-phone-success.js');
-const BindWxIndex = require('../../component/bind-account/bind-wx-index.js');
-const BindWxInfo = require('../../component/bind-account/bind-wx-info.js');
-const BindWxSuccess = require('../../component/bind-account/bind-wx-success.js');
-const actions = require('../../action/bind-account/bind-account.js');
+const BindPhoneIndex = require('../../component/bind-account/bind-phone/bind-phone-index.js');
+const BindPhoneValidate = require('../../component/bind-account/bind-phone/bind-phone-validate.js');
+const BindPhoneSuccess = require('../../component/bind-account/bind-phone/bind-phone-success.js');
+const actions = require('../../action/bind-account/bind-phone.js');
 
 
-const BindAccountApplication = React.createClass({
+const BindPhoneApplication = React.createClass({
   propTypes: {
     // MapedActionsToProps
     setChildView: React.PropTypes.func,
@@ -22,7 +19,9 @@ const BindAccountApplication = React.createClass({
     // MapedStatesToProps
     childView: React.PropTypes.string,
     errorMessage: React.PropTypes.string,
+    phoneNum: React.PropTypes.string,
   },
+
   // 监听hash变化
   componentWillMount() {
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
@@ -42,11 +41,7 @@ const BindAccountApplication = React.createClass({
 
   render() {
     const { childView, bindPhone, errorMessage, setErrorMsg, sendCode } = this.props;
-    let phoneNum = '';
-    let wxInfo = {
-      phoneNum: '13498000384',
-      userName: '黎逝33',
-    };
+    const phoneNum = window.sessionStorage.getItem('phoneNum');
     return (
       <div>
         { // 手机绑定首页
@@ -68,21 +63,6 @@ const BindAccountApplication = React.createClass({
             <BindPhoneSuccess phoneNum={phoneNum} />
           : false
         }
-        { // 微信绑定首页
-          childView === '#bind-wx' ?
-            <BindWxIndex />
-          : false
-        }
-        { // 微信信息展示
-          childView === '#wx-info' ?
-            <BindWxInfo wxInfo={wxInfo} />
-          : false
-        }
-        { // 微信绑定成功
-          childView === '#wx-success' ?
-            <BindWxSuccess />
-          : false
-        }
         {
           errorMessage ?
             <Toast errorMessage={errorMessage} clearErrorMsg={this.handleClearErrorMsg} />
@@ -93,4 +73,4 @@ const BindAccountApplication = React.createClass({
   },
 });
 
-module.exports = connect(state => state, actions)(BindAccountApplication);
+module.exports = connect(state => state, actions)(BindPhoneApplication);
