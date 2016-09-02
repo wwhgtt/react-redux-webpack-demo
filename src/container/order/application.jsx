@@ -290,7 +290,7 @@ const OrderApplication = React.createClass({
       setCustomerToShopAddress,
       shuoldPhoneValidateShow,
     } = this.props; // state
-    const { setOrderProps, fetchUserAddressListInfo, setChildView } = this.props;// actions
+    const { setOrderProps, fetchUserAddressListInfo, setChildView, setErrorMsg } = this.props;// actions
     const type = getUrlParam('type');
     const shopId = getUrlParam('shopId');
     const buildCoustomerPropElement = function () {
@@ -369,7 +369,13 @@ const OrderApplication = React.createClass({
             <div className="options-group">
               <div className="option">
                 <span className="option-tile">就餐人数：</span>
-                <ImportableCounter count={1} onCountChange={console.log('abc')} step={1} />
+                <ImportableCounter
+                  setErrorMsg={setErrorMsg}
+                  onCountChange={this.setOrderProps}
+                  count={customerProps.customerCount}
+                  maximum={99}
+                  minimum={1}
+                />
               </div>
             </div>
           }
