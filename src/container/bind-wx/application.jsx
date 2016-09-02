@@ -45,25 +45,18 @@ const BindWXApplication = React.createClass({
 
   render() {
     const { childView, errorMessage, getOpenId, wxInfo, getWXInfo, bindWX } = this.props;
+    let bindSection;
+
+    if (childView === '#wx-info') {
+      bindSection = <BindWxInfo wxInfo={wxInfo} onGetWXInfo={getWXInfo} onBindWX={bindWX} />;
+    } else if (childView === '#wx-success') {
+      bindSection = <BindWxSuccess />;
+    } else {
+      bindSection = <BindWxIndex onGetOpenId={getOpenId} />;
+    }
     return (
       <div>
-        { // 微信绑定首页
-          childView === '#bind-wx' ?
-            <BindWxIndex
-              onGetOpenId={getOpenId}
-            />
-          : false
-        }
-        { // 微信信息展示
-          childView === '#wx-info' ?
-            <BindWxInfo wxInfo={wxInfo} onGetWXInfo={getWXInfo} onBindWX={bindWX} />
-          : false
-        }
-        { // 微信绑定成功
-          childView === '#wx-success' ?
-            <BindWxSuccess />
-          : false
-        }
+        {bindSection}
         {
           errorMessage ?
             <Toast errorMessage={errorMessage} clearErrorMsg={this.handleClearErrorMsg} />
