@@ -16,7 +16,7 @@ exports.login = (info) => (dispatch, getState) => {
   }
 
   dispatch(setLoadingInfo({ ing: true, text: '系统处理中...' }));
-  const returnUrl = getUrlParam('returnUrl') || encodeURIComponent(`${location.host}/brand/index${location.search}`);
+  const returnUrl = getUrlParam('returnUrl') || encodeURIComponent(`/brand/index${location.search}`);
   const url = info.isWeixin ?
     `${config.userLoginWXAPI}?shopId=${shopId}&returnUrl=${returnUrl}` :
     `${config.userLoginAPI}?shopId=${shopId}&mobile=${info.phoneNum}&code=${info.code}`;
