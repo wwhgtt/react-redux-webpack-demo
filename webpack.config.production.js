@@ -16,6 +16,21 @@ module.exports = {
     'address-list-entry': [
       './src/address-list.jsx',
     ],
+    'mine-index-entry': [
+      './src/mine-index.jsx',
+    ],
+    'mine-setting-entry': [
+      './src/mine-setting.jsx',
+    ],
+    'bind-account-entry': [
+      './src/bind-account.jsx',
+    ],
+    'register-member-entry' :[
+      './src/register-member.jsx',
+    ],
+    'user-login-entry': [
+      './src/user-login.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -39,7 +54,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.png$/,
+        test: /\.(gif|png)$/,
         loaders: ['url?limit=8192&name=asset/img/[hash].[ext]'],
       },
       {

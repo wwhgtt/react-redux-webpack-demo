@@ -43,15 +43,16 @@ module.exports = {
 
   userLoginAPI: `${apiBase}/user/login.json`,
   userLoginWXAPI: `${apiBase}/user/login4WX.json`,
+  getUserLoginSupportAPI: `${apiBase}/user/supportTypes.json`,
 
   shopDetailURL:`${apiBase}/shop/detail`,
-  mineIndexURL:'/mineIndex.html',
-  mineSettingURL:'/mineSetting.html',
+  mineIndexURL:`${apiBase}/mineIndex.html`,
+  mineSettingURL:`${apiBase}/mineSetting.html`,
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
   editUserAddressURL: `${apiBase}/user/address`,
-  bindAccountURL:'${apiBase}/bind-account.html',  // 绑定页面 手机 #bind-phone 微信 #bind-wx
-  registerMemberURL:'${apiBase}/register-member.html',
+  bindAccountURL: `${apiBase}/bind-account.html`,  // 绑定页面 手机 #bind-phone 微信 #bind-wx
+  registerMemberURL: `${apiBase}/register-member.html`,
   logAddressURL: `${apiBase}/user/notLogin`, // 登陆页面
   integralURL: `${apiBase}/member/integral`, // 我的积分
   valueCardURL:`${apiBase}/member/valueCard`, // 我的余额

@@ -4,6 +4,10 @@ module.exports = function (
   state = Immutable.from({
     info:{},
     errorMessage:'',
+    load:{
+      status:true,
+      word:'加载中',
+    },
   }),
   action
 ) {
@@ -16,6 +20,9 @@ module.exports = function (
     }
     case 'SET_ERROR_MSG': {
       return state.set('errorMessage', payload || '');
+    }
+    case 'SET_LOAD_MSG': {
+      return state.set('load', payload);
     }
     default:
   }

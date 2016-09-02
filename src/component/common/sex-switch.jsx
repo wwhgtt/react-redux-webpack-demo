@@ -12,8 +12,7 @@ module.exports = React.createClass({ // SexSwitch
   },
   componentWillMount() {},
   componentDidMount() {},
-  sex_switch(sex, e) {
-    // 回传值给component
+  sexSwitch(sex, e) {
     const { getSex } = this.props;
     getSex({ sex });
   },
@@ -22,8 +21,8 @@ module.exports = React.createClass({ // SexSwitch
     const { sex } = this.props;
     return (
       <div className="sex-switch fr">
-        <i className={sex === '0' ? 'active' : ''} onTouchTap={() => this.sex_switch('0')} ref="female">女士</i>
-        <i className={sex === '1' ? 'active' : ''} onTouchTap={() => this.sex_switch('1')} ref="male">先生</i>
+        <i className={sex === '0' ? 'active' : ''} onTouchTap={() => this.sexSwitch('0')} ref="female">女士</i>
+        <i className={sex === '1' ? 'active' : ''} onTouchTap={() => this.sexSwitch('1')} ref="male">先生</i>
       </div>
     );
   },

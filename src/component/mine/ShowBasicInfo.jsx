@@ -1,13 +1,13 @@
 const React = require('react');
-const malePic = require('../../../src/asset/images/head-male.png');
-const femalePic = require('../../../src/asset/images/head-female.png');
-const defaultPic = require('../../../src/asset/images/head-default.png');
+const malePic = require('../../asset/images/head-male.png');
+const femalePic = require('../../asset/images/head-female.png');
+const defaultPic = require('../../asset/images/head-default.png');
 require('./ShowBasicInfo.scss');
 
 module.exports = React.createClass({ // ShowBasicInfo
   displayName: 'BrandBg',
   propTypes:{
-    info:React.PropTypes.object,
+    info:React.PropTypes.object.isRequired,
   },
   getInitialState() {
     return { realImage : '', realSex : '' };
@@ -15,6 +15,9 @@ module.exports = React.createClass({ // ShowBasicInfo
   componentWillMount() { },
   componentDidMount() { },
   componentWillReceiveProps(nextProps) {   // 接收props
+    if (JSON.stringify(this.props.info) === JSON.stringify(nextProps.info)) {
+      return;
+    }
     // 获取Icon
     if (nextProps.info.iconUri) {
       this.setState({ realImage : nextProps.info.iconUri });

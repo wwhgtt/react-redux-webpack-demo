@@ -12,7 +12,7 @@ const shopId = helper.getUrlParam('shopId');
 
 // 获取openid
 exports.getOpenId = () => (dispatch, getStates) => {
-  const wxUrl = '/bind-account.html#wx-info';
+  const wxUrl = encodeURIComponent('http://' + location.host + window.location.pathname + window.location.search + '#wx-info');
   const getOpenIdURL = `${config.wxOauthAPI}?shopId=${shopId}&returnUrl=${wxUrl}`;
   fetch(getOpenIdURL, config.requestOptions).
   then(res => {

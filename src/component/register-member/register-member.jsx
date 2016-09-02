@@ -1,6 +1,6 @@
 import React from 'react';
 import InputNum from '../mui/form/input/input-number.js';
-import SexSwitch from '../mui/form/sex-switch.jsx';
+import SexSwitch from '../common/sex-switch.jsx';
 import Toast from '../mui/toast.jsx';
 const InputDate = require('../mui/form/date-select.jsx');
 
