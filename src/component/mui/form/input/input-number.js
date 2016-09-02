@@ -23,15 +23,14 @@ const InputNum = React.createClass({
     maxLength: React.PropTypes.number,
     placeholder: React.PropTypes.string,
     className: React.PropTypes.string,
+    disabled: React.PropTypes.bool,
   },
 
   getInitialState() {
     return { numVal: '' };
   },
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.defaultVal) {
-      this.setState({ numVal: nextProps.defaultVal });
-    }
+    this.setState({ numVal: nextProps.defaultVal || '' });
   },
   handleCheck(e) {
     let inputNum = e.target.value;
@@ -72,6 +71,7 @@ const InputNum = React.createClass({
         placeholder={this.props.placeholder}
         className={this.props.className}
         value={this.state.numVal}
+        disabled={this.props.disabled}
       />
     );
   },
