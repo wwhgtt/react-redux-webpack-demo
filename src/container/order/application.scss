@@ -77,7 +77,8 @@ div[data-reactroot] {
   }
 
   // adjuster counter styles
-  > .counter {
+  > .counter,
+  > .customers-counter {
     margin-top: -3px;
     margin-bottom: -3px;
   }

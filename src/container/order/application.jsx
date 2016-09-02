@@ -236,15 +236,17 @@ const OrderApplication = React.createClass({
           <CustomerInfoEditor
             customerProps={customerProps} onCustomerPropsChange={setCustomerProps}
           />
-          <div className="importable-counter">
-            <span>就餐人数</span>
-            <ImportableCounter
-              setErrorMsg={setErrorMsg}
-              onCountChange={this.setOrderProps}
-              count={customerProps.customerCount}
-              maximum={99}
-              minimum={1}
-            />
+          <div className="options-group">
+            <div className="option">
+              <span className="option-tile">就餐人数：</span>
+              <ImportableCounter
+                setErrorMsg={setErrorMsg}
+                onCountChange={this.setOrderProps}
+                count={customerProps.customerCount}
+                maximum={99}
+                minimum={1}
+              />
+            </div>
           </div>
         </div>
       );
@@ -358,13 +360,7 @@ const OrderApplication = React.createClass({
               {buildCoustomerPropElement()}
             </a>
             :
-            <a className="options-group options-group--stripes" href="#customer-info" >
-              <div className="option-stripes-title">{customerProps.name}{+customerProps.sex === 1 ? '先生' : '女士'}</div>
-              <div className="clearfix">
-                <div className="option-desc half">{customerProps.mobile}</div>
-                <div className="option-desc half"><span className="text-picton-blue">{customerProps.customerCount}</span>人就餐</div>
-              </div>
-            </a>
+            this.buildTSCustomerPropsElement()
           }
           {type === 'WM' ?
             false

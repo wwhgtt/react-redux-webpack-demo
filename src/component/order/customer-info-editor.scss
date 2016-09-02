@@ -1,31 +1,50 @@
 @import 'settings.colors';
 
-.editor-one-third {
-  float: left;
-  width: 110px;
+.editor {
+  &-title {
+    width: 80px;
+  }
+
+  &-gender-group {
+    width: 110px;
+  }
+
+  &-input {
+    font-size: 16px;
+    line-height: 22px;
+    float: right;
+    width: 140px;
+    height: 22px;
+    color: $color-dove-grey;
+    border: 0;
+    outline: 0;
+
+    &--right {
+      text-align: right;
+    }
+
+    &[disabled] {
+      background: transparent;
+    }
+  }
+
+  &-gender {
+    font-size: 12px;
+    line-height: 20px;
+    float: right;
+    height: 22px;
+    padding: 0 .8em;
+    transition: all .25s ease-in-out;
+    text-decoration: none;
+    color: $color-dusty-grey;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 11px;
+  }
 }
 
-.editor-two-thirds {
-  margin-left: 110px;
-
-  > .option:first-child {
-    padding-top: 0;
-  }
-
-  > .option:last-child {
-    padding-bottom: 0;
-  }
-}
-
-.editor-input {
-  font-size: 16px;
-  float: left;
-  width: 150px;
-  color: $color-dove-grey;
-  border: 0;
-  outline: 0;
-
-  &[disabled] {
-    background: transparent;
-  }
+.option-radio:checked + .editor-gender {
+  color: $color-white;
+  border-color: $color-jaffa;
+  background: $color-jaffa;
 }

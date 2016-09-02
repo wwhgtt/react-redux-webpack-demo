@@ -1,7 +1,7 @@
 const React = require('react');
 const classnames = require('classnames');
 
-require('./counter.scss');
+require('./importable-counter.scss');
 
 module.exports = React.createClass({
   displayName:'ImportableCounter',
@@ -69,20 +69,16 @@ module.exports = React.createClass({
   render() {
     const { step, maximum, minimum, hiddenNum } = this.props;
     const { count } = this.state;
-    const className = classnames('counter', {
-      'counter-max': count === maximum,
-      'counter-min': count === minimum && count !== hiddenNum,
-      'counter-min--nonum': count === minimum && count === hiddenNum,
+    const className = classnames('customers-counter', {
+      'customers-counter-max': count === maximum,
+      'customers-counter-min': count === minimum && count !== hiddenNum,
+      'customers-counter-min--nonum': count === minimum && count === hiddenNum,
     });
     return (
       <div className={className}>
-        <a className="counter-minus">
-          <span className="counter-click-mask" onTouchTap={evt => this.onBtnsTap(count, -step)} />
-        </a>
-        <input className="counter-num" value={count} type="tel" onChange={this.onChange} />
-        <a className="counter-add">
-          <span className="counter-click-mask" onTouchTap={evt => this.onBtnsTap(count, step)} />
-        </a>
+        <button className="customers-counter-minus" onTouchTap={evt => this.onBtnsTap(count, -step)}></button>
+        <input className="customers-counter-num" value={count} type="tel" onChange={this.onChange} />
+        <button className="customers-counter-add" onTouchTap={evt => this.onBtnsTap(count, step)}></button>
       </div>
     );
   },
