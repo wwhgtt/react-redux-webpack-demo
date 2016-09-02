@@ -1,5 +1,5 @@
 const React = require('react');
-require('./showSettingList.scss');
+require('./ShowSettingList.scss');
 const SexSwitch = require('../common/sex-switch.jsx');
 const config = require('../../config');
 const commonHelper = require('../../helper/common-helper');
