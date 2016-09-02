@@ -2,7 +2,7 @@ module.exports = {
   path:'/member/register.json',
   template:{
     data: {
-      loginType: 0, // 登录类型 0:手机登录，1 微信登录
+      loginType: 1, // 登录类型 0:手机登录，1 微信登录
       name: '啦啦啦', // 姓名
       sex: '0', // 性别 0 女 1 男
       mobile: '13980691506', // 手机

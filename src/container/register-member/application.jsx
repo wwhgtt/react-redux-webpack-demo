@@ -15,6 +15,7 @@ const RegisterMemberApplication = React.createClass({
     getUserInfo: React.PropTypes.func,
     errorMessage: React.PropTypes.string,
     setErrorMsg: React.PropTypes.func,
+    saveRegisterMember: React.PropTypes.func,
 
     // MapedStatesToProps
   },
@@ -22,6 +23,10 @@ const RegisterMemberApplication = React.createClass({
   componentWillMount() {
     const { getUserInfo } = this.props;
     getUserInfo();
+  },
+
+  handleRegister(info) {
+    this.props.saveRegisterMember(info);
   },
 
   handleClearErrorMsg() {
@@ -32,7 +37,7 @@ const RegisterMemberApplication = React.createClass({
     const { errorMessage, userInfo } = this.props;
     return (
       <div>
-        <RegisterMember userInfo={userInfo} />
+        <RegisterMember userInfo={userInfo} onRegisterMember={this.handleRegister} />
         {
           errorMessage ?
             <Toast errorMessage={errorMessage} clearErrorMsg={this.handleClearErrorMsg} />

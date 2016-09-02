@@ -73,7 +73,7 @@ module.exports = {
   // 会员注册
   // =======
   registerInfoAPI: `${apiBase}/member/register.json`, // 获取用户信息
-  registerAPI: `${apiBase}member/register.json`, // 申请会员
+  registerAPI: `${apiBase}/member/addMember.json`, // 申请会员
 
   requestOptions,
 };
