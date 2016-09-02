@@ -237,15 +237,17 @@ const OrderApplication = React.createClass({
           <CustomerInfoEditor
             customerProps={customerProps} onCustomerPropsChange={setCustomerProps}
           />
-          <div className="importable-counter">
-            <span>就餐人数</span>
-            <ImportableCounter
-              setErrorMsg={setErrorMsg}
-              onCountChange={this.setOrderProps}
-              count={customerProps.customerCount}
-              maximum={99}
-              minimum={1}
-            />
+          <div className="options-group">
+            <div className="option">
+              <span className="option-tile">就餐人数：</span>
+              <ImportableCounter
+                setErrorMsg={setErrorMsg}
+                onCountChange={this.setOrderProps}
+                count={customerProps.customerCount}
+                maximum={99}
+                minimum={1}
+              />
+            </div>
           </div>
         </div>
       );
@@ -290,7 +292,7 @@ const OrderApplication = React.createClass({
       setCustomerToShopAddress,
       shuoldPhoneValidateShow,
     } = this.props; // state
-    const { setOrderProps, fetchUserAddressListInfo, setChildView, setErrorMsg } = this.props;// actions
+    const { setOrderProps, fetchUserAddressListInfo, setChildView } = this.props;// actions
     const type = getUrlParam('type');
     const shopId = getUrlParam('shopId');
     const buildCoustomerPropElement = function () {
@@ -359,25 +361,7 @@ const OrderApplication = React.createClass({
               {buildCoustomerPropElement()}
             </a>
             :
-            <CustomerInfoEditor
-              customerProps={customerProps} onCustomerPropsChange={setCustomerProps}
-            />
-          }
-          {type === 'WM' ?
-            false
-            :
-            <div className="options-group">
-              <div className="option">
-                <span className="option-tile">就餐人数：</span>
-                <ImportableCounter
-                  setErrorMsg={setErrorMsg}
-                  onCountChange={this.setOrderProps}
-                  count={customerProps.customerCount}
-                  maximum={99}
-                  minimum={1}
-                />
-              </div>
-            </div>
+            this.buildTSCustomerPropsElement()
           }
           {type === 'WM' ?
             false
