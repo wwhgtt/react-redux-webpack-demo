@@ -13,10 +13,13 @@ const defaultPic = require('../../../src/asset/images/head-default.png');
 module.exports = React.createClass({
   displayName: 'ShowSettingList',
   propTypes:{
-    info:React.PropTypes.object,
+    info:React.PropTypes.shape({
+      name: React.PropTypes.string,
+      sex: React.PropTypes.string,
+      loginType:React.PropTypes.number,
+    }).isRequired,
     getInfo:React.PropTypes.func,
     logOff:React.PropTypes.func,
-    setLoad:React.PropTypes.func,
   },
   getInitialState() {
     return { name : '', sex : '' }; // 两个参数姓名和性别
@@ -24,7 +27,7 @@ module.exports = React.createClass({
   componentWillMount() {},
   componentDidMount() {},
   componentWillReceiveProps(nextProps) {   // 接收props
-    if (this.props.info.name === nextProps.info.name && this.props.info.sex === nextProps.info.sex) {
+    if (JSON.stringify(this.props.info) === JSON.stringify(nextProps.info)) {
       return;
     }
     this.setState({ name: nextProps.info.name, sex:nextProps.info.sex }, () => this.commonMethod()); // 把props赋值给state(需要的值)
@@ -34,9 +37,8 @@ module.exports = React.createClass({
     this.setState({ name :nameValue }, () => this.commonMethod());
   },
   onLogOff() {   // 注销
-    const { logOff, setLoad } = this.props;
+    const { logOff } = this.props;
     logOff();
-    setLoad();
   },
   getSex(obj) {  // 获取选择的性别
     this.setState({ sex:obj.sex }, () => this.commonMethod());

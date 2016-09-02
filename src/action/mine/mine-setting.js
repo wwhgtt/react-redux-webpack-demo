@@ -6,7 +6,7 @@ require('es6-promise');
 require('isomorphic-fetch');
 const setInfo = createAction('SET_INFO', setinfo => setinfo);
 const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
-
+const setLoadMsg = createAction('SET_LOAD_MSG', loadinfo => loadinfo);
 // commonHelper.setCookie('mid',"b5d13adbc9d8d6ce93ad9f8ea4cc");
 
 const shopId = commonHelper.getUrlParam('shopId');
@@ -19,6 +19,7 @@ const logoutAPI = `${config.logoutAPI}`;
 const mineIndexUrl = `${config.mineIndexURL}?shopId=${shopId}`;
 
 exports.getInfo = (id) => (dispatch, getStates) => {
+  dispatch(setLoadMsg({ status:true, word:'加载中' }));
   if (!shopId) {
     dispatch(setErrorMsg('找不到门店号'));
     return;
@@ -30,19 +31,19 @@ exports.getInfo = (id) => (dispatch, getStates) => {
     }
     return res.json();
   }).
-  then(BasicData => {
-    // console.log(BasicData)
-    if (BasicData.code !== '200') {
-      dispatch(setErrorMsg(BasicData.msg));
+  then(basicData => {
+    dispatch(setLoadMsg({ status:false, word:'' }));
+    if (basicData.code !== '200') {
+      dispatch(setErrorMsg(basicData.msg));
       setTimeout(() => {
-        if (BasicData.msg === '未登录') {
+        if (basicData.msg === '未登录') {
           window.location.href = `${logUrl}&returnUrl=${encodeURIComponent(window.location.pathname + window.location.search)}`;
         }
       }, 3000);
       return;
     }
-    // console.log(BasicData.data);
-    dispatch(setInfo(BasicData.data));
+    // console.log(basicData.data);
+    dispatch(setInfo(basicData.data));
   }).
   catch(err => {
     console.info(err);
@@ -63,6 +64,7 @@ exports.updateInfo = (name, sex, condition) => (dispatch, getStates) => {
     window.location.href = mineIndexUrl;
     return;
   }
+  dispatch(setLoadMsg({ status:true, word:'保存中' }));
   fetch(`${individualupdateAPI}`, commonHelper.fetchPost({ sex, name:name.replace(/(^\s+)|(\s+$)/g, '') })).
   then(res => {
     if (!res.ok) {
@@ -70,11 +72,12 @@ exports.updateInfo = (name, sex, condition) => (dispatch, getStates) => {
     }
     return res.json();
   }).
-  then(BasicData => {
-    if (BasicData.code !== '200') {
-      dispatch(setErrorMsg(BasicData.msg));
+  then(basicData => {
+    dispatch(setLoadMsg({ status:false, word:'' }));
+    if (basicData.code !== '200') {
+      dispatch(setErrorMsg(basicData.msg));
       setTimeout(() => {
-        if (BasicData.msg === '未登录') {
+        if (basicData.msg === '未登录') {
           window.location.href = `${logUrl}&returnUrl=${encodeURIComponent(window.location.pathname + window.location.search)}`;
         }
       }, 3000);
@@ -88,6 +91,7 @@ exports.updateInfo = (name, sex, condition) => (dispatch, getStates) => {
   });
 };
 exports.logOff = () => (dispatch, getStates) => {
+  dispatch(setLoadMsg({ status:true, word:'注销中' }));
   fetch(`${logoutAPI}`, config.requestOptions).
   then(res => {
     if (!res.ok) {
@@ -95,17 +99,18 @@ exports.logOff = () => (dispatch, getStates) => {
     }
     return res.json();
   }).
-  then(BasicData => {
-    if (BasicData.code !== '200') {
-      dispatch(setErrorMsg(BasicData.msg));
+  then(basicData => {
+    dispatch(setLoadMsg({ status:false, word:'' }));
+    if (basicData.code !== '200') {
+      dispatch(setErrorMsg(basicData.msg));
       setTimeout(() => {
-        if (BasicData.msg === '未登录') {
+        if (basicData.msg === '未登录') {
           window.location.href = `${logUrl}&returnUrl=${encodeURIComponent(window.location.pathname + window.location.search)}`;
         }
       }, 3000);
       return;
     }
-    if (BasicData.data.isLogout) {
+    if (basicData.data.isLogout) {
       dispatch(setErrorMsg('注销成功，请重新登陆'));
       setTimeout(() => {
         window.location.href = logUrl;

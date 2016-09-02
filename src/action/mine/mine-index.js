@@ -6,6 +6,7 @@ require('es6-promise');
 require('isomorphic-fetch');
 const setInfo = createAction('SET_INFO', setinfo => setinfo);
 const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
+const setLoadMsg = createAction('SET_LOAD_MSG', loadinfo => loadinfo);
 // commonHelper.setCookie('mid',"b5d13adbc9d8d6ce93ad9f8ea4cc");
 
 const shopId = commonHelper.getUrlParam('shopId');
@@ -16,6 +17,7 @@ const logUrl = `${config.logAddressURL}`;
 const individualAPI = `${config.individualAPI}`;
 
 exports.getInfo = (id) => (dispatch, getStates) => {
+  dispatch(setLoadMsg({ status:true, word:'加载中' }));
   if (!shopId) {
     dispatch(setErrorMsg('找不到门店号'));
     return;
@@ -27,19 +29,19 @@ exports.getInfo = (id) => (dispatch, getStates) => {
     }
     return res.json();
   }).
-  then(BasicData => {
-    // console.log(BasicData)
-    if (BasicData.code !== '200') {
-      dispatch(setErrorMsg(BasicData.msg));
+  then(basicData => {
+    dispatch(setLoadMsg({ status:false, word:'' }));
+    if (basicData.code !== '200') {
+      dispatch(setErrorMsg(basicData.msg));
       setTimeout(() => {
-        if (BasicData.msg === '未登录') {
+        if (basicData.msg === '未登录') {
           window.location.href = `${logUrl}?shopId=${shopId}&returnUrl=${encodeURIComponent(window.location.pathname + window.location.search)}`;
         }
       }, 3000);
       return;
     }
-    // console.log(BasicData.data);
-    dispatch(setInfo(BasicData.data));
+    // console.log(basicData.data);
+    dispatch(setInfo(basicData.data));
   }).
   catch(err => {
     console.info(err);

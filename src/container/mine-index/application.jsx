@@ -14,27 +14,24 @@ const MineIndexApplication = React.createClass({
   propTypes:{
     info:React.PropTypes.object,
     getInfo:React.PropTypes.func,
+    load:React.PropTypes.object,
     clearErrorMsg:React.PropTypes.func,
     errorMessage:React.PropTypes.string,
   },
   getInitialState() {
-    return { load : true, word : '加载中' };
+    return {};
   },
   componentWillMount() {
     const { getInfo } = this.props;
     getInfo();
   },
-  componentWillReceiveProps(nextProps) {   // 接收props
-    this.setState({ load : false });
-  },
   render() {
-    const { info, clearErrorMsg, errorMessage } = this.props;
-    const { load, word } = this.state;
+    const { info, clearErrorMsg, errorMessage, load } = this.props;
     return (
       <div>
         {
-          load ?
-            <Loading word={word} />
+          load.status ?
+            <Loading word={load.word} />
           :
             false
         }
