@@ -27,8 +27,12 @@ module.exports = {
     'address-list-entry': [
       './src/address-list.jsx',
     ],
-    'bind-account-entry': './src/bind-account.jsx',
-    'register-member-entry' : './src/register-member.jsx',
+    'bind-account-entry': [
+      './src/bind-account.jsx',
+    ],
+    'register-member-entry' :[
+      './src/register-member.jsx',
+    ],
     'user-login-entry': [
       './src/user-login.jsx',
     ],
