@@ -348,88 +348,93 @@ const OrderApplication = React.createClass({
       );
     };
     return (
-      <div className="application">
-        {type === 'WM' ?
-          <a className="options-group options-group--stripes" href="#customer-info" >
-            {buildCoustomerPropElement()}
-          </a>
-          :
-          this.buildTSCustomerPropsElement()
-        }
-        {type === 'WM' ?
-          false
-          :
+      <div className="application flex-columns">
+        <div className="flex-rest">
+          {type === 'WM' ?
+            <a className="options-group options-group--stripes" href="#customer-info" >
+              {buildCoustomerPropElement()}
+            </a>
+            :
+            <a className="options-group options-group--stripes" href="#customer-info" >
+              <div className="option-stripes-title">{customerProps.name}{+customerProps.sex === 1 ? '先生' : '女士'}</div>
+              <div className="clearfix">
+                <div className="option-desc half">{customerProps.mobile}</div>
+                <div className="option-desc half"><span className="text-picton-blue">{customerProps.customerCount}</span>人就餐</div>
+              </div>
+            </a>
+          }
+          {type === 'WM' ?
+            false
+            :
+            <div className="options-group">
+              {serviceProps.isPickupFromFrontDesk ?
+                <ActiveSelect
+                  optionsData={[serviceProps.isPickupFromFrontDesk]} onSelectOption={setOrderProps}
+                  optionComponent={OrderPropOption}
+                />
+                : false
+              }
+              {this.buildSelectedTableElement(serviceProps.isPickupFromFrontDesk, tableProps)}
+            </div>
+          }
           <div className="options-group">
-            {serviceProps.isPickupFromFrontDesk ?
+            {serviceProps.payMethods.map(
+              payMethod => {
+                if (payMethod.isAvaliable !== -1) {
+                  return (<ActiveSelect
+                    optionsData={[payMethod]} key={payMethod.id} onSelectOption={setOrderProps}
+                    optionComponent={OrderPropOption}
+                  />);
+                }
+                return true;
+              }
+            )}
+          </div>
+          <div className="options-group">
+            {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length
+              && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 && commercialProps.diningForm !== 0 ?
+              <a className="option" href="#coupon-select">
+                <span className="option-title">使用优惠券</span>
+                <span className="badge-coupon">
+                  {serviceProps.couponsProps.inUseCoupon ?
+                    '已使用一张优惠券'
+                    :
+                    `${helper.getCouponsLength(serviceProps.couponsProps.couponsList)}张可用`
+                  }
+                </span>
+                <span className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
+              </a>
+            : false}
+            {serviceProps.integralsInfo && commercialProps.diningForm !== 0 ?
               <ActiveSelect
-                optionsData={[serviceProps.isPickupFromFrontDesk]} onSelectOption={setOrderProps}
+                optionsData={[serviceProps.integralsInfo]} onSelectOption={setOrderProps}
                 optionComponent={OrderPropOption}
               />
-              : false
-            }
-            {this.buildSelectedTableElement(serviceProps, tableProps)}
+            : false}
           </div>
-        }
-        <div className="options-group">
-          {serviceProps.payMethods.map(
-            payMethod => {
-              if (payMethod.isAvaliable !== -1) {
-                return (<ActiveSelect
-                  optionsData={[payMethod]} key={payMethod.id} onSelectOption={setOrderProps}
-                  optionComponent={OrderPropOption}
-                />);
-              }
-              return true;
-            }
-          )}
-        </div>
-        <div className="options-group">
-          {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length && customerProps.loginType === 1
-            && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 && commercialProps.diningForm !== 0 ?
-            <a className="option" href="#coupon-select">
-              <span className="option-title">使用优惠券</span>
-              <span className="badge-coupon">
-                {serviceProps.couponsProps.inUseCoupon ?
-                  '已使用一张优惠券'
-                  :
-                  `${helper.getCouponsLength(serviceProps.couponsProps.couponsList)}张可用`
-                }
-              </span>
-              <span className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
-            </a>
-          : false}
-          {serviceProps.integralsInfo && commercialProps.diningForm !== 0 && customerProps.loginType === 1 ?
-            <ActiveSelect
-              optionsData={[serviceProps.integralsInfo]} onSelectOption={setOrderProps}
-              optionComponent={OrderPropOption}
-            />
-          : false}
-        </div>
 
-        <div className="options-group">
-          {buildSelectTimeElemnet()}
-          <label className="option">
-            <span className="option-title">备注: </span>
-            <input className="option-input" name="note" placeholder="输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />
-          </label>
-          {commercialProps && commercialProps.isSupportInvoice === 1 ?
+          <div className="options-group">
+            {buildSelectTimeElemnet()}
             <label className="option">
-              <span className="option-title">发票抬头: </span>
-              <input className="option-input" name="receipt" placeholder="输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
+              <span className="option-title">备注: </span>
+              <input className="option-input" name="note" placeholder="输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />
             </label>
-            :
-            false
-          }
+            {commercialProps && commercialProps.isSupportInvoice === 1 ?
+              <label className="option">
+                <span className="option-title">发票抬头: </span>
+                <input className="option-input" name="receipt" placeholder="输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
+              </label>
+              :
+              false
+            }
+          </div>
 
-        </div>
+          <OrderSummary
+            serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
+            commercialProps={commercialProps} shopId={shopId}
+          />
 
-        <OrderSummary
-          serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
-          commercialProps={commercialProps} shopId={shopId}
-        />
-
-        {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
-          <div>
+          {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
             <div className="options-group">
               <a
                 className="option"
@@ -439,40 +444,38 @@ const OrderApplication = React.createClass({
                 <span className="option-btn btn-arrow-right">共{getDishesCount(orderedDishesProps.dishes)}份</span>
               </a>
             </div>
+            :
+            false
+          }
+        </div>
 
-            <div className="order-cart">
-              <div className="order-cart-left">
-                <div className="vertical-center clearfix">
-                  {commercialProps.carryRuleVO ?
-                    <div>
-                      <div className="order-cart-entry text-dove-grey">已优惠:&nbsp;
-                        <span className="price">
-                          {helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)}
-                        </span>
-                      </div>
-                      <div className="order-cart-entry">
-                        <span className="text-dove-grey">待支付: </span>
-                        <span className="order-cart-price price">
-                          {
-                            helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
-                          }
-                        </span>
-                      </div>
+        {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
+          <div className="order-cart flex-none">
+            <div className="order-cart-left">
+              <div className="vertical-center clearfix">
+                {commercialProps.carryRuleVO ?
+                  <div>
+                    <div className="order-cart-entry text-dove-grey">已优惠:&nbsp;
+                      <span className="price">
+                        {helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)}
+                      </span>
                     </div>
-                    :
-                    false
-                  }
-                </div>
+                    <div className="order-cart-entry">
+                      <span className="text-dove-grey">待支付: </span>
+                      <span className="order-cart-price price">
+                        {
+                          helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
+                        }
+                      </span>
+                    </div>
+                  </div>
+                  :
+                  false
+                }
               </div>
-              <div className="order-cart-right">
-                <button
-                  className="order-cart-btn btn--yellow"
-                  disabled={this.state.isSubmitBtnDisabled}
-                  onTouchTap={this.submitOrder}
-                >
-                  提交订单
-                </button>
-              </div>
+            </div>
+            <div className="order-cart-right">
+              <a className="order-cart-btn btn--yellow" onTouchTap={this.submitOrder}>提交订单</a>
             </div>
           </div>
           :
