@@ -27,7 +27,6 @@ const PlaceOrderApplication = React.createClass({
     setErrorMsg:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
     setCustomerProps:React.PropTypes.func.isRequired,
-    submitOrderWithCode:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     commercialProps:React.PropTypes.object.isRequired,
     dinePersonCount:React.PropTypes.number.isRequired,
@@ -114,12 +113,12 @@ const PlaceOrderApplication = React.createClass({
     return false;
   },
   buildPhoneValidateElement() {
-    const { customerProps, submitOrderWithCode } = this.props;
+    const { customerProps, placeOrder } = this.props;
     const placeholder = { phoneNum:customerProps.mobile, code:'' };
     return (
       <div className="phone-validate-WM">
         <PhoneVerificationCode placeholder={placeholder} disabled="disabled" />
-        <button className="submit-validate-code" onTouchTap={evt => submitOrderWithCode(this.state.note)}>确定</button>
+        <button className="submit-validate-code" onTouchTap={evt => placeOrder(this.state.note)}>确定</button>
       </div>
     );
   },
