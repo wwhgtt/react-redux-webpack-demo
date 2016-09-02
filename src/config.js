@@ -43,6 +43,7 @@ module.exports = {
 
   userLoginAPI: `${apiBase}/user/login.json`,
   userLoginWXAPI: `${apiBase}/user/login4WX.json`,
+  getUserLoginSupportAPI: `${apiBase}/user/supportTypes.json`,
 
   shopDetailURL:`${apiBase}/shop/detail`,
   mineIndexURL:'/mineIndex.html',
