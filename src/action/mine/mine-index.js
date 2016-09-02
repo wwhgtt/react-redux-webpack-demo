@@ -42,6 +42,8 @@ exports.getInfo = (id) => (dispatch, getStates) => {
     }
     // console.log(basicData.data);
     dispatch(setInfo(basicData.data));
+    // 保存电话号码到sessionStorage
+    window.sessionStorage.mobile = basicData.data.mobile;
   }).
   catch(err => {
     console.info(err);
