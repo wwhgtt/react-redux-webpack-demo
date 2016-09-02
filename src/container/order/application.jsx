@@ -374,7 +374,7 @@ const OrderApplication = React.createClass({
                 />
                 : false
               }
-              {this.buildSelectedTableElement(serviceProps.isPickupFromFrontDesk, tableProps)}
+              {this.buildSelectedTableElement(serviceProps, tableProps)}
             </div>
           }
           <div className="options-group">
