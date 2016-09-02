@@ -2,21 +2,20 @@
 @import 'settings.sizes';
 @import 'tools.mixins';
 
-.counter {
+.customers-counter {
+  $border-color: lighten($color-mischka, 5%);
+
   @include clearfix;
   float: right;
 
   &-minus,
   &-add {
-    $border-color: lighten($color-mischka, 5%);
-
     position: relative;
     display: block;
     float: left;
     width: $counter-size;
     height: $counter-size;
     border: 1px solid $border-color;
-    border-radius: 50%;
     background: $color-white;
 
     &::before,
@@ -30,7 +29,7 @@
       margin: auto;
       content: '';
       border-radius: 1px;
-      background: $color-neon-carrot;
+      background: $color-dove-grey;
     }
 
     &::before {
@@ -39,35 +38,32 @@
     }
   }
 
-  &-minus::after {
-    width: 0;
-    height: 0;
+  &-minus {
+    border-radius: 4px 0 0 4px;
+    &::after {
+      width: 0;
+      height: 0;
+    }
+  }
+
+  &-add {
+    border-radius: 0 4px 4px 0;
   }
 
   &-num {
     font-size: 15px;
     line-height: $counter-size - 2;
     float: left;
-    min-width: 26px;
-    padding: 0 2px;
+    width: 42px;
     text-align: center;
+    border-width: 1px 0;
+    border-style: solid;
+    border-color: $border-color;
   }
 
   &-add::after {
     width: 2px;
     height: 12px;
-  }
-
-  &-click-mask {
-    $mask-extend-size: -($counter-size / 3);
-
-    position: absolute;
-    z-index: 10;
-    top: $mask-extend-size;
-    right: $mask-extend-size;
-    bottom: $mask-extend-size;
-    left: $mask-extend-size;
-    background: transparent;
   }
 
   &-min > &-minus::before {

@@ -359,13 +359,19 @@ const OrderApplication = React.createClass({
               {buildCoustomerPropElement()}
             </a>
             :
-            <a className="options-group options-group--stripes" href="#customer-info" >
-              <div className="option-stripes-title">{customerProps.name}{+customerProps.sex === 1 ? '先生' : '女士'}</div>
-              <div className="clearfix">
-                <div className="option-desc half">{customerProps.mobile}</div>
-                <div className="option-desc half"><span className="text-picton-blue">{customerProps.customerCount}</span>人就餐</div>
+            <CustomerInfoEditor
+              customerProps={customerProps} onCustomerPropsChange={setCustomerProps}
+            />
+          }
+          {type === 'WM' ?
+            false
+            :
+            <div className="options-group">
+              <div className="option">
+                <span className="option-tile">就餐人数：</span>
+                <ImportableCounter count={1} onCountChange={console.log('abc')} step={1} />
               </div>
-            </a>
+            </div>
           }
           {type === 'WM' ?
             false
