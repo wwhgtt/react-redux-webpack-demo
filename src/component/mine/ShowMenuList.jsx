@@ -16,7 +16,7 @@ const registerUrl = ` ${config.registerMemberURL}?shopId=${shopId}`;
 const bindaccountUrlphone = ` ${config.bindAccountURL}?shopId=${shopId}#bind-phone`;
 const bindaccountUrlwx = ` ${config.bindAccountURL}?shopId=${shopId}#bind-wx`;
 
-require('./showMenuList.scss');
+require('./ShowMenuList.scss');
 
 module.exports = React.createClass({
   displayName: 'Name',
@@ -49,7 +49,7 @@ module.exports = React.createClass({
     return (
       <div className="list-outer">
         {
-        condition === 3 || condition === 4 ?
+        condition === 3 || condition === 4 && info.isMember ?
           <div>
             <div className="mineInfo of">
               <div className="mineInfo-holder fl" onTouchTap={this.jumpToCredit}>
@@ -104,7 +104,7 @@ module.exports = React.createClass({
             </a>
           </li>
           {
-          condition === 3 ?
+          condition === 3 && !info.bindWx ?
             <li className="list-ul-li" name="绑定微信号">
               <a className="menuLink" href={bindaccountUrlwx}>
                 <i name="BDWX"></i>
@@ -119,16 +119,21 @@ module.exports = React.createClass({
         {
         condition !== 3 && condition !== 4 ?
           <ul className="list-ul">
-            <li className="list-ul-li" name="会员注册">
-              <a className="menuLink" href={registerUrl}>
-                <i name="HYZC"></i>
-                <span className="name">会员注册</span>
-                <span className="brief">注册会员享受更多福利</span>
-                <span className="arrow"></span>
-              </a>
-            </li>
             {
-              condition === 1 ?
+              !info.isMember ?
+                <li className="list-ul-li" name="会员注册">
+                  <a className="menuLink" href={registerUrl}>
+                    <i name="HYZC"></i>
+                    <span className="name">会员注册</span>
+                    <span className="brief">注册会员享受更多福利</span>
+                    <span className="arrow"></span>
+                  </a>
+                </li>
+                :
+                false
+            }
+            {
+              condition === 1 && !info.bindMobile ?
                 <li className="list-ul-li" name="绑定手机号">
                   <a className="menuLink" href={bindaccountUrlphone}>
                     <i name="BDSJ"></i>
@@ -140,7 +145,7 @@ module.exports = React.createClass({
               false
             }
             {
-              condition === 2 ?
+              condition === 2 && !info.bindWx ?
                 <li className="list-ul-li" name="绑定微信号">
                   <a className="menuLink" href={bindaccountUrlwx}>
                     <i name="BDWX"></i>

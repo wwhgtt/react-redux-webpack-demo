@@ -1,5 +1,5 @@
 const React = require('react');
-require('./showSettingList.scss');
+require('./ShowSettingList.scss');
 const SexSwitch = require('../common/sex-switch.jsx');
 const config = require('../../config');
 const commonHelper = require('../../helper/common-helper');
@@ -127,13 +127,18 @@ module.exports = React.createClass({
                         <span className="arrow"></span>
                       </a>
                     </li>
-                    <li className="list-ul-li">
-                      <a className="settingLink" href={registerUrl}>
-                        <span className="name">会员注册</span>
-                        <span className="brief">注册会员享受更多福利</span>
-                        <span className="arrow"></span>
-                      </a>
-                    </li>
+                    {
+                      !info.isMember ?
+                        <li className="list-ul-li">
+                          <a className="settingLink" href={registerUrl}>
+                            <span className="name">会员注册</span>
+                            <span className="brief">注册会员享受更多福利</span>
+                            <span className="arrow"></span>
+                          </a>
+                        </li>
+                      :
+                      false
+                    }
                   </ul>
                 :
                 false
@@ -154,13 +159,18 @@ module.exports = React.createClass({
                         <span className="brief spe">{info.mobile}</span>
                       </a>
                     </li>
-                    <li className="list-ul-li">
-                      <a className="settingLink" href={registerUrl}>
-                        <span className="name">会员注册</span>
-                        <span className="brief">注册会员享受更多福利</span>
-                        <span className="arrow"></span>
-                      </a>
-                    </li>
+                    {
+                      info.isMember ?
+                        <li className="list-ul-li">
+                          <a className="settingLink" href={registerUrl}>
+                            <span className="name">会员注册</span>
+                            <span className="brief">注册会员享受更多福利</span>
+                            <span className="arrow"></span>
+                          </a>
+                        </li>
+                      :
+                      false
+                    }
                   </ul>
                 :
                 false

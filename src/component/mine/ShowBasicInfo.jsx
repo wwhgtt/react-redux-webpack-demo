@@ -2,7 +2,7 @@ const React = require('react');
 const malePic = require('../../asset/images/head-male.png');
 const femalePic = require('../../asset/images/head-female.png');
 const defaultPic = require('../../asset/images/head-default.png');
-require('./showBasicInfo.scss');
+require('./ShowBasicInfo.scss');
 
 module.exports = React.createClass({ // ShowBasicInfo
   displayName: 'BrandBg',
@@ -49,7 +49,7 @@ module.exports = React.createClass({ // ShowBasicInfo
       <div className="BasicInfoBg">
         <img className="BasicInfoBg-img" src={realImage} alt="用户头像" title={info.name || ''} ref="logo" onError={() => this.imgError(info.sex)} />
         <p className="BasicInfoBg-name omit">
-          {info.name || '不愿透露姓名的用户'} {realSex}
+          {info.name || '不愿透露姓名的用户'} {info.name ? realSex : ''}
         </p>
         <div className="BasicInfoBg-wave"></div>
       </div>

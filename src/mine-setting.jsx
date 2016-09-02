@@ -20,5 +20,5 @@ ReactDOM.render(
   <Provider store={store}>
     <MineSettingApplication />
   </Provider>,
-  document.getElementById('app-holder')
+  document.getElementById('app-placeholder')
 );
