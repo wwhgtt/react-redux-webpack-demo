@@ -20,7 +20,6 @@ const OrderInlineApplication = React.createClass({
     submitOrder:React.PropTypes.func.isRequired,
     setOrderProps:React.PropTypes.func.isRequired,
     setCustomerProps:React.PropTypes.func.isRequired,
-    submitOrderWithCode:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     commercialProps:React.PropTypes.object.isRequired,
     customerProps:React.PropTypes.object.isRequired,
@@ -52,12 +51,12 @@ const OrderInlineApplication = React.createClass({
     return element;
   },
   buildPhoneValidateElement() {
-    const { customerProps, submitOrderWithCode } = this.props;
+    const { customerProps, submitOrder } = this.props;
     const placeholder = { phoneNum:customerProps.mobile, code:'' };
     return (
       <div className="phone-validate-WM">
         <PhoneVerificationCode placeholder={placeholder} disabled="disabled" />
-        <button className="submit-validate-code" onTouchTap={evt => submitOrderWithCode()}>确定</button>
+        <button className="submit-validate-code" onTouchTap={evt => submitOrder()}>确定</button>
       </div>
     );
   },

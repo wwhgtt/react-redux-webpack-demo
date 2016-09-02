@@ -28,35 +28,6 @@ exports.clearErrorMsg = () => (dispatch, getState) =>
     dispatch(setErrorMsg(null));
 
 exports.submitOrder = () => (dispatch, getState) => {
-  // name,mobile,sex,peopleCount
-  const state = getState();
-  const params = '?shopId=' + shopId
-    + '&name=' + state.customerProps.name
-    + '&sex=' + state.customerProps.sex
-    + '&mobile=' + state.customerProps.mobile
-    + '&peopleCount=' + state.dinePersonCount;
-  fetch(`${config.submitOrderInLineAPI}${params}`, config.requestOptions).
-    then(res => {
-      if (!res.ok) {
-        dispatch(setErrorMsg('提交排队信息失败...'));
-      }
-      return res.json();
-    })
-    .then(result => {
-      if (result.code.toString() === '200') {
-        dispatch(setErrorMsg('提交排队信息成功...'));
-      } else if (result.code.toString() === '20013') {
-        dispatch(setPhoneValidateProps(true));
-      } else {
-        dispatch(setErrorMsg(result.msg));
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    });
-};
-
-exports.submitOrderWithCode = () => (dispatch, getState) => {
   const state = getState();
   const params = '?shopId=' + shopId
     + '&name=' + state.customerProps.name
