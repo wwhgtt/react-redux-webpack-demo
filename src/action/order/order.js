@@ -164,50 +164,7 @@ exports.fetchLastOrderedDishes = () => (dispatch, getState) => {
   }
   dispatch(setOrderedDishesToOrder(JSON.parse(lastOrderedDishes)));
 };
-exports.submitOrder = (note, receipt) => (dispatch, getState) => {
-  const submitUrl = type === 'WM' ? config.submitWMOrderAPI : config.submitTSOrderAPI;
-  const state = getState();
-  const paramsData = helper.getSubmitUrlParams(state, note, receipt);
-  if (!paramsData.success) {
-    dispatch(setErrorMsg(paramsData.msg));
-    return false;
-  }
 
-  return fetch(`${submitUrl}${paramsData.params}`, config.requestOptions).
-    then(res => {
-      if (!res.ok) {
-        dispatch(setErrorMsg('提交订单信息失败'));
-      }
-      return res.json();
-    }).
-    then(result => {
-      if (result.code === '200') {
-        localStorage.removeItem('lastOrderedDishes');
-        sessionStorage.removeItem('receiveOrderCustomerInfo');
-        sessionStorage.removeItem(`${shopId}_sendArea_id`);
-        sessionStorage.removeItem(`${shopId}_customer_toshopinfo`);
-
-        helper.setCallbackUrl(result.data.orderId);
-        const isOnlinePay = state.serviceProps.payMethods.some(payMethod => payMethod.id === 'online-payment' && payMethod.isChecked);
-        const paramStr = `shopId=${shopId}&orderId=${result.data.orderId}`;
-        let jumpToUrl = '';
-        if (isOnlinePay && paramsData.needPayPrice.toString() !== '0') {
-          jumpToUrl = `/shop/payDetail?${paramStr}&orderType=${type}`;
-        } else {
-          jumpToUrl = type === 'WM' ? '/order/takeOutDetail?' : '/order/orderallDetail?';
-          jumpToUrl += paramStr;
-        }
-        location.href = jumpToUrl;
-      } else if (result.code.toString() === '20013') {
-        dispatch(setPhoneValidateProps(true));
-      } else {
-        dispatch(setErrorMsg(result.msg));
-      }
-    }).
-    catch(err => {
-      console.log(err);
-    });
-};
 exports.fetchSendAreaId = () => (dispatch, getState) => {
   const sendAreaId = sessionStorage.getItem(shopId + '_sendArea_id');
   dispatch(setSendAreaId(JSON.parse(sendAreaId)));
@@ -311,14 +268,15 @@ exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
     });
 };
 
-exports.submitOrderWithCode = (note, receipt) => (dispatch, getState) => {
+exports.submitOrder = (note, receipt) => (dispatch, getState) => {
+  const submitUrl = type === 'WM' ? config.submitWMOrderAPI : config.submitTSOrderAPI;
   const state = getState();
   const paramsData = helper.getSubmitUrlParams(state, note, receipt);
   if (!paramsData.success) {
     dispatch(setErrorMsg(paramsData.msg));
     return false;
   }
-  return fetch(`${config.submitWMOrderAPI}${paramsData.params}&code=${state.phoneValidateCode}`, config.requestOptions).
+  return fetch(`${submitUrl}${paramsData.params}&code=${state.phoneValidateCode}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         dispatch(setErrorMsg('提交订单信息失败'));

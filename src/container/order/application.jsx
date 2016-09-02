@@ -39,7 +39,6 @@ const OrderApplication = React.createClass({
     fetchDeliveryPrice:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
     setSessionAndForwardEditUserAddress:React.PropTypes.func.isRequired,
-    submitOrderWithCode:React.PropTypes.func.isRequired,
     setCustomerProps:React.PropTypes.func.isRequired,
     setCustomerToShopAddress:React.PropTypes.func,
     confirmOrderAddressInfo:React.PropTypes.func,
@@ -258,14 +257,14 @@ const OrderApplication = React.createClass({
     );
   },
   buildPhoneValidateElement() {
-    const { customerProps, submitOrderWithCode } = this.props;
+    const { customerProps, submitOrder } = this.props;
     const selectedAddressInfo = customerProps.addresses.filter(address => address.isChecked);
     // selectedAddressInfo一定是有长度的
     const placeholder = { phoneNum:selectedAddressInfo[0].mobile, code:'' };
     return (
       <div className="phone-validate-WM">
         <PhoneVerificationCode placeholder={placeholder} disabled="disabled" />
-        <button className="submit-validate-code" onTouchTap={evt => submitOrderWithCode(this.state.note, this.state.receipt)}>确定</button>
+        <button className="submit-validate-code" onTouchTap={evt => submitOrder(this.state.note, this.state.receipt)}>确定</button>
       </div>
     );
   },
