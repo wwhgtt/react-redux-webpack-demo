@@ -21,7 +21,7 @@ require('./showMenuList.scss');
 module.exports = React.createClass({
   displayName: 'Name',
   propTypes:{
-    info:React.PropTypes.object,
+    info:React.PropTypes.object.isRequired,
   },
   componentWillMount() {},
   componentDidMount() {},

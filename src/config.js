@@ -46,8 +46,8 @@ module.exports = {
   getUserLoginSupportAPI: `${apiBase}/user/supportTypes.json`,
 
   shopDetailURL:`${apiBase}/shop/detail`,
-  mineIndexURL:'/mineIndex.html',
-  mineSettingURL:'/mineSetting.html',
+  mineIndexURL:`${apiBase}/mineIndex.html`,
+  mineSettingURL:`${apiBase}/mineSetting.html`,
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
   editUserAddressURL: `${apiBase}/user/address`,
