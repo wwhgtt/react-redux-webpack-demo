@@ -5,14 +5,8 @@ div[data-reactroot] {
   height: 100%;
 }
 
-div[data-reactroot] {
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
 .application {
-  border-top: 10px solid $color-gallery;
-  border-bottom: 50px solid $color-gallery;
+  height: 100%;
   background: $color-gallery;
 }
 
@@ -22,6 +16,7 @@ div[data-reactroot] {
   line-height: 18px;
   position: relative;
   overflow: hidden;
+  margin-top: 10px;
   padding: 20px 30px 15px 10px;
   cursor: pointer;
   border-top: 0;
@@ -123,12 +118,6 @@ div[data-reactroot] {
 .order-cart {
   $order-right-width: 120px;
 
-  position: fixed;
-  z-index: 50;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
   height: 50px;
   background: $color-white;
   box-shadow: 0 -1px 0 $color-mercury;
