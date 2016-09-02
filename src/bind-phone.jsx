@@ -7,8 +7,8 @@ const applyMiddleware = require('redux').applyMiddleware;
 const compose = require('redux').compose;
 const Provider = require('react-redux').Provider;
 const thunkMiddleware = require('redux-thunk').default;
-const reducer = require('./reducer/bind-account/index.js');
-const BindAccountApplication = require('./container/bind-account/application.jsx');
+const reducer = require('./reducer/bind-phone/index.js');
+const BindPhoneApplication = require('./container/bind-phone/application.jsx');
 const injectTapEventPlugin = require('react-tap-event-plugin'); injectTapEventPlugin();
 const logger = require('./helper/logger.js');
 let storeCreator;
@@ -21,7 +21,7 @@ const store = storeCreator(reducer);
 ReactDOM.render(
   <Provider store={store}>
     <div>
-      <BindAccountApplication />
+      <BindPhoneApplication />
     </div>
   </Provider>,
   document.getElementById('app-placeholder')
