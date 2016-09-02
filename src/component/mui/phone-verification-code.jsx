@@ -22,9 +22,10 @@ module.exports = React.createClass({
     };
   },
   getInitialState() {
+    const { placeholder } = this.props;
     return {
       currentNation: 'China',
-      phoneNum: '',
+      phoneNum: placeholder.phoneNum ? placeholder.phoneNum : '',
       code: '',
       seconds: 0,
     };
