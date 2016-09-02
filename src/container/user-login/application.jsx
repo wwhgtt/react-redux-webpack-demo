@@ -12,13 +12,16 @@ require('./application.scss');
 const UserLoginApplication = React.createClass({
   displayName: 'UserLoginApplication',
   propTypes: {
+    errorMessage: React.PropTypes.string,
+    loadingInfo: React.PropTypes.object,
+    supportInfo: React.PropTypes.object,
     setErrorMsg: React.PropTypes.func,
     fetchVericationCode: React.PropTypes.func.isRequired,
-    errorMessage: React.PropTypes.string,
+    fetchSupportInfo: React.PropTypes.func.isRequired,
     login: React.PropTypes.func,
-    loadingInfo: React.PropTypes.object,
   },
   componentDidMount() {
+    this.props.fetchSupportInfo();
   },
   onGetVerificationCode(phoneNum) {
     this.props.fetchVericationCode(phoneNum);
@@ -39,10 +42,10 @@ const UserLoginApplication = React.createClass({
     this.props.setErrorMsg('');
   },
   render() {
-    const { errorMessage, loadingInfo } = this.props;
+    const { errorMessage, loadingInfo, supportInfo } = this.props;
     const weixinInfo = getWeixinVersionInfo();
     let weixinLoginElement = false;
-    if (weixinInfo.weixin) {
+    if (weixinInfo.weixin && supportInfo.weixin) {
       weixinLoginElement = (
         <div className="wx-login">
           <h3><span>选择第三方登录</span></h3>
@@ -55,6 +58,7 @@ const UserLoginApplication = React.createClass({
     return (
       <div>
         <PhoneVerificationCode
+          hasForeignZone={supportInfo.xiangEQ}
           onGetVerificationCode={this.onGetVerificationCode}
           ref="verificationCode"
         />

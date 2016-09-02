@@ -1,7 +1,7 @@
 const React = require('react');
-const malePic = require('../../../src/asset/images/head-male.png');
-const femalePic = require('../../../src/asset/images/head-female.png');
-const defaultPic = require('../../../src/asset/images/head-default.png');
+const malePic = require('../../asset/images/head-male.png');
+const femalePic = require('../../asset/images/head-female.png');
+const defaultPic = require('../../asset/images/head-default.png');
 require('./showBasicInfo.scss');
 
 module.exports = React.createClass({ // ShowBasicInfo
