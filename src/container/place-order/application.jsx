@@ -143,9 +143,17 @@ const PlaceOrderApplication = React.createClass({
 
         {this.buildSelectTablesElement(tableProps)}
 
-        <div className="option">
-          <span className="options-title">就餐人数</span>
-          <ImportableCounter setErrorMsg={setErrorMsg} count={dinePersonCount} onCountChange={this.setOrderProps} />
+        <div className="options-group">
+          <div className="option">
+            <span className="option-tile">就餐人数：</span>
+            <ImportableCounter
+              setErrorMsg={setErrorMsg}
+              onCountChange={this.setOrderProps}
+              count={dinePersonCount}
+              maximum={99}
+              minimum={1}
+            />
+          </div>
         </div>
 
         <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setCustomerProps} />

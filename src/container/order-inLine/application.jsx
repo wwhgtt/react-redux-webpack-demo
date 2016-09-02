@@ -72,10 +72,19 @@ const OrderInlineApplication = React.createClass({
 
         <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setCustomerProps} />
 
-        <div>
-          <span>就餐人数</span>
-          <ImportableCounter count={dinePersonCount} onCountChange={this.onCountChange} setErrorMsg={setErrorMsg} />
+        <div className="options-group">
+          <div className="option">
+            <span className="option-tile">就餐人数：</span>
+            <ImportableCounter
+              setErrorMsg={setErrorMsg}
+              onCountChange={this.onCountChange}
+              count={dinePersonCount}
+              maximum={99}
+              minimum={1}
+            />
+          </div>
         </div>
+
         <button onTouchTap={submitOrder} className="submit-order">立即取号</button>
 
         {queueList && queueList.length ?
