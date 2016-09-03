@@ -6,8 +6,8 @@ const commonHelper = require('../../helper/common-helper');
 const shopId = commonHelper.getUrlParam('shopId');
 const registerUrl = ` ${config.registerMemberURL}?shopId=${shopId}`;
 const modifypwdUrl = ` ${config.modifyPwdURL}?shopId=${shopId}`;
-const bindaccountUrlphone = ` ${config.bindAccountURL}?shopId=${shopId}#bind-phone`;
-const bindaccountUrlwx = ` ${config.bindAccountURL}?shopId=${shopId}#bind-wx`;
+const bindMobileUrl = ` ${config.bindMobileURL}?shopId=${shopId}`;
+const bindWXUrl = ` ${config.bindWXURL}?shopId=${shopId}`;
 const defaultPic = require('../../asset/images/head-default.png');
 
 module.exports = React.createClass({
@@ -51,6 +51,8 @@ module.exports = React.createClass({
   },
   render() {
     let condition = '';// 1 微信号(未绑定手机)  2手机号非会员（未绑定微信）3手机号会员（未绑定微信） 4绑定成功
+    let partOne = '';
+    let partTwo = '';
     const { info } = this.props;
     // 几种状态的判断
     if (info.loginType === 1 && !info.bindMobile) {
@@ -65,155 +67,108 @@ module.exports = React.createClass({
       condition = 4;
     }
     const { name, sex } = this.state;
+
+    // 几种状态的判断
+
+    if (condition === 2 || condition === 3 || condition === 4) {
+      partOne = (
+        <ul className="list-ul list-ul-mt">
+          <li className="list-ul-li spe">
+            <a className="settingLink" href=" javascript:void(0)" style={{ padding : '0.75em 0' }} >
+              <span className="middle"></span>
+              <span className="name">姓名</span>
+              <SexSwitch getSex={this.getSex} sex={sex} />
+              <div className="input-outer fr">
+                <input
+                  className="input"
+                  type="text"
+                  maxLength="30"
+                  placeholder="请输入姓名"
+                  ref="name"
+                  value={name}
+                  onChange={this.onInputName}
+                />
+              </div>
+            </a>
+          </li>
+          {
+            condition !== 2 ?
+              <div>
+                <li className="list-ul-li spe">
+                  <a className="settingLink" href=" javascript:void(0)">
+                    <span className="name">生日</span>
+                    <span className="brief spe">{info.birthday}</span>
+                  </a>
+                </li>
+                <li className="list-ul-li">
+                  <a className="settingLink" href={modifypwdUrl}>
+                    <span className="name">更改密码</span>
+                    <span className="arrow"></span>
+                  </a>
+                </li>
+              </div>
+            :
+            false
+          }
+        </ul>
+      );
+    }
+    partTwo = (
+      <ul className="list-ul list-ul-mt">
+        {
+          condition === 1 || condition === 4 ?
+            <li className="list-ul-li spe">
+              <a className="settingLink" href=" javascript:void(0)">
+                <span className="name">微信号</span>
+                <img src={info.iconUri || defaultPic} alt="微信头像" title="微信头像" className="logo spe" />
+              </a>
+            </li>
+          :
+            <li className="list-ul-li">
+              <a className="settingLink" href={bindWXUrl}>
+                <span className="name">微信号</span>
+                <span className="brief">未绑定</span>
+                <span className="arrow"></span>
+              </a>
+            </li>
+        }
+        {
+          condition === 1 ?
+            <li className="list-ul-li">
+              <a className="settingLink" href={bindMobileUrl}>
+                <span className="name">手机号</span>
+                <span className="brief">未绑定</span>
+                <span className="arrow"></span>
+              </a>
+            </li>
+          :
+            <li className="list-ul-li spe">
+              <a className="settingLink" href=" javascript:void(0)">
+                <span className="name">手机号</span>
+                <span className="brief spe">{info.mobile}</span>
+              </a>
+            </li>
+        }
+        {
+          condition === 1 && !info.isMember || condition === 2 ?
+            <li className="list-ul-li">
+              <a className="settingLink" href={registerUrl}>
+                <span className="name">会员注册</span>
+                <span className="brief">注册会员享受更多福利</span>
+                <span className="arrow"></span>
+              </a>
+            </li>
+          :
+          false
+        }
+      </ul>
+    );
+
+    // return
     return (
       <div className="list-outer of">
-             {
-                condition === 2 || condition === 3 || condition === 4 ?
-                  <ul className="list-ul list-ul-mt">
-                    <li className="list-ul-li spe">
-                      <a className="settingLink" href=" javascript:void(0)" style={{ padding : '0.75em 0' }} >
-                        <span className="middle"></span>
-                        <span className="name">姓名</span>
-                        <SexSwitch getSex={this.getSex} sex={sex} />
-                        <div className="input-outer fr">
-                          <input
-                            className="input"
-                            type="text"
-                            maxLength="30"
-                            placeholder="请输入姓名"
-                            ref="name"
-                            value={name}
-                            onChange={this.onInputName}
-                          />
-                        </div>
-                      </a>
-                    </li>
-                  {
-                    condition === 3 || condition === 4 ?
-                      <div>
-                        <li className="list-ul-li spe">
-                          <a className="settingLink" href=" javascript:void(0)">
-                            <span className="name">生日</span>
-                            <span className="brief spe">{info.birthday}</span>
-                          </a>
-                        </li>
-                        <li className="list-ul-li">
-                          <a className="settingLink" href={modifypwdUrl}>
-                            <span className="name">修改密码</span>
-                            <span className="arrow"></span>
-                          </a>
-                        </li>
-                      </div>
-                    :
-                    false
-                  }
-                  </ul>
-                :
-                false
-             }
-             {
-                condition === 1 ?
-                  <ul className="list-ul list-ul-mt">
-                    <li className="list-ul-li spe">
-                      <a className="settingLink" href=" javascript:void(0)">
-                        <span className="name">微信号</span>
-                        <img src={info.iconUri || defaultPic} alt="微信头像" title="微信头像" className="logo spe" />
-                      </a>
-                    </li>
-                    <li className="list-ul-li">
-                      <a className="settingLink" href={bindaccountUrlphone}>
-                        <span className="name">手机号</span>
-                        <span className="brief">未绑定</span>
-                        <span className="arrow"></span>
-                      </a>
-                    </li>
-                    {
-                      !info.isMember ?
-                        <li className="list-ul-li">
-                          <a className="settingLink" href={registerUrl}>
-                            <span className="name">会员注册</span>
-                            <span className="brief">注册会员享受更多福利</span>
-                            <span className="arrow"></span>
-                          </a>
-                        </li>
-                      :
-                      false
-                    }
-                  </ul>
-                :
-                false
-              }
-              {
-                condition === 2 ?
-                  <ul className="list-ul list-ul-mt">
-                    <li className="list-ul-li">
-                      <a className="settingLink" href={bindaccountUrlwx}>
-                        <span className="name">微信号</span>
-                        <span className="brief">未绑定</span>
-                        <span className="arrow"></span>
-                      </a>
-                    </li>
-                    <li className="list-ul-li spe">
-                      <a className="settingLink" href=" javascript:void(0)">
-                        <span className="name">手机号</span>
-                        <span className="brief spe">{info.mobile}</span>
-                      </a>
-                    </li>
-                    {
-                      info.isMember ?
-                        <li className="list-ul-li">
-                          <a className="settingLink" href={registerUrl}>
-                            <span className="name">会员注册</span>
-                            <span className="brief">注册会员享受更多福利</span>
-                            <span className="arrow"></span>
-                          </a>
-                        </li>
-                      :
-                      false
-                    }
-                  </ul>
-                :
-                false
-              }
-              {
-                condition === 3 ?
-                  <ul className="list-ul list-ul-mt">
-                    <li className="list-ul-li">
-                      <a className="settingLink" href={bindaccountUrlwx}>
-                        <span className="name">微信号</span>
-                        <span className="brief">未绑定</span>
-                        <span className="arrow"></span>
-                      </a>
-                    </li>
-                    <li className="list-ul-li spe">
-                      <a className="settingLink" href=" javascript:void(0)">
-                        <span className="name">手机号</span>
-                        <span className="brief spe">{info.mobile}</span>
-                      </a>
-                    </li>
-                  </ul>
-                :
-                false
-              }
-              {
-                condition === 4 ?
-                  <ul className="list-ul list-ul-mt">
-                    <li className="list-ul-li spe">
-                      <a className="settingLink" href=" javascript:void(0)">
-                        <span className="name">微信号</span>
-                        <img src={info.iconUri || defaultPic} alt="微信头像" title="微信头像" className="logo spe" />
-                      </a>
-                    </li>
-                    <li className="list-ul-li spe">
-                      <a className="settingLink" href=" javascript:void(0)">
-                        <span className="name">手机号</span>
-                        <span className="brief spe">{info.mobile}</span>
-                      </a>
-                    </li>
-                  </ul>
-                :
-                false
-              }
+        {partOne}
+        {partTwo}
         <a href=" javascript:;" className="btn-row btn-row-mt" onTouchTap={this.onLogOff}>注销</a>
       </div>
     );

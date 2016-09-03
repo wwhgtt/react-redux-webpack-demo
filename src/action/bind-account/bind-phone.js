@@ -4,15 +4,18 @@ const helper = require('../../helper/common-helper.js');
 
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
-// const setPhone = createAction('SET_PHONE', phoneInfo => phoneInfo);
+const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
+
 require('es6-promise');
 require('isomorphic-fetch');
 
 const shopId = helper.getUrlParam('shopId');
 
+// 发送验证码
 exports.sendCode = phoneNum => (dispatch, getStates) => {
-  const sendCodeURl = `${config.sendCodeAPI}?shopId=${shopId}&mobile=${phoneNum}`;
-  // const sendCodeURl = `${config.sendCodeAPI}`;
+  const codeObj = Object.assign({}, { shopId, mobile: phoneNum, timestamp: new Date().getTime() });
+  const paramStr = getSendCodeParamStr(codeObj);
+  const sendCodeURl = `${config.sendCodeAPI}?${paramStr}`;
   fetch(sendCodeURl, config.requestOptions).
   then(res => {
     if (!res.ok) {
@@ -21,14 +24,16 @@ exports.sendCode = phoneNum => (dispatch, getStates) => {
     return res.json();
   }).
   then(res => {
-    if (res.code !== '200') {
-      dispatch(setErrorMsg(res.msg));
-    } else {
+    if (res.code === '200') {
+      dispatch(setErrorMsg('验证码发送成功注意查收'));
       console.log(res);
+    } else {
+      dispatch(setErrorMsg(res.msg));
     }
   });
 };
 
+// 绑定手机
 exports.bindPhone = phoneInfo => (dispatch, getStates) => {
   const phoneNum = phoneInfo.phoneNum;
   const code = phoneInfo.code;
@@ -42,16 +47,11 @@ exports.bindPhone = phoneInfo => (dispatch, getStates) => {
     return res.json();
   }).
   then(res => {
-    if (res.code !== '200') {
-      dispatch(setErrorMsg(res.msg));
+    if (res.code === '200') {
+      window.sessionStorage.setItem('phoneNum', phoneInfo.phoneNum);
+      location.hash = '#phone-success';
     } else {
-      console.log(res);
+      dispatch(setErrorMsg(res.msg));
     }
   });
-  // if (phoneInfo) {
-  //   console.log(phoneInfo.phoneNum);
-  //   window.sessionStorage.setItem('phoneNum', phoneInfo.phoneNum);
-  //   dispatch(setErrorMsg('成功'));
-  //   location.hash = '#phone-success';
-  // }
 };

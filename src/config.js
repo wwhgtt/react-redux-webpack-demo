@@ -51,8 +51,11 @@ module.exports = {
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
   editUserAddressURL: `${apiBase}/user/address`,
-  bindAccountURL:`${apiBase}/bind-account.html`,  // 绑定页面 手机 #bind-phone 微信 #bind-wx
-  registerMemberURL:`${apiBase}/register-member.html`,
+
+
+  bindMobileURL:`${apiBase}/user/bindMobile`,
+  bindWXURL:`${apiBase}/user/bindOpenid`,
+  registerMemberURL:`${apiBase}/member/register`,
   logAddressURL: `${apiBase}/user/notLogin`, // 登陆页面
   integralURL: `${apiBase}/member/integral`, // 我的积分
   valueCardURL:`${apiBase}/member/valueCard`, // 我的余额
@@ -70,6 +73,9 @@ module.exports = {
   // ================================
   sendCodeAPI: `${apiBase}/user/sendCode.json`, // 发送验证码
   bindPhoneAPI: `${apiBase}/user/bindMobile.json`, // 绑定手机
+  wxOauthAPI: `${apiBase}/weixinapi/weixinOauthUrl`, // 获取openid
+  bindWXAPI: `${apiBase}/user/bindOpenid.json`, // 绑定微信
+  getWXInfoAPI: `${apiBase}/user/weixinUserInfo.json`, // 获取微信信息
 
   // 会员注册
   // =======
