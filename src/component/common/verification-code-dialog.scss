@@ -1,0 +1,31 @@
+@import 'settings.colors';
+.verification-code{
+  &-dialog{
+    .options-group{
+      border: none;
+    }
+    
+    .dialog{
+      .option{
+        overflow: initial;
+        &::before{
+          display: none;
+        }
+        margin-top: 15px;
+        padding: 0 0 0 15px;
+        height: 42px;
+        line-height: 40px;
+        border: 1px solid $color-mercury;
+        border-radius: 4px;
+        .btn{
+          position: absolute;
+          top: -1px;
+          right: -1px;
+          height: 42px;
+          border: 1px solid $color-mercury;
+          border-radius: 0 4px 4px 0;
+        }
+      }
+    }
+  }
+}
