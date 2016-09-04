@@ -27,20 +27,22 @@ exports.fetchCommercialProps = () => (dispatch, getState) =>
     .catch(err => {
       console.log(err);
     });
-exports.fetchTables = () => (dispatch, getState) =>
-  fetch(`${config.getPlaceOrderTablesAPI}?shopId=${shopId}`, config.requestOptions)
-    .then(res => {
-      if (!res.ok) {
-        dispatch(setErrorMsg('获取商户桌台信息失败...'));
-      }
-      return res.json();
-    })
-    .then(tables => {
-      dispatch(setTableProps(tables.data));
-    })
-    .catch(err => {
-      console.log(err);
-    });
+exports.fetchTables = () => (dispatch, getState) => {
+  const orderTime = getState().timeProps.selectedDateTime;
+  fetch(`${config.getPlaceOrderTablesAPI}?shopId=${shopId}&orderTime=${orderTime.date}%20${orderTime.time}`, config.requestOptions)
+      .then(res => {
+        if (!res.ok) {
+          dispatch(setErrorMsg('获取商户桌台信息失败...'));
+        }
+        return res.json();
+      })
+      .then(tables => {
+        dispatch(setTableProps(tables.data));
+      })
+      .catch(err => {
+        console.log(err);
+      });
+};
 exports.setTableProps = (evt, props) => (dispatch, getState) => {
   const areaId = props.area.areaId;
   const num = props.table.pNum;
