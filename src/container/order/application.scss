@@ -76,26 +76,6 @@ div[data-reactroot] {
     }
   }
 
-  // adjuster counter styles
-  > .counter,
-  > .customers-counter {
-    margin-top: -3px;
-    margin-bottom: -3px;
-  }
-
-  // display disabled minus button
-  .counter-minus.btn-disabled {
-    display: block;
-
-    &::before {
-      background: darken($color-mischka, 10%);
-    }
-
-    ~ .counter-num {
-      display: block;
-    }
-  }
-
   &-btn,
   &-input {
     font-size: 12px;
