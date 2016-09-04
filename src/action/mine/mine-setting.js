@@ -115,11 +115,13 @@ exports.logOff = () => (dispatch, getStates) => {
       }, 3000);
       return;
     }
-    if (basicData.data.isLogout) {
+    if (basicData.data.logout) {
       dispatch(setErrorMsg('注销成功，请重新登陆'));
       setTimeout(() => {
         window.location.href = logUrl;
       }, 3000);
+    } else {
+      dispatch(setErrorMsg('注销失败'));
     }
   }).
   catch(err => {
