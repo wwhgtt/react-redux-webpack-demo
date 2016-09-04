@@ -10,9 +10,11 @@ const RegisterMember = React.createClass({
   propTypes: {
     // MapedActionsToProps
     onRegisterMember:React.PropTypes.func.isRequired,
+    onGetVerificationCode:React.PropTypes.func,
     // MapedStatesToProps
     // regs: React.PropTypes.array,
     userInfo: React.PropTypes.object,
+    onSendCode: React.PropTypes.func,
   },
 
   getInitialState() {
@@ -239,11 +241,11 @@ const RegisterMember = React.createClass({
           isCodeShow ?
             <VerificationDialog
               phoneNum={phoneNum}
-              phoneNumDisabled={false}
+              phoneNumDisabled
               fetchCodeBtnText={'验证码'}
               onClose={this.handleCodeClose}
               onConfirm={this.handleConfirm}
-              ref="verificationCode"
+              onGetVerificationCode={this.props.onSendCode}
             />
           : ''
         }

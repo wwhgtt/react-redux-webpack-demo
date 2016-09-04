@@ -42,7 +42,7 @@ module.exports = {
   getOrderAddressInfoAPI: `${apiBase}/user/getAddressInfo.json`,
 
   userLoginAPI: `${apiBase}/user/login.json`,
-  userLoginWXAPI: `${apiBase}/user/login4WX.json`,
+  userLoginWXURL: `${apiBase}/user/login4WX`,
   getUserLoginSupportAPI: `${apiBase}/user/supportTypes.json`,
 
   shopDetailURL:`${apiBase}/shop/detail`,
