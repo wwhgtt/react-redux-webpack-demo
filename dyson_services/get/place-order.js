@@ -12,9 +12,9 @@ module.exports = {
       firstTime: '2016-08-29 16:00',
       m: {
         memberID: 1006279575,
-        name: '啦啦啦',
+        name: '',
         sex: 0,
-        mobile: '13980691506',
+        mobile: null,
         status: 0,
         createDateTime: 1469943259000,
         modifyDateTime: 1471425885000,

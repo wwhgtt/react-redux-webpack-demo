@@ -37,7 +37,7 @@ module.exports = React.createClass({
             className="editor-input flex-rest"
             name="name"
             id="editor-name"
-            placeholder={customerProps.name}
+            placeholder={customerProps.name || '请输入姓名'}
             onChange={this.handleBasicInfoChange}
           />
           <div className="editor-gender-group flex-none">
@@ -62,9 +62,9 @@ module.exports = React.createClass({
           <span className="editor-title flex-none">手机号：</span>
           <input
             className="editor-input editor-input--right flex-rest"
-            placeholder={customerProps.mobile}
+            placeholder={customerProps.mobile || '请输入手机号'}
             onChange={this.handleBasicInfoChange}
-            disabled="disabled"
+            disabled={customerProps.mobile ? customerProps.mobile.trim().length === 11 : false}
           />
         </div>
       </div>
