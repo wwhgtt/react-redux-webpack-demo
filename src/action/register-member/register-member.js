@@ -10,6 +10,7 @@ const setPhoneCode = createAction('SET_PHONE_CODE', phoneCode => phoneCode);
 const shopId = helper.getUrlParam('shopId');
 const returnUrl = helper.getUrlParam('returnUrl');
 const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
+const fetchPost = require('../../helper/common-helper').fetchPost;
 
 exports.getUserInfo = () => (dispatch, getStates) => {
   const getRegisterInfoURL = `${config.registerInfoAPI}?shopId=${shopId}`;
@@ -31,12 +32,9 @@ exports.getUserInfo = () => (dispatch, getStates) => {
 };
 
 exports.saveRegisterMember = (info) => (dispatch, getStates) => {
-  info.shopId = shopId;
-  const requestOptions = Object.assign({}, config.requestOptions);
-  requestOptions.method = 'POST';
-  requestOptions.body = JSON.stringify(info);
+  const registerURL = `${config.registerAPI}?shopId=${shopId}`;
 
-  fetch(config.registerAPI, requestOptions).
+  fetch(registerURL, fetchPost(info)).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('用户注册失败'));
