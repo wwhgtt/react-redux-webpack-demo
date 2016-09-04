@@ -1,6 +1,6 @@
 // const config = require('../config');
 
-exports.fetchPost = params => {
+exports.getFetchPostParam = params => {
   let str = '';
   let i = '';
   for (i in params) {

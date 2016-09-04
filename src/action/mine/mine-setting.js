@@ -70,7 +70,7 @@ exports.updateInfo = (name, sex, condition) => (dispatch, getStates) => {
     return;
   }
   dispatch(setLoadMsg({ status:true, word:'保存中' }));
-  fetch(`${individualupdateAPI}`, commonHelper.fetchPost({ sex, name:name.replace(/(^\s+)|(\s+$)/g, '') })).
+  fetch(`${individualupdateAPI}`, commonHelper.getFetchPostParam({ sex, name:name.replace(/(^\s+)|(\s+$)/g, '') })).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('请求数据失败'));
