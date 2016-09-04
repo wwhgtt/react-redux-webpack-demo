@@ -5,7 +5,7 @@ require('./application.scss');
 import * as actions from '../../action/register-member/register-member.js';
 const Toast = require('../../component/mui/toast.jsx');
 const RegisterMember = require('../../component/register-member/register-member.jsx');
-
+const Loading = require('../../component/mui/loading.jsx');
 
 const RegisterMemberApplication = React.createClass({
   displayName: 'RegisterMemberApplication',
@@ -16,6 +16,9 @@ const RegisterMemberApplication = React.createClass({
     errorMessage: React.PropTypes.string,
     setErrorMsg: React.PropTypes.func,
     saveRegisterMember: React.PropTypes.func,
+    setLoadMsg: React.PropTypes.func,
+    loadInfo: React.PropTypes.object,
+    phoneCode: React.PropTypes.string,
 
     // MapedStatesToProps
   },
@@ -26,6 +29,7 @@ const RegisterMemberApplication = React.createClass({
   },
 
   handleRegister(info) {
+    this.props.setLoadMsg({ status: true, word: '注册中，请稍后……' });
     this.props.saveRegisterMember(info);
   },
 
@@ -34,13 +38,18 @@ const RegisterMemberApplication = React.createClass({
   },
 
   render() {
-    const { errorMessage, userInfo } = this.props;
+    const { errorMessage, userInfo, loadInfo, phoneCode } = this.props;
     return (
       <div>
-        <RegisterMember userInfo={userInfo} onRegisterMember={this.handleRegister} />
+        <RegisterMember userInfo={userInfo} onRegisterMember={this.handleRegister} registerPhoneCode={phoneCode} />
         {
           errorMessage ?
             <Toast errorMessage={errorMessage} clearErrorMsg={this.handleClearErrorMsg} />
+          : ''
+        }
+        {
+          loadInfo.status ?
+            <Loading word={loadInfo.word} />
           : ''
         }
       </div>
