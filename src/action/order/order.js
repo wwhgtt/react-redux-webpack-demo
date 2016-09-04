@@ -1,6 +1,7 @@
 const config = require('../../config');
 const createAction = require('redux-actions').createAction;
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
 const isGroupDish = require('../../helper/dish-hepler.js').isGroupDish;
 const helper = require('../../helper/order-helper.js');
@@ -197,7 +198,7 @@ exports.setSessionAndForwardEditUserAddress = (id) => (dispatch, getState) => {
   location.href = url;
 };
 exports.setCustomerProps = (customerProps) => (dispatch, getState) => {
-  dispatch(setOrderProps(null, customerProps));
+  dispatch(setOrderProps(null, Object.assign({}, { id:'customer-info' }, customerProps)));
 };
 exports.setCustomerToShopAddress = (evt, validateRet, customerTProps) => (dispatch, getState) => {
   if (!validateRet.valid) {
@@ -306,6 +307,27 @@ exports.submitOrder = (note, receipt) => (dispatch, getState) => {
         dispatch(setPhoneValidateProps(true));
       } else {
         dispatch(setErrorMsg(result.msg));
+      }
+    }).
+    catch(err => {
+      console.log(err);
+    });
+};
+exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
+  const obj = Object.assign({}, { shopId, mobile: phoneNum, timestamp: new Date().getTime() });
+  const paramStr = getSendCodeParamStr(obj);
+  const url = `${config.sendCodeAPI}?${paramStr}`;
+  return fetch(url, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('验证码获取失败'));
+      }
+      return res.json();
+    }).
+    then(result => {
+      if (result.code !== '200') {
+        dispatch(setErrorMsg(result.msg));
+        return;
       }
     }).
     catch(err => {

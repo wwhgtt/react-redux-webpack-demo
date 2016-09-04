@@ -7,6 +7,7 @@ exports.setCustomerProps = createAction('SET_CUSTOMER_PROPS', props => props);
 exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
 exports.setPhoneValidateCode = createAction('SET_PHONE_VALIDATE_CODE', code => code);
 const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
+const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 require('es6-promise');
 require('isomorphic-fetch');
 const shopId = getUrlParam('shopId');
@@ -53,6 +54,27 @@ exports.submitOrder = () => (dispatch, getState) => {
       }
     })
     .catch(err => {
+      console.log(err);
+    });
+};
+exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
+  const obj = Object.assign({}, { shopId, mobile: phoneNum, timestamp: new Date().getTime() });
+  const paramStr = getSendCodeParamStr(obj);
+  const url = `${config.sendCodeAPI}?${paramStr}`;
+  return fetch(url, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('验证码获取失败'));
+      }
+      return res.json();
+    }).
+    then(result => {
+      if (result.code !== '200') {
+        dispatch(setErrorMsg(result.msg));
+        return;
+      }
+    }).
+    catch(err => {
       console.log(err);
     });
 };

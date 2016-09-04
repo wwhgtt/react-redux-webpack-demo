@@ -12,6 +12,7 @@ exports.setCustomerProps = createAction('SET_CUSTOMER_PROPS', option => option);
 exports.setPhoneValidateCode = createAction('SET_PHONE_VALIDATE_CODE', code => code);
 const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 const shopId = getUrlParam('shopId');
 exports.fetchCommercialProps = () => (dispatch, getState) =>
   fetch(`${config.placeOrderAPI}?shopId=${shopId}`, config.requestOptions)
@@ -73,7 +74,7 @@ exports.clearErrorMsg = () => (dispatch, getState) =>
 
 exports.placeOrder = (note) => (dispatch, getState) => {
   const state = getState();
-  const orderTime = `${state.timeProps.selectedDateTime.date}20%${state.timeProps.selectedDateTime.time}`;
+  const orderTime = `${state.timeProps.selectedDateTime.date} ${state.timeProps.selectedDateTime.time}:00`;
   if (!state.customerProps.name || !state.customerProps.mobile || !state.tableProps.selectedTableId
   || !orderTime) { dispatch(setErrorMsg('请先完善预定信息...')); return; }
   const params = '?name=' + state.customerProps.name
@@ -102,6 +103,27 @@ exports.placeOrder = (note) => (dispatch, getState) => {
       }
     })
     .catch(err => {
+      console.log(err);
+    });
+};
+exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
+  const obj = Object.assign({}, { shopId, mobile: phoneNum, timestamp: new Date().getTime() });
+  const paramStr = getSendCodeParamStr(obj);
+  const url = `${config.sendCodeAPI}?${paramStr}`;
+  return fetch(url, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('验证码获取失败'));
+      }
+      return res.json();
+    }).
+    then(result => {
+      if (result.code !== '200') {
+        dispatch(setErrorMsg(result.msg));
+        return;
+      }
+    }).
+    catch(err => {
       console.log(err);
     });
 };

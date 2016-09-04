@@ -23,6 +23,7 @@ const OrderInlineApplication = React.createClass({
     setCustomerProps:React.PropTypes.func.isRequired,
     setPhoneValidateProps:React.PropTypes.func.isRequired,
     setPhoneValidateCode:React.PropTypes.func.isRequired,
+    fetchVericationCode:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     commercialProps:React.PropTypes.object.isRequired,
     customerProps:React.PropTypes.object.isRequired,
@@ -68,7 +69,7 @@ const OrderInlineApplication = React.createClass({
     setPhoneValidateProps(false);
   },
   buildPhoneValidateElement() {
-    const { customerProps } = this.props;
+    const { customerProps, fetchVericationCode } = this.props;
     const placeholder = { phoneNum:customerProps.mobile, code:'' };
     return (
       <div className="phone-validate-WM">
@@ -78,6 +79,7 @@ const OrderInlineApplication = React.createClass({
           fetchCodeBtnText={'验证码'}
           onClose={this.handleCodeClose}
           onConfirm={this.handleConfirm}
+          onGetVerificationCode={fetchVericationCode}
         />
       </div>
     );

@@ -29,6 +29,7 @@ const PlaceOrderApplication = React.createClass({
     setCustomerProps:React.PropTypes.func.isRequired,
     setPhoneValidateProps:React.PropTypes.func.isRequired,
     setPhoneValidateCode:React.PropTypes.func.isRequired,
+    fetchVericationCode:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     commercialProps:React.PropTypes.object.isRequired,
     dinePersonCount:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]).isRequired,
@@ -136,7 +137,7 @@ const PlaceOrderApplication = React.createClass({
     setPhoneValidateProps(false);
   },
   buildPhoneValidateElement() {
-    const { customerProps } = this.props;
+    const { customerProps, fetchVericationCode } = this.props;
     const placeholder = { phoneNum:customerProps.mobile, code:'' };
     return (
       <div className="phone-validate-WM">
@@ -146,6 +147,7 @@ const PlaceOrderApplication = React.createClass({
           fetchCodeBtnText={'验证码'}
           onClose={this.handleCodeClose}
           onConfirm={this.handleConfirm}
+          onGetVerificationCode={fetchVericationCode}
         />
       </div>
     );
