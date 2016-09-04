@@ -34,7 +34,6 @@ const RegisterMember = React.createClass({
   },
   componentWillReceiveProps(nextProps) {
     const { userInfo, registerPhoneCode } = nextProps;
-    console.log('registerPhone:' + registerPhoneCode);
     this.setState({
       userSex: userInfo.sex,
       userName: userInfo.name,
@@ -126,7 +125,6 @@ const RegisterMember = React.createClass({
         pwd: password,
         code: phoneCode, // 验证码
       };
-      console.log(registerInfo);
       this.props.onRegisterMember(registerInfo);
     }
   },
