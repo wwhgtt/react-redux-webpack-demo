@@ -29,7 +29,7 @@ exports.fetchCommercialProps = () => (dispatch, getState) =>
     });
 exports.fetchTables = () => (dispatch, getState) => {
   const orderTime = getState().timeProps.selectedDateTime;
-  fetch(`${config.getPlaceOrderTablesAPI}?shopId=${shopId}&orderTime=${orderTime.date}%20${orderTime.time}`, config.requestOptions)
+  fetch(`${config.getPlaceOrderTablesAPI}?shopId=${shopId}&orderTime=${orderTime.date}%20${orderTime.time}:00`, config.requestOptions)
       .then(res => {
         if (!res.ok) {
           dispatch(setErrorMsg('获取商户桌台信息失败...'));
@@ -51,7 +51,7 @@ exports.setTableProps = (evt, props) => (dispatch, getState) => {
     dispatch(setErrorMsg('请先选择预定时间...'));
     return false;
   }
-  return fetch(`${config.getCheckTableAvaliable}?shopId=${shopId}&areaId=${areaId}&num=${num}&orderTime=${orderTime.date}%20${orderTime.time}`,
+  return fetch(`${config.getCheckTableAvaliable}?shopId=${shopId}&areaId=${areaId}&num=${num}&orderTime=${orderTime.date}%20${orderTime.time}:00`,
     config.requestOptions
   )
     .then(res => {

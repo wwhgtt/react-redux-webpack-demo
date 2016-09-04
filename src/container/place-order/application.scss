@@ -1,5 +1,13 @@
 @import 'settings.colors';
+#app-placeholder,
+div[data-reactroot] {
+  height: 100%;
+}
 
+.application {
+  height: 100%;
+  background: $color-gallery;
+}
 // rediret to shop button
 .order-shop {
   position: relative;
