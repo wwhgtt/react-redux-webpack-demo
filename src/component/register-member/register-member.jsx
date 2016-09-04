@@ -147,7 +147,6 @@ const RegisterMember = React.createClass({
     const regCode = /\d{6}/; // 6位数字验证规则
     // 手机验证
     const regP = [
-      // { regMsg: '电话空的', reg: regEmpty },
       { regMsg: '手机号码格式错误', reg: regPhone },
     ];
     // 6位密码验证
