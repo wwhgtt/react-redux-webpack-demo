@@ -31,7 +31,7 @@ module.exports = React.createClass({
     const { customerProps } = this.state;
     const { isMobileDisabled } = this.props;
     return (
-      <div className="options-group">
+      <div className="editor options-group">
         <div className="option flex-row">
           <span className="editor-title flex-none">姓名：</span>
           <input

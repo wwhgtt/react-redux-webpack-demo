@@ -9,6 +9,7 @@ const VerificationDialog = require('../../component/common/verification-code-dia
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 require('../../asset/style/style.scss');
 require('./application.scss');
+require('../../component/order/order-summary.scss'); // import order-shop styles
 
 const OrderInlineApplication = React.createClass({
   displayName: 'OrderInlineApplication',
@@ -43,11 +44,11 @@ const OrderInlineApplication = React.createClass({
     const { queueList } = this.props;
     let element = [];
     if (queueList && queueList.length) {
-      queueList.map(quene => element.push(<p className="order-inLine" key={quene.queueLineId}>
+      queueList.map(quene => element.push(<li className="queue-entry" key={quene.queueLineId}>
         <span>{quene.queueName}</span>
         <span>{quene.minPersonCount}-{quene.maxPersonCount}人</span>
         <span>{quene.count}桌</span>
-      </p>)
+      </li>)
       );
     }
     return element;
@@ -86,13 +87,15 @@ const OrderInlineApplication = React.createClass({
     const { clearErrorMsg, submitOrder, setErrorMsg, setCustomerProps } = this.props;// actions
     return (
       <div className="application">
-        <a className="option order-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
-          <img className="order-shop-icon" src={commercialProps.shopLogo} alt="" />
-          <p className="order-shop-desc ellipsis">{commercialProps.shopName}</p>
-        </a>
+        <div className="options-group">
+          <a className="option order-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
+            <img className="order-shop-icon" src={commercialProps.shopLogo} alt="" />
+            <p className="order-shop-desc ellipsis">{commercialProps.shopName}</p>
+          </a>
+        </div>
 
         {commercialProps.openStatus === '营业中' ?
-          <div>
+          <div className="queue-form">
             <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setCustomerProps} isMobileDisabled={false} />
 
             <div className="options-group">
@@ -106,18 +109,21 @@ const OrderInlineApplication = React.createClass({
                   minimum={1}
                 />
               </div>
+              <div className="option">
+                <button onTouchTap={submitOrder} className="queue-btn btn--yellow">立即取号</button>
+              </div>
             </div>
 
-            <button onTouchTap={submitOrder} className="submit-order">立即取号</button>
-
             {queueList && queueList.length ?
-              <div>
-                <p className="order-inLine">
-                  <span>队列名称</span>
-                  <span>就餐人数</span>
-                  <span>等待桌数</span>
-                </p>
-                {this.buildLinePropsElement()}
+              <div className="options-group">
+                <ul className="queue-list">
+                  <li className="queue-title">
+                    <span>队列名称</span>
+                    <span>就餐人数</span>
+                    <span>等待桌数</span>
+                  </li>
+                  {this.buildLinePropsElement()}
+                </ul>
               </div>
               :
               false

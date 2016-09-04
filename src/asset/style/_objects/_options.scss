@@ -27,6 +27,12 @@
     border-bottom: 0;
   }
 
+  // adjuster counter styles
+  > .customers-counter {
+    margin-top: -3px;
+    margin-bottom: -3px;
+  }
+
   &-title {
     float: left;
     width: $option-left-width;
