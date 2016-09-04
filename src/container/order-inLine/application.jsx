@@ -25,7 +25,7 @@ const OrderInlineApplication = React.createClass({
     customerProps:React.PropTypes.object.isRequired,
     queueList:React.PropTypes.array.isRequired,
     errorMessage:React.PropTypes.string,
-    dinePersonCount:React.PropTypes.oneOfType([React.PropTypes.nember, React.PropTypes.string]).isRequired,
+    dinePersonCount:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]).isRequired,
     shuoldPhoneValidateShow:React.PropTypes.bool.isRequired,
   },
   componentDidMount() {

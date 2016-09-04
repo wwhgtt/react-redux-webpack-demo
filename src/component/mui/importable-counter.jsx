@@ -6,7 +6,7 @@ require('./importable-counter.scss');
 module.exports = React.createClass({
   displayName:'ImportableCounter',
   propTypes: {
-    count: React.PropTypes.oneOfType([React.PropTypes.nember, React.PropTypes.string]).isRequired,
+    count: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]).isRequired,
     maximum: React.PropTypes.number,
     minimum: React.PropTypes.number,
     step: React.PropTypes.number,

@@ -29,7 +29,7 @@ const PlaceOrderApplication = React.createClass({
     setCustomerProps:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     commercialProps:React.PropTypes.object.isRequired,
-    dinePersonCount:React.PropTypes.number.isRequired,
+    dinePersonCount:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]).isRequired,
     tableProps:React.PropTypes.object.isRequired,
     timeProps:React.PropTypes.object.isRequired,
     customerProps:React.PropTypes.object.isRequired,
