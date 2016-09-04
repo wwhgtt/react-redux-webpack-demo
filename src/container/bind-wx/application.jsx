@@ -1,15 +1,17 @@
 const React = require('react');
 const connect = require('react-redux').connect;
 const Toast = require('../../component/mui/toast.jsx');
+const actions = require('../../action/bind-account/bind-wx.js');
 require('../../asset/style/style.scss');
 require('./application.scss');
+
 const BindWxIndex = require('../../component/bind-account/bind-wx/bind-wx-index.js');
 const BindWxInfo = require('../../component/bind-account/bind-wx/bind-wx-info.js');
 const BindWxSuccess = require('../../component/bind-account/bind-wx/bind-wx-success.js');
-const actions = require('../../action/bind-account/bind-wx.js');
 
 
 const BindWXApplication = React.createClass({
+  displayName: 'BindWXApplication',
   propTypes: {
     // MapedActionsToProps
     setChildView: React.PropTypes.func,
@@ -43,25 +45,18 @@ const BindWXApplication = React.createClass({
 
   render() {
     const { childView, errorMessage, getOpenId, wxInfo, getWXInfo, bindWX } = this.props;
+    let bindSection;
+
+    if (childView === '#wx-info') {
+      bindSection = <BindWxInfo wxInfo={wxInfo} onGetWXInfo={getWXInfo} onBindWX={bindWX} />;
+    } else if (childView === '#wx-success') {
+      bindSection = <BindWxSuccess />;
+    } else {
+      bindSection = <BindWxIndex onGetOpenId={getOpenId} />;
+    }
     return (
       <div>
-        { // 微信绑定首页
-          childView === '#bind-wx' ?
-            <BindWxIndex
-              onGetOpenId={getOpenId}
-            />
-          : false
-        }
-        { // 微信信息展示
-          childView === '#wx-info' ?
-            <BindWxInfo wxInfo={wxInfo} onGetWXInfo={getWXInfo} onBindWX={bindWX} />
-          : false
-        }
-        { // 微信绑定成功
-          childView === '#wx-success' ?
-            <BindWxSuccess />
-          : false
-        }
+        {bindSection}
         {
           errorMessage ?
             <Toast errorMessage={errorMessage} clearErrorMsg={this.handleClearErrorMsg} />

@@ -1,6 +1,7 @@
 const React = require('react');
 
 const BindWxInfo = React.createClass({
+  displayName:'BindWxInfo',
   propTypes: {
     wxInfo: React.PropTypes.object,
     onGetWXInfo: React.PropTypes.func,

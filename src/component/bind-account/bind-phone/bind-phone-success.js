@@ -1,14 +1,17 @@
 const React = require('react');
+const config = require('../../../config');
 
 const BindPhoneSuccess = React.createClass({
+  displayName:'BindPhoneSucess',
   propTypes: {
-    phoneNum: React.PropTypes.string,
+    phoneInfo: React.PropTypes.object.isRequired,
   },
 
   // 3秒后跳转到**页面
   componentDidMount() {
+    const shopId = this.props.phoneInfo.phoneShopId;
     setTimeout(() => {
-      window.location.href = '/register-member.html';
+      location.href = `${config.mineIndexURL}?shopId=${shopId}`;
     }, 3000);
   },
 
@@ -18,7 +21,7 @@ const BindPhoneSuccess = React.createClass({
         <div className="phone-img-green"></div>
         <div className="account-info">
           <div className="account-info-current">当前绑定的手机号</div>
-          <span className="account-info-userName">{this.props.phoneNum}</span>
+          <span className="account-info-userName">{this.props.phoneInfo.phoneNum}</span>
         </div>
       </div>
 

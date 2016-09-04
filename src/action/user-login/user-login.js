@@ -1,13 +1,16 @@
 const config = require('../../config');
 const createAction = require('redux-actions').createAction;
-const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
-const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 require('es6-promise');
 require('isomorphic-fetch');
+
+const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
+const shopId = getUrlParam('shopId');
+
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setLoadingInfo = exports.setLoadingInfo = createAction('SET_LOADING_INFO', info => info);
 const setSupportInfo = createAction('SET_SUPPORT_INFO', info => info);
-const shopId = getUrlParam('shopId');
+
 
 exports.login = (info) => (dispatch, getState) => {
   if (!shopId) {
