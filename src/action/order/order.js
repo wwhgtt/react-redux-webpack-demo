@@ -20,7 +20,8 @@ const setSendAreaId = createAction('SET_SEND_AREA_ID', areaId => areaId);
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setCustomToShopAddress = createAction('SET_ADDRESS_TOSHOP_TO_ORDER', option => option);
 const setOrderTimeProps = createAction('SET_ORDER_TIME_PROPS', timeJson => timeJson);
-const setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
+exports.setPhoneValidateCode = createAction('SET_PHONE_VALIDATE_CODE', code => code);
+const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 

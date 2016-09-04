@@ -16,7 +16,7 @@ const TimeSelect = require('../../component/order/select/time-select.jsx');
 const OrderSummary = require('../../component/order/order-summary.jsx');
 const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const Toast = require('../../component/mui/toast.jsx');
-const PhoneVerificationCode = require('../../component/mui/form/phone-verification-code.jsx');
+const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 require('../../asset/style/style.scss');
@@ -43,6 +43,8 @@ const OrderApplication = React.createClass({
     setCustomerToShopAddress:React.PropTypes.func,
     confirmOrderAddressInfo:React.PropTypes.func,
     setErrorMsg:React.PropTypes.func,
+    setPhoneValidateProps:React.PropTypes.func.isRequired,
+    setPhoneValidateCode:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     customerAddressListInfo:React.PropTypes.object,
@@ -258,15 +260,34 @@ const OrderApplication = React.createClass({
       </a>
     );
   },
+  // 校验验证码
+  handleConfirm(inputInfo) {
+    const { setErrorMsg, setPhoneValidateProps, setPhoneValidateCode } = this.props;
+    const { data, validation } = inputInfo;
+    if (!validation.valid) {
+      setErrorMsg(validation.msg);
+      return false;
+    }
+    return (setPhoneValidateCode(data.code), setPhoneValidateProps(false));
+  },
+  handleCodeClose() {
+    const { setPhoneValidateProps } = this.props;
+    setPhoneValidateProps(false);
+  },
   buildPhoneValidateElement() {
-    const { customerProps, submitOrder } = this.props;
+    const { customerProps } = this.props;
     const selectedAddressInfo = customerProps.addresses.filter(address => address.isChecked);
     // selectedAddressInfo一定是有长度的
     const placeholder = { phoneNum:selectedAddressInfo[0].mobile, code:'' };
     return (
       <div className="phone-validate-WM">
-        <PhoneVerificationCode placeholder={placeholder} disabled="disabled" />
-        <button className="submit-validate-code" onTouchTap={evt => submitOrder(this.state.note, this.state.receipt)}>确定</button>
+        <VerificationDialog
+          phoneNum={placeholder.phoneNum ? placeholder.phoneNum.toString() : ''}
+          phoneNumDisabled={!!placeholder.phoneNum}
+          fetchCodeBtnText={'验证码'}
+          onClose={this.handleCodeClose}
+          onConfirm={this.handleConfirm}
+        />
       </div>
     );
   },
