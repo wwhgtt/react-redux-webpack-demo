@@ -141,7 +141,7 @@ const PlaceOrderApplication = React.createClass({
     return (
       <div className="phone-validate-WM">
         <VerificationDialog
-          phoneNum={placeholder.phoneNum}
+          phoneNum={placeholder.phoneNum ? placeholder.phoneNum.toString() : ''}
           phoneNumDisabled={!!placeholder.phoneNum}
           fetchCodeBtnText={'验证码'}
           onClose={this.handleCodeClose}

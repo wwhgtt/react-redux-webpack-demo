@@ -420,6 +420,8 @@ module.exports = function (
         );
     case 'SET_PHONE_VALIDATE_PROPS':
       return state.set('shuoldPhoneValidateShow', payload);
+    case 'SET_PHONE_VALIDATE_CODE':
+      return state.set('phoneValidateCode', payload);
     default:
   }
   return state;

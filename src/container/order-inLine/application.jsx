@@ -5,7 +5,7 @@ const actions = require('../../action/order-inLine/order-inLine.js');
 const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
 const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const Toast = require('../../component/mui/toast.jsx');
-const PhoneVerificationCode = require('../../component/mui/form/phone-verification-code.jsx');
+const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 require('../../asset/style/style.scss');
 require('./application.scss');
@@ -20,6 +20,8 @@ const OrderInlineApplication = React.createClass({
     submitOrder:React.PropTypes.func.isRequired,
     setOrderProps:React.PropTypes.func.isRequired,
     setCustomerProps:React.PropTypes.func.isRequired,
+    setPhoneValidateProps:React.PropTypes.func.isRequired,
+    setPhoneValidateCode:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     commercialProps:React.PropTypes.object.isRequired,
     customerProps:React.PropTypes.object.isRequired,
@@ -50,13 +52,32 @@ const OrderInlineApplication = React.createClass({
     }
     return element;
   },
+  // 校验验证码
+  handleConfirm(inputInfo) {
+    const { setErrorMsg, setPhoneValidateProps, setPhoneValidateCode } = this.props;
+    const { data, validation } = inputInfo;
+    if (!validation.valid) {
+      setErrorMsg(validation.msg);
+      return false;
+    }
+    return (setPhoneValidateCode(data.code), setPhoneValidateProps(false));
+  },
+  handleCodeClose() {
+    const { setPhoneValidateProps } = this.props;
+    setPhoneValidateProps(false);
+  },
   buildPhoneValidateElement() {
-    const { customerProps, submitOrder } = this.props;
+    const { customerProps } = this.props;
     const placeholder = { phoneNum:customerProps.mobile, code:'' };
     return (
       <div className="phone-validate-WM">
-        <PhoneVerificationCode placeholder={placeholder} disabled="disabled" />
-        <button className="submit-validate-code" onTouchTap={evt => submitOrder()}>确定</button>
+        <VerificationDialog
+          phoneNum={placeholder.phoneNum ? placeholder.phoneNum.toString() : ''}
+          phoneNumDisabled={!!placeholder.phoneNum}
+          fetchCodeBtnText={'验证码'}
+          onClose={this.handleCodeClose}
+          onConfirm={this.handleConfirm}
+        />
       </div>
     );
   },
