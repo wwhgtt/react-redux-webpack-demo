@@ -45,6 +45,7 @@ const OrderApplication = React.createClass({
     setErrorMsg:React.PropTypes.func,
     setPhoneValidateProps:React.PropTypes.func.isRequired,
     setPhoneValidateCode:React.PropTypes.func.isRequired,
+    fetchVericationCode:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     customerAddressListInfo:React.PropTypes.object,
@@ -275,7 +276,7 @@ const OrderApplication = React.createClass({
     setPhoneValidateProps(false);
   },
   buildPhoneValidateElement() {
-    const { customerProps } = this.props;
+    const { customerProps, fetchVericationCode } = this.props;
     const selectedAddressInfo = customerProps.addresses.filter(address => address.isChecked);
     // selectedAddressInfo一定是有长度的
     const placeholder = { phoneNum:selectedAddressInfo[0].mobile, code:'' };
@@ -287,6 +288,7 @@ const OrderApplication = React.createClass({
           fetchCodeBtnText={'验证码'}
           onClose={this.handleCodeClose}
           onConfirm={this.handleConfirm}
+          onGetVerificationCode={fetchVericationCode}
         />
       </div>
     );
