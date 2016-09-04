@@ -70,6 +70,9 @@ module.exports = {
   // ================================
   sendCodeAPI: `${apiBase}/user/sendCode.json`, // 发送验证码
   bindPhoneAPI: `${apiBase}/user/bindMobile.json`, // 绑定手机
+  wxOauthAPI: `${apiBase}/weixinapi/weixinOauthUrl`, // 获取openid
+  bindWXAPI: `${apiBase}/user/bindOpenid.json`, // 绑定微信
+  getWXInfoAPI: `${apiBase}/user/weixinUserInfo.json`, // 获取微信信息
 
   // 会员注册
   // =======

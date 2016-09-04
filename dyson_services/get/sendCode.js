@@ -6,7 +6,7 @@ module.exports = {
       message: '短信验证码发送成功',
     },
     time: 1472439316794,
-    code: '111',
+    code: '200',
     msg: '未登录',
   },
 };

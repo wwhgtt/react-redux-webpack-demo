@@ -1,15 +1,27 @@
 const React = require('react');
 
 const BindWxSuccess = React.createClass({
+  getInitialState() {
+    return {
+      wxInfo: {},
+    };
+  },
+
+  componentWillMount() {
+    const wxUserInfo = JSON.parse(window.sessionStorage.wxInfo);
+    this.setState({ wxInfo: wxUserInfo });
+  },
+
   render() {
+    const { wxInfo } = this.state;
     return (
       <div className="bind-account mt40">
         <div className="account-info">
           <p className="account-info-current">当前绑定的微信号</p>
           <p className="account-info-head">
-            <img className="wx-head" alt="" src="http://7i7ie3.com2.z0.glb.qiniucdn.com/o_1an1m1l19j5hapvdl468i18jf9.jpg" />
+            <img className="wx-head" alt="" src={wxInfo.headUrl} />
           </p>
-          <p className="account-info-userName">黎逝33</p>
+          <p className="account-info-userName">{wxInfo.name}</p>
         </div>
       </div>
     );
