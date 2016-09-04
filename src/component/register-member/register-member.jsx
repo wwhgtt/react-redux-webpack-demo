@@ -241,12 +241,11 @@ const RegisterMember = React.createClass({
           isCodeShow ?
             <VerificationDialog
               phoneNum={phoneNum}
-              phoneNumDisabled={false}
+              phoneNumDisabled
               fetchCodeBtnText={'验证码'}
               onClose={this.handleCodeClose}
               onConfirm={this.handleConfirm}
               onGetVerificationCode={this.props.onSendCode}
-              ref="verificationCode"
             />
           : ''
         }
