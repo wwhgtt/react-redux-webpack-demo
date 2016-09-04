@@ -8,6 +8,7 @@ const setLoadMsg = exports.setLoadMsg = createAction('SET_LOAD_MSG', loadinfo =>
 const setUserInfo = createAction('SET_USER_INFO', userInfo => userInfo);
 const setPhoneCode = createAction('SET_PHONE_CODE', phoneCode => phoneCode);
 const shopId = helper.getUrlParam('shopId');
+const returnUrl = helper.getUrlParam('returnUrl');
 
 exports.getUserInfo = () => (dispatch, getStates) => {
   const getRegisterInfoURL = `${config.registerInfoAPI}?shopId=${shopId}`;
@@ -44,11 +45,17 @@ exports.saveRegisterMember = (info) => (dispatch, getStates) => {
   }).
   then(res => {
     if (res.code === '200') {
+      let displayUrl = '';
       dispatch(setLoadMsg({ status:false, word: '' }));
       dispatch(setPhoneCode(''));
       dispatch(setErrorMsg('注册成功'));
+      if (returnUrl) {
+        displayUrl = decodeURIComponent(returnUrl);
+      } else {
+        displayUrl = config.mineIndexURL;
+      }
       setTimeout(() => {
-        location.href = `${config.memberIndexURL}?shopId=${shopId}`;
+        location.href = `${displayUrl}?shopId=${shopId}`;
       }, 3000);
     } else if (res.code === '10107') {
       dispatch(setPhoneCode(''));

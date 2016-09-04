@@ -1,4 +1,5 @@
 const React = require('react');
+const config = require('../../../config');
 
 const BindWxSuccess = React.createClass({
   displayName:'BindWxSuccess',
@@ -9,8 +10,12 @@ const BindWxSuccess = React.createClass({
   },
 
   componentWillMount() {
-    const wxUserInfo = JSON.parse(window.sessionStorage.wxInfo);
+    const wxUserInfo = JSON.parse(window.sessionStorage.getItem('wxInfo'));
+    const shopId = wxUserInfo.shopIdWX;
     this.setState({ wxInfo: wxUserInfo });
+    setTimeout(() => {
+      location.href = `${config.mineIndexURL}?shopId=${shopId}`;
+    }, 3000);
   },
 
   render() {
