@@ -122,7 +122,7 @@ const RegisterMember = React.createClass({
       const registerInfo = {
         name: userName,
         birth: birthDay,
-        phone: phoneNum,
+        mobile: phoneNum,
         sex: userSex,
         pwd: password,
         code: phoneCode, // 验证码
