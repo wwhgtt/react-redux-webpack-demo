@@ -13,6 +13,7 @@ const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
 require('../../asset/style/style.scss');
 require('./application.scss');
+require('../../component/order/order-summary.scss'); // import order-shop styles
 
 const PlaceOrderApplication = React.createClass({
   displayName:'PlaceOrderApplication',
@@ -159,15 +160,17 @@ const PlaceOrderApplication = React.createClass({
     const { setChildView, setOrderProps, errorMessage, dinePersonCount, customerProps, shuoldPhoneValidateShow } = this.props;
     return (
       <div className="application">
-        <a className="option order-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
-          <img className="order-shop-icon" src={commercialProps.shopLogo} alt="" />
-          <p className="order-shop-desc ellipsis">{commercialProps.shopName}</p>
-        </a>
+        <div className="options-group">
+          <a className="option order-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
+            <img className="order-shop-icon" src={commercialProps.shopLogo} alt="" />
+            <p className="order-shop-desc ellipsis">{commercialProps.shopName}</p>
+          </a>
+        </div>
 
         {commercialProps.openStatus === '营业中' ?
           <div>
             {commercialProps.hasPeriodConfiguer && commercialProps.firstTime ?
-              <div>
+              <div className="options-group place-order-options">
                 <div className="option">
                   <span className="options-title">预定时间</span>
                   <button className="option-btn btn-arrow-right" onTouchTap={evt => setChildView('#time-select')}>
@@ -178,7 +181,7 @@ const PlaceOrderApplication = React.createClass({
                 {this.buildSelectTablesElement(tableProps)}
               </div>
               :
-              <div>
+              <div className="options-group">
                 <div className="option">
                   <span className="options-title">预定时间</span>
                   <button className="option-btn">
