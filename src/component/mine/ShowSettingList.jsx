@@ -53,6 +53,7 @@ module.exports = React.createClass({
     let condition = '';// 1 微信号(未绑定手机)  2手机号非会员（未绑定微信）3手机号会员（未绑定微信） 4绑定成功
     let partOne = '';
     let partTwo = '';
+    const isWeiXinBroswer = commonHelper.getWeixinVersionInfo().weixin;
     const { info } = this.props;
     // 几种状态的判断
     if (info.loginType === 1 && !info.bindMobile) {
@@ -116,19 +117,19 @@ module.exports = React.createClass({
     partTwo = (
       <ul className="list-ul list-ul-mt">
         {
-          condition === 1 || condition === 4 ?
-            <li className="list-ul-li spe">
-              <a className="settingLink" href=" javascript:void(0)">
-                <span className="name">微信号</span>
-                <img src={info.iconUri || defaultPic} alt="微信头像" title="微信头像" className="logo spe" />
-              </a>
-            </li>
-          :
+          condition !== 1 && condition !== 4 && isWeiXinBroswer ?
             <li className="list-ul-li">
               <a className="settingLink" href={bindWXUrl}>
                 <span className="name">微信号</span>
                 <span className="brief">未绑定</span>
                 <span className="arrow"></span>
+              </a>
+            </li>
+          :
+            <li className="list-ul-li spe">
+              <a className="settingLink" href=" javascript:void(0)">
+                <span className="name">微信号</span>
+                <img src={info.iconUri || defaultPic} alt="微信头像" title="微信头像" className="logo spe" />
               </a>
             </li>
         }

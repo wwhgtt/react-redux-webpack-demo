@@ -116,7 +116,7 @@ module.exports = {
     ),
     new HtmlWebpackPlugin(
       {
-        title: 'MineSetingApplication',
+        title: 'MineSettingApplication',
         filename: 'mine-setting.html',
         chunks: ['common', 'mine-setting-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
