@@ -17,7 +17,6 @@ exports.getOpenId = () => (dispatch, getStates) => {
   const getOpenIdURL = `${config.wxOauthAPI}?shopId=${shopId}&returnUrl=${wxUrl}`;
   fetch(getOpenIdURL, config.requestOptions).
   then(res => {
-    console.log('已发送');
   });
 };
 
@@ -35,9 +34,9 @@ exports.getWXInfo = () => (dispatch, getStates) => {
     if (res.code === '200') {
       const headImg = res.data.headUrl;
       const wxName = res.data.name;
-      const wxInfo = { headUrl: headImg, name: wxName };
-      // error
-      window.sessionStorage.wxInfo = JSON.stringify(wxInfo);
+      const wxInfo = { headUrl: headImg, name: wxName, shopIdWX: shopId };
+
+      window.sessionStorage.setItem('wxInfo', JSON.stringify(wxInfo));
       dispatch(setWXInfo(res.data));
     } else {
       dispatch(setErrorMsg(res.msg));

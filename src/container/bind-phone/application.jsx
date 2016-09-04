@@ -1,6 +1,7 @@
 const React = require('react');
 const connect = require('react-redux').connect;
 const Toast = require('../../component/mui/toast.jsx');
+const Loading = require('../../component/mui/loading.jsx');
 const actions = require('../../action/bind-account/bind-phone.js');
 require('../../asset/style/style.scss');
 require('./application.scss');
@@ -17,6 +18,8 @@ const BindPhoneApplication = React.createClass({
     bindPhone: React.PropTypes.func,
     setErrorMsg: React.PropTypes.func,
     sendCode: React.PropTypes.func,
+    loadInfo: React.PropTypes.object,
+    setLoadMsg: React.PropTypes.func,
     // MapedStatesToProps
     childView: React.PropTypes.string,
     errorMessage: React.PropTypes.string,
@@ -40,19 +43,25 @@ const BindPhoneApplication = React.createClass({
     this.props.setErrorMsg('');
   },
 
+  handleBindPhone(info) {
+    const { bindPhone, setLoadMsg } = this.props;
+    bindPhone(info);
+    setLoadMsg({ status: true, word: '绑定中，请稍后……' });
+  },
+
   render() {
-    const { childView, bindPhone, errorMessage, setErrorMsg, sendCode } = this.props;
-    const phoneNum = sessionStorage.getItem('phoneNum');
+    const { childView, errorMessage, setErrorMsg, sendCode, loadInfo } = this.props;
+    const phoneInfo = JSON.parse(sessionStorage.getItem('phoneInfo'));
     let bindSection;
 
     if (childView === '#phone-validate') {
       bindSection = (<BindPhoneValidate
-        onBindPhone={phoneInfo => bindPhone(phoneInfo)}
+        onBindPhone={this.handleBindPhone}
         setErrorMsg={setErrorMsg}
         sendCode={sendCode}
       />);
     } else if (childView === '#phone-success') {
-      bindSection = <BindPhoneSuccess phoneNum={phoneNum} />;
+      bindSection = <BindPhoneSuccess phoneInfo={phoneInfo} />;
     } else {
       bindSection = <BindPhoneIndex />;
     }
@@ -62,6 +71,11 @@ const BindPhoneApplication = React.createClass({
         {
           errorMessage ?
             <Toast errorMessage={errorMessage} clearErrorMsg={this.handleClearErrorMsg} />
+          : ''
+        }
+        {
+          loadInfo.status ?
+            <Loading word={loadInfo.word} />
           : ''
         }
       </div>
