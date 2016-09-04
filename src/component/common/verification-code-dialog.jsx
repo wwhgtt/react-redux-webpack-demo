@@ -23,11 +23,12 @@ module.exports = React.createClass({
   },
   componentDidMount() {
   },
-  onConfirm() {
+  onConfirm(evt) {
     if (this.props.onConfirm) {
       const inputInfo = this.refs.verificationCode.getInputInfo();
       this.props.onConfirm(inputInfo);
     }
+    evt.preventDefault();
   },
   render() {
     const { title, confirmBtnText, onClose, ...other } = this.props;
