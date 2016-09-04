@@ -64,7 +64,7 @@ module.exports = React.createClass({
             className="editor-input editor-input--right flex-rest"
             placeholder={customerProps.mobile || '请输入手机号'}
             onChange={this.handleBasicInfoChange}
-            disabled={customerProps.mobile ? customerProps.mobile.trim().length === 11 : false}
+            disabled={customerProps.mobile ? customerProps.mobile.toString().trim().length === 11 : false}
           />
         </div>
       </div>
