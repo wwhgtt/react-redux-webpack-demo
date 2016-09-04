@@ -1,6 +1,7 @@
 const React = require('react');
 
 const BindWxIndex = React.createClass({
+  displayName:'BindWxIndex',
   propTypes:{
     onGetOpenId: React.PropTypes.func,
   },

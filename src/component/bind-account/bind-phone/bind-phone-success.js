@@ -1,8 +1,9 @@
 const React = require('react');
 
 const BindPhoneSuccess = React.createClass({
+  displayName:'BindPhoneSucess',
   propTypes: {
-    phoneNum: React.PropTypes.string,
+    phoneNum: React.PropTypes.string.isRequired,
   },
 
   // 3秒后跳转到**页面
