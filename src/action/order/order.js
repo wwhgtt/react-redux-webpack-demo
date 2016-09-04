@@ -278,7 +278,8 @@ exports.submitOrder = (note, receipt) => (dispatch, getState) => {
     dispatch(setErrorMsg(paramsData.msg));
     return false;
   }
-  return fetch(`${submitUrl}${paramsData.params}&code=${state.phoneValidateCode}`, config.requestOptions).
+  const code = state.phoneValidateCode ? `&code=${state.phoneValidateCode}` : '';
+  return fetch(`${submitUrl}${paramsData.params}${code}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         dispatch(setErrorMsg('提交订单信息失败'));
