@@ -3,6 +3,7 @@ import InputNum from '../mui/form/input/input-number.js';
 import SexSwitch from '../common/sex-switch.jsx';
 import Toast from '../mui/toast.jsx';
 const InputDate = require('../mui/form/date-select.jsx');
+const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
 
 const RegisterMember = React.createClass({
   displayName:'RegisterMember',
@@ -28,15 +29,18 @@ const RegisterMember = React.createClass({
       isDisabled: false,
       brandPicUrl: '',
       phoneCode: '',
+      isCodeShow: false,
     };
   },
   componentWillReceiveProps(nextProps) {
-    const { userInfo } = nextProps;
+    const { userInfo, registerPhoneCode } = nextProps;
+    console.log('registerPhone:' + registerPhoneCode);
     this.setState({
       userSex: userInfo.sex,
       userName: userInfo.name,
       phoneNum: userInfo.mobile,
       brandPicUrl: userInfo.picUrl,
+      phoneCode: registerPhoneCode,
     });
 
     if (userInfo.loginType === 0) {
@@ -76,6 +80,22 @@ const RegisterMember = React.createClass({
     this.setState({ isShow: false });
   },
 
+  // 关闭验证码发送框
+  handleCodeClose() {
+    this.setState({ isCodeShow: false });
+  },
+
+  // 校验验证码
+  handleConfirm(inputInfo) {
+    const { data, validation } = inputInfo;
+    if (!validation.valid) {
+      this.setState({ errorMsg: validation.msg });
+      return;
+    }
+
+    this.setState({ phoneCode: data.code });
+    this.setState({ isCodeShow: false });
+  },
   // 注册会员
   registerMember() {
     const { errorMsgP, errorMsgC, phoneNum, password, userSex, birthDay, userName, phoneCode } = this.state;
@@ -95,8 +115,8 @@ const RegisterMember = React.createClass({
       this.setState({ errorMsg: '请填写交易密码' });
     } else if (errorMsgC) {
       this.setState({ errorMsg: errorMsgC });
-    } else if (isAustralia) {
-      alert('Australia');
+    } else if (!isAustralia && !phoneCode) {
+      this.setState({ isCodeShow: true });
     } else {
       const registerInfo = {
         name: userName,
@@ -116,7 +136,7 @@ const RegisterMember = React.createClass({
   },
 
   render() {
-    const { password, userSex, errorMsg, userName, phoneNum, isDisabled, birthDay, brandPicUrl } = this.state;
+    const { password, userSex, errorMsg, userName, phoneNum, isDisabled, birthDay, brandPicUrl, isCodeShow } = this.state;
     // 中国手机号码验证规则
     const regPhone = /^(1(?:[358]\d{9}|7[3678]\d{8}|4[57]\d{8}))|0[49]\d{8}$/;
     // const regEmpty = /\S/; // 非空验证规则
@@ -195,7 +215,7 @@ const RegisterMember = React.createClass({
               <span className="btn-arrow-right"></span>
               <InputNum
                 maxLength={6}
-                placeholder={"请填写6位数字密码"}
+                placeholder={'请填写6位数字密码'}
                 regs={regC}
                 className={'option-input register-input register-pwd-in'}
                 onGetNum={this.getPassword}
@@ -215,6 +235,18 @@ const RegisterMember = React.createClass({
         {
           errorMsg ?
             <Toast errorMessage={errorMsg} clearErrorMsg={this.handleClearErrorMsg} />
+          : ''
+        }
+        {
+          isCodeShow ?
+            <VerificationDialog
+              phoneNum={phoneNum}
+              phoneNumDisabled={false}
+              fetchCodeBtnText={'验证码'}
+              onClose={this.handleCodeClose}
+              onConfirm={this.handleConfirm}
+              ref="verificationCode"
+            />
           : ''
         }
       </div>

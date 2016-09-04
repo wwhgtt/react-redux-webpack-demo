@@ -4,8 +4,9 @@ import { createAction } from 'redux-actions';
 const config = require('../../config');
 const helper = require('../../helper/common-helper.js');
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
-const setLoadMsg = createAction('SET_LOAD_MSG', loadinfo => loadinfo);
+const setLoadMsg = exports.setLoadMsg = createAction('SET_LOAD_MSG', loadinfo => loadinfo);
 const setUserInfo = createAction('SET_USER_INFO', userInfo => userInfo);
+const setPhoneCode = createAction('SET_PHONE_CODE', phoneCode => phoneCode);
 const shopId = helper.getUrlParam('shopId');
 
 exports.getUserInfo = () => (dispatch, getStates) => {
@@ -43,10 +44,15 @@ exports.saveRegisterMember = (info) => (dispatch, getStates) => {
   }).
   then(res => {
     if (res.code === '200') {
-      dispatch(setLoadMsg({ status:false }));
-      dispatch(setErrorMsg('成功'));
+      dispatch(setLoadMsg({ status:false, word: '' }));
+      dispatch(setPhoneCode(''));
+      dispatch(setErrorMsg('注册成功'));
+    } else if (res.code === '10107') {
+      dispatch(setPhoneCode(''));
+      dispatch(setLoadMsg({ status:false, word: '' }));
+      dispatch(setErrorMsg(res.msg));
     } else {
-      dispatch(setLoadMsg({ status:false }));
+      dispatch(setLoadMsg({ status:false, word: '' }));
       dispatch(setErrorMsg(res.msg));
     }
   });

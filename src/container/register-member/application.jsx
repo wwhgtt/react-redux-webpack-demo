@@ -17,7 +17,8 @@ const RegisterMemberApplication = React.createClass({
     setErrorMsg: React.PropTypes.func,
     saveRegisterMember: React.PropTypes.func,
     setLoadMsg: React.PropTypes.func,
-    loadInfo: React.PropTypes.string,
+    loadInfo: React.PropTypes.object,
+    phoneCode: React.PropTypes.string,
 
     // MapedStatesToProps
   },
@@ -28,8 +29,8 @@ const RegisterMemberApplication = React.createClass({
   },
 
   handleRegister(info) {
-    this.props.saveRegisterMember(info);
     this.props.setLoadMsg({ status: true, word: '注册中，请稍后……' });
+    this.props.saveRegisterMember(info);
   },
 
   handleClearErrorMsg() {
@@ -37,10 +38,10 @@ const RegisterMemberApplication = React.createClass({
   },
 
   render() {
-    const { errorMessage, userInfo, loadInfo } = this.props;
+    const { errorMessage, userInfo, loadInfo, phoneCode } = this.props;
     return (
       <div>
-        <RegisterMember userInfo={userInfo} onRegisterMember={this.handleRegister} />
+        <RegisterMember userInfo={userInfo} onRegisterMember={this.handleRegister} registerPhoneCode={phoneCode} />
         {
           errorMessage ?
             <Toast errorMessage={errorMessage} clearErrorMsg={this.handleClearErrorMsg} />
