@@ -1,0 +1,16 @@
+@import 'settings.colors';
+@import '_objects/border';
+
+#app-placeholder{
+    overflow:hidden;
+    height:100%;
+}
+
+.scroll-part{
+    position:absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom:2.625em;
+    overflow:auto;
+}

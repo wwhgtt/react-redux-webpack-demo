@@ -5,27 +5,31 @@ module.exports = React.createClass({
   displayName: 'PhoneVerificationCode',
   propTypes: {
     placeholder: React.PropTypes.object,
+    phoneNum: React.PropTypes.string,
+    phoneNumDisabled: React.PropTypes.bool,
+    fetchCodeBtnText: React.PropTypes.string,
     completeFlag: React.PropTypes.number,
     hasForeignZone: React.PropTypes.bool,
     onGetVerificationCode: React.PropTypes.func,
     onCompleteInput: React.PropTypes.func,
-    disabled:React.PropTypes.string,
   },
   getDefaultProps() {
     return {
       hasForeignZone: false,
+      phoneNum: '',
+      phoneNumDisabled: false,
+      fetchCodeBtnText: '获取验证码',
       placeholder: {
         phoneNum: '请输入手机号',
         code: '请输入验证码',
       },
-      disabled:false,
     };
   },
   getInitialState() {
-    const { placeholder } = this.props;
+    const { phoneNum } = this.props;
     return {
       currentNation: 'China',
-      phoneNum: placeholder.phoneNum ? placeholder.phoneNum : '',
+      phoneNum: phoneNum || '',
       code: '',
       seconds: 0,
     };
@@ -144,7 +148,7 @@ module.exports = React.createClass({
     ];
   },
   render() {
-    const { hasForeignZone, placeholder, disabled } = this.props;
+    const { hasForeignZone, placeholder, phoneNumDisabled, fetchCodeBtnText } = this.props;
     let nationsSelect = null;
     if (hasForeignZone) {
       const nations = this._getNations();
@@ -160,7 +164,7 @@ module.exports = React.createClass({
     if (seconds > 0) {
       btnInfo = { text: `${seconds}s后获取`, disabled: true };
     } else {
-      btnInfo = { text: '获取验证码', disabled: !this.isValidPhoneNum(phoneNum) };
+      btnInfo = { text: fetchCodeBtnText, disabled: !this.isValidPhoneNum(phoneNum) };
     }
 
     const className = classnames('options-group phone-verification-code', {
@@ -178,10 +182,10 @@ module.exports = React.createClass({
             <input
               className="option-input"
               type="tel"
+              disabled={phoneNumDisabled}
               value={phoneNum}
               placeholder={placeholder.phoneNum}
               onChange={this.handlePhoneNumChange}
-              disabled={disabled}
             />
           </div>
         </div>

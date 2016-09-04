@@ -381,6 +381,7 @@ exports.deleteOldDishCookie = function () {
   }
 };
 
+
 exports.generateDishNameWithUnit = (dishData) => {
   if (Array.isArray(dishData.dishPropertyTypeInfos) && dishData.dishPropertyTypeInfos.length) {
     const avaliableDishProps = dishData.dishPropertyTypeInfos.filter(prop => prop.type === 4);
@@ -392,3 +393,4 @@ exports.generateDishNameWithUnit = (dishData) => {
   }
   return `${dishData.name}/${dishData.unitName}`;
 };
+

@@ -1,0 +1,26 @@
+@import 'settings.colors';
+.date-select{
+  &-header{
+    padding: 0;
+    text-align: center;
+    .btn--yellow{
+      width: 80px;
+    }
+  }
+
+  &-confirm{
+    float: right;
+  }
+
+  &-cancel{
+    float: left;
+    color: $color-dusty-grey;
+    background: none;
+  }
+
+  &-title{
+    line-height: 40px;
+    box-shadow: inset 0 -1px 0 $color-mischka;
+    text-align: center;
+  }
+}

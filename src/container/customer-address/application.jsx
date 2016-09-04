@@ -42,6 +42,7 @@ const CustomerAddressApplication = React.createClass({
     setSessionAndForwardEditUserAddress(shopId, editor);
   },
   setChildViewAccordingToHash() {
+    // debugger;
     const { setChildView } = this.props;
     const hash = location.hash;
     setChildView(hash);

@@ -22,6 +22,24 @@ module.exports = {
     'place-order': [
       './src/place-order.jsx',
     ],
+    'mine-index-entry': [
+      './src/mine-index.jsx',
+    ],
+    'mine-setting-entry': [
+      './src/mine-setting.jsx',
+    ],
+    'bind-phone-entry': [
+      './src/bind-phone.jsx',
+    ],
+    'bind-wx-entry': [
+      './src/bind-wx.jsx',
+    ],
+    'register-member-entry' :[
+      './src/register-member.jsx',
+    ],
+    'user-login-entry': [
+      './src/user-login.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -45,7 +63,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.png$/,
+        test: /\.(gif|png)$/,
         loaders: ['url?limit=8192&name=asset/img/[hash].[ext]'],
       },
       {
@@ -74,10 +92,34 @@ module.exports = {
     ),
     new HtmlWebpackPlugin(
       {
+        title: 'StoryboardApplication',
+        filename: 'storyboard.html',
+        chunks: ['common', 'storyboard-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
         title: 'CustomerAddressApplication',
         filename: 'customer-address.html',
         chunks: ['common', 'customer-address-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template-customer-address.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: '我的',
+        filename: 'mine-index.html',
+        chunks: ['common', 'mine-index-entry'],
+        inject: 'body', template: './src/helper/common-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: '设置',
+        filename: 'mine-setting.html',
+        chunks: ['common', 'mine-setting-entry'],
+        inject: 'body', template: './src/helper/common-template.html',
       }
     ),
     new HtmlWebpackPlugin(
@@ -98,9 +140,41 @@ module.exports = {
     ),
     new HtmlWebpackPlugin(
       {
+        title: 'BindWXApplication',
+        filename: 'bind-wx.html',
+        chunks: ['common', 'bind-wx-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
         title: 'PlaceOrderApplication',
         filename: 'place-order.html',
         chunks: ['common', 'place-order'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'BindPhoneApplication',
+        filename: 'bind-phone.html',
+        chunks: ['common', 'bind-phone-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'RegisterMember',
+        filename: 'register-member.html',
+        chunks: ['common', 'register-member-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'UserLoginApplication',
+        filename: 'user-login.html',
+        chunks: ['common', 'user-login-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

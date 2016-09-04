@@ -1,0 +1,139 @@
+@import 'settings.colors';
+@import 'settings.border';
+
+*{font-family: "微软雅黑";}
+
+$width:100%;
+$none:none;
+$background:url(../../asset/images/mine-spirit.png) left top/6.25em auto no-repeat ;
+
+body{
+    background:#fafafa;
+}
+
+.menuLink{
+      position:relative;
+      display:block;
+      padding:1em 0;
+      height:100%;
+      &:after{
+           @extend %border-thin;
+           bottom:0;
+           border-bottom:borderSolid(1,#e7e7ef);
+      }
+      span{
+          &.name{
+              display:inline-block;
+              margin-left:1em;
+              font-size:13px;
+              text-decoration: $none;
+              vertical-align:baseline;
+              //border:1px solid red;
+          }
+          &.arrow{
+              position:absolute;
+              top:50%;
+              right:0;
+              margin-top:-0.344em;
+              width:0.438em;
+              height:0.688em;
+              background:$background;
+              background-position:-5.7em -1.5em;
+          }
+          &.brief{
+              position:absolute;
+              top:1.45em;
+              right:1em;
+              line-height:1;
+              font-size:13px;
+              color:#bcbcbc;
+          }
+      }
+      i{
+          display:inline-block;
+          width:1.188em;
+          height:1.188em;
+          background:$background;
+          vertical-align: middle;
+          &[name="DD"]{
+              background-position:0.1em 0.05em;
+          }
+          &[name="YH"]{
+              background-position:-1.3em 0.1em;
+          }
+          &[name="DZ"]{
+              background-position:-2.6em top;
+          }
+          &[name="HYZC"]{
+              background-position:-4em top;
+          }
+          &[name="BDSJ"]{
+              background-position:-5.35em top;
+          }
+          &[name="BDWX"]{
+              background-position:-4em -1.2em;
+          }
+          &[name="SZ"]{
+              background-position:0.1em -1.3em;
+          }
+          &[name="HYK"]{
+              background-position:-1.25em -1.25em;
+          }
+          &[name="HYCZ"]{
+                  background-position:-2.6em -1.3em;
+              }
+      }
+  
+}
+
+
+.mineInfo{
+    position:relative;
+    margin-bottom:0.4em;
+    background:$color-white;
+    &:after{
+        @extend %border-thin;
+        bottom:0;
+        border-bottom:borderSolid(1,#e7e7ef);
+    }
+    &-holder{
+        position:relative;
+        padding:1em 0;
+        width:50%;
+        text-align: center;
+        &:active{
+            background:#eaeaea;
+        }
+        &:after{
+            position:absolute;
+            content:"";
+            right:0;
+            top:25%;
+            height:100%;
+            border-right:borderSolid(1,#e7e7ef);
+            transform: scale(0.5,0.5);
+            -webkit-transform:scale(0.5,0.5);
+            transform-origin: 0 0;
+            -webkit-transform-origin: 0 0;  
+        }
+        &:last-child:after{
+            display:none;
+        }
+        
+        &-p{
+            color:#444a59;
+            &.title{
+                font-size:12px;
+                line-height:1.5em;
+            }
+            &.num{
+                font-size:1em;
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+
+
+

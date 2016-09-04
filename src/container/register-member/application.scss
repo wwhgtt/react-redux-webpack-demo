@@ -1,0 +1,77 @@
+#app-placeholder,
+div[data-reactroot],
+.application {
+  height: 100%;
+}
+
+.btn-bottom{
+	width: 100%;
+	height: 50px;
+	position: relative;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.register {
+	&-member {
+		background-color: #f0f0f0;
+	}
+
+	&-banner {
+		line-height: 0;
+		min-height: 100px;
+		
+		&-img{
+			width: 100%;
+		}
+	}
+
+	&-input {
+		width: 150px;
+		font-size: 14px;
+		text-align: right;
+		float: right;
+	}
+
+	&-btn {
+		height: 50px;
+	}
+
+	&-pwd{
+		position: relative;
+
+		&-in {
+			opacity: 0;
+			position: absolute;
+			right: 25px;
+			z-index: 100;
+		}
+
+		&-out {
+			position: absolute;
+			right: 25px;
+			z-index: 1;
+		}
+	}
+
+	&-user {
+		&-name {
+			float: initial;
+		}
+
+		&-input {
+			float: initial;
+		}
+
+		.sex-switch {
+			float: initial;
+			display: inline-block;
+		}
+	}
+}
+
+.btn-arrow-right::after {
+	background-size: 7px;
+	width: 15px;
+}

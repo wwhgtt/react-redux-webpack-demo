@@ -138,3 +138,67 @@
   width: 100%;
   height: 50px;
 }
+
+//2016-08-28增加 btn样式
+.btn-row{
+    position:relative;
+    display:block;
+    padding:1em 0;
+    font-size:14px;
+    text-align: center;
+    text-decoration: none;
+    background:$color-white;
+    &:after{
+        @extend .border-thin;
+        bottom:0;
+        border-bottom:borderSolid(1,#e7e7ef);
+    }
+    &:before{
+        @extend .border-thin;
+        top:0;
+        border-top:borderSolid(1,#e7e7ef);
+    }
+    &:active{
+        background:#eaeaea;
+    }
+    &-mt{
+        margin-top:1em;
+    }
+    &-mb{
+        margin-bottom:1em;
+    }
+    &-sure{
+        background:#ffc150;
+        color:$color-white;
+        &:after{
+            display:none;
+        }
+        &:before{
+            display:none;
+        }
+        &:active{
+            background:#ffc150;
+            opacity:0.8;
+        }
+    }
+    &-notsure{
+        background:#ccc;
+        color:$color-white;
+        &:after{
+            display:none;
+        }
+        &:before{
+            display:none;
+        }
+        &:active{
+            background:#ccc;
+            opacity:0.8;
+        }
+    }  
+}
+.btn-ab{
+    position:absolute;
+    left:0;
+    bottom:0;
+    width:100%;
+}
