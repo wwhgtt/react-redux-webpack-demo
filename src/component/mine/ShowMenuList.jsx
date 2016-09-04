@@ -13,8 +13,8 @@ const orderallListUrl = `${config.orderallListURL}?shopId=${shopId}`;
 const getCouponListUrl = ` ${config.getCouponListURL}?shopId=${shopId}`;
 const addressListUrl = `${config.addressListURL}?shopId=${shopId}`;
 const registerUrl = ` ${config.registerMemberURL}?shopId=${shopId}`;
-const bindaccountUrlphone = ` ${config.bindAccountURL}?shopId=${shopId}#bind-phone`;
-const bindaccountUrlwx = ` ${config.bindAccountURL}?shopId=${shopId}#bind-wx`;
+const bindMobileUrl = ` ${config.bindMobileURL}?shopId=${shopId}`;
+const bindWXUrl = ` ${config.bindWXURL}?shopId=${shopId}`;
 
 require('./ShowMenuList.scss');
 
@@ -33,6 +33,9 @@ module.exports = React.createClass({
   },
   render() {
     let condition = ''; // 1 微信号(未绑定手机)  2手机号非会员（未绑定微信）3手机号会员（未绑定微信） 4绑定成功
+    let partOne = '';
+    let partTwo = '';
+    let partThree = '';
     const { info } = this.props;
     // 几种状态的判断
     if (info.loginType === 1 && !info.bindMobile) {
@@ -46,41 +49,99 @@ module.exports = React.createClass({
     } else if (info.bindWx && info.bindMobile) {
       condition = 4;
     }
+    // 几种状态的判断
+
+    if (condition === 3 || condition === 4 && info.isMember) {
+      partOne = (
+        <div>
+          <div className="mineInfo of">
+            <div className="mineInfo-holder fl" onTouchTap={this.jumpToCredit}>
+              <p className="mineInfo-holder-p title">我的积分</p>
+              <p className="mineInfo-holder-p num">{info.score}</p>
+            </div>
+            <div className="mineInfo-holder fl" onTouchTap={this.jumpToRemain}>
+              <p className="mineInfo-holder-p title">我的余额</p>
+              <p className="mineInfo-holder-p num">{info.balance}</p>
+            </div>
+          </div>
+          <ul className="list-ul">
+            <li className="list-ul-li" name="会员卡">
+              <a className="menuLink" href={mainIndexUrl}>
+                <i name="HYK"></i>
+                <span className="name">会员卡</span>
+                <span className="arrow"></span>
+              </a>
+            </li>
+            <li className="list-ul-li" name="会员充值">
+              <a className="menuLink" href={rechargeUrl}>
+                <i name="HYCZ"></i>
+                <span className="name">会员充值</span>
+                <span className="arrow"></span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      );
+    }
+    if (condition === 3) {
+      partTwo = (
+        <li className="list-ul-li" name="绑定微信号">
+          <a className="menuLink" href={bindWXUrl}>
+            <i name="BDWX"></i>
+            <span className="name">绑定微信号</span>
+            <span className="arrow"></span>
+          </a>
+        </li>
+      );
+    }
+
+    if (condition === 1 || condition === 2) {
+      partThree = (
+        <ul className="list-ul">
+          {
+            !info.isMember ?
+              <li className="list-ul-li" name="会员注册">
+                <a className="menuLink" href={registerUrl}>
+                  <i name="HYZC"></i>
+                  <span className="name">会员注册</span>
+                  <span className="brief">注册会员享受更多福利</span>
+                  <span className="arrow"></span>
+                </a>
+              </li>
+            :
+            false
+          }
+          {
+            condition === 1 && !info.bindMobile ?
+              <li className="list-ul-li" name="绑定手机号">
+                <a className="menuLink" href={bindMobileUrl}>
+                  <i name="BDSJ"></i>
+                  <span className="name">绑定手机号</span>
+                  <span className="arrow"></span>
+                </a>
+              </li>
+            :
+            false
+          }
+          {
+            condition === 2 && !info.bindWx ?
+              <li className="list-ul-li" name="绑定微信号">
+                <a className="menuLink" href={bindWXUrl}>
+                  <i name="BDWX"></i>
+                  <span className="name">绑定微信号</span>
+                  <span className="arrow"></span>
+                </a>
+              </li>
+            :
+            false
+          }
+        </ul>
+      );
+    }
+    // return
     return (
       <div className="list-outer">
-        {
-        condition === 3 || condition === 4 ?
-          <div>
-            <div className="mineInfo of">
-              <div className="mineInfo-holder fl" onTouchTap={this.jumpToCredit}>
-                <p className="mineInfo-holder-p title">我的积分</p>
-                <p className="mineInfo-holder-p num">{info.score}</p>
-              </div>
-              <div className="mineInfo-holder fl" onTouchTap={this.jumpToRemain}>
-                <p className="mineInfo-holder-p title">我的余额</p>
-                <p className="mineInfo-holder-p num">{info.balance}</p>
-              </div>
-            </div>
-            <ul className="list-ul">
-              <li className="list-ul-li" name="会员卡">
-                <a className="menuLink" href={mainIndexUrl}>
-                  <i name="HYK"></i>
-                  <span className="name">会员卡</span>
-                  <span className="arrow"></span>
-                </a>
-              </li>
-              <li className="list-ul-li" name="会员充值">
-                <a className="menuLink" href={rechargeUrl}>
-                  <i name="HYCZ"></i>
-                  <span className="name">会员充值</span>
-                  <span className="arrow"></span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        :
-           false
-        }
+        {partOne}
         <ul className="list-ul">
           <li className="list-ul-li" name="订单中心">
             <a className="menuLink" href={orderallListUrl}>
@@ -103,58 +164,9 @@ module.exports = React.createClass({
               <span className="arrow"></span>
             </a>
           </li>
-          {
-          condition === 3 ?
-            <li className="list-ul-li" name="绑定微信号">
-              <a className="menuLink" href={bindaccountUrlwx}>
-                <i name="BDWX"></i>
-                <span className="name">绑定微信号</span>
-                <span className="arrow"></span>
-              </a>
-            </li>
-          :
-          false
-          }
+          {partTwo}
         </ul>
-        {
-        condition !== 3 && condition !== 4 ?
-          <ul className="list-ul">
-            <li className="list-ul-li" name="会员注册">
-              <a className="menuLink" href={registerUrl}>
-                <i name="HYZC"></i>
-                <span className="name">会员注册</span>
-                <span className="brief">注册会员享受更多福利</span>
-                <span className="arrow"></span>
-              </a>
-            </li>
-            {
-              condition === 1 ?
-                <li className="list-ul-li" name="绑定手机号">
-                  <a className="menuLink" href={bindaccountUrlphone}>
-                    <i name="BDSJ"></i>
-                    <span className="name">绑定手机号</span>
-                    <span className="arrow"></span>
-                  </a>
-                </li>
-              :
-              false
-            }
-            {
-              condition === 2 ?
-                <li className="list-ul-li" name="绑定微信号">
-                  <a className="menuLink" href={bindaccountUrlwx}>
-                    <i name="BDWX"></i>
-                    <span className="name">绑定微信号</span>
-                    <span className="arrow"></span>
-                  </a>
-                </li>
-              :
-                false
-            }
-          </ul>
-        :
-        false
-        }
+        {partThree}
         <ul className="list-ul">
           <li className="list-ul-li" name="设置">
             <a className="menuLink" href={settingUrl}>
