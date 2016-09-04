@@ -234,7 +234,7 @@ const OrderApplication = React.createClass({
       return (
         <div className="customerInfo">
           <CustomerInfoEditor
-            customerProps={customerProps} onCustomerPropsChange={setCustomerProps}
+            customerProps={customerProps} onCustomerPropsChange={setCustomerProps} isMobileDisabled
           />
           <div className="options-group">
             <div className="option">

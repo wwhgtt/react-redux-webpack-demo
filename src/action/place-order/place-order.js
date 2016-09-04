@@ -71,6 +71,8 @@ exports.clearErrorMsg = () => (dispatch, getState) =>
 exports.placeOrder = (note) => (dispatch, getState) => {
   const state = getState();
   const orderTime = `${state.timeProps.selectedDateTime.date}20%${state.timeProps.selectedDateTime.time}`;
+  if (!state.customerProps.name || !state.customerProps.mobile || !state.tableProps.selectedTableId
+  || !orderTime) { dispatch(setErrorMsg('请先完善预定信息...')); return; }
   const params = '?name=' + state.customerProps.name
       + '&memo=' + note
       + '&mobile=' + state.customerProps.mobile

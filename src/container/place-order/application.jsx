@@ -110,7 +110,14 @@ const PlaceOrderApplication = React.createClass({
         </a>
       );
     }
-    return false;
+    return (
+      <a className="option">
+        <span className="options-title">桌台类型</span>
+        <span className="option-btn">
+          没有桌台信息
+        </span>
+      </a>
+    );
   },
   buildPhoneValidateElement() {
     const { customerProps, placeOrder } = this.props;
@@ -136,14 +143,34 @@ const PlaceOrderApplication = React.createClass({
 
         {commercialProps.openStatus === '营业中' ?
           <div>
-            <div className="option">
-              <span className="options-title">预定时间</span>
-              <button className="option-btn btn-arrow-right" onTouchTap={evt => setChildView('#time-select')}>
-                {this.getFetchTimeTitle(timeProps) || '选择预定时间'}
-              </button>
-            </div>
+            {commercialProps.hasPeriodConfiguer && commercialProps.firstTime ?
+              <div>
+                <div className="option">
+                  <span className="options-title">预定时间</span>
+                  <button className="option-btn btn-arrow-right" onTouchTap={evt => setChildView('#time-select')}>
+                    {this.getFetchTimeTitle(timeProps) || '选择预定时间'}
+                  </button>
+                </div>
 
-            {this.buildSelectTablesElement(tableProps)}
+                {this.buildSelectTablesElement(tableProps)}
+              </div>
+              :
+              <div>
+                <div className="option">
+                  <span className="options-title">预定时间</span>
+                  <button className="option-btn">
+                    无可预订时段
+                  </button>
+                </div>
+
+                <a className="option">
+                  <span className="options-title">桌台类型</span>
+                  <span className="option-btn">
+                    没有桌台信息
+                  </span>
+                </a>
+              </div>
+            }
 
             <div className="options-group">
               <div className="option">
@@ -158,7 +185,7 @@ const PlaceOrderApplication = React.createClass({
               </div>
             </div>
 
-            <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setCustomerProps} />
+            <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setCustomerProps} isMobileDisabled={false} />
 
             <label className="option">
               <span className="option-title">备注: </span>
