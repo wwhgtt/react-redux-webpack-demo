@@ -36,6 +36,7 @@ module.exports = React.createClass({
     let partOne = '';
     let partTwo = '';
     let partThree = '';
+    const isWeiXinBroswer = commonHelper.getWeixinVersionInfo().weixin;
     const { info } = this.props;
     // 几种状态的判断
     if (info.loginType === 1 && !info.bindMobile) {
@@ -83,7 +84,7 @@ module.exports = React.createClass({
         </div>
       );
     }
-    if (condition === 3) {
+    if (condition === 3 && isWeiXinBroswer) { // 同时要是微信浏览器
       partTwo = (
         <li className="list-ul-li" name="绑定微信号">
           <a className="menuLink" href={bindWXUrl}>
@@ -124,7 +125,7 @@ module.exports = React.createClass({
             false
           }
           {
-            condition === 2 && !info.bindWx ?
+            condition === 2 && !info.bindWx && isWeiXinBroswer ? // 同时要是微信浏览器
               <li className="list-ul-li" name="绑定微信号">
                 <a className="menuLink" href={bindWXUrl}>
                   <i name="BDWX"></i>
