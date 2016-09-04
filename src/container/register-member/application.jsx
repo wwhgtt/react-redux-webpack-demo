@@ -19,6 +19,7 @@ const RegisterMemberApplication = React.createClass({
     setLoadMsg: React.PropTypes.func,
     loadInfo: React.PropTypes.object,
     phoneCode: React.PropTypes.string,
+    sendCode: React.PropTypes.func,
 
     // MapedStatesToProps
   },
@@ -38,10 +39,15 @@ const RegisterMemberApplication = React.createClass({
   },
 
   render() {
-    const { errorMessage, userInfo, loadInfo, phoneCode } = this.props;
+    const { errorMessage, userInfo, loadInfo, phoneCode, sendCode } = this.props;
     return (
       <div>
-        <RegisterMember userInfo={userInfo} onRegisterMember={this.handleRegister} registerPhoneCode={phoneCode} />
+        <RegisterMember
+          userInfo={userInfo}
+          onRegisterMember={this.handleRegister}
+          registerPhoneCode={phoneCode}
+          onSendCode={sendCode}
+        />
         {
           errorMessage ?
             <Toast errorMessage={errorMessage} clearErrorMsg={this.handleClearErrorMsg} />
