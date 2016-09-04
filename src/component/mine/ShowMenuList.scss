@@ -89,7 +89,7 @@ body{
 
 .mineInfo{
     position:relative;
-    margin-bottom:1em;
+    margin-bottom:0.4em;
     background:$color-white;
     &:after{
         @extend %border-thin;

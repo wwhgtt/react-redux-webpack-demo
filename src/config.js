@@ -46,13 +46,16 @@ module.exports = {
   getUserLoginSupportAPI: `${apiBase}/user/supportTypes.json`,
 
   shopDetailURL:`${apiBase}/shop/detail`,
-  mineIndexURL:`${apiBase}/mineIndex.html`,
-  mineSettingURL:`${apiBase}/mineSetting.html`,
+  mineIndexURL:`${apiBase}/user/individual`,
+  mineSettingURL:`${apiBase}/user/individualView`,
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
   editUserAddressURL: `${apiBase}/user/address`,
-  bindAccountURL: `${apiBase}/bind-account.html`,  // 绑定页面 手机 #bind-phone 微信 #bind-wx
-  registerMemberURL: `${apiBase}/register-member.html`,
+
+
+  bindMobileURL:`${apiBase}/user/bindMobile`, // 绑定手机页面
+  bindWXURL:`${apiBase}/user/bindOpenid`, // 绑定微信页面
+  registerMemberURL:`${apiBase}/member/register`, // 注册会员
   logAddressURL: `${apiBase}/user/notLogin`, // 登陆页面
   integralURL: `${apiBase}/member/integral`, // 我的积分
   valueCardURL:`${apiBase}/member/valueCard`, // 我的余额

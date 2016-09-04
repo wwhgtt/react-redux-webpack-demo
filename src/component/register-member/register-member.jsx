@@ -5,6 +5,7 @@ import Toast from '../mui/toast.jsx';
 const InputDate = require('../mui/form/date-select.jsx');
 
 const RegisterMember = React.createClass({
+  displayName:'RegisterMember',
   propTypes: {
     // MapedActionsToProps
     onRegisterMember:React.PropTypes.func.isRequired,

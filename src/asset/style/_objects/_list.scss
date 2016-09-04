@@ -2,7 +2,7 @@
 .list-ul{
     position:relative;
     background:$color-white;
-    margin-bottom:1em;
+    margin-bottom:0.4em;
     &:before{
         @extend .border-thin;
         top:0;
@@ -26,7 +26,7 @@
         }
     }
     &-mt{
-        margin:1em 0 0;
+        margin:0.4em 0 0;
     }
 }
 

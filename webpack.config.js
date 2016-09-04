@@ -106,7 +106,7 @@ module.exports = {
         title: 'mineIndexApplication',
         filename: 'mineIndex.html',
         chunks: ['common', 'mine-index-entry'],
-        inject: 'body', template: './src/helper/common-template.html',
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
     new HtmlWebpackPlugin(
@@ -114,7 +114,7 @@ module.exports = {
         title: 'mineSettingApplication',
         filename: 'mineSetting.html',
         chunks: ['common', 'mine-setting-entry'],
-        inject: 'body', template: './src/helper/common-template.html',
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
     new HtmlWebpackPlugin(

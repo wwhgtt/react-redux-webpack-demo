@@ -46,12 +46,12 @@ module.exports = React.createClass({ // ShowBasicInfo
     const { info } = this.props;
     const { realImage, realSex } = this.state;
     return (
-      <div className="BasicInfoBg">
-        <img className="BasicInfoBg-img" src={realImage} alt="用户头像" title={info.name || ''} ref="logo" onError={() => this.imgError(info.sex)} />
-        <p className="BasicInfoBg-name omit">
-          {info.name || '不愿透露姓名的用户'} {realSex}
+      <div className="basicInfoBg">
+        <img className="basicInfoBg-img" src={realImage} alt="用户头像" title={info.name || ''} ref="logo" onError={() => this.imgError(info.sex)} />
+        <p className="basicInfoBg-name omit">
+          {info.name || '不愿透露姓名的用户'} {info.name ? realSex : ''}
         </p>
-        <div className="BasicInfoBg-wave"></div>
+        <div className="basicInfoBg-wave"></div>
       </div>
     );
   },
