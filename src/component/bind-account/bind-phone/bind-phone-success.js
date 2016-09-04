@@ -9,7 +9,7 @@ const BindPhoneSuccess = React.createClass({
   // 3秒后跳转到**页面
   componentDidMount() {
     setTimeout(() => {
-      window.location.href = '/register-member.html';
+      location.href = '/register-member.html';
     }, 3000);
   },
 

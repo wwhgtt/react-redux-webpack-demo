@@ -47,6 +47,9 @@ exports.saveRegisterMember = (info) => (dispatch, getStates) => {
       dispatch(setLoadMsg({ status:false, word: '' }));
       dispatch(setPhoneCode(''));
       dispatch(setErrorMsg('注册成功'));
+      setTimeout(() => {
+        location.href = `${config.memberIndexURL}?shopId=${shopId}`;
+      }, 3000);
     } else if (res.code === '10107') {
       dispatch(setPhoneCode(''));
       dispatch(setLoadMsg({ status:false, word: '' }));
