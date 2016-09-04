@@ -5,7 +5,7 @@ const actions = require('../../action/order-inLine/order-inLine.js');
 const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
 const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const Toast = require('../../component/mui/toast.jsx');
-const PhoneVerificationCode = require('../../component/mui/phone-verification-code.jsx');
+const PhoneVerificationCode = require('../../component/mui/form/phone-verification-code.jsx');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 require('../../asset/style/style.scss');
 require('./application.scss');

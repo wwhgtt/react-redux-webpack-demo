@@ -9,7 +9,7 @@ const CustomerInfoEditor = require('../../component/order/customer-info-editor.j
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const TimeSelect = require('../../component/order/select/time-select.jsx');
 const Toast = require('../../component/mui/toast.jsx');
-const PhoneVerificationCode = require('../../component/mui/phone-verification-code.jsx');
+const PhoneVerificationCode = require('../../component/mui/form/phone-verification-code.jsx');
 const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 require('../../asset/style/style.scss');
 require('./application.scss');
