@@ -9,7 +9,8 @@ const setTableAvaliable = createAction('SET_TABLE_AVALIABLE', props => props);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
 exports.setCustomerProps = createAction('SET_CUSTOMER_PROPS', option => option);
-const setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
+exports.setPhoneValidateCode = createAction('SET_PHONE_VALIDATE_CODE', code => code);
+const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const shopId = getUrlParam('shopId');
 exports.fetchCommercialProps = () => (dispatch, getState) =>
