@@ -9,6 +9,7 @@ const setUserInfo = createAction('SET_USER_INFO', userInfo => userInfo);
 const setPhoneCode = createAction('SET_PHONE_CODE', phoneCode => phoneCode);
 const shopId = helper.getUrlParam('shopId');
 const returnUrl = helper.getUrlParam('returnUrl');
+const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 
 exports.getUserInfo = () => (dispatch, getStates) => {
   const getRegisterInfoURL = `${config.registerInfoAPI}?shopId=${shopId}`;
@@ -63,6 +64,26 @@ exports.saveRegisterMember = (info) => (dispatch, getStates) => {
       dispatch(setErrorMsg(res.msg));
     } else {
       dispatch(setLoadMsg({ status:false, word: '' }));
+      dispatch(setErrorMsg(res.msg));
+    }
+  });
+};
+
+exports.sendCode = phoneNum => (dispatch, getStates) => {
+  const codeObj = Object.assign({}, { shopId, mobile: phoneNum, timestamp: new Date().getTime() });
+  const paramStr = getSendCodeParamStr(codeObj);
+  const sendCodeURl = `${config.sendCodeAPI}?${paramStr}`;
+  fetch(sendCodeURl, config.requestOptions).
+  then(res => {
+    if (!res.ok) {
+      dispatch(setErrorMsg('验证码发送失败'));
+    }
+    return res.json();
+  }).
+  then(res => {
+    if (res.code === '200') {
+      dispatch(setErrorMsg('验证码发送成功注意查收'));
+    } else {
       dispatch(setErrorMsg(res.msg));
     }
   });
