@@ -6,6 +6,7 @@ module.exports = React.createClass({
   propTypes: {
     customerProps:React.PropTypes.object.isRequired,
     onCustomerPropsChange:React.PropTypes.func.isRequired,
+    isMobileDisabled:React.PropTypes.bool.isRequired,
   },
   getInitialState() {
     const { customerProps } = this.props;
@@ -24,11 +25,11 @@ module.exports = React.createClass({
     const { onCustomerPropsChange } = this.props;
     this.setState({
       customerProps:customerProps.set(event.target.getAttribute('name'), event.target.value),
-    });
-    onCustomerPropsChange(customerProps);
+    }, function () { onCustomerPropsChange(this.state.customerProps); });
   },
   render() {
     const { customerProps } = this.state;
+    const { isMobileDisabled } = this.props;
     return (
       <div className="options-group">
         <div className="option flex-row">
@@ -61,10 +62,11 @@ module.exports = React.createClass({
         <div className="option flex-row">
           <span className="editor-title flex-none">手机号：</span>
           <input
+            name="mobile"
             className="editor-input editor-input--right flex-rest"
             placeholder={customerProps.mobile || '请输入手机号'}
             onChange={this.handleBasicInfoChange}
-            disabled={customerProps.mobile ? customerProps.mobile.toString().trim().length === 11 : false}
+            disabled={isMobileDisabled}
           />
         </div>
       </div>

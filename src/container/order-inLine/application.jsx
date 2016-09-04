@@ -72,7 +72,7 @@ const OrderInlineApplication = React.createClass({
 
         {commercialProps.openStatus === '营业中' ?
           <div>
-            <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setCustomerProps} />
+            <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setCustomerProps} isMobileDisabled={false} />
 
             <div className="options-group">
               <div className="option">
