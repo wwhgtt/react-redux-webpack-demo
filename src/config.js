@@ -53,9 +53,9 @@ module.exports = {
   editUserAddressURL: `${apiBase}/user/address`,
 
 
-  bindMobileURL:`${apiBase}/user/bindMobile`,
-  bindWXURL:`${apiBase}/user/bindOpenid`,
-  registerMemberURL:`${apiBase}/member/register`,
+  bindMobileURL:`${apiBase}/user/bindMobile`, // 绑定手机页面
+  bindWXURL:`${apiBase}/user/bindOpenid`, // 绑定微信页面
+  registerMemberURL:`${apiBase}/member/register`, // 注册会员
   logAddressURL: `${apiBase}/user/notLogin`, // 登陆页面
   integralURL: `${apiBase}/member/integral`, // 我的积分
   valueCardURL:`${apiBase}/member/valueCard`, // 我的余额

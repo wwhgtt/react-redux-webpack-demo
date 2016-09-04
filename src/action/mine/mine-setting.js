@@ -52,6 +52,10 @@ exports.getInfo = (id) => (dispatch, getStates) => {
   });
 };
 exports.updateInfo = (name, sex, condition) => (dispatch, getStates) => {
+  if (condition === 1) { // 此时点击跳转到"我的" 页面
+    window.location.href = mineIndexUrl;
+    return;
+  }
   if (!shopId) {
     dispatch(setErrorMsg('找不到门店号'));
     return;
@@ -63,10 +67,6 @@ exports.updateInfo = (name, sex, condition) => (dispatch, getStates) => {
     return;
   } else if (!/['"#$%&\^*]/.test(name)) {
     dispatch(setErrorMsg('姓名不能包含特殊字符!!'));
-    return;
-  }
-  if (condition === 1) { // 此时点击跳转到"我的" 页面
-    window.location.href = mineIndexUrl;
     return;
   }
   dispatch(setLoadMsg({ status:true, word:'保存中' }));
