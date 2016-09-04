@@ -1,5 +1,14 @@
 @import 'settings.colors';
 
+.modal{
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
 .dialog{
 	position: absolute;
 	width:85%;
@@ -9,16 +18,6 @@
 	background-color:#fff;
 	text-align:center;
 	border-radius:4px;
-
-  &-modal{
-    position: fixed;
-    z-index: 999;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
-
   &-header{
     padding:1.2em 20px .5em
   }
@@ -72,7 +71,7 @@
   }
 
   &-btn-confirm{
-    color: #0bb20c
+    color: #fff;
   }
   &-btn-cancel{
     color: #353535
