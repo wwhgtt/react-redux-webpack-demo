@@ -144,7 +144,13 @@ const OrderInlineApplication = React.createClass({
             }
           </div>
           :
-          false
+          <div className="error-situation">
+            {commercialProps.openStatus === '未营业' ?
+              <img src="" alt="未营业" />
+              :
+              <img src="" alt="商家设备未联网" />
+            }
+          </div>
         }
       </div>
     );

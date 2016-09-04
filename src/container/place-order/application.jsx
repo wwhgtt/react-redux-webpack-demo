@@ -222,7 +222,13 @@ const PlaceOrderApplication = React.createClass({
             <button className="place-order" onTouchTap={this.placeOrder}>立即预定</button>
           </div>
           :
-          false
+          <div className="error-situation">
+            {commercialProps.openStatus === '未营业' ?
+              <img src="" alt="未营业" />
+              :
+              <img src="" alt="商家设备未联网" />
+            }
+          </div>
         }
         <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
           {childView === 'table-select' ?
