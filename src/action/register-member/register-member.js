@@ -4,6 +4,7 @@ import { createAction } from 'redux-actions';
 const config = require('../../config');
 const helper = require('../../helper/common-helper.js');
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
+const setLoadMsg = createAction('SET_LOAD_MSG', loadinfo => loadinfo);
 const setUserInfo = createAction('SET_USER_INFO', userInfo => userInfo);
 const shopId = helper.getUrlParam('shopId');
 
@@ -42,8 +43,10 @@ exports.saveRegisterMember = (info) => (dispatch, getStates) => {
   }).
   then(res => {
     if (res.code === '200') {
+      dispatch(setLoadMsg({ status:false }));
       dispatch(setErrorMsg('成功'));
     } else {
+      dispatch(setLoadMsg({ status:false }));
       dispatch(setErrorMsg(res.msg));
     }
   });

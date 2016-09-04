@@ -17,16 +17,17 @@ const RegisterMember = React.createClass({
   getInitialState() {
     return {
       errorMsg: '',
-      errorMsgP: '', // 手机提示信息
-      errorMsgC: '', // 密码提示信息
-      phoneNum: '', // 手机号码
-      password: '', // 注册密码
+      errorMsgP: '',
+      errorMsgC: '',
+      phoneNum: '',
+      password: '',
       userSex: '',
       isShow: false,
       birthDay: '2012-08-15',
       userName: '',
       isDisabled: false,
       brandPicUrl: '',
+      phoneCode: '',
     };
   },
   componentWillReceiveProps(nextProps) {
@@ -77,7 +78,9 @@ const RegisterMember = React.createClass({
 
   // 注册会员
   registerMember() {
-    const { errorMsgP, errorMsgC, phoneNum, password, userSex, birthDay, userName } = this.state;
+    const { errorMsgP, errorMsgC, phoneNum, password, userSex, birthDay, userName, phoneCode } = this.state;
+    const regPhoneAustralia = /^04\d{8}$/;
+    const isAustralia = regPhoneAustralia.test(phoneNum);
     if (!phoneNum) {
       this.setState({ errorMsg: '请填写手机号码' });
     } else if (errorMsgP) {
@@ -92,6 +95,8 @@ const RegisterMember = React.createClass({
       this.setState({ errorMsg: '请填写交易密码' });
     } else if (errorMsgC) {
       this.setState({ errorMsg: errorMsgC });
+    } else if (isAustralia) {
+      alert('Australia');
     } else {
       const registerInfo = {
         name: userName,
@@ -99,7 +104,7 @@ const RegisterMember = React.createClass({
         phone: phoneNum,
         sex: userSex,
         pwd: password,
-        code: '', // 验证码
+        code: phoneCode, // 验证码
       };
       console.log(registerInfo);
       this.props.onRegisterMember(registerInfo);
