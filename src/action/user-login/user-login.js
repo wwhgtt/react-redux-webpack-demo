@@ -18,11 +18,14 @@ exports.login = (info) => (dispatch, getState) => {
     return false;
   }
 
-  dispatch(setLoadingInfo({ ing: true, text: '系统处理中...' }));
   const returnUrl = getUrlParam('returnUrl') || encodeURIComponent(`/brand/index${location.search}`);
-  const url = info.isWeixin ?
-    `${config.userLoginWXAPI}?shopId=${shopId}&returnUrl=${returnUrl}` :
-    `${config.userLoginAPI}?shopId=${shopId}&mobile=${info.phoneNum}&code=${info.code}`;
+  if (info.isWeixin) {
+    location.href = `${config.userLoginWXURL}?shopId=${shopId}&returnUrl=${returnUrl}`;
+    return false;
+  }
+
+  dispatch(setLoadingInfo({ ing: true, text: '系统处理中...' }));
+  const url = `${config.userLoginAPI}?shopId=${shopId}&mobile=${info.phoneNum}&code=${info.code}`;
   return fetch(url, config.requestOptions).
     then(res => {
       if (!res.ok) {

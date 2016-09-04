@@ -15,7 +15,7 @@ const logUrl = `${config.logAddressURL}?shopId=${shopId}`;
 
 const individualviewAPI = `${config.individualviewAPI}?shopId=${shopId}`;
 const individualupdateAPI = `${config.individualupdateAPI}?shopId=${shopId}`;
-const logoutAPI = `${config.logoutAPI}`;
+const logoutAPI = `${config.logoutAPI}?shopId=${shopId}`;
 const mineIndexUrl = `${config.mineIndexURL}?shopId=${shopId}`;
 
 exports.getInfo = (id) => (dispatch, getStates) => {
@@ -65,7 +65,7 @@ exports.updateInfo = (name, sex, condition) => (dispatch, getStates) => {
   } else if (!name.replace(/(^\s+)|(\s+$)/g, '')) {
     dispatch(setErrorMsg('请输入姓名!!'));
     return;
-  } else if (!/['"#$%&\^*]/.test(name)) {
+  } else if (/['"#$%&\^*]/.test(name)) {
     dispatch(setErrorMsg('姓名不能包含特殊字符!!'));
     return;
   }
