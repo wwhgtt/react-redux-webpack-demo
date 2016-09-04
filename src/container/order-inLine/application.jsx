@@ -70,44 +70,50 @@ const OrderInlineApplication = React.createClass({
           <p className="order-shop-desc ellipsis">{commercialProps.shopName}</p>
         </a>
 
-        <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setCustomerProps} />
-
-        <div className="options-group">
-          <div className="option">
-            <span className="option-tile">就餐人数：</span>
-            <ImportableCounter
-              setErrorMsg={setErrorMsg}
-              onCountChange={this.onCountChange}
-              count={dinePersonCount}
-              maximum={99}
-              minimum={1}
-            />
-          </div>
-        </div>
-
-        <button onTouchTap={submitOrder} className="submit-order">立即取号</button>
-
-        {queueList && queueList.length ?
+        {commercialProps.openStatus === '营业中' ?
           <div>
-            <p className="order-inLine">
-              <span>队列名称</span>
-              <span>就餐人数</span>
-              <span>等待桌数</span>
-            </p>
-            {this.buildLinePropsElement()}
+            <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setCustomerProps} />
+
+            <div className="options-group">
+              <div className="option">
+                <span className="option-tile">就餐人数：</span>
+                <ImportableCounter
+                  setErrorMsg={setErrorMsg}
+                  onCountChange={this.onCountChange}
+                  count={dinePersonCount}
+                  maximum={99}
+                  minimum={1}
+                />
+              </div>
+            </div>
+
+            <button onTouchTap={submitOrder} className="submit-order">立即取号</button>
+
+            {queueList && queueList.length ?
+              <div>
+                <p className="order-inLine">
+                  <span>队列名称</span>
+                  <span>就餐人数</span>
+                  <span>等待桌数</span>
+                </p>
+                {this.buildLinePropsElement()}
+              </div>
+              :
+              false
+            }
+
+            {errorMessage ?
+              <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
+              :
+              false
+            }
+
+            {shuoldPhoneValidateShow ?
+              this.buildPhoneValidateElement()
+              :
+              false
+            }
           </div>
-          :
-          false
-        }
-
-        {errorMessage ?
-          <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
-          :
-          false
-        }
-
-        {shuoldPhoneValidateShow ?
-          this.buildPhoneValidateElement()
           :
           false
         }

@@ -6,7 +6,7 @@ module.exports = function (
       shopLogo:null,
       maxPersonNum:null,
       hasQLine:null,
-      shopOpenStatus:null,
+      openStatus:null,
     },
     customerProps:{
       name:null,
@@ -31,7 +31,7 @@ module.exports = function (
         .setIn(['commercialProps', 'shopLogo'], payload.shopLogo)
         .setIn(['commercialProps', 'maxPersonNum'], payload.maxPersonNum)
         .setIn(['commercialProps', 'hasQLine'], payload.hasQLine)
-        .setIn(['commercialProps', 'shopOpenStatus'], payload.shopOpenStatus)
+        .setIn(['commercialProps', 'openStatus'], payload.openStatus)
         .setIn(['customerProps', 'name'], payload.name)
         .setIn(['customerProps', 'mobile'], payload.mobile)
         .setIn(['customerProps', 'sex'], payload.sex >= 0 ? payload.sex : -1)

@@ -134,35 +134,41 @@ const PlaceOrderApplication = React.createClass({
           <p className="order-shop-desc ellipsis">{commercialProps.shopName}</p>
         </a>
 
-        <div className="option">
-          <span className="options-title">预定时间</span>
-          <button className="option-btn btn-arrow-right" onTouchTap={evt => setChildView('#time-select')}>
-            {this.getFetchTimeTitle(timeProps) || '选择预定时间'}
-          </button>
-        </div>
+        {commercialProps.openStatus === '营业中' ?
+          <div>
+            <div className="option">
+              <span className="options-title">预定时间</span>
+              <button className="option-btn btn-arrow-right" onTouchTap={evt => setChildView('#time-select')}>
+                {this.getFetchTimeTitle(timeProps) || '选择预定时间'}
+              </button>
+            </div>
 
-        {this.buildSelectTablesElement(tableProps)}
+            {this.buildSelectTablesElement(tableProps)}
 
-        <div className="options-group">
-          <div className="option">
-            <span className="option-tile">就餐人数：</span>
-            <ImportableCounter
-              setErrorMsg={setErrorMsg}
-              onCountChange={this.setOrderProps}
-              count={dinePersonCount}
-              maximum={99}
-              minimum={1}
-            />
+            <div className="options-group">
+              <div className="option">
+                <span className="option-tile">就餐人数：</span>
+                <ImportableCounter
+                  setErrorMsg={setErrorMsg}
+                  onCountChange={this.setOrderProps}
+                  count={dinePersonCount}
+                  maximum={99}
+                  minimum={1}
+                />
+              </div>
+            </div>
+
+            <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setCustomerProps} />
+
+            <label className="option">
+              <span className="option-title">备注: </span>
+              <input className="option-input" name="note" placeholder="输入备注" maxLength="35" onChange={this.noteChange} />
+            </label>
+            <button className="place-order" onTouchTap={this.placeOrder}>立即预定</button>
           </div>
-        </div>
-
-        <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setCustomerProps} />
-
-        <label className="option">
-          <span className="option-title">备注: </span>
-          <input className="option-input" name="note" placeholder="输入备注" maxLength="35" onChange={this.noteChange} />
-        </label>
-        <button className="place-order" onTouchTap={this.placeOrder}>立即预定</button>
+          :
+          false
+        }
         <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
           {childView === 'table-select' ?
             <TableSelect

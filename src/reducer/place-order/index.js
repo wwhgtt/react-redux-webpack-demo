@@ -7,6 +7,7 @@ module.exports = function (
     commercialProps:{
       shopLogo:null,
       shopName:null,
+      openStatus:null,
     },
     childView:null,
     timeProps:{
@@ -36,6 +37,7 @@ module.exports = function (
       return state
         .setIn(['commercialProps', 'shopLogo'], payload.shopLogo)
         .setIn(['commercialProps', 'shopName'], payload.shopName)
+        .setIn(['commercialProps', 'openStatus'], payload.openStatus)
         .setIn(['timeProps', 'selectedDateTime'],
           Immutable.from(
             getDefaultSelectedDateTime(payload.timeJson, payload.defaultSelectedDateTime)
