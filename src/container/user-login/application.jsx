@@ -47,27 +47,29 @@ const UserLoginApplication = React.createClass({
     let weixinLoginElement = false;
     if (weixinInfo.weixin && supportInfo.weixin) {
       weixinLoginElement = (
-        <div className="wx-login">
+        <div className="wx-login flex-none">
           <h3><span>选择第三方登录</span></h3>
           <button className="btn" onTouchTap={this.onLoginWX}>微信登录</button>
           <p>
-            如果您已经有手机账号，使用微信登录后，请在【我 <br />的】界面b绑定手机号，以便关联原有账号
+            如果您已经有手机账号，使用微信登录后，请在【我的】界面b绑定手机号，以便关联原有账号
           </p>
         </div>);
     }
     return (
-      <div>
-        <PhoneVerificationCode
-          hasForeignZone={supportInfo.xiangEQ}
-          onGetVerificationCode={this.onGetVerificationCode}
-          ref="verificationCode"
-        />
-        <div>
-          <button className="btn btn--yellow btn-login" onTouchTap={this.onLogin}>登录</button>
+      <div className="container">
+        <div className="flex-columns">
+          <div className="flex-rest">
+            <PhoneVerificationCode
+              hasForeignZone={supportInfo.xiangEQ}
+              onGetVerificationCode={this.onGetVerificationCode}
+              ref="verificationCode"
+            />
+            <button className="btn btn--yellow btn-login" onTouchTap={this.onLogin}>登录</button>
+          </div>
+          {weixinLoginElement}
+          {errorMessage ? <Toast errorMessage={errorMessage} clearErrorMsg={this.clearErrorMessage} /> : false}
+          {loadingInfo.ing ? <Loading word={loadingInfo.text} /> : false}
         </div>
-        {weixinLoginElement}
-        {errorMessage ? <Toast errorMessage={errorMessage} clearErrorMsg={this.clearErrorMessage} /> : false}
-        {loadingInfo.ing ? <Loading word={loadingInfo.text} /> : false}
       </div>
     );
   },

@@ -3,8 +3,14 @@
   &-header{
     padding: 0;
     text-align: center;
+
     .btn--yellow{
       width: 80px;
+    }
+
+    p{
+      float: left;
+      margin-left: 10px;
     }
   }
 
