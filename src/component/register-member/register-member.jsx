@@ -32,6 +32,7 @@ const RegisterMember = React.createClass({
       brandPicUrl: '',
       phoneCode: '',
       isCodeShow: false,
+      loginType: 0,
     };
   },
   componentWillReceiveProps(nextProps) {
@@ -42,6 +43,7 @@ const RegisterMember = React.createClass({
       phoneNum: userInfo.mobile,
       brandPicUrl: userInfo.picUrl,
       phoneCode: registerPhoneCode,
+      loginType: userInfo.loginType,
     });
 
     if (userInfo.loginType === 0) {
@@ -99,7 +101,7 @@ const RegisterMember = React.createClass({
   },
   // 注册会员
   registerMember() {
-    const { errorMsgP, errorMsgC, phoneNum, password, userSex, birthDay, userName, phoneCode } = this.state;
+    const { errorMsgP, errorMsgC, phoneNum, password, userSex, birthDay, userName, phoneCode, loginType } = this.state;
     const regPhoneAustralia = /^04\d{8}$/;
     const isAustralia = regPhoneAustralia.test(phoneNum);
     if (!phoneNum) {
@@ -116,9 +118,11 @@ const RegisterMember = React.createClass({
       this.setState({ errorMsg: '请填写交易密码' });
     } else if (errorMsgC) {
       this.setState({ errorMsg: errorMsgC });
-    } else if (!isAustralia && !phoneCode) {
-      this.setState({ isCodeShow: true });
     } else {
+      if (!isAustralia && loginType !== 0 && !phoneCode) {
+        this.setState({ isCodeShow: true });
+        return;
+      }
       const registerInfo = {
         name: userName,
         birth: birthDay,
