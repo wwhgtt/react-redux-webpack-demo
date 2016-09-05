@@ -1,5 +1,5 @@
-@import 'settings.colors';
-@import 'settings.sizes';
+@import "settings.colors";
+@import "settings.sizes";
 
 .dish-type-scroller {
   float: left;
@@ -42,7 +42,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    content: '';
+    content: "";
     background: transparent;
   }
 

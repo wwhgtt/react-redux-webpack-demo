@@ -1,6 +1,9 @@
-@import 'settings.colors';
+@import "settings.colors";
+
+// stylelint-disable selector-no-id
+// Root element id
 #app-placeholder,
-div[data-reactroot] {
+[data-reactroot] {
   height: 100%;
 }
 
@@ -24,7 +27,7 @@ div[data-reactroot] {
       width: 18px;
       height: 18px;
       margin-right: 4px;
-      content: '';
+      content: "";
       vertical-align: -3px;
       background-repeat: no-repeat;
       background-size: 18px;

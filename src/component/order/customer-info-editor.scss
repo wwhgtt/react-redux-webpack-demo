@@ -1,4 +1,4 @@
-@import 'settings.colors';
+@import "settings.colors";
 
 .editor {
   &-title {
@@ -34,12 +34,12 @@
     float: right;
     height: 22px;
     padding: 0 .8em;
-    transition: all .25s ease-in-out;
     text-decoration: none;
     color: $color-dusty-grey;
     border-width: 1px;
     border-style: solid;
     border-radius: 11px;
+    transition: all .25s ease-in-out;
   }
 }
 

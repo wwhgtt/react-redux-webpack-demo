@@ -45,6 +45,9 @@ PreCommit:
       - '**/*.js'
       - '**/*.jsx'
     required_executable: './node_modules/eslint/bin/eslint.js'
+  StyleLint:
+    enabled: true
+    required_executable: './.linter/stylelint.js'
 PostCommit:
   ZentaoWorkRecord:
     enabled: true

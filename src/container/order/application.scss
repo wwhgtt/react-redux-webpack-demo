@@ -1,7 +1,9 @@
-@import 'settings.colors';
+@import "settings.colors";
 
+// stylelint-disable selector-no-id
+// Root element id
 #app-placeholder,
-div[data-reactroot] {
+[data-reactroot] {
   height: 100%;
 }
 
@@ -20,7 +22,7 @@ div[data-reactroot] {
   padding: 20px 30px 15px 10px;
   cursor: pointer;
   border-top: 0;
-  background-image: url('../../asset/images/stripes.png');
+  background-image: url("../../asset/images/stripes.png");
   background-repeat: repeat-x;
   background-size: 320px 4px;
 
@@ -32,8 +34,8 @@ div[data-reactroot] {
     width: 10px;
     height: 18px;
     margin-top: -9px;
-    content: '';
-    background-image: url('../../asset/images/arrow-right-grey.png');
+    content: "";
+    background-image: url("../../asset/images/arrow-right-grey.png");
     // images size 20px 36px
     background-repeat: no-repeat;
     background-position: center right;
@@ -69,7 +71,7 @@ div[data-reactroot] {
       width: 18px;
       height: 18px;
       margin-right: 4px;
-      content: '';
+      content: "";
       vertical-align: -3px;
       background-repeat: no-repeat;
       background-size: 18px;

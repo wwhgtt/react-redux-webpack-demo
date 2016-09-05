@@ -4,6 +4,9 @@ html {
   user-select: none;
 }
 
+// stylelint-disable selector-no-universal
+// Reset box-sizing for all elements
+// This is the only place can use universal selector
 *,
 *::before,
 *::after {
@@ -17,10 +20,10 @@ body {
 
 a {
   cursor: pointer;
+  text-decoration-skip: objects;
   color: inherit;
   outline: 0;
   background-color: transparent;
-  -webkit-text-decoration-skip: objects;
 }
 
 img {
@@ -59,6 +62,11 @@ button {
   }
 }
 
-a, li, button, input, textarea, label {
+a,
+li,
+button,
+input,
+textarea,
+label {
   -webkit-tap-highlight-color: $tap-highlight-color;
 }

@@ -1,23 +1,26 @@
-@import 'settings.colors';
-.verification-code{
-  &-dialog{
-    .options-group{
+@import "settings.colors";
+
+.verification-code {
+  &-dialog {
+    .options-group {
       border: none;
     }
-    
-    .dialog{
-      .option{
+
+    .dialog {
+      .option {
+        line-height: 40px;
         overflow: initial;
-        &::before{
-          display: none;
-        }
+        height: 42px;
         margin-top: 15px;
         padding: 0 0 0 15px;
-        height: 42px;
-        line-height: 40px;
         border: 1px solid $color-mercury;
         border-radius: 4px;
-        .btn{
+
+        &::before {
+          display: none;
+        }
+
+        .btn {
           position: absolute;
           top: -1px;
           right: -1px;

@@ -1,21 +1,23 @@
-@import 'settings.colors';
+@import "settings.colors";
 
-.sex-switch{
-      height:100%;
-      *{
-         display:inline-block;
-         padding:0.357em 0.6em;
-         margin-left:0.8em;
-         border:1px solid #d1d7de;
-         border-radius:1em;
-         font-size:14px;
-         line-height:1em;
-         font-style: normal; 
-         color:$color-dusty-grey;
-         &.active{
-             background:#f37e53;
-             color:$color-white;
-             border-color:#f37e53;
-         }
-      }
+.sex-switch {
+  height: 100%;
+
+  * {
+    font-size: 14px;
+    font-style: normal;
+    line-height: 1em;
+    display: inline-block;
+    margin-left: .8em;
+    padding: .357em .6em;
+    color: $color-dusty-grey;
+    border: 1px solid #d1d7de;
+    border-radius: 1em;
+
+    &.active {
+      color: $color-white;
+      border-color: #f37e53;
+      background: #f37e53;
+    }
+  }
 }

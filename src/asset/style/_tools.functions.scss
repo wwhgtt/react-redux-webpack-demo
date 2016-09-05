@@ -1,0 +1,4 @@
+// border function
+@function borderSolid($px, $color: #e7e7ef) {
+  @return ($px)px solid $color;
+}

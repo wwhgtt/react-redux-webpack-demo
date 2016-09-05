@@ -1,33 +1,39 @@
-//listul
-.list-ul{
-    position:relative;
-    background:$color-white;
-    margin-bottom:0.4em;
-    &:before{
-        @extend .border-thin;
-        top:0;
-        border-top:borderSolid(1,#e7e7ef);
+// listul
+.list-ul {
+  position: relative;
+  margin-bottom: .4em;
+  background: $color-white;
+
+  &::before {
+    @extend .border-thin;
+
+    top: 0;
+    border-top: borderSolid(1, #e7e7ef);
+  }
+
+  &::after {
+    @extend .border-thin;
+
+    bottom: 0;
+    border-bottom: borderSolid(1, #e7e7ef);
+  }
+
+  &-li {
+    height: 50px;
+    padding: 0 1.187em;
+
+    &:active {
+      background: #eaeaea;
     }
-    &:after{
-        @extend .border-thin;
-        bottom:0;
-        border-bottom:borderSolid(1,#e7e7ef);
+
+    &.spe {
+      &:active {
+        background: none;
+      }
     }
-    &-li{
-        padding: 0 1.187em;  
-        height:50px;
-        &:active{
-            background:#eaeaea;
-        }
-        &.spe{
-            &:active{
-                background:none ;
-            }
-        }
-    }
-    &-mt{
-        margin:0.4em 0 0;
-    }
+  }
+
+  &-mt {
+    margin: .4em 0 0;
+  }
 }
-
-

@@ -1,4 +1,4 @@
-@import 'settings.colors';
+@import "settings.colors";
 
 // .order-subpage {
 //   // override nested subpage
@@ -62,7 +62,7 @@
         left: 0;
         width: 0;
         height: 0;
-        content: '';
+        content: "";
         border-bottom: 25px solid transparent;
         border-left: 35px solid $color-crusta;
       }
@@ -74,8 +74,8 @@
         left: 3px;
         width: 13px;
         height: 11px;
-        content: '';
-        background-image: url('../../asset/images/tick-white.png');
+        content: "";
+        background-image: url("../../asset/images/tick-white.png");
         // images size 26px 22px
         background-repeat: no-repeat;
         background-position: center center;
@@ -93,7 +93,7 @@
     width: 70px;
     height: 50px;
     margin-top: -25px;
-    background-image: url('../../asset/images/edit-blue.png');
+    background-image: url("../../asset/images/edit-blue.png");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 18px 18px;

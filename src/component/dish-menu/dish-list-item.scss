@@ -1,9 +1,10 @@
-@import 'settings.colors';
-@import 'settings.sizes';
-@import 'tools.mixins';
+@import "settings.colors";
+@import "settings.sizes";
+@import "tools.mixins";
 
 .dish-list-item {
   @include clearfix;
+
   padding: 10px 0;
 }
 
@@ -68,8 +69,8 @@
     left: -2px;
     width: 34px;
     height: 34px;
-    content: '';
-    background-image: url('../../asset/images/member-badge.png');
+    content: "";
+    background-image: url("../../asset/images/member-badge.png");
     background-size: cover;
   }
 }

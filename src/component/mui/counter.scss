@@ -1,9 +1,10 @@
-@import 'settings.colors';
-@import 'settings.sizes';
-@import 'tools.mixins';
+@import "settings.colors";
+@import "settings.sizes";
+@import "tools.mixins";
 
 .counter {
   @include clearfix;
+
   float: right;
 
   &-minus,
@@ -28,7 +29,7 @@
       bottom: 0;
       left: 0;
       margin: auto;
-      content: '';
+      content: "";
       border-radius: 1px;
       background: $color-neon-carrot;
     }
