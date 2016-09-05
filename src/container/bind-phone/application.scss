@@ -8,9 +8,18 @@
 	text-decoration: none;
 }
 
+.bind-phone-validate {
+	padding: 10px 15px;
+}
+
 .bind-account {
 	text-align: center;
 	line-height: 1.4em;
+}
+
+.btn-bind {
+	width: 100%;
+	margin-top: 20px;
 }
 
 .text-success {
@@ -65,16 +74,4 @@
 	height: 80px;
 	margin-bottom: 20px;
 	background-size: 50px;
-}
-
-.wx-img-grey {
-	height: 60px;
-	margin-bottom: 20px;
-	background: url(../../asset/images/wx_grey.png) no-repeat center center;
-	background-size: 70px;
-}
-
-.wx-head {
-	width: 65px;
-	height: 65px;
 }

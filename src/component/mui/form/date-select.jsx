@@ -52,6 +52,9 @@ module.exports = React.createClass({
     // 强制获取焦点，解决 mobile safari 无法收起键盘的问题
     this.refs.picker.focus();
   },
+  componentWillUnmount() {
+    this._unmount = true;
+  },
   onSelectChange(evt, option, type) {
     if (evt) {
       evt.stopPropagation();
@@ -90,7 +93,9 @@ module.exports = React.createClass({
       }
     }
     state.currentDate = newCurrentDate;
-    this.setState(state);
+    if (!this._unmount) {
+      this.setState(state);
+    }
   },
   onCompleteDateSelect(evt) {
     const { onCompleteDateSelect, format } = this.props;
@@ -107,6 +112,8 @@ module.exports = React.createClass({
     if (onCancelDateSelect) {
       onCancelDateSelect();
     }
+    evt.stopPropagation();
+    evt.preventDefault();
   },
   getMonthLastDate(year, month) {
     return new Date(year, month, 0).getDate();
@@ -157,21 +164,13 @@ module.exports = React.createClass({
   },
   render() {
     const { years, months, dates } = this.state;
-    const { format } = this.props;
-    const dateStr = formatDate(this.state.currentDate, format);
     return (
       <div className="scroll-select-container" tabIndex="-1" ref="picker">
-        <div className="scroll-select-close" onTouchTap={this.onCancel}></div>
+        <div className="scroll-select-close" onTouchTap={this.onCancelDateSelect}></div>
         <div className="scroll-select-content">
           <div className="scroll-select-header date-select-header">
+            <p>选择日期</p>
             <button className="date-select-confirm btn--yellow" onTouchTap={this.onCompleteDateSelect}>确定</button>
-            <button className="date-select-cancel btn--yellow" onTouchTap={this.onCancelDateSelect}>取消</button>
-            <p>{dateStr}</p>
-          </div>
-          <div className="flex-row date-select-title">
-            <h3 className="flex-table-select">年</h3>
-            <h3 className="flex-area-select">月</h3>
-            <h3 className="flex-area-select">日</h3>
           </div>
           <div className="flex-row">
             <ActiveScrollSelect
