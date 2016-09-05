@@ -93,7 +93,7 @@ module.exports = React.createClass({
             </a>
           </li>
           {
-            condition !== 2 ?
+            condition !== 2 && info.isMember ?
               <div>
                 <li className="list-ul-li spe">
                   <a className="settingLink" href=" javascript:void(0)">
