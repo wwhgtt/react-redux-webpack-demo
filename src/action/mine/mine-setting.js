@@ -59,7 +59,7 @@ exports.updateInfo = (name, sex, condition) => (dispatch, getStates) => {
   if (!shopId) {
     dispatch(setErrorMsg('找不到门店号'));
     return;
-  } else if (!sex.toString()) {
+  } else if (sex.toString() !== '0' && sex.toString() !== '1') {
     dispatch(setErrorMsg('请选择性别!!'));
     return;
   } else if (!name.replace(/(^\s+)|(\s+$)/g, '')) {
@@ -70,7 +70,7 @@ exports.updateInfo = (name, sex, condition) => (dispatch, getStates) => {
     return;
   }
   dispatch(setLoadMsg({ status:true, word:'保存中' }));
-  fetch(`${individualupdateAPI}`, commonHelper.fetchPost({ sex, name:name.replace(/(^\s+)|(\s+$)/g, '') })).
+  fetch(`${individualupdateAPI}`, commonHelper.getFetchPostParam({ sex, name:name.replace(/(^\s+)|(\s+$)/g, '') })).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('请求数据失败'));
