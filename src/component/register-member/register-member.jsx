@@ -35,8 +35,15 @@ const RegisterMember = React.createClass({
       loginType: 0,
     };
   },
+
   componentWillReceiveProps(nextProps) {
     const { userInfo, registerPhoneCode } = nextProps;
+
+    if (this._isPropsFirstLoad) {
+      return;
+    }
+
+    this._isPropsFirstLoad = true;
     this.setState({
       userSex: userInfo.sex,
       userName: userInfo.name,
