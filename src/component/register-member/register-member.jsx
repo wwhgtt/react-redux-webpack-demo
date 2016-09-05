@@ -157,101 +157,106 @@ const RegisterMember = React.createClass({
     const currentY = new Date().getFullYear();
     // debugger;
     return (
-      <div className="register-member ">
-        <div className="register-banner">
-          <img className="register-banner-img" alt="" src={brandPicUrl} />
-        </div>
-        <div className="">
-          <div className="options-group">
-            <div className="option">
-              <span className="option-title">手机号</span>
-              <InputNum
-                maxLength={11}
-                placeholder={'请填写手机号'}
-                regs={regP}
-                className={'option-input register-input'}
-                onGetNum={this.getPhoneNum}
-                defaultVal={phoneNum}
-                disabled={isDisabled}
-              />
+      <div>
+        <div className="register-member ">
+          <div className="register-banner">
+            <img className="register-banner-img" alt="" src={brandPicUrl} />
+          </div>
+          <div className="">
+            <div className="options-group">
+              <div className="option">
+                <span className="option-title">手机号</span>
+                <InputNum
+                  maxLength={11}
+                  placeholder={'请填写手机号'}
+                  regs={regP}
+                  className={'option-input register-input'}
+                  onGetNum={this.getPhoneNum}
+                  defaultVal={phoneNum}
+                  disabled={isDisabled}
+                />
+              </div>
+            </div>
+
+            <div className="options-group">
+              <div className="option register-user">
+                <span className="option-title register-user-name">姓名</span>
+                <input
+                  type="text"
+                  className="option-input register-input register-user-input"
+                  placeholder="请填写姓名"
+                  maxLength="30"
+                  ref="userName"
+                  value={userName}
+                  onChange={this.handleName}
+                />
+                <SexSwitch sex={userSex} getSex={this.handleSex} />
+              </div>
+              <div className="option">
+                <span className="option-title">生日</span>
+                <span className="btn-arrow-right"></span>
+                {this.state.isShow ?
+                  <InputDate
+                    startYear={currentY - 120}
+                    endYear={currentY}
+                    date={this.state.birthDay}
+                    onCancelDateSelect={this.handleCancelDate}
+                    onCompleteDateSelect={this.handleCompleteDate}
+                  /> : false
+                }
+                <input
+                  type="text"
+                  className="option-input register-input"
+                  placeholder="请选择出生日期"
+                  onClick={() => { this.setState({ isShow: true }); }}
+                  value={birthDay}
+                  readOnly
+                />
+
+              </div>
+              <div className="option register-pwd">
+                <span className="option-title">交易密码</span>
+                <span className="btn-arrow-right"></span>
+                <InputNum
+                  maxLength={6}
+                  placeholder={'请填写6位数字密码'}
+                  regs={regC}
+                  className={'option-input register-input register-pwd-in'}
+                  onGetNum={this.getPassword}
+                  defaultVal={password}
+                />
+                <input
+                  type="password"
+                  ref="inputPwd"
+                  value={password}
+                  className="option-input register-input register-pwd-out"
+                  placeholder="请填写6位数字密码"
+                />
+              </div>
             </div>
           </div>
-
-          <div className="options-group">
-            <div className="option register-user">
-              <span className="option-title register-user-name">姓名</span>
-              <input
-                type="text"
-                className="option-input register-input register-user-input"
-                placeholder="请填写姓名"
-                maxLength="30"
-                ref="userName"
-                value={userName}
-                onChange={this.handleName}
-              />
-              <SexSwitch sex={userSex} getSex={this.handleSex} />
-            </div>
-            <div className="option">
-              <span className="option-title">生日</span>
-              <span className="btn-arrow-right"></span>
-              {this.state.isShow ?
-                <InputDate
-                  startYear={currentY - 120}
-                  endYear={currentY}
-                  date={this.state.birthDay}
-                  onCancelDateSelect={this.handleCancelDate}
-                  onCompleteDateSelect={this.handleCompleteDate}
-                /> : false
-              }
-              <input
-                type="text"
-                className="option-input register-input"
-                placeholder="请选择出生日期"
-                onClick={() => { this.setState({ isShow: true }); }}
-                value={birthDay}
-                readOnly
-              />
-
-            </div>
-            <div className="option register-pwd">
-              <span className="option-title">交易密码</span>
-              <span className="btn-arrow-right"></span>
-              <InputNum
-                maxLength={6}
-                placeholder={'请填写6位数字密码'}
-                regs={regC}
-                className={'option-input register-input register-pwd-in'}
-                onGetNum={this.getPassword}
-                defaultVal={password}
-              />
-              <input
-                type="password"
-                ref="inputPwd"
-                value={password}
-                className="option-input register-input register-pwd-out"
-                placeholder="请填写6位数字密码"
-              />
-            </div>
+          <div className="register-tips">
+            注：手机号和生日不可修改，请谨慎填写。
           </div>
+          {
+            errorMsg ?
+              <Toast errorMessage={errorMsg} clearErrorMsg={this.handleClearErrorMsg} />
+            : ''
+          }
+          {
+            isCodeShow ?
+              <VerificationDialog
+                phoneNum={phoneNum}
+                phoneNumDisabled
+                fetchCodeBtnText={'验证码'}
+                onClose={this.handleCodeClose}
+                onConfirm={this.handleConfirm}
+                onGetVerificationCode={this.props.onSendCode}
+              />
+            : ''
+          }
         </div>
-        <button className="register-btn btn--yellow btn-submit" onTouchTap={this.registerMember}>注册会员</button>
-        {
-          errorMsg ?
-            <Toast errorMessage={errorMsg} clearErrorMsg={this.handleClearErrorMsg} />
-          : ''
-        }
-        {
-          isCodeShow ?
-            <VerificationDialog
-              phoneNum={phoneNum}
-              phoneNumDisabled
-              fetchCodeBtnText={'验证码'}
-              onClose={this.handleCodeClose}
-              onConfirm={this.handleConfirm}
-              onGetVerificationCode={this.props.onSendCode}
-            />
-          : ''
-        }
+        <button className="btn--yellow btn-submit" onTouchTap={this.registerMember}>注册会员</button>
       </div>
     );
   },
