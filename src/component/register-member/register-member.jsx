@@ -27,7 +27,7 @@ const RegisterMember = React.createClass({
       password: '',
       userSex: '',
       isShow: false,
-      birthDay: '2012-08-15',
+      birthDay: '',
       userName: '',
       isDisabled: false,
       brandPicUrl: '',
@@ -36,10 +36,14 @@ const RegisterMember = React.createClass({
       loginType: 0,
     };
   },
+
   componentWillReceiveProps(nextProps) {
     const { userInfo, registerPhoneCode } = nextProps;
+    if (this._isPropsFirstLoad) {
+      return;
+    }
 
-    console.log(JSON.stringify(nextProps) + '\n' + JSON.stringify(this.props));
+    this._isPropsFirstLoad = true;
     this.setState({
       userSex: userInfo.sex,
       userName: userInfo.name,
@@ -203,7 +207,7 @@ const RegisterMember = React.createClass({
                     <InputDate
                       startYear={currentY - 120}
                       endYear={currentY}
-                      date={this.state.birthDay}
+                      date={birthDay || '2012-08-15'}
                       onCancelDateSelect={this.handleCancelDate}
                       onCompleteDateSelect={this.handleCompleteDate}
                     /> : false
