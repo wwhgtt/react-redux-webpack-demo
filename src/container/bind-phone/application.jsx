@@ -66,7 +66,7 @@ const BindPhoneApplication = React.createClass({
       bindSection = <BindPhoneIndex />;
     }
     return (
-      <div>
+      <div className="bin-phone">
         {bindSection}
         {
           errorMessage ?
