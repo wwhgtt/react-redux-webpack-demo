@@ -6,5 +6,16 @@
   height: 2px;
   content: "";
   transform: scale(.5, .5);
-  transform-origin: 0 0;
+}
+
+%border-thin-top {
+  @extend %border-thin;
+
+  transform-origin: 0 top;
+}
+
+%border-thin-bottom {
+  @extend %border-thin;
+
+  transform-origin: 0 bottom;
 }

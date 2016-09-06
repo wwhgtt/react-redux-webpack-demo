@@ -13,7 +13,7 @@
   padding: 1em 0;
 
   &::after {
-    @extend %border-thin;
+    @extend %border-thin-bottom;
 
     bottom: 0;
     border-bottom: bordersolid(1, #e7e7ef);
