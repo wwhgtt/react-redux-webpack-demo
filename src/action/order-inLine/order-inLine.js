@@ -36,10 +36,14 @@ exports.submitOrder = () => (dispatch, getState) => {
     dispatch(setErrorMsg('请先完善预定信息...'));
     return;
   }
+  let mobile = state.customerProps.mobile.toString();
+  if (mobile.indexOf('4') === 0 && mobile.length === 9) {
+    mobile = '0' + mobile;
+  }
   const params = '?shopId=' + shopId
     + '&name=' + state.customerProps.name
     + '&sex=' + state.customerProps.sex
-    + '&mobile=' + state.customerProps.mobile
+    + '&mobile=' + mobile
     + '&peopleCount=' + state.dinePersonCount
     + code;
   fetch(`${config.submitOrderInLineAPI}${params}`, config.requestOptions).

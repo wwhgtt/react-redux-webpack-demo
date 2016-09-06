@@ -76,11 +76,18 @@ exports.placeOrder = (note) => (dispatch, getState) => {
   const state = getState();
   const orderTime = `${state.timeProps.selectedDateTime.date} ${state.timeProps.selectedDateTime.time}:00`;
   if (!state.customerProps.name || !state.customerProps.mobile || !state.tableProps.selectedTableId
-  || !orderTime || state.customerProps.sex === null) { dispatch(setErrorMsg('请先完善预定信息...')); return; }
+  || !orderTime || state.customerProps.sex === null) {
+    dispatch(setErrorMsg('请先完善预定信息...'));
+    return;
+  }
   const code = state.phoneValidateCode ? `&code=${state.phoneValidateCode}` : '';
+  let mobile = state.customerProps.mobile.toString();
+  if (mobile.indexOf('4') === 0 && mobile.length === 9) {
+    mobile = '0' + mobile;
+  }
   const params = '?name=' + state.customerProps.name
       + '&memo=' + note
-      + '&mobile=' + state.customerProps.mobile
+      + '&mobile=' + mobile
       + '&sex=' + state.customerProps.sex
       + '&tableId=' + state.tableProps.selectedTableId
       + '&orderNumber=' + state.dinePersonCount
