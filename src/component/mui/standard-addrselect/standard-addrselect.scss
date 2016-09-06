@@ -1,4 +1,4 @@
-@import 'settings.colors';
+@import "settings.colors";
 
 // address select header
 .addrselect-header {
@@ -18,7 +18,8 @@
     border-radius: 4px;
     background: $color-wild-sand;
   }
-  &box.is-empty button{
+
+  &box.is-empty button {
     display: none;
   }
 
@@ -39,8 +40,8 @@
       display: block;
       width: 40px;
       height: 40px;
-      content: '';
-      background-image: url('../../../asset/images/location-grey.png');
+      content: "";
+      background-image: url("../../../asset/images/location-grey.png");
       background-repeat: no-repeat;
       background-position: center;
       background-size: 15px 18px;
@@ -48,14 +49,15 @@
   }
 
   &-close {
-    float: right;
     display: block;
+    float: right;
+
     &::before {
       display: block;
       width: 40px;
       height: 40px;
-      content: '';
-      background-image: url('../../../asset/images/input-cancel.png');
+      content: "";
+      background-image: url("../../../asset/images/input-cancel.png");
       background-repeat: no-repeat;
       background-position: center;
       background-size: 18px 18px;
@@ -101,7 +103,7 @@
     color: $color-dusty-grey;
 
     &::before {
-      content: '一';
+      content: "一";
     }
   }
 }
@@ -110,6 +112,8 @@
 .addrselect-map {
   position: relative;
   width: 100%;
+  // stylelint-disable declaration-block-no-duplicate-properties
+  // Need for android 4.2 ~ 4.3
   height: 220px;
   height: 45vh;
 
@@ -123,8 +127,8 @@
     width: 50px;
     height: 50px;
     margin: auto;
-    content: '';
-    background-image: url('../../../asset/images/pin.png');
+    content: "";
+    background-image: url("../../../asset/images/pin.png");
     background-size: cover;
   }
 
@@ -158,27 +162,27 @@
     height: 30px;
     border-radius: 4px;
     background-color: $color-white;
-    background-image: url('../../../asset/images/current-location.png');
+    background-image: url("../../../asset/images/current-location.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: 20px;
     box-shadow: 0 2px 4px $color-mercury;
   }
 
-  .BMap_Marker{
-    > div{
-      background: url('../../../asset/images/map-marker-cur.png') no-repeat center center;
+  .BMap_Marker {
+    > div {
+      background: url("../../../asset/images/map-marker-cur.png") no-repeat center center;
     }
 
-    img{
+    img {
       display: none;
     }
   }
 
-  &-isdefultpoint{
-    .BMap_Marker{
-      > div{
-        background: url('../../../asset/images/map-marker-cur-default.png') no-repeat center center;
+  &-isdefultpoint {
+    .BMap_Marker {
+      > div {
+        background: url("../../../asset/images/map-marker-cur-default.png") no-repeat center center;
       }
     }
   }
@@ -193,8 +197,8 @@
       color: $color-neon-carrot;
     }
 
-    .addrselect-list-item:before {
-      background-image: url('../../../asset/images/location-orange.png');
+    .addrselect-list-item::before {
+      background-image: url("../../../asset/images/location-orange.png");
     }
   }
 
@@ -212,8 +216,8 @@
       left: 15px;
       width: 15px;
       height: 18px;
-      content: '';
-      background-image: url('../../../asset/images/location-grey.png');
+      content: "";
+      background-image: url("../../../asset/images/location-grey.png");
       background-repeat: no-repeat;
       background-position: center;
       background-size: 15px 18px;
@@ -237,5 +241,3 @@
     border-bottom: 1px solid $color-gallery;
   }
 }
-
-

@@ -21,8 +21,8 @@ module.exports = React.createClass({ // SexSwitch
     const { sex } = this.props;
     return (
       <div className="sex-switch fr">
-        <i className={sex === '0' ? 'active' : ''} onTouchTap={() => this.sexSwitch('0')} ref="female">女士</i>
-        <i className={sex === '1' ? 'active' : ''} onTouchTap={() => this.sexSwitch('1')} ref="male">先生</i>
+        <i className={sex === '0' ? 'active item' : 'item'} onTouchTap={() => this.sexSwitch('0')} ref="female">女士</i>
+        <i className={sex === '1' ? 'active item' : 'item'} onTouchTap={() => this.sexSwitch('1')} ref="male">先生</i>
       </div>
     );
   },

@@ -1,74 +1,76 @@
+// stylelint-disable selector-no-id
+// Root element id
 #app-placeholder,
-div[data-reactroot],
+[data-reactroot],
 .application {
   height: 100%;
 }
 
 .register-page {
-	background-color: #f0f0f0;
+  background-color: #f0f0f0;
 }
 
 .register {
-	&-member {
-		padding-bottom: 80px;
-	}
+  &-member {
+    padding-bottom: 80px;
+  }
 
-	&-banner {
-		line-height: 0;
-		min-height: 100px;
-		
-		&-img{
-			width: 100%;
-		}
-	}
+  &-banner {
+    line-height: 0;
+    min-height: 100px;
 
-	&-input {
-		width: 150px;
-		font-size: 14px;
-		text-align: right;
-		float: right;
-	}
+    &-img {
+      width: 100%;
+    }
+  }
 
-	&-pwd{
-		position: relative;
+  &-input {
+    font-size: 14px;
+    float: right;
+    width: 150px;
+    text-align: right;
+  }
 
-		&-in {
-			opacity: 0;
-			position: absolute;
-			right: 25px;
-			z-index: 100;
-		}
+  &-pwd {
+    position: relative;
 
-		&-out {
-			position: absolute;
-			right: 25px;
-			z-index: 1;
-		}
-	}
+    &-in {
+      position: absolute;
+      z-index: 100;
+      right: 25px;
+      opacity: 0;
+    }
 
-	&-user {
-		&-name {
-			float: initial;
-		}
+    &-out {
+      position: absolute;
+      z-index: 1;
+      right: 25px;
+    }
+  }
 
-		&-input {
-			float: initial;
-		}
+  &-user {
+    &-name {
+      float: initial;
+    }
 
-		.sex-switch {
-			float: initial;
-			display: inline-block;
-		}
-	}
+    &-input {
+      float: initial;
+    }
 
-	&-tips {
-		font-size: 12px;
-		color: #666;
-		padding-left: 10px;
-	}
+    .sex-switch {
+      display: inline-block;
+      float: initial;
+    }
+  }
+
+  &-tips {
+    font-size: 12px;
+    padding-left: 10px;
+    color: #666;
+  }
 }
 
 .btn-arrow-right::after {
-	background-size: 7px;
-	width: 15px;
+  width: 15px;
+  background-size: 7px;
 }

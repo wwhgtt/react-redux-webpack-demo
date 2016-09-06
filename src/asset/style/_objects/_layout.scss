@@ -17,8 +17,8 @@
 
 .flex-rest {
   overflow: auto;
-  flex: 1;
   -webkit-overflow-scrolling: touch;
+  flex: 1;
 }
 
 
@@ -26,6 +26,7 @@
 .clearfix {
   @include clearfix;
 }
+
 .half {
   float: left;
   width: 50%;
@@ -36,23 +37,22 @@
   top: 50%;
   transform: translateY(-50%);
 }
-.fl{
-    float:left;
+
+.fl {
+  float: left;
 }
-.fr{
-    float:right;
+
+.fr {
+  float: right;
 }
-.of{
-    overflow:hidden;
+
+.of {
+  overflow: hidden;
 }
-span.middle{
-    display:inline-block;
-    height:100%;
-    vertical-align: middle;
+
+.middle {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
 }
-// word layout
-.omit{
-    overflow:hidden;
-    white-space:nowrap;
-    text-overflow:ellipsis;
-}
+

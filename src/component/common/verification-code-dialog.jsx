@@ -38,7 +38,7 @@ module.exports = React.createClass({
       onClick: this.onConfirm,
     }];
     return (
-      <div className="verification-code-dialog">
+      <div className="verification-code-dialog has">
         <Dialog
           title={title || ''}
           onClose={onClose}
