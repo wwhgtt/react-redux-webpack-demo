@@ -13,7 +13,7 @@ module.exports = React.createClass({
   buildTakeawayServiceMinPriceElement(totalPrice, takeawayServiceProps, onBillBtnTap) {
     const { dishesCount } = this.props;
     if (
-       dishesCount > 0 && (!takeawayServiceProps || !takeawayServiceProps.minPrice || totalPrice >= takeawayServiceProps.minPrice)
+      dishesCount > 0 && (!takeawayServiceProps || !takeawayServiceProps.minPrice || totalPrice >= takeawayServiceProps.minPrice)
     ) {
       return (<a className="tiny-cart-btn btn--yellow" onTouchTap={onBillBtnTap}>选好啦</a>);
     } else if (dishesCount === 0 && takeawayServiceProps && takeawayServiceProps.minPrice) {
