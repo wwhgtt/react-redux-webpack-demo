@@ -40,7 +40,7 @@ module.exports = React.createClass({
     const { info } = this.props;
     // 几种状态的判断
     if (info.loginType === 1 && !info.bindMobile) {
-      condition = 1;
+      condition = 4;
     } else if (info.loginType === 0 && !info.bindWx) {
       if (!info.isMember) {
         condition = 2;
@@ -55,27 +55,27 @@ module.exports = React.createClass({
     if (condition === 3 || condition === 4 && info.isMember) {
       partOne = (
         <div>
-          <div className="mineInfo of">
-            <div className="mineInfo-holder fl" onTouchTap={this.jumpToCredit}>
-              <p className="mineInfo-holder-p title">我的积分</p>
-              <p className="mineInfo-holder-p num">{info.score}</p>
+          <div className="menuLink mt of">
+            <div className="menuLink-holder fl" onTouchTap={this.jumpToCredit}>
+              <p className="menuLink-holder-p title">我的积分</p>
+              <p className="menuLink-holder-p num">{info.score}</p>
             </div>
-            <div className="mineInfo-holder fl" onTouchTap={this.jumpToRemain}>
-              <p className="mineInfo-holder-p title">我的余额</p>
-              <p className="mineInfo-holder-p num">{info.balance}</p>
+            <div className="menuLink-holder fl" onTouchTap={this.jumpToRemain}>
+              <p className="menuLink-holder-p title">我的余额</p>
+              <p className="menuLink-holder-p num">{info.balance}</p>
             </div>
           </div>
           <ul className="list-ul">
             <li className="list-ul-li" name="会员卡">
               <a className="menuLink" href={mainIndexUrl}>
-                <i name="HYK"></i>
+                <i className="icon" name="HYK"></i>
                 <span className="name">会员卡</span>
                 <span className="arrow"></span>
               </a>
             </li>
             <li className="list-ul-li" name="会员充值">
               <a className="menuLink" href={rechargeUrl}>
-                <i name="HYCZ"></i>
+                <i className="icon" name="HYCZ"></i>
                 <span className="name">会员充值</span>
                 <span className="arrow"></span>
               </a>
@@ -88,7 +88,7 @@ module.exports = React.createClass({
       partTwo = (
         <li className="list-ul-li" name="绑定微信号">
           <a className="menuLink" href={bindWXUrl}>
-            <i name="BDWX"></i>
+            <i className="icon" name="BDWX"></i>
             <span className="name">绑定微信号</span>
             <span className="arrow"></span>
           </a>
@@ -103,7 +103,7 @@ module.exports = React.createClass({
             !info.isMember ?
               <li className="list-ul-li" name="会员注册">
                 <a className="menuLink" href={registerUrl}>
-                  <i name="HYZC"></i>
+                  <i className="icon" name="HYZC"></i>
                   <span className="name">会员注册</span>
                   <span className="brief">注册会员享受更多福利</span>
                   <span className="arrow"></span>
@@ -116,7 +116,7 @@ module.exports = React.createClass({
             condition === 1 && !info.bindMobile ?
               <li className="list-ul-li" name="绑定手机号">
                 <a className="menuLink" href={bindMobileUrl}>
-                  <i name="BDSJ"></i>
+                  <i className="icon" name="BDSJ"></i>
                   <span className="name">绑定手机号</span>
                   <span className="arrow"></span>
                 </a>
@@ -128,7 +128,7 @@ module.exports = React.createClass({
             condition === 2 && !info.bindWx && isWeiXinBroswer ? // 同时要是微信浏览器
               <li className="list-ul-li" name="绑定微信号">
                 <a className="menuLink" href={bindWXUrl}>
-                  <i name="BDWX"></i>
+                  <i className="icon" name="BDWX"></i>
                   <span className="name">绑定微信号</span>
                   <span className="arrow"></span>
                 </a>
@@ -146,21 +146,21 @@ module.exports = React.createClass({
         <ul className="list-ul">
           <li className="list-ul-li" name="订单中心">
             <a className="menuLink" href={orderallListUrl}>
-              <i name="DD"></i>
+              <i className="icon" name="DD"></i>
               <span className="name">订单中心</span>
               <span className="arrow"></span>
             </a>
           </li>
           <li className="list-ul-li" name="优惠券">
             <a className="menuLink" href={getCouponListUrl}>
-              <i name="YH"></i>
+              <i className="icon" name="YH"></i>
               <span className="name">优惠券</span>
               <span className="arrow"></span>
             </a>
           </li>
           <li className="list-ul-li" name="地址管理">
             <a className="menuLink" href={addressListUrl}>
-              <i name="DZ"></i>
+              <i className="icon" name="DZ"></i>
               <span className="name">地址管理</span>
               <span className="arrow"></span>
             </a>
@@ -171,7 +171,7 @@ module.exports = React.createClass({
         <ul className="list-ul">
           <li className="list-ul-li" name="设置">
             <a className="menuLink" href={settingUrl}>
-              <i name="SZ"></i>
+              <i className="icon" name="SZ"></i>
               <span className="name">设置</span>
               <span className="arrow"></span>
             </a>

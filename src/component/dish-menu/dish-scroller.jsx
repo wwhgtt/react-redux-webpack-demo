@@ -25,7 +25,10 @@ module.exports = React.createClass({
   componentDidMount() {
     const { onScroll } = this.props;
     const cache = this._cache = {};
-    const iScroll = cache.iScroll = new IScroll(findDOMNode(this), {});
+    const iScroll = cache.iScroll = new IScroll(findDOMNode(this), {
+      click: true,
+      tap: true,
+    });
     iScroll.on('scrollStart', () => {
       cache.isScrolling = true;
       if (cache.timer) {

@@ -1,77 +1,82 @@
-@import 'settings.colors';
+@import "settings.colors";
 
-#app-placeholder{
+// stylelint-disable selector-no-id
+// Root element id
+#app-placeholder {
   font-size: 14px;
   min-height: 100%;
   padding: 10px 15px;
 }
 
-.container{
-  position: absolute; 
-  left: 15px;
-  right: 15px; 
+.container {
+  position: absolute;
   top: 15px;
+  right: 15px;
   bottom: 15px;
+  left: 15px;
   min-height: 310px;
 }
 
-.btn{
+.btn {
   font-size: 14px;
   text-align: center;
   border-radius: 3px;
-  &-login{
+
+  &-login {
+    line-height: 40px;
     width: 100%;
     margin-top: 20px;
-    line-height: 40px;
   }
 }
 
-.wx-login{
+.wx-login {
   font-size: 12px;
   height: 130px;
   margin: 10px 0 0;
   color: $color-dusty-grey;
-  h3{
+
+  h3 {
     font-size: 12px;
     font-weight: normal;
     position: relative;
     text-align: center;
 
-    span{
+    span {
       position: relative;
       padding: 0 10px;
       background: #fff;
     }
-    
-    &::before{
-      position:absolute;
-      left: 0;
-      right: 0;
+
+    &::before {
+      position: absolute;
       top: 5px;
-      content: ' ';
+      right: 0;
+      left: 0;
+      content: " ";
       border-top: 1px solid $color-athens-grey;
     }
   }
 
-  .btn{
-    width: 100%;
+  .btn {
     line-height: 40px;
-    margin: 25px 0 15px 0;
-    border: 1px solid #20CA69;
-    color:#20CA69;
-    &::before{
+    width: 100%;
+    margin: 25px 0 15px;
+    color: #20ca69;
+    border: 1px solid #20ca69;
+
+    &::before {
       display: inline-block;
       width: 20px;
       height: 20px;
       margin-right: 5px;
-      content: '';
+      content: "";
       vertical-align: middle;
-      background: url('../../asset/images/weixin.png') no-repeat;
+      background: url("../../asset/images/weixin.png") no-repeat;
       background-size: 20px 20px;
     }
   }
 
-  p{
+  p {
     line-height: 1.4;
   }
 }

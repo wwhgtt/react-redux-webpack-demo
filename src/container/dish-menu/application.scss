@@ -1,5 +1,7 @@
+// stylelint-disable selector-no-id
+// Root element id
 #app-placeholder,
-div[data-reactroot],
+[data-reactroot],
 .application {
   overflow: hidden;
   height: 100%;

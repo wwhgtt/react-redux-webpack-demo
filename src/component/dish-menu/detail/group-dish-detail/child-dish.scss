@@ -1,5 +1,5 @@
-@import 'settings.colors';
-@import 'settings.sizes';
+@import "settings.colors";
+@import "settings.sizes";
 
 .group-dishes-container {
   margin-bottom: 5px;
@@ -78,7 +78,7 @@
       left: -8px;
       width: 0;
       height: 0;
-      content: '';
+      content: "";
       border-top: 16px solid $color-white;
       border-left: 8px solid transparent;
     }
@@ -89,7 +89,7 @@
       right: -8px;
       width: 0;
       height: 0;
-      content: '';
+      content: "";
       border-top: 16px solid $color-white;
       border-right: 8px solid transparent;
     }
@@ -99,7 +99,7 @@
       width: 12px;
       height: 8px;
       margin: -3px auto 0;
-      background-image: url('../../../../asset/images/arrow-top-orange.png'); // image size 24 * 15px
+      background-image: url("../../../../asset/images/arrow-top-orange.png"); // image size 24 * 15px
       background-size: cover;
     }
   }

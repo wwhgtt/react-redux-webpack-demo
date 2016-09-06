@@ -1,4 +1,4 @@
-@import 'settings.colors';
+@import "settings.colors";
 
 // override background color
 .dish-detail-content--white {
@@ -37,7 +37,13 @@
       float: left;
       margin-right: 10px;
       color: $color-dusty-grey;
-      background-image: linear-gradient(transparent 12px, currentColor 12px, currentColor 13px, transparent 13px);
+      background-image:
+        linear-gradient(
+          transparent 12px,
+          currentColor 12px,
+          currentColor 13px,
+          transparent 13px
+        );
     }
 
     &-title {

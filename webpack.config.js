@@ -27,9 +27,21 @@ module.exports = {
     'address-list-entry': [
       './src/address-list.jsx',
     ],
-    'bind-phone-entry': './src/bind-phone.jsx',
-    'bind-wx-entry': './src/bind-wx.jsx',
-    'register-member-entry' : './src/register-member.jsx',
+    'order-inLine': [
+      './src/order-inLine.jsx',
+    ],
+    'place-order': [
+      './src/place-order.jsx',
+    ],
+    'bind-phone-entry': [
+      './src/bind-phone.jsx',
+    ],
+    'bind-wx-entry': [
+      './src/bind-wx.jsx',
+    ],
+    'register-member-entry': [
+      './src/register-member.jsx',
+    ],
     'user-login-entry': [
       './src/user-login.jsx',
     ],
@@ -65,7 +77,7 @@ module.exports = {
     ],
   },
   postcss() {
-    return [autoprefixer({ browsers: ['last 5 versions'] })];
+    return [autoprefixer({ browsers: ['Chrome >= 37'] })];
   },
   plugins: [
     // new webpack.HotModuleReplacementPlugin(),
@@ -127,9 +139,25 @@ module.exports = {
     ),
     new HtmlWebpackPlugin(
       {
+        title: 'OrderInLineApplication',
+        filename: 'order-inLine.html',
+        chunks: ['common', 'order-inLine'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
         title: 'BindWXApplication',
         filename: 'bind-wx.html',
         chunks: ['common', 'bind-wx-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'PlaceOrderApplication',
+        filename: 'place-order.html',
+        chunks: ['common', 'place-order'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

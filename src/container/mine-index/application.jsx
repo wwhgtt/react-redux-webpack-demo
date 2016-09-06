@@ -28,7 +28,7 @@ const MineIndexApplication = React.createClass({
   render() {
     const { info, clearErrorMsg, errorMessage, load } = this.props;
     return (
-      <div>
+      <div className="application">
         {
           load.status ?
             <Loading word={load.word} />

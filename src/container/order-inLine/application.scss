@@ -1,0 +1,82 @@
+@import "settings.colors";
+
+// stylelint-disable selector-no-id
+// Root element id
+#app-placeholder,
+[data-reactroot] {
+  height: 100%;
+}
+
+.application {
+  height: 100%;
+  background: $color-gallery;
+}
+
+// override styles
+.queue-form {
+  .options-group {
+    padding: 0 10px;
+  }
+
+  .option {
+    padding-right: 0;
+    padding-left: 0;
+    border-bottom-color: $color-gallery;
+  }
+
+  .editor {
+    margin-bottom: 0;
+    border-bottom: 0;
+
+    + .options-group {
+      border-top: 0;
+    }
+
+    .option:last-child {
+      border-bottom: 1px solid $color-gallery;
+    }
+  }
+}
+
+.queue {
+  &-btn {
+    display: block;
+    width: 100%;
+    height: 40px;
+    border-radius: 4px;
+  }
+
+  &-list {
+    padding: 15px 10px;
+
+    span {
+      float: left;
+      width: (1 / 3) * 100%;
+      text-align: center;
+      color: $color-dusty-grey;
+
+      &:first-child {
+        text-align: left;
+      }
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+  }
+
+  &-title {
+    overflow: hidden;
+    padding-bottom: 15px;
+    border-bottom: 1px solid $color-gallery;
+  }
+
+  &-entry {
+    overflow: hidden;
+    margin-top: 15px;
+
+    > span:last-child {
+      color: $color-neon-carrot;
+    }
+  }
+}

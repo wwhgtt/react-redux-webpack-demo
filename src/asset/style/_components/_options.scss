@@ -27,6 +27,12 @@
     border-bottom: 0;
   }
 
+  // adjuster counter styles
+  > .customers-counter {
+    margin-top: -3px;
+    margin-bottom: -3px;
+  }
+
   &-title {
     float: left;
     width: $option-left-width;
@@ -56,8 +62,8 @@
     background: transparent;
   }
 
-  &[type=number]::-webkit-inner-spin-button,
-  &[type=number]::-webkit-outer-spin-button {
+  &[type="number"]::-webkit-inner-spin-button,
+  &[type="number"]::-webkit-outer-spin-button {
     appearance: none;
   }
 }

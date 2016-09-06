@@ -45,7 +45,7 @@ const MineSettingApplication = React.createClass({
       condition = 1;
     }
     return (
-      <div>
+      <div className="application">
         {
           load.status ?
             <Loading word={load.word} />

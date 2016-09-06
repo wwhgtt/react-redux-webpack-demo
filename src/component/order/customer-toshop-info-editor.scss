@@ -1,4 +1,4 @@
-@import 'settings.colors';
+@import "settings.colors";
 
 // reset option layout
 .option {
@@ -21,7 +21,7 @@
   background: $color-gallery;
 }
 
-.customer-address-page{
+.customer-address-page {
   .customer {
     &-name {
       float: left;
@@ -34,7 +34,7 @@
     }
   }
 
-  .option-input{
+  .option-input {
     font-size: 16px;
     float: left;
     text-align: left;

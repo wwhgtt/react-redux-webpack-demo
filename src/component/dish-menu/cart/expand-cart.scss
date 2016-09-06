@@ -1,5 +1,5 @@
-@import 'settings.colors';
-@import 'settings.sizes';
+@import "settings.colors";
+@import "settings.sizes";
 
 .expand-cart {
   position: fixed;
@@ -46,8 +46,8 @@
       width: 15px;
       height: 16px;
       margin: 8px 3px 0 0;
-      content: '';
-      background-image: url('../../../asset/images/cart-clear.png'); // image size 30 * 32px
+      content: "";
+      background-image: url("../../../asset/images/cart-clear.png"); // image size 30 * 32px
       background-size: cover;
     }
   }
@@ -57,11 +57,12 @@
   }
 }
 
-
 // cart content area
 .cart-ordered-list {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
+  // stylelint-disable declaration-block-no-duplicate-properties
+  // Need for android 4.2 ~ 4.3
   max-height: 280px;
   max-height: 60vh;
 }

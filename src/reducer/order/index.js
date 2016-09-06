@@ -37,6 +37,8 @@ module.exports = function (
     },
     childView:null,
     errorMessage:null,
+    shuoldPhoneValidateShow:false,
+    phoneValidateCode:'',
   }),
   action
 ) {
@@ -74,8 +76,9 @@ module.exports = function (
                   .set(
                     'customerProps',
                     Immutable.from({
-                      name:payload.member.name, mobile:payload.member.mobile,
-                      sex: isNaN(+payload.member.sex) ? '-1' : payload.member.sex, isMember:payload.isMember, customerCount:1,
+                      name:payload.member.name, mobile:payload.member.mobile, loginType:payload.member.loginType ? payload.member.loginType : 1,
+                      iconUri:payload.member.iconUri, sex: isNaN(+payload.member.sex) ? '-1' : payload.member.sex,
+                      isMember:payload.isMember, customerCount:1,
                       addresses:payload.ma ? [Object.assign({ isChecked:true, id: payload.ma.memberAddressId }, payload.ma)] : null,
                     })
                   )
@@ -209,6 +212,8 @@ module.exports = function (
         return state.set(
           'customerProps', payload
         );
+      } else if (payload.id === 'customer-count') {
+        return state.setIn(['customerProps', 'customerCount'], payload.newCount);
       } else if (payload.id === 'customer-info-selected-address') {
         return state.setIn(['customerProps', 'addresses'], payload.addresses);
       } else if (payload.id === 'customer-info-with-address') {
@@ -338,7 +343,7 @@ module.exports = function (
            _has(state.commercialProps, 'diningForm') && state.commercialProps.diningForm === 0 ?
             0
             :
-            helper.countMemberPrice(true, state.orderedDishesProps.dishes, payload.dishList, payload.type)
+            helper.countMemberPrice(state.customerProps.loginType === 1, state.orderedDishesProps.dishes, payload.dishList, payload.type)
          )
          .updateIn(
            ['orderedDishesProps', 'dishes'],
@@ -413,6 +418,10 @@ module.exports = function (
             helper.getDefaultSelectedDateTime(payload)
           )
         );
+    case 'SET_PHONE_VALIDATE_PROPS':
+      return state.set('shuoldPhoneValidateShow', payload);
+    case 'SET_PHONE_VALIDATE_CODE':
+      return state.set('phoneValidateCode', payload);
     default:
   }
   return state;
