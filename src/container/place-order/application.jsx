@@ -29,8 +29,8 @@ const PlaceOrderApplication = React.createClass({
     clearErrorMsg:React.PropTypes.func.isRequired,
     setCustomerProps:React.PropTypes.func.isRequired,
     setPhoneValidateProps:React.PropTypes.func.isRequired,
-    setPhoneValidateCode:React.PropTypes.func.isRequired,
     fetchVericationCode:React.PropTypes.func.isRequired,
+    checkCodeAvaliable:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     commercialProps:React.PropTypes.object.isRequired,
     dinePersonCount:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]).isRequired,
@@ -125,13 +125,15 @@ const PlaceOrderApplication = React.createClass({
   },
   // 校验验证码
   handleConfirm(inputInfo) {
-    const { setErrorMsg, setPhoneValidateProps, setPhoneValidateCode } = this.props;
+    const { setErrorMsg, setPhoneValidateProps, checkCodeAvaliable } = this.props;
     const { data, validation } = inputInfo;
     if (!validation.valid) {
       setErrorMsg(validation.msg);
       return false;
     }
-    return (setPhoneValidateCode(data.code), setPhoneValidateProps(false));
+    // 新加内容，校验验证码是否正确
+    checkCodeAvaliable(data).then(result => result.success ? setPhoneValidateProps(false) : false);
+    return false;
   },
   handleCodeClose() {
     const { setPhoneValidateProps } = this.props;

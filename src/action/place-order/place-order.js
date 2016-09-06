@@ -9,7 +9,6 @@ const setTableAvaliable = createAction('SET_TABLE_AVALIABLE', props => props);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
 exports.setCustomerProps = createAction('SET_CUSTOMER_PROPS', option => option);
-const setPhoneValidateCode = exports.setPhoneValidateCode = createAction('SET_PHONE_VALIDATE_CODE', code => code);
 const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
@@ -129,7 +128,6 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
     then(result => {
       if (result.code !== '200') {
         dispatch(setErrorMsg(result.msg));
-        dispatch(setPhoneValidateCode(null));
         return;
       }
     }).
@@ -137,3 +135,21 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
       console.log(err);
     });
 };
+exports.checkCodeAvaliable = (data) => (dispatch, getState) =>
+  fetch(`${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}`, config.requestOptions)
+    .then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('校验验证码信息失败...'));
+      }
+      return res.json();
+    })
+    .then(result => {
+      if (result.code.toString() === '200') {
+        return { success:true };
+      }
+      dispatch(setErrorMsg(result.msg));
+      return { success:false };
+    })
+    .catch(err => {
+      console.log(err);
+    });

@@ -86,6 +86,6 @@ module.exports = {
   // =======
   registerInfoAPI: `${apiBase}/member/register.json`, // 获取用户信息
   registerAPI: `${apiBase}/member/addMember.json`, // 申请会员
+  checkCodeAvaliableAPI:`${apiBase}/user/validMobile.json`,
   requestOptions,
 };
-
