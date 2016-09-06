@@ -182,6 +182,7 @@ exports.clearErrorMsg = () => (dispatch, getState) =>
   dispatch(setErrorMsg(null));
 
 exports.setSessionAndForwardChaining = (id) => (dispatch, getState) => {
+  console.log('1daskndkasldasldhasi');
   sessionStorage.setItem('rurl_address', JSON.stringify(location.href));
   if (typeof id !== 'string') {
     location.href = `${config.editUserAddressURL}?shopId=${getUrlParam('shopId')}`;
@@ -205,7 +206,6 @@ exports.setCustomerToShopAddress = (evt, validateRet, customerTProps) => (dispat
     dispatch(setErrorMsg(validateRet.msg));
     return false;
   }
-
   const json = JSON.stringify(customerTProps);
   sessionStorage.setItem(`${shopId}_customer_toshopinfo`, json);
   dispatch(setCustomToShopAddress(customerTProps));
@@ -241,9 +241,9 @@ exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
       }
       sessionStorage.setItem(`${shopId}_sendArea_id`, sendAreaId);
       sessionStorage.setItem(`${shopId}_sendArea_rangeId`, rangeId);
-      sessionStorage.setItem(`${shopId}_sendArea_shipment`, data.shipment);
-      sessionStorage.setItem(`${shopId}_sendArea_sendPrice`, data.sendPrice);
-      sessionStorage.setItem(`${shopId}_sendArea_freeDeliveryPrice`, data.freeDeliveryPrice);
+      sessionStorage.setItem(`${shopId}_sendArea_shipment`, data.shipment ? data.shipment : 0);
+      sessionStorage.setItem(`${shopId}_sendArea_sendPrice`, data.sendPrice ? data.sendPrice : 0);
+      sessionStorage.setItem(`${shopId}_sendArea_freeDeliveryPrice`, data.freeDeliveryPrice ? data.freeDeliveryPrice : 0);
       sessionStorage.setItem('receiveOrderCustomerInfo', JSON.stringify(info));
 
       dispatch(setSendAreaId(sendAreaId));

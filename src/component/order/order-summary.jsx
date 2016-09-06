@@ -107,16 +107,16 @@ module.exports = React.createClass({
               <span className="option-title option-title--icon order-summary-icon3">优惠券优惠:</span>
               <span className="order-discount discount">
                 {serviceProps.discountProps.discountInfo && serviceProps.discountProps.discountInfo.isChecked ?
-                  (helper.countPriceByCoupons(
+                  helper.countPriceByCoupons(
                     serviceProps.couponsProps.inUseCouponDetail,
                     helper.getPriceCanBeUsedToBenefit(dishesPrice, serviceProps.deliveryProps)
                       - serviceProps.discountProps.inUseDiscount,
-                  )).toFixed(2)
+                  )
                   :
-                  (helper.countPriceByCoupons(
+                  helper.countPriceByCoupons(
                     serviceProps.couponsProps.inUseCouponDetail,
                     helper.getPriceCanBeUsedToBenefit(dishesPrice, serviceProps.deliveryProps),
-                  )).toFixed(2)
+                  )
                 }
               </span>
             </p>
