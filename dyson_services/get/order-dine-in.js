@@ -6,7 +6,7 @@ module.exports = {
       member: {
         name: '啦啦啦',
         mobile: '13980691506',
-        sex: 0,
+        sex: null,
         iconUri: 'http://wx.qlogo.cn/mmopen/ajNVdqHZLLC6Q1uomrOlfpCyJOxuDUcoXIzibCZGQeElFuy3UVFxlHMn8kzECiaJicWqe8icJySHoNOS9iadia0fDTiag/0',
         loginType:'0', // 0表示手机号登录、1表示openId登录
       },
