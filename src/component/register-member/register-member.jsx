@@ -260,7 +260,7 @@ const RegisterMember = React.createClass({
             : ''
           }
           {
-            isCodeShow || true ?
+            isCodeShow ?
               <VerificationDialog
                 phoneNum={phoneNum}
                 phoneNumDisabled
