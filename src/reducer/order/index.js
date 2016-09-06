@@ -343,7 +343,7 @@ module.exports = function (
            _has(state.commercialProps, 'diningForm') && state.commercialProps.diningForm === 0 ?
             0
             :
-            helper.countMemberPrice(state.customerProps.loginType === 1, state.orderedDishesProps.dishes, payload.dishList, payload.type)
+            helper.countMemberPrice(state.customerProps.loginType === 0, state.orderedDishesProps.dishes, payload.dishList, payload.type)
          )
          .updateIn(
            ['orderedDishesProps', 'dishes'],
