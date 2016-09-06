@@ -20,6 +20,7 @@ switch (process.env.NODE_ENV) {
 }
 
 module.exports = {
+  // API
   takeawayMenuAPI: `${apiBase}/takeaway/dishAll.json`,
   orderallMenuAPI: `${apiBase}/orderall/dishAll.json`,
   orderDineInAPi: `${apiBase}/orderall/dishBox.json`,
@@ -45,14 +46,15 @@ module.exports = {
   userLoginWXURL: `${apiBase}/user/login4WX`,
   getUserLoginSupportAPI: `${apiBase}/user/supportTypes.json`,
 
-  shopDetailURL:`${apiBase}/shop/detail`,
-  mineIndexURL:`${apiBase}/user/individual`,
-  mineSettingURL:`${apiBase}/user/individualView`,
+  // 跳转URL
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
   editUserAddressURL: `${apiBase}/user/address`,
 
-
+  brandIndexURL:`${apiBase}/brand/index`, // 品牌首页
+  shopDetailURL:`${apiBase}/shop/detail`, // 门店首页
+  mineIndexURL:`${apiBase}/user/individual`, // 个人中心页面
+  mineSettingURL:`${apiBase}/user/individualView`, // 设置页面
   bindMobileURL:`${apiBase}/user/bindMobile`, // 绑定手机页面
   bindWXURL:`${apiBase}/user/bindOpenid`, // 绑定微信页面
   registerMemberURL:`${apiBase}/member/register`, // 注册会员
