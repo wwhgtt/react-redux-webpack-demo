@@ -77,7 +77,7 @@ module.exports = function (
                     'customerProps',
                     Immutable.from({
                       name:payload.member.name, mobile:payload.member.mobile, loginType:+payload.member.loginType > 0 ? +payload.member.loginType : 0,
-                      iconUri:payload.member.iconUri, sex: isNaN(+payload.member.sex) ? '-1' : payload.member.sex,
+                      iconUri:payload.member.iconUri, sex: isNaN(+payload.member.sex) ? null : payload.member.sex,
                       isMember:payload.isMember, customerCount:1,
                       addresses:payload.ma ? [Object.assign({ isChecked:true, id: payload.ma.memberAddressId }, payload.ma)] : null,
                     })
