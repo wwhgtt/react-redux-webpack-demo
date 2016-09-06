@@ -232,7 +232,7 @@ const OrderApplication = React.createClass({
   buildTSCustomerPropsElement() {
     const { customerProps } = this.props;
     const { setCustomerProps, setErrorMsg } = this.props;
-    if (customerProps.loginType === 1) {
+    if (customerProps.loginType === 0) {
       // 表示手机号登陆
       return (
         <div className="customerInfo">
