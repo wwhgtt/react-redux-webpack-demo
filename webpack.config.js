@@ -77,7 +77,7 @@ module.exports = {
     ],
   },
   postcss() {
-    return [autoprefixer({ browsers: ['Chrome >= 37'] })];
+    return [autoprefixer({ browsers: ['Safari > 1'] })];
   },
   plugins: [
     // new webpack.HotModuleReplacementPlugin(),
