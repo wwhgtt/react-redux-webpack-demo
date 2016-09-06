@@ -57,7 +57,7 @@ exports.fetchAllAddressList = () => (dispatch, getState) => {
       console.log(err);
     });
 };
-exports.saveCustomerAddressInfo = (evt, address) => (dispatch, getState) => {
+exports.saveCustomerAddressInfo = (evt, shopId, address) => (dispatch, getState) => {
   const requestOptions = Object.assign({}, config.requestOptions);
   requestOptions.method = 'POST';
   requestOptions.body = JSON.stringify(address);
@@ -67,7 +67,7 @@ exports.saveCustomerAddressInfo = (evt, address) => (dispatch, getState) => {
   }
 
   btn.disabled = true;
-  return fetch(config.saveAddressAPI, requestOptions).
+  return fetch(`${config.saveAddressAPI}?shopId=${shopId}`, requestOptions).
     then(res => {
       if (!res.ok) {
         btn.disabled = false;

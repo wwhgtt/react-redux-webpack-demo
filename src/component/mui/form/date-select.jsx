@@ -52,6 +52,9 @@ module.exports = React.createClass({
     // 强制获取焦点，解决 mobile safari 无法收起键盘的问题
     this.refs.picker.focus();
   },
+  componentWillUnmount() {
+    this._unmount = true;
+  },
   onSelectChange(evt, option, type) {
     if (evt) {
       evt.stopPropagation();
@@ -90,7 +93,9 @@ module.exports = React.createClass({
       }
     }
     state.currentDate = newCurrentDate;
-    this.setState(state);
+    if (!this._unmount) {
+      this.setState(state);
+    }
   },
   onCompleteDateSelect(evt) {
     const { onCompleteDateSelect, format } = this.props;

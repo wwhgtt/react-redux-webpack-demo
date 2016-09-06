@@ -75,7 +75,7 @@ const CustomerAddressApplication = React.createClass({
       return;
     }
 
-    saveCustomerAddressInfo(evt, data);
+    saveCustomerAddressInfo(evt, shopId, data);
   },
   deleteAddress(data) {
     const { deleteCustomerAddressInfo } = this.props;

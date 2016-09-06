@@ -2,6 +2,7 @@ import React from 'react';
 import InputNum from '../mui/form/input/input-number.js';
 import SexSwitch from '../common/sex-switch.jsx';
 import Toast from '../mui/toast.jsx';
+const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const InputDate = require('../mui/form/date-select.jsx');
 const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
 
@@ -26,7 +27,7 @@ const RegisterMember = React.createClass({
       password: '',
       userSex: '',
       isShow: false,
-      birthDay: '2012-08-15',
+      birthDay: '',
       userName: '',
       isDisabled: false,
       brandPicUrl: '',
@@ -35,8 +36,14 @@ const RegisterMember = React.createClass({
       loginType: 0,
     };
   },
+
   componentWillReceiveProps(nextProps) {
     const { userInfo, registerPhoneCode } = nextProps;
+    if (this._isPropsFirstLoad) {
+      return;
+    }
+
+    this._isPropsFirstLoad = true;
     this.setState({
       userSex: userInfo.sex,
       userName: userInfo.name,
@@ -195,15 +202,17 @@ const RegisterMember = React.createClass({
               <div className="option">
                 <span className="option-title">生日</span>
                 <span className="btn-arrow-right"></span>
-                {this.state.isShow ?
-                  <InputDate
-                    startYear={currentY - 120}
-                    endYear={currentY}
-                    date={this.state.birthDay}
-                    onCancelDateSelect={this.handleCancelDate}
-                    onCompleteDateSelect={this.handleCompleteDate}
-                  /> : false
-                }
+                <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
+                  {this.state.isShow ?
+                    <InputDate
+                      startYear={currentY - 120}
+                      endYear={currentY}
+                      date={birthDay || '2012-08-15'}
+                      onCancelDateSelect={this.handleCancelDate}
+                      onCompleteDateSelect={this.handleCompleteDate}
+                    /> : false
+                  }
+                </ReactCSSTransitionGroup>
                 <input
                   type="text"
                   className="option-input register-input"
