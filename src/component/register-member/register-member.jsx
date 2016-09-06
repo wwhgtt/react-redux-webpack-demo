@@ -15,6 +15,7 @@ const RegisterMember = React.createClass({
     // regs: React.PropTypes.array,
     userInfo: React.PropTypes.object,
     onSendCode: React.PropTypes.func,
+    registerPhoneCode: React.PropTypes.string,
   },
 
   getInitialState() {
@@ -38,6 +39,11 @@ const RegisterMember = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     const { userInfo, registerPhoneCode } = nextProps;
+    if (registerPhoneCode === this.props.registerPhoneCode) {
+      this.setState({
+        phoneCode: registerPhoneCode,
+      });
+    }
 
     if (this._isPropsFirstLoad) {
       return;

@@ -61,6 +61,7 @@ exports.saveRegisterMember = (info) => (dispatch, getStates) => {
       dispatch(setLoadMsg({ status:false, word: '' }));
       dispatch(setErrorMsg(res.msg));
     } else {
+      dispatch(setPhoneCode(info.code));
       dispatch(setLoadMsg({ status:false, word: '' }));
       dispatch(setErrorMsg(res.msg));
     }
