@@ -5,7 +5,7 @@ const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error =>
 const setOrderInLineProps = createAction('SET_ORDER_INLINE_PROPS', props => props);
 exports.setCustomerProps = createAction('SET_CUSTOMER_PROPS', props => props);
 exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
-exports.setPhoneValidateCode = createAction('SET_PHONE_VALIDATE_CODE', code => code);
+const setPhoneValidateCode = exports.setPhoneValidateCode = createAction('SET_PHONE_VALIDATE_CODE', code => code);
 const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
 const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 require('es6-promise');
@@ -81,6 +81,7 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
     then(result => {
       if (result.code !== '200') {
         dispatch(setErrorMsg(result.msg));
+        dispatch(setPhoneValidateCode(null));
         return;
       }
     }).
