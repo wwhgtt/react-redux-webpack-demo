@@ -39,7 +39,7 @@ const RegisterMember = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     const { userInfo, registerPhoneCode } = nextProps;
-    if (registerPhoneCode === this.props.registerPhoneCode) {
+    if (!this.props.registerPhoneCode) {
       this.setState({
         phoneCode: registerPhoneCode,
       });
