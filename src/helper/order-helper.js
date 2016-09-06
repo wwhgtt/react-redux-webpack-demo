@@ -617,8 +617,8 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   }
 
   let sex = +state.customerProps.sex;
-  if (isNaN(sex)) {
-    sex = -1;
+  if (isNaN(sex) || state.customerProps.sex === null) {
+    return { success:false, msg:'未选择性别' };
   }
   const dishesPrice = getDishesPrice(state.orderedDishesProps.dishes);
   const integral = state.serviceProps.integralsInfo.isChecked ? countIntegralsToCash(

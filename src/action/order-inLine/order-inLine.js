@@ -32,7 +32,7 @@ exports.clearErrorMsg = () => (dispatch, getState) =>
 exports.submitOrder = () => (dispatch, getState) => {
   const state = getState();
   const code = state.phoneValidateCode ? `&code=${state.phoneValidateCode}` : '';
-  if (!state.customerProps.name || !state.customerProps.mobile || !state.customerProps.sex) {
+  if (!state.customerProps.name || !state.customerProps.mobile || state.customerProps.sex === null) {
     dispatch(setErrorMsg('请先完善预定信息...'));
     return;
   }
