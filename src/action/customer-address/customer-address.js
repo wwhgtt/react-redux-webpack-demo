@@ -41,9 +41,9 @@ exports.fetchCustomerAddressInfo = (shopId, addressId) => (dispatch, getState) =
       console.log(err);
     });
 };
-exports.fetchAllAddressList = () => (dispatch, getState) => {
+exports.fetchAllAddressList = (shopId) => (dispatch, getState) => {
   // 取所有收货地址
-  fetch(config.getAllAddressListAPI, config.requestOptions).
+  fetch(`${config.getAllAddressListAPI}?shopId=${shopId}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         console.log('获取用户地址信息失败...');
