@@ -100,6 +100,11 @@
       background-position: center center;
       background-size: 10px 6px;
       transform: rotate(180deg);
+      transition: transform .2s ease-in-out;
+    }
+
+    &.is-open::after {
+      transform: rotate(0);
     }
   }
 
