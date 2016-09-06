@@ -1,9 +1,10 @@
-@import 'settings.colors';
-@import 'settings.sizes';
+@import "settings.colors";
+@import "settings.sizes";
 
 .cart-ordered-dish {
   padding: 0 10px;
   border-bottom: 1px solid $color-mercury;
+
   .ordered-dish {
     $dish-price-width: 70px;
     $item-padding: 6px;
@@ -27,13 +28,13 @@
         right: 0;
         width: 20px;
         height: 28px;
-        content: '';
+        content: "";
+        background-image: url("../../../asset/images/arrow-top-grey.png"); // image size 20 * 12px
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 10px 6px;
         transform: rotate(180deg);
         transition: transform .15s;
-        background-image: url('../../../asset/images/arrow-top-grey.png'); // image size 20 * 12px
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-size: 10px 6px;
       }
 
       &--trigger.is-open::after {
@@ -61,7 +62,6 @@
       padding: $item-padding 0;
     }
   }
-
 }
 
 

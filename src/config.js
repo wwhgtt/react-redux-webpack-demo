@@ -67,7 +67,12 @@ module.exports = {
   modifyPwdURL:`${apiBase}/member/modifyPwd`, // 修改密码
 
   getDefaultSendArea: `${apiBase}/user/getDefaultSendArea.json`,
-
+  getOrderInLineAPI: `${apiBase}/queue/info.json`,
+  submitOrderInLineAPI: `${apiBase}/queue/add.json`,
+  placeOrderAPI:`${apiBase}/booking/book.json`,
+  getCheckTableAvaliable:`${apiBase}/booking/getTableByAreaAndNum.json`,
+  getPlaceOrderTablesAPI:`${apiBase}/booking/getTables.json`,
+  submitPlaceOrderAPI:`${apiBase}/booking/addBooking.json`,
   // ================================
   // 账号绑定
   // ================================
@@ -76,12 +81,11 @@ module.exports = {
   wxOauthAPI: `${apiBase}/weixinapi/weixinOauthUrl`, // 获取openid
   bindWXAPI: `${apiBase}/user/bindOpenid.json`, // 绑定微信
   getWXInfoAPI: `${apiBase}/user/weixinUserInfo.json`, // 获取微信信息
-
+  // =======
   // 会员注册
   // =======
   registerInfoAPI: `${apiBase}/member/register.json`, // 获取用户信息
   registerAPI: `${apiBase}/member/addMember.json`, // 申请会员
-
   requestOptions,
 };
 

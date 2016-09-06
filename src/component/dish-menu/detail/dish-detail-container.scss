@@ -1,5 +1,5 @@
-@import 'settings.colors';
-@import 'settings.sizes';
+@import "settings.colors";
+@import "settings.sizes";
 
 .dish-detail {
   &-container {
@@ -15,7 +15,7 @@
     display: block;
     height: 50px;
     background-color: $opacity-background;
-    background-image: url('../../../asset/images/dish-popup-close.png'); // image size 70 * 70px
+    background-image: url("../../../asset/images/dish-popup-close.png"); // image size 70 * 70px
     background-repeat: no-repeat;
     background-position: center right;
     background-size: 46px 46px;

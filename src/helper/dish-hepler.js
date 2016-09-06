@@ -1,6 +1,3 @@
-const config = require('../config');
-
-
 const getUrlParam = exports.getUrlParam = function (param) {
   const reg = new RegExp(`(^|&)${param}=([^&]*)(&|$)`, 'i');
   const r = window.location.search.replace(/\?/g, '&').substr(1).match(reg);

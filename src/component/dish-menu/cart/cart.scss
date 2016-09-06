@@ -1,6 +1,6 @@
-@import 'settings.colors';
-@import 'settings.sizes';
-@import 'tools.mixins';
+@import "settings.colors";
+@import "settings.sizes";
+@import "tools.mixins";
 
 
 .cart-container {
@@ -15,6 +15,7 @@
   $cart-right-width: 120px;
 
   @inclue clearfix;
+
   width: 100%;
   height: $cart-trigger-height;
   color: $color-white;
@@ -47,6 +48,7 @@
 
   &-price {
     @inclue clearfix;
+
     position: absolute;
     z-index: 1;
     top: 50%;
@@ -100,8 +102,8 @@
     display: block;
     width: 100%;
     height: 100%;
-    content: '';
-    background-image: url('../../../asset/images/cart-icon.png');
+    content: "";
+    background-image: url("../../../asset/images/cart-icon.png");
     // image size 60 * 54;
     background-repeat: no-repeat;
     background-position: center center;

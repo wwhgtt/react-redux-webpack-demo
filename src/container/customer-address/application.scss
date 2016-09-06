@@ -1,7 +1,9 @@
-@import 'settings.colors';
+@import "settings.colors";
 
+// stylelint-disable selector-no-id
+// Root element id
 #app-placeholder,
-div[data-reactroot],
+[data-reactroot],
 .application {
   height: 100%;
 }

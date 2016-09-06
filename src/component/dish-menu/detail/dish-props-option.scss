@@ -1,7 +1,9 @@
-@import 'settings.colors';
-@import 'settings.sizes';
+@import "settings.colors";
+@import "settings.sizes";
 
 .dish-porps-option {
+  $extar-max-width: 50px;
+
   font-size: 12px;
   line-height: 16px;
   float: left;
@@ -22,8 +24,6 @@
     border-color: $color-neon-carrot;
     background: $color-neon-carrot;
   }
-
-  $extar-max-width: 50px;
 
   > .name {
     display: block;

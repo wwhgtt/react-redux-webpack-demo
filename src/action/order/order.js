@@ -1,6 +1,7 @@
 const config = require('../../config');
 const createAction = require('redux-actions').createAction;
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
 const isGroupDish = require('../../helper/dish-hepler.js').isGroupDish;
 const helper = require('../../helper/order-helper.js');
@@ -20,6 +21,8 @@ const setSendAreaId = createAction('SET_SEND_AREA_ID', areaId => areaId);
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setCustomToShopAddress = createAction('SET_ADDRESS_TOSHOP_TO_ORDER', option => option);
 const setOrderTimeProps = createAction('SET_ORDER_TIME_PROPS', timeJson => timeJson);
+exports.setPhoneValidateCode = createAction('SET_PHONE_VALIDATE_CODE', code => code);
+const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 
@@ -163,48 +166,7 @@ exports.fetchLastOrderedDishes = () => (dispatch, getState) => {
   }
   dispatch(setOrderedDishesToOrder(JSON.parse(lastOrderedDishes)));
 };
-exports.submitOrder = (note, receipt) => (dispatch, getState) => {
-  const submitUrl = type === 'WM' ? config.submitWMOrderAPI : config.submitTSOrderAPI;
-  const state = getState();
-  const paramsData = helper.getSubmitUrlParams(state, note, receipt);
-  if (!paramsData.success) {
-    dispatch(setErrorMsg(paramsData.msg));
-    return false;
-  }
 
-  return fetch(`${submitUrl}${paramsData.params}`, config.requestOptions).
-    then(res => {
-      if (!res.ok) {
-        dispatch(setErrorMsg('提交订单信息失败'));
-      }
-      return res.json();
-    }).
-    then(result => {
-      if (result.code === '200') {
-        localStorage.removeItem('lastOrderedDishes');
-        sessionStorage.removeItem('receiveOrderCustomerInfo');
-        sessionStorage.removeItem(`${shopId}_sendArea_id`);
-        sessionStorage.removeItem(`${shopId}_customer_toshopinfo`);
-
-        helper.setCallbackUrl(result.data.orderId);
-        const isOnlinePay = state.serviceProps.payMethods.some(payMethod => payMethod.id === 'online-payment' && payMethod.isChecked);
-        const paramStr = `shopId=${shopId}&orderId=${result.data.orderId}`;
-        let jumpToUrl = '';
-        if (isOnlinePay && paramsData.needPayPrice.toString() !== '0') {
-          jumpToUrl = `/shop/payDetail?${paramStr}&orderType=${type}`;
-        } else {
-          jumpToUrl = type === 'WM' ? '/order/takeOutDetail?' : '/order/orderallDetail?';
-          jumpToUrl += paramStr;
-        }
-        location.href = jumpToUrl;
-      } else {
-        dispatch(setErrorMsg(result.msg));
-      }
-    }).
-    catch(err => {
-      console.log(err);
-    });
-};
 exports.fetchSendAreaId = () => (dispatch, getState) => {
   const sendAreaId = sessionStorage.getItem(shopId + '_sendArea_id');
   dispatch(setSendAreaId(JSON.parse(sendAreaId)));
@@ -236,7 +198,7 @@ exports.setSessionAndForwardEditUserAddress = (id) => (dispatch, getState) => {
   location.href = url;
 };
 exports.setCustomerProps = (customerProps) => (dispatch, getState) => {
-  dispatch(setOrderProps(null, customerProps));
+  dispatch(setOrderProps(null, Object.assign({}, { id:'customer-info' }, customerProps)));
 };
 exports.setCustomerToShopAddress = (evt, validateRet, customerTProps) => (dispatch, getState) => {
   if (!validateRet.valid) {
@@ -302,6 +264,72 @@ exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
       };
       dispatch(setDeliveryPrice(deliveryProps));
       dispatch(setOrderTimeProps(data.timeJson));
+    }).
+    catch(err => {
+      console.log(err);
+    });
+};
+
+exports.submitOrder = (note, receipt) => (dispatch, getState) => {
+  const submitUrl = type === 'WM' ? config.submitWMOrderAPI : config.submitTSOrderAPI;
+  const state = getState();
+  const paramsData = helper.getSubmitUrlParams(state, note, receipt);
+  if (!paramsData.success) {
+    dispatch(setErrorMsg(paramsData.msg));
+    return false;
+  }
+  const code = state.phoneValidateCode ? `&code=${state.phoneValidateCode}` : '';
+  return fetch(`${submitUrl}${paramsData.params}${code}`, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('提交订单信息失败'));
+      }
+      return res.json();
+    }).
+    then(result => {
+      if (result.code === '200') {
+        localStorage.removeItem('lastOrderedDishes');
+        sessionStorage.removeItem('receiveOrderCustomerInfo');
+        sessionStorage.removeItem(`${shopId}_sendArea_id`);
+        sessionStorage.removeItem(`${shopId}_customer_toshopinfo`);
+
+        helper.setCallbackUrl(result.data.orderId);
+        const isOnlinePay = state.serviceProps.payMethods.some(payMethod => payMethod.id === 'online-payment' && payMethod.isChecked);
+        const paramStr = `shopId=${shopId}&orderId=${result.data.orderId}`;
+        let jumpToUrl = '';
+        if (isOnlinePay && paramsData.needPayPrice.toString() !== '0') {
+          jumpToUrl = `/shop/payDetail?${paramStr}&orderType=${type}`;
+        } else {
+          jumpToUrl = type === 'WM' ? '/order/takeOutDetail?' : '/order/orderallDetail?';
+          jumpToUrl += paramStr;
+        }
+        location.href = jumpToUrl;
+      } else if (result.code.toString() === '20013') {
+        dispatch(setPhoneValidateProps(true));
+      } else {
+        dispatch(setErrorMsg(result.msg));
+      }
+    }).
+    catch(err => {
+      console.log(err);
+    });
+};
+exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
+  const obj = Object.assign({}, { shopId, mobile: phoneNum, timestamp: new Date().getTime() });
+  const paramStr = getSendCodeParamStr(obj);
+  const url = `${config.sendCodeAPI}?${paramStr}`;
+  return fetch(url, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('验证码获取失败'));
+      }
+      return res.json();
+    }).
+    then(result => {
+      if (result.code !== '200') {
+        dispatch(setErrorMsg(result.msg));
+        return;
+      }
     }).
     catch(err => {
       console.log(err);

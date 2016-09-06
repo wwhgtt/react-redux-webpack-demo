@@ -1,5 +1,5 @@
-@import 'settings.colors';
-@import 'settings.sizes';
+@import "settings.colors";
+@import "settings.sizes";
 
 .dish-detail-head {
   overflow: hidden;
@@ -21,8 +21,8 @@
 
     > .dish-name {
       font-size: 16px;
-      line-height: 20px;
       font-weight: bolder;
+      line-height: 20px;
 
       > .price {
         margin-left: .25em;

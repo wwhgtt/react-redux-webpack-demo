@@ -26,9 +26,10 @@ module.exports = React.createClass({
     };
   },
   getInitialState() {
+    const { phoneNum } = this.props;
     return {
       currentNation: 'China',
-      phoneNum: this.props.phoneNum,
+      phoneNum: phoneNum || '',
       code: '',
       seconds: 0,
     };

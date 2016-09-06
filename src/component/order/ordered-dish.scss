@@ -1,8 +1,7 @@
-@import 'settings.colors';
+@import "settings.colors";
 
-// Styles in this file are based on ../../component/dish-menu/cart/cart-ordered-dish.scss
+// Override styles in cart-ordered-dish.scss
 
-// reset entry size
 .cart-ordered-dish {
   padding: 0 10px !important;
 }
