@@ -223,10 +223,10 @@ const PlaceOrderApplication = React.createClass({
           </div>
           :
           <div className="error-situation">
-            {commercialProps.openStatus === '未营业' ?
-              <img src="" alt="未营业" />
+            {commercialProps.openStatus === '已打烊' ?
+              <img src="../../asset/images/yidayang.png" alt="已打烊" />
               :
-              <img src="" alt="商家设备未联网" />
+              <img src="../../asset/images/weilianwang.png" alt="商家设备未联网" />
             }
           </div>
         }
