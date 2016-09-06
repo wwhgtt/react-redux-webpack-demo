@@ -45,14 +45,14 @@ module.exports = React.createClass({
             <label className="half">
               <input
                 className="option-radio" type="radio" name="sex" defaultValue="1"
-                onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === '1'}
+                onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === '1' || customerProps.sex === 0}
               />
               <span className="editor-gender">先生</span>
             </label>
             <label className="half">
               <input
                 className="option-radio" type="radio" name="sex" defaultValue="0"
-                onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex < 1}
+                onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === '0' || customerProps.sex === 0}
               />
               <span className="editor-gender">女士</span>
             </label>
@@ -64,6 +64,7 @@ module.exports = React.createClass({
           <input
             name="mobile"
             className="editor-input editor-input--right flex-rest"
+            defaultValue={customerProps.mobile}
             placeholder={customerProps.mobile || '请输入手机号'}
             onChange={this.handleBasicInfoChange}
             disabled={isMobileDisabled}

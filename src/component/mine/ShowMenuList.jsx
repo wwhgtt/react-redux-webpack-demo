@@ -36,11 +36,12 @@ module.exports = React.createClass({
     let partOne = '';
     let partTwo = '';
     let partThree = '';
+    let partFour = '';
     const isWeiXinBroswer = commonHelper.getWeixinVersionInfo().weixin;
     const { info } = this.props;
     // 几种状态的判断
     if (info.loginType === 1 && !info.bindMobile) {
-      condition = 4;
+      condition = 1;
     } else if (info.loginType === 0 && !info.bindWx) {
       if (!info.isMember) {
         condition = 2;
@@ -96,7 +97,7 @@ module.exports = React.createClass({
       );
     }
 
-    if (condition === 1 || condition === 2) {
+    if (!info.isMember || (condition === 1 && !info.bindMobile) || (condition === 2 && !info.bindWx)) {
       partThree = (
         <ul className="list-ul">
           {
@@ -139,6 +140,17 @@ module.exports = React.createClass({
         </ul>
       );
     }
+    if (info.loginType !== 1) {
+      partFour = (
+        <li className="list-ul-li" name="优惠券">
+          <a className="menuLink" href={getCouponListUrl}>
+            <i className="icon" name="YH"></i>
+            <span className="name">优惠券</span>
+            <span className="arrow"></span>
+          </a>
+        </li>
+      );
+    }
     // return
     return (
       <div className="list-outer">
@@ -151,13 +163,7 @@ module.exports = React.createClass({
               <span className="arrow"></span>
             </a>
           </li>
-          <li className="list-ul-li" name="优惠券">
-            <a className="menuLink" href={getCouponListUrl}>
-              <i className="icon" name="YH"></i>
-              <span className="name">优惠券</span>
-              <span className="arrow"></span>
-            </a>
-          </li>
+          {partFour}
           <li className="list-ul-li" name="地址管理">
             <a className="menuLink" href={addressListUrl}>
               <i className="icon" name="DZ"></i>

@@ -76,7 +76,8 @@ exports.placeOrder = (note) => (dispatch, getState) => {
   const state = getState();
   const orderTime = `${state.timeProps.selectedDateTime.date} ${state.timeProps.selectedDateTime.time}:00`;
   if (!state.customerProps.name || !state.customerProps.mobile || !state.tableProps.selectedTableId
-  || !orderTime) { dispatch(setErrorMsg('请先完善预定信息...')); return; }
+  || !orderTime || state.customerProps.sex === null) { dispatch(setErrorMsg('请先完善预定信息...')); return; }
+  const code = state.phoneValidateCode ? `&code=${state.phoneValidateCode}` : '';
   const params = '?name=' + state.customerProps.name
       + '&memo=' + note
       + '&mobile=' + state.customerProps.mobile
@@ -85,7 +86,7 @@ exports.placeOrder = (note) => (dispatch, getState) => {
       + '&orderNumber=' + state.dinePersonCount
       + '&orderTime=' + orderTime
       + '&shopId=' + getUrlParam('shopId')
-      + '&code=' + state.phoneValidateCode;
+      + code;
   fetch(`${config.submitPlaceOrderAPI}${params}`, config.requestOptions)
     .then(res => {
       if (!res.ok) {
@@ -95,7 +96,8 @@ exports.placeOrder = (note) => (dispatch, getState) => {
     })
     .then(result => {
       if (result.code.toString() === '200') {
-        dispatch(setErrorMsg('提交排队信息成功...'));
+        dispatch(setErrorMsg('提交预定信息成功...'));
+        location.href = `/booking/bookingDetail?shopId=${shopId}&orderId=${result.data.bookingId}`;
       } else if (result.code.toString() === '20013') {
         dispatch(setPhoneValidateProps(true));
       } else {

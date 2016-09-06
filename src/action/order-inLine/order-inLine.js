@@ -31,12 +31,17 @@ exports.clearErrorMsg = () => (dispatch, getState) =>
 
 exports.submitOrder = () => (dispatch, getState) => {
   const state = getState();
+  const code = state.phoneValidateCode ? `&code=${state.phoneValidateCode}` : '';
+  if (!state.customerProps.name || !state.customerProps.mobile || state.customerProps.sex === null) {
+    dispatch(setErrorMsg('请先完善预定信息...'));
+    return;
+  }
   const params = '?shopId=' + shopId
     + '&name=' + state.customerProps.name
     + '&sex=' + state.customerProps.sex
     + '&mobile=' + state.customerProps.mobile
     + '&peopleCount=' + state.dinePersonCount
-    + '&code=' + state.phoneValidateCode;
+    + code;
   fetch(`${config.submitOrderInLineAPI}${params}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
@@ -47,6 +52,7 @@ exports.submitOrder = () => (dispatch, getState) => {
     .then(result => {
       if (result.code.toString() === '200') {
         dispatch(setErrorMsg('提交排队信息成功...'));
+        location.href = `/queue/success?shopId=${shopId}&orderId=${result.data.orderId}`;
       } else if (result.code.toString() === '20013') {
         dispatch(setPhoneValidateProps(true));
       } else {

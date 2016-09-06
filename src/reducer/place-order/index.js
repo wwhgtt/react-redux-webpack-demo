@@ -23,10 +23,10 @@ module.exports = function (
     },
     customerProps:{
       name:null,
-      sex:-1,
+      sex:null,
       mobile:null,
     },
-    dinePersonCount:1,
+    dinePersonCount:4,
     errorMessage:null,
     shuoldPhoneValidateShow:false,
     phoneValidateCode:'',

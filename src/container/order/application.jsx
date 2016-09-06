@@ -232,7 +232,7 @@ const OrderApplication = React.createClass({
   buildTSCustomerPropsElement() {
     const { customerProps } = this.props;
     const { setCustomerProps, setErrorMsg } = this.props;
-    if (customerProps.loginType === 1) {
+    if (customerProps.loginType === 0) {
       // 表示手机号登陆
       return (
         <div className="customerInfo">
@@ -255,10 +255,24 @@ const OrderApplication = React.createClass({
       );
     }
     return (
-      <a className="option order-shop">
-        <img className="order-shop-icon" src={customerProps.iconUri} alt="用户头像" />
-        <p className="order-shop-desc ellipsis">{customerProps.name}</p>
-      </a>
+      <div className="weixin-login">
+        <a className="option order-shop">
+          <img className="order-shop-icon" src={customerProps.iconUri} alt="用户头像" />
+          <p className="order-shop-desc ellipsis">{customerProps.name}</p>
+        </a>
+        <div className="options-group">
+          <div className="option">
+            <span className="option-tile">就餐人数：</span>
+            <ImportableCounter
+              setErrorMsg={setErrorMsg}
+              onCountChange={this.setOrderProps}
+              count={customerProps.customerCount}
+              maximum={99}
+              minimum={1}
+            />
+          </div>
+        </div>
+      </div>
     );
   },
   // 校验验证码
