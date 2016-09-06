@@ -47,6 +47,7 @@ exports.submitOrder = () => (dispatch, getState) => {
     .then(result => {
       if (result.code.toString() === '200') {
         dispatch(setErrorMsg('提交排队信息成功...'));
+        location.href = `/queue/success?shopId=${shopId}&orderId=${result.data.orderId}`;
       } else if (result.code.toString() === '20013') {
         dispatch(setPhoneValidateProps(true));
       } else {

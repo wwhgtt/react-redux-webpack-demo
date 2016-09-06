@@ -95,7 +95,8 @@ exports.placeOrder = (note) => (dispatch, getState) => {
     })
     .then(result => {
       if (result.code.toString() === '200') {
-        dispatch(setErrorMsg('提交排队信息成功...'));
+        dispatch(setErrorMsg('提交预定信息成功...'));
+        location.href = `/booking/bookingDetail?shopId=${shopId}&orderId=${result.data.bookingId}`;
       } else if (result.code.toString() === '20013') {
         dispatch(setPhoneValidateProps(true));
       } else {
