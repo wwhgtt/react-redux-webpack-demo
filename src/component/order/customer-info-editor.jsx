@@ -32,30 +32,32 @@ module.exports = React.createClass({
     const { isMobileDisabled } = this.props;
     return (
       <div className="editor options-group">
-        <div className="option flex-row">
-          <span className="editor-title flex-none">姓名：</span>
-          <input
-            className="editor-input flex-rest"
-            name="name"
-            id="editor-name"
-            placeholder={customerProps.name || '请输入姓名'}
-            onChange={this.handleBasicInfoChange}
-          />
-          <div className="editor-gender-group flex-none">
-            <label className="half">
-              <input
-                className="option-radio" type="radio" name="sex" defaultValue="1"
-                onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === '1' || customerProps.sex === 0}
-              />
-              <span className="editor-gender">先生</span>
-            </label>
-            <label className="half">
-              <input
-                className="option-radio" type="radio" name="sex" defaultValue="0"
-                onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === '0' || customerProps.sex === 0}
-              />
-              <span className="editor-gender">女士</span>
-            </label>
+        <div className="option">
+          <div className="flex-row">
+            <span className="editor-title flex-none">姓名：</span>
+            <input
+              className="editor-input flex-rest"
+              name="name"
+              id="editor-name"
+              placeholder={customerProps.name || '请输入姓名'}
+              onChange={this.handleBasicInfoChange}
+            />
+            <div className="editor-gender-group flex-none">
+              <label className="half">
+                <input
+                  className="option-radio" type="radio" name="sex" defaultValue="1"
+                  onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === '1' || customerProps.sex === 0}
+                />
+                <span className="editor-gender">先生</span>
+              </label>
+              <label className="half">
+                <input
+                  className="option-radio" type="radio" name="sex" defaultValue="0"
+                  onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === '0' || customerProps.sex === 0}
+                />
+                <span className="editor-gender">女士</span>
+              </label>
+            </div>
           </div>
         </div>
 
