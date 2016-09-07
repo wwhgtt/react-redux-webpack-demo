@@ -6,7 +6,7 @@ const helper = require('../../helper/common-helper.js');
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setLoadMsg = exports.setLoadMsg = createAction('SET_LOAD_MSG', loadinfo => loadinfo);
 const setUserInfo = createAction('SET_USER_INFO', userInfo => userInfo);
-const setPhoneCode = createAction('SET_PHONE_CODE', phoneCode => phoneCode);
+const setPhoneFalg = createAction('SET_PHONE_FLAG', phoneFlag => phoneFlag);
 const shopId = helper.getUrlParam('shopId');
 const returnUrl = helper.getUrlParam('returnUrl');
 const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
@@ -46,7 +46,7 @@ exports.saveRegisterMember = (info) => (dispatch, getStates) => {
     if (res.code === '200') {
       let displayUrl = '';
       dispatch(setLoadMsg({ status:false, word: '' }));
-      dispatch(setPhoneCode(''));
+      dispatch(setPhoneFalg(true));
       dispatch(setErrorMsg('注册成功'));
       if (returnUrl) {
         displayUrl = decodeURIComponent(returnUrl);
@@ -56,12 +56,11 @@ exports.saveRegisterMember = (info) => (dispatch, getStates) => {
       setTimeout(() => {
         location.href = `${displayUrl}?shopId=${shopId}`;
       }, 3000);
-    } else if (res.code === '10107') {
-      dispatch(setPhoneCode(''));
+    } else if (res.code === '20013') {
+      dispatch(setPhoneFalg(false));
       dispatch(setLoadMsg({ status:false, word: '' }));
-      dispatch(setErrorMsg(res.msg));
     } else {
-      dispatch(setPhoneCode(info.code));
+      dispatch(setPhoneFalg(true));
       dispatch(setLoadMsg({ status:false, word: '' }));
       dispatch(setErrorMsg(res.msg));
     }
@@ -82,6 +81,24 @@ exports.sendCode = phoneNum => (dispatch, getStates) => {
   then(res => {
     if (res.code === '200') {
       dispatch(setErrorMsg('验证码发送成功注意查收'));
+    } else {
+      dispatch(setErrorMsg(res.msg));
+    }
+  });
+};
+
+exports.checkCode = phoneInfo => (dispatch, getStates) => {
+  const checkCodeURL = `${config.checkCodeAvaliableAPI}?mobile=${phoneInfo.phoneNum}&code=${phoneInfo.code}`;
+  fetch(checkCodeURL, config.requestOptions).
+  then(res => {
+    if (!res.ok) {
+      dispatch(setErrorMsg('手机验证失败'));
+    }
+    return res.json();
+  }).then(res => {
+    if (res.code === '200') {
+      dispatch(setErrorMsg('验证成功'));
+      dispatch(setPhoneFalg(true));
     } else {
       dispatch(setErrorMsg(res.msg));
     }
