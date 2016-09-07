@@ -6,7 +6,7 @@ module.exports = {
       'name': '小林',
       'sex': '0',
       'score': 0,
-      'isMember': true,
+      'isMember': false,
       'loginType': 0,
       'iconUri': 'http://wx.qlogo.cn/mmopen/ajNVdqHZLLC6Q1uomrOlfpCyJOxuDUcoXIzibCZGQeElFuy3UVFxlHMn8kzECiaJicWqe8icJySHoNOS9iadia0fDTiag/0',
       'birthday': '1970-01-01',

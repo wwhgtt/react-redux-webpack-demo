@@ -117,21 +117,28 @@ module.exports = React.createClass({
     partTwo = (
       <ul className="list-ul list-ul-mt">
         {
-          condition !== 1 && condition !== 4 && isWeiXinBroswer ?
-            <li className="list-ul-li">
-              <a className="settingLink" href={bindWXUrl}>
-                <span className="name">微信号</span>
-                <span className="brief">未绑定</span>
-                <span className="arrow"></span>
-              </a>
-            </li>
+          isWeiXinBroswer ?
+            <div>
+              {
+                condition !== 1 && condition !== 4 ?
+                  <li className="list-ul-li">
+                    <a className="settingLink" href={bindWXUrl}>
+                      <span className="name">微信号</span>
+                      <span className="brief">未绑定</span>
+                      <span className="arrow"></span>
+                    </a>
+                  </li>
+                :
+                  <li className="list-ul-li spe">
+                    <a className="settingLink" href=" javascript:void(0)">
+                      <span className="name">微信号</span>
+                      <img src={info.iconUri || defaultPic} alt="微信头像" title="微信头像" className="logo spe" />
+                    </a>
+                  </li>
+              }
+            </div>
           :
-            <li className="list-ul-li spe">
-              <a className="settingLink" href=" javascript:void(0)">
-                <span className="name">微信号</span>
-                <img src={info.iconUri || defaultPic} alt="微信头像" title="微信头像" className="logo spe" />
-              </a>
-            </li>
+          false
         }
         {
           condition === 1 ?
