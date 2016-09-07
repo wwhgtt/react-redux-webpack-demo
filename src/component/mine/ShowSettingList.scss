@@ -1,6 +1,6 @@
 @import "settings.colors";
-@import "settings.border";
 @import "tools.functions";
+@import "tools.mixins";
 
 .settingLink {
   $width: 100%;
@@ -13,7 +13,7 @@
   padding: 1em 0;
 
   &::after {
-    @extend %border-thin-bottom;
+    @include border-thin(bottom);
 
     bottom: 0;
     border-bottom: bordersolid(1, #e7e7ef);
