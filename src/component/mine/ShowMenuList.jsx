@@ -140,7 +140,7 @@ module.exports = React.createClass({
         </ul>
       );
     }
-    if (info.loginType !== 1) {
+    if (info.bindMobile) {
       partFour = (
         <li className="list-ul-li" name="优惠券">
           <a className="menuLink" href={getCouponListUrl}>
