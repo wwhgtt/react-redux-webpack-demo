@@ -48,7 +48,7 @@ module.exports = React.createClass({
     const propertys = {};
     let value = propertys[input.name] = input.value;
     if (input.name === 'sex') {
-      value = parseInt(value, 10) || 0;
+      propertys[input.name] = value = parseInt(value, 10) || 0;
     }
     if (value === customerProps[input.name]) {
       return;
