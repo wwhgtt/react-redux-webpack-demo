@@ -9,14 +9,13 @@ const VerificationDialog = require('../../component/common/verification-code-dia
 const RegisterMember = React.createClass({
   displayName:'RegisterMember',
   propTypes: {
-    // MapedActionsToProps
+    // MapedStatesToProps
+    userInfo: React.PropTypes.object,
     onRegisterMember:React.PropTypes.func.isRequired,
     onGetVerificationCode:React.PropTypes.func,
-    // MapedStatesToProps
-    // regs: React.PropTypes.array,
-    userInfo: React.PropTypes.object,
     onSendCode: React.PropTypes.func,
     registerPhoneCode: React.PropTypes.string,
+    onCheckCode: React.PropTypes.func,
   },
 
   getInitialState() {
@@ -35,16 +34,15 @@ const RegisterMember = React.createClass({
       phoneCode: '',
       isCodeShow: false,
       loginType: 0,
+      isPhoneValid: true,
     };
   },
 
   componentWillReceiveProps(nextProps) {
-    const { userInfo, registerPhoneCode } = nextProps;
-    if (!this.props.registerPhoneCode) {
-      this.setState({
-        phoneCode: registerPhoneCode,
-      });
-    }
+    const { userInfo, isPhoneValid } = nextProps;
+    this.setState({
+      isCodeShow: !isPhoneValid,
+    });
 
     if (this._isPropsFirstLoad) {
       return;
@@ -92,8 +90,7 @@ const RegisterMember = React.createClass({
 
   // 选择日期、隐藏日历
   handleCompleteDate(obj) {
-    this.setState({ birthDay: obj.text });
-    this.setState({ isShow: false });
+    this.setState({ birthDay: obj.text, isShow: false });
   },
 
   // 关闭验证码发送框
@@ -109,14 +106,11 @@ const RegisterMember = React.createClass({
       return;
     }
 
-    this.setState({ phoneCode: data.code });
-    this.setState({ isCodeShow: false });
+    this.props.onCheckCode(data);
   },
   // 注册会员
   registerMember() {
-    const { errorMsgP, errorMsgC, phoneNum, password, userSex, birthDay, userName, phoneCode, loginType } = this.state;
-    const regPhoneAustralia = /^04\d{8}$/;
-    const isAustralia = regPhoneAustralia.test(phoneNum);
+    const { errorMsgP, errorMsgC, phoneNum, password, userSex, birthDay, userName } = this.state;
     if (!phoneNum) {
       this.setState({ errorMsg: '请填写手机号码' });
     } else if (errorMsgP) {
@@ -132,17 +126,12 @@ const RegisterMember = React.createClass({
     } else if (errorMsgC) {
       this.setState({ errorMsg: errorMsgC });
     } else {
-      if (!isAustralia && loginType !== 0 && !phoneCode) {
-        this.setState({ isCodeShow: true });
-        return;
-      }
       const registerInfo = {
         name: userName,
         birth: birthDay,
         mobile: phoneNum,
         sex: userSex,
         pwd: password,
-        code: phoneCode, // 验证码
       };
       this.props.onRegisterMember(registerInfo);
     }
