@@ -71,7 +71,7 @@ exports.setTableProps = (evt, props) => (dispatch, getState) => {
 exports.clearErrorMsg = () => (dispatch, getState) =>
   dispatch(setErrorMsg(null));
 
-exports.placeOrder = (note) => (dispatch, getState) => {
+const placeOrder = exports.placeOrder = (note) => (dispatch, getState) => {
   const state = getState();
   const orderTime = `${state.timeProps.selectedDateTime.date} ${state.timeProps.selectedDateTime.time}:00`;
   if (!state.customerProps.name || !state.customerProps.mobile || !state.tableProps.selectedTableId
@@ -135,7 +135,7 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
       console.log(err);
     });
 };
-exports.checkCodeAvaliable = (data) => (dispatch, getState) =>
+exports.checkCodeAvaliable = (data, note) => (dispatch, getState) =>
   fetch(`${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}&shopId=${shopId}`, config.requestOptions)
     .then(res => {
       if (!res.ok) {
@@ -145,10 +145,10 @@ exports.checkCodeAvaliable = (data) => (dispatch, getState) =>
     })
     .then(result => {
       if (result.code.toString() === '200') {
-        return { success:true };
+        placeOrder(note)(dispatch, getState);
       }
       dispatch(setErrorMsg(result.msg));
-      return { success:false };
+      dispatch(setPhoneValidateProps(false));
     })
     .catch(err => {
       console.log(err);

@@ -33,7 +33,7 @@ fetch(`${config.getOrderInLineAPI}?shopId=${shopId}`, config.requestOptions).
 exports.clearErrorMsg = () => (dispatch, getState) =>
     dispatch(setErrorMsg(null));
 
-exports.submitOrder = () => (dispatch, getState) => {
+const submitOrder = exports.submitOrder = () => (dispatch, getState) => {
   const state = getState();
   const code = state.phoneValidateCode ? `&code=${state.phoneValidateCode}` : '';
   if (!state.customerProps.name || !state.customerProps.mobile || state.customerProps.sex === null) {
@@ -102,10 +102,10 @@ exports.checkCodeAvaliable = (data) => (dispatch, getState) =>
     })
     .then(result => {
       if (result.code.toString() === '200') {
-        return { success:true };
+        submitOrder()(dispatch, getState);
       }
       dispatch(setErrorMsg(result.msg));
-      return { success:false };
+      dispatch(setPhoneValidateProps(false));
     })
     .catch(err => {
       console.log(err);
