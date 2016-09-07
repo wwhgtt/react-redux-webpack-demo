@@ -12,7 +12,7 @@ const setLoadMsg = createAction('SET_LOAD_MSG', loadinfo => loadinfo);
 const shopId = commonHelper.getUrlParam('shopId');
 
 const logUrl = `${config.logAddressURL}?shopId=${shopId}`;
-
+const brandIndexUrl = `${config.brandIndexURL}?shopId=${shopId}`;
 const individualviewAPI = `${config.individualviewAPI}?shopId=${shopId}`;
 const individualupdateAPI = `${config.individualupdateAPI}?shopId=${shopId}`;
 const logoutAPI = `${config.logoutAPI}?shopId=${shopId}`;
@@ -118,7 +118,7 @@ exports.logOff = () => (dispatch, getStates) => {
     if (basicData.data.logout) {
       dispatch(setErrorMsg('注销成功，请重新登陆'));
       setTimeout(() => {
-        window.location.href = logUrl;
+        window.location.href = brandIndexUrl;
       }, 3000);
     } else {
       dispatch(setErrorMsg('注销失败'));

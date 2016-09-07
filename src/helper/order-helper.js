@@ -679,9 +679,13 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
       return { success:false, msg: `请选择${isSelfFetch ? '取餐' : '送达'}时间` };
     }
     const toShopFlag = isSelfFetch ? '1' : '0';
+    let mobile = selectedAddress.mobile.toString();
+    if (mobile.indexOf('4') === 0 && mobile.length === 9) {
+      mobile = '0' + mobile;
+    }
     params = '?name=' + selectedAddress.name
         + '&Invoice=' + receipt + '&memo=' + note
-        + '&mobile=' + selectedAddress.mobile
+        + '&mobile=' + mobile
         + '&sex=' + sex
         + '&payMethod=' + payMethodScope
         + '&coupId=' + coupId
