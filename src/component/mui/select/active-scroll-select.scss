@@ -64,3 +64,49 @@ $scroll-select-option-height: 40px;
     visibility: hidden;
   }
 }
+
+
+// scroll select slideup animation
+.slideup-enter {
+  .scroll-select-content {
+    transform: translate3d(0, 100%, 0);
+  }
+
+  .scroll-select-close {
+    opacity: 0;
+  }
+
+  &-active {
+    .scroll-select-content {
+      transform: translate3d(0, 0, 0);
+      transition: transform .3s ease-in-out;
+    }
+
+    .scroll-select-close {
+      opacity: 1;
+      transition: opacity .3s ease-in-out;
+    }
+  }
+}
+
+.slideup-leave {
+  .scroll-select-content {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .scroll-select-close {
+    opacity: 1;
+  }
+
+  &-active {
+    .scroll-select-content {
+      transform: translate3d(0, 100%, 0);
+      transition: transform .3s ease-in-out;
+    }
+
+    .scroll-select-close {
+      opacity: 0;
+      transition: opacity .3s ease-in-out;
+    }
+  }
+}
