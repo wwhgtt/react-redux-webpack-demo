@@ -2,7 +2,7 @@ const React = require('react');
 const connect = require('react-redux').connect;
 require('../../asset/style/style.scss');
 require('./application.scss');
-import * as actions from '../../action/register-member/register-member.js';
+const actions = require('../../action/register-member/register-member.js');
 const Toast = require('../../component/mui/toast.jsx');
 const RegisterMember = require('../../component/register-member/register-member.jsx');
 const Loading = require('../../component/mui/loading.jsx');

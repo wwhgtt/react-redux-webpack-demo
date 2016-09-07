@@ -3,7 +3,7 @@ module.exports = {
   path:'/user/individual.json',
   template:{
     'data': {
-      'name': 'July',
+      'name': 'Jul',
       'sex': '0',
       'balance': 0,
       'score': 0,

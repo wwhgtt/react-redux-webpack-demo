@@ -7,6 +7,7 @@
 }
 
 .register-page {
+  height: 100%;
   background-color: #f0f0f0;
 }
 
@@ -50,16 +51,15 @@
 
   &-user {
     &-name {
-      float: initial;
+      width: 50px;
     }
 
     &-input {
-      float: initial;
+      width: 130px;
     }
 
     .sex-switch {
       display: inline-block;
-      float: initial;
     }
   }
 

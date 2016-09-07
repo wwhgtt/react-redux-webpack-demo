@@ -56,7 +56,6 @@ const RegisterMember = React.createClass({
       userName: userInfo.name,
       phoneNum: userInfo.mobile,
       brandPicUrl: userInfo.picUrl,
-      phoneCode: registerPhoneCode,
       loginType: userInfo.loginType,
     });
 
@@ -195,6 +194,7 @@ const RegisterMember = React.createClass({
             <div className="options-group">
               <div className="option register-user">
                 <span className="option-title register-user-name">姓名</span>
+                <SexSwitch sex={userSex} getSex={this.handleSex} />
                 <input
                   type="text"
                   className="option-input register-input register-user-input"
@@ -204,7 +204,6 @@ const RegisterMember = React.createClass({
                   value={userName}
                   onChange={this.handleName}
                 />
-                <SexSwitch sex={userSex} getSex={this.handleSex} />
               </div>
               <div className="option">
                 <span className="option-title">生日</span>
