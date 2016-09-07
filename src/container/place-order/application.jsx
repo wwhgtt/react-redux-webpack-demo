@@ -11,8 +11,6 @@ const TimeSelect = require('../../component/order/select/time-select.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
-const weilianwangImg = require('../../asset/images/weilianwang.png');
-const yidayangImg = require('../../asset/images/yidayang.png');
 require('../../asset/style/style.scss');
 require('./application.scss');
 require('../../component/order/order-summary.scss'); // import option-shop styles
@@ -172,69 +170,59 @@ const PlaceOrderApplication = React.createClass({
           </a>
         </div>
 
-        {commercialProps.openStatus === '营业中' ?
-          <div>
-            {commercialProps.hasPeriodConfiguer && commercialProps.firstTime ?
-              <div className="options-group place-order-options">
-                <div className="option">
-                  <span className="options-title">预定时间</span>
-                  <button className="option-btn btn-arrow-right" onTouchTap={evt => setChildView('#time-select')}>
-                    {this.getFetchTimeTitle(timeProps) || '选择预定时间'}
-                  </button>
-                </div>
-
-                {this.buildSelectTablesElement(tableProps)}
+        <div>
+          {commercialProps.hasPeriodConfiguer && commercialProps.firstTime ?
+            <div className="options-group place-order-options">
+              <div className="option">
+                <span className="options-title">预定时间</span>
+                <button className="option-btn btn-arrow-right" onTouchTap={evt => setChildView('#time-select')}>
+                  {this.getFetchTimeTitle(timeProps) || '选择预定时间'}
+                </button>
               </div>
-              :
-              <div className="options-group">
-                <div className="option">
-                  <span className="options-title">预定时间</span>
-                  <button className="option-btn">
-                    无可预订时段
-                  </button>
-                </div>
 
-                <a className="option">
-                  <span className="options-title">桌台类型</span>
-                  <span className="option-btn">
-                    没有桌台信息
-                  </span>
-                </a>
-              </div>
-            }
-
+              {this.buildSelectTablesElement(tableProps)}
+            </div>
+            :
             <div className="options-group">
               <div className="option">
-                <span className="option-tile">就餐人数：</span>
-                <ImportableCounter
-                  setErrorMsg={setErrorMsg}
-                  onCountChange={this.setOrderProps}
-                  count={dinePersonCount}
-                  maximum={99}
-                  minimum={1}
-                />
+                <span className="options-title">预定时间</span>
+                <button className="option-btn">
+                  无可预订时段
+                </button>
               </div>
-            </div>
 
-            <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setCustomerProps} isMobileDisabled={false} />
-
-            <div className="options-group">
-              <label className="option">
-                <span className="option-title">备注: </span>
-                <input className="option-input" name="note" placeholder="输入备注" maxLength="35" onChange={this.noteChange} />
-              </label>
+              <a className="option">
+                <span className="options-title">桌台类型</span>
+                <span className="option-btn">
+                  没有桌台信息
+                </span>
+              </a>
             </div>
-            <button className="place-order" onTouchTap={this.placeOrder}>立即预定</button>
+          }
+
+          <div className="options-group">
+            <div className="option">
+              <span className="option-tile">就餐人数：</span>
+              <ImportableCounter
+                setErrorMsg={setErrorMsg}
+                onCountChange={this.setOrderProps}
+                count={dinePersonCount}
+                maximum={99}
+                minimum={1}
+              />
+            </div>
           </div>
-          :
-          <div className="error-situation">
-            {commercialProps.openStatus === '已打烊' ?
-              <img src={yidayangImg} alt="已打烊" />
-              :
-              <img src={weilianwangImg} alt="商家设备未联网" />
-            }
+
+          <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setCustomerProps} isMobileDisabled={false} />
+
+          <div className="options-group">
+            <label className="option">
+              <span className="option-title">备注: </span>
+              <input className="option-input" name="note" placeholder="输入备注" maxLength="35" onChange={this.noteChange} />
+            </label>
           </div>
-        }
+          <button className="place-order" onTouchTap={this.placeOrder}>立即预定</button>
+        </div>
         <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
           {childView === 'table-select' ?
             <TableSelect

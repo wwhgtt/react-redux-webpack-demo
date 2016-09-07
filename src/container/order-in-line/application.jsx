@@ -152,7 +152,13 @@ const OrderInlineApplication = React.createClass({
             {commercialProps.openStatus === '已打烊' ?
               <img src={yidayangImg} alt="已打烊" />
               :
-              <img src={weilianwangImg} alt="商家设备未联网" />
+              <div>
+                {commercialProps.openStatus === '商家设备未联网' ?
+                  <img src={weilianwangImg} alt="商家设备未联网" />
+                  :
+                  false
+                }
+              </div>
             }
           </div>
         }

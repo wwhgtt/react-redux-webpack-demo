@@ -7,7 +7,6 @@ module.exports = function (
     commercialProps:{
       shopLogo:null,
       shopName:null,
-      openStatus:null,
       hasPeriodConfiguer:true,
       firstTime:null,
     },
@@ -38,7 +37,6 @@ module.exports = function (
       return state
         .setIn(['commercialProps', 'shopLogo'], payload.shopLogo)
         .setIn(['commercialProps', 'shopName'], payload.shopName)
-        .setIn(['commercialProps', 'openStatus'], payload.openStatus)
         .setIn(['commercialProps', 'hasPeriodConfiguer'], payload.hasPeriodConfiguer)
         .setIn(['commercialProps', 'firstTime'], payload.firstTime)
         .setIn(['timeProps', 'selectedDateTime'],
