@@ -44,7 +44,7 @@ const OrderApplication = React.createClass({
     confirmOrderAddressInfo:React.PropTypes.func,
     setErrorMsg:React.PropTypes.func,
     setPhoneValidateProps:React.PropTypes.func.isRequired,
-    setPhoneValidateCode:React.PropTypes.func.isRequired,
+    checkCodeAvaliable:React.PropTypes.func.isRequired,
     fetchVericationCode:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
@@ -277,13 +277,15 @@ const OrderApplication = React.createClass({
   },
   // 校验验证码
   handleConfirm(inputInfo) {
-    const { setErrorMsg, setPhoneValidateProps, setPhoneValidateCode } = this.props;
+    const { setErrorMsg, setPhoneValidateProps, checkCodeAvaliable } = this.props;
     const { data, validation } = inputInfo;
     if (!validation.valid) {
       setErrorMsg(validation.msg);
       return false;
     }
-    return (setPhoneValidateCode(data.code), setPhoneValidateProps(false));
+    // 新加内容，校验验证码是否正确
+    checkCodeAvaliable(data).then(result => result.success ? setPhoneValidateProps(false) : false);
+    return false;
   },
   handleCodeClose() {
     const { setPhoneValidateProps } = this.props;

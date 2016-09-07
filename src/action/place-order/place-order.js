@@ -9,7 +9,6 @@ const setTableAvaliable = createAction('SET_TABLE_AVALIABLE', props => props);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
 exports.setCustomerProps = createAction('SET_CUSTOMER_PROPS', option => option);
-exports.setPhoneValidateCode = createAction('SET_PHONE_VALIDATE_CODE', code => code);
 const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
@@ -76,11 +75,18 @@ exports.placeOrder = (note) => (dispatch, getState) => {
   const state = getState();
   const orderTime = `${state.timeProps.selectedDateTime.date} ${state.timeProps.selectedDateTime.time}:00`;
   if (!state.customerProps.name || !state.customerProps.mobile || !state.tableProps.selectedTableId
-  || !orderTime || state.customerProps.sex === null) { dispatch(setErrorMsg('请先完善预定信息...')); return; }
+  || !orderTime || state.customerProps.sex === null) {
+    dispatch(setErrorMsg('请先完善预定信息...'));
+    return;
+  }
   const code = state.phoneValidateCode ? `&code=${state.phoneValidateCode}` : '';
+  let mobile = state.customerProps.mobile.toString();
+  if (mobile.indexOf('4') === 0 && mobile.length === 9) {
+    mobile = '0' + mobile;
+  }
   const params = '?name=' + state.customerProps.name
       + '&memo=' + note
-      + '&mobile=' + state.customerProps.mobile
+      + '&mobile=' + mobile
       + '&sex=' + state.customerProps.sex
       + '&tableId=' + state.tableProps.selectedTableId
       + '&orderNumber=' + state.dinePersonCount
@@ -129,3 +135,21 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
       console.log(err);
     });
 };
+exports.checkCodeAvaliable = (data) => (dispatch, getState) =>
+  fetch(`${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}&shopId=${shopId}`, config.requestOptions)
+    .then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('校验验证码信息失败...'));
+      }
+      return res.json();
+    })
+    .then(result => {
+      if (result.code.toString() === '200') {
+        return { success:true };
+      }
+      dispatch(setErrorMsg(result.msg));
+      return { success:false };
+    })
+    .catch(err => {
+      console.log(err);
+    });
