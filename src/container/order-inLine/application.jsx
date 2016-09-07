@@ -7,6 +7,8 @@ const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const weilianwangImg = require('../../asset/images/weilianwang.png');
+const yidayangImg = require('../../asset/images/yidayang.png');
 require('../../asset/style/style.scss');
 require('./application.scss');
 require('../../component/order/order-summary.scss'); // import order-shop styles
@@ -22,8 +24,8 @@ const OrderInlineApplication = React.createClass({
     setOrderProps:React.PropTypes.func.isRequired,
     setCustomerProps:React.PropTypes.func.isRequired,
     setPhoneValidateProps:React.PropTypes.func.isRequired,
-    setPhoneValidateCode:React.PropTypes.func.isRequired,
     fetchVericationCode:React.PropTypes.func.isRequired,
+    checkCodeAvaliable:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     commercialProps:React.PropTypes.object.isRequired,
     customerProps:React.PropTypes.object.isRequired,
@@ -56,13 +58,15 @@ const OrderInlineApplication = React.createClass({
   },
   // 校验验证码
   handleConfirm(inputInfo) {
-    const { setErrorMsg, setPhoneValidateProps, setPhoneValidateCode } = this.props;
+    const { setErrorMsg, setPhoneValidateProps, checkCodeAvaliable } = this.props;
     const { data, validation } = inputInfo;
     if (!validation.valid) {
       setErrorMsg(validation.msg);
       return false;
     }
-    return (setPhoneValidateCode(data.code), setPhoneValidateProps(false));
+    // 新加内容，校验验证码是否正确
+    checkCodeAvaliable(data).then(result => result.success ? setPhoneValidateProps(false) : false);
+    return false;
   },
   handleCodeClose() {
     const { setPhoneValidateProps } = this.props;
@@ -146,9 +150,9 @@ const OrderInlineApplication = React.createClass({
           :
           <div className="error-situation">
             {commercialProps.openStatus === '已打烊' ?
-              <img src="../../asset/images/yidayang.png" alt="已打烊" />
+              <img src={yidayangImg} alt="已打烊" />
               :
-              <img src="../../asset/images/weilianwang.png" alt="商家设备未联网" />
+              <img src={weilianwangImg} alt="商家设备未联网" />
             }
           </div>
         }

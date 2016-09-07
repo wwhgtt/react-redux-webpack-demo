@@ -5,7 +5,6 @@ const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error =>
 const setOrderInLineProps = createAction('SET_ORDER_INLINE_PROPS', props => props);
 exports.setCustomerProps = createAction('SET_CUSTOMER_PROPS', props => props);
 exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
-const setPhoneValidateCode = exports.setPhoneValidateCode = createAction('SET_PHONE_VALIDATE_CODE', code => code);
 const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
 const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 require('es6-promise');
@@ -81,7 +80,6 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
     then(result => {
       if (result.code !== '200') {
         dispatch(setErrorMsg(result.msg));
-        dispatch(setPhoneValidateCode(null));
         return;
       }
     }).
@@ -89,3 +87,21 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
       console.log(err);
     });
 };
+exports.checkCodeAvaliable = (data) => (dispatch, getState) =>
+  fetch(`${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}&shopId=${shopId}`, config.requestOptions)
+    .then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('校验验证码信息失败...'));
+      }
+      return res.json();
+    })
+    .then(result => {
+      if (result.code.toString() === '200') {
+        return { success:true };
+      }
+      dispatch(setErrorMsg(result.msg));
+      return { success:false };
+    })
+    .catch(err => {
+      console.log(err);
+    });
