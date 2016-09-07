@@ -13,11 +13,10 @@ module.exports = function (
       mobile:null,
       sex:null,
     },
-    dinePersonCount:1,
+    dinePersonCount:4,
     queueList:[],
     errorMessage:null,
     shuoldPhoneValidateShow:false,
-    phoneValidateCode:'',
   }),
   action
 ) {
@@ -51,8 +50,6 @@ module.exports = function (
           .set('errorMessage', payload);
     case 'SET_PHONE_VALIDATE_PROPS':
       return state.set('shuoldPhoneValidateShow', payload);
-    case 'SET_PHONE_VALIDATE_CODE':
-      return state.set('phoneValidateCode', payload);
     default:
   }
   return state;

@@ -21,7 +21,6 @@ const setSendAreaId = createAction('SET_SEND_AREA_ID', areaId => areaId);
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setCustomToShopAddress = createAction('SET_ADDRESS_TOSHOP_TO_ORDER', option => option);
 const setOrderTimeProps = createAction('SET_ORDER_TIME_PROPS', timeJson => timeJson);
-const setPhoneValidateCode = exports.setPhoneValidateCode = createAction('SET_PHONE_VALIDATE_CODE', code => code);
 const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
@@ -328,7 +327,6 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
     then(result => {
       if (result.code !== '200') {
         dispatch(setErrorMsg(result.msg));
-        dispatch(setPhoneValidateCode(null));
         return;
       }
     }).
@@ -336,3 +334,21 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
       console.log(err);
     });
 };
+exports.checkCodeAvaliable = (data) => (dispatch, getState) =>
+  fetch(`${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}&shopId=${shopId}`, config.requestOptions)
+    .then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('校验验证码信息失败...'));
+      }
+      return res.json();
+    })
+    .then(result => {
+      if (result.code.toString() === '200') {
+        return { success:true };
+      }
+      dispatch(setErrorMsg(result.msg));
+      return { success:false };
+    })
+    .catch(err => {
+      console.log(err);
+    });

@@ -136,7 +136,7 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
     });
 };
 exports.checkCodeAvaliable = (data) => (dispatch, getState) =>
-  fetch(`${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}`, config.requestOptions)
+  fetch(`${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}&shopId=${shopId}`, config.requestOptions)
     .then(res => {
       if (!res.ok) {
         dispatch(setErrorMsg('校验验证码信息失败...'));
