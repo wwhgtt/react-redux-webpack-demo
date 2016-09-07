@@ -47,9 +47,9 @@ module.exports = React.createClass({
     const orderedElements = this.buildOrderedElements(orderedDishesProps.dishes);
     return (
       <div className="options-group">
-        <a className="option order-shop" href={config.shopDetailURL + '?shopId=' + shopId}>
-          <img className="order-shop-icon" src={commercialProps.commercialLogo} alt="" />
-          <p className="order-shop-desc ellipsis">{commercialProps.name}</p>
+        <a className="option option-shop" href={config.shopDetailURL + '?shopId=' + shopId}>
+          <img className="option-shop-icon" src={commercialProps.commercialLogo} alt="" />
+          <p className="option-shop-desc ellipsis">{commercialProps.name}</p>
         </a>
         {orderedElements}
         <div className="order-summary">
