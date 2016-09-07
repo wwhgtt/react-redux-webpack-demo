@@ -56,7 +56,6 @@ const RegisterMember = React.createClass({
       userName: userInfo.name,
       phoneNum: userInfo.mobile,
       brandPicUrl: userInfo.picUrl,
-      phoneCode: registerPhoneCode,
       loginType: userInfo.loginType,
     });
 

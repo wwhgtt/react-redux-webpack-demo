@@ -11,9 +11,11 @@ const TimeSelect = require('../../component/order/select/time-select.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
+const weilianwangImg = require('../../asset/images/weilianwang.png');
+const yidayangImg = require('../../asset/images/yidayang.png');
 require('../../asset/style/style.scss');
 require('./application.scss');
-require('../../component/order/order-summary.scss'); // import order-shop styles
+require('../../component/order/order-summary.scss'); // import option-shop styles
 
 const PlaceOrderApplication = React.createClass({
   displayName:'PlaceOrderApplication',
@@ -163,9 +165,9 @@ const PlaceOrderApplication = React.createClass({
     return (
       <div className="application">
         <div className="options-group">
-          <a className="option order-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
-            <img className="order-shop-icon" src={commercialProps.shopLogo} alt="" />
-            <p className="order-shop-desc ellipsis">{commercialProps.shopName}</p>
+          <a className="option option-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
+            <img className="option-shop-icon" src={commercialProps.shopLogo} alt="" />
+            <p className="option-shop-desc ellipsis">{commercialProps.shopName}</p>
           </a>
         </div>
 
@@ -226,9 +228,9 @@ const PlaceOrderApplication = React.createClass({
           :
           <div className="error-situation">
             {commercialProps.openStatus === '已打烊' ?
-              <img src="../../asset/images/yidayang.png" alt="已打烊" />
+              <img src={yidayangImg} alt="已打烊" />
               :
-              <img src="../../asset/images/weilianwang.png" alt="商家设备未联网" />
+              <img src={weilianwangImg} alt="商家设备未联网" />
             }
           </div>
         }

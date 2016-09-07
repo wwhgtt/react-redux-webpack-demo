@@ -5,9 +5,9 @@ const actions = require('../../action/bind-account/bind-wx.js');
 require('../../asset/style/style.scss');
 require('./application.scss');
 
-const BindWxIndex = require('../../component/bind-account/bind-wx/bind-wx-index.js');
-const BindWxInfo = require('../../component/bind-account/bind-wx/bind-wx-info.js');
-const BindWxSuccess = require('../../component/bind-account/bind-wx/bind-wx-success.js');
+const BindWxIndex = require('../../component/bind-account/bind-wx/bind-wx-index.jsx');
+const BindWxInfo = require('../../component/bind-account/bind-wx/bind-wx-info.jsx');
+const BindWxSuccess = require('../../component/bind-account/bind-wx/bind-wx-success.jsx');
 
 
 const BindWXApplication = React.createClass({

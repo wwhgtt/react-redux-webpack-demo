@@ -6,9 +6,9 @@ const actions = require('../../action/bind-account/bind-phone.js');
 require('../../asset/style/style.scss');
 require('./application.scss');
 
-const BindPhoneIndex = require('../../component/bind-account/bind-phone/bind-phone-index.js');
-const BindPhoneValidate = require('../../component/bind-account/bind-phone/bind-phone-validate.js');
-const BindPhoneSuccess = require('../../component/bind-account/bind-phone/bind-phone-success.js');
+const BindPhoneIndex = require('../../component/bind-account/bind-phone/bind-phone-index.jsx');
+const BindPhoneValidate = require('../../component/bind-account/bind-phone/bind-phone-validate.jsx');
+const BindPhoneSuccess = require('../../component/bind-account/bind-phone/bind-phone-success.jsx');
 
 const BindPhoneApplication = React.createClass({
   displayName: 'BindPhoneApplication',

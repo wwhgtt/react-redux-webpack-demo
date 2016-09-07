@@ -7,12 +7,12 @@
     font-size: 14px;
     line-height: 24px;
     position: relative;
-    padding: 15px 10px 10px 40px;
+    padding: 15px 0 10px 40px;
 
     &-content {
       float: left;
       overflow: hidden;
-      width: auto;
+      width: calc(100% - 70px);
     }
 
     &::before {
@@ -29,6 +29,7 @@
 
     .option-input {
       font-size: 14px;
+      text-align: left;
     }
 
     .btn {

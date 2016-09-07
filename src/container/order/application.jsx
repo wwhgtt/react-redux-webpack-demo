@@ -256,9 +256,9 @@ const OrderApplication = React.createClass({
     }
     return (
       <div className="weixin-login">
-        <a className="option order-shop">
-          <img className="order-shop-icon" src={customerProps.iconUri} alt="用户头像" />
-          <p className="order-shop-desc ellipsis">{customerProps.name}</p>
+        <a className="option option-user">
+          <img className="option-user-icon" src={customerProps.iconUri} alt="用户头像" />
+          <p className="option-user-name">{customerProps.name}</p>
         </a>
         <div className="options-group">
           <div className="option">
