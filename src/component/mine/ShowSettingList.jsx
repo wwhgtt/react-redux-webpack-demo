@@ -151,7 +151,7 @@ module.exports = React.createClass({
             </li>
         }
         {
-          condition === 1 && !info.isMember || condition === 2 ?
+          !info.isMember ?
             <li className="list-ul-li">
               <a className="settingLink" href={registerUrl}>
                 <span className="name">会员注册</span>
