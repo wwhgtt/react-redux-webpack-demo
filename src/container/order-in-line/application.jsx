@@ -48,7 +48,7 @@ const OrderInlineApplication = React.createClass({
     let element = [];
     if (queueList && queueList.length) {
       queueList.map(quene => element.push(<li className="queue-entry" key={quene.queueLineId}>
-        <span>{quene.queueName}</span>
+        <span className="ellipsis">{quene.queueName}</span>
         <span>{quene.minPersonCount}-{quene.maxPersonCount}人</span>
         <span>{quene.count}桌</span>
       </li>)
