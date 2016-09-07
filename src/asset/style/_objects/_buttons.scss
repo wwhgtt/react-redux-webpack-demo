@@ -151,14 +151,14 @@
   background: $color-white;
 
   &::after {
-    @extend %border-thin;
+    @include border-thin(bottom);
 
     bottom: 0;
     border-bottom: bordersolid(1, #e7e7ef);
   }
 
   &::before {
-    @extend %border-thin;
+    @include border-thin(top);
 
     top: 0;
     border-top: bordersolid(1, #e7e7ef);
