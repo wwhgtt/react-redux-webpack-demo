@@ -17,10 +17,10 @@ module.exports = {
     'address-list-entry': [
       './src/address-list.jsx',
     ],
-    'order-inLine': [
-      './src/order-inLine.jsx',
+    'order-in-line-entry': [
+      './src/order-in-line.jsx',
     ],
-    'place-order': [
+    'place-order-entry': [
       './src/place-order.jsx',
     ],
     'mine-index-entry': [
@@ -135,8 +135,8 @@ module.exports = {
     new HtmlWebpackPlugin(
       {
         title: 'OrderInLineApplication',
-        filename: 'order-inLine.html',
-        chunks: ['common', 'order-inLine'],
+        filename: 'order-in-line.html',
+        chunks: ['common', 'order-in-line-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
@@ -152,7 +152,7 @@ module.exports = {
       {
         title: 'PlaceOrderApplication',
         filename: 'place-order.html',
-        chunks: ['common', 'place-order'],
+        chunks: ['common', 'place-order-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
