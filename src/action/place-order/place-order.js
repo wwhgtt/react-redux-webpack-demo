@@ -146,9 +146,9 @@ exports.checkCodeAvaliable = (data, note) => (dispatch, getState) =>
     .then(result => {
       if (result.code.toString() === '200') {
         placeOrder(note)(dispatch, getState);
+      } else {
+        dispatch(setErrorMsg(result.msg), setPhoneValidateProps(true));
       }
-      dispatch(setErrorMsg(result.msg));
-      dispatch(setPhoneValidateProps(false));
     })
     .catch(err => {
       console.log(err);

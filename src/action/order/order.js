@@ -345,9 +345,9 @@ exports.checkCodeAvaliable = (data, note, receipt) => (dispatch, getState) =>
     .then(result => {
       if (result.code.toString() === '200') {
         submitOrder(note, receipt)(dispatch, getState);
+      } else {
+        dispatch(setErrorMsg(result.msg), setPhoneValidateProps(true));
       }
-      dispatch(setErrorMsg(result.msg));
-      dispatch(setPhoneValidateProps(false));
     })
     .catch(err => {
       console.log(err);
