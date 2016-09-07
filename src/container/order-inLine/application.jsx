@@ -7,6 +7,8 @@ const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const weilianwangImg = require('../../asset/images/weilianwang.png');
+const yidayangImg = require('../../asset/images/yidayang.png');
 require('../../asset/style/style.scss');
 require('./application.scss');
 require('../../component/order/order-summary.scss'); // import order-shop styles
@@ -148,9 +150,9 @@ const OrderInlineApplication = React.createClass({
           :
           <div className="error-situation">
             {commercialProps.openStatus === '已打烊' ?
-              <img src="../../asset/images/yidayang.png" alt="已打烊" />
+              <img src={yidayangImg} alt="已打烊" />
               :
-              <img src="../../asset/images/weilianwang.png" alt="商家设备未联网" />
+              <img src={weilianwangImg} alt="商家设备未联网" />
             }
           </div>
         }
