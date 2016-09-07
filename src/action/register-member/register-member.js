@@ -88,6 +88,7 @@ exports.sendCode = phoneNum => (dispatch, getStates) => {
 };
 
 exports.checkCode = phoneInfo => (dispatch, getStates) => {
+  dispatch(setLoadMsg({ status: true, word: '验证中……' }));
   const checkCodeURL = `${config.checkCodeAvaliableAPI}?mobile=${phoneInfo.phoneNum}&code=${phoneInfo.code}`;
   fetch(checkCodeURL, config.requestOptions).
   then(res => {
@@ -97,6 +98,7 @@ exports.checkCode = phoneInfo => (dispatch, getStates) => {
     return res.json();
   }).then(res => {
     if (res.code === '200') {
+      dispatch(setLoadMsg({ status:false, word: '' }));
       dispatch(setErrorMsg('验证成功'));
       dispatch(setPhoneFalg(true));
     } else {
