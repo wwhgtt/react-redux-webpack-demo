@@ -56,21 +56,26 @@ exports.updateInfo = (name, sex, condition) => (dispatch, getStates) => {
     window.location.href = mineIndexUrl;
     return;
   }
+  /* const pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？]"); */
   if (!shopId) {
     dispatch(setErrorMsg('找不到门店号'));
     return;
   } else if (sex.toString() !== '0' && sex.toString() !== '1') {
     dispatch(setErrorMsg('请选择性别!!'));
     return;
-  } else if (!name.replace(/(^\s+)|(\s+$)/g, '')) {
+  } else if (!name.trim()) {
     dispatch(setErrorMsg('请输入姓名!!'));
     return;
-  } else if (/['"#$%&\^*]/.test(name)) {
-    dispatch(setErrorMsg('姓名不能包含特殊字符!!'));
-    return;
   }
+  /*
+    else if (pattern.test(name)) {
+      dispatch(setErrorMsg('姓名不能包含特殊字符!!'));
+      return;
+    }
+  */
+  const formatName = commonHelper.replaceEmojiWith(name.trim());
   dispatch(setLoadMsg({ status:true, word:'保存中' }));
-  fetch(`${individualupdateAPI}`, commonHelper.getFetchPostParam({ sex, name:name.replace(/(^\s+)|(\s+$)/g, '') })).
+  fetch(`${individualupdateAPI}`, commonHelper.getFetchPostParam({ sex, name:formatName })).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('请求数据失败'));
