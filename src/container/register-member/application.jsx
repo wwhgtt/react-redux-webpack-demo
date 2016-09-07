@@ -18,8 +18,9 @@ const RegisterMemberApplication = React.createClass({
     saveRegisterMember: React.PropTypes.func,
     setLoadMsg: React.PropTypes.func,
     loadInfo: React.PropTypes.object,
-    phoneCode: React.PropTypes.string,
+    phoneFlag: React.PropTypes.bool,
     sendCode: React.PropTypes.func,
+    checkCode: React.PropTypes.func,
 
     // MapedStatesToProps
   },
@@ -39,14 +40,15 @@ const RegisterMemberApplication = React.createClass({
   },
 
   render() {
-    const { errorMessage, userInfo, loadInfo, phoneCode, sendCode } = this.props;
+    const { errorMessage, userInfo, loadInfo, phoneFlag, sendCode, checkCode } = this.props;
     return (
       <div className="register-page">
         <RegisterMember
           userInfo={userInfo}
           onRegisterMember={this.handleRegister}
-          registerPhoneCode={phoneCode}
+          isPhoneValid={phoneFlag}
           onSendCode={sendCode}
+          onCheckCode={checkCode}
         />
         {
           errorMessage ?
