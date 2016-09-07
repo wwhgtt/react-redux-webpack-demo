@@ -7,7 +7,7 @@ module.exports = {
       orderId: 1002675188, // 排队订单ID
     },
     time: 1472526348711,
-    code: '20013',
-    msg: '',
+    code: '502',
+    msg: 'dcdc',
   },
 };

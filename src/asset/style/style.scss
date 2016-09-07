@@ -5,6 +5,7 @@
 // tools
 @import "tools.mixins";
 @import "tools.functions";
+
 // generic
 @import "generic";
 
@@ -23,6 +24,3 @@
 @import "_components/toast";
 @import "_components/options";
 @import "_components/list";
-
-// animations
-@import "animations";

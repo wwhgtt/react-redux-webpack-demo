@@ -1,13 +1,7 @@
 @import "settings.colors";
 
-.verification-code-dialog.has {
-  .options-group {
-    border: none;
-  }
-
-  .option {
-    line-height: 40px;
-    overflow: initial;
+.verification-code-dialog {
+  .form-group {
     height: 42px;
     margin-top: 15px;
     padding: 0 0 0 15px;
@@ -23,8 +17,13 @@
       top: -1px;
       right: -1px;
       height: 42px;
+      padding: 0 8px;
       border: 1px solid $color-mercury;
       border-radius: 0 4px 4px 0;
     }
+  }
+
+  input {
+    margin-top: 8px;
   }
 }

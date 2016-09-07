@@ -123,7 +123,7 @@ const RegisterMember = React.createClass({
       this.setState({ errorMsg: errorMsgP });
     } else if (!this.refs.userName.value) {
       this.setState({ errorMsg: '请填写姓名' });
-    } else if (!userSex) {
+    } else if (!(userSex === '0' || userSex === '1')) {
       this.setState({ errorMsg: '请选择性别' });
     } else if (!birthDay) {
       this.setState({ errorMsg: '请选择出生日期' });

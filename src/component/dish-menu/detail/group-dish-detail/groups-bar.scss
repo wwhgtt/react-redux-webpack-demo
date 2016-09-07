@@ -83,8 +83,20 @@
     > strong {
       font-size: 14px;
       font-weight: normal;
+      line-height: 1;
       display: block;
+      // stylelint-disable declaration-block-no-duplicate-properties
+      // Need for truncating multi line text in webkit
+      // stylelint-disable value-no-vendor-prefix
+      // A stylelint bug
+      display: -webkit-box;
+      overflow: hidden;
+      max-height: 28px;
       margin-bottom: 3px;
+      -webkit-line-clamp: 2;
+      // stylelint-disable property-no-vendor-prefix
+      // A stylelint bug
+      -webkit-box-orient: vertical;
     }
 
     > small {

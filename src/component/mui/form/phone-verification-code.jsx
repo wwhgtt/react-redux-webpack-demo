@@ -1,6 +1,18 @@
 const React = require('react');
 const classnames = require('classnames');
 require('./phone-verification-code.scss');
+
+const nationsInfo = [
+  {
+    text: '中国', value: 'China', phoneReg: /^1(?:[358]\d{9}|7[3678]\d{8}|4[57]\d{8})$/, isAllowSendCode: true,
+    children: [
+      { text: '台湾', value: 'TaiWan', phoneReg: /^09\d{8}$/, isAllowSendCode: false },
+    ],
+  },
+  { text: '澳大利亚', value: 'Australia', phoneReg: /^04\d{8}$/, isAllowSendCode: false },
+];
+const getNationInfo = id => nationsInfo.filter(item => item.value === id).shift();
+
 module.exports = React.createClass({
   displayName: 'PhoneVerificationCode',
   propTypes: {
@@ -55,17 +67,37 @@ module.exports = React.createClass({
   isNumberStr(value) {
     return /^\d*$/.test(value);
   },
-  isValidPhoneNum(phoneNum) {
-    return /^(1(?:[358]\d{9}|7[3678]\d{8}|4[57]\d{8})|0[49]\d{8})$/.test(phoneNum);
+  isValidPhoneNum(phoneNum, currentNation) {
+    let result = false;
+    const nation = getNationInfo(currentNation);
+    if (!nation) {
+      return result;
+    }
+
+    const valiatePhone = items => {
+      items.forEach(item => {
+        if (item.children && item.children.length) {
+          valiatePhone(item.children);
+        }
+        result = result || item.phoneReg.test(phoneNum);
+      });
+    };
+    valiatePhone([nation]);
+    return result;
+  },
+  isAllowSendCode(phoneNum, currentNation) {
+    const nation = getNationInfo(currentNation);
+    return nation && nation.isAllowSendCode && nation.phoneReg.test(phoneNum);
   },
   validateInput(info) {
     const { phoneNum, code, isForeignZone } = info;
     const { placeholder } = this.props;
+    const { currentNation } = this.state;
     if (!phoneNum) {
       return { valid: false, code: 'PHONENUM_EMPTY', msg: placeholder.phoneNum };
     }
 
-    if (!this.isValidPhoneNum(phoneNum)) {
+    if (!this.isValidPhoneNum(phoneNum, currentNation)) {
       return { valid: false, code: 'PHONENUM_INVALID', msg: '请输入正确的手机号' };
     }
 
@@ -141,57 +173,47 @@ module.exports = React.createClass({
     };
     next(60);
   },
-  _getNations() {
-    return [
-      { text: '中国', value: 'China' },
-      { text: '澳大利亚', value: 'Australia' },
-    ];
-  },
   render() {
     const { hasForeignZone, placeholder, phoneNumDisabled, fetchCodeBtnText } = this.props;
     let nationsSelect = null;
     if (hasForeignZone) {
-      const nations = this._getNations();
       nationsSelect = (
         <select onChange={this.handleNationChange} defaultValue="China">);
-          {nations.map(item => (<option key={item.value} value={item.value}>{item.text}</option>))}
+          {nationsInfo.map(item => (<option key={item.value} value={item.value}>{item.text}</option>))}
         </select>
       );
     }
 
-    const { seconds, phoneNum, code } = this.state;
+    const { seconds, phoneNum, code, currentNation } = this.state;
     let btnInfo = null;
     if (seconds > 0) {
       btnInfo = { text: `${seconds}s后获取`, disabled: true };
     } else {
-      btnInfo = { text: fetchCodeBtnText, disabled: !this.isValidPhoneNum(phoneNum) };
+      btnInfo = { text: fetchCodeBtnText, disabled: !this.isAllowSendCode(phoneNum, currentNation) };
     }
 
-    const className = classnames('options-group phone-verification-code', {
-      foreign: this.isForeignZone(this.state.currentNation),
+    const className = classnames('phone-verification-code', {
+      foreign: this.isForeignZone(currentNation),
       'multi-nations': hasForeignZone,
     });
     return (
       <div className={className}>
-        <div className="option phone">
+        <div className="form-group phone">
           {nationsSelect}
           <button className="btn btn--yellow" disabled={btnInfo.disabled} onTouchTap={this.handleFetchCodeBtnTouchTap}>
             {btnInfo.text}
           </button>
-          <div className="option-content">
-            <input
-              className="option-input"
-              type="tel"
-              disabled={phoneNumDisabled}
-              value={phoneNum}
-              placeholder={placeholder.phoneNum}
-              onChange={this.handlePhoneNumChange}
-            />
-          </div>
-        </div>
-        <div className="option verification-code">
           <input
-            className="option-content option-input"
+            type="tel"
+            disabled={phoneNumDisabled}
+            value={phoneNum}
+            placeholder={placeholder.phoneNum}
+            maxLength={11}
+            onChange={this.handlePhoneNumChange}
+          />
+        </div>
+        <div className="form-group verification-code">
+          <input
             type="tel"
             value={code}
             placeholder={placeholder.code}

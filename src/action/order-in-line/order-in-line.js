@@ -20,7 +20,12 @@ fetch(`${config.getOrderInLineAPI}?shopId=${shopId}`, config.requestOptions).
     return res.json();
   }).
   then(result => {
-    dispatch(setOrderInLineProps(result.data));
+    if (result.data.orderId) {
+      dispatch(setErrorMsg('已成功排队，无需再次排队...'));
+      location.href = `/queue/success?shopId=${shopId}&orderId=${result.data.orderId}`;
+    } else {
+      dispatch(setOrderInLineProps(result.data));
+    }
   }).
   catch(err => {
     console.log(err);
@@ -28,7 +33,7 @@ fetch(`${config.getOrderInLineAPI}?shopId=${shopId}`, config.requestOptions).
 exports.clearErrorMsg = () => (dispatch, getState) =>
     dispatch(setErrorMsg(null));
 
-exports.submitOrder = () => (dispatch, getState) => {
+const submitOrder = exports.submitOrder = () => (dispatch, getState) => {
   const state = getState();
   const code = state.phoneValidateCode ? `&code=${state.phoneValidateCode}` : '';
   if (!state.customerProps.name || !state.customerProps.mobile || state.customerProps.sex === null) {
@@ -97,10 +102,10 @@ exports.checkCodeAvaliable = (data) => (dispatch, getState) =>
     })
     .then(result => {
       if (result.code.toString() === '200') {
-        return { success:true };
+        submitOrder()(dispatch, getState);
+      } else {
+        dispatch(setErrorMsg(result.msg), setPhoneValidateProps(true));
       }
-      dispatch(setErrorMsg(result.msg));
-      return { success:false };
     })
     .catch(err => {
       console.log(err);

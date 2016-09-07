@@ -48,7 +48,7 @@ const OrderInlineApplication = React.createClass({
     let element = [];
     if (queueList && queueList.length) {
       queueList.map(quene => element.push(<li className="queue-entry" key={quene.queueLineId}>
-        <span>{quene.queueName}</span>
+        <span className="ellipsis">{quene.queueName}</span>
         <span>{quene.minPersonCount}-{quene.maxPersonCount}人</span>
         <span>{quene.count}桌</span>
       </li>)
@@ -58,14 +58,14 @@ const OrderInlineApplication = React.createClass({
   },
   // 校验验证码
   handleConfirm(inputInfo) {
-    const { setErrorMsg, setPhoneValidateProps, checkCodeAvaliable } = this.props;
+    const { setErrorMsg, checkCodeAvaliable } = this.props;
     const { data, validation } = inputInfo;
     if (!validation.valid) {
       setErrorMsg(validation.msg);
       return false;
     }
     // 新加内容，校验验证码是否正确
-    checkCodeAvaliable(data).then(result => result.success ? setPhoneValidateProps(false) : false);
+    checkCodeAvaliable(data);
     return false;
   },
   handleCodeClose() {
@@ -150,9 +150,15 @@ const OrderInlineApplication = React.createClass({
           :
           <div className="error-situation">
             {commercialProps.openStatus === '已打烊' ?
-              <img src={yidayangImg} alt="已打烊" />
+              <img src={yidayangImg} className="center-image" alt="已打烊" />
               :
-              <img src={weilianwangImg} alt="商家设备未联网" />
+              <div>
+                {commercialProps.openStatus === '商家设备未联网' ?
+                  <img src={weilianwangImg} className="center-image" alt="商家设备未联网" />
+                  :
+                  false
+                }
+              </div>
             }
           </div>
         }

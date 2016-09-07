@@ -1,19 +1,14 @@
 @import "settings.colors";
 
-.phone-verification-code.options-group {
-  border-top: none;
-
-  .option {
+.phone-verification-code {
+  .form-group {
     font-size: 14px;
     line-height: 24px;
     position: relative;
     padding: 15px 0 10px 40px;
-
-    &-content {
-      float: left;
-      overflow: hidden;
-      width: calc(100% - 70px);
-    }
+    text-align: left;
+    border-bottom: 1px solid $color-mercury;
+    background: $color-white;
 
     &::before {
       position: absolute;
@@ -27,16 +22,17 @@
       background-size: 16px 16px;
     }
 
-    .option-input {
-      font-size: 14px;
-      text-align: left;
+    input {
+      width: calc(100% - 80px);
+      border: 0;
+      background: none;
     }
 
     .btn {
       font-size: 12px;
       float: right;
       height: 24px;
-      padding: 0 5px;
+      padding: 0 8px;
       border-radius: 3px;
     }
 
@@ -63,13 +59,11 @@
 }
 
 .phone-verification-code.multi-nations {
-  .option {
-    &.phone {
-      padding-left: 110px;
+  .phone {
+    padding-left: 110px;
 
-      &::before {
-        left: 90px;
-      }
+    &::before {
+      left: 90px;
     }
   }
 
@@ -79,7 +73,7 @@
     top: 15px;
     left: 5px;
     height: 24px;
-    border: 1px solid #eaeaea;
+    border: 1px solid $color-mercury;
     border-radius: 3px;
     outline: none;
     background: #fff;
@@ -93,10 +87,5 @@
 
   .btn {
     display: none;
-  }
-
-  .option {
-    padding-left: 110px;
-    border-bottom: none;
   }
 }
