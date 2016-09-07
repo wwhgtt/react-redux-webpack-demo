@@ -5,6 +5,7 @@ import Toast from '../mui/toast.jsx';
 const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const InputDate = require('../mui/form/date-select.jsx');
 const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
+const replaceEmojiWith = require('../../helper/common-helper').replaceEmojiWith;
 
 const RegisterMember = React.createClass({
   displayName:'RegisterMember',
@@ -111,11 +112,13 @@ const RegisterMember = React.createClass({
   // 注册会员
   registerMember() {
     const { errorMsgP, errorMsgC, phoneNum, password, userSex, birthDay, userName } = this.state;
+    const userNameValid = replaceEmojiWith(userName.trim());
+
     if (!phoneNum) {
       this.setState({ errorMsg: '请填写手机号码' });
     } else if (errorMsgP) {
       this.setState({ errorMsg: errorMsgP });
-    } else if (!this.refs.userName.value) {
+    } else if (!userNameValid) {
       this.setState({ errorMsg: '请填写姓名' });
     } else if (!(userSex === '0' || userSex === '1')) {
       this.setState({ errorMsg: '请选择性别' });
@@ -127,7 +130,7 @@ const RegisterMember = React.createClass({
       this.setState({ errorMsg: errorMsgC });
     } else {
       const registerInfo = {
-        name: userName,
+        name: userNameValid,
         birth: birthDay,
         mobile: phoneNum,
         sex: userSex,
