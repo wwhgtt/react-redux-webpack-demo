@@ -61,16 +61,18 @@ module.exports = React.createClass({
           </div>
         </div>
 
-        <div className="option flex-row">
-          <span className="editor-title flex-none">手机号：</span>
-          <input
-            name="mobile"
-            className="editor-input editor-input--right flex-rest"
-            defaultValue={customerProps.mobile}
-            placeholder={customerProps.mobile || '请输入手机号'}
-            onChange={this.handleBasicInfoChange}
-            disabled={isMobileDisabled}
-          />
+        <div className="option">
+          <div className="flex-row">
+            <span className="editor-title flex-none">手机号：</span>
+            <input
+              name="mobile"
+              className="editor-input editor-input--right flex-rest"
+              defaultValue={customerProps.mobile}
+              placeholder={customerProps.mobile || '请输入手机号'}
+              onChange={this.handleBasicInfoChange}
+              disabled={isMobileDisabled}
+            />
+          </div>
         </div>
       </div>
     );
