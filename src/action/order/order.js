@@ -269,7 +269,7 @@ exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
     });
 };
 
-exports.submitOrder = (note, receipt) => (dispatch, getState) => {
+const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState) => {
   const submitUrl = type === 'WM' ? config.submitWMOrderAPI : config.submitTSOrderAPI;
   const state = getState();
   const paramsData = helper.getSubmitUrlParams(state, note, receipt);
@@ -334,7 +334,7 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
       console.log(err);
     });
 };
-exports.checkCodeAvaliable = (data) => (dispatch, getState) =>
+exports.checkCodeAvaliable = (data, note, receipt) => (dispatch, getState) =>
   fetch(`${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}&shopId=${shopId}`, config.requestOptions)
     .then(res => {
       if (!res.ok) {
@@ -344,10 +344,10 @@ exports.checkCodeAvaliable = (data) => (dispatch, getState) =>
     })
     .then(result => {
       if (result.code.toString() === '200') {
-        return { success:true };
+        submitOrder(note, receipt)(dispatch, getState);
+      } else {
+        dispatch(setErrorMsg(result.msg), setPhoneValidateProps(true));
       }
-      dispatch(setErrorMsg(result.msg));
-      return { success:false };
     })
     .catch(err => {
       console.log(err);

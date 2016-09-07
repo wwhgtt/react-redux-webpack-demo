@@ -58,14 +58,14 @@ const OrderInlineApplication = React.createClass({
   },
   // 校验验证码
   handleConfirm(inputInfo) {
-    const { setErrorMsg, setPhoneValidateProps, checkCodeAvaliable } = this.props;
+    const { setErrorMsg, checkCodeAvaliable } = this.props;
     const { data, validation } = inputInfo;
     if (!validation.valid) {
       setErrorMsg(validation.msg);
       return false;
     }
     // 新加内容，校验验证码是否正确
-    checkCodeAvaliable(data).then(result => result.success ? setPhoneValidateProps(false) : false);
+    checkCodeAvaliable(data);
     return false;
   },
   handleCodeClose() {
