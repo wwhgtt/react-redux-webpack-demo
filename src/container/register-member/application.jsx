@@ -24,6 +24,11 @@ const RegisterMemberApplication = React.createClass({
 
     // MapedStatesToProps
   },
+  getInitialState() {
+    return {
+      userInfo: {},
+    };
+  },
 
   componentWillMount() {
     const { getUserInfo } = this.props;
@@ -32,14 +37,21 @@ const RegisterMemberApplication = React.createClass({
 
   handleRegister(info) {
     this.props.saveRegisterMember(info);
+    this.setState({ userInfo: info });
   },
 
   handleClearErrorMsg() {
     this.props.setErrorMsg('');
   },
 
+
+  handleCheckCode(phoneInfo) {
+    const userInfo = this.state.userInfo;
+    this.props.checkCode(phoneInfo, userInfo);
+  },
+
   render() {
-    const { errorMessage, userInfo, loadInfo, phoneFlag, sendCode, checkCode } = this.props;
+    const { errorMessage, userInfo, loadInfo, phoneFlag, sendCode } = this.props;
     return (
       <div className="register-page">
         <RegisterMember
@@ -47,7 +59,7 @@ const RegisterMemberApplication = React.createClass({
           onRegisterMember={this.handleRegister}
           isPhoneValid={phoneFlag}
           onSendCode={sendCode}
-          onCheckCode={checkCode}
+          onCheckCode={this.handleCheckCode}
         />
         {
           errorMessage ?
