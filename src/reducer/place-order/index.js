@@ -102,7 +102,7 @@ module.exports = function (
       break;
     case 'SET_TABLE_AVALIABLE':
       if (payload.status !== 0) {
-        return state.set('errorMessage', '预定桌台失败');
+        return state.set('errorMessage', '预订桌台失败');
       }
       return state
         .updateIn(

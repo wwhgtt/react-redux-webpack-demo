@@ -174,9 +174,9 @@ const PlaceOrderApplication = React.createClass({
           {commercialProps.hasPeriodConfiguer && commercialProps.firstTime ?
             <div className="options-group place-order-options">
               <div className="option">
-                <span className="options-title">预定时间</span>
+                <span className="options-title">预订时间</span>
                 <button className="option-btn btn-arrow-right" onTouchTap={evt => setChildView('#time-select')}>
-                  {this.getFetchTimeTitle(timeProps) || '选择预定时间'}
+                  {this.getFetchTimeTitle(timeProps) || '选择预订时间'}
                 </button>
               </div>
 
@@ -185,7 +185,7 @@ const PlaceOrderApplication = React.createClass({
             :
             <div className="options-group">
               <div className="option">
-                <span className="options-title">预定时间</span>
+                <span className="options-title">预订时间</span>
                 <button className="option-btn">
                   无可预订时段
                 </button>
@@ -221,7 +221,7 @@ const PlaceOrderApplication = React.createClass({
               <input className="option-input" name="note" placeholder="输入备注" maxLength="35" onChange={this.noteChange} />
             </label>
           </div>
-          <button className="place-order" onTouchTap={this.placeOrder}>立即预定</button>
+          <button className="place-order" onTouchTap={this.placeOrder}>立即预订</button>
         </div>
         <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
           {childView === 'table-select' ?

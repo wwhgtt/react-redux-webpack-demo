@@ -48,7 +48,7 @@ exports.setTableProps = (evt, props) => (dispatch, getState) => {
   const num = props.table.pNum;
   const orderTime = getState().timeProps.selectedDateTime;
   if (!orderTime.time) {
-    dispatch(setErrorMsg('请先选择预定时间...'));
+    dispatch(setErrorMsg('请先选择预订时间...'));
     return false;
   }
   return fetch(`${config.getCheckTableAvaliable}?shopId=${shopId}&areaId=${areaId}&num=${num}&orderTime=${orderTime.date}%20${orderTime.time}:00`,
@@ -76,7 +76,7 @@ const placeOrder = exports.placeOrder = (note) => (dispatch, getState) => {
   const orderTime = `${state.timeProps.selectedDateTime.date} ${state.timeProps.selectedDateTime.time}:00`;
   if (!state.customerProps.name || !state.customerProps.mobile || !state.tableProps.selectedTableId
   || !orderTime || state.customerProps.sex === null) {
-    dispatch(setErrorMsg('请先完善预定信息...'));
+    dispatch(setErrorMsg('请先完善预订信息...'));
     return;
   }
   const code = state.phoneValidateCode ? `&code=${state.phoneValidateCode}` : '';
@@ -96,13 +96,13 @@ const placeOrder = exports.placeOrder = (note) => (dispatch, getState) => {
   fetch(`${config.submitPlaceOrderAPI}${params}`, config.requestOptions)
     .then(res => {
       if (!res.ok) {
-        dispatch(setErrorMsg('提交预定信息失败...'));
+        dispatch(setErrorMsg('提交预订信息失败...'));
       }
       return res.json();
     })
     .then(result => {
       if (result.code.toString() === '200') {
-        dispatch(setErrorMsg('提交预定信息成功...'));
+        dispatch(setErrorMsg('提交预订信息成功...'));
         location.href = `/booking/bookingDetail?shopId=${shopId}&orderId=${result.data.bookingId}`;
       } else if (result.code.toString() === '20013') {
         dispatch(setPhoneValidateProps(true));
