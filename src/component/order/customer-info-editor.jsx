@@ -69,6 +69,7 @@ module.exports = React.createClass({
               className="editor-input editor-input--right flex-rest"
               value={customerProps.mobile ? customerProps.mobile : ''}
               placeholder={customerProps.mobile || '请输入手机号'}
+              maxLength={11}
               onChange={this.handleBasicInfoChange}
               disabled={isMobileDisabled}
             />
