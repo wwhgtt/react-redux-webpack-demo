@@ -31,7 +31,8 @@ exports.getUserInfo = () => (dispatch, getStates) => {
   });
 };
 
-exports.saveRegisterMember = (info) => (dispatch, getStates) => {
+const register = exports.saveRegisterMember = (info) => (dispatch, getStates) => {
+  dispatch(setLoadMsg({ status: true, word: '注册中，请稍后……' }));
   const registerURL = `${config.registerAPI}?shopId=${shopId}`;
 
   fetch(registerURL, getFetchPostParam(info)).
@@ -58,6 +59,7 @@ exports.saveRegisterMember = (info) => (dispatch, getStates) => {
       }, 3000);
     } else if (res.code === '20013') {
       dispatch(setPhoneFalg(false));
+      dispatch(setErrorMsg(''));
       dispatch(setLoadMsg({ status:false, word: '' }));
     } else {
       dispatch(setPhoneFalg(true));
@@ -101,6 +103,7 @@ exports.checkCode = phoneInfo => (dispatch, getStates) => {
       dispatch(setLoadMsg({ status:false, word: '' }));
       dispatch(setErrorMsg('验证成功'));
       dispatch(setPhoneFalg(true));
+      dispatch(register());
     } else {
       dispatch(setErrorMsg(res.msg));
     }

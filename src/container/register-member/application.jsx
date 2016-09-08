@@ -31,7 +31,6 @@ const RegisterMemberApplication = React.createClass({
   },
 
   handleRegister(info) {
-    this.props.setLoadMsg({ status: true, word: '注册中，请稍后……' });
     this.props.saveRegisterMember(info);
   },
 
