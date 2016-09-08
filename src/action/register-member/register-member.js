@@ -89,7 +89,7 @@ exports.sendCode = phoneNum => (dispatch, getStates) => {
   });
 };
 
-exports.checkCode = phoneInfo => (dispatch, getStates) => {
+exports.checkCode = (phoneInfo, userInfo) => (dispatch, getStates) => {
   dispatch(setLoadMsg({ status: true, word: '验证中……' }));
   const checkCodeURL = `${config.checkCodeAvaliableAPI}?shopId=${shopId}&mobile=${phoneInfo.phoneNum}&code=${phoneInfo.code}`;
   fetch(checkCodeURL, config.requestOptions).
@@ -103,7 +103,7 @@ exports.checkCode = phoneInfo => (dispatch, getStates) => {
       dispatch(setLoadMsg({ status:false, word: '' }));
       dispatch(setErrorMsg('验证成功'));
       dispatch(setPhoneFalg(true));
-      dispatch(register());
+      dispatch(register(userInfo));
     } else {
       dispatch(setErrorMsg(res.msg));
     }
