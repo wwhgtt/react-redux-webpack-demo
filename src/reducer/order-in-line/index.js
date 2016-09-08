@@ -28,7 +28,7 @@ module.exports = function (
           ['commercialProps', 'shopName'], payload.shopName
         )
         .setIn(['commercialProps', 'shopLogo'], payload.shopLogo)
-        .setIn(['commercialProps', 'maxPersonNum'], payload.maxPersonNum)
+        .setIn(['commercialProps', 'maxPersonNum'], payload.maxPersonNum || 99)
         .setIn(['commercialProps', 'hasQLine'], payload.hasQLine)
         .setIn(['commercialProps', 'openStatus'], payload.openStatus)
         .setIn(['customerProps', 'name'], payload.name)

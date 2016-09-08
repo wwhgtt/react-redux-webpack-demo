@@ -116,7 +116,7 @@ const OrderInlineApplication = React.createClass({
                 <ImportableCounter
                   setErrorMsg={setErrorMsg}
                   onCountChange={this.onCountChange}
-                  maximum={commercialProps.maxPersonNum || 99}
+                  maximum={commercialProps.maxPersonNum}
                   minimum={1}
                   count={
                     commercialProps.maxPersonNum && +dinePersonCount < +commercialProps.maxPersonNum ?

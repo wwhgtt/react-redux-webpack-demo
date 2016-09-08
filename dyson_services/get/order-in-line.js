@@ -33,7 +33,7 @@ module.exports = {
           maxPersonCount:10,
         },
       ],
-      maxPersonNum:12, // 最大人数限制
+      maxPersonNum:null, // 最大人数限制
       hasQLine:true, // 是否配置队列
       shopOpenStatus:true, //是否营业状态
     },
