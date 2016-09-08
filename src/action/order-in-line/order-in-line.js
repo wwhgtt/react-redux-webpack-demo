@@ -24,7 +24,7 @@ fetch(`${config.getOrderInLineAPI}?shopId=${shopId}`, config.requestOptions).
       dispatch(setErrorMsg('已成功排队，无需再次排队...'));
       location.href = `/queue/success?shopId=${shopId}&orderId=${result.data.orderId}`;
     } else if (!result.data.mobile) {
-      location.href = `http://${location.host}/user/bindMobile?shopId=${shopId}&returenUrl=${encodeURIComponent(location.href)}`;
+      location.href = `http://${location.host}/user/bindMobile?shopId=${shopId}&returnUrl=${encodeURIComponent(location.href)}`;
     } else {
       dispatch(setOrderInLineProps(result.data));
     }

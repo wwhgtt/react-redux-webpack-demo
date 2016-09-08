@@ -23,7 +23,7 @@ exports.fetchCommercialProps = () => (dispatch, getState) =>
     })
     .then(commercial => {
       if (!commercial.data.m.mobile) {
-        location.href = `http://${location.host}/user/bindMobile?shopId=${shopId}&returenUrl=${encodeURIComponent(location.href)}`;
+        location.href = `http://${location.host}/user/bindMobile?shopId=${shopId}&returnUrl=${encodeURIComponent(location.href)}`;
       } else {
         dispatch(setCommercialProps(commercial.data));
       }
