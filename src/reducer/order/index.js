@@ -78,6 +78,7 @@ module.exports = function (
                       name:payload.member.name, mobile:payload.member.mobile, loginType:+payload.member.loginType > 0 ? +payload.member.loginType : 0,
                       iconUri:payload.member.iconUri, sex: isNaN(+payload.member.sex) ? null : payload.member.sex,
                       isMember:payload.isMember, customerCount:1,
+                      originMa:payload.originMa || {},
                       addresses:payload.ma ? [Object.assign({ isChecked:true, id: payload.ma.memberAddressId }, payload.ma)] : null,
                     })
                   )
@@ -360,7 +361,7 @@ module.exports = function (
         Immutable.from((state.customerProps.addresses || []).concat(payload))
       ).setIn(['customerProps', 'isAddressesLoaded'], true);
     case 'SET_ADDRESS_TOSHOP_TO_ORDER':
-      return state.setIn(['customerAddressListInfo', 'data', 'toShopInfo'], payload);
+      return state.setIn(payload.isJustToShop ? ['customerProps', 'originMa'] : ['customerAddressListInfo', 'data', 'toShopInfo'], payload.value);
     case 'SET_ADDRESS_LIST_INFO_TO_ORDER':
       return state.set('customerAddressListInfo', {
         isAddressesLoaded: true,
