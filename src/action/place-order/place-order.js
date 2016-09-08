@@ -22,7 +22,11 @@ exports.fetchCommercialProps = () => (dispatch, getState) =>
       return res.json();
     })
     .then(commercial => {
-      dispatch(setCommercialProps(commercial.data));
+      if (!commercial.data.m.mobile) {
+        location.href = `http://${location.host}/user/bindMobile?shopId=${shopId}&returnUrl=${encodeURIComponent(location.href)}`;
+      } else {
+        dispatch(setCommercialProps(commercial.data));
+      }
     })
     .catch(err => {
       console.log(err);

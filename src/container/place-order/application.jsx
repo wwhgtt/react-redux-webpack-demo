@@ -213,7 +213,7 @@ const PlaceOrderApplication = React.createClass({
             </div>
           </div>
 
-          <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setCustomerProps} isMobileDisabled={false} />
+          <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setCustomerProps} isMobileDisabled />
 
           <div className="options-group">
             <label className="option">
