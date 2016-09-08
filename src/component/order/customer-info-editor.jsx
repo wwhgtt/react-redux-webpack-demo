@@ -41,6 +41,7 @@ module.exports = React.createClass({
               id="editor-name"
               placeholder={customerProps.name || '请输入姓名'}
               onChange={this.handleBasicInfoChange}
+              maxLength="60"
             />
             <div className="editor-gender-group flex-none">
               <label className="half">

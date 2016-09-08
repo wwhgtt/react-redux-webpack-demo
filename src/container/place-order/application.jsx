@@ -218,7 +218,7 @@ const PlaceOrderApplication = React.createClass({
           <div className="options-group">
             <label className="option">
               <span className="option-title">备注: </span>
-              <input className="option-input" name="note" placeholder="输入备注" maxLength="35" onChange={this.noteChange} />
+              <input className="option-input" name="note" placeholder="输入备注" maxLength="500" onChange={this.noteChange} />
             </label>
           </div>
           <button className="place-order" onTouchTap={this.placeOrder}>立即预订</button>
