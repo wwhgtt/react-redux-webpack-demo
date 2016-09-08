@@ -45,19 +45,25 @@ exports.fetchOrder = () => (dispatch, getState) =>
       if (type === 'TS') {
         dispatch(setOrder(order.data));
       } else {
+        const data = order.data;
         const selectedCustomerProps = JSON.parse(sessionStorage.getItem('receiveOrderCustomerInfo'));
+        const toShopInfo = JSON.parse(sessionStorage.getItem(`${shopId}_customer_toshopinfo`));
+
+        data.originMa = data.ma;
+        if (data.ma && data.ma.id === 0 && toShopInfo) {
+          Object.assign(data.originMa, toShopInfo);
+        }
+
         if (selectedCustomerProps) {
-          order.data.ma = selectedCustomerProps.addresses[0];
+          data.ma = selectedCustomerProps.addresses[0];
           const selectedDateTimeKey = 'selectedDateTime';
           const selectedDateTime = sessionStorage.getItem(selectedDateTimeKey);
           if (selectedDateTime) {
-            order.data.defaultSelectedDateTime = JSON.parse(selectedDateTime);
+            data.defaultSelectedDateTime = JSON.parse(selectedDateTime);
             sessionStorage.removeItem(selectedDateTimeKey);
           }
-          dispatch(setOrder(order.data));
-        } else {
-          dispatch(setOrder(order.data));
         }
+        dispatch(setOrder(data));
       }
       return order.data;
     }).
@@ -181,7 +187,6 @@ exports.clearErrorMsg = () => (dispatch, getState) =>
   dispatch(setErrorMsg(null));
 
 exports.setSessionAndForwardChaining = (id) => (dispatch, getState) => {
-  console.log('1daskndkasldasldhasi');
   sessionStorage.setItem('rurl_address', JSON.stringify(location.href));
   if (typeof id !== 'string') {
     location.href = `${config.editUserAddressURL}?shopId=${getUrlParam('shopId')}`;
@@ -205,9 +210,15 @@ exports.setCustomerToShopAddress = (evt, validateRet, customerTProps) => (dispat
     dispatch(setErrorMsg(validateRet.msg));
     return false;
   }
+
   const json = JSON.stringify(customerTProps);
+  const { customerProps } = getState();
+
   sessionStorage.setItem(`${shopId}_customer_toshopinfo`, json);
-  dispatch(setCustomToShopAddress(customerTProps));
+  dispatch(setCustomToShopAddress({
+    isJustToShop: customerProps.originMa && customerProps.originMa.id === 0,
+    value: customerTProps,
+  }));
   return true;
 };
 

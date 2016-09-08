@@ -333,31 +333,43 @@ const OrderApplication = React.createClass({
     const { setOrderProps, fetchUserAddressListInfo, setChildView } = this.props;// actions
     const type = getUrlParam('type');
     const shopId = getUrlParam('shopId');
-    const buildCoustomerPropElement = function () {
+    const isSelfFetch = !!_find(customerProps.addresses, { isChecked: true, id: 0 });
+
+    const buildCustomerPropElement = () => {
       const elems = [];
+      const originMa = customerProps.originMa || {};
       let addressText = '';
-      if (customerProps.addresses && customerProps.addresses.length) {
-        const isCheckedAddressInfo = _find(customerProps.addresses, { isChecked:true });
-        if (isCheckedAddressInfo) {
-          elems.push(
-            <div className="option-stripes-title" key="title">
-              {isCheckedAddressInfo.name}{+isCheckedAddressInfo.sex === 1 ? '先生' : '女士'}
-              {isCheckedAddressInfo.mobile}
-            </div>
-          );
-          addressText = isCheckedAddressInfo.address;
-        }
+      let checkedAddressInfo = null;
+      if (originMa.id === 0) {
+        checkedAddressInfo = originMa;
+      } else if (customerProps.addresses && customerProps.addresses.length) {
+        checkedAddressInfo = _find(customerProps.addresses, { isChecked: true });
+      }
+
+      if (checkedAddressInfo) {
+        elems.push(
+          <div className="option-stripes-title" key="title">
+            {checkedAddressInfo.name}{+checkedAddressInfo.sex === 1 ? '先生' : '女士'}
+            {checkedAddressInfo.mobile}
+          </div>
+        );
+        addressText = checkedAddressInfo.address;
       }
       elems.push(
         <div className="clearfix" key="address">
           <div className="option-desc">
-            {addressText || '请选择送餐地址'}
+            {addressText || (isSelfFetch ? '到店取餐' : '请选择送餐地址')}
           </div>
         </div>
       );
-      return elems;
+
+      const hash = `#customer-info${originMa.id === 0 ? '-toshop' : ''}`;
+      return (
+        <a className="options-group options-group--stripes" href={hash} >
+          {elems}
+        </a>
+      );
     };
-    const isSelfFetch = !!_find(customerProps.addresses, { isChecked:true, id: 0 });
 
     const getFetchTimeTitle = () => {
       const selectedDateTime = timeProps.selectedDateTime || {};
@@ -394,13 +406,7 @@ const OrderApplication = React.createClass({
     return (
       <div className="application flex-columns">
         <div className="flex-rest">
-          {type === 'WM' ?
-            <a className="options-group options-group--stripes" href="#customer-info" >
-              {buildCoustomerPropElement()}
-            </a>
-            :
-            this.buildTSCustomerPropsElement()
-          }
+          {type === 'WM' ? buildCustomerPropElement() : this.buildTSCustomerPropsElement()}
           {type === 'WM' ?
             false
             :
@@ -528,6 +534,7 @@ const OrderApplication = React.createClass({
         }
         {childView === 'customer-info-toshop' ?
           <CustomerToShopInfoEditor
+            originMa={customerProps.originMa}
             customerAddressListInfo={customerAddressListInfo}
             onComponentWillMount={fetchUserAddressListInfo}
             onCustomerPropsChange={setCustomerToShopAddress} onDone={this.resetChildView}
