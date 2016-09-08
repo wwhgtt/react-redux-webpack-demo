@@ -49,7 +49,13 @@ const OrderInlineApplication = React.createClass({
     if (queueList && queueList.length) {
       queueList.map(quene => element.push(<li className="queue-entry" key={quene.queueLineId}>
         <span className="ellipsis">{quene.queueName}</span>
-        <span>{quene.minPersonCount}-{quene.maxPersonCount}人</span>
+        <span>
+          {quene.minPersonCount === quene.maxPersonCount ?
+            quene.minPersonCount + '人'
+            :
+            `${quene.minPersonCount}${quene.maxPersonCount === 0 ? '人以上' : `-${quene.maxPersonCount}人`}`
+          }
+        </span>
         <span>{quene.count}桌</span>
       </li>)
       );
@@ -110,9 +116,12 @@ const OrderInlineApplication = React.createClass({
                 <ImportableCounter
                   setErrorMsg={setErrorMsg}
                   onCountChange={this.onCountChange}
-                  count={dinePersonCount}
-                  maximum={99}
+                  maximum={commercialProps.maxPersonNum}
                   minimum={1}
+                  count={
+                    commercialProps.maxPersonNum && +dinePersonCount < +commercialProps.maxPersonNum ?
+                    dinePersonCount : commercialProps.maxPersonNum
+                  }
                 />
               </div>
               <div className="option">
