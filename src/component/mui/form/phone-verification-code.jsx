@@ -9,7 +9,7 @@ const nationsInfo = [
       { text: '台湾', value: 'TaiWan', phoneReg: /^09\d{8}$/, isAllowSendCode: false },
     ],
   },
-  { text: '澳大利亚', value: 'Australia', phoneReg: /^04\d{8}$/, isAllowSendCode: false },
+  { text: '澳大利亚', value: 'Australia', phoneReg: /^04\d{8}$/, isAllowSendCode: false, defaultCode: '1111' },
 ];
 const getNationInfo = id => nationsInfo.filter(item => item.value === id).shift();
 
@@ -51,15 +51,21 @@ module.exports = React.createClass({
       this.handleCompleteInput();
     }
   },
+  getDefaultVerificationCode(currentNation) {
+    const nation = getNationInfo(currentNation);
+    return nation && nation.defaultCode || '';
+  },
   getInputInfo() {
     const keys = ['phoneNum', 'code'];
     const info = {};
     keys.forEach(key => {
       info[key] = this.state[key];
     });
-    info.isForeignZone = this.isForeignZone(info.currentNation || this.state.currentNation);
-    const validation = this.validateInput(info);
-    return { data: info, validation };
+
+    const currentNation = info.currentNation || this.state.currentNation;
+    info.isForeignZone = this.isForeignZone(currentNation);
+    info.code = info.code || this.getDefaultVerificationCode(currentNation);
+    return { data: info, validation: this.validateInput(info) };
   },
   isForeignZone(currentNation) {
     return currentNation !== 'China';
