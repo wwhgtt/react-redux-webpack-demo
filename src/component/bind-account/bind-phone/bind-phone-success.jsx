@@ -8,7 +8,7 @@ const BindPhoneSuccess = React.createClass({
     phoneInfo: React.PropTypes.object.isRequired,
   },
 
-  // 3秒后跳转到**页面
+  // 3秒后跳转到相关页面
   componentDidMount() {
     const shopId = this.props.phoneInfo.phoneShopId;
     let displayUrl = '';
