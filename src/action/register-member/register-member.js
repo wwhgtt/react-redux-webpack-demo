@@ -39,6 +39,7 @@ const register = exports.saveRegisterMember = (info) => (dispatch, getStates) =>
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('用户注册失败'));
+      dispatch(setLoadMsg({ status:false, word: '' }));
     }
 
     return res.json();
@@ -96,6 +97,7 @@ exports.checkCode = (phoneInfo, userInfo) => (dispatch, getStates) => {
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('手机验证失败'));
+      dispatch(setLoadMsg({ status:false, word: '' }));
     }
     return res.json();
   }).then(res => {
@@ -106,6 +108,7 @@ exports.checkCode = (phoneInfo, userInfo) => (dispatch, getStates) => {
       dispatch(register(userInfo));
     } else {
       dispatch(setErrorMsg(res.msg));
+      dispatch(setLoadMsg({ status:false, word: '' }));
     }
   });
 };
