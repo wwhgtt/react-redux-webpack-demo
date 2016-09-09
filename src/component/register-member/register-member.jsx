@@ -17,6 +17,7 @@ const RegisterMember = React.createClass({
     onSendCode: React.PropTypes.func,
     registerPhoneCode: React.PropTypes.string,
     onCheckCode: React.PropTypes.func,
+    onGetRegisterInfo: React.PropTypes.func,
   },
 
   getInitialState() {
@@ -40,16 +41,11 @@ const RegisterMember = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     const { userInfo, registerPhoneCode } = nextProps;
-    console.log('===========registerPhonCode' + registerPhoneCode);
     if (!this.props.registerPhoneCode) {
       this.setState({
         phoneCode: registerPhoneCode,
-        isCodeShow: !Boolean(registerPhoneCode),
       });
     }
-
-
-    console.log('========isCodeShow' + this.state.isCodeShow);
 
     if (this._isPropsFirstLoad) {
       return;
@@ -112,7 +108,7 @@ const RegisterMember = React.createClass({
       this.setState({ errorMsg: validation.msg });
       return;
     }
-
+    this.setState({ phoneCode: data.code, isCodeShow: false });
     this.props.onCheckCode(data);
   },
   // 注册会员
@@ -146,18 +142,19 @@ const RegisterMember = React.createClass({
     } else if (errorMsgC) {
       this.setState({ errorMsg: errorMsgC });
     } else {
-      if (!isAustralia && loginType !== 0 && !phoneCode) {
-        this.setState({ isCodeShow: true });
-        return;
-      }
       const registerInfo = {
         name: userNameValid,
         birth: birthDay,
         mobile: phoneNum,
         sex: userSex,
         pwd: password,
-        code: phoneCode,
       };
+      this.props.onGetRegisterInfo(registerInfo);
+      if (!isAustralia && loginType !== 0 && !phoneCode) {
+        this.setState({ isCodeShow: true });
+        return;
+      }
+
       this.props.onRegisterMember(registerInfo);
     }
   },

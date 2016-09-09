@@ -54,7 +54,6 @@ const register = exports.saveRegisterMember = (info) => (dispatch, getStates) =>
   then(res => {
     if (res.code === '200') {
       dispatch(setLoadMsg({ status:false, word: '' }));
-      // dispatch(setPhoneCode(''));
       dispatch(setErrorMsg('注册成功'));
 
       setTimeout(() => {
@@ -63,14 +62,12 @@ const register = exports.saveRegisterMember = (info) => (dispatch, getStates) =>
     } else if (res.code === '20015') {
       dispatch(setErrorMsg(res.msg));
       dispatch(setLoadMsg({ status:false, word: '' }));
-      // dispatch(setPhoneCode(info.code));
       setTimeout(() => {
         location.href = `${displayUrl}?shopId=${shopId}`;
       }, 3000);
     } else {
       dispatch(setLoadMsg({ status:false, word: '' }));
       dispatch(setErrorMsg(res.msg));
-      // dispatch(setPhoneCode(info.code));
     }
   });
 };
@@ -108,7 +105,6 @@ exports.checkCode = (phoneInfo, userInfo) => (dispatch, getStates) => {
     return res.json();
   }).then(res => {
     if (res.code === '200') {
-      console.log('===========================' + phoneInfo.code);
       dispatch(setLoadMsg({ status:false, word: '' }));
       dispatch(setErrorMsg('验证成功'));
       dispatch(setPhoneCode(phoneInfo.code));

@@ -50,6 +50,10 @@ const RegisterMemberApplication = React.createClass({
     this.props.checkCode(phoneInfo, userInfo);
   },
 
+  handleGetRegisterInfo(registerInfo) {
+    this.setState({ userInfo: registerInfo });
+  },
+
   render() {
     const { errorMessage, userInfo, loadInfo, sendCode, phoneCode } = this.props;
     return (
@@ -60,6 +64,7 @@ const RegisterMemberApplication = React.createClass({
           onRegisterMember={this.handleRegister}
           onSendCode={sendCode}
           onCheckCode={this.handleCheckCode}
+          onGetRegisterInfo={this.handleGetRegisterInfo}
         />
         {
           errorMessage ?
