@@ -349,7 +349,7 @@ const OrderApplication = React.createClass({
       if (checkedAddressInfo) {
         elems.push(
           <div className="option-stripes-title" key="title">
-            {checkedAddressInfo.name}{+checkedAddressInfo.sex === 1 ? '先生' : '女士'}
+            {checkedAddressInfo.name}{['女士', '先生'][checkedAddressInfo.sex] || ''}
             {checkedAddressInfo.mobile}
           </div>
         );
