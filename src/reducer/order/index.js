@@ -361,7 +361,18 @@ module.exports = function (
         Immutable.from((state.customerProps.addresses || []).concat(payload))
       ).setIn(['customerProps', 'isAddressesLoaded'], true);
     case 'SET_ADDRESS_TOSHOP_TO_ORDER':
-      return state.setIn(payload.isJustToShop ? ['customerProps', 'originMa'] : ['customerAddressListInfo', 'data', 'toShopInfo'], payload.value);
+      if (!payload.isJustToShop) {
+        return state.setIn(['customerAddressListInfo', 'data', 'toShopInfo'], payload.value);
+      }
+      return state.setIn(
+        ['customerProps', 'originMa'],
+        payload.value
+      )
+      .setIn(
+        ['customerProps', 'addresses'], [
+          Object.assign({}, payload.value, { isChecked: true }),
+        ]
+      );
     case 'SET_ADDRESS_LIST_INFO_TO_ORDER':
       return state.set('customerAddressListInfo', {
         isAddressesLoaded: true,

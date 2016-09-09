@@ -67,7 +67,7 @@ module.exports = React.createClass({
       value = value ? parseInt(value, 10) : -1;
     }
     const { customerProps } = this.state;
-    this.setState({ customerProps:customerProps.set(input.name, value) });
+    this.setState({ customerProps: customerProps.set(input.name, value) });
   },
   render() {
     const { customerProps } = this.state;
