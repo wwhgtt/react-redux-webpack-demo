@@ -40,6 +40,11 @@ module.exports = React.createClass({
     }
   },
   initStateByProps(props) {
+    const { customerProps } = this.state;
+    if (customerProps.hasOwnProperty('name')) {
+      return;
+    }
+
     const { customerAddressListInfo, originMa } = props;
     if (originMa && originMa.id === 0) {
       this.setState({ customerProps: originMa });
@@ -62,9 +67,7 @@ module.exports = React.createClass({
       value = value ? parseInt(value, 10) : -1;
     }
     const { customerProps } = this.state;
-    this.setState({
-      customerProps:customerProps.set(input.name, value),
-    });
+    this.setState({ customerProps:customerProps.set(input.name, value) });
   },
   render() {
     const { customerProps } = this.state;
