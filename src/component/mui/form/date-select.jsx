@@ -1,8 +1,10 @@
 const React = require('react');
 const ActiveScrollSelect = require('../select/active-scroll-select.jsx');
 const DateTimeOption = require('../misc/dynamic-class-hoc.jsx')('a');
+
 require('../../order/select/select-container.scss');
 require('./date-select.scss');
+
 const stringPadStr = (str, targetLength, padCh) => {
   const padLength = targetLength - str.length;
   if (padLength <= 0) {
@@ -29,9 +31,11 @@ const parseDateFromStr = dateStr => {
   const time = Date.parse(dateStr.replace(/\D+/g, '-').replace(/\D+$/, ''));
   return isNaN(time) ? null : new Date(time);
 };
+
 module.exports = React.createClass({
   displayName: 'DateSelect',
   propTypes: {
+    isAllowExceedNow: React.PropTypes.bool,
     format: React.PropTypes.string,
     startYear: React.PropTypes.number,
     endYear: React.PropTypes.number,
@@ -43,6 +47,7 @@ module.exports = React.createClass({
     return {
       date: new Date(),
       format: 'yyyy-MM-dd',
+      isAllowExceedNow: true,
     };
   },
   getInitialState() {
@@ -59,10 +64,12 @@ module.exports = React.createClass({
     if (evt) {
       evt.stopPropagation();
     }
+
     const key = `${type}s`;
-    const { currentDate, dates } = this.state;
+    const { currentDate, dates, months } = this.state;
     const state = {};
     const newCurrentDate = new Date(+currentDate);
+
     newCurrentDate.setDate(1);
     state[key] = this.state[key].map(item => {
       const _item = item;
@@ -85,10 +92,16 @@ module.exports = React.createClass({
     if (type !== 'date') {
       const date = currentDate.getDate();
       const year = newCurrentDate.getFullYear();
-      const month = newCurrentDate.getMonth() + 1;
-      const monthLastDate = this.getMonthLastDate(year, month);
-      newCurrentDate.setDate(Math.min(monthLastDate, date));
-      if (monthLastDate !== dates.length) {
+      const maxMonth = this.getMaxRangeMonth(year);
+      const month = Math.min(newCurrentDate.getMonth() + 1, maxMonth);
+      newCurrentDate.setMonth(month - 1);
+
+      const maxDate = this.getMaxRangeDate(year, month);
+      newCurrentDate.setDate(Math.min(date, maxDate));
+      if (maxMonth !== months.length) {
+        state.months = this.getMonthList(year, newCurrentDate.getMonth() + 1);
+      }
+      if (maxDate !== dates.length) {
         state.dates = this.getDateList(year, month, newCurrentDate.getDate());
       }
     }
@@ -119,9 +132,9 @@ module.exports = React.createClass({
     return new Date(year, month, 0).getDate();
   },
   getDateList(year, month, date) {
-    const endDate = this.getMonthLastDate(year, month, date);
     const list = [];
-    for (let i = 1; i <= endDate; i++) {
+    const maxRange = this.getMaxRangeDate(year, month);
+    for (let i = 1; i <= maxRange; i++) {
       list.push({
         label: stringPadStr(i.toString(), 2, '0'),
         id: i,
@@ -130,7 +143,51 @@ module.exports = React.createClass({
     }
     return list;
   },
+  getMonthList(year, month) {
+    const list = [];
+    const maxRange = this.getMaxRangeMonth(year);
+    for (let i = 1; i <= maxRange; i++) {
+      list.push({
+        label: stringPadStr(i.toString(), 2, '0'),
+        id: i,
+        isChecked: i === month,
+      });
+    }
+    return list;
+  },
+  getMaxRangeMonth(year) {
+    const result = 12;
+    const { isAllowExceedNow } = this.props;
+    if (isAllowExceedNow) {
+      return result;
+    }
 
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    if (year < currentYear) {
+      return result;
+    } else if (year > currentYear) {
+      return 0;
+    }
+    return now.getMonth() + 1;
+  },
+  getMaxRangeDate(year, month) {
+    const result = this.getMonthLastDate(year, month);
+    const { isAllowExceedNow } = this.props;
+    if (isAllowExceedNow) {
+      return result;
+    }
+
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth() + 1;
+    if (year < currentYear) {
+      return result;
+    } else if (year > currentYear) {
+      return result;
+    }
+    return month < currentMonth ? result : now.getDate();
+  },
   buildState() {
     const state = {
       years: [],
@@ -151,14 +208,7 @@ module.exports = React.createClass({
         isChecked: i === currentYear,
       });
     }
-
-    for (let i = 1; i <= 12; i++) {
-      state.months.push({
-        label: stringPadStr(i.toString(), 2, '0'),
-        id: i,
-        isChecked: i === currentMonth,
-      });
-    }
+    state.months = this.getMonthList(currentYear, currentMonth);
     state.dates = this.getDateList(currentYear, currentMonth, defaultDate.getDate());
     return state;
   },
