@@ -66,9 +66,9 @@ exports.fetchSendArea = () => (dispatch, getState) => {
       then(areaData => {
         if (areaData.code === '200') {
           const sendAreaData = areaData.data;
-          const shipmentFee = sendAreaData.shipment;
-          const minPrice = sendAreaData.sendPrice;
-          const shipFreePrice = sendAreaData.freeDeliveryPrice;
+          const shipmentFee = sendAreaData.shipment || 0;
+          const minPrice = sendAreaData.sendPrice || 0;
+          const shipFreePrice = sendAreaData.freeDeliveryPrice || 0;
           sessionStorage.setItem(`${shopId}_sendArea_id`, sendAreaData.id);
           sessionStorage.setItem(`${shopId}_sendArea_rangeId`, sendAreaData.id);
           sessionStorage.setItem(`${shopId}_sendArea_sendPrice`, minPrice);
