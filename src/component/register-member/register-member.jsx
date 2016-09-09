@@ -35,15 +35,21 @@ const RegisterMember = React.createClass({
       phoneCode: '',
       isCodeShow: false,
       loginType: 0,
-      isPhoneValid: true,
     };
   },
 
   componentWillReceiveProps(nextProps) {
-    const { userInfo, isPhoneValid } = nextProps;
-    this.setState({
-      isCodeShow: !isPhoneValid,
-    });
+    const { userInfo, registerPhoneCode } = nextProps;
+    console.log('===========registerPhonCode' + registerPhoneCode);
+    if (!this.props.registerPhoneCode) {
+      this.setState({
+        phoneCode: registerPhoneCode,
+        isCodeShow: !Boolean(registerPhoneCode),
+      });
+    }
+
+
+    console.log('========isCodeShow' + this.state.isCodeShow);
 
     if (this._isPropsFirstLoad) {
       return;
@@ -111,9 +117,20 @@ const RegisterMember = React.createClass({
   },
   // 注册会员
   registerMember() {
-    const { errorMsgP, errorMsgC, phoneNum, password, userSex, birthDay, userName } = this.state;
+    const {
+      errorMsgP,
+      errorMsgC,
+      phoneNum,
+      password,
+      userSex,
+      birthDay,
+      userName,
+      loginType,
+      phoneCode,
+    } = this.state;
     const userNameValid = replaceEmojiWith(userName.trim());
-
+    const regPhoneAustralia = /^04\d{8}$/;
+    const isAustralia = regPhoneAustralia.test(phoneNum);
     if (!phoneNum) {
       this.setState({ errorMsg: '请填写手机号码' });
     } else if (errorMsgP) {
@@ -129,12 +146,17 @@ const RegisterMember = React.createClass({
     } else if (errorMsgC) {
       this.setState({ errorMsg: errorMsgC });
     } else {
+      if (!isAustralia && loginType !== 0 && !phoneCode) {
+        this.setState({ isCodeShow: true });
+        return;
+      }
       const registerInfo = {
         name: userNameValid,
         birth: birthDay,
         mobile: phoneNum,
         sex: userSex,
         pwd: password,
+        code: phoneCode,
       };
       this.props.onRegisterMember(registerInfo);
     }

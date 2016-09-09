@@ -6,7 +6,7 @@ const helper = require('../../helper/common-helper.js');
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setLoadMsg = exports.setLoadMsg = createAction('SET_LOAD_MSG', loadinfo => loadinfo);
 const setUserInfo = createAction('SET_USER_INFO', userInfo => userInfo);
-const setPhoneFalg = createAction('SET_PHONE_FLAG', phoneFlag => phoneFlag);
+const setPhoneCode = createAction('SET_PHONE_CODE', phoneCode => phoneCode);
 const shopId = helper.getUrlParam('shopId');
 const returnUrl = helper.getUrlParam('returnUrl');
 const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
@@ -35,6 +35,13 @@ const register = exports.saveRegisterMember = (info) => (dispatch, getStates) =>
   dispatch(setLoadMsg({ status: true, word: '注册中，请稍后……' }));
   const registerURL = `${config.registerAPI}?shopId=${shopId}`;
 
+  let displayUrl = '';
+  if (returnUrl) {
+    displayUrl = decodeURIComponent(returnUrl);
+  } else {
+    displayUrl = config.mineIndexURL;
+  }
+
   fetch(registerURL, getFetchPostParam(info)).
   then(res => {
     if (!res.ok) {
@@ -46,26 +53,24 @@ const register = exports.saveRegisterMember = (info) => (dispatch, getStates) =>
   }).
   then(res => {
     if (res.code === '200') {
-      let displayUrl = '';
       dispatch(setLoadMsg({ status:false, word: '' }));
-      dispatch(setPhoneFalg(true));
+      // dispatch(setPhoneCode(''));
       dispatch(setErrorMsg('注册成功'));
-      if (returnUrl) {
-        displayUrl = decodeURIComponent(returnUrl);
-      } else {
-        displayUrl = config.mineIndexURL;
-      }
+
       setTimeout(() => {
         location.href = `${displayUrl}?shopId=${shopId}`;
       }, 3000);
-    } else if (res.code === '20013') {
-      dispatch(setPhoneFalg(false));
-      dispatch(setErrorMsg(''));
+    } else if (res.code === '20015') {
+      dispatch(setErrorMsg(res.msg));
       dispatch(setLoadMsg({ status:false, word: '' }));
+      // dispatch(setPhoneCode(info.code));
+      setTimeout(() => {
+        location.href = `${displayUrl}?shopId=${shopId}`;
+      }, 3000);
     } else {
-      dispatch(setPhoneFalg(true));
       dispatch(setLoadMsg({ status:false, word: '' }));
       dispatch(setErrorMsg(res.msg));
+      // dispatch(setPhoneCode(info.code));
     }
   });
 };
@@ -98,17 +103,20 @@ exports.checkCode = (phoneInfo, userInfo) => (dispatch, getStates) => {
     if (!res.ok) {
       dispatch(setErrorMsg('手机验证失败'));
       dispatch(setLoadMsg({ status:false, word: '' }));
+      dispatch(setPhoneCode(''));
     }
     return res.json();
   }).then(res => {
     if (res.code === '200') {
+      console.log('===========================' + phoneInfo.code);
       dispatch(setLoadMsg({ status:false, word: '' }));
       dispatch(setErrorMsg('验证成功'));
-      dispatch(setPhoneFalg(true));
+      dispatch(setPhoneCode(phoneInfo.code));
       dispatch(register(userInfo));
     } else {
       dispatch(setErrorMsg(res.msg));
       dispatch(setLoadMsg({ status:false, word: '' }));
+      dispatch(setPhoneCode(''));
     }
   });
 };
