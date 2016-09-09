@@ -17,6 +17,7 @@ const RegisterMember = React.createClass({
     onSendCode: React.PropTypes.func,
     registerPhoneCode: React.PropTypes.string,
     onCheckCode: React.PropTypes.func,
+    onGetRegisterInfo: React.PropTypes.func,
   },
 
   getInitialState() {
@@ -35,15 +36,16 @@ const RegisterMember = React.createClass({
       phoneCode: '',
       isCodeShow: false,
       loginType: 0,
-      isPhoneValid: true,
     };
   },
 
   componentWillReceiveProps(nextProps) {
-    const { userInfo, isPhoneValid } = nextProps;
-    this.setState({
-      isCodeShow: !isPhoneValid,
-    });
+    const { userInfo, registerPhoneCode } = nextProps;
+    if (!this.props.registerPhoneCode) {
+      this.setState({
+        phoneCode: registerPhoneCode,
+      });
+    }
 
     if (this._isPropsFirstLoad) {
       return;
@@ -106,14 +108,25 @@ const RegisterMember = React.createClass({
       this.setState({ errorMsg: validation.msg });
       return;
     }
-
+    this.setState({ phoneCode: data.code, isCodeShow: false });
     this.props.onCheckCode(data);
   },
   // 注册会员
   registerMember() {
-    const { errorMsgP, errorMsgC, phoneNum, password, userSex, birthDay, userName } = this.state;
+    const {
+      errorMsgP,
+      errorMsgC,
+      phoneNum,
+      password,
+      userSex,
+      birthDay,
+      userName,
+      loginType,
+      phoneCode,
+    } = this.state;
     const userNameValid = replaceEmojiWith(userName.trim());
-
+    const regPhoneAustralia = /^04\d{8}$/;
+    const isAustralia = regPhoneAustralia.test(phoneNum);
     if (!phoneNum) {
       this.setState({ errorMsg: '请填写手机号码' });
     } else if (errorMsgP) {
@@ -136,6 +149,12 @@ const RegisterMember = React.createClass({
         sex: userSex,
         pwd: password,
       };
+      this.props.onGetRegisterInfo(registerInfo);
+      if (!isAustralia && loginType !== 0 && !phoneCode) {
+        this.setState({ isCodeShow: true });
+        return;
+      }
+
       this.props.onRegisterMember(registerInfo);
     }
   },

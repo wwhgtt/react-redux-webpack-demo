@@ -7,7 +7,7 @@ const defaultState = Immutable.from({
     status: false,
     word: '',
   },
-  phoneFlag: true,
+  phoneCode: '',
 });
 
 module.exports = (state = defaultState, action) => {
@@ -19,8 +19,8 @@ module.exports = (state = defaultState, action) => {
       return state.set('errorMessage', payload);
     case 'SET_LOAD_MSG':
       return state.set('loadInfo', payload);
-    case 'SET_PHONE_FLAG':
-      return state.set('phoneFlag', payload);
+    case 'SET_PHONE_CODE':
+      return state.set('phoneCode', payload);
     default:
       return state;
   }
