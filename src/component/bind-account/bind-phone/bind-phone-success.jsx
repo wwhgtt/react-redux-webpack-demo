@@ -15,7 +15,7 @@ const BindPhoneSuccess = React.createClass({
     if (returnUrl) {
       displayUrl = decodeURIComponent(returnUrl);
     } else {
-      displayUrl = decodeURIComponent(`${config.mineIndexURL}?shopId=${shopId}`);
+      displayUrl = `${config.mineIndexURL}?shopId=${shopId}`;
     }
     setTimeout(() => {
       location.href = displayUrl;

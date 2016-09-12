@@ -39,7 +39,7 @@ const register = exports.saveRegisterMember = (info) => (dispatch, getStates) =>
   if (returnUrl) {
     displayUrl = decodeURIComponent(returnUrl);
   } else {
-    displayUrl = decodeURIComponent(`${config.mineIndexURL}?shopId=${shopId}`);
+    displayUrl = `${config.mineIndexURL}?shopId=${shopId}`;
   }
 
   fetch(registerURL, getFetchPostParam(info)).
