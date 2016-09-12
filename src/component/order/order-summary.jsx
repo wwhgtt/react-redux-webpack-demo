@@ -4,6 +4,7 @@ const helper = require('../../helper/order-helper.js');
 const OrderedDish = require('./ordered-dish.jsx');
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
 const isSingleDishWithoutProps = require('../../helper/dish-hepler.js').isSingleDishWithoutProps;
+const defaultShopLogo = require('../../asset/images/default.png');
 
 require('./order-summary.scss');
 
@@ -48,7 +49,7 @@ module.exports = React.createClass({
     return (
       <div className="options-group">
         <a className="option option-shop" href={config.shopDetailURL + '?shopId=' + shopId}>
-          <img className="option-shop-icon" src={commercialProps.commercialLogo} alt="" />
+          <img className="option-shop-icon" src={commercialProps.commercialLogo || defaultShopLogo} alt="" />
           <p className="option-shop-desc ellipsis">{commercialProps.name}</p>
         </a>
         {orderedElements}
