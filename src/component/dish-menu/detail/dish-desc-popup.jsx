@@ -51,7 +51,10 @@ module.exports = React.createClass({
               <span className="dish-desc-register-text">注册会员，享受惊喜价格哦！</span>
               <button
                 className="dish-desc-register-btn"
-                onTouchTap={() => location.href = `http://${location.host}/member/register?shopId=${helper.getUrlParam('shopId')}`}
+                onTouchTap={
+                  () => location.href =
+                  `http://${location.host}/member/register?shopId=${helper.getUrlParam('shopId')}&returnUrl=${encodeURIComponent(location.href)}`
+                }
               >注册会员</button>
             </div>
             :
