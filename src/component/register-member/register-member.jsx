@@ -243,7 +243,6 @@ const RegisterMember = React.createClass({
               </div>
               <div className="option register-pwd">
                 <span className="option-title">交易密码</span>
-                <span className="btn-arrow-right"></span>
                 <InputNum
                   maxLength={6}
                   placeholder={'请填写6位数字密码'}
