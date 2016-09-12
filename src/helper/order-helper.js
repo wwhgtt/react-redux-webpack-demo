@@ -617,7 +617,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   }
 
   let sex = +state.customerProps.sex;
-  if (isNaN(sex) || state.customerProps.sex === null) {
+  if (isNaN(sex) || state.customerProps.sex === null || sex === -1) {
     return { success:false, msg:'未选择性别' };
   }
   const dishesPrice = getDishesPrice(state.orderedDishesProps.dishes);
