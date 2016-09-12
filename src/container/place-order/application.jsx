@@ -11,6 +11,7 @@ const TimeSelect = require('../../component/order/select/time-select.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
+const defaultShopLogo = require('../../asset/images/default.png');
 require('../../asset/style/style.scss');
 require('./application.scss');
 require('../../component/order/order-summary.scss'); // import option-shop styles
@@ -165,7 +166,7 @@ const PlaceOrderApplication = React.createClass({
       <div className="application">
         <div className="options-group">
           <a className="option option-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
-            <img className="option-shop-icon" src={commercialProps.shopLogo} alt="" />
+            <img className="option-shop-icon" src={commercialProps.shopLogo || defaultShopLogo} alt="" />
             <p className="option-shop-desc ellipsis">{commercialProps.shopName}</p>
           </a>
         </div>

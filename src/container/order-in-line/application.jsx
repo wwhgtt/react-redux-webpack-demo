@@ -9,6 +9,7 @@ const VerificationDialog = require('../../component/common/verification-code-dia
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const weilianwangImg = require('../../asset/images/weilianwang.png');
 const yidayangImg = require('../../asset/images/yidayang.png');
+const defaultShopLogo = require('../../asset/images/default.png');
 require('../../asset/style/style.scss');
 require('./application.scss');
 require('../../component/order/order-summary.scss'); // import option-shop styles
@@ -101,7 +102,7 @@ const OrderInlineApplication = React.createClass({
       <div className="application">
         <div className="options-group">
           <a className="option option-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
-            <img className="option-shop-icon" src={commercialProps.shopLogo} alt="" />
+            <img className="option-shop-icon" src={commercialProps.shopLogo || defaultShopLogo} alt="" />
             <p className="option-shop-desc ellipsis">{commercialProps.shopName}</p>
           </a>
         </div>
