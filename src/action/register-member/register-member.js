@@ -106,7 +106,6 @@ exports.checkCode = (phoneInfo, userInfo) => (dispatch, getStates) => {
   }).then(res => {
     if (res.code === '200') {
       dispatch(setLoadMsg({ status:false, word: '' }));
-      dispatch(setErrorMsg('验证成功'));
       dispatch(setPhoneCode(phoneInfo.code));
       dispatch(register(userInfo));
     } else {
