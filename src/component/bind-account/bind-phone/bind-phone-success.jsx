@@ -15,10 +15,10 @@ const BindPhoneSuccess = React.createClass({
     if (returnUrl) {
       displayUrl = decodeURIComponent(returnUrl);
     } else {
-      displayUrl = config.mineIndexURL;
+      displayUrl = decodeURIComponent(`${config.mineIndexURL}?shopId=${shopId}`);
     }
     setTimeout(() => {
-      location.href = `${displayUrl}?shopId=${shopId}`;
+      location.href = displayUrl;
     }, 3000);
   },
 

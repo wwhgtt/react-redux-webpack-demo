@@ -39,7 +39,7 @@ const register = exports.saveRegisterMember = (info) => (dispatch, getStates) =>
   if (returnUrl) {
     displayUrl = decodeURIComponent(returnUrl);
   } else {
-    displayUrl = config.mineIndexURL;
+    displayUrl = decodeURIComponent(`${config.mineIndexURL}?shopId=${shopId}`);
   }
 
   fetch(registerURL, getFetchPostParam(info)).
@@ -57,7 +57,7 @@ const register = exports.saveRegisterMember = (info) => (dispatch, getStates) =>
       dispatch(setErrorMsg('注册成功'));
 
       setTimeout(() => {
-        location.href = `${displayUrl}?shopId=${shopId}`;
+        location.href = displayUrl;
       }, 3000);
     } else if (res.code === '20015') {
       dispatch(setErrorMsg(res.msg));
