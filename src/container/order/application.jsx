@@ -235,10 +235,12 @@ const OrderApplication = React.createClass({
     if (customerProps.loginType === 0) {
       // 表示手机号登陆
       return (
-        <div className="customerInfo">
-          <CustomerInfoEditor
-            customerProps={customerProps} onCustomerPropsChange={setCustomerProps} isMobileDisabled
-          />
+        <div>
+          <div className="customerInfo">
+            <CustomerInfoEditor
+              customerProps={customerProps} onCustomerPropsChange={setCustomerProps} isMobileDisabled
+            />
+          </div>
           <div className="options-group">
             <div className="option">
               <span className="option-tile">就餐人数：</span>
@@ -255,11 +257,13 @@ const OrderApplication = React.createClass({
       );
     }
     return (
-      <div className="weixin-login">
-        <a className="option option-user">
-          <img className="option-user-icon" src={customerProps.iconUri} alt="用户头像" />
-          <p className="option-user-name">{customerProps.name}</p>
-        </a>
+      <div>
+        <div className="weixin-login">
+          <a className="option option-user">
+            <img className="option-user-icon" src={customerProps.iconUri} alt="用户头像" />
+            <p className="option-user-name">{customerProps.name}</p>
+          </a>
+        </div>
         <div className="options-group">
           <div className="option">
             <span className="option-tile">就餐人数：</span>
