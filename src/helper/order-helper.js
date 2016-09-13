@@ -647,7 +647,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
       return { success:false, msg:'未选择桌台信息' };
     }
     tableId = state.tableProps.tables.filter(table => table.isChecked)[0].id;
-  } else if (serviceApproach && serviceApproach.indexOf('pickup') !== -1) {
+  } else if (type === 'TS' && serviceApproach && serviceApproach.indexOf('pickup') !== -1 || type === 'WM') {
     tableId = 0;
   } else {
     return { success:false, msg:'没有可用桌台' };
