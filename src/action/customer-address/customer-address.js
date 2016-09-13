@@ -96,8 +96,8 @@ exports.setSessionAndForwardEditUserAddress = (shopId, id) => (dispatch, getStat
   }
   location.href = url;
 };
-exports.deleteCustomerAddressInfo = (addressId) => (dispatch, getState) =>
-  fetch(`${config.deleteAddressAPI}?addressId=${addressId}`, config.requestOptions).
+exports.deleteCustomerAddressInfo = (shopId, addressId) => (dispatch, getState) =>
+  fetch(`${config.deleteAddressAPI}?addressId=${addressId}&shopId=${shopId}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         dispatch(setErrorMsg('删除收货地址失败'));
