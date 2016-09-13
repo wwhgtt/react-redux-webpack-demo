@@ -42,7 +42,6 @@ const CustomerAddressApplication = React.createClass({
     setSessionAndForwardEditUserAddress(shopId, editor);
   },
   setChildViewAccordingToHash() {
-    // debugger;
     const { setChildView } = this.props;
     const hash = location.hash;
     setChildView(hash);
@@ -79,7 +78,7 @@ const CustomerAddressApplication = React.createClass({
   },
   deleteAddress(data) {
     const { deleteCustomerAddressInfo } = this.props;
-    deleteCustomerAddressInfo(addressId);
+    deleteCustomerAddressInfo(shopId, addressId);
   },
   render() {
     const { childView, errorMessage, clearErrorMsg, customerProps } = this.props;
@@ -105,11 +104,7 @@ const CustomerAddressApplication = React.createClass({
         <div style={{ display: childView ? 'none' : '' }}>
         </div>
         {getElement()}
-        {errorMessage ?
-          <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
-          :
-          false
-        }
+        {errorMessage && <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />}
       </div>
     );
   },
