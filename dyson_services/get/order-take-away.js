@@ -9,7 +9,7 @@ module.exports = {
       'member': {
         'name': '王刚',
         'mobile': '15908198592',
-        'sex': '1',
+        'sex': '-1',
         'iconUri':
           'http://wx.qlogo.cn/mmopen/jVC41HQcvjE07KibwoTRtwKEO3RTVCJ81KgrZqib6UdPY6yhWrkztMKep8uay3ibFbU8ibN7deGUemia7pIPq3yG0kXxa3MruDXnQ/0',
       },
