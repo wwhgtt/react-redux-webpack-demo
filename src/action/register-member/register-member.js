@@ -63,7 +63,7 @@ const register = exports.saveRegisterMember = (info) => (dispatch, getStates) =>
       dispatch(setErrorMsg(res.msg));
       dispatch(setLoadMsg({ status:false, word: '' }));
       setTimeout(() => {
-        location.href = `${displayUrl}?shopId=${shopId}`;
+        location.href = displayUrl;
       }, 3000);
     } else {
       dispatch(setLoadMsg({ status:false, word: '' }));
