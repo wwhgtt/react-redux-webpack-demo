@@ -267,7 +267,7 @@ exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
         }, 3000);
         return;
       }
-
+      dispatch(setOrderProps(null, { id:'reset-paymethods' }));
       const deliveryProps = {
         freeDeliveryPrice: data.freeDeliveryPrice,
         deliveryPrice: data.shipment,
