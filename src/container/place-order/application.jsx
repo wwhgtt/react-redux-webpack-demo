@@ -188,14 +188,14 @@ const PlaceOrderApplication = React.createClass({
               <div className="option">
                 <span className="options-title">预订时间</span>
                 <button className="option-btn">
-                  无可预订时段
+                  已无可选时段
                 </button>
               </div>
 
               <a className="option">
                 <span className="options-title">桌台类型</span>
                 <span className="option-btn">
-                  没有桌台信息
+                  无可预订桌台
                 </span>
               </a>
             </div>

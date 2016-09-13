@@ -326,6 +326,39 @@ module.exports = function (
           ['timeProps', 'selectedDateTime', 'time'],
           _find(payload.dateTime.times, { isChecked:true }).id
         );
+      } else if (payload.id === 'reset-paymethods') {
+        return state.updateIn(
+          ['serviceProps', 'payMethods'],
+          payMethods => payMethods.flatMap(
+            payMethod => payMethod.set(
+              'isAvaliable',
+              helper.isPaymentAvaliable(
+                payMethod.id.split('-')[0],
+                state.commercialProps.diningForm,
+                !state.serviceProps.isPickupFromFrontDesk.isChecked,
+                state.serviceProps.sendAreaId,
+                state.commercialProps.selfPayType,
+                state.commercialProps.sendPayType
+              ),
+            )
+          )
+        )
+        .updateIn(
+          ['serviceProps', 'payMethods'],
+          payMethods => payMethods.flatMap(
+            payMethod => payMethod.set(
+              'isChecked',
+              helper.shouldPaymentAutoChecked(
+                payMethod.id.split('-')[0],
+                state.commercialProps.diningForm,
+                !state.serviceProps.isPickupFromFrontDesk.isChecked,
+                state.serviceProps.sendAreaId,
+                state.commercialProps.selfPayType,
+                state.commercialProps.sendPayType
+              ),
+            )
+          )
+        );
       }
       break;
     case 'SET_COUPONS_TO_ORDER':

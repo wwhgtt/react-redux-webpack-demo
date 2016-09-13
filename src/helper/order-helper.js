@@ -616,10 +616,6 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
     return { success:false, msg:'未填写姓名' };
   }
 
-  let sex = +state.customerProps.sex;
-  if (isNaN(sex) || state.customerProps.sex === null || sex === -1) {
-    return { success:false, msg:'未选择性别' };
-  }
   const dishesPrice = getDishesPrice(state.orderedDishesProps.dishes);
   const integral = state.serviceProps.integralsInfo.isChecked ? countIntegralsToCash(
     Number(countPriceWithCouponAndDiscount(dishesPrice, state.serviceProps)),
@@ -673,7 +669,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
       return { success: false, msg: validateAddressResult.msg };
     }
 
-    sex = selectedAddress.sex;
+    let sex = selectedAddress.sex;
     isSelfFetch = selectedAddress.id === 0;
     if (!selectedDateTime.date) {
       return { success:false, msg: `请选择${isSelfFetch ? '取餐' : '送达'}时间` };
@@ -704,6 +700,10 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
       }
     }
   } else {
+    let sex = +state.customerProps.sex;
+    if (isNaN(sex) || state.customerProps.sex === null || sex === -1) {
+      return { success:false, msg:'未选择性别' };
+    }
     params = '?name=' + state.customerProps.name
         + '&Invoice=' + receipt + '&memo=' + note
         + '&mobile=' + state.customerProps.mobile
