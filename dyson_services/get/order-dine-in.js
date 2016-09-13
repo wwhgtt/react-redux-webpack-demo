@@ -26,7 +26,7 @@ module.exports = {
       },
       commercialName: '小土豆石方菜菜软件园店',
       commercialLogo: 'http://kry-test-2.qiniudn.com/980afeeec2004447a5e72d124ed2186a.jpg?imageView/2/w/512/h/512',
-      serviceApproach: 'totable',
+      serviceApproach: 'pickup,totable',
       diningForm: 1,
       areaList: [
         {
