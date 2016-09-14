@@ -32,8 +32,10 @@
 
   > .extra {
     float: right;
+    overflow: hidden;
     width: $extar-max-width;
     text-align: right;
+    white-space: nowrap;
 
     + .name {
       float: left;
