@@ -47,6 +47,7 @@
       font-weight: bold;
       line-height: $counter-size;
       float: left;
+      overflow: hidden;
       width: $dish-price-width;
       padding: $item-padding 0;
       color: $color-neon-carrot;
