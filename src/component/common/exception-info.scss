@@ -1,0 +1,33 @@
+@import "settings.colors";
+
+.exception {
+  &-info {
+    text-align: center;
+  }
+
+  &-content {
+    &-img {
+      height: 80px;
+      margin: 0 auto;
+      background: url("../../asset/images/phone_grey.png") no-repeat center;
+      background-size: 50px;
+    }
+
+    &-tips {
+      font-size: 14px;
+      margin: 15px 0;
+      color: $color-dusty-grey;
+    }
+  }
+
+  &-footer {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+
+    span {
+      font-size: 12px;
+      color: $color-dusty-grey;
+    }
+  }
+}
