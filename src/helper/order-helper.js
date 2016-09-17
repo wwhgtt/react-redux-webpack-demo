@@ -580,7 +580,7 @@ const validateAddressInfo = exports.validateAddressInfo = (info, isTakeaway, fil
   if (isTakeaway) {
     Object.assign(rules, {
       baseAddress: [
-        { msg: '请输入收货地址', validate(value) { return !!value.trim(); } },
+        { msg: '请选择收货地址', validate(value) { return !!value.trim(); } },
       ],
       street: [
         { msg: '请输入门牌信息', validate(value) { return !!replaceEmojiWith(value.trim(), ''); } },
