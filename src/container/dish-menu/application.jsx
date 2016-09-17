@@ -8,6 +8,7 @@ const DishScroller = require('../../component/dish-menu/dish-scroller.jsx');
 const CartContainer = require('../../component/dish-menu/cart/cart-container.jsx');
 const DishDetailContainer = require('../../component/dish-menu/detail/dish-detail-container.jsx');
 const DishDescPopup = require('../../component/dish-menu/detail/dish-desc-popup.jsx');
+const ServiceBell = require('../../component/dish-menu/cart/service-bell.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 
 const DishMenuApplication = React.createClass({
@@ -34,6 +35,12 @@ const DishMenuApplication = React.createClass({
     openTimeList: React.PropTypes.array,
     isAcceptTakeaway: React.PropTypes.bool,
     errorMessage: React.PropTypes.string,
+    // ServiceBellProps
+    callBell:React.PropTypes.func.isRequired,
+    callMsg:React.PropTypes.object,
+  },
+  getInitialState() {
+    return { needSpread:true };
   },
   componentDidMount() {
     const { fetchMenuData, fetchSendArea, fetchOrderDiscountInfo } = this.props;
@@ -52,7 +59,8 @@ const DishMenuApplication = React.createClass({
   render() {
     // states
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, confirmOrder, takeawayServiceProps,
-            openTimeList, isAcceptTakeaway, errorMessage } = this.props;
+            openTimeList, isAcceptTakeaway, errorMessage, callBell, callMsg } = this.props;
+    const { needSpread } = this.state;
     // actions
     const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders, clearErrorMsg } = this.props;
     return (
@@ -83,6 +91,12 @@ const DishMenuApplication = React.createClass({
           <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
           :
           false
+        }
+        {
+          needSpread ?
+            <ServiceBell callBell={callBell} callMsg={callMsg} />
+          :
+            false
         }
       </div>
     );

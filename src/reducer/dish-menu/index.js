@@ -12,6 +12,7 @@ module.exports = function (
     dishBoxChargeInfo:null,
     normalDiscountProps:null,
     errorMessage:null,
+    callMsg:{},
   }),
   action
 ) {
@@ -138,6 +139,10 @@ module.exports = function (
       return state.set(
         'errorMessage', payload
       );
+    case 'SET_CALL_MSG': {
+      const data = payload || {};
+      return state.set('callMsg', data);
+    }
     default:
       return state;
   }

@@ -79,3 +79,18 @@ exports.getWeixinVersionInfo = () => {
   }
   return result;
 };
+
+exports.interValSetting = (num, that) => {
+  let cnum = num;
+  const { timerStatus } = that.state;
+  if (!timerStatus) {
+    const timer = setInterval(() => {
+      that.setState({ timerStatus:true });
+      cnum = cnum - 1;
+      if (cnum === 0) {
+        that.setState({ timerStatus:false });
+        clearInterval(timer);
+      }
+    }, 1000);
+  }
+};

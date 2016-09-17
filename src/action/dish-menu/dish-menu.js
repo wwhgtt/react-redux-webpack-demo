@@ -3,6 +3,7 @@ const createAction = require('redux-actions').createAction;
 require('es6-promise');
 require('isomorphic-fetch');
 const helper = require('../../helper/dish-hepler');
+const commonHelper = require('../../helper/common-helper');
 const getCurrentPosition = require('../../helper/common-helper.js').getCurrentPosition;
 const setMenuData = createAction('SET_MENU_DATA', menuData => menuData);
 const _orderDish = createAction('ORDER_DISH', (dishData, action) => [dishData, action]);
@@ -12,6 +13,8 @@ const setDiscountToOrder = createAction('SET_DISCOUNT_TO_ORDER', discount => dis
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 exports.showDishDetail = createAction('SHOW_DISH_DETAIL', dishData => dishData);
 exports.showDishDesc = createAction('SHOW_DISH_DESC', dishData => dishData);
+const setCallMsg = createAction('SET_CALL_MSG', callInfo => callInfo);
+
 exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => {
   if (evt && /dish-type-item/.test(evt.target.className)) {
     window.__activeTypeByTap__ = true;
@@ -145,3 +148,25 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
 
 exports.clearErrorMsg = () => (dispatch, getState) =>
   dispatch(setErrorMsg(null));
+
+// call 服务铃
+exports.callBell = (timer, that) => (dispatch, getStates) => {
+  fetch('http://testweixin.shishike.com/brand/index.json?shopId=810006427'). // config.requestOptions
+  then(res => {
+    if (!res.ok) {
+      dispatch(setCallMsg({ info:'非常抱歉，发送失败了', callStatus:false, extraStatus:0 }));
+    }
+    return res.json();
+  }).
+  then(basicData => {
+    if (basicData.code === '200') {
+      dispatch(setCallMsg({ info:'客官稍等，服务员马上就来', callStatus:true, extraStatus:1 }));
+      commonHelper.interValSetting(timer, that);
+    } else {
+      dispatch(setCallMsg({ info:'非常抱歉，发送失败了', callStatus:false, extraStatus:0 }));
+    }
+  }).
+  catch(err => {
+    console.info(err);
+  });
+};
