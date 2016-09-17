@@ -644,7 +644,10 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   let tableId;
   if (type === 'TS' && serviceApproach === 'totable' && state.tableProps.tables && state.tableProps.tables.length) {
     if (state.tableProps.tables.filter(table => table.isChecked).length === 0) {
-      return { success:false, msg:'未选择桌台信息' };
+      return state.serviceProps.serviceApproach.indexOf('pickup') !== -1 && state.serviceProps.serviceApproach.indexOf('totable') === -1 ?
+        { success:false, msg:'请打开前台取餐开关' }
+        :
+        { success:false, msg:'未选择桌台信息' };
     }
     tableId = state.tableProps.tables.filter(table => table.isChecked)[0].id;
   } else if (type === 'TS' && serviceApproach && serviceApproach.indexOf('pickup') !== -1 || type === 'WM') {
