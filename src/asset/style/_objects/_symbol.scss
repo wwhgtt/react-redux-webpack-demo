@@ -1,11 +1,11 @@
 .price::before {
   margin-right: 1px;
-  content: '¥';
+  content: "¥";
 }
 
 .discount::before {
   margin-right: 1px;
-  content: '-¥';
+  content: "-¥";
 }
 
 // badges
@@ -47,6 +47,6 @@
   background: $color-malibu;
 
   &::before {
-    content: '必';
+    content: "必";
   }
 }

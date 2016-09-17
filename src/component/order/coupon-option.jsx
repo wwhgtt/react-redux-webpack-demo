@@ -145,7 +145,10 @@ module.exports = React.createClass({
               {this.judgeCouponInfoByCouponType(couponType).couponName}
             </h3>
             <p className="coupon-text--grey">有效期: {validStartDate}-{validEndDate}</p>
-            <button className="coupon-text--dark coupon-dropdown-trigger" onTouchTap={this.expandInstructions}>
+            <button
+              className={classnames('coupon-text--dark coupon-dropdown-trigger', { 'is-open': this.state.isInstructionsOpen })}
+              onTouchTap={this.expandInstructions}
+            >
               {this.judgeCouponInfoByCouponType(couponType).couponName}使用规则
             </button>
             {/* <a className="coupon-go-order" href="">去点菜</a> */}

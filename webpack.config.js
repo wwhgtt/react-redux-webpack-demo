@@ -18,8 +18,32 @@ module.exports = {
     'customer-address-entry': [
       './src/customer-address.jsx',
     ],
+    'mine-index-entry': [
+      './src/mine-index.jsx',
+    ],
+    'mine-setting-entry': [
+      './src/mine-setting.jsx',
+    ],
     'address-list-entry': [
       './src/address-list.jsx',
+    ],
+    'order-in-line-entry': [
+      './src/order-in-line.jsx',
+    ],
+    'place-order-entry': [
+      './src/place-order.jsx',
+    ],
+    'bind-phone-entry': [
+      './src/bind-phone.jsx',
+    ],
+    'bind-wx-entry': [
+      './src/bind-wx.jsx',
+    ],
+    'register-member-entry': [
+      './src/register-member.jsx',
+    ],
+    'user-login-entry': [
+      './src/user-login.jsx',
     ],
   },
   resolve: {
@@ -43,7 +67,7 @@ module.exports = {
         loaders: ['style', 'css?sourceMap', 'postcss', 'sass?&sourceMap&includePaths[]=./src/asset/style'],
       },
       {
-        test: /\.png$/,
+        test: /\.(gif|png)$/,
         loaders: ['url?limit=8192&name=asset/img/[hash].[ext]'],
       },
       {
@@ -53,7 +77,7 @@ module.exports = {
     ],
   },
   postcss() {
-    return [autoprefixer({ browsers: ['last 5 versions'] })];
+    return [autoprefixer({ browsers: ['Safari > 1'] })];
   },
   plugins: [
     // new webpack.HotModuleReplacementPlugin(),
@@ -91,9 +115,73 @@ module.exports = {
     ),
     new HtmlWebpackPlugin(
       {
+        title: 'MineIndexApplication',
+        filename: 'mineIndex.html',
+        chunks: ['common', 'mine-index-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineSettingApplication',
+        filename: 'mineSetting.html',
+        chunks: ['common', 'mine-setting-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
         title: 'AddressListApplication',
         filename: 'address-list.html',
         chunks: ['common', 'address-list-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'OrderInLineApplication',
+        filename: 'order-in-line.html',
+        chunks: ['common', 'order-in-line-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'BindWXApplication',
+        filename: 'bind-wx.html',
+        chunks: ['common', 'bind-wx-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'PlaceOrderApplication',
+        filename: 'place-order.html',
+        chunks: ['common', 'place-order-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'BindPhoneApplication',
+        filename: 'bind-phone.html',
+        chunks: ['common', 'bind-phone-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'RegisterMember',
+        filename: 'register-member.html',
+        chunks: ['common', 'register-member-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'UserLoginApplication',
+        filename: 'user-login.html',
+        chunks: ['common', 'user-login-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

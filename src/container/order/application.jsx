@@ -4,7 +4,7 @@ const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const connect = require('react-redux').connect;
 const actions = require('../../action/order/order');
 const helper = require('../../helper/order-helper');
-const validateAddressInfo = require('../../helper/common-helper').validateAddressInfo;
+const validateAddressInfo = require('../../helper/order-helper').validateAddressInfo;
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const CustomerTakeawayInfoEditor = require('../../component/order/customer-takeaway-info-editor.jsx');
@@ -14,7 +14,9 @@ const CouponSelect = require('../../component/order/coupon-select.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const TimeSelect = require('../../component/order/select/time-select.jsx');
 const OrderSummary = require('../../component/order/order-summary.jsx');
+const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const Toast = require('../../component/mui/toast.jsx');
+const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 require('../../asset/style/style.scss');
@@ -41,6 +43,9 @@ const OrderApplication = React.createClass({
     setCustomerToShopAddress:React.PropTypes.func,
     confirmOrderAddressInfo:React.PropTypes.func,
     setErrorMsg:React.PropTypes.func,
+    setPhoneValidateProps:React.PropTypes.func.isRequired,
+    checkCodeAvaliable:React.PropTypes.func.isRequired,
+    fetchVericationCode:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     customerAddressListInfo:React.PropTypes.object,
@@ -49,6 +54,7 @@ const OrderApplication = React.createClass({
     commercialProps:React.PropTypes.object.isRequired,
     orderedDishesProps:React.PropTypes.object.isRequired,
     tableProps: React.PropTypes.object.isRequired,
+    shuoldPhoneValidateShow:React.PropTypes.bool.isRequired,
     timeProps: React.PropTypes.object,
     childView: React.PropTypes.string,
     errorMessage: React.PropTypes.string,
@@ -114,6 +120,10 @@ const OrderApplication = React.createClass({
       '#customer-info-toshop': '编辑地址',
     }[hash] || '确定下单-外卖';
     document.title = title;
+  },
+  setOrderProps(newCount) {
+    const { setOrderProps } = this.props;
+    setOrderProps(null, Object.assign({}, { newCount }, { id:'customer-count' }));
   },
   confirmOrderAddressInfo(evt, info) {
     if (evt) {
@@ -219,6 +229,90 @@ const OrderApplication = React.createClass({
         <span className="options-title text-froly">没有可用桌台</span>
       </div>;
   },
+  buildTSCustomerPropsElement() {
+    const { customerProps } = this.props;
+    const { setCustomerProps, setErrorMsg } = this.props;
+    if (customerProps.loginType === 0) {
+      // 表示手机号登陆
+      return (
+        <div>
+          <div className="customerInfo">
+            <CustomerInfoEditor
+              customerProps={customerProps} onCustomerPropsChange={setCustomerProps} isMobileDisabled
+            />
+          </div>
+          <div className="options-group">
+            <div className="option">
+              <span className="option-tile">就餐人数：</span>
+              <ImportableCounter
+                setErrorMsg={setErrorMsg}
+                onCountChange={this.setOrderProps}
+                count={customerProps.customerCount}
+                maximum={99}
+                minimum={1}
+              />
+            </div>
+          </div>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <div className="weixin-login">
+          <a className="option option-user">
+            <img className="option-user-icon" src={customerProps.iconUri} alt="用户头像" />
+            <p className="option-user-name">{customerProps.name}</p>
+          </a>
+        </div>
+        <div className="options-group">
+          <div className="option">
+            <span className="option-tile">就餐人数：</span>
+            <ImportableCounter
+              setErrorMsg={setErrorMsg}
+              onCountChange={this.setOrderProps}
+              count={customerProps.customerCount}
+              maximum={99}
+              minimum={1}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  },
+  // 校验验证码
+  handleConfirm(inputInfo) {
+    const { setErrorMsg, checkCodeAvaliable } = this.props;
+    const { data, validation } = inputInfo;
+    if (!validation.valid) {
+      setErrorMsg(validation.msg);
+      return false;
+    }
+    // 新加内容，校验验证码是否正确
+    checkCodeAvaliable(data, this.state.note, this.state.receipt);
+    return false;
+  },
+  handleCodeClose() {
+    const { setPhoneValidateProps } = this.props;
+    setPhoneValidateProps(false);
+  },
+  buildPhoneValidateElement() {
+    const { customerProps, fetchVericationCode } = this.props;
+    const selectedAddressInfo = customerProps.addresses.filter(address => address.isChecked);
+    // selectedAddressInfo一定是有长度的
+    const placeholder = { phoneNum:selectedAddressInfo[0].mobile, code:'' };
+    return (
+      <div className="phone-validate-WM">
+        <VerificationDialog
+          phoneNum={placeholder.phoneNum ? placeholder.phoneNum.toString() : ''}
+          phoneNumDisabled={!!placeholder.phoneNum}
+          fetchCodeBtnText={'验证码'}
+          onClose={this.handleCodeClose}
+          onConfirm={this.handleConfirm}
+          onGetVerificationCode={fetchVericationCode}
+        />
+      </div>
+    );
+  },
   submitOrder() {
     const { submitOrder } = this.props;
     const { isSubmitBtnDisabled } = this.state;
@@ -238,35 +332,48 @@ const OrderApplication = React.createClass({
       customerAddressListInfo,
       defaultCustomerProps,
       setCustomerToShopAddress,
+      shuoldPhoneValidateShow,
     } = this.props; // state
     const { setOrderProps, fetchUserAddressListInfo, setChildView } = this.props;// actions
     const type = getUrlParam('type');
     const shopId = getUrlParam('shopId');
-    const buildCoustomerPropElement = function () {
+    const isSelfFetch = !!_find(customerProps.addresses, { isChecked: true, id: 0 });
+
+    const buildCustomerPropElement = () => {
       const elems = [];
+      const originMa = customerProps.originMa || {};
       let addressText = '';
-      if (customerProps.addresses && customerProps.addresses.length) {
-        const isCheckedAddressInfo = _find(customerProps.addresses, { isChecked:true });
-        if (isCheckedAddressInfo) {
-          elems.push(
-            <div className="option-stripes-title" key="title">
-              {isCheckedAddressInfo.name}{+isCheckedAddressInfo.sex === 1 ? '先生' : '女士'}
-              {isCheckedAddressInfo.mobile}
-            </div>
-          );
-          addressText = isCheckedAddressInfo.address;
-        }
+      let checkedAddressInfo = null;
+      if (originMa.id === 0) {
+        checkedAddressInfo = originMa;
+      } else if (customerProps.addresses && customerProps.addresses.length) {
+        checkedAddressInfo = _find(customerProps.addresses, { isChecked: true });
+      }
+
+      if (checkedAddressInfo) {
+        elems.push(
+          <div className="option-stripes-title" key="title">
+            {checkedAddressInfo.name}{['女士', '先生'][checkedAddressInfo.sex] || ''}
+            {checkedAddressInfo.mobile}
+          </div>
+        );
+        addressText = checkedAddressInfo.address;
       }
       elems.push(
         <div className="clearfix" key="address">
           <div className="option-desc">
-            {addressText || '请选择送餐地址'}
+            {addressText || (isSelfFetch ? '到店取餐' : '请选择送餐地址')}
           </div>
         </div>
       );
-      return elems;
+
+      const hash = `#customer-info${originMa.id === 0 ? '-toshop' : ''}`;
+      return (
+        <a className="options-group options-group--stripes" href={hash} >
+          {elems}
+        </a>
+      );
     };
-    const isSelfFetch = !!_find(customerProps.addresses, { isChecked:true, id: 0 });
 
     const getFetchTimeTitle = () => {
       const selectedDateTime = timeProps.selectedDateTime || {};
@@ -301,94 +408,81 @@ const OrderApplication = React.createClass({
       );
     };
     return (
-      <div className="application">
-        {type === 'WM' ?
-          <a className="options-group options-group--stripes" href="#customer-info" >
-            {buildCoustomerPropElement()}
-          </a>
-          :
-          <a className="options-group options-group--stripes" href="#customer-info" >
-            <div className="option-stripes-title">{customerProps.name}{+customerProps.sex === 1 ? '先生' : '女士'}</div>
-            <div className="clearfix">
-              <div className="option-desc half">{customerProps.mobile}</div>
-              <div className="option-desc half"><span className="text-picton-blue">{customerProps.customerCount}</span>人就餐</div>
+      <div className="application flex-columns">
+        <div className="flex-rest">
+          {type === 'WM' ? buildCustomerPropElement() : this.buildTSCustomerPropsElement()}
+          {type === 'WM' ?
+            false
+            :
+            <div className="options-group">
+              {serviceProps.isPickupFromFrontDesk ?
+                <ActiveSelect
+                  optionsData={[serviceProps.isPickupFromFrontDesk]} onSelectOption={setOrderProps}
+                  optionComponent={OrderPropOption}
+                />
+                : false
+              }
+              {this.buildSelectedTableElement(serviceProps, tableProps)}
             </div>
-          </a>
-        }
-        {type === 'WM' ?
-          false
-          :
+          }
           <div className="options-group">
-            {serviceProps.isPickupFromFrontDesk ?
+            {serviceProps.payMethods.map(
+              payMethod => {
+                if (payMethod.isAvaliable !== -1) {
+                  return (<ActiveSelect
+                    optionsData={[payMethod]} key={payMethod.id} onSelectOption={setOrderProps}
+                    optionComponent={OrderPropOption}
+                  />);
+                }
+                return true;
+              }
+            )}
+          </div>
+          <div className="options-group">
+            {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length
+              && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 && commercialProps.diningForm !== 0 ?
+              <a className="option" href="#coupon-select">
+                <span className="option-title">使用优惠券</span>
+                <span className="badge-coupon">
+                  {serviceProps.couponsProps.inUseCoupon ?
+                    '已使用一张优惠券'
+                    :
+                    `${helper.getCouponsLength(serviceProps.couponsProps.couponsList)}张可用`
+                  }
+                </span>
+                <span className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
+              </a>
+            : false}
+            {serviceProps.integralsInfo && commercialProps.diningForm !== 0 ?
               <ActiveSelect
-                optionsData={[serviceProps.isPickupFromFrontDesk]} onSelectOption={setOrderProps}
+                optionsData={[serviceProps.integralsInfo]} onSelectOption={setOrderProps}
                 optionComponent={OrderPropOption}
               />
-              : false
-            }
-            {this.buildSelectedTableElement(serviceProps, tableProps)}
+            : false}
           </div>
-        }
-        <div className="options-group">
-          {serviceProps.payMethods.map(
-            payMethod => {
-              if (payMethod.isAvaliable !== -1) {
-                return (<ActiveSelect
-                  optionsData={[payMethod]} key={payMethod.id} onSelectOption={setOrderProps}
-                  optionComponent={OrderPropOption}
-                />);
-              }
-              return true;
-            }
-          )}
-        </div>
-        <div className="options-group">
-          {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length
-            && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 && commercialProps.diningForm !== 0 ?
-            <a className="option" href="#coupon-select">
-              <span className="option-title">使用优惠券</span>
-              <span className="badge-coupon">
-                {serviceProps.couponsProps.inUseCoupon ?
-                  '已使用一张优惠券'
-                  :
-                  `${helper.getCouponsLength(serviceProps.couponsProps.couponsList)}张可用`
-                }
-              </span>
-              <span className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
-            </a>
-          : false}
-          {serviceProps.integralsInfo && commercialProps.diningForm !== 0 ?
-            <ActiveSelect
-              optionsData={[serviceProps.integralsInfo]} onSelectOption={setOrderProps}
-              optionComponent={OrderPropOption}
-            />
-          : false}
-        </div>
 
-        <div className="options-group">
-          {buildSelectTimeElemnet()}
-          <label className="option">
-            <span className="option-title">备注: </span>
-            <input className="option-input" name="note" placeholder="输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />
-          </label>
-          {commercialProps && commercialProps.isSupportInvoice === 1 ?
+          <div className="options-group">
+            {buildSelectTimeElemnet()}
             <label className="option">
-              <span className="option-title">发票抬头: </span>
-              <input className="option-input" name="receipt" placeholder="输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
+              <span className="option-title">备注: </span>
+              <input className="option-input" name="note" placeholder="输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />
             </label>
-            :
-            false
-          }
+            {commercialProps && commercialProps.isSupportInvoice === 1 ?
+              <label className="option">
+                <span className="option-title">发票抬头: </span>
+                <input className="option-input" name="receipt" placeholder="输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
+              </label>
+              :
+              false
+            }
+          </div>
 
-        </div>
+          <OrderSummary
+            serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
+            commercialProps={commercialProps} shopId={shopId}
+          />
 
-        <OrderSummary
-          serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
-          commercialProps={commercialProps} shopId={shopId}
-        />
-
-        {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
-          <div>
+          {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
             <div className="options-group">
               <a
                 className="option"
@@ -398,40 +492,38 @@ const OrderApplication = React.createClass({
                 <span className="option-btn btn-arrow-right">共{getDishesCount(orderedDishesProps.dishes)}份</span>
               </a>
             </div>
+            :
+            false
+          }
+        </div>
 
-            <div className="order-cart">
-              <div className="order-cart-left">
-                <div className="vertical-center clearfix">
-                  {commercialProps.carryRuleVO ?
-                    <div>
-                      <div className="order-cart-entry text-dove-grey">已优惠:&nbsp;
-                        <span className="price">
-                          {helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)}
-                        </span>
-                      </div>
-                      <div className="order-cart-entry">
-                        <span className="text-dove-grey">待支付: </span>
-                        <span className="order-cart-price price">
-                          {
-                            helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
-                          }
-                        </span>
-                      </div>
+        {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
+          <div className="order-cart flex-none">
+            <div className="order-cart-left">
+              <div className="vertical-center clearfix">
+                {commercialProps.carryRuleVO ?
+                  <div>
+                    <div className="order-cart-entry text-dove-grey">已优惠:&nbsp;
+                      <span className="price">
+                        {helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)}
+                      </span>
                     </div>
-                    :
-                    false
-                  }
-                </div>
+                    <div className="order-cart-entry">
+                      <span className="text-dove-grey">待支付: </span>
+                      <span className="order-cart-price price">
+                        {
+                          helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
+                        }
+                      </span>
+                    </div>
+                  </div>
+                  :
+                  false
+                }
               </div>
-              <div className="order-cart-right">
-                <button
-                  className="order-cart-btn btn--yellow"
-                  disabled={this.state.isSubmitBtnDisabled}
-                  onTouchTap={this.submitOrder}
-                >
-                  提交订单
-                </button>
-              </div>
+            </div>
+            <div className="order-cart-right">
+              <a className="order-cart-btn btn--yellow" onTouchTap={this.submitOrder}>提交订单</a>
             </div>
           </div>
           :
@@ -446,6 +538,7 @@ const OrderApplication = React.createClass({
         }
         {childView === 'customer-info-toshop' ?
           <CustomerToShopInfoEditor
+            originMa={customerProps.originMa}
             customerAddressListInfo={customerAddressListInfo}
             onComponentWillMount={fetchUserAddressListInfo}
             onCustomerPropsChange={setCustomerToShopAddress} onDone={this.resetChildView}
@@ -490,6 +583,11 @@ const OrderApplication = React.createClass({
         </ReactCSSTransitionGroup>
         {errorMessage ?
           <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
+          :
+          false
+        }
+        {shuoldPhoneValidateShow ?
+          this.buildPhoneValidateElement()
           :
           false
         }

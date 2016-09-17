@@ -1,0 +1,139 @@
+@import "settings.colors";
+@import "tools.functions";
+@import "tools.mixins";
+
+.menuLink {
+  $width: 100%;
+  $none: none;
+  $background: url("../../asset/images/mine-spirit.png") left top/6.25em auto no-repeat;
+
+  position: relative;
+  display: block;
+  height: 100%;
+  padding: 1em 0;
+
+  &::after {
+    @include border-thin(bottom);
+
+    bottom: 0;
+    border-bottom: bordersolid(1, #e7e7ef);
+  }
+
+  &.mt {
+    margin-bottom: .4em;
+    padding: 0;
+    background: $color-white;
+  }
+
+  .name {
+    font-size: 14px;
+    display: inline-block;
+    margin-left: 1em;
+    vertical-align: baseline;
+    text-decoration: $none;
+  }
+
+  .arrow {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: .438em;
+    height: .688em;
+    margin-top: -.344em;
+    background: $background;
+    background-position: -5.7em -1.5em;
+  }
+
+  .brief {
+    font-size: 13px;
+    line-height: 1;
+    position: absolute;
+    top: 1.45em;
+    right: 1em;
+    color: #bcbcbc;
+  }
+
+  .icon {
+    display: inline-block;
+    width: 1.188em;
+    height: 1.188em;
+    vertical-align: middle;
+    background: $background;
+
+    &[name="DD"] {
+      background-position: .1em .05em;
+    }
+
+    &[name="YH"] {
+      background-position: -1.3em .1em;
+    }
+
+    &[name="DZ"] {
+      background-position: -2.65em top;
+    }
+
+    &[name="HYZC"] {
+      background-position: -4em top;
+    }
+
+    &[name="BDSJ"] {
+      background-position: -5.35em top;
+    }
+
+    &[name="BDWX"] {
+      background-position: -4em -1.2em;
+    }
+
+    &[name="SZ"] {
+      background-position: .1em -1.3em;
+    }
+
+    &[name="HYK"] {
+      background-position: -1.25em -1.25em;
+    }
+
+    &[name="HYCZ"] {
+      background-position: -2.6em -1.3em;
+    }
+  }
+
+  &-holder {
+    position: relative;
+    width: 50%;
+    padding: 1em 0;
+    text-align: center;
+
+    &:active {
+      background: #eaeaea;
+    }
+
+    &::after {
+      position: absolute;
+      top: 25%;
+      right: 0;
+      height: 100%;
+      content: "";
+      border-right: bordersolid(1, #e7e7ef);
+      transform: scale(.5, .5);
+      transform-origin: 0 0;
+    }
+
+    &:last-child::after {
+      display: none;
+    }
+  }
+
+  &-holder-p {
+    color: #444a59;
+
+    &.title {
+      font-size: 14px;
+      line-height: 1.5em;
+    }
+
+    &.num {
+      font-size: 1em;
+      font-weight: bold;
+    }
+  }
+}

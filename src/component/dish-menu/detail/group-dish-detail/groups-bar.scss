@@ -1,5 +1,5 @@
-@import 'settings.colors';
-@import 'settings.sizes';
+@import "settings.colors";
+@import "settings.sizes";
 
 .groups-bar-arrow {
   position: relative;
@@ -16,9 +16,9 @@
       bottom: 0;
       left: 0;
       width: 21px;
-      content: '';
+      content: "";
       background-color: $color-white;
-      background-image: url('./../../../../asset/images/triangle-left.png');
+      background-image: url("./../../../../asset/images/triangle-left.png");
       background-repeat: no-repeat;
       background-position: center center;
       background-size: 7px 10px;
@@ -31,9 +31,9 @@
       right: 0;
       bottom: 0;
       width: 21px;
-      content: '';
+      content: "";
       background-color: $color-white;
-      background-image: url('./../../../../asset/images/triangle-right.png');
+      background-image: url("./../../../../asset/images/triangle-right.png");
       background-repeat: no-repeat;
       background-position: center center;
       background-size: 7px 10px;
@@ -43,8 +43,8 @@
 
 .groups-bar-wrap {
   overflow-x: auto;
-  width: 100%;
   -webkit-overflow-scrolling: touch;
+  width: 100%;
 
   &::-webkit-scrollbar {
     display: none;
@@ -69,7 +69,7 @@
     right: 0;
     bottom: 12px;
     width: 1px;
-    content: '';
+    content: "";
     background: $color-alto;
   }
 
@@ -83,8 +83,20 @@
     > strong {
       font-size: 14px;
       font-weight: normal;
+      line-height: 1;
       display: block;
+      // stylelint-disable declaration-block-no-duplicate-properties
+      // Need for truncating multi line text in webkit
+      // stylelint-disable value-no-vendor-prefix
+      // A stylelint bug
+      display: -webkit-box;
+      overflow: hidden;
+      max-height: 28px;
       margin-bottom: 3px;
+      -webkit-line-clamp: 2;
+      // stylelint-disable property-no-vendor-prefix
+      // A stylelint bug
+      -webkit-box-orient: vertical;
     }
 
     > small {
@@ -126,7 +138,7 @@
 
     &::after {
       font-weight: bold;
-      content: '!';
+      content: "!";
     }
   }
 }

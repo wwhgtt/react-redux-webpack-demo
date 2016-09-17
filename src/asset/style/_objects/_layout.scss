@@ -17,8 +17,8 @@
 
 .flex-rest {
   overflow: auto;
-  flex: 1;
   -webkit-overflow-scrolling: touch;
+  flex: 1;
 }
 
 
@@ -37,3 +37,22 @@
   top: 50%;
   transform: translateY(-50%);
 }
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.of {
+  overflow: hidden;
+}
+
+.middle {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+

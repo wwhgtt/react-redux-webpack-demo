@@ -1,12 +1,12 @@
-@import 'settings.colors';
+@import "settings.colors";
 
 .coupons-container {
-  padding: 15px 8px 0;
+  padding: 10px 8px 0;
   background: $color-gallery;
 }
 
 .coupon {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 
   // coupon card styles
   &-card {
@@ -28,7 +28,7 @@
       bottom: 0;
       left: 0;
       width: 5px;
-      content: '';
+      content: "";
       border-radius: 4px 0 0 4px;
       background: currentColor;
     }
@@ -40,16 +40,15 @@
       bottom: 4px;
       left: 1px;
       width: 8px;
-      content: '';
+      content: "";
       background: radial-gradient(circle, $color-white 2px, transparent 2px);
       background-size: 8px 8px;
     }
 
-
     &-left {
+      flex: 0 0 110px;
       padding: 15px 15px 10px 20px;
       border-right: 1px dotted $color-mercury;
-      flex: 0 0 110px;
     }
 
     &-right {
@@ -95,12 +94,17 @@
       width: 10px;
       height: 13px;
       margin-left: 5px;
-      content: '';
-      transform: rotate(180deg);
-      background-image: url('../../asset/images/arrow-top-grey.png'); // image size 20 * 12px
+      content: "";
+      background-image: url("../../asset/images/arrow-top-grey.png"); // image size 20 * 12px
       background-repeat: no-repeat;
       background-position: center center;
       background-size: 10px 6px;
+      transform: rotate(180deg);
+      transition: transform .2s ease-in-out;
+    }
+
+    &.is-open::after {
+      transform: rotate(0);
     }
   }
 
@@ -148,7 +152,7 @@
   .coupon-rate::before {
     font-size: 16px;
     margin-right: 3px;
-    content: '¥';
+    content: "¥";
   }
 }
 
@@ -159,7 +163,7 @@
     font-size: 14px;
     display: inline-block;
     margin-right: 3px;
-    content: '减';
+    content: "减";
     vertical-align: middle;
   }
 }
@@ -170,7 +174,7 @@
   .coupon-rate::after {
     font-size: 14px;
     margin-left: 2px;
-    content: '折';
+    content: "折";
   }
 }
 
@@ -187,23 +191,21 @@
     font-size: 14px;
     font-weight: 200;
     margin-left: 3px;
-    content: 'x' attr(data-gift-amount);
+    content: "x" attr(data-gift-amount);
   }
 }
 
-
 // coupon flag
-
 .coupon-flag {
   position: absolute;
   z-index: 10;
   top: 0;
   right: 0;
+  flex: none;
   width: 0;
   height: 0;
   border-right: 40px solid $color-crusta;
   border-bottom: 30px solid transparent;
-  flex: none;
 
   &::after {
     position: absolute;
@@ -212,8 +214,8 @@
     right: -35px;
     width: 13px;
     height: 12px;
-    content: '';
-    background-image: url('../../asset/images/tick-white.png');
+    content: "";
+    background-image: url("../../asset/images/tick-white.png");
     // images size 26px 22px
     background-repeat: no-repeat;
     background-position: center center;

@@ -1,0 +1,75 @@
+// stylelint-disable selector-no-id
+// Root element id
+#app-placeholder,
+[data-reactroot],
+.application {
+  height: 100%;
+}
+
+.register-page {
+  background-color: #f0f0f0;
+}
+
+.register {
+  &-member {
+    padding-bottom: 80px;
+  }
+
+  &-banner {
+    line-height: 0;
+    min-height: 100px;
+
+    &-img {
+      width: 100%;
+    }
+  }
+
+  &-input {
+    font-size: 14px;
+    float: right;
+    width: 150px;
+    text-align: right;
+  }
+
+  &-pwd {
+    position: relative;
+
+    &-in {
+      position: absolute;
+      z-index: 100;
+      right: 25px;
+      opacity: 0;
+    }
+
+    &-out {
+      position: absolute;
+      z-index: 1;
+      right: 25px;
+    }
+  }
+
+  &-user {
+    &-name {
+      width: 50px;
+    }
+
+    &-input {
+      width: 130px;
+    }
+
+    .sex-switch {
+      display: inline-block;
+    }
+  }
+
+  &-tips {
+    font-size: 12px;
+    padding-left: 10px;
+    color: #666;
+  }
+}
+
+.btn-arrow-right::after {
+  width: 15px;
+  background-size: 7px;
+}

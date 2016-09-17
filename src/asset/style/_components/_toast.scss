@@ -5,6 +5,8 @@
   right: 0;
   bottom: 0;
   left: 0;
+  // stylelint-disable declaration-block-no-duplicate-properties
+  // Need for android 4.2 ~ 4.3
   padding-top: 150px;
   padding-top: 30vh;
   background: transparent;
@@ -18,11 +20,11 @@
     min-width: 100px;
     max-width: 150px;
     padding: 15px;
-    transform: translateX(-50%);
     text-align: center;
     color: $color-white;
     border-radius: 5px;
     background: $opacity-background;
+    transform: translateX(-50%);
   }
 
   &-content::before {
@@ -31,6 +33,6 @@
     line-height: 1;
     display: block;
     margin: 5px 0;
-    content: '!';
+    content: "!";
   }
 }

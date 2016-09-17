@@ -1,14 +1,12 @@
 const React = require('react');
-const Counter = require('../mui/counter.jsx');
-const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 require('./customer-info-editor.scss');
 
 module.exports = React.createClass({
   displayName: 'CustomerInfoEditor',
   propTypes: {
     customerProps:React.PropTypes.object.isRequired,
-    onDone:React.PropTypes.func.isRequired,
     onCustomerPropsChange:React.PropTypes.func.isRequired,
+    isMobileDisabled:React.PropTypes.bool.isRequired,
   },
   getInitialState() {
     const { customerProps } = this.props;
@@ -22,83 +20,62 @@ module.exports = React.createClass({
   componentWillReceiveProps(newProps) {
     this.setState(newProps);
   },
-  onCountChange(newCount, increment) {
-    const { customerProps } = this.state;
-    this.setState({
-      customerProps:customerProps.set('customerCount', newCount),
-    });
-  },
-  onSubmitBtntap(evt) {
-    const { customerProps } = this.state;
-    const { onDone, onCustomerPropsChange } = this.props;
-    if (onCustomerPropsChange(evt, customerProps)) onDone(evt, '');
-  },
   handleBasicInfoChange(event) {
     const { customerProps } = this.state;
+    const { onCustomerPropsChange } = this.props;
     this.setState({
       customerProps:customerProps.set(event.target.getAttribute('name'), event.target.value),
-    });
+    }, function () { onCustomerPropsChange(this.state.customerProps); });
   },
   render() {
     const { customerProps } = this.state;
+    const { isMobileDisabled } = this.props;
     return (
-      <div className="subpage flex-columns">
-        <div className="flex-rest">
-          <div className="options-group">
-            <div className="option">
-              <div className="editor-one-third">
-                <span className="option-title">姓名：</span>
-              </div>
-              <div className="editor-two-thirds">
-                <div className="option">
-                  <input
-                    className="editor-input"
-                    name="name"
-                    id="editor-name"
-                    placeholder={customerProps.name}
-                    onChange={this.handleBasicInfoChange}
-                  />
-                </div>
-                <div className="option clearfix">
-                  <label className="half">
-                    <input
-                      className="option-radio" type="radio" name="sex" defaultValue="1"
-                      onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex === '1'}
-                    />
-                    <span className="btn-tickbox"></span>
-                    <span className="option-desc">先生</span>
-                  </label>
-                  <label className="half">
-                    <input
-                      className="option-radio" type="radio" name="sex" defaultValue="0"
-                      onChange={this.handleBasicInfoChange} defaultChecked={customerProps.sex < 1}
-                    />
-                    <span className="btn-tickbox"></span>
-                    <span className="option-desc">女士</span>
-                  </label>
-                </div>
-              </div>
+      <div className="editor options-group">
+        <div className="option">
+          <div className="flex-row">
+            <span className="editor-title flex-none">姓名：</span>
+            <input
+              className="editor-input flex-rest"
+              name="name"
+              id="editor-name"
+              placeholder={customerProps.name || '请输入姓名'}
+              onChange={this.handleBasicInfoChange}
+              maxLength="60"
+            />
+            <div className="editor-gender-group flex-none">
+              <label className="half">
+                <input
+                  className="option-radio" type="radio" name="sex" defaultValue="0"
+                  onChange={this.handleBasicInfoChange} checked={customerProps.sex === '0' || customerProps.sex === 0}
+                />
+                <span className="editor-gender">女士</span>
+              </label>
+              <label className="half">
+                <input
+                  className="option-radio" type="radio" name="sex" defaultValue="1"
+                  onChange={this.handleBasicInfoChange} checked={customerProps.sex === '1' || customerProps.sex === 1}
+                />
+                <span className="editor-gender">先生</span>
+              </label>
             </div>
-
-            <label className="option">
-              <span className="option-title">联系电话：</span>
-              <input className="editor-input" placeholder={customerProps.mobile} onChange={this.handleBasicInfoChange} disabled="disabled" />
-            </label>
           </div>
-          {getUrlParam('type') === 'TS' ?
-            <div className="options-group">
-              <div className="option">
-                <span className="option-title">就餐人数：</span>
-                <Counter minimum={1} count={customerProps.customerCount} maximum={99} step={1} onCountChange={this.onCountChange} />
-              </div>
-            </div>
-            :
-            false
-          }
-
         </div>
 
-        <button className="subpage-submit-btn btn--yellow flex-none" onTouchTap={this.onSubmitBtntap}>确定</button>
+        <div className="option">
+          <div className="flex-row">
+            <span className="editor-title flex-none">手机号：</span>
+            <input
+              name="mobile"
+              className="editor-input editor-input--right flex-rest"
+              value={customerProps.mobile ? customerProps.mobile : ''}
+              placeholder={customerProps.mobile || '请输入手机号'}
+              maxLength={11}
+              onChange={this.handleBasicInfoChange}
+              disabled={isMobileDisabled}
+            />
+          </div>
+        </div>
       </div>
     );
   },

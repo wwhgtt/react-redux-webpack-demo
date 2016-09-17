@@ -1,0 +1,90 @@
+@import "settings.colors";
+@import "tools.functions";
+@import "tools.mixins";
+
+.settingLink {
+  $width: 100%;
+  $none: none;
+  $background: url("../../asset/images/mine-spirit.png") left top/6.25em auto no-repeat;
+
+  position: relative;
+  display: block;
+  height: 100%;
+  padding: 1em 0;
+
+  &::after {
+    @include border-thin(bottom);
+
+    bottom: 0;
+    border-bottom: bordersolid(1, #e7e7ef);
+  }
+
+  .name {
+    font-size: 14px;
+    display: inline-block;
+    vertical-align: middle;
+    text-decoration: $none;
+  }
+
+  .arrow {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: .438em;
+    height: .688em;
+    margin-top: -.344em;
+    background: $background;
+    background-position: -5.7em -1.5em;
+  }
+
+  .brief {
+    font-size: 13px;
+    line-height: 1;
+    position: absolute;
+    top: 50%;
+    right: 1em;
+    margin-top: -.5em;
+    color: #bcbcbc;
+
+    &.spe {
+      right: 0;
+    }
+  }
+
+
+  .logo {
+    position: absolute;
+    top: 50%;
+    right: .813em;
+    width: 2.125em;
+    height: 2.125em;
+    margin-top: -1.06em;
+    border-radius: 2em;
+
+    &.spe {
+      right: 0;
+    }
+  }
+
+  .input-outer {
+    font-size: 13px;
+    width: 10em;
+    height: 100%;
+    padding: 0 0 0 .2em;
+
+    .input {
+      width: 100%;
+      height: 100%;
+      text-align: right;
+      color: #666;
+      border: none;
+      outline: none;
+    }
+
+    .input::placeholder {
+      line-height: 1.4em;
+    }
+  }
+}
+
+

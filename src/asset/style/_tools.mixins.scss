@@ -3,28 +3,18 @@
   &::after {
     display: table;
     clear: both;
-    content: '';
+    content: "";
   }
 }
 
 
-// React animation
-@mixin react-animation($name) {
-  @content;
-
-  .#{$name}-enter {
-    @extend %enter-start;
-
-    &-active {
-      @extend %enter-end;
-    }
-  }
-
-  .#{$name}-leave {
-    @extend %leave-start;
-
-    &-active {
-      @extend %leave-end;
-    }
-  }
+// Border-thin
+@mixin border-thin($po) {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  content: "";
+  transform: scale(1, .5);
+  transform-origin: 0 $po;
 }

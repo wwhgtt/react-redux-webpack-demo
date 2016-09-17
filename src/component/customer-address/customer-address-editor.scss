@@ -1,4 +1,4 @@
-@import 'settings.colors';
+@import "settings.colors";
 
 // reset option layout
 .option {
@@ -11,10 +11,12 @@
   &-content {
     width: calc(100% - #{$option-left-width});
   }
-  &.error{
-    color: #ff0000;
-    .customer-address-placeholder{
-      color: #ff0000;
+
+  &.error {
+    color: #f00;
+
+    .customer-address-placeholder {
+      color: #f00;
     }
   }
 }
@@ -52,8 +54,8 @@
       left: 0;
       width: 30px;
       height: 22px;
-      content: '';
-      background-image: url('../../asset/images/location-grey.png');
+      content: "";
+      background-image: url("../../asset/images/location-grey.png");
       background-repeat: no-repeat;
       background-position: center;
       background-size: 15px 18px;

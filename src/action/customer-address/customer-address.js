@@ -41,9 +41,9 @@ exports.fetchCustomerAddressInfo = (shopId, addressId) => (dispatch, getState) =
       console.log(err);
     });
 };
-exports.fetchAllAddressList = () => (dispatch, getState) => {
+exports.fetchAllAddressList = (shopId) => (dispatch, getState) => {
   // 取所有收货地址
-  fetch(config.getAllAddressListAPI, config.requestOptions).
+  fetch(`${config.getAllAddressListAPI}?shopId=${shopId}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         console.log('获取用户地址信息失败...');
@@ -57,7 +57,7 @@ exports.fetchAllAddressList = () => (dispatch, getState) => {
       console.log(err);
     });
 };
-exports.saveCustomerAddressInfo = (evt, address) => (dispatch, getState) => {
+exports.saveCustomerAddressInfo = (evt, shopId, address) => (dispatch, getState) => {
   const requestOptions = Object.assign({}, config.requestOptions);
   requestOptions.method = 'POST';
   requestOptions.body = JSON.stringify(address);
@@ -67,7 +67,7 @@ exports.saveCustomerAddressInfo = (evt, address) => (dispatch, getState) => {
   }
 
   btn.disabled = true;
-  return fetch(config.saveAddressAPI, requestOptions).
+  return fetch(`${config.saveAddressAPI}?shopId=${shopId}`, requestOptions).
     then(res => {
       if (!res.ok) {
         btn.disabled = false;
@@ -96,8 +96,8 @@ exports.setSessionAndForwardEditUserAddress = (shopId, id) => (dispatch, getStat
   }
   location.href = url;
 };
-exports.deleteCustomerAddressInfo = (addressId) => (dispatch, getState) =>
-  fetch(`${config.deleteAddressAPI}?addressId=${addressId}`, config.requestOptions).
+exports.deleteCustomerAddressInfo = (shopId, addressId) => (dispatch, getState) =>
+  fetch(`${config.deleteAddressAPI}?addressId=${addressId}&shopId=${shopId}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         dispatch(setErrorMsg('删除收货地址失败'));

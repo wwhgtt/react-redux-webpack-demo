@@ -9,7 +9,7 @@ module.exports = {
       'member': {
         'name': '王刚',
         'mobile': '15908198592',
-        'sex': '1',
+        'sex': '-1',
         'iconUri':
           'http://wx.qlogo.cn/mmopen/jVC41HQcvjE07KibwoTRtwKEO3RTVCJ81KgrZqib6UdPY6yhWrkztMKep8uay3ibFbU8ibN7deGUemia7pIPq3yG0kXxa3MruDXnQ/0',
       },
@@ -34,6 +34,7 @@ module.exports = {
       },
       'commercialName': '南粉北面王霞',
       'commercialLogo': null,
+      diningForm: 1,
       'timeJson': {
         '2016-09-15': [
           '12:00',
@@ -59,8 +60,8 @@ module.exports = {
           '22:00',
         ],
       },
-      'toHomePayType': 'online,offline',
-      'toShopPayType': 'online',
+      'toHomePayType': 'online',
+      'toShopPayType': 'online,offline',
       'ma': {
         memberAddressId:263099,
         address:'天府软件园E1',

@@ -1,11 +1,12 @@
 const React = require('react');
-const validateAddressInfo = require('../../helper/common-helper').validateAddressInfo;
+const validateAddressInfo = require('../../helper/order-helper').validateAddressInfo;
 const replaceEmojiWith = require('../../helper/common-helper').replaceEmojiWith;
 require('./customer-toshop-info-editor.scss');
 
 module.exports = React.createClass({
   displayName: 'CustomerToShopInfoEditor',
   propTypes: {
+    originMa: React.PropTypes.object,
     customerAddressListInfo: React.PropTypes.object,
     onSaveToShopAddress: React.PropTypes.func,
     onDone: React.PropTypes.func,
@@ -28,25 +29,31 @@ module.exports = React.createClass({
   },
   onSaveBtntap(evt) {
     const { customerProps } = this.state;
-    const { onDone, onCustomerPropsChange } = this.props;
+    const { onDone, onCustomerPropsChange, originMa } = this.props;
     const validateRet = this.validateInput();
     const address = Object.assign({}, customerProps);
     if (validateRet.valid) {
       address.name = replaceEmojiWith(address.name.trim());
     }
     if (onCustomerPropsChange(evt, validateRet, address)) {
-      onDone(evt, '#customer-info');
+      onDone(evt, originMa && originMa.id === 0 ? '' : '#customer-info');
     }
   },
   initStateByProps(props) {
-    const { customerAddressListInfo } = props;
-    if (!customerAddressListInfo || !customerAddressListInfo.data) {
+    const { customerProps } = this.state;
+    if (customerProps.hasOwnProperty('name')) {
       return;
     }
 
-    this.setState({
-      customerProps: customerAddressListInfo.data.toShopInfo,
-    });
+    const { customerAddressListInfo, originMa } = props;
+    if (originMa && originMa.id === 0) {
+      this.setState({ customerProps: originMa });
+      return;
+    }
+
+    if (customerAddressListInfo && customerAddressListInfo.data) {
+      this.setState({ customerProps: customerAddressListInfo.data.toShopInfo });
+    }
   },
   validateInput() {
     const { customerProps } = this.state;
@@ -60,9 +67,7 @@ module.exports = React.createClass({
       value = value ? parseInt(value, 10) : -1;
     }
     const { customerProps } = this.state;
-    this.setState({
-      customerProps:customerProps.set(input.name, value),
-    });
+    this.setState({ customerProps: customerProps.set(input.name, value) });
   },
   render() {
     const { customerProps } = this.state;
@@ -88,7 +93,7 @@ module.exports = React.createClass({
                     <label className="half">
                       <input
                         className="option-radio" type="radio" name="sex" defaultValue="1"
-                        onChange={this.handleBasicInfoChange} defaultChecked={+customerProps.sex === 1}
+                        onChange={this.handleBasicInfoChange} checked={+customerProps.sex === 1}
                       />
                       <span className="btn-tickbox"></span>
                       <span className="option-desc">先生</span>
@@ -96,7 +101,7 @@ module.exports = React.createClass({
                     <label className="half">
                       <input
                         className="option-radio" type="radio" name="sex" defaultValue="0"
-                        onChange={this.handleBasicInfoChange} defaultChecked={+customerProps.sex === 0}
+                        onChange={this.handleBasicInfoChange} checked={+customerProps.sex === 0}
                       />
                       <span className="btn-tickbox"></span>
                       <span className="option-desc">女士</span>

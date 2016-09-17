@@ -1,0 +1,25 @@
+@import "settings.colors";
+@import "_objects/border";
+
+// stylelint-disable selector-no-id
+// Root element id
+#app-placeholder,
+[data-reactroot] {
+  height: 100%;
+}
+
+.application {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
+  background: #fafafa;
+}
+
+.scroll-part {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 2.625em;
+  left: 0;
+  overflow: auto;
+}

@@ -1,5 +1,5 @@
 const React = require('react');
-const validateAddressInfo = require('../../helper/common-helper').validateAddressInfo;
+const validateAddressInfo = require('../../helper/order-helper').validateAddressInfo;
 const replaceEmojiWith = require('../../helper/common-helper').replaceEmojiWith;
 const classnames = require('classnames');
 require('./customer-address-editor.scss');
@@ -48,7 +48,7 @@ module.exports = React.createClass({
     const propertys = {};
     let value = propertys[input.name] = input.value;
     if (input.name === 'sex') {
-      value = parseInt(value, 10) || 0;
+      propertys[input.name] = value = parseInt(value, 10) || 0;
     }
     if (value === customerProps[input.name]) {
       return;

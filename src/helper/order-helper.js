@@ -2,10 +2,10 @@ const _find = require('lodash.find');
 const getDishesPrice = require('../helper/dish-hepler.js').getDishesPrice;
 const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
 const getUrlParam = require('../helper/dish-hepler.js').getUrlParam;
-const validateAddressInfo = require('../helper/common-helper.js').validateAddressInfo;
 const isSingleDishWithoutProps = require('../helper/dish-hepler.js').isSingleDishWithoutProps;
 const getDishPrice = require('../helper/dish-hepler.js').getDishPrice;
 const getOrderPrice = require('../helper/dish-hepler.js').getOrderPrice;
+const replaceEmojiWith = require('../helper/common-helper.js').replaceEmojiWith;
 const config = require('../config.js');
 // 判断一个对象是否为空
 exports.isEmptyObject = (obj) => {
@@ -559,17 +559,63 @@ exports.countFinalNeedPayMoney = function (orderedDishesProps, serviceProps, com
     :
     parseFloat((initializePayMement - parseFloat(clearSmallChangeProps.smallChange)).toFixed(2));
 };
+// 校验收货地址信息
+const validateAddressInfo = exports.validateAddressInfo = (info, isTakeaway, filter) => {
+  const rules = {
+    name: [
+      { msg: '请输入姓名', validate(value) { return !!replaceEmojiWith(value.trim(), ''); } },
+    ],
+    sex: [
+      { msg: '请选择性别', validate(value) {
+        const gender = +value;
+        return gender === 1 || gender === 0;
+      } },
+    ],
+    mobile: [
+      { msg: '请输入手机号', validate(value) { return !!value.trim(); } },
+      { msg: '请录入正确的手机号', validate(value) { return /^1[34578]\d{9}$/.test(value); } },
+    ],
+  };
+
+  if (isTakeaway) {
+    Object.assign(rules, {
+      baseAddress: [
+        { msg: '请输入收货地址', validate(value) { return !!value.trim(); } },
+      ],
+      street: [
+        { msg: '请输入门牌信息', validate(value) { return !!replaceEmojiWith(value.trim(), ''); } },
+      ],
+    });
+  }
+  for (const key in rules) {
+    if (!rules.hasOwnProperty(key)) {
+      continue;
+    }
+    if (filter && filter(key)) {
+      continue;
+    }
+    const rule = rules[key];
+    let value = info[key];
+    if (typeof value !== 'number') {
+      value = value || '';
+    }
+    for (let i = 0, len = rule.length; i < len; i++) {
+      const item = rule[i];
+      const valid = item.validate(value);
+      if (!valid) {
+        return { valid: false, msg: item.msg };
+      }
+    }
+  }
+  return { valid: true, msg: '' };
+};
 exports.getSubmitUrlParams = function (state, note, receipt) {
   const name = state.customerProps.name;
   const type = getUrlParam('type');
-  if (!name && type === 'TS') {
+  if (!name && type === 'TS' && state.customerProps.loginType === 1) {
     return { success:false, msg:'未填写姓名' };
   }
 
-  let sex = +state.customerProps.sex;
-  if (isNaN(sex)) {
-    sex = -1;
-  }
   const dishesPrice = getDishesPrice(state.orderedDishesProps.dishes);
   const integral = state.serviceProps.integralsInfo.isChecked ? countIntegralsToCash(
     Number(countPriceWithCouponAndDiscount(dishesPrice, state.serviceProps)),
@@ -601,8 +647,10 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
       return { success:false, msg:'未选择桌台信息' };
     }
     tableId = state.tableProps.tables.filter(table => table.isChecked)[0].id;
-  } else {
+  } else if (type === 'TS' && serviceApproach && serviceApproach.indexOf('pickup') !== -1 || type === 'WM') {
     tableId = 0;
+  } else {
+    return { success:false, msg:'没有可用桌台' };
   }
 
   let params;
@@ -623,15 +671,19 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
       return { success: false, msg: validateAddressResult.msg };
     }
 
-    sex = selectedAddress.sex;
+    let sex = selectedAddress.sex;
     isSelfFetch = selectedAddress.id === 0;
     if (!selectedDateTime.date) {
       return { success:false, msg: `请选择${isSelfFetch ? '取餐' : '送达'}时间` };
     }
     const toShopFlag = isSelfFetch ? '1' : '0';
+    let mobile = selectedAddress.mobile.toString();
+    if (mobile.indexOf('4') === 0 && mobile.length === 9) {
+      mobile = '0' + mobile;
+    }
     params = '?name=' + selectedAddress.name
         + '&Invoice=' + receipt + '&memo=' + note
-        + '&mobile=' + selectedAddress.mobile
+        + '&mobile=' + mobile
         + '&sex=' + sex
         + '&payMethod=' + payMethodScope
         + '&coupId=' + coupId
@@ -650,6 +702,10 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
       }
     }
   } else {
+    let sex = +state.customerProps.sex;
+    if (isNaN(sex) || state.customerProps.sex === null || sex === -1) {
+      return { success:false, msg:'未选择性别' };
+    }
     params = '?name=' + state.customerProps.name
         + '&Invoice=' + receipt + '&memo=' + note
         + '&mobile=' + state.customerProps.mobile

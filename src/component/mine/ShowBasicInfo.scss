@@ -1,0 +1,35 @@
+@import "settings.colors";
+
+.basicInfoBg {
+  $width: 100%;
+  $none: none;
+
+  position: relative;
+  height: 9.688em;
+  padding: 1.4em;
+  background: #fed17e;
+
+  &-img {
+    display: block;
+    width: 4.25em;
+    height: 4.25em;
+    margin: 0 auto .312em;
+    border: 2px solid rgba(255, 255, 255, .5);
+    border-radius: 3em;
+  }
+
+  &-name {
+    text-align: center;
+    color: #795021;
+  }
+
+  &-wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: $width;
+    height: 1.75em;
+    background: url("../../asset/images/wave.png") center center repeat;
+    background-size: auto 1.75em;
+  }
+}

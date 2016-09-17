@@ -5,6 +5,7 @@ exports.singleDishWithoutProps = {
   aliasName: '',
   unitId: null,
   unitName: '份',
+  order: 3,
   marketPrice: 12,
   dishDesc: '',
   videoUrl: '',
@@ -74,7 +75,63 @@ exports.singleDishWithProps = {
       ],
     },
   ],
-  dishIngredientInfos: [],
+  dishIngredientInfos: [{
+    id: 575864,
+    name: '奶茶修改',
+    reprice: 2,
+    sort: 0,
+  }],
+  order: [{
+    count: 1,
+    dishPropertyTypeInfos: [{
+      id: 3121,
+      name: '口味',
+      type: 1,
+      properties: [{
+        id: 11058,
+        name: '芝麻粒酱醋汁',
+        reprice: 1,
+        isChecked: true,
+      }, {
+        id: 11061,
+        name: '花生碎辣酱汁',
+        reprice: 2,
+        isChecked: false,
+      }],
+    }],
+    dishIngredientInfos: [{
+      id: 575864,
+      name: '奶茶修改',
+      reprice: 2,
+      sort: 0,
+      isChecked: false,
+    }],
+  }, {
+    count: 2,
+    dishPropertyTypeInfos: [{
+      id: 3121,
+      name: '口味',
+      type: 1,
+      properties: [{
+        id: 11058,
+        name: '芝麻粒酱醋汁',
+        reprice: 1,
+        isChecked: false,
+      }, {
+        id: 11061,
+        name: '花生碎辣酱汁',
+        reprice: 2,
+        isChecked: true,
+      }],
+    }],
+    dishIngredientInfos: [{
+      id: 575864,
+      name: '奶茶修改',
+      reprice: 2,
+      sort: 0,
+      isChecked: true,
+    }],
+  }],
 };
 exports.groupDish = {
   id: 1218629,
@@ -277,4 +334,98 @@ exports.groupDish = {
       ],
     },
   ],
+};
+
+exports.orderedSingleDishesAndGroupDishes = [{
+  type: 2,
+  order: 3,
+  dishPropertyTypeInfos: [],
+}, {
+  type: 1,
+  order: [{
+    id: 99991,
+    count: 3,
+  }, {
+    id: 99992,
+    count: 4,
+  }],
+}, {
+  id: 99993,
+}];
+
+exports.orderedSingleDishesOnly = [{
+  type: 3,
+  order: 6,
+  marketPrice: 10,
+  dishPropertyTypeInfos: [],
+}, {
+  type: 4,
+  order: 4,
+  marketPrice: 10,
+  dishPropertyTypeInfos: [],
+}, {
+  id: 99991,
+}, {
+  id: 99992,
+}, {
+  id: 99993,
+}];
+
+exports.orderedGroupDishesOnly = [{
+  id: 99993,
+  dishPropertyTypeInfos: [],
+}, {
+  type: 1,
+  order: [{
+    id: 99991,
+    count: 1,
+  }, {
+    id: 99992,
+    count: 2,
+  }],
+}, {
+  type: 1,
+  order: [{
+    id: 99991,
+    count: 3,
+  }, {
+    id: 99992,
+    count: 4,
+  }],
+}];
+
+exports.singleDishWithUnit = {
+  id: 123456,
+  name: '菜品名称',
+  unitName: '份',
+  type: 4,
+  dishPropertyTypeInfos: [],
+};
+
+exports.singleDishWithPropAndUnit = {
+  id: 123456,
+  name: '菜品名称',
+  unitName: '份',
+  type: 4,
+  dishPropertyTypeInfos: [{
+    id: 123,
+    type: 1,
+    properties: [{
+      id: 1,
+      name: '不显示',
+    }, {
+      id: 2,
+      name: '不显示',
+    }],
+  }, {
+    id: 1234,
+    type: 4,
+    properties: [{
+      id: 3,
+      name: '显示',
+    }, {
+      id: 4,
+      name: '不显示',
+    }],
+  }],
 };

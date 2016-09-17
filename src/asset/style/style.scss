@@ -1,26 +1,26 @@
 // settings
-@import 'settings.colors';
-@import 'settings.sizes';
+@import "settings.colors";
+@import "settings.sizes";
 
 // tools
-@import 'tools.mixins';
+@import "tools.mixins";
+@import "tools.functions";
 
 // generic
-@import 'generic';
+@import "generic";
 
 // base
-@import 'base';
+@import "base";
 
 // objects
-@import '_objects/buttons';
-@import '_objects/typo';
-@import '_objects/symbol';
-@import '_objects/layout';
-@import '_objects/options';
+@import "_objects/border";
+@import "_objects/buttons";
+@import "_objects/typo";
+@import "_objects/symbol";
+@import "_objects/layout";
 
 // components
-@import '_components/subpage';
-@import '_components/toast';
-
-// animations
-@import 'animations';
+@import "_components/subpage";
+@import "_components/toast";
+@import "_components/options";
+@import "_components/list";

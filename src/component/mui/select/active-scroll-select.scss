@@ -1,4 +1,4 @@
-@import 'settings.colors';
+@import "settings.colors";
 
 $scroll-select-option-height: 40px;
 
@@ -14,8 +14,8 @@ $scroll-select-option-height: 40px;
     left: 0;
     width: 100%;
     height: $scroll-select-option-height;
-    margin-top: -$scroll-select-option-height/2;
-    content: '';
+    margin-top: -$scroll-select-option-height / 2;
+    content: "";
     border-top: 1px solid $color-crusta;
     border-bottom: 1px solid $color-crusta;
   }
@@ -30,9 +30,16 @@ $scroll-select-option-height: 40px;
     right: 0;
     bottom: 0;
     left: 0;
-    content: '';
+    content: "";
     pointer-events: none;
-    background-image: linear-gradient(to bottom, $color-white 0%, $transparent 40%, $transparent 60%, $color-white 100%);
+    background-image:
+      linear-gradient(
+        to bottom,
+        $color-white 0%,
+        $transparent 40%,
+        $transparent 60%,
+        $color-white 100%
+      );
   }
 }
 
@@ -43,7 +50,7 @@ $scroll-select-option-height: 40px;
     display: block;
     overflow: hidden;
     height: $scroll-select-option-height;
-    padding: ($scroll-select-option-height - 18)/2 5px;
+    padding: (($scroll-select-option-height - 18) / 2) 5px;
     text-align: center;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -55,5 +62,51 @@ $scroll-select-option-height: 40px;
 
   > .placeholder-container {
     visibility: hidden;
+  }
+}
+
+
+// scroll select slideup animation
+.slideup-enter {
+  .scroll-select-content {
+    transform: translate3d(0, 100%, 0);
+  }
+
+  .scroll-select-close {
+    opacity: 0;
+  }
+
+  &-active {
+    .scroll-select-content {
+      transform: translate3d(0, 0, 0);
+      transition: transform .3s ease-in-out;
+    }
+
+    .scroll-select-close {
+      opacity: 1;
+      transition: opacity .3s ease-in-out;
+    }
+  }
+}
+
+.slideup-leave {
+  .scroll-select-content {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .scroll-select-close {
+    opacity: 1;
+  }
+
+  &-active {
+    .scroll-select-content {
+      transform: translate3d(0, 100%, 0);
+      transition: transform .3s ease-in-out;
+    }
+
+    .scroll-select-close {
+      opacity: 0;
+      transition: opacity .3s ease-in-out;
+    }
   }
 }

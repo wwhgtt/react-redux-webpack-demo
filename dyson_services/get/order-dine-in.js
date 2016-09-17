@@ -6,8 +6,9 @@ module.exports = {
       member: {
         name: '啦啦啦',
         mobile: '13980691506',
-        sex: '0',
+        sex: null,
         iconUri: 'http://wx.qlogo.cn/mmopen/ajNVdqHZLLC6Q1uomrOlfpCyJOxuDUcoXIzibCZGQeElFuy3UVFxlHMn8kzECiaJicWqe8icJySHoNOS9iadia0fDTiag/0',
+        loginType:'0', // 0表示手机号登录、1表示openId登录
       },
       integral: {
         integral: 2520089,
@@ -25,7 +26,7 @@ module.exports = {
       },
       commercialName: '小土豆石方菜菜软件园店',
       commercialLogo: 'http://kry-test-2.qiniudn.com/980afeeec2004447a5e72d124ed2186a.jpg?imageView/2/w/512/h/512',
-      serviceApproach: 'totable',
+      serviceApproach: 'pickup,totable',
       diningForm: 1,
       areaList: [
         {

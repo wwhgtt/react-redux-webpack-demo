@@ -37,6 +37,7 @@ module.exports = function (
     },
     childView:null,
     errorMessage:null,
+    shuoldPhoneValidateShow:false,
   }),
   action
 ) {
@@ -74,8 +75,10 @@ module.exports = function (
                   .set(
                     'customerProps',
                     Immutable.from({
-                      name:payload.member.name, mobile:payload.member.mobile,
-                      sex: isNaN(+payload.member.sex) ? '-1' : payload.member.sex, isMember:payload.isMember, customerCount:1,
+                      name:payload.member.name, mobile:payload.member.mobile, loginType:+payload.member.loginType > 0 ? +payload.member.loginType : 0,
+                      iconUri:payload.member.iconUri, sex: isNaN(+payload.member.sex) ? null : payload.member.sex,
+                      isMember:payload.isMember, customerCount:1,
+                      originMa:payload.originMa || {},
                       addresses:payload.ma ? [Object.assign({ isChecked:true, id: payload.ma.memberAddressId }, payload.ma)] : null,
                     })
                   )
@@ -209,6 +212,8 @@ module.exports = function (
         return state.set(
           'customerProps', payload
         );
+      } else if (payload.id === 'customer-count') {
+        return state.setIn(['customerProps', 'customerCount'], payload.newCount);
       } else if (payload.id === 'customer-info-selected-address') {
         return state.setIn(['customerProps', 'addresses'], payload.addresses);
       } else if (payload.id === 'customer-info-with-address') {
@@ -321,6 +326,39 @@ module.exports = function (
           ['timeProps', 'selectedDateTime', 'time'],
           _find(payload.dateTime.times, { isChecked:true }).id
         );
+      } else if (payload.id === 'reset-paymethods') {
+        return state.updateIn(
+          ['serviceProps', 'payMethods'],
+          payMethods => payMethods.flatMap(
+            payMethod => payMethod.set(
+              'isAvaliable',
+              helper.isPaymentAvaliable(
+                payMethod.id.split('-')[0],
+                state.commercialProps.diningForm,
+                !state.serviceProps.isPickupFromFrontDesk.isChecked,
+                state.serviceProps.sendAreaId,
+                state.commercialProps.selfPayType,
+                state.commercialProps.sendPayType
+              ),
+            )
+          )
+        )
+        .updateIn(
+          ['serviceProps', 'payMethods'],
+          payMethods => payMethods.flatMap(
+            payMethod => payMethod.set(
+              'isChecked',
+              helper.shouldPaymentAutoChecked(
+                payMethod.id.split('-')[0],
+                state.commercialProps.diningForm,
+                !state.serviceProps.isPickupFromFrontDesk.isChecked,
+                state.serviceProps.sendAreaId,
+                state.commercialProps.selfPayType,
+                state.commercialProps.sendPayType
+              ),
+            )
+          )
+        );
       }
       break;
     case 'SET_COUPONS_TO_ORDER':
@@ -338,7 +376,7 @@ module.exports = function (
            _has(state.commercialProps, 'diningForm') && state.commercialProps.diningForm === 0 ?
             0
             :
-            helper.countMemberPrice(true, state.orderedDishesProps.dishes, payload.dishList, payload.type)
+            helper.countMemberPrice(state.customerProps.loginType === 0, state.orderedDishesProps.dishes, payload.dishList, payload.type)
          )
          .updateIn(
            ['orderedDishesProps', 'dishes'],
@@ -356,7 +394,18 @@ module.exports = function (
         Immutable.from((state.customerProps.addresses || []).concat(payload))
       ).setIn(['customerProps', 'isAddressesLoaded'], true);
     case 'SET_ADDRESS_TOSHOP_TO_ORDER':
-      return state.setIn(['customerAddressListInfo', 'data', 'toShopInfo'], payload);
+      if (!payload.isJustToShop) {
+        return state.setIn(['customerAddressListInfo', 'data', 'toShopInfo'], payload.value);
+      }
+      return state.setIn(
+        ['customerProps', 'originMa'],
+        payload.value
+      )
+      .setIn(
+        ['customerProps', 'addresses'], [
+          Object.assign({}, payload.value, { isChecked: true }),
+        ]
+      );
     case 'SET_ADDRESS_LIST_INFO_TO_ORDER':
       return state.set('customerAddressListInfo', {
         isAddressesLoaded: true,
@@ -413,6 +462,8 @@ module.exports = function (
             helper.getDefaultSelectedDateTime(payload)
           )
         );
+    case 'SET_PHONE_VALIDATE_PROPS':
+      return state.set('shuoldPhoneValidateShow', payload);
     default:
   }
   return state;

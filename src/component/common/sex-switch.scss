@@ -1,0 +1,23 @@
+@import "settings.colors";
+
+.sex-switch {
+  height: 100%;
+
+  .item {
+    font-size: 14px;
+    font-style: normal;
+    line-height: 1em;
+    display: inline-block;
+    margin-left: .8em;
+    padding: .357em .6em;
+    color: $color-dusty-grey;
+    border: 1px solid #d1d7de;
+    border-radius: 1em;
+
+    &.active {
+      color: $color-white;
+      border-color: #f37e53;
+      background: #f37e53;
+    }
+  }
+}

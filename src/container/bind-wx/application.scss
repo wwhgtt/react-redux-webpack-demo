@@ -1,0 +1,66 @@
+@import "settings.colors";
+
+.btn {
+  display: inline-block;
+  padding: .5em 2em;
+  // font-size: 14px;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.bind-account {
+  line-height: 1.4em;
+  text-align: center;
+}
+
+.text-success {
+  color: #33d371;
+}
+
+.mt40 {
+  margin-top: 40px;
+}
+
+.mt20 {
+  margin-top: 20px;
+}
+
+// account-content
+.account-info {
+  margin-bottom: 50px;
+
+  &-state {
+    font-size: 18px;
+  }
+
+  &-tips {
+    font-size: 12px;
+    color: $color-dusty-grey;
+  }
+
+  &-current {
+    font-size: 14px;
+    color: $color-dusty-grey;
+  }
+
+  &-username {
+    font-size: 20px;
+  }
+
+  &-head {
+    margin: 40px 0 15px;
+    text-align: center;
+  }
+}
+
+.wx-img-grey {
+  height: 60px;
+  margin-bottom: 20px;
+  background: url("../../asset/images/wx_grey.png") no-repeat center center;
+  background-size: 70px;
+}
+
+.wx-head {
+  width: 65px;
+  height: 65px;
+}

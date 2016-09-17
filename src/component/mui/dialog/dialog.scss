@@ -1,0 +1,101 @@
+@import "settings.colors";
+
+.modal {
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.dialog {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 85%;
+  text-align: center;
+  border-radius: 4px;
+  background-color: #fff;
+  transform: translate(-50%, -50%);
+
+  &-header {
+    padding: 1.2em 20px .5em;
+  }
+
+  &-title {
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  &-body {
+    padding: 10px 15px;
+  }
+
+  &-footer {
+    font-size: 14px;
+    line-height: 36px;
+    position: relative;
+    display: flex;
+    padding: 10px 15px;
+
+    button {
+      flex: 1;
+      border-radius: 4px;
+    }
+  }
+
+  .dialog-btn-close {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 32px;
+    height: 32px;
+    color: $color-sliver;
+    border: 1px solid  $color-athens-grey;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: -1px 1px $color-athens-grey;
+
+    &::after,
+    &::before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+      content: "";
+      background: $color-sliver;
+      transform: rotate(45deg);
+    }
+
+    &::before {
+      width: 16px;
+      height: 2px;
+    }
+
+    &::after {
+      width: 2px;
+      height: 16px;
+    }
+  }
+
+  &-btn-confirm {
+    color: #fff;
+  }
+
+  &-btn-cancel {
+    color: #353535;
+  }
+}
+
+.mask {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: .4;
+  background: #000;
+}

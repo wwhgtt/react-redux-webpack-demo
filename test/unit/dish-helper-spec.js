@@ -4,6 +4,12 @@ const fakeDishes = require('../fake-data/fake-dishes.js');
 /* eslint no-unused-expressions: 1 */
 describe('Helper', function () {
   describe('Dish Related Helper', function () {
+    it('isSingleDishWithoutProps', function () {
+      dishHelper.isSingleDishWithoutProps(fakeDishes.groupDish).should.to.be.false;
+      dishHelper.isSingleDishWithoutProps(fakeDishes.singleDishWithProps).should.to.be.false;
+      dishHelper.isSingleDishWithoutProps(fakeDishes.singleDishWithoutProps).should.to.be.true;
+    });
+
     it('isGroupDish', function () {
       dishHelper.isGroupDish(fakeDishes.groupDish).should.to.be.true;
       dishHelper.isGroupDish(fakeDishes.singleDishWithoutProps).should.to.be.false;
@@ -15,10 +21,38 @@ describe('Helper', function () {
       should.equal(!!dishHelper.isChildDish({}), false);
     });
 
-    it('isSingleDishWithoutProps', function () {
-      dishHelper.isSingleDishWithoutProps(fakeDishes.groupDish).should.to.be.false;
-      dishHelper.isSingleDishWithoutProps(fakeDishes.singleDishWithProps).should.to.be.false;
-      dishHelper.isSingleDishWithoutProps(fakeDishes.singleDishWithoutProps).should.to.be.true;
+    // getOrderedDishes
+    it('getOrderedDishes', function () {
+      // Except return an array with two ordered dish objects.
+      dishHelper.getOrderedDishes(fakeDishes.orderedSingleDishesAndGroupDishes).should.have.lengthOf(2);
+      dishHelper.getOrderedDishes(fakeDishes.orderedSingleDishesOnly).should.have.lengthOf(2);
+      dishHelper.getOrderedDishes(fakeDishes.orderedGroupDishesOnly).should.have.lengthOf(2);
+    });
+
+    // getDishesCount
+    it('getDishesCount', function () {
+      // Except return 10.
+      dishHelper.getDishesCount(fakeDishes.orderedSingleDishesAndGroupDishes).should.equal(10);
+      dishHelper.getDishesCount(fakeDishes.orderedSingleDishesOnly).should.equal(10);
+      dishHelper.getDishesCount(fakeDishes.orderedGroupDishesOnly).should.equal(10);
+    });
+
+    // getOrderPrice
+
+    // getDishPrice
+    it('getDishPrice', function () {
+      // Except return 36. (12 * 3)
+      dishHelper.getDishPrice(fakeDishes.singleDishWithoutProps).should.equal(36);
+      // Except return 72. [(21 + 1) * 1 + (21 + 2 + 2) * 2]
+      dishHelper.getDishPrice(fakeDishes.singleDishWithProps).should.equal(72);
+      // Except return 56. (28 * 2)
+      dishHelper.getDishPrice(fakeDishes.groupDish).should.equal(56);
+    });
+
+    // generateDishNameWithUnit
+    it('generateDishNameWithUnit', function () {
+      dishHelper.generateDishNameWithUnit(fakeDishes.singleDishWithUnit).should.equal('菜品名称/份');
+      dishHelper.generateDishNameWithUnit(fakeDishes.singleDishWithPropAndUnit).should.equal('菜品名称(显示)/份');
     });
 
     /* dish-helper part-2 */
@@ -145,7 +179,7 @@ describe('Helper', function () {
       dishHelper.getDishBoxprice([groupDish], { orderFlag: 1, content: 10 }).should.to.equal(10);
     });
 
-    it('getDisBoxCount', () => {
+    it('getDishBoxCount', () => {
       dishHelper.getDishBoxprice([], null).should.to.equal(0);
       const singleDishWithoutProps = cloneObject(fakeDishes.singleDishWithoutProps);
       const groupDish = cloneObject(fakeDishes.groupDish);

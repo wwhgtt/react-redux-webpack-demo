@@ -1,0 +1,91 @@
+@import "settings.colors";
+
+.phone-verification-code {
+  .form-group {
+    font-size: 14px;
+    line-height: 24px;
+    position: relative;
+    padding: 15px 0 10px 40px;
+    text-align: left;
+    border-bottom: 1px solid $color-mercury;
+    background: $color-white;
+
+    &::before {
+      position: absolute;
+      top: 18px;
+      left: 10px;
+      width: 20px;
+      height: 20px;
+      content: "";
+      opacity: .4;
+      background-repeat: no-repeat;
+      background-size: 16px 16px;
+    }
+
+    input {
+      width: calc(100% - 80px);
+      border: 0;
+      background: none;
+    }
+
+    .btn {
+      font-size: 12px;
+      float: right;
+      height: 24px;
+      padding: 0 8px;
+      border-radius: 3px;
+    }
+
+    .btn:disabled {
+      background: $color-sliver;
+    }
+
+    &.phone {
+      &::before {
+        background-image: url("../../../asset/images/phone.png");
+        background-size: 16px 16px;
+      }
+    }
+
+    &.verification-code {
+      &::before {
+        top: 16px;
+        left: 8px;
+        background-image: url("../../../asset/images/verification.png");
+        background-size: 20px 20px;
+      }
+    }
+  }
+}
+
+.phone-verification-code.multi-nations {
+  .phone {
+    padding-left: 110px;
+
+    &::before {
+      left: 90px;
+    }
+  }
+
+  select {
+    font-size: 14px;
+    position: absolute;
+    top: 15px;
+    left: 5px;
+    height: 24px;
+    border: 1px solid $color-mercury;
+    border-radius: 3px;
+    outline: none;
+    background: #fff;
+  }
+}
+
+.phone-verification-code.foreign {
+  .verification-code {
+    display: none;
+  }
+
+  .btn {
+    display: none;
+  }
+}
