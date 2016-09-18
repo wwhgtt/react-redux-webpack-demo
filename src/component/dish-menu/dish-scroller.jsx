@@ -6,6 +6,8 @@ const IScroll = require('iscroll/build/iscroll-lite');
 const classnames = require('classnames');
 const DishListItem = require('./dish-list-item.jsx');
 const setErrorMsg = require('../../action/dish-menu/dish-menu.js').setErrorMsg;
+const commonHelper = require('../../helper/common-helper');
+const type = commonHelper.getUrlParam('type');
 
 require('./dish-scroller.scss');
 
@@ -139,7 +141,7 @@ module.exports = React.createClass({
     const { activeDishTypeId, dishTypesData, dishesData } = this.props;
     const dishElements = this.buildDishElements(activeDishTypeId, dishTypesData, dishesData, this.onDishBtnTap);
     return (
-      <div className="dish-scroller">
+      <div className={type === 'TS' ? 'dish-scroller dish-scroller-full' : 'dish-scroller'}>
         {/* <div className="scroll-wrapper">*/}
           {dishElements}
         {/* </div>*/}

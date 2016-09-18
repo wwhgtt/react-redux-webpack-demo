@@ -1,0 +1,150 @@
+@import "settings.colors";
+@import "tools.functions";
+@import "tools.mixins";
+
+.bellouter {
+  $full: 100%;
+  $none: none;
+  $background: url("../../../asset/images/bell-spirit.png") left top/6.25em auto no-repeat;
+  $border: bordersolid(1, #e7e7ef);
+
+  position: absolute;
+  bottom: 1em;
+  left: 1em;
+
+  .vh {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .detail {
+    line-height: 1.8em;
+    display: block;
+    user-select: $none;
+    text-align: center;
+    color: $color-white;
+  }
+
+  .menu-outer {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: $full;
+    height: $full;
+  }
+
+  .main-bell {
+    font-size: 12px;
+    position: relative;
+    z-index: 3;
+    width: 4em;
+    height: 4em;
+    padding: .7em;
+    text-align: center;
+    color: $color-white;
+    border-radius: 2.5em;
+    background: rgba(0, 0, 0, .4);
+
+    &-inner {
+      display: block;
+      width: 1.2em;
+      height: 1.2em;
+      margin: .6em auto;
+      background: $background;
+      background-position: -1.6em -1.7em;
+      background-size: 4em auto;
+    }
+
+    .extra {
+      background-position: left top;
+    }
+  }
+
+  .pay-bell {
+    font-size: 12px;
+    position: absolute;
+    z-index: 2;
+    top: -.25em;
+    right: 0;
+    width: 4.5em;
+    height: 4.5em;
+    padding: .7em 0;
+    opacity: 0;
+    color: $color-white;
+    border: bordersolid(1, #cdc3ef);
+    border-radius: 2.5em;
+    background: $color-dusty-grey;
+    transition: all .6s;
+
+    &-inner {
+      display: block;
+      width: 1.4em;
+      height: 1.2em;
+      margin: 0 auto;
+      background: $background;
+      background-position: left -1.5em;
+      background-size: 4em auto;
+    }
+
+    &-animation {
+      top: -.25em;
+      right: -7em;
+      opacity: 1;
+      background:#b57ffb;
+    }
+
+    &-gray {
+      border-color: $color-dusty-grey;
+      background: $color-dusty-grey;
+    }
+
+    &:active {
+      opacity: .5;
+    }
+  }
+
+  .bill-bell {
+    font-size: 12px;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    width: 4.5em;
+    height: 4.5em;
+    padding: .7em 0;
+    opacity: 0;
+    color: $color-white;
+    border: bordersolid(1, #b3ddf7);
+    border-radius: 2.5em;
+    background: $color-dusty-grey;
+    transition: all .4s;
+
+    &-inner {
+      display: block;
+      width: 1.2em;
+      height: 1.2em;
+      margin: 0 auto;
+      background: $background;
+      background-position: -2.9em top;
+      background-size: 4em auto;
+    }
+
+    &-animation {
+      top: -5em;
+      right: -5em;
+      opacity: 1;
+      background: #28acf9;
+    }
+
+    &-gray {
+      border-color: $color-dusty-grey;
+      background: $color-dusty-grey;
+    }
+
+    &:active {
+      opacity: .5;
+    }
+  }
+}
+

@@ -154,19 +154,23 @@ exports.callBell = (timer, that) => (dispatch, getStates) => {
   fetch('http://testweixin.shishike.com/brand/index.json?shopId=810006427'). // config.requestOptions
   then(res => {
     if (!res.ok) {
-      dispatch(setCallMsg({ info:'非常抱歉，发送失败了', callStatus:false, extraStatus:0 }));
+      dispatch(setCallMsg({ info:'非常抱歉，发送失败了', callStatus:false }));
     }
     return res.json();
   }).
   then(basicData => {
     if (basicData.code === '200') {
-      dispatch(setCallMsg({ info:'客官稍等，服务员马上就来', callStatus:true, extraStatus:1 }));
+      dispatch(setCallMsg({ info:'客官稍等，服务员马上就来', callStatus:true }));
       commonHelper.interValSetting(timer, that);
     } else {
-      dispatch(setCallMsg({ info:'非常抱歉，发送失败了', callStatus:false, extraStatus:0 }));
+      dispatch(setCallMsg({ info:'非常抱歉，发送失败了', callStatus:false }));
     }
   }).
   catch(err => {
     console.info(err);
   });
+};
+
+exports.clearBell = (msg) => (dispatch, getStates) => {
+  dispatch(setCallMsg({ info:msg, callStatus:false }));
 };

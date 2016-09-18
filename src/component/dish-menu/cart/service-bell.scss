@@ -2,238 +2,56 @@
 @import "tools.functions";
 @import "tools.mixins";
 
-.bellouter {
+.call-bell {
   $full: 100%;
   $none: none;
   $background: url("../../../asset/images/bell-spirit.png") left top/6.25em auto no-repeat;
-  $border: bordersolid(1, #e7e7ef);
 
+  font-size: 12px;
   position: absolute;
-  bottom: 5em;
-  left: 1em;
+  z-index: 2;
+  top: 0;
+  left: -.25em;
+  width: 4.5em;
+  height: 4.5em;
+  padding: .7em 0;
+  opacity: 0;
+  color: $color-white;
+  border: bordersolid(1, #aee5e5);
+  border-radius: 2.5em;
+  background: $color-dusty-grey;
+  transition: all .2s;
+
+  &-inner {
+    display: block;
+    width: 1.2em;
+    height: 1.2em;
+    margin: 0 auto;
+    background: $background;
+    background-position: -1.5em top;
+    background-size: 4em auto;
+  }
+
+  &-animation {
+    top: -7em;
+    left: -.25em;
+    opacity: 1;
+    background: #18c6bd;
+  }
+
+  &-gray {
+    border-color: $color-dusty-grey;
+    background: $color-dusty-grey;
+  }
+
+  &:active {
+    opacity: .5;
+  }
 
   .vh {
     visibility: hidden;
     opacity: 0;
   }
-
-  .detail {
-    line-height: 1.8em;
-    display: block;
-    user-select: $none;
-    text-align: center;
-    color: $color-white;
-  }
-
-  .menu-outer {
-    position: absolute;
-    z-index: 2;
-    top: 0;
-    left: 0;
-    width: $full;
-    height: $full;
-  }
-
-  .main-bell {
-    font-size: 12px;
-    position: relative;
-    z-index: 3;
-    width: 4em;
-    height: 4em;
-    padding: .7em;
-    text-align: center;
-    color: $color-white;
-    border-radius: 2.5em;
-    background: rgba(0, 0, 0, .4);
-
-    &-inner {
-      display: block;
-      width: 1.2em;
-      height: 1.2em;
-      margin: .6em auto;
-      background: $background;
-      background-position: -1.6em -1.7em;
-      background-size: 4em auto;
-    }
-
-    .extra {
-      background-position: left top;
-    }
-  }
-
-  .call-bell {
-    font-size: 12px;
-    position: absolute;
-    z-index: 2;
-    top: 0;
-    left: -.25em;
-    width: 4.5em;
-    height: 4.5em;
-    padding: .7em 0;
-    opacity: 0;
-    color: $color-white;
-    border: bordersolid(1, #aee5e5);
-    border-radius: 2.5em;
-    background: #18c6bd;
-    transition: all .2s;
-
-    &-gray {
-      border-color: $color-dusty-grey;
-      background: $color-dusty-grey;
-    }
-
-    &-inner {
-      display: block;
-      width: 1.2em;
-      height: 1.2em;
-      margin: 0 auto;
-      background: $background;
-      background-position: -1.5em top;
-      background-size: 4em auto;
-    }
-
-    &-animation {
-      top: -7em;
-      left: -.25em;
-      opacity: 1;
-    }
-
-    &:active {
-      opacity: .5;
-    }
-  }
-
-  .pay-bell {
-    font-size: 12px;
-    position: absolute;
-    z-index: 2;
-    top: -.25em;
-    right: 0;
-    width: 4.5em;
-    height: 4.5em;
-    padding: .7em 0;
-    opacity: 0;
-    color: $color-white;
-    border: bordersolid(1, #cdc3ef);
-    border-radius: 2.5em;
-    background: #b57ffb;
-    transition: all .6s;
-
-    &-gray {
-      border-color: $color-dusty-grey;
-      background: $color-dusty-grey;
-    }
-
-    &-inner {
-      display: block;
-      width: 1.4em;
-      height: 1.2em;
-      margin: 0 auto;
-      background: $background;
-      background-position: left -1.5em;
-      background-size: 4em auto;
-    }
-
-    &-animation {
-      top: -.25em;
-      right: -7em;
-      opacity: 1;
-    }
-
-    &:active {
-      opacity: .5;
-    }
-  }
-
-  .bill-bell {
-    font-size: 12px;
-    position: absolute;
-    z-index: 2;
-    top: 0;
-    right: 0;
-    width: 4.5em;
-    height: 4.5em;
-    padding: .7em 0;
-    opacity: 0;
-    color: $color-white;
-    border: bordersolid(1, #b3ddf7);
-    border-radius: 2.5em;
-    background: #28acf9;
-    transition: all .4s;
-
-    &-gray {
-      border-color: $color-dusty-grey;
-      background: $color-dusty-grey;
-    }
-
-    &-inner {
-      display: block;
-      width: 1.2em;
-      height: 1.2em;
-      margin: 0 auto;
-      background: $background;
-      background-position: -2.9em top;
-      background-size: 4em auto;
-    }
-
-    &-animation {
-      top: -5em;
-      right: -5em;
-      opacity: 1;
-    }
-
-    &:active {
-      opacity: .5;
-    }
-  }
-
-  .progress {
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    width: $full;
-    height: $full;
-    text-align: center;
-    background: transparent;
-
-    .middle {
-      display: inline-block;
-      height: $full;
-      vertical-align: middle;
-    }
-
-    &-holder {
-      font-size: 14px;
-      display: inline-block;
-      width: 15em;
-      padding: 1em 0;
-      vertical-align: middle;
-      color: $color-white;
-      border-radius: 5px;
-      background: rgba(0, 0, 0, .6);
-    }
-
-    .bar {
-      display: block;
-      width: 12em;
-      height: .5em;
-      margin: 0 auto 1em;
-      border: bordersolid(1, #fff);
-      border-radius: 2px;
-
-      &-inner {
-        display: block;
-        width: 0;
-        height: $full;
-        background: $color-white;
-      }
-
-      &-inner-animation {
-        width: $full;
-        transition: all 3s linear;
-      }
-    }
-  }
 }
+
 

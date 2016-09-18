@@ -8,7 +8,7 @@ const DishScroller = require('../../component/dish-menu/dish-scroller.jsx');
 const CartContainer = require('../../component/dish-menu/cart/cart-container.jsx');
 const DishDetailContainer = require('../../component/dish-menu/detail/dish-detail-container.jsx');
 const DishDescPopup = require('../../component/dish-menu/detail/dish-desc-popup.jsx');
-const ServiceBell = require('../../component/dish-menu/cart/service-bell.jsx');
+const QuickMenu = require('../../component/dish-menu/cart/quick-menu.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 
 const DishMenuApplication = React.createClass({
@@ -59,7 +59,7 @@ const DishMenuApplication = React.createClass({
   render() {
     // states
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, confirmOrder, takeawayServiceProps,
-            openTimeList, isAcceptTakeaway, errorMessage, callBell, callMsg } = this.props;
+            openTimeList, isAcceptTakeaway, errorMessage, callBell, clearBell, callMsg } = this.props;
     const { needSpread } = this.state;
     // actions
     const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders, clearErrorMsg } = this.props;
@@ -94,7 +94,7 @@ const DishMenuApplication = React.createClass({
         }
         {
           needSpread ?
-            <ServiceBell callBell={callBell} callMsg={callMsg} />
+            <QuickMenu callBell={callBell} clearBell={clearBell} callMsg={callMsg} />
           :
             false
         }

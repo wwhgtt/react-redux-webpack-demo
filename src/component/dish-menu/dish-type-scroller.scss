@@ -8,6 +8,10 @@
   height: calc(100% - #{$cart-trigger-height});
   background: $color-athens-grey;
   box-shadow: inset -1px 0 0 $color-mystic;
+
+  &-full {
+    height: 100%;
+  }
 }
 
 .dish-type-item {
