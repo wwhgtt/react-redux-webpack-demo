@@ -2,7 +2,10 @@ const React = require('react');
 require('./quick-menu.scss');
 const commonHelper = require('../../../helper/common-helper');
 const shopId = commonHelper.getUrlParam('shopId');
+const config = require('../../../config');
 const ServiceBell = require('./service-bell.jsx');
+const orderDetailUrl = `${config.orderDetailURL}?shopId=${shopId}`;
+const dishBoxTsUrl = `${config.dishBoxTsURL}?type=TS&shopId=${shopId}`;
 
 const QuickMenu = React.createClass({
   displayName: 'QuickMenu',
@@ -46,7 +49,7 @@ const QuickMenu = React.createClass({
   },
   gotoDetail(info) { // 进入订单详情页
     if (info.list.length !== 0) {
-      location.href = `http://testweixin.shishike.com/order/orderallDetail?shopId=${shopId}&orderId=3501396`;
+      location.href = orderDetailUrl;
     }
   },
   payIsAble(info) {
@@ -57,7 +60,7 @@ const QuickMenu = React.createClass({
   },
   gotoPay(info) { // 进入下单页面
     if (info.confirm && info.list.length !== 0) {
-      location.href = `http://testweixin.shishike.com/orderall/dishBox?type=TS&shopId=${shopId}`;
+      location.href = dishBoxTsUrl;
     }
   },
   render() {

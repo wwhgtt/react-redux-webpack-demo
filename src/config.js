@@ -67,6 +67,9 @@ module.exports = {
   getCouponListURL:`${apiBase}/coupon/getCouponList`, // 优惠券
   addressListURL:`${apiBase}/user/addressList`, // 地址管理
   modifyPwdURL:`${apiBase}/member/modifyPwd`, // 修改密码
+  orderDetailURL:`${apiBase}/order/orderDetail`, // 堂食订单详情页 结算前
+  cartOrderURL:`${apiBase}/order/cartOrder`, // 购物车下单页
+  dishBoxTsURL:`${apiBase}/orderall/dishBox`, // 堂食下单页面
 
   getDefaultSendArea: `${apiBase}/user/getDefaultSendArea.json`,
   getOrderInLineAPI: `${apiBase}/queue/info.json`,

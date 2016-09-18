@@ -1,6 +1,9 @@
 const React = require('react');
 const commonHelper = require('../../../helper/common-helper');
+const config = require('../../../config');
 const type = commonHelper.getUrlParam('type');
+const shopId = commonHelper.getUrlParam('shopId');
+const cartOrderUrl = `${config.cartOrderURL}?type=${type}&shopId=${shopId}`;
 
 module.exports = React.createClass({
   displayName: 'TinyCart',
@@ -36,7 +39,7 @@ module.exports = React.createClass({
   },
   jumpDetail(num) {
     if (num) {
-      location.href = 'http://app.d.cn'; // 跳转到购物车详情页面
+      location.href = cartOrderUrl; // 跳转到购物车详情页面
     }
   },
   render() {

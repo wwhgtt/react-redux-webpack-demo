@@ -3,6 +3,8 @@ const connect = require('react-redux').connect;
 const actions = require('../../action/dish-menu/dish-menu');
 require('../../asset/style/style.scss');
 require('./application.scss');
+const commonHelper = require('../../helper/common-helper');
+const type = commonHelper.getUrlParam('type');
 const DishTypeScroller = require('../../component/dish-menu/dish-type-scroller.jsx');
 const DishScroller = require('../../component/dish-menu/dish-scroller.jsx');
 const CartContainer = require('../../component/dish-menu/cart/cart-container.jsx');
@@ -37,6 +39,7 @@ const DishMenuApplication = React.createClass({
     errorMessage: React.PropTypes.string,
     // ServiceBellProps
     callBell:React.PropTypes.func.isRequired,
+    clearBell:React.PropTypes.func.isRequired,
     callMsg:React.PropTypes.object,
   },
   getInitialState() {
@@ -93,7 +96,7 @@ const DishMenuApplication = React.createClass({
           false
         }
         {
-          needSpread ?
+          needSpread && type === 'TS' ?
             <QuickMenu callBell={callBell} clearBell={clearBell} callMsg={callMsg} />
           :
             false
