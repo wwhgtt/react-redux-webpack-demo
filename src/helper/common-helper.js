@@ -83,9 +83,9 @@ exports.getWeixinVersionInfo = () => {
 exports.interValSetting = (num, that) => {
   let cnum = num;
   const { timerStatus } = that.state;
+  that.setState({ timerStatus:true });
   if (!timerStatus) {
     const timer = setInterval(() => {
-      that.setState({ timerStatus:true });
       cnum = cnum - 1;
       if (cnum === 0) {
         that.setState({ timerStatus:false });

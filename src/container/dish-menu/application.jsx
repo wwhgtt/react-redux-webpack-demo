@@ -41,6 +41,7 @@ const DishMenuApplication = React.createClass({
     callBell:React.PropTypes.func.isRequired,
     clearBell:React.PropTypes.func.isRequired,
     callMsg:React.PropTypes.object,
+    canCall:React.PropTypes.bool,
   },
   getInitialState() {
     return { needSpread:true };
@@ -62,7 +63,7 @@ const DishMenuApplication = React.createClass({
   render() {
     // states
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, confirmOrder, takeawayServiceProps,
-            openTimeList, isAcceptTakeaway, errorMessage, callBell, clearBell, callMsg } = this.props;
+            openTimeList, isAcceptTakeaway, errorMessage, callBell, clearBell, callMsg, canCall } = this.props;
     const { needSpread } = this.state;
     // actions
     const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders, clearErrorMsg } = this.props;
@@ -97,7 +98,7 @@ const DishMenuApplication = React.createClass({
         }
         {
           needSpread && type === 'TS' ?
-            <QuickMenu callBell={callBell} clearBell={clearBell} callMsg={callMsg} />
+            <QuickMenu callBell={callBell} clearBell={clearBell} callMsg={callMsg} canCall={canCall} />
           :
             false
         }

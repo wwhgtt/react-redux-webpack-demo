@@ -305,7 +305,7 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
 
         helper.setCallbackUrl(result.data.orderId);
         const isOnlinePay = state.serviceProps.payMethods.some(payMethod => payMethod.id === 'online-payment' && payMethod.isChecked);
-        const paramStr = `shopId=${shopId}&orderId=${result.data.orderId}`;
+        const paramStr = `shopId=${shopId}&orderId=${result.data.orderId}&enterWay=true`;
         let jumpToUrl = '';
         if (isOnlinePay && paramsData.needPayPrice.toString() !== '0') {
           jumpToUrl = `/shop/payDetail?${paramStr}&orderType=${type}`;

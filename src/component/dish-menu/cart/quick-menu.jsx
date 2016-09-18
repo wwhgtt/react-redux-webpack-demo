@@ -13,6 +13,7 @@ const QuickMenu = React.createClass({
     callBell:React.PropTypes.func.isRequired,
     clearBell:React.PropTypes.func,
     callMsg:React.PropTypes.object,
+    canCall:React.PropTypes.bool,
   },
   getInitialState() {
     return {
@@ -65,7 +66,7 @@ const QuickMenu = React.createClass({
   },
   render() {
     const { isMenu, animate, hideOuter } = this.state;
-    const { callBell, clearBell, callMsg } = this.props;
+    const { callBell, clearBell, callMsg, canCall } = this.props;
     // 逻辑判断
     const info = { list:[1], confirm:true };
     const bill = this.billIsAble(info);
@@ -87,6 +88,7 @@ const QuickMenu = React.createClass({
               callMsg={callMsg}
               animate={animate}
               isMenu={isMenu}
+              canCall={canCall}
             />
             <div className={isMenu ? `bill-bell bill-bell-${animate} ${bill}` : 'bill-bell'} onTouchTap={() => this.gotoDetail(info)}>
               <i className="bill-bell-inner"></i>

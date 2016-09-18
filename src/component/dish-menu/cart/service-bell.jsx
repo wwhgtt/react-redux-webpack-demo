@@ -12,6 +12,7 @@ const QuickMenu = React.createClass({
     clearBell:React.PropTypes.func,
     callMsg:React.PropTypes.object,
     isMenu:React.PropTypes.bool,
+    canCall:React.PropTypes.bool,
   },
   getInitialState() {
     return {
@@ -20,7 +21,7 @@ const QuickMenu = React.createClass({
         touchAction:'compute',
         recognizers: {
           press: {
-            time: 3100,
+            time: 2000,
           },
         },
       },
@@ -56,7 +57,10 @@ const QuickMenu = React.createClass({
   callBegin(e) {
     e.preventDefault();
     const { timerStatus } = this.state;
-    const { callMsg, clearBell } = this.props;
+    const { callMsg, clearBell, canCall } = this.props;
+    if (!canCall) {
+      return;
+    }
     if (!callMsg.callStatus || !timerStatus) {
       clearBell('按住发送');
     }
@@ -84,7 +88,8 @@ const QuickMenu = React.createClass({
       <div>
         {method}
         <ProgressBar
-          msg={callMsg}
+          msgStatus={callMsg.callStatus}
+          msgInfo={callMsg.info}
           isShow={isShow}
           timerStatus={timerStatus}
         />

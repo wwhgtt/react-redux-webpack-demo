@@ -4,7 +4,8 @@ require('./progress-bar.scss');
 const ProgressBar = React.createClass({
   displayName: 'ProgressBar',
   propTypes:{
-    msg:React.PropTypes.object,
+    msgStatus:React.PropTypes.bool,
+    msgInfo:React.PropTypes.string,
     isShow:React.PropTypes.bool,
     timerStatus:React.PropTypes.bool,
   },
@@ -23,23 +24,23 @@ const ProgressBar = React.createClass({
     }
   },
   fillBar() {
-    const { timerStatus, msg } = this.props;
+    const { timerStatus, msgStatus, msgInfo } = this.props;
     const { animateBar } = this.state;
-    let status = false;
-    if (timerStatus && msg.callStatus) {
-      status = true;
+    let statusBar = false;
+    if (timerStatus && msgStatus) {
+      statusBar = true;
     } else {
-      status = false;
+      statusBar = false;
     }
     return (
       <div className="progress">
         <span className="middle"></span>
         <div className="progress-holder">
-          <p className={!status ? 'bar' : 'bar vh'}>
+          <p className={!statusBar ? 'bar' : 'bar vh'}>
             <i className={`bar-inner bar-inner-${animateBar}`}></i>
           </p>
           <span>
-            {msg.info}
+            {msgInfo}
           </span>
         </div>
         <span className="middle"></span>

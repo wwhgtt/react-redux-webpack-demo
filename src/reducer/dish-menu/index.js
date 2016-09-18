@@ -13,6 +13,7 @@ module.exports = function (
     normalDiscountProps:null,
     errorMessage:null,
     callMsg:{},
+    canCall:true,
   }),
   action
 ) {
@@ -142,6 +143,9 @@ module.exports = function (
     case 'SET_CALL_MSG': {
       const data = payload || {};
       return state.set('callMsg', data);
+    }
+    case 'SET_CAN_CALL': {
+      return state.set('canCall', payload);
     }
     default:
       return state;
