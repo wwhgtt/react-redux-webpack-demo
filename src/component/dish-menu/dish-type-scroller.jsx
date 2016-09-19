@@ -85,7 +85,7 @@ module.exports = React.createClass({
     const dishTypeElements = this.buildDishTypeElements(activeDishTypeId, dishTypesData, dishesData);
 
     return (
-      <div className={type === 'TS' ? 'dish-type-scroller dish-type-scroller-full' : 'dish-type-scroller'}>
+      <div className="dish-type-scroller">
         <div className="scroll-wrapper">
           {dishTypeElements}
         </div>
