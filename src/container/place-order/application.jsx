@@ -170,8 +170,10 @@ const PlaceOrderApplication = React.createClass({
             <img className="option-shop-icon" src={commercialProps.shopLogo || defaultShopLogo} alt="" />
             <p className="option-shop-desc ellipsis">{commercialProps.shopName}</p>
           </a>
+          <div className="option">
+            <DiningOptions dineSerialNumber={110} dineCount={1} dineTableProp={{ area:'testArea', table:'testTable' }} />
+          </div>
         </div>
-        <DiningOptions dineSerialNumber={110} dineCount={1} dineTableProp={{ area:'testArea', table:'testTable' }} />
         <div>
           {commercialProps.hasPeriodConfiguer && commercialProps.firstTime ?
             <div className="options-group place-order-options">

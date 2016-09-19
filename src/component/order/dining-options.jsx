@@ -1,4 +1,6 @@
 const React = require('react');
+require('./dining-options.scss');
+
 module.exports = React.createClass({
   displayName: 'DiningOptions',
   propTypes: {
@@ -13,9 +15,15 @@ module.exports = React.createClass({
     const { dineSerialNumber, dineCount, dineTableProp } = this.props;
     return (
       <div className="dining-options">
-        <p><span>流水号</span><span>{dineSerialNumber}</span></p>
-        <p><span>人数</span><span>{dineCount}人</span></p>
-        <p><span>桌号</span><span>{dineTableProp.area}{dineTableProp.table}</span></p>
+        <div className="dining-option ellipsis">
+          <span className="text-dusty-grey">流水号</span>{dineSerialNumber}
+        </div>
+        <div className="dining-option ellipsis">
+          <span className="text-dusty-grey">人数</span>{dineCount}人
+        </div>
+        <div className="dining-option ellipsis">
+          <span className="text-dusty-grey">桌号</span>{dineTableProp.area}{dineTableProp.table}
+        </div>
       </div>
     );
   },
