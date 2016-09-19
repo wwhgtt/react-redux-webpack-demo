@@ -1,6 +1,6 @@
 const React = require('react');
 require('./exception-info.scss');
-const femalePic = require('../../asset/images/head-female.png');
+const kryPic = require('../../asset/images/kry_logo.png');
 
 const ExceptionInfo = React.createClass({
   displayName: 'ExceptionPage',
@@ -22,7 +22,7 @@ const ExceptionInfo = React.createClass({
 
         <div className="exception-footer">
           <span>powered by </span>
-          <img src={femalePic} role="presentation" />
+          <img src={kryPic} role="presentation" />
         </div>
       </div>
     );

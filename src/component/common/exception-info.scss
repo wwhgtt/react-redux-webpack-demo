@@ -7,10 +7,10 @@
 
   &-content {
     &-img {
-      height: 80px;
+      height: 86px;
       margin: 0 auto;
-      background: url("../../asset/images/phone_grey.png") no-repeat center;
-      background-size: 50px;
+      background: url("../../asset/images/exception.png") no-repeat center;
+      background-size: 110px;
     }
 
     &-tips {
@@ -27,7 +27,12 @@
 
     span {
       font-size: 12px;
+      margin-right: 10px;
       color: $color-dusty-grey;
+    }
+
+    img {
+      width: 44px;
     }
   }
 }
