@@ -8,6 +8,7 @@ const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const DiningOptions = require('../../component/order/dining-options.jsx');
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
+const OrderSummary = require('../../component/order/order-summary.jsx');
 const defaultShopLogo = require('../../asset/images/default.png');
 require('../../component/order/order-summary.scss'); // import option-shop styles
 require('../../asset/style/style.scss');
@@ -29,6 +30,7 @@ const OrderDinnerStateMentApplication = React.createClass({
     commercialProps:React.PropTypes.object.isRequired,
     customerProps:React.PropTypes.object.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
+    orderedDishesProps:React.PropTypes.object.isRequired,
     errorMessage:React.PropTypes.string,
   },
   componentWillMount() {
@@ -43,7 +45,7 @@ const OrderDinnerStateMentApplication = React.createClass({
     .then(fetchOrderCoupons);
   },
   render() {
-    const { commercialProps, customerProps, serviceProps } = this.props; // state
+    const { commercialProps, customerProps, serviceProps, orderedDishesProps } = this.props; // state
     const { setOrderProps } = this.props;// actions
     return (
       <div className="application">
@@ -82,6 +84,11 @@ const OrderDinnerStateMentApplication = React.createClass({
             />
           : false}
         </div>
+        <OrderSummary
+          serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
+          commercialProps={commercialProps} shopId={getUrlParam('shopId')}
+          isNeedShopMaterial={false}
+        />
       </div>
     );
   },

@@ -15,6 +15,7 @@ module.exports = React.createClass({
     commercialProps:React.PropTypes.object.isRequired,
     orderedDishesProps:React.PropTypes.object.isRequired,
     shopId:React.PropTypes.string.isRequired,
+    isNeedShopMaterial:React.PropTypes.bool.isRequired,
   },
   componentDidMount() {
 
@@ -41,17 +42,22 @@ module.exports = React.createClass({
     return dividedDishes.map(dish => (<OrderedDish key={dish.key} dish={dish} />));
   },
   render() {
-    const { serviceProps, commercialProps, orderedDishesProps, shopId } = this.props;
+    const { serviceProps, commercialProps, orderedDishesProps, shopId, isNeedShopMaterial } = this.props;
     const dishesPrice = orderedDishesProps.dishes && orderedDishesProps.dishes.length ? getDishesPrice(orderedDishesProps.dishes) : 0;
     if (!orderedDishesProps.dishes || !orderedDishesProps.dishes.length) return false;
 
     const orderedElements = this.buildOrderedElements(orderedDishesProps.dishes);
     return (
       <div className="options-group">
-        <a className="option option-shop" href={config.shopDetailURL + '?shopId=' + shopId}>
-          <img className="option-shop-icon" src={commercialProps.commercialLogo || defaultShopLogo} alt="" />
-          <p className="option-shop-desc ellipsis">{commercialProps.name}</p>
-        </a>
+        {isNeedShopMaterial ?
+          <a className="option option-shop" href={config.shopDetailURL + '?shopId=' + shopId}>
+            <img className="option-shop-icon" src={commercialProps.commercialLogo || defaultShopLogo} alt="" />
+            <p className="option-shop-desc ellipsis">{commercialProps.name}</p>
+          </a>
+          :
+          false
+        }
+
         {orderedElements}
         <div className="order-summary">
           {serviceProps.deliveryProps && serviceProps.deliveryProps.deliveryPrice ?
