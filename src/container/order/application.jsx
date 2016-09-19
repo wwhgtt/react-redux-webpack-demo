@@ -19,6 +19,8 @@ const Toast = require('../../component/mui/toast.jsx');
 const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
+const dateUtility = require('../../helper/common-helper.js').dateUtility;
+
 require('../../asset/style/style.scss');
 require('./application.scss');
 
@@ -378,21 +380,23 @@ const OrderApplication = React.createClass({
     const getFetchTimeTitle = () => {
       const selectedDateTime = timeProps.selectedDateTime || {};
       const postfix = isSelfFetch ? '取餐' : '送达';
-      const todayStr = new Date().toISOString().substr(0, 10);
+      const todayStr = dateUtility.format(new Date());
       const dateStr = selectedDateTime.date;
       const timeStr = selectedDateTime.time;
       if (!dateStr) {
         return `选择${postfix}时间`;
       }
+
       if (dateStr === todayStr) {
         return timeStr ? `今日 ${timeStr} ${postfix}` : `立即${postfix}`;
       }
       return `${dateStr} ${timeStr} ${postfix}`;
     };
-    const buildSelectTimeElemnet = function () {
+    const buildSelectTimeElemnet = () => {
       if (getUrlParam('type') === 'TS') {
         return false;
       }
+
       if (getUrlParam('type') === 'WM' && !helper.isEmptyObject(timeProps.timeTable) && timeProps.timeTable !== undefined) {
         return (
           <div className="option">

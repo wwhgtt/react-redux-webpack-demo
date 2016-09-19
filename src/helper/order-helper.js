@@ -6,6 +6,7 @@ const isSingleDishWithoutProps = require('../helper/dish-hepler.js').isSingleDis
 const getDishPrice = require('../helper/dish-hepler.js').getDishPrice;
 const getOrderPrice = require('../helper/dish-hepler.js').getOrderPrice;
 const replaceEmojiWith = require('../helper/common-helper.js').replaceEmojiWith;
+const dateUtility = require('../helper/common-helper.js').dateUtility;
 const config = require('../config.js');
 // 判断一个对象是否为空
 exports.isEmptyObject = (obj) => {
@@ -25,7 +26,7 @@ exports.getDefaultSelectedDateTime = (timeTable, defaultSelectedDateTime) => {
       return Object.assign(selectedDateTime, defaultSelectedDateTime);
     }
   }
-  const todayStr = new Date().toISOString().substr(0, 10);
+  const todayStr = dateUtility.format(new Date());
   let defaultDate = '';
   for (const key in timeTable) {
     if (!timeTable.hasOwnProperty(key)) {
@@ -74,7 +75,7 @@ exports.initializeTimeTable = (times) => {
   }
 
   const now = new Date();
-  const todayTimes = times[now.toISOString().substr(0, 10)];
+  const todayTimes = times[dateUtility.format(now)];
   if (!todayTimes || !todayTimes.length) {
     return times;
   }
@@ -580,7 +581,7 @@ const validateAddressInfo = exports.validateAddressInfo = (info, isTakeaway, fil
   if (isTakeaway) {
     Object.assign(rules, {
       baseAddress: [
-        { msg: '请输入收货地址', validate(value) { return !!value.trim(); } },
+        { msg: '请选择收货地址', validate(value) { return !!value.trim(); } },
       ],
       street: [
         { msg: '请输入门牌信息', validate(value) { return !!replaceEmojiWith(value.trim(), ''); } },
@@ -644,7 +645,10 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   let tableId;
   if (type === 'TS' && serviceApproach === 'totable' && state.tableProps.tables && state.tableProps.tables.length) {
     if (state.tableProps.tables.filter(table => table.isChecked).length === 0) {
-      return { success:false, msg:'未选择桌台信息' };
+      return state.serviceProps.serviceApproach.indexOf('pickup') !== -1 && state.serviceProps.serviceApproach.indexOf('totable') === -1 ?
+        { success:false, msg:'请打开前台取餐开关' }
+        :
+        { success:false, msg:'未选择桌台信息' };
     }
     tableId = state.tableProps.tables.filter(table => table.isChecked)[0].id;
   } else if (type === 'TS' && serviceApproach && serviceApproach.indexOf('pickup') !== -1 || type === 'WM') {

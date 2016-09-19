@@ -1398,7 +1398,7 @@ module.exports = {
         },
         {
           'id': 599385,
-          'name': '红烧排骨1',
+          'name': '红烧排骨14',
           'type': 0,
           'aliasName': '',
           'unitId': null,
@@ -1417,80 +1417,6 @@ module.exports = {
           'largeImgUrl': null,
           'smallImgUrl': null,
           'dishPropertyTypeInfos': [
-            {
-              'id': 0,
-              'name': '备注',
-              'type': 3,
-              'properties': [
-                {
-                  'id': 37,
-                  'name': '多糖',
-                  'reprice': 0,
-                  'isChecked': false,
-                },
-                {
-                  'id': 39,
-                  'name': '清淡',
-                  'reprice': 0,
-                  'isChecked': false,
-                },
-                {
-                  'id': 36,
-                  'name': '少盐',
-                  'reprice': 0,
-                  'isChecked': false,
-                },
-                {
-                  'id': 38,
-                  'name': '微辣',
-                  'reprice': 0,
-                  'isChecked': false,
-                },
-              ],
-            },
-            {
-              'id': 14,
-              'name': '酸度',
-              'type': 1,
-              'properties': [
-                {
-                  'id': 63,
-                  'name': '做法类别1做法名称1',
-                  'reprice': 1,
-                  'isChecked': false,
-                },
-                {
-                  'id': 65,
-                  'name': '做法类别1做法名称3',
-                  'reprice': 0.01,
-                  'isChecked': false,
-                },
-                {
-                  'id': 67,
-                  'name': '做法类别1做法名称5',
-                  'reprice': 6,
-                  'isChecked': false,
-                },
-                {
-                  'id': 64,
-                  'name': '做法类别1做法名称2',
-                  'reprice': 2.11,
-                  'isChecked': false,
-                },
-                {
-                  'id': 66,
-                  'name': '做法类别1做法名称4',
-                  'reprice': 0,
-                  'isChecked': false,
-                },
-                {
-                  'id': 68,
-                  'name': '做法类别1做法名称6',
-                  'reprice': -0.01,
-                  'isChecked': false,
-                },
-              ],
-            },
           ],
           'dishIngredientInfos': [
             {

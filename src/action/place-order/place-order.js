@@ -32,8 +32,11 @@ exports.fetchCommercialProps = () => (dispatch, getState) =>
       console.log(err);
     });
 exports.fetchTables = () => (dispatch, getState) => {
-  const orderTime = getState().timeProps.selectedDateTime;
-  fetch(`${config.getPlaceOrderTablesAPI}?shopId=${shopId}&orderTime=${orderTime.date}%20${orderTime.time}:00`, config.requestOptions)
+  let orderTime = getState().timeProps.selectedDateTime;
+  if (!orderTime.time) {
+    orderTime = { date:new Date().toISOString().substr(0, 10), time:new Date().toTimeString().substr(0, 5) };
+  }
+  return fetch(`${config.getPlaceOrderTablesAPI}?shopId=${shopId}&orderTime=${orderTime.date}%20${orderTime.time}:00`, config.requestOptions)
       .then(res => {
         if (!res.ok) {
           dispatch(setErrorMsg('获取商户桌台信息失败...'));

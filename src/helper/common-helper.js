@@ -1,4 +1,4 @@
-// const config = require('../config');
+const padStart = require('lodash.padstart');
 
 exports.getFetchPostParam = params => {
   let str = '';
@@ -90,3 +90,28 @@ exports.interValSetting = (num, timerEnd) => {
     }
   }, 1000);
 };
+
+/* 日期 */
+exports.dateUtility = {
+  format(date, formatStr = 'yyyy-MM-dd') {
+    if (!date || !(date instanceof Date)) {
+      return date;
+    }
+
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const result = formatStr.replace(/yyyy/, year.toString())
+      .replace(/(M+)/, (str, $1) => padStart(month.toString(), $1.length, '0'))
+      .replace(/(d+)/, (str, $1) => padStart(date.getDate().toString(), $1.length, '0'));
+    return result;
+  },
+  parse(str) {
+    if (!str || typeof str !== 'string') {
+      return str;
+    }
+
+    const time = Date.parse(str.replace(/\D+/g, '-').replace(/\D+$/, ''));
+    return isNaN(time) ? null : new Date(time);
+  },
+};
+
