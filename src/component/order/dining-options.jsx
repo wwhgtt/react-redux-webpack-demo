@@ -4,7 +4,7 @@ module.exports = React.createClass({
   propTypes: {
     dineSerialNumber:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]).isRequired,
     dineCount:React.PropTypes.number.isRequired,
-    dineTableProp:React.PropTypes.string.isRequired,
+    dineTableProp:React.PropTypes.object.isRequired,
   },
   componentDidMount() {
 
