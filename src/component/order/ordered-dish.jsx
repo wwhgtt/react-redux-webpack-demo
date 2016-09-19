@@ -102,7 +102,7 @@ module.exports = React.createClass({
               <span className="ellipsis dish-name">{helper.generateDishNameWithUnit(dish)}</span>
           }
           {orderStatus ?
-            <span classNmae="order-status">{orderStatus}</span>
+            <span className={classnames('order-status', { orderStatus })}>{orderStatus}</span>
             :
             false
           }
