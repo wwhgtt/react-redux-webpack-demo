@@ -2,6 +2,7 @@ const React = require('react');
 const Immutable = require('seamless-immutable');
 const _find = require('lodash.find');
 const _findIndex = require('lodash.findindex');
+const dateUtility = require('../../../helper/common-helper.js').dateUtility;
 const ActiveScrollSelect = require('../../mui/select/active-scroll-select.jsx');
 const DateTimeOption = require('../../mui/misc/dynamic-class-hoc.jsx')('a');
 
@@ -88,7 +89,7 @@ module.exports = React.createClass({
   buildState(selectedDateTime, timeTable) {
     const dateTimes = [];
     let selectedMark = true;
-    const nowStr = new Date().toISOString().substr(0, 10);
+    const nowStr = dateUtility.format(new Date());
     for (const key in timeTable) {
       if (timeTable.hasOwnProperty(key)) {
         const isToday = nowStr === key;

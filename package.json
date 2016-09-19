@@ -70,6 +70,7 @@
     "lodash.findindex": "^4.4.0",
     "lodash.mapkeys": "^4.4.0",
     "lodash.has": "^4.4.0",
+    "lodash.padstart": "^4.6.1",
     "react": "^15.0.2",
     "react-addons-create-fragment": "^15.0.2",
     "react-addons-perf": "^15.0.2",
