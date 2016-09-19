@@ -5,8 +5,6 @@ const IScroll = require('iscroll/build/iscroll-lite');
 const _find = require('lodash.find');
 const DynamicClassLI = require('../mui/misc/dynamic-class-hoc.jsx')('li');
 const helper = require('../../helper/dish-hepler');
-const commonHelper = require('../../helper/common-helper');
-const type = commonHelper.getUrlParam('type');
 require('./dish-type-scroller.scss');
 
 module.exports = React.createClass({

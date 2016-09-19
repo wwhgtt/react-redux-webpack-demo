@@ -79,11 +79,6 @@ const DishMenuApplication = React.createClass({
           activeDishTypeId={activeDishTypeId} onScroll={activeDishType}
           onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail} onImageBtnTap={showDishDesc}
         />
-        <CartContainer
-          dishes={dishesData} takeawayServiceProps={takeawayServiceProps}
-          openTimeList={openTimeList} isAcceptTakeaway={isAcceptTakeaway}
-          onOrderBtnTap={orderDish} onBillBtnTap={confirmOrder} onClearBtnTap={removeAllOrders}
-        />
         {dishDetailData !== undefined ?
           <DishDetailContainer dish={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />
           : false
@@ -99,9 +94,13 @@ const DishMenuApplication = React.createClass({
         }
         {
           needSpread && type === 'TS' ?
-            <QuickMenu callBell={callBell} clearBell={clearBell} callMsg={callMsg} canCall={canCall} timerStatus={timerStatus} />
+            <QuickMenu callBell={callBell} clearBell={clearBell} callMsg={callMsg} canCall={canCall} timerStatus={timerStatus} dishes={dishesData} />
           :
-            false
+            <CartContainer
+              dishes={dishesData} takeawayServiceProps={takeawayServiceProps}
+              openTimeList={openTimeList} isAcceptTakeaway={isAcceptTakeaway}
+              onOrderBtnTap={orderDish} onBillBtnTap={confirmOrder} onClearBtnTap={removeAllOrders}
+            />
         }
       </div>
     );

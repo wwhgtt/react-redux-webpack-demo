@@ -1,11 +1,14 @@
 const React = require('react');
 require('./quick-menu.scss');
 const commonHelper = require('../../../helper/common-helper');
+const helper = require('../../../helper/dish-hepler');
 const shopId = commonHelper.getUrlParam('shopId');
+const type = commonHelper.getUrlParam('type');
 const config = require('../../../config');
 const ServiceBell = require('./service-bell.jsx');
 const orderDetailUrl = `${config.orderDetailURL}?shopId=${shopId}`;
 const dishBoxTsUrl = `${config.dishBoxTsURL}?type=TS&shopId=${shopId}`;
+const cartOrderUrl = `${config.cartOrderURL}?type=${type}&shopId=${shopId}`;
 
 const QuickMenu = React.createClass({
   displayName: 'QuickMenu',
@@ -15,6 +18,7 @@ const QuickMenu = React.createClass({
     callMsg:React.PropTypes.object.isRequired,
     canCall:React.PropTypes.bool.isRequired,
     timerStatus:React.PropTypes.bool.isRequired,
+    dishes: React.PropTypes.array.isRequired,
   },
   getInitialState() {
     return {
@@ -65,15 +69,26 @@ const QuickMenu = React.createClass({
       location.href = dishBoxTsUrl;
     }
   },
+  jumpDetail(num) {
+    if (num) {
+      location.href = cartOrderUrl; // 跳转到购物车详情页面
+    }
+  },
   render() {
     const { isMenu, animate, hideOuter } = this.state;
-    const { callBell, clearBell, callMsg, canCall, timerStatus } = this.props;
+    const { callBell, clearBell, callMsg, canCall, timerStatus, dishes } = this.props;
     // 逻辑判断
     const info = { list:[1], confirm:true };
     const bill = this.billIsAble(info);
     const pay = (bill === 'bill-bell-gray' || this.payIsAble(info)) ? 'pay-bell-gray' : '';
     const call = (bill === 'bill-bell-gray') ? 'call-bell-gray' : '';
 
+    const orderedDishes = helper.getOrderedDishes(dishes);
+    const dishesCount = helper.getDishesCount(orderedDishes);
+    let cartIconClass = 'cart-icon cart-icon--tiny cart-icon--fixed';
+    if (!dishesCount) {
+      cartIconClass += ' cart-icon--transparent';
+    }
     return (
       <div>
         <div className="bellouter">
@@ -102,6 +117,12 @@ const QuickMenu = React.createClass({
             </div>
           </div>
         </div>
+        <button
+          className={cartIconClass}
+          onTouchTap={() => this.jumpDetail(dishesCount)}
+          data-count={dishesCount || null}
+        >
+        </button>
       </div>
     );
   },

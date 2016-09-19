@@ -6,8 +6,6 @@ const IScroll = require('iscroll/build/iscroll-lite');
 const classnames = require('classnames');
 const DishListItem = require('./dish-list-item.jsx');
 const setErrorMsg = require('../../action/dish-menu/dish-menu.js').setErrorMsg;
-const commonHelper = require('../../helper/common-helper');
-const type = commonHelper.getUrlParam('type');
 
 require('./dish-scroller.scss');
 
