@@ -6,15 +6,12 @@ const getUrlParam = exports.getUrlParam = function (param) {
   }
   return null;
 };
-const isSingleDishWithoutProps = exports.isSingleDishWithoutProps = function (dish) {
-  if (dish.type !== 1 && dish.dishPropertyTypeInfos.length === 0) {
-    return true;
-  } else if (dish.type !== 1 && Array.isArray(dish.dishPropertyTypeInfos)
-    && dish.dishPropertyTypeInfos.length
-    && dish.dishPropertyTypeInfos.every(prop => prop.type === 4)) {
-    return true;
-  }
-  return false;
+const isSingleDishWithoutProps = exports.isSingleDishWithoutProps = dish => {
+  if (dish.type === 1) return false;
+
+  const propTypeInfo = dish.dishPropertyTypeInfos || [];
+  const ingredientInfos = dish.dishIngredientInfos || [];
+  return !ingredientInfos.length && (!propTypeInfo.length || propTypeInfo.every(prop => prop.type === 4));
 };
 const isGroupDish = exports.isGroupDish = function (dish) {
   return dish.groups !== undefined;

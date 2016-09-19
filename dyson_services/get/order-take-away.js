@@ -36,7 +36,7 @@ module.exports = {
       'commercialLogo': null,
       diningForm: 1,
       'timeJson': {
-        '2016-09-15': [
+        '2016-09-19': [
           '12:00',
           '12:30',
           '13:00',
