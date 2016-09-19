@@ -1,0 +1,18 @@
+@import "settings.colors";
+
+.dining-options {
+  font-size: 14px;
+}
+
+.dining-option {
+  float: left;
+  width: 30%;
+
+  &:last-child {
+    width: 40%;
+  }
+
+  > .text-dusty-grey {
+    margin-right: .25em;
+  }
+}
