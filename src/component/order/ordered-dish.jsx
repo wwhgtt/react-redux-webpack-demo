@@ -8,6 +8,7 @@ module.exports = React.createClass({
   displayName: 'CartOrderedDish',
   propTypes:{
     dish: React.PropTypes.object.isRequired,
+    orderStatus:React.PropTypes.string,
   },
   getInitialState() {
     return {
@@ -75,7 +76,7 @@ module.exports = React.createClass({
     );
   },
   render() {
-    const { dish } = this.props;
+    const { dish, orderStatus } = this.props;
     const { expand } = this.state;
 
     let hasProps;
@@ -99,6 +100,11 @@ module.exports = React.createClass({
               </a>
               :
               <span className="ellipsis dish-name">{helper.generateDishNameWithUnit(dish)}</span>
+          }
+          {orderStatus ?
+            <span classNmae="order-status">{orderStatus}</span>
+            :
+            false
           }
           <span className="order-dish-price price">{helper.getDishPrice(dish)}</span>
           <span className="order-dish-count">x{helper.getDishesCount([dish])}</span>
