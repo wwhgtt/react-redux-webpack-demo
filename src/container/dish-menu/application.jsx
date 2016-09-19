@@ -40,8 +40,9 @@ const DishMenuApplication = React.createClass({
     // ServiceBellProps
     callBell:React.PropTypes.func.isRequired,
     clearBell:React.PropTypes.func.isRequired,
-    callMsg:React.PropTypes.object,
-    canCall:React.PropTypes.bool,
+    callMsg:React.PropTypes.object.isRequired,
+    canCall:React.PropTypes.bool.isRequired,
+    timerStatus:React.PropTypes.bool.isRequired,
   },
   getInitialState() {
     return { needSpread:true };
@@ -63,7 +64,7 @@ const DishMenuApplication = React.createClass({
   render() {
     // states
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, confirmOrder, takeawayServiceProps,
-            openTimeList, isAcceptTakeaway, errorMessage, callBell, clearBell, callMsg, canCall } = this.props;
+            openTimeList, isAcceptTakeaway, errorMessage, callBell, clearBell, callMsg, canCall, timerStatus } = this.props;
     const { needSpread } = this.state;
     // actions
     const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders, clearErrorMsg } = this.props;
@@ -98,7 +99,7 @@ const DishMenuApplication = React.createClass({
         }
         {
           needSpread && type === 'TS' ?
-            <QuickMenu callBell={callBell} clearBell={clearBell} callMsg={callMsg} canCall={canCall} />
+            <QuickMenu callBell={callBell} clearBell={clearBell} callMsg={callMsg} canCall={canCall} timerStatus={timerStatus} />
           :
             false
         }

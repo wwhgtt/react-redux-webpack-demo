@@ -9,14 +9,16 @@ const QuickMenu = React.createClass({
     call:React.PropTypes.string,
     animate:React.PropTypes.string,
     callBell:React.PropTypes.func.isRequired,
-    clearBell:React.PropTypes.func,
-    callMsg:React.PropTypes.object,
-    isMenu:React.PropTypes.bool,
-    canCall:React.PropTypes.bool,
+    clearBell:React.PropTypes.func.isRequired,
+    callMsg:React.PropTypes.object.isRequired,
+    isMenu:React.PropTypes.bool.isRequired,
+    canCall:React.PropTypes.bool.isRequired,
+    timerStatus:React.PropTypes.bool.isRequired,
   },
   getInitialState() {
     return {
       timerStatus:false,
+      isShow:false,
       options:{
         touchAction:'compute',
         recognizers: {
@@ -29,6 +31,9 @@ const QuickMenu = React.createClass({
   },
   componentWillMount() {},
   componentDidMount() {},
+  componentWillReceiveProps(nextProps) {
+    this.setState({ timerStatus: nextProps.timerStatus });
+  },
   // 呼叫
   getMethod(call, callGray) {
     const { options } = this.state;
@@ -76,7 +81,7 @@ const QuickMenu = React.createClass({
       // this.interValStatus(timer);
       // 在此处进行呼叫吧台的操作
       // ...
-      callBell(timer, this);
+      callBell(timer);
     }
   },
   render() {

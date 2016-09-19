@@ -4,39 +4,51 @@ require('./progress-bar.scss');
 const ProgressBar = React.createClass({
   displayName: 'ProgressBar',
   propTypes:{
-    msgStatus:React.PropTypes.bool,
-    msgInfo:React.PropTypes.string,
-    isShow:React.PropTypes.bool,
-    timerStatus:React.PropTypes.bool,
+    msgStatus:React.PropTypes.bool.isRequired,
+    msgInfo:React.PropTypes.string.isRequired,
+    isShow:React.PropTypes.bool.isRequired,
+    timerStatus:React.PropTypes.bool.isRequired,
   },
   getInitialState() {
     return {
       animateBar:'',
+      timerLimit:false,
     };
   },
   componentWillMount() {},
   componentDidMount() {},
   componentWillReceiveProps(nextProps) {
-    if (nextProps.isShow) {
-      this.setState({ animateBar:'animation' });
-    } else {
-      this.setState({ animateBar:'' });
+    if (!nextProps.isShow) {
+      this.setState({ animateBar:'', timerLimit:false }, () => {
+        clearTimeout(this._timer);
+      });
+    } else if (nextProps.isShow && nextProps.isShow !== this.props.isShow) {
+      this.setState({ animateBar:'animation' }, () => {
+        clearTimeout(this._timer);
+        this._timer = setTimeout(() => {
+          this.setState({ timerLimit:true });
+        }, 2000);
+      });
     }
   },
   fillBar() {
-    const { timerStatus, msgStatus, msgInfo } = this.props;
-    const { animateBar } = this.state;
+    const { timerStatus, msgStatus, msgInfo, isShow } = this.props;
+    const { animateBar, timerLimit } = this.state;
     let statusBar = false;
-    if (timerStatus && msgStatus) {
-      statusBar = true;
-    } else {
-      statusBar = false;
+
+    if (isShow) {
+      if (timerStatus && msgStatus) {
+        statusBar = true;
+      } else {
+        statusBar = false;
+      }
     }
+
     return (
       <div className="progress">
         <span className="middle"></span>
         <div className="progress-holder">
-          <p className={!statusBar ? 'bar' : 'bar vh'}>
+          <p className={!statusBar && !timerLimit ? 'bar' : 'bar vh'}>
             <i className={`bar-inner bar-inner-${animateBar}`}></i>
           </p>
           <span>

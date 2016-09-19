@@ -15,6 +15,7 @@ exports.showDishDetail = createAction('SHOW_DISH_DETAIL', dishData => dishData);
 exports.showDishDesc = createAction('SHOW_DISH_DESC', dishData => dishData);
 const setCallMsg = createAction('SET_CALL_MSG', callInfo => callInfo);
 const setCanCall = createAction('SET_CAN_CALL', canCall => canCall);
+const setTimerStatus = createAction('SET_TIMER_STATUS', timerStatus => timerStatus);
 
 exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => {
   if (evt && /dish-type-item/.test(evt.target.className)) {
@@ -151,7 +152,7 @@ exports.clearErrorMsg = () => (dispatch, getState) =>
   dispatch(setErrorMsg(null));
 
 // call 服务铃
-exports.callBell = (timer, that) => (dispatch, getStates) => {
+exports.callBell = (timer) => (dispatch, getStates) => {
   dispatch(setCanCall(false));
   dispatch(setCallMsg({ info:'正在发送...', callStatus:false }));
   fetch('http://testweixin.shishike.com/brand/index.json?shopId=810006427'). // config.requestOptions
@@ -162,9 +163,12 @@ exports.callBell = (timer, that) => (dispatch, getStates) => {
     return res.json();
   }).
   then(basicData => {
-    if (basicData.code === '200') {
+    if (basicData.code === '20') {
       dispatch(setCallMsg({ info:'客官稍等，服务员马上就来', callStatus:true }));
-      commonHelper.interValSetting(timer, that);
+      dispatch(setTimerStatus({ timerStatus:true }));
+      commonHelper.interValSetting(timer, () => {
+        dispatch(setTimerStatus({ timerStatus:false }));
+      });
     } else {
       dispatch(setCallMsg({ info:'非常抱歉，发送失败了', callStatus:false }));
     }
