@@ -6,6 +6,7 @@ const isSingleDishWithoutProps = require('../helper/dish-hepler.js').isSingleDis
 const getDishPrice = require('../helper/dish-hepler.js').getDishPrice;
 const getOrderPrice = require('../helper/dish-hepler.js').getOrderPrice;
 const replaceEmojiWith = require('../helper/common-helper.js').replaceEmojiWith;
+const dateUtility = require('../helper/common-helper.js').dateUtility;
 const config = require('../config.js');
 // 判断一个对象是否为空
 exports.isEmptyObject = (obj) => {
@@ -25,7 +26,7 @@ exports.getDefaultSelectedDateTime = (timeTable, defaultSelectedDateTime) => {
       return Object.assign(selectedDateTime, defaultSelectedDateTime);
     }
   }
-  const todayStr = new Date().toISOString().substr(0, 10);
+  const todayStr = dateUtility.format(new Date());
   let defaultDate = '';
   for (const key in timeTable) {
     if (!timeTable.hasOwnProperty(key)) {
@@ -74,7 +75,7 @@ exports.initializeTimeTable = (times) => {
   }
 
   const now = new Date();
-  const todayTimes = times[now.toISOString().substr(0, 10)];
+  const todayTimes = times[dateUtility.format(now)];
   if (!todayTimes || !todayTimes.length) {
     return times;
   }
