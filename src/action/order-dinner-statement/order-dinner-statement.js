@@ -19,7 +19,7 @@ const type = getUrlParam('type');
 
 
 exports.fetchOrder = () => (dispatch, getState) =>
-  fetch(`${config.orderDineInAPi}?shopId=${shopId}`, config.requestOptions).
+  fetch(`${config.orderDinnerStatementAPI}?shopId=${shopId}&tradeId=${getUrlParam('tradeId')}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         dispatch(setErrorMsg('获取订单信息失败...'));

@@ -116,7 +116,7 @@ const OrderDinnerStateMentApplication = React.createClass({
         />
 
         {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
-          <div className="order-cart flex-none">
+          <div className="order-cart flex-none" style={{ position:'fixed', bottom: '0px', width:'100%' }}>
             <div className="order-cart-left">
               <div className="vertical-center clearfix">
                 {commercialProps.carryRuleVO ?
