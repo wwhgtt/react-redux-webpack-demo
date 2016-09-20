@@ -11,11 +11,9 @@ const setOrder = createAction('SET_ORDER', order => order);
 exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
 const setDiscountToOrder = createAction('SET_DISCOUNT_TO_ORDER', discount => discount);
 const setCouponsToOrder = createAction('SET_COUPONS_TO_ORDER', coupons => coupons);
-const setOrderedDishesToOrder = createAction('SET_ORDERED_DISHES_TO_ORDER', dishes => dishes);
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const shopId = getUrlParam('shopId');
-const type = getUrlParam('type');
 
 
 exports.fetchOrder = () => (dispatch, getState) =>
@@ -82,13 +80,6 @@ exports.fetchOrderCoupons = () => (dispatch, getState) => {
     catch(err => {
       console.log(err);
     });
-};
-exports.fetchLastOrderedDishes = () => (dispatch, getState) => {
-  const lastOrderedDishes = localStorage.getItem('lastOrderedDishes');
-  if (!lastOrderedDishes) {
-    location.href = `${config.getMoreTSDishesURL}?type=${type}&shopId=${shopId}`;
-  }
-  dispatch(setOrderedDishesToOrder(JSON.parse(lastOrderedDishes)));
 };
 
 

@@ -1,5 +1,5 @@
 module.exports = {
-  path:'/order/tradeDetail.json',
+  path:'/orderall/tradeTsDetail.json',
   template:{
     data:{
       orderSerialNo:'013', // 流水号

@@ -25,7 +25,6 @@ const OrderDinnerStateMentApplication = React.createClass({
     submitOrder:React.PropTypes.func.isRequired,
     fetchOrderDiscountInfo:React.PropTypes.func.isRequired,
     fetchOrderCoupons:React.PropTypes.func.isRequired,
-    fetchLastOrderedDishes:React.PropTypes.func.isRequired,
     setOrderProps:React.PropTypes.func.isRequired,
     setChildView: React.PropTypes.func.isRequired,
     // MapedStatesToProps
@@ -37,9 +36,7 @@ const OrderDinnerStateMentApplication = React.createClass({
     childView: React.PropTypes.string,
   },
   componentWillMount() {
-    const { fetchLastOrderedDishes } = this.props;
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
-    fetchLastOrderedDishes();
   },
   componentDidMount() {
     this.setChildViewAccordingToHash();

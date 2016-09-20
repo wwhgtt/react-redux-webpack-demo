@@ -11,7 +11,7 @@ module.exports = function (
       },
       dineSerialNumber:null,
     },
-    orderedDishesProps:{},
+    orderedDishesProps:[],
     commercialProps:{
       shopLogo:null,
       shopName:null,
@@ -61,12 +61,9 @@ module.exports = function (
            :
            false
        )
-       .setIn(['serviceProps', 'integralsDetail'], payload.integral);
+       .setIn(['serviceProps', 'integralsDetail'], payload.integral)
+       .set('orderedDishesProps', payload.dishList);
     }
-    case 'SET_ORDERED_DISHES_TO_ORDER':
-      return state.set(
-        'orderedDishesProps', Immutable.from(payload)
-      );
     case 'SET_COUPONS_TO_ORDER':
       return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], payload);
     case 'SET_DISCOUNT_TO_ORDER':

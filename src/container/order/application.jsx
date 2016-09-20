@@ -483,7 +483,7 @@ const OrderApplication = React.createClass({
 
           <OrderSummary
             serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
-            commercialProps={commercialProps} shopId={shopId}
+            commercialProps={commercialProps} shopId={shopId} isNeedShopMaterial
           />
 
           {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
