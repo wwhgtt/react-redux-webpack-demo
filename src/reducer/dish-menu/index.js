@@ -18,6 +18,10 @@ module.exports = function (
     },
     canCall:true,
     timerStatus:false,
+    shopStatus:{
+      data:{},
+      isLogin:false,
+    },
   }),
   action
 ) {
@@ -153,6 +157,9 @@ module.exports = function (
     }
     case 'SET_TIMER_STATUS': {
       return state.set('timerStatus', payload.timerStatus);
+    }
+    case 'SET_SHOP_STATUS': {
+      return state.set('shopStatus', payload);
     }
     default:
       return state;

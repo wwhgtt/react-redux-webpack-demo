@@ -4,15 +4,16 @@ require('./progress-bar.scss');
 const ProgressBar = React.createClass({
   displayName: 'ProgressBar',
   propTypes:{
-    msgStatus:React.PropTypes.bool.isRequired,
-    msgInfo:React.PropTypes.string.isRequired,
-    isShow:React.PropTypes.bool.isRequired,
-    timerStatus:React.PropTypes.bool.isRequired,
+    msgStatus:React.PropTypes.bool.isRequired, // 请求数据的状态
+    msgInfo:React.PropTypes.string.isRequired, // 请求数据的提示文字
+    isShow:React.PropTypes.bool.isRequired, // 进度条组件是否显示
+    timerStatus:React.PropTypes.bool, // 时间限制
+    progressTimer:React.PropTypes.string.isRequired,  // 秒之后隐藏进度条
   },
   getInitialState() {
     return {
-      animateBar:'',
-      timerLimit:false,
+      animateBar:'', // 进度条动画类名
+      timerLimit:false, // 时间限制 2秒钟隐藏进度条
     };
   },
   componentWillMount() {},
@@ -23,11 +24,11 @@ const ProgressBar = React.createClass({
         clearTimeout(this._timer);
       });
     } else if (nextProps.isShow && nextProps.isShow !== this.props.isShow) {
-      this.setState({ animateBar:'animation' }, () => {
+      this.setState({ animateBar:'animation' + nextProps.progressTimer }, () => {
         clearTimeout(this._timer);
         this._timer = setTimeout(() => {
           this.setState({ timerLimit:true });
-        }, 2000);
+        }, nextProps.progressTimer);
       });
     }
   },
@@ -36,7 +37,14 @@ const ProgressBar = React.createClass({
     const { animateBar, timerLimit } = this.state;
     let statusBar = false;
 
-    if (isShow) {
+    // timerStatus 非必要prop
+    if (isShow && timerStatus === undefined) {
+      if (msgStatus) {
+        statusBar = true;
+      } else {
+        statusBar = false;
+      }
+    } else if (isShow) {
       if (timerStatus && msgStatus) {
         statusBar = true;
       } else {

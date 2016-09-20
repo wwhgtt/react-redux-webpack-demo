@@ -43,6 +43,9 @@ const DishMenuApplication = React.createClass({
     callMsg:React.PropTypes.object.isRequired,
     canCall:React.PropTypes.bool.isRequired,
     timerStatus:React.PropTypes.bool.isRequired,
+    fetchTableId: React.PropTypes.func,
+    fetchStatus: React.PropTypes.func,
+    shopStatus:React.PropTypes.object,
   },
   getInitialState() {
     return { needSpread:true };
@@ -64,7 +67,8 @@ const DishMenuApplication = React.createClass({
   render() {
     // states
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, confirmOrder, takeawayServiceProps,
-            openTimeList, isAcceptTakeaway, errorMessage, callBell, clearBell, callMsg, canCall, timerStatus } = this.props;
+            openTimeList, isAcceptTakeaway, errorMessage, callBell, clearBell, callMsg, canCall, timerStatus, fetchTableId,
+            shopStatus, fetchStatus } = this.props;
     const { needSpread } = this.state;
     // actions
     const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders, clearErrorMsg } = this.props;
@@ -94,7 +98,18 @@ const DishMenuApplication = React.createClass({
         }
         {
           needSpread && type === 'TS' ?
-            <QuickMenu callBell={callBell} clearBell={clearBell} callMsg={callMsg} canCall={canCall} timerStatus={timerStatus} dishes={dishesData} />
+            <QuickMenu
+              errorMessage={errorMessage}
+              callBell={callBell}
+              clearBell={clearBell}
+              callMsg={callMsg}
+              canCall={canCall}
+              timerStatus={timerStatus}
+              dishes={dishesData}
+              fetchTableId={fetchTableId}
+              fetchStatus={fetchStatus}
+              shopStatus={shopStatus}
+            />
           :
             <CartContainer
               dishes={dishesData} takeawayServiceProps={takeawayServiceProps}

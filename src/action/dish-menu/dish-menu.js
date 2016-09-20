@@ -16,6 +16,7 @@ exports.showDishDesc = createAction('SHOW_DISH_DESC', dishData => dishData);
 const setCallMsg = createAction('SET_CALL_MSG', callInfo => callInfo);
 const setCanCall = createAction('SET_CAN_CALL', canCall => canCall);
 const setTimerStatus = createAction('SET_TIMER_STATUS', timerStatus => timerStatus);
+const setShopStatus = createAction('SET_SHOP_STATUS', shopStatus => shopStatus);
 
 exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => {
   if (evt && /dish-type-item/.test(evt.target.className)) {
@@ -179,6 +180,65 @@ exports.callBell = (timer) => (dispatch, getStates) => {
   });
 };
 
+// 根据tableID获取基本信息（正常下单，加菜，异常）
+const fetchTableStatus = exports.fetchTableStatus = (tableId) => (dispatch, getState) =>
+  fetch(`${config.getShopStatusAPI}?shopId=${helper.getUrlParam('shopId')}&tableId=${tableId}`, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('获取会员价信息失败...'));
+      }
+      return res.json();
+    }).
+    then(baseInfo => {
+      if (baseInfo.msg === '异常') {
+        location.href = `${config.error1URL}`; // 此处判断跳转到异常页面的地址 error1URL error2URL error3URL error4URL
+      }
+    }).
+    catch(err => {
+      console.log(err);
+    });
+// 根据key值获取tableId
+exports.fetchTableId = (key, tableId) => (dispatch, getState) => {
+  if (tableId) {
+    fetchTableStatus(tableId)(dispatch, getState);
+    return;
+  }
+  fetch(`${config.getTableIdAPI}?shopId=${helper.getUrlParam('shopId')}&key=${key}`, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('获取tableId失败...'));
+      }
+      return res.json();
+    }).
+    then(response => {
+      fetchTableStatus(response.data.tableId)(dispatch, getState);
+    }).
+    catch(err => {
+      console.log(err);
+    });
+};
+// 不带key获取基本信息
+exports.fetchStatus = () => (dispatch, getState) =>
+  fetch(`${config.getShopStatusAPI}?shopId=${helper.getUrlParam('shopId')}`, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('获取会员价信息失败...'));
+      }
+      return res.json();
+    }).
+    then(baseInfo => {
+      if (baseInfo.code !== '200') {
+        if (baseInfo.msg === '未登录') {
+          // 正常下单，加菜
+          dispatch(setShopStatus({ data:baseInfo.data, isLogin:false }));
+        }
+      } else {
+        dispatch(setShopStatus({ data:baseInfo.data, isLogin:true }));
+      }
+    }).
+    catch(err => {
+      console.log(err);
+    });
 exports.clearBell = (msg) => (dispatch, getStates) => {
   dispatch(setCallMsg({ info:msg, callStatus:false }));
 };
