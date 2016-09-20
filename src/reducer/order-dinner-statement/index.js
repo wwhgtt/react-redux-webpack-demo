@@ -42,10 +42,10 @@ module.exports = function (
   switch (type) {
     case 'SET_ORDER': {
       return state.setIn(['customerProps', 'dineCount'], payload.tradePeopleCount)
-      .setIn(['customerProps', 'dineSerialNumber'], payload.orderSerialNo)
+      .setIn(['customerProps', 'dineSerialNumber'], payload.serialNo)
       .setIn(['customerProps', 'dineTableProp'], { area:payload.tableArea, table: payload.tableName })
-      .setIn(['commercialProps', 'shopLogo'], payload.commercialLogo)
-      .setIn(['commercialProps', 'shopName'], payload.commercialName)
+      .setIn(['commercialProps', 'shopLogo'], payload.shopLogo)
+      .setIn(['commercialProps', 'shopName'], payload.shopName)
       .setIn(['commercialProps', 'isSupportReceipt'], payload.isInvoice)
       .setIn(['commercialProps', 'carryRuleVO'], payload.carryRuleVO && payload.carryRuleVO.transferType ?
         payload.carryRuleVO : { transferType: 1, scale: 2 })
@@ -62,7 +62,7 @@ module.exports = function (
            false
        )
        .setIn(['serviceProps', 'integralsDetail'], payload.integral)
-       .set('orderedDishesProps', payload.dishList);
+       .set('orderedDishesProps', payload.dishItems);
     }
     case 'SET_COUPONS_TO_ORDER':
       return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], payload);

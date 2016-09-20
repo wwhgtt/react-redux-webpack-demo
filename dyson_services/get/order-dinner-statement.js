@@ -2,7 +2,9 @@ module.exports = {
   path:'/orderall/tradeTsDetail.json',
   template:{
     data:{
-      orderSerialNo:'013', // 流水号
+      shopName: '小土豆石方菜菜软件园店',
+      shopLogo: 'http://kry-test-2.qiniudn.com/980afeeec2004447a5e72d124ed2186a.jpg?imageView/2/w/512/h/512',
+      serialNo:'013', // 流水号
       tradePeopleCount:4, // 人数
       tableArea:'大厅区', // 桌台区域
       tableName:'9号桌', // 桌台
@@ -28,6 +30,34 @@ module.exports = {
         exchangeCashValue: 2, // 抵现金额数
         limitType: 1, // 抵现限制类型 1:无上限，2:积分个数限制 3:金额百分比限制
       },
+      dishItems: [ // 菜品信息
+        {
+          name:'冰激淋',
+          id:123456,
+          num: 0, // 份数
+          price: 20, // 单价
+          status: '1', // 菜品状态
+          memo: '配料:珠子，葱花|口味:超辣', // 菜品备注
+          subDishItems: [ // 子菜信息，可能不存在这个字段
+            {
+              name:'火爆肥肠',
+              id:213232,
+              num: 0, // 份数
+              price: 10, // 单价
+              status: '2', // 菜品状态
+              memo: '配料:珠子，葱花|口味:超辣', // 菜品备注
+            },
+          ],
+        },
+        {
+          name:'冰激淋2',
+          id:1234562,
+          num: 0, // 份数
+          price: 20, // 单价
+          status: '1', // 菜品状态
+          memo: '配料:珠子，葱花|口味:超辣', // 菜品备注
+        },
+      ],
     },
     time: 1474284552572,
     code: 200,
