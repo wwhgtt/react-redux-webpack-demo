@@ -137,13 +137,13 @@ module.exports = React.createClass({
               <span className="order-discount discount">
                 {helper.countIntegralsToCash(
                   Number(helper.countPriceWithCouponAndDiscount(dishesPrice, serviceProps)),
-                  serviceProps.integralsInfo.integralsDetail
+                  serviceProps.integralsDetail
                 ).commutation}
               </span>
               <span className="order-integral">
                 {helper.countIntegralsToCash(
                   Number(helper.countPriceWithCouponAndDiscount(dishesPrice, serviceProps)),
-                  serviceProps.integralsInfo.integralsDetail
+                  serviceProps.integralsDetail
                 ).integralInUsed}
               </span>
             </p>

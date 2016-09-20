@@ -13,6 +13,7 @@ const setDiscountToOrder = createAction('SET_DISCOUNT_TO_ORDER', discount => dis
 const setCouponsToOrder = createAction('SET_COUPONS_TO_ORDER', coupons => coupons);
 const setOrderedDishesToOrder = createAction('SET_ORDERED_DISHES_TO_ORDER', dishes => dishes);
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
+exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 

@@ -453,7 +453,7 @@ const countPriceWithBenefit = exports.countPriceWithBenefit = function (dishesPr
   const totalPrice = Number(countPriceWithCouponAndDiscount(dishesPrice, serviceProps));
   // 至此处理完了配送费和优惠券 还有折扣信息  需要考虑积分抵扣了
   const priceWithIntergrals = serviceProps.integralsInfo.isChecked ?
-    totalPrice - countIntegralsToCash(totalPrice, serviceProps.integralsInfo.integralsDetail).commutation
+    totalPrice - countIntegralsToCash(totalPrice, serviceProps.integralsDetail).commutation
     :
     totalPrice;
   // 至此各种优惠信息已经处理完
@@ -461,7 +461,7 @@ const countPriceWithBenefit = exports.countPriceWithBenefit = function (dishesPr
 };
 // 计算自动进位规则
 const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishesPrice, serviceProps) {
-  // serviceProps.integralsInfo.integralsDetail  前提条件
+  // serviceProps.integralsDetail  前提条件
   const { transferType, scale } = carryRuleVO;
   const priceWithBenefit = countPriceWithBenefit(dishesPrice, serviceProps);
   if (transferType === 1) {
@@ -620,7 +620,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
   const dishesPrice = getDishesPrice(state.orderedDishesProps.dishes);
   const integral = state.serviceProps.integralsInfo.isChecked ? countIntegralsToCash(
     Number(countPriceWithCouponAndDiscount(dishesPrice, state.serviceProps)),
-    state.serviceProps.integralsInfo.integralsDetail
+    state.serviceProps.integralsDetail
   ).integralInUsed : false;
   const needPayPrice = clearSmallChange(
     state.commercialProps.carryRuleVO,

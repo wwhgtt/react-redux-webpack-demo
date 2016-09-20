@@ -4,15 +4,16 @@ const config = require('../../config.js');
 const actions = require('../../action/order-dinner-statement/order-dinner-statement.js');
 const helper = require('../../helper/order-helper');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
-// const Toast = require('../../component/mui/toast.jsx');
+const Toast = require('../../component/mui/toast.jsx');
 const DiningOptions = require('../../component/order/dining-options.jsx');
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const OrderSummary = require('../../component/order/order-summary.jsx');
+const CouponSelect = require('../../component/order/coupon-select.jsx');
 const defaultShopLogo = require('../../asset/images/default.png');
 require('../../component/order/order-summary.scss'); // import option-shop styles
 require('../../asset/style/style.scss');
-require('./application.scss');
+require('../order/application.scss');
 
 const OrderDinnerStateMentApplication = React.createClass({
   displayName: 'OrderDinnerStateMentApplication',
@@ -26,27 +27,39 @@ const OrderDinnerStateMentApplication = React.createClass({
     fetchOrderCoupons:React.PropTypes.func.isRequired,
     fetchLastOrderedDishes:React.PropTypes.func.isRequired,
     setOrderProps:React.PropTypes.func.isRequired,
+    setChildView: React.PropTypes.func.isRequired,
     // MapedStatesToProps
     commercialProps:React.PropTypes.object.isRequired,
     customerProps:React.PropTypes.object.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
     orderedDishesProps:React.PropTypes.object.isRequired,
     errorMessage:React.PropTypes.string,
+    childView: React.PropTypes.string,
   },
   componentWillMount() {
     const { fetchLastOrderedDishes } = this.props;
+    window.addEventListener('hashchange', this.setChildViewAccordingToHash);
     fetchLastOrderedDishes();
   },
   componentDidMount() {
+    this.setChildViewAccordingToHash();
     const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons } = this.props;
     fetchOrder().then(
       fetchOrderDiscountInfo
     )
-    .then(fetchOrderCoupons);
+    .then(fetchOrderCoupons)
+    .then(
+      () => { this.setChildViewAccordingToHash(); }
+    );
+  },
+  setChildViewAccordingToHash() {
+    const { setChildView } = this.props;
+    const hash = location.hash;
+    setChildView(hash);
   },
   render() {
-    const { commercialProps, customerProps, serviceProps, orderedDishesProps } = this.props; // state
-    const { setOrderProps } = this.props;// actions
+    const { commercialProps, customerProps, serviceProps, orderedDishesProps, childView, errorMessage } = this.props; // state
+    const { setOrderProps, clearErrorMsg } = this.props;// actions
     return (
       <div className="application">
         <div className="options-group">
@@ -84,11 +97,68 @@ const OrderDinnerStateMentApplication = React.createClass({
             />
           : false}
         </div>
+
+        <div className="options-group">
+          {commercialProps && commercialProps.isSupportReceipt === 1 ?
+            <label className="option">
+              <span className="option-title">发票抬头: </span>
+              <input className="option-input" name="receipt" maxLength="35" placeholder="输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
+            </label>
+            :
+            false
+          }
+        </div>
+
         <OrderSummary
           serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
           commercialProps={commercialProps} shopId={getUrlParam('shopId')}
           isNeedShopMaterial={false}
         />
+
+        {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
+          <div className="order-cart flex-none">
+            <div className="order-cart-left">
+              <div className="vertical-center clearfix">
+                {commercialProps.carryRuleVO ?
+                  <div>
+                    <div className="order-cart-entry text-dove-grey">已优惠:&nbsp;
+                      <span className="price">
+                        {helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)}
+                      </span>
+                    </div>
+                    <div className="order-cart-entry">
+                      <span className="text-dove-grey">待支付: </span>
+                      <span className="order-cart-price price">
+                        {
+                          helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
+                        }
+                      </span>
+                    </div>
+                  </div>
+                  :
+                  false
+                }
+              </div>
+            </div>
+            <div className="order-cart-right">
+              <a className="order-cart-btn btn--yellow" onTouchTap={this.submitOrder}>结账</a>
+            </div>
+          </div>
+          :
+          false
+        }
+
+        {childView === 'coupon-select' ?
+          <CouponSelect couponsProps={serviceProps.couponsProps} onSelectCoupon={setOrderProps} />
+          : false
+        }
+
+        {errorMessage ?
+          <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
+          :
+          false
+        }
+
       </div>
     );
   },
