@@ -57,6 +57,9 @@ module.exports = {
     'exception-dish-current-entry': [
       './src/exception-dish-current.jsx',
     ],
+    'order-detail-in-entry': [
+      './src/order-detail-in.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -226,6 +229,14 @@ module.exports = {
         title: 'exceptionDishCurrentApplication',
         filename: 'exception-dish-current.html',
         chunks: ['common', 'exception-dish-current-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'OrderDetailInApplication',
+        filename: 'order-detail-in.html',
+        chunks: ['common', 'order-detail-in-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
