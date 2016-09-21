@@ -11,7 +11,7 @@ const DishInfo = React.createClass({
 
   render() {
     const { orderDetail } = this.props;
-    // 头像 姓名 性别
+    
     const customInfo = {
       name: orderDetail.name,
       sex: '先生',
@@ -24,13 +24,13 @@ const DishInfo = React.createClass({
           <span className="fr text-dusty-grey">下单时间 {orderDetail.dateTime}</span>
         </div>
         <OrderCustom customInfo={customInfo} />
-        <div className="option">
+        
         {
           orderDetail.dishItems.map((item, index) =>
             <DishDetail mainDish={item} key={index} />
           )
         }
-        </div>
+        
       </div>
     );
   },

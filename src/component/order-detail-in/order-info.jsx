@@ -10,7 +10,6 @@ const OrderInfo = React.createClass({
 
   render() {
     const { orderInfo } = this.props;
-    console.log('========' + orderInfo.shopName);
 
     return (
       <div className="options-group">

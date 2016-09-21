@@ -8,7 +8,6 @@ const OrderCustom = React.createClass({
   },
 
   render() {
-    // 头像 姓名 性别
     const { customInfo } = this.props;
     return (
       <div className="option">
