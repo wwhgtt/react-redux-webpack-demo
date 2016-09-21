@@ -63,7 +63,7 @@ const QuickMenu = React.createClass({
     if (!enableOrder || !isLogin) {
       return 'bill-bell-gray';
     }
-    return false;
+    return '';
   },
   gotoDetail(enableOrder, isLogin) { // 进入订单详情页
     if (enableOrder && isLogin) {
@@ -74,7 +74,7 @@ const QuickMenu = React.createClass({
     if (!enablePay) {
       return 'pay-bell-gray';
     }
-    return false;
+    return '';
   },
   gotoPay(enablePay) { // 进入下单页面
     if (enablePay) {
@@ -85,7 +85,7 @@ const QuickMenu = React.createClass({
     if (!enableCallService) {
       return 'call-bell-gray';
     }
-    return false;
+    return '';
   },
   jumpDetail(num) {
     if (num) {
