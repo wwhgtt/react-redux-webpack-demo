@@ -12,6 +12,7 @@ module.exports = React.createClass({
     validStartDate:React.PropTypes.any.isRequired,
     validEndDate:React.PropTypes.any.isRequired,
     codeNumber:React.PropTypes.number.isRequired,
+    id:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]).isRequired,
     onTouchTap:React.PropTypes.func.isRequired,
     isChecked:React.PropTypes.bool,
   },
@@ -123,13 +124,13 @@ module.exports = React.createClass({
   },
   render() {
     const { instructions, coupRuleBeanList, coupDishBeanList, fullValue,
-            couponType, validStartDate, codeNumber, validEndDate, isChecked, ...otherProps } = this.props;
+            couponType, validStartDate, codeNumber, validEndDate, isChecked, onTouchTap, id } = this.props;
     const { isInstructionsOpen } = this.state;
     if (!this.judgeCouponAvaliabl(coupRuleBeanList, coupDishBeanList)) return false;
     return (
       <div
         className={classnames('coupon', this.judgeCouponInfoByCouponType(couponType).classNameForCoupon)}
-        {...otherProps}
+        onTouchTap={onTouchTap} data-id={id}
       >
         <div className="coupon-card flex-row" >
           <div className="coupon-card-left">
