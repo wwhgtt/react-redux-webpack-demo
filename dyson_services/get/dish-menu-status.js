@@ -9,7 +9,7 @@ module.exports = {
       'enablePay': true,
     },
     'time': 1472458598918,
-    'code': '202',
+    'code': '20',
     'msg': '未登录',
   },
 };

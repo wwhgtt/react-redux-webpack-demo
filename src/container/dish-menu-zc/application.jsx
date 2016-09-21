@@ -1,46 +1,46 @@
 const React = require('react');
 const connect = require('react-redux').connect;
-const actions = require('../../action/dish-menu/dish-menu');
+const actions = require('../../action/dish-menu/dish-menu-zc');
 require('../../asset/style/style.scss');
 require('./application.scss');
+require('../../component/dish-menu/cart/cart.scss');
 const DishTypeScroller = require('../../component/dish-menu/dish-type-scroller.jsx');
 const DishScroller = require('../../component/dish-menu/dish-scroller.jsx');
-const CartContainer = require('../../component/dish-menu/cart/cart-container.jsx');
 const DishDetailContainer = require('../../component/dish-menu/detail/dish-detail-container.jsx');
 const DishDescPopup = require('../../component/dish-menu/detail/dish-desc-popup.jsx');
+const QuickMenu = require('../../component/dish-menu/cart/quick-menu.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 
-const DishMenuApplication = React.createClass({
-  displayName: 'DishMenuApplication',
+const DishMenuZcApplication = React.createClass({
+  displayName: 'DishMenuZcApplication',
   propTypes: {
     // MapedActionsToProps
     fetchMenuData: React.PropTypes.func.isRequired,
-    fetchSendArea: React.PropTypes.func.isRequired,
     activeDishType: React.PropTypes.func.isRequired,
     orderDish: React.PropTypes.func.isRequired,
     showDishDetail: React.PropTypes.func.isRequired,
     showDishDesc: React.PropTypes.func.isRequired,
-    confirmOrder: React.PropTypes.func.isRequired,
-    removeAllOrders: React.PropTypes.func.isRequired,
+    // confirmOrder: React.PropTypes.func.isRequired,
+    // removeAllOrders: React.PropTypes.func.isRequired,
     fetchOrderDiscountInfo:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
     // MapedStatesToProps
-    activeDishTypeId: React.PropTypes.number.isRequired,
-    dishTypesData: React.PropTypes.array,
-    dishesData: React.PropTypes.array,
-    dishDetailData: React.PropTypes.object,
     dishDescData: React.PropTypes.object,
-    takeawayServiceProps: React.PropTypes.object,
-    openTimeList: React.PropTypes.array,
-    isAcceptTakeaway: React.PropTypes.bool,
-    errorMessage: React.PropTypes.string,
+    // openTimeList: React.PropTypes.array,
+    // isAcceptTakeaway: React.PropTypes.bool,
+    // ServiceBellProps
+    dishMenuZcReducer: React.PropTypes.object.isRequired,
+    dishMenuReducer: React.PropTypes.object.isRequired,
+    callBell: React.PropTypes.func.isRequired,
+    clearBell: React.PropTypes.func.isRequired,
+    fetchStatus: React.PropTypes.func.isRequired,
+    fetchTableId: React.PropTypes.func.isRequired,
   },
   componentDidMount() {
-    const { fetchMenuData, fetchSendArea, fetchOrderDiscountInfo } = this.props;
+    const { fetchMenuData, fetchOrderDiscountInfo } = this.props;
     fetchMenuData().then(
       fetchOrderDiscountInfo
     );
-    fetchSendArea();
   },
   componentDidUpdate() {
   },
@@ -51,10 +51,12 @@ const DishMenuApplication = React.createClass({
   },
   render() {
     // states
-    const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, confirmOrder, takeawayServiceProps,
-            openTimeList, isAcceptTakeaway, errorMessage } = this.props;
+    const { callMsg, canCall, timerStatus, shopStatus } = this.props.dishMenuZcReducer;
+    const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData,
+            errorMessage } = this.props.dishMenuReducer;
     // actions
-    const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders, clearErrorMsg } = this.props;
+    const { activeDishType, orderDish, showDishDetail, showDishDesc,
+            clearErrorMsg, callBell, clearBell, fetchStatus, fetchTableId } = this.props;
     return (
       <div className="application">
         <DishTypeScroller
@@ -65,11 +67,6 @@ const DishMenuApplication = React.createClass({
           dishTypesData={dishTypesData} dishesData={dishesData}
           activeDishTypeId={activeDishTypeId} onScroll={activeDishType}
           onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail} onImageBtnTap={showDishDesc}
-        />
-        <CartContainer
-          dishes={dishesData} takeawayServiceProps={takeawayServiceProps}
-          openTimeList={openTimeList} isAcceptTakeaway={isAcceptTakeaway}
-          onOrderBtnTap={orderDish} onBillBtnTap={confirmOrder} onClearBtnTap={removeAllOrders}
         />
         {dishDetailData !== undefined ?
           <DishDetailContainer dish={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />
@@ -84,8 +81,20 @@ const DishMenuApplication = React.createClass({
           :
           false
         }
+        <QuickMenu
+          errorMessage={errorMessage}
+          callBell={callBell}
+          clearBell={clearBell}
+          callMsg={callMsg}
+          canCall={canCall}
+          timerStatus={timerStatus}
+          dishes={dishesData}
+          fetchTableId={fetchTableId}
+          fetchStatus={fetchStatus}
+          shopStatus={shopStatus}
+        />
       </div>
     );
   },
 });
-module.exports = connect(state => state, actions)(DishMenuApplication);
+module.exports = connect(state => state, actions)(DishMenuZcApplication);

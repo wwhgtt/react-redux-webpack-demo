@@ -11,6 +11,9 @@ module.exports = {
       // 'babel-polyfill',
       './src/dish-menu.jsx',
     ],
+    'dish-menu-zc-entry': [
+      './src/dish-menu-zc.jsx',
+    ],
     'order-entry': [
       './src/order.jsx',
     ],
@@ -86,6 +89,14 @@ module.exports = {
         title: 'DishMenuApplication',
         filename: 'dish-menu.html',
         chunks: ['common', 'dish-menu-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'DishMenuZcApplication',
+        filename: 'dish-menu-zc.html',
+        chunks: ['common', 'dish-menu-zc-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

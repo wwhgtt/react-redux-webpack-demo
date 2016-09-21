@@ -61,7 +61,7 @@ const QuickMenu = React.createClass({
   },
   billIsAble(enableOrder, isLogin) {
     if (!enableOrder || !isLogin) {
-      return 'bill-bell-gray';
+      return 'bill-menu-gray';
     }
     return '';
   },
@@ -72,7 +72,7 @@ const QuickMenu = React.createClass({
   },
   payIsAble(enablePay) {
     if (!enablePay) {
-      return 'pay-bell-gray';
+      return 'pay-menu-gray';
     }
     return '';
   },
@@ -83,7 +83,7 @@ const QuickMenu = React.createClass({
   },
   callIsAble(enableCallService) {
     if (!enableCallService) {
-      return 'call-bell-gray';
+      return 'call-menu-gray';
     }
     return '';
   },
@@ -112,9 +112,9 @@ const QuickMenu = React.createClass({
         {
           shopStatus.data.isShow ?
             <div>
-              <div className="bellouter">
-                <div className="main-bell" onTouchTap={this.bellMenu}>
-                  <i className={isMenu ? 'main-bell-inner extra' : 'main-bell-inner'}></i>
+              <div className="menuouter">
+                <div className="main-menu" onTouchTap={this.bellMenu}>
+                  <i className={isMenu ? 'main-menu-inner extra' : 'main-menu-inner'}></i>
                 </div>
                 <div className={isMenu ? 'menu-outer' : `menu-outer vh ${hideOuter}`}>
                   <ServiceBell
@@ -129,17 +129,17 @@ const QuickMenu = React.createClass({
                     timerStatus={timerStatus}
                   />
                   <div
-                    className={isMenu ? `bill-bell bill-bell-${animate} ${billColor}` : 'bill-bell'}
+                    className={isMenu ? `bill-menu bill-menu-${animate} ${billColor}` : 'bill-menu'}
                     onTouchTap={() => this.gotoDetail(shopStatus.data.enableOrder, shopStatus.isLogin)}
                   >
-                    <i className="bill-bell-inner"></i>
+                    <i className="bill-menu-inner"></i>
                     <span className="detail">已下单</span>
                   </div>
                   <div
-                    className={isMenu ? `pay-bell pay-bell-${animate} ${payColor}` : 'pay-bell'}
+                    className={isMenu ? `pay-menu pay-menu-${animate} ${payColor}` : 'pay-menu'}
                     onTouchTap={() => this.gotoPay(shopStatus.data.enablePay)}
                   >
-                    <i className="pay-bell-inner"></i>
+                    <i className="pay-menu-inner"></i>
                     <span className="detail">结账</span>
                   </div>
                 </div>

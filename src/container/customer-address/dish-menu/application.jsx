@@ -3,11 +3,14 @@ const connect = require('react-redux').connect;
 const actions = require('../../action/dish-menu/dish-menu');
 require('../../asset/style/style.scss');
 require('./application.scss');
+const commonHelper = require('../../helper/common-helper');
+const type = commonHelper.getUrlParam('type');
 const DishTypeScroller = require('../../component/dish-menu/dish-type-scroller.jsx');
 const DishScroller = require('../../component/dish-menu/dish-scroller.jsx');
 const CartContainer = require('../../component/dish-menu/cart/cart-container.jsx');
 const DishDetailContainer = require('../../component/dish-menu/detail/dish-detail-container.jsx');
 const DishDescPopup = require('../../component/dish-menu/detail/dish-desc-popup.jsx');
+const QuickMenu = require('../../component/dish-menu/cart/quick-menu.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 
 const DishMenuApplication = React.createClass({
@@ -34,6 +37,18 @@ const DishMenuApplication = React.createClass({
     openTimeList: React.PropTypes.array,
     isAcceptTakeaway: React.PropTypes.bool,
     errorMessage: React.PropTypes.string,
+    // ServiceBellProps
+    callBell:React.PropTypes.func.isRequired,
+    clearBell:React.PropTypes.func.isRequired,
+    callMsg:React.PropTypes.object.isRequired,
+    canCall:React.PropTypes.bool.isRequired,
+    timerStatus:React.PropTypes.bool.isRequired,
+    fetchTableId: React.PropTypes.func,
+    fetchStatus: React.PropTypes.func,
+    shopStatus:React.PropTypes.object,
+  },
+  getInitialState() {
+    return { needSpread:true };
   },
   componentDidMount() {
     const { fetchMenuData, fetchSendArea, fetchOrderDiscountInfo } = this.props;
@@ -52,7 +67,9 @@ const DishMenuApplication = React.createClass({
   render() {
     // states
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, confirmOrder, takeawayServiceProps,
-            openTimeList, isAcceptTakeaway, errorMessage } = this.props;
+            openTimeList, isAcceptTakeaway, errorMessage, callBell, clearBell, callMsg, canCall, timerStatus, fetchTableId,
+            shopStatus, fetchStatus } = this.props;
+    const { needSpread } = this.state;
     // actions
     const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders, clearErrorMsg } = this.props;
     return (
@@ -66,11 +83,6 @@ const DishMenuApplication = React.createClass({
           activeDishTypeId={activeDishTypeId} onScroll={activeDishType}
           onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail} onImageBtnTap={showDishDesc}
         />
-        <CartContainer
-          dishes={dishesData} takeawayServiceProps={takeawayServiceProps}
-          openTimeList={openTimeList} isAcceptTakeaway={isAcceptTakeaway}
-          onOrderBtnTap={orderDish} onBillBtnTap={confirmOrder} onClearBtnTap={removeAllOrders}
-        />
         {dishDetailData !== undefined ?
           <DishDetailContainer dish={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />
           : false
@@ -83,6 +95,27 @@ const DishMenuApplication = React.createClass({
           <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
           :
           false
+        }
+        {
+          needSpread && type === 'TS' ?
+            <QuickMenu
+              errorMessage={errorMessage}
+              callBell={callBell}
+              clearBell={clearBell}
+              callMsg={callMsg}
+              canCall={canCall}
+              timerStatus={timerStatus}
+              dishes={dishesData}
+              fetchTableId={fetchTableId}
+              fetchStatus={fetchStatus}
+              shopStatus={shopStatus}
+            />
+          :
+            <CartContainer
+              dishes={dishesData} takeawayServiceProps={takeawayServiceProps}
+              openTimeList={openTimeList} isAcceptTakeaway={isAcceptTakeaway}
+              onOrderBtnTap={orderDish} onBillBtnTap={confirmOrder} onClearBtnTap={removeAllOrders}
+            />
         }
       </div>
     );

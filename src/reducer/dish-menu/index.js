@@ -12,16 +12,6 @@ module.exports = function (
     dishBoxChargeInfo:null,
     normalDiscountProps:null,
     errorMessage:null,
-    callMsg:{
-      info:'',
-      callStatus:false,
-    },
-    canCall:true,
-    timerStatus:false,
-    shopStatus:{
-      data:{},
-      isLogin:false,
-    },
   }),
   action
 ) {
@@ -148,19 +138,6 @@ module.exports = function (
       return state.set(
         'errorMessage', payload
       );
-    case 'SET_CALL_MSG': {
-      const data = payload || {};
-      return state.set('callMsg', data);
-    }
-    case 'SET_CAN_CALL': {
-      return state.set('canCall', payload);
-    }
-    case 'SET_TIMER_STATUS': {
-      return state.set('timerStatus', payload.timerStatus);
-    }
-    case 'SET_SHOP_STATUS': {
-      return state.set('shopStatus', payload);
-    }
     default:
       return state;
   }
