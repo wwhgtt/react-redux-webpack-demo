@@ -1,4 +1,6 @@
 const React = require('react');
+const actions = require('../../action/order-detail-in/order-detail-in.js');
+const connect = require('react-redux').connect;
 const OrderInfo = require('../../component/order-detail-in/order-info.jsx');
 const DishInfo = require('../../component/order-detail-in/dish-info.jsx');
 const shopIcon = require('../../asset/images/default.png');
@@ -7,23 +9,51 @@ require('../../asset/style/style.scss');
 require('./application.scss');
 
 const OrderDetailInApplication = React.createClass({
+  displayName: 'OrderDetailIn',
+  propTypes: {
+    orderDetail: React.PropTypes.object,
+    getOrderDetailUncheck: React.PropTypes.func,
+  },
+  // getInitialState() {
+  //   return {
+  //     orderDetail: {},
+  //   };
+  // },
+
+  componentWillMount() {
+    this.props.getOrderDetailUncheck();
+  },
+
+  // componentWillReceiveProps(nextProps) {
+  //   console.log('========000')
+  //   console.log(nextProps)
+  //   this.setState({ orderDetail: nextProps.orderDetail });
+  // },
+
   render() {
+    const { orderDetail } = this.props;
+    // console.table(orderDetail)
     const orderInfo = {
-      shopIcon: '' || shopIcon,
-      shopName: '测试店名（软件园店）',
-      orderNo: '001',
-      customNum: 5,
-      deskNo: {
-        area: '大厅区',
-        table: '001桌',
-      },
+      shopIcon: orderDetail.shopLogo ? orderDetail.shopLogo : shopIcon,
+      shopName: orderDetail.shopName,
+      orderNo: orderDetail.serialNo,
+      customNum: orderDetail.peopleCount,
+      // deskNo: orderDetail.tableNo,
+      deskNo: { area: '大厅区', table: '05678桌' },
     };
 
+    let dishInfo = '';
+
+    if (orderDetail.orderMetas) {
+      dishInfo = orderDetail.orderMetas.map((item, index) =>
+        <DishInfo orderDetail={item} key={index} />
+      );
+    }
     return (
       <div className="flex-columns">
         <div className="flex-rest">
           <OrderInfo orderInfo={orderInfo} />
-          <DishInfo />
+          {dishInfo}
           <div className="options-group">
             <div className="option">
               <span>共 {4} 份商品</span>
@@ -45,4 +75,10 @@ const OrderDetailInApplication = React.createClass({
   },
 });
 
-module.exports = OrderDetailInApplication;
+const mapStateToProps = function (state) {
+  return {
+    orderDetail: state.orderDetail,
+  };
+};
+
+module.exports = connect(mapStateToProps, actions)(OrderDetailInApplication);

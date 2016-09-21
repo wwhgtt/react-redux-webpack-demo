@@ -1,28 +1,36 @@
 const React = require('react');
 const OrderCustom = require('../../component/order-detail-in/order-custom.jsx');
+const DishDetail = require('../../component/order-detail-in/dish-detail.jsx');
 const shopIcon = require('../../asset/images/default.png');
 
 const DishInfo = React.createClass({
   displayName: 'DishInfo',
   propTypes: {
-    dishInfo: React.PropTypes.object,
+    orderDetail: React.PropTypes.object,
   },
 
   render() {
+    const { orderDetail } = this.props;
     // 头像 姓名 性别
-    // const { customInfo } = this.props;
     const customInfo = {
-      name: '姓名',
+      name: orderDetail.name,
       sex: '先生',
-      headUrl: shopIcon,
+      headUrl: orderDetail.headImage || shopIcon,
     };
     return (
       <div className="options-group">
         <div className="option dish-head">
-          <span>{2}份商品</span>
-          <span className="fr text-dusty-grey">下单时间 {'11:11'}</span>
+          <span>{orderDetail.dishItems.length}份商品</span>
+          <span className="fr text-dusty-grey">下单时间 {orderDetail.dateTime}</span>
         </div>
         <OrderCustom customInfo={customInfo} />
+        <div className="option">
+        {
+          orderDetail.dishItems.map((item, index) =>
+            <DishDetail mainDish={item} key={index} />
+          )
+        }
+        </div>
       </div>
     );
   },

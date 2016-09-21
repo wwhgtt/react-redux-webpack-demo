@@ -75,19 +75,17 @@ module.exports = {
   getCheckTableAvaliable:`${apiBase}/booking/getTableByAreaAndNum.json`,
   getPlaceOrderTablesAPI:`${apiBase}/booking/getTables.json`,
   submitPlaceOrderAPI:`${apiBase}/booking/addBooking.json`,
-  // ================================
-  // 账号绑定
-  // ================================
+
   sendCodeAPI: `${apiBase}/user/sendCode.json`, // 发送验证码
   bindPhoneAPI: `${apiBase}/user/bindMobile.json`, // 绑定手机
   wxOauthAPI: `${apiBase}/weixinapi/weixinOauthUrl`, // 获取openid
   bindWXAPI: `${apiBase}/user/bindOpenid.json`, // 绑定微信
   getWXInfoAPI: `${apiBase}/user/weixinUserInfo.json`, // 获取微信信息
-  // =======
-  // 会员注册
-  // =======
+
   registerInfoAPI: `${apiBase}/member/register.json`, // 获取用户信息
   registerAPI: `${apiBase}/member/addMember.json`, // 申请会员
   checkCodeAvaliableAPI:`${apiBase}/user/validMobile.json`,
+
+  tradeDetailUncheckAPI: `${apiBase}/order/tradeDetailUncheck.json`, // 订单详情（结算前）
   requestOptions,
 };
