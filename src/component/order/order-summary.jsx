@@ -2,6 +2,7 @@ const React = require('react');
 const config = require('../../config.js');
 const helper = require('../../helper/order-helper.js');
 const OrderedDish = require('./ordered-dish.jsx');
+const OrderedDinnerDish = require('./ordered-dinner-dish.jsx');
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
 const isSingleDishWithoutProps = require('../../helper/dish-hepler.js').isSingleDishWithoutProps;
 const defaultShopLogo = require('../../asset/images/default.png');
@@ -13,8 +14,15 @@ module.exports = React.createClass({
   propTypes: {
     serviceProps:React.PropTypes.object.isRequired,
     commercialProps:React.PropTypes.object.isRequired,
-    orderedDishesProps:React.PropTypes.object.isRequired,
+    orderedDishesProps:React.PropTypes.oneOfType([React.PropTypes.object, React.PropTypes.array]).isRequired,
     shopId:React.PropTypes.string.isRequired,
+    isNeedShopMaterial:React.PropTypes.bool.isRequired,
+    template:React.PropTypes.string,
+  },
+  getInitialState() {
+    return {
+      template:'OrderedDish',
+    };
   },
   componentDidMount() {
 
@@ -38,20 +46,25 @@ module.exports = React.createClass({
       );
     }
     const dividedDishes = divideDishes(orderedDishes);
-    return dividedDishes.map(dish => (<OrderedDish key={dish.key} dish={dish} />));
+    return dividedDishes.map(dish => this.state.template === 'OrderedDish' ? (<OrderedDish key={dish.key} dish={dish} />) : (<OrderedDinnerDish />));
   },
   render() {
-    const { serviceProps, commercialProps, orderedDishesProps, shopId } = this.props;
+    const { serviceProps, commercialProps, orderedDishesProps, shopId, isNeedShopMaterial } = this.props;
     const dishesPrice = orderedDishesProps.dishes && orderedDishesProps.dishes.length ? getDishesPrice(orderedDishesProps.dishes) : 0;
     if (!orderedDishesProps.dishes || !orderedDishesProps.dishes.length) return false;
 
     const orderedElements = this.buildOrderedElements(orderedDishesProps.dishes);
     return (
       <div className="options-group">
-        <a className="option option-shop" href={config.shopDetailURL + '?shopId=' + shopId}>
-          <img className="option-shop-icon" src={commercialProps.commercialLogo || defaultShopLogo} alt="" />
-          <p className="option-shop-desc ellipsis">{commercialProps.name}</p>
-        </a>
+        {isNeedShopMaterial ?
+          <a className="option option-shop" href={config.shopDetailURL + '?shopId=' + shopId}>
+            <img className="option-shop-icon" src={commercialProps.commercialLogo || defaultShopLogo} alt="" />
+            <p className="option-shop-desc ellipsis">{commercialProps.name}</p>
+          </a>
+          :
+          false
+        }
+
         {orderedElements}
         <div className="order-summary">
           {serviceProps.deliveryProps && serviceProps.deliveryProps.deliveryPrice ?
@@ -131,13 +144,13 @@ module.exports = React.createClass({
               <span className="order-discount discount">
                 {helper.countIntegralsToCash(
                   Number(helper.countPriceWithCouponAndDiscount(dishesPrice, serviceProps)),
-                  serviceProps.integralsInfo.integralsDetail
+                  serviceProps.integralsDetail
                 ).commutation}
               </span>
               <span className="order-integral">
                 {helper.countIntegralsToCash(
                   Number(helper.countPriceWithCouponAndDiscount(dishesPrice, serviceProps)),
-                  serviceProps.integralsInfo.integralsDetail
+                  serviceProps.integralsDetail
                 ).integralInUsed}
               </span>
             </p>

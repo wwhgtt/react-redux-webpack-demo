@@ -12,6 +12,7 @@ module.exports = function (
       isPickupFromFrontDesk:null,
       payMethods:[],
       integralsInfo:null,
+      integralsDetail:null,
       sendAreaId:null,
       deliveryProps:null,
       couponsProps:{
@@ -164,11 +165,11 @@ module.exports = function (
                            isChecked:false,
                            id:'integrals',
                            subname:`我的积分${payload.integral.integral}`,
-                           integralsDetail:payload.integral,
                          })
                          :
                          false
-                    );
+                    )
+                  .setIn(['serviceProps', 'integralsDetail'], payload.integral);
     }
     case 'SET_ORDER_PROPS':
       if (payload.id === 'way-of-get-diner') {
