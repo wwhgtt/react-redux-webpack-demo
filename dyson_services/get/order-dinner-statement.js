@@ -30,32 +30,189 @@ module.exports = {
         exchangeCashValue: 2, // 抵现金额数
         limitType: 1, // 抵现限制类型 1:无上限，2:积分个数限制 3:金额百分比限制
       },
-      dishItems: [ // 菜品信息
+      dishItems:[
         {
-          name:'冰激淋',
-          id:123456,
-          num: 0, // 份数
-          price: 20, // 单价
-          status: '1', // 菜品状态
-          memo: '配料:珠子，葱花|口味:超辣', // 菜品备注
-          subDishItems: [ // 子菜信息，可能不存在这个字段
+          id: 599385,  // 菜品id
+          brandDishId:87687887,
+          unitName:'碗',
+          name: '宫保鸡丁', // 菜品名称
+          marketPrice: 35.02, // 金额
+          num: 2, // 份量
+          type: 0, // 菜品类型 1 套餐 0单菜
+          propertyTypeList:[],
+          dishIngredientInfos:[],
+        },
+        {
+          id: 61,  // 菜品id
+          name: '火爆肥肠', // 菜品名称
+          brandDishId:876878827,
+          marketPrice: 30.02, // 金额
+          num: 2, // 份量
+          unitName:'碗',
+          type: 0, // 菜品类型 1 套餐 0单菜
+          propertyTypeList: [
             {
-              name:'火爆肥肠',
-              id:213232,
-              num: 0, // 份数
-              price: 10, // 单价
-              status: '2', // 菜品状态
-              memo: '配料:珠子，葱花|口味:超辣', // 菜品备注
+              name: '容量', // 口味做法名称
+              type: 4,
+              properties: [
+                {
+                  id: 1, // 属性id
+                  name: '中杯', // 属性名称
+                  reprice: 1.5,  // 变价
+                },
+                {
+                  id: 2,
+                  name: '中杯',
+                  reprice: 1.5,
+                },
+              ],
+            },
+            {
+              name: '做法', // 口味做法名称
+              type: 1,
+              properties: [
+                {
+                  id: 3, // 属性id
+                  name: '狂暴', // 属性名称
+                  reprice: 1.5,  // 变价
+                },
+                {
+                  id: 4,
+                  name: '腊肉',
+                  reprice: 1.5,
+                },
+              ],
+            },
+          ],
+          dishIngredientInfos: [
+            {
+              id: 1, // 配料id
+              name: '豆沙', // 配料名称
+              reprice: 1.5, // 变价
+            },
+            {
+              id: 3, // 配料id
+              name: '豆沙包', // 配料名称
+              reprice: 1.5, // 变价
             },
           ],
         },
         {
-          name:'冰激淋2',
-          id:1234562,
-          num: 0, // 份数
-          price: 20, // 单价
-          status: '1', // 菜品状态
-          memo: '配料:珠子，葱花|口味:超辣', // 菜品备注
+          id: 5747203,  // 菜品id
+          name: '套餐', // 菜品名称
+          marketPrice: 30.02, // 金额
+          brandDishId:876878870,
+          num: 2, // 份量
+          type: 1, // 菜品类型 1 套餐 0单菜
+          unitName:'份',
+          subDishItems: [
+            {
+              groupId:123, // 分组id
+              itemId: 574470,
+              name: '宫保鸡丁1',
+              marketPrice: 23.02,
+              num: 10,
+              propertyTypeList: [
+                {
+                  name: '容量', // 口味做法名称
+                  type: 4,
+                  properties: [
+                    {
+                      id: 1, // 属性id
+                      name: '中杯', // 属性名称
+                      reprice: 1.5,  // 变价
+                    },
+                    {
+                      id: 2,
+                      name: '中杯',
+                      reprice: 1.5,
+                    },
+                  ],
+                },
+                {
+                  name: '做法', // 口味做法名称
+                  type: 1,
+                  properties: [
+                    {
+                      id: 3, // 属性id
+                      name: '狂暴', // 属性名称
+                      reprice: 1.5,  // 变价
+                    },
+                    {
+                      id: 4,
+                      name: '腊肉',
+                      reprice: 1.5,
+                    },
+                  ],
+                },
+              ],
+              dishIngredientInfos: [
+                {
+                  id: 1, // 配料id
+                  name: '豆沙', // 配料名称
+                  reprice: 1.5, // 变价
+                },
+                {
+                  id: 3, // 配料id
+                  name: '豆沙包', // 配料名称
+                  reprice: 1.5, // 变价
+                },
+              ],
+            },
+            {
+              groupId:1232, // 分组id
+              itemId: 5744270,
+              name: '宫保鸡丁2',
+              marketPrice: 23.02,
+              num: 10,
+              propertyTypeList: [
+                {
+                  name: '容量', // 口味做法名称
+                  type: 4,
+                  properties: [
+                    {
+                      id: 1, // 属性id
+                      name: '中杯', // 属性名称
+                      reprice: 1.5,  // 变价
+                    },
+                    {
+                      id: 2,
+                      name: '中杯',
+                      reprice: 1.5,
+                    },
+                  ],
+                },
+                {
+                  name: '做法', // 口味做法名称
+                  type: 1,
+                  properties: [
+                    {
+                      id: 3, // 属性id
+                      name: '狂暴', // 属性名称
+                      reprice: 1.5,  // 变价
+                    },
+                    {
+                      id: 4,
+                      name: '腊肉',
+                      reprice: 1.5,
+                    },
+                  ],
+                },
+              ],
+              dishIngredientInfos: [
+                {
+                  id: 1, // 配料id
+                  name: '豆沙', // 配料名称
+                  reprice: 1.5, // 变价
+                },
+                {
+                  id: 3, // 配料id
+                  name: '豆沙包', // 配料名称
+                  reprice: 1.5, // 变价
+                },
+              ],
+            },
+          ],
         },
       ],
     },

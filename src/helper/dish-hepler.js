@@ -390,4 +390,3 @@ exports.generateDishNameWithUnit = (dishData) => {
   }
   return `${dishData.name}/${dishData.unitName}`;
 };
-

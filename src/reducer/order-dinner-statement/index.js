@@ -1,6 +1,7 @@
 const Immutable = require('seamless-immutable');
 const _find = require('lodash.find');
 const helper = require('../../helper/order-helper');
+const initializeDishes = require('../../helper/order-dinner-helper.js').initializeDishes;
 module.exports = function (
   state = Immutable.from({
     customerProps:{
@@ -11,7 +12,9 @@ module.exports = function (
       },
       dineSerialNumber:null,
     },
-    orderedDishesProps:[],
+    orderedDishesProps:{
+      dishes:[],
+    },
     commercialProps:{
       shopLogo:null,
       shopName:null,
@@ -62,7 +65,7 @@ module.exports = function (
            false
        )
        .setIn(['serviceProps', 'integralsDetail'], payload.integral)
-       .set('orderedDishesProps', payload.dishItems);
+       .setIn(['orderedDishesProps', 'dishes'], initializeDishes(payload.dishItems));
     }
     case 'SET_COUPONS_TO_ORDER':
       return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], payload);
