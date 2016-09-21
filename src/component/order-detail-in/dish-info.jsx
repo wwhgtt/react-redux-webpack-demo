@@ -18,7 +18,7 @@ const DishInfo = React.createClass({
     };
     return (
       <div className="options-group">
-        <div className="option">
+        <div className="option dish-head">
           <span>{2}份商品</span>
           <span className="fr text-dusty-grey">下单时间 {'11:11'}</span>
         </div>

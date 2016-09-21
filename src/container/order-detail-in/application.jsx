@@ -35,8 +35,10 @@ const OrderDetailInApplication = React.createClass({
           </div>
         </div>
         <div className="flex-none">
-          <a href="" className="btn--yellow">继续点餐</a>
-          <a className="">结账</a>
+          <div className="btn-count-dis">
+            <a href="" className="btn--yellow btn-dish">继续点菜</a>
+            <a className="btn-count">结账</a>
+          </div>
         </div>
       </div>
     );

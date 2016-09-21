@@ -1,3 +1,38 @@
+@import "settings.colors";
+
+// stylelint-disable selector-no-id
+// Root element id
+#app-placeholder,
+[data-reactroot] {
+  min-height: 100%;
+  background: $color-gallery;
+}
+
 .dish-head {
   font-size: 14px;
+}
+
+.btn-dish,
+.btn-count {
+  line-height: 50px;
+  display: inline-block;
+  width: 50%;
+  height: 50px;
+  text-decoration: none;
+}
+
+.btn-count {
+  text-align: center;
+  color: $color-white;
+  background-color: $color-neon-carrot;
+}
+
+.btn-count-dis {
+  .btn-count {
+    display: none;
+  }
+
+  .btn-dish {
+    width: 100%;
+  }
 }
