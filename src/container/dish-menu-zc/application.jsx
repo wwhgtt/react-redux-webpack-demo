@@ -10,6 +10,9 @@ const DishDetailContainer = require('../../component/dish-menu/detail/dish-detai
 const DishDescPopup = require('../../component/dish-menu/detail/dish-desc-popup.jsx');
 const QuickMenu = require('../../component/dish-menu/cart/quick-menu.jsx');
 const Toast = require('../../component/mui/toast.jsx');
+const helper = require('../../helper/dish-hepler');
+const tableKey = helper.getUrlParam('tablekey');
+const tableId = helper.getUrlParam('tableId');
 
 const DishMenuZcApplication = React.createClass({
   displayName: 'DishMenuZcApplication',
@@ -33,14 +36,14 @@ const DishMenuZcApplication = React.createClass({
     dishMenuReducer: React.PropTypes.object.isRequired,
     callBell: React.PropTypes.func.isRequired,
     clearBell: React.PropTypes.func.isRequired,
-    fetchStatus: React.PropTypes.func.isRequired,
     fetchTableId: React.PropTypes.func.isRequired,
   },
   componentDidMount() {
-    const { fetchMenuData, fetchOrderDiscountInfo } = this.props;
+    const { fetchMenuData, fetchOrderDiscountInfo, fetchTableId } = this.props;
     fetchMenuData().then(
       fetchOrderDiscountInfo
     );
+    fetchTableId(tableKey, tableId);
   },
   componentDidUpdate() {
   },
@@ -56,7 +59,7 @@ const DishMenuZcApplication = React.createClass({
             errorMessage } = this.props.dishMenuReducer;
     // actions
     const { activeDishType, orderDish, showDishDetail, showDishDesc,
-            clearErrorMsg, callBell, clearBell, fetchStatus, fetchTableId } = this.props;
+            clearErrorMsg, callBell, clearBell } = this.props;
     return (
       <div className="application">
         <DishTypeScroller
@@ -88,8 +91,6 @@ const DishMenuZcApplication = React.createClass({
           canCall={canCall}
           timerStatus={timerStatus}
           dishes={dishesData}
-          fetchTableId={fetchTableId}
-          fetchStatus={fetchStatus}
           serviceStatus={serviceStatus}
         />
       </div>

@@ -4,8 +4,6 @@ const commonHelper = require('../../../helper/common-helper');
 const helper = require('../../../helper/dish-hepler');
 const shopId = commonHelper.getUrlParam('shopId');
 const type = commonHelper.getUrlParam('type');
-const key = commonHelper.getUrlParam('key');
-const tableId = commonHelper.getUrlParam('tableId');
 const config = require('../../../config');
 const ServiceBell = require('./service-bell.jsx');
 const orderDetailUrl = `${config.orderDetailURL}?shopId=${shopId}`;
@@ -21,8 +19,6 @@ const QuickMenu = React.createClass({
     canCall:React.PropTypes.bool.isRequired,
     timerStatus:React.PropTypes.bool.isRequired,
     dishes: React.PropTypes.array.isRequired,
-    fetchTableId: React.PropTypes.func,
-    fetchStatus: React.PropTypes.func,
     serviceStatus: React.PropTypes.object,
   },
   getInitialState() {
@@ -37,13 +33,6 @@ const QuickMenu = React.createClass({
     setTimeout(() => {
       this.setState({ hideOuter:'' });
     }, 400);
-    const { fetchTableId, fetchStatus } = this.props;
-
-    if (key || tableId) { // 带有key值
-      fetchTableId(key, tableId);
-    }
-    // 获取基本数据
-    fetchStatus();
   },
   bellMenu() {
     const status = this.state.isMenu;

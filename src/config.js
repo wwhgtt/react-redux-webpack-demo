@@ -47,7 +47,11 @@ module.exports = {
   userLoginWXURL: `${apiBase}/user/login4WX`,
   getUserLoginSupportAPI: `${apiBase}/user/supportTypes.json`,
   getServiceStatusAPI: `${apiBase}/shop/serviceStatus.json`, // 获取基本信息
-  getTableIdAPI: `${apiBase}/shop/getTableId.json`, // 获取tableId
+  getTableInfoAPI: `${apiBase}/shop/tableInfo.json`, // 获取tableInfo
+  getTableIdAPI: `${apiBase}/shop/tableId.json`, // 获取tableInfo
+  getOrderTableTypeAPI: `${apiBase}/shop/orderTableType.json`, // 获取tableInfo
+  callServiceAPI: `${apiBase}/shop/callService.json`, // 获取tableId
+
   // 跳转URL
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
@@ -72,10 +76,10 @@ module.exports = {
   orderDetailURL:`${apiBase}/order/orderDetail`, // 堂食订单详情页 结算前
   cartOrderURL:`${apiBase}/order/cartOrder`, // 购物车详情页
   dishBoxTsURL:`${apiBase}/orderall/dishBox`, // 堂食下单页面
-  error1URL:`${apiBase}/shop/error1`, // 异常页面(无法在该桌台点餐)
-  error2URL:`${apiBase}/shop/error2`, // 异常页面(该桌台无法点餐)
-  error3URL:`${apiBase}/shop/error3`, // 异常页面(链接无效)
-  error4URL:`${apiBase}/shop/error4`, // 异常页面(请在微信浏览器打开连接)
+  error1URL:`${apiBase}/shop/error1.html`, // 异常页面(无法在该桌台点餐)
+  error2URL:`${apiBase}/shop/error2.html`, // 异常页面(该桌台无法点餐)
+  error3URL:`${apiBase}/shop/error3.html`, // 异常页面(链接无效)
+  error4URL:`${apiBase}/shop/error4.html`, // 异常页面(请在微信浏览器打开连接)
 
   getDefaultSendArea: `${apiBase}/user/getDefaultSendArea.json`,
   getOrderInLineAPI: `${apiBase}/queue/info.json`,
