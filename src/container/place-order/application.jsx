@@ -11,7 +11,6 @@ const TimeSelect = require('../../component/order/select/time-select.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
-const DiningOptions = require('../../component/order/dining-options.jsx');
 const defaultShopLogo = require('../../asset/images/default.png');
 require('../../asset/style/style.scss');
 require('./application.scss');
@@ -170,9 +169,6 @@ const PlaceOrderApplication = React.createClass({
             <img className="option-shop-icon" src={commercialProps.shopLogo || defaultShopLogo} alt="" />
             <p className="option-shop-desc ellipsis">{commercialProps.shopName}</p>
           </a>
-          <div className="option">
-            <DiningOptions dineSerialNumber={110} dineCount={1} dineTableProp={{ area:'testArea', table:'testTable' }} />
-          </div>
         </div>
         <div>
           {commercialProps.hasPeriodConfiguer && commercialProps.firstTime ?

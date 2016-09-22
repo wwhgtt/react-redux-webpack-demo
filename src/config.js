@@ -27,9 +27,11 @@ module.exports = {
   orderTakeAwayAPi: `${apiBase}/takeaway/dishBox.json`,
   orderCouponsAPI:`${apiBase}/coupon/getCanUseCoupons.json`,
   orderDiscountInfoAPI:`${apiBase}/shop/discountInfo.json`,
+  orderDinnerStatementAPI:`${apiBase}/orderall/tradeTsDetail.json`,
   submitTSOrderAPI:`${apiBase}/orderall/subOrder.json`,
   submitWMOrderAPI:`${apiBase}/takeaway/subOrder.json`,
   userAddressAPI: `${apiBase}/user/addressList.json`,
+  submitDinnerOrderAPI:`${apiBase}/order/tradeBilling.json`,
 
   individualAPI:`${apiBase}/user/individual.json`, // 获取用户基本信息(我的页面)
   individualviewAPI:`${apiBase}/user/individualView.json`,  // 获取用户基本信息(设置页面)
