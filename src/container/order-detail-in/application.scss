@@ -4,7 +4,7 @@
 // Root element id
 #app-placeholder,
 [data-reactroot] {
-  min-height: 100%;
+  height: 100%;
   background: $color-gallery;
 }
 
@@ -17,7 +17,6 @@
   line-height: 50px;
   display: inline-block;
   width: 50%;
-  height: 50px;
   text-decoration: none;
 }
 
@@ -55,4 +54,8 @@
 
 .order-demo-info {
   width: calc(100% - 100px);
+}
+
+.order-operate {
+  height: 50px;
 }

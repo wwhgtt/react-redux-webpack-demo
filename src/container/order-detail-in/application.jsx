@@ -85,7 +85,7 @@ const OrderDetailInApplication = React.createClass({
           <div className="options-group">
             <div className="option order-status">
               <span>订单状态</span>
-              <div className={'order-status-symbal status-square ' + statusType}></div>
+              <div className={`order-status-symbal status-square ${statusType}`}></div>
             </div>
             {
               dishTotal.dishItems ?
@@ -117,7 +117,7 @@ const OrderDetailInApplication = React.createClass({
             </div>
           </div>
         </div>
-        <div className="flex-none">
+        <div className="order-operate flex-none">
           <div className={btnDis}>
             <a href="" className="btn--yellow btn-dish">继续点菜</a>
             <a className="btn-count" onTouchTap={this.hanleCheck}>结账</a>
