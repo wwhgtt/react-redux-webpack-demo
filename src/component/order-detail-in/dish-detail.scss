@@ -43,6 +43,12 @@
     line-height: 15px;
     color: #999;
   }
+
+  .dish-status {
+    position: absolute;
+    top: -5px;
+    right: 120px;
+  }
 }
 
 .dish-name--trigger::after {

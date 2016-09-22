@@ -36,3 +36,23 @@
     width: 100%;
   }
 }
+
+.order-status {
+  position: relative;
+
+  &-symbal {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+  }
+}
+
+.order-demo-title {
+  display: inline-block;
+  width: 100px;
+  color: #999;
+}
+
+.order-demo-info {
+  width: calc(100% - 100px);
+}

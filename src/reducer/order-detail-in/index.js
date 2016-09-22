@@ -1,5 +1,5 @@
 import Immutable from 'seamless-immutable';
-// const orderDetailInHelper = require('../../helper/order-detail-in-helper.js');
+const orderDetailInHelper = require('../../helper/order-detail-in-helper.js');
 
 const defaultState = Immutable.from({
   errorMessage: '',
@@ -12,7 +12,8 @@ module.exports = (state = defaultState, action) => {
     case 'SET_ERROR_MSG':
       return state.set('errorMessage', payload);
     case 'SET_ORDER_DETAIL':
-      return state.set('orderDetail', payload);
+      return state.set('orderDetail', Immutable.from(
+        orderDetailInHelper.getOrderDetail(payload)));
     default:
       return state;
   }
