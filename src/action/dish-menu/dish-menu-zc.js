@@ -44,7 +44,7 @@ exports.fetchMenuData = () => (dispatch, getStates) =>
 
 exports.orderDish = (dishData, action) => (dispatch, getStates) => {
   dispatch(_orderDish(dishData, action));
-  helper.storeDishesLocalStorage(getStates().dishesData);
+  helper.storeDishesLocalStorage(getStates().dishMenuReducer.dishesData);
 };
 
 exports.removeAllOrders = (orders) => (dispatch, getStates) => {
@@ -53,9 +53,9 @@ exports.removeAllOrders = (orders) => (dispatch, getStates) => {
 };
 
 exports.confirmOrder = () => (dispatch, getStates) => {
-  const dishesData = getStates().dishesData;
+  const dishesData = getStates().dishMenuReducer.dishesData;
   const orderedData = helper.getOrderedDishes(dishesData);
-  const dishBoxChargeInfo = getStates().dishBoxChargeInfo;
+  const dishBoxChargeInfo = getStates().dishMenuReducer.dishBoxChargeInfo;
   helper.deleteOldDishCookie();
   helper.setDishCookie(dishesData, orderedData);
   localStorage.setItem('dishBoxPrice', helper.getDishBoxprice(orderedData, dishBoxChargeInfo));
