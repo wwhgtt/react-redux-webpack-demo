@@ -2,6 +2,7 @@ const React = require('react');
 const shopId = require('../../helper/common-helper.js').getUrlParam('shopId');
 const ExceptionInfo = require('../../component/common/exception-info.jsx');
 require('../../asset/style/style.scss');
+require('./application.scss');
 
 const ExceptionDishCurrentApplication = React.createClass({
   render() {

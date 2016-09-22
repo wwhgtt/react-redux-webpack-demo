@@ -1,6 +1,8 @@
 const React = require('react');
 
 require('../../asset/style/style.scss');
+require('./application.scss');
+
 const shopId = require('../../helper/common-helper.js').getUrlParam('shopId');
 const ExceptionInfo = require('../../component/common/exception-info.jsx');
 

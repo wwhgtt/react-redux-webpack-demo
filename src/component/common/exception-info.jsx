@@ -13,14 +13,14 @@ const ExceptionInfo = React.createClass({
   render() {
     const { tips, returnName, returnUrl } = this.props;
     return (
-      <div className="exception-info">
-        <div className="exception-content">
+      <div className="exception-info flex-columns">
+        <div className="exception-content flex-rest">
           <div className="exception-content-img"></div>
           <p className="exception-content-tips">{tips}</p>
           <a className="btn btn--yellow" href={returnUrl}>{returnName}</a>
         </div>
 
-        <div className="exception-footer">
+        <div className="exception-footer flex-none">
           <span>powered by </span>
           <img src={kryPic} role="presentation" />
         </div>
