@@ -14,6 +14,9 @@ module.exports = {
     'order-entry': [
       './src/order.jsx',
     ],
+    'order-dinner-statement-entry': [
+      './src/order-dinner-statement.jsx',
+    ],
     'storyboard-entry':'./src/storyboard.jsx',
     'customer-address-entry': [
       './src/customer-address.jsx',
@@ -109,6 +112,14 @@ module.exports = {
         title: 'OrderApplication',
         filename: 'order.html',
         chunks: ['common', 'order-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'OrderDinnerStateMentApplication',
+        filename: 'order-dinner-statement.html',
+        chunks: ['common', 'order-dinner-statement-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
