@@ -22,11 +22,11 @@ const OrderDinnerStateMentApplication = React.createClass({
     fetchOrder:React.PropTypes.func.isRequired,
     setErrorMsg:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
-    submitOrder:React.PropTypes.func.isRequired,
     fetchOrderDiscountInfo:React.PropTypes.func.isRequired,
     fetchOrderCoupons:React.PropTypes.func.isRequired,
     setOrderProps:React.PropTypes.func.isRequired,
     setChildView: React.PropTypes.func.isRequired,
+    submitDinnerOrder:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     commercialProps:React.PropTypes.object.isRequired,
     customerProps:React.PropTypes.object.isRequired,
@@ -55,7 +55,7 @@ const OrderDinnerStateMentApplication = React.createClass({
     setChildView(hash);
   },
   render() {
-    const { commercialProps, customerProps, serviceProps, orderedDishesProps, childView, errorMessage } = this.props; // state
+    const { commercialProps, customerProps, serviceProps, orderedDishesProps, childView, errorMessage, submitDinnerOrder } = this.props; // state
     const { setOrderProps, clearErrorMsg } = this.props;// actions
     return (
       <div className="application">
@@ -138,7 +138,7 @@ const OrderDinnerStateMentApplication = React.createClass({
               </div>
             </div>
             <div className="order-cart-right">
-              <a className="order-cart-btn btn--yellow" onTouchTap={this.submitOrder}>结账</a>
+              <a className="order-cart-btn btn--yellow" onTouchTap={submitDinnerOrder}>结账</a>
             </div>
           </div>
           :
