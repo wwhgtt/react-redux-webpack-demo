@@ -14,10 +14,11 @@ const setCouponsToOrder = createAction('SET_COUPONS_TO_ORDER', coupons => coupon
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const shopId = getUrlParam('shopId');
+const tradeId = getUrlParam('tradeId');
 
 
 exports.fetchOrder = () => (dispatch, getState) =>
-  fetch(`${config.orderDinnerStatementAPI}?shopId=${shopId}&tradeId=${getUrlParam('tradeId')}`, config.requestOptions).
+  fetch(`${config.orderDinnerStatementAPI}?shopId=${shopId}&tradeId=${tradeId}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         dispatch(setErrorMsg('获取订单信息失败...'));
@@ -86,14 +87,24 @@ exports.fetchOrderCoupons = () => (dispatch, getState) => {
 exports.clearErrorMsg = () => (dispatch, getState) =>
   dispatch(setErrorMsg(null));
 
-exports.submitOrder = (note, receipt) => (dispatch, getState) => {
+exports.submitDinnerOrder = () => (dispatch, getState) => {
   const state = getState();
-  const paramsData = helper.getSubmitUrlParams(state, note, receipt);
-  if (!paramsData.success) {
-    dispatch(setErrorMsg(paramsData.msg));
-    return false;
-  }
-  return fetch(`${config.submitTSOrderAPI}${paramsData.params}`, config.requestOptions).
+  const coupId = state.serviceProps.couponsProps.inUseCoupon &&
+                state.serviceProps.couponsProps.inUseCouponDetail.id ?
+                state.serviceProps.couponsProps.inUseCouponDetail.id
+                :
+                '0';
+  const dishesPrice = getDishesPrice(state.orderedDishesProps.dishes);
+  const integral = state.serviceProps.integralsInfo.isChecked ? helper.countIntegralsToCash(
+    Number(helper.countPriceWithCouponAndDiscount(dishesPrice, state.serviceProps)),
+    state.serviceProps.integralsDetail
+  ).integralInUsed : 0;
+
+  let requestOptions = Object.assign({}, config.requestOptions);
+  requestOptions.method = 'POST';
+  requestOptions.body = JSON.stringify({ shopId, orderId:tradeId, couponId:coupId, integral });
+
+  return fetch(`${config.submitDinnerOrderAPI}?shopId=${shopId}&orderId=${tradeId}`, requestOptions).
     then(res => {
       if (!res.ok) {
         dispatch(setErrorMsg('提交订单信息失败'));
