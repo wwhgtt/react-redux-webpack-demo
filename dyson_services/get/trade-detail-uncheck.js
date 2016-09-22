@@ -22,7 +22,7 @@ module.exports = {
               num: 1, // 份数
               price: 159.99, // 单价
               status: null, // 菜品状态
-              memo: null, // 菜品备注
+              memo: '红烧鸭的备注', // 菜品备注
               subDishItems: [ // 子菜信息，可能不存在这个字段
                 {
                   dishId : 9,
@@ -30,7 +30,7 @@ module.exports = {
                   num: 1, // 份数
                   price: 12, // 单价
                   status: null, // 菜品状态
-                  memo: null, // 菜品备注
+                  memo: '备注：好吃哟', // 菜品备注
                 },
                 {
                   dishId : 99,
@@ -48,7 +48,15 @@ module.exports = {
               num: 2, // 份数
               price: 10, // 单价
               status: null, // 菜品状态
-              memo: null, // 菜品备注
+              memo: '干煸茄子的备注', // 菜品备注
+            },
+            {
+              dishId : 101,
+              dishName : '清蒸鲤鱼', // 菜品名称
+              num: 1, // 份数
+              price: 139, // 单价
+              status: null, // 菜品状态
+              memo: '', // 菜品备注
             },
           ],
         },
