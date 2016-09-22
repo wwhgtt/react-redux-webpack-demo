@@ -1,6 +1,6 @@
 /* eslint-disable quote-props */
 module.exports = {
-  path: '/shop/status.json',
+  path: '/shop/serviceStatus.json',
   template: {
     'data': {
       'isShow': true,
@@ -9,7 +9,7 @@ module.exports = {
       'enablePay': true,
     },
     'time': 1472458598918,
-    'code': '20',
+    'code': '200',
     'msg': '未登录',
   },
 };

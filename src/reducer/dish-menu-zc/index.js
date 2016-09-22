@@ -10,7 +10,7 @@ const dishMenuZcReducer = function (
     },
     canCall:true,
     timerStatus:false,
-    shopStatus:{
+    serviceStatus:{
       data:{},
       isLogin:false,
     },
@@ -29,8 +29,8 @@ const dishMenuZcReducer = function (
     case 'SET_TIMER_STATUS': {
       return state.set('timerStatus', payload.timerStatus);
     }
-    case 'SET_SHOP_STATUS': {
-      return state.set('shopStatus', payload);
+    case 'SET_SERVICE_STATUS': {
+      return state.set('serviceStatus', payload);
     }
     default:
       return state;

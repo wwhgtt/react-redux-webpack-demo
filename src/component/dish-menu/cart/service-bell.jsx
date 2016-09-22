@@ -1,7 +1,7 @@
 const React = require('react');
 require('./service-bell.scss');
 const Hammer = require('react-hammerjs');
-const ProgressBar = require('../../mui/progress-bar.jsx');
+const ProgressHolder = require('../../mui/progress-bar.jsx');
 
 const QuickMenu = React.createClass({
   displayName: 'QuickMenu',
@@ -112,15 +112,24 @@ const QuickMenu = React.createClass({
     const { callColor, callMsg } = this.props;
     const callGray = callColor || timerStatus ? 'call-bell-gray' : '';
     const method = this.getMethod(callColor, callGray);
+
+    let isShowBar = true;
+    if (isShow) {
+      if (timerStatus && callMsg.callStatus) {
+        isShowBar = false;
+      } else {
+        isShowBar = true;
+      }
+    }
+
     return (
       <div>
         {method}
-        <ProgressBar
-          msgStatus={callMsg.callStatus} // 请求成功失败
-          msgInfo={callMsg.info} // 需要展示的文字信息
-          isShow={isShow} // 进度条组件是否展示
-          timerStatus={timerStatus} // 时间控制60s
-          progressTimer={this.state.options.recognizers.press.time} // 秒之后隐藏进度条
+        <ProgressHolder
+          isShowZone={isShow}// 是否显示区域
+          isShowBar={isShowBar}// 是否显示进度条
+          progressTimer={this.state.options.recognizers.press.time}// 进度条存在时间
+          zoneInfo={callMsg.info} // 区域文字信息
         />
       </div>
     );

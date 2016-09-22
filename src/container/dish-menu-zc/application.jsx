@@ -51,7 +51,7 @@ const DishMenuZcApplication = React.createClass({
   },
   render() {
     // states
-    const { callMsg, canCall, timerStatus, shopStatus } = this.props.dishMenuZcReducer;
+    const { callMsg, canCall, timerStatus, serviceStatus } = this.props.dishMenuZcReducer;
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData,
             errorMessage } = this.props.dishMenuReducer;
     // actions
@@ -82,7 +82,6 @@ const DishMenuZcApplication = React.createClass({
           false
         }
         <QuickMenu
-          errorMessage={errorMessage}
           callBell={callBell}
           clearBell={clearBell}
           callMsg={callMsg}
@@ -91,7 +90,7 @@ const DishMenuZcApplication = React.createClass({
           dishes={dishesData}
           fetchTableId={fetchTableId}
           fetchStatus={fetchStatus}
-          shopStatus={shopStatus}
+          serviceStatus={serviceStatus}
         />
       </div>
     );

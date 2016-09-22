@@ -14,7 +14,7 @@ exports.showDishDesc = createAction('SHOW_DISH_DESC', dishData => dishData);
 const setCallMsg = createAction('SET_CALL_MSG', callInfo => callInfo);
 const setCanCall = createAction('SET_CAN_CALL', canCall => canCall);
 const setTimerStatus = createAction('SET_TIMER_STATUS', timerStatus => timerStatus);
-const setShopStatus = createAction('SET_SHOP_STATUS', shopStatus => shopStatus);
+const setServiceStatus = createAction('SET_SERVICE_STATUS', serviceStatus => serviceStatus);
 
 exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => {
   if (evt && /dish-type-item/.test(evt.target.className)) {
@@ -96,7 +96,7 @@ exports.clearErrorMsg = () => (dispatch, getState) =>
 exports.callBell = (timer) => (dispatch, getStates) => {
   dispatch(setCanCall(false));
   dispatch(setCallMsg({ info:'正在发送...', callStatus:false }));
-  fetch('http://testweixin.shishike.com/brand/index.json?shopId=810006427'). // config.requestOptions
+  fetch(`${config.getServiceStatusAPI}?shopId=${helper.getUrlParam('shopId')}`, config.requestOptions). // config.requestOptions
   then(res => {
     if (!res.ok) {
       dispatch(setCallMsg({ info:'非常抱歉，发送失败了', callStatus:false }));
@@ -159,7 +159,7 @@ exports.fetchTableId = (key, tableId) => (dispatch, getState) => {
 };
 // 不带key获取基本信息
 exports.fetchStatus = () => (dispatch, getState) =>
-  fetch(`${config.getShopStatusAPI}?shopId=${helper.getUrlParam('shopId')}`, config.requestOptions).
+  fetch(`${config.getServiceStatusAPI}?shopId=${helper.getUrlParam('shopId')}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         dispatch(setErrorMsg('获取会员价信息失败...'));
@@ -170,13 +170,13 @@ exports.fetchStatus = () => (dispatch, getState) =>
       if (baseInfo.code !== '200') {
         if (baseInfo.msg === '未登录') {
           // 正常下单，加菜
-          dispatch(setShopStatus({ data:baseInfo.data, isLogin:false }));
+          dispatch(setServiceStatus({ data:baseInfo.data, isLogin:false }));
         } else {
           dispatch(setErrorMsg(baseInfo.msg));
-          dispatch(setShopStatus({ data:baseInfo.data, isLogin:true }));
+          dispatch(setServiceStatus({ data:baseInfo.data, isLogin:true }));
         }
       } else {
-        dispatch(setShopStatus({ data:baseInfo.data, isLogin:true }));
+        dispatch(setServiceStatus({ data:baseInfo.data, isLogin:true }));
       }
     }).
     catch(err => {

@@ -23,7 +23,7 @@ const QuickMenu = React.createClass({
     dishes: React.PropTypes.array.isRequired,
     fetchTableId: React.PropTypes.func,
     fetchStatus: React.PropTypes.func,
-    shopStatus: React.PropTypes.object,
+    serviceStatus: React.PropTypes.object,
   },
   getInitialState() {
     return {
@@ -94,12 +94,12 @@ const QuickMenu = React.createClass({
   },
   render() {
     const { isMenu, animate, hideOuter } = this.state;
-    const { callBell, clearBell, callMsg, canCall, timerStatus, dishes, shopStatus } = this.props;
+    const { callBell, clearBell, callMsg, canCall, timerStatus, dishes, serviceStatus } = this.props;
     // 逻辑判断
     const info = { list:[], confirm:false };
-    const billColor = this.billIsAble(shopStatus.data.enableOrder, shopStatus.isLogin);
-    const payColor = this.payIsAble(shopStatus.data.enablePay);
-    const callColor = this.callIsAble(shopStatus.data.enableCallService);
+    const billColor = this.billIsAble(serviceStatus.data.enableOrder, serviceStatus.isLogin);
+    const payColor = this.payIsAble(serviceStatus.data.enablePay);
+    const callColor = this.callIsAble(serviceStatus.data.enableCallService);
 
     const orderedDishes = helper.getOrderedDishes(dishes);
     const dishesCount = helper.getDishesCount(orderedDishes);
@@ -110,7 +110,7 @@ const QuickMenu = React.createClass({
     return (
       <div>
         {
-          shopStatus.data.isShow ?
+          serviceStatus.data.isShow ?
             <div>
               <div className="menuouter">
                 <div className="main-menu" onTouchTap={this.bellMenu}>
@@ -130,14 +130,14 @@ const QuickMenu = React.createClass({
                   />
                   <div
                     className={isMenu ? `bill-menu bill-menu-${animate} ${billColor}` : 'bill-menu'}
-                    onTouchTap={() => this.gotoDetail(shopStatus.data.enableOrder, shopStatus.isLogin)}
+                    onTouchTap={() => this.gotoDetail(serviceStatus.data.enableOrder, serviceStatus.isLogin)}
                   >
                     <i className="bill-menu-inner"></i>
                     <span className="detail">已下单</span>
                   </div>
                   <div
                     className={isMenu ? `pay-menu pay-menu-${animate} ${payColor}` : 'pay-menu'}
-                    onTouchTap={() => this.gotoPay(shopStatus.data.enablePay)}
+                    onTouchTap={() => this.gotoPay(serviceStatus.data.enablePay)}
                   >
                     <i className="pay-menu-inner"></i>
                     <span className="detail">结账</span>

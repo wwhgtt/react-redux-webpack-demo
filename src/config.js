@@ -46,7 +46,7 @@ module.exports = {
   userLoginAPI: `${apiBase}/user/login.json`,
   userLoginWXURL: `${apiBase}/user/login4WX`,
   getUserLoginSupportAPI: `${apiBase}/user/supportTypes.json`,
-  getShopStatusAPI: `${apiBase}/shop/status.json`, // 获取基本信息
+  getServiceStatusAPI: `${apiBase}/shop/serviceStatus.json`, // 获取基本信息
   getTableIdAPI: `${apiBase}/shop/getTableId.json`, // 获取tableId
   // 跳转URL
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
