@@ -16,7 +16,7 @@ module.exports = {
           sex : 0, //  性别。-1：没有性别。 0：女， 1：男
           headImage: null, // 微信头像地址。可能不存在这个字段。
           dateTime: 1472439316794, // 下单时间. 毫秒时间戳。
-          memo: null, // 备注。 只有主单才会存在此字段。
+          memo: '主单备注，不能显示', // 备注。 只有主单才会存在此字段。
           priviledgeAmount: 3.0, // 优惠总额。 只有主单才会存在此字段
           status: 1, //  只有主单才会存在此字段
           dishItems: [ // 菜品信息
@@ -26,17 +26,40 @@ module.exports = {
               num: 1, // 份数
               price: 119, // 菜品总价（变价已经计算在内）
               status: 2, // 菜品状态
-              memo: null, //  菜品备注。如果是套餐主菜，不存在这个字段。
+              memo: '主菜备注，不能展示', //  菜品备注。如果是套餐主菜，不存在这个字段。
               propertyAmount: 2.0, // 变价金额。如果是套餐主菜，不存在这个字段。
               subDishItems: [ // 子菜信息，可能不存在这个字段
                 {
                   dishId : 99,
                   dishName : '魔域',
                   num: 1, // 份数
-                  memo: null, // 菜品备注
+                  memo: '子菜备注，必须展示哟', // 菜品备注
                   propertyAmount: 0.0, // 变价金额
                 },
+                {
+                  dishId : 91,
+                  dishName : '辣椒',
+                  num: 2, // 份数
+                  memo: '', // 菜品备注
+                  propertyAmount: 999, // 变价金额
+                },
+                {
+                  dishId : 11,
+                  dishName : '大葱',
+                  num: 3, // 份数
+                  memo: '', // 菜品备注
+                  propertyAmount: 3, // 变价金额
+                },
               ],
+            },
+            {
+              dishId : 19,
+              dishName : '第二主菜', // 菜品名称
+              num: 2, // 份数
+              price: 99, // 菜品总价（变价已经计算在内）
+              status: 1, // 菜品状态
+              memo: '亲，必须展示哟', //  菜品备注。如果是套餐主菜，不存在这个字段。
+              propertyAmount: 2.0, // 变价金额。如果是套餐主菜，不存在这个字段。
             },
           ],
         },
@@ -45,7 +68,7 @@ module.exports = {
           sex : 0, //  性别。-1：没有性别。 0：女， 1：男
           headImage: null, // 微信头像地址。可能不存在这个字段。
           dateTime: 1472439316794, // 下单时间. 毫秒时间戳。
-          memo: null, // 备注。 只有主单才会存在此字段。
+          memo: '主单备注，必须展示哟', // 备注。 只有主单才会存在此字段。
           priviledgeAmount: 3.0, // 优惠总额。 只有主单才会存在此字段
           status: 1, //  只有主单才会存在此字段
           dishItems: [ // 菜品信息
@@ -55,14 +78,14 @@ module.exports = {
               num: 1, // 份数
               price: 119, // 菜品总价（变价已经计算在内）
               status: 2, // 菜品状态
-              memo: null, //  菜品备注。如果是套餐主菜，不存在这个字段。
+              memo: '这个不要展示了哈', //  菜品备注。如果是套餐主菜，不存在这个字段。
               propertyAmount: 2.0, // 变价金额。如果是套餐主菜，不存在这个字段。
               subDishItems: [ // 子菜信息，可能不存在这个字段
                 {
                   dishId : 99,
                   dishName : '魔域',
                   num: 1, // 份数
-                  memo: null, // 菜品备注
+                  memo: '这个也是要展示滴', // 菜品备注
                   propertyAmount: 0.1, // 变价金额
                 },
               ],
