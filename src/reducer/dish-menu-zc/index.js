@@ -8,7 +8,7 @@ const dishMenuZcReducer = function (
       info:'',
       callStatus:false,
     },
-    canCall:true,
+    callAble:true,
     timerStatus:false,
     serviceStatus:{
       data:{},
@@ -24,7 +24,7 @@ const dishMenuZcReducer = function (
       return state.set('callMsg', data);
     }
     case 'SET_CAN_CALL': {
-      return state.set('canCall', payload);
+      return state.set('callAble', payload);
     }
     case 'SET_TIMER_STATUS': {
       return state.set('timerStatus', payload.timerStatus);

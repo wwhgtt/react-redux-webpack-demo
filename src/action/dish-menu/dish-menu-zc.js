@@ -12,7 +12,7 @@ const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error =>
 exports.showDishDetail = createAction('SHOW_DISH_DETAIL', dishData => dishData);
 exports.showDishDesc = createAction('SHOW_DISH_DESC', dishData => dishData);
 const setCallMsg = createAction('SET_CALL_MSG', callInfo => callInfo);
-const setCanCall = createAction('SET_CAN_CALL', canCall => canCall);
+const setCanCall = createAction('SET_CAN_CALL', callAble => callAble);
 const setTimerStatus = createAction('SET_TIMER_STATUS', timerStatus => timerStatus);
 const setServiceStatus = createAction('SET_SERVICE_STATUS', serviceStatus => serviceStatus);
 
@@ -25,7 +25,7 @@ exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => {
   return dishTypeId;
 });
 const shopId = helper.getUrlParam('shopId');
-let url = `${config.orderallMenuAPI}?shopId=${shopId}`;
+const url = `${config.orderallMenuAPI}?shopId=${shopId}`;
 
 exports.fetchMenuData = () => (dispatch, getStates) =>
   fetch(url, config.requestOptions).
@@ -98,9 +98,7 @@ const removeBasicSession = (name) => {
 
 const errorLocation = (errorCode) => {
   switch (errorCode) {
-    case '203' : location.href = config.exceptionLinkURL; break;
-    case '204' : location.href = config.exceptionDishURL; break;
-    case '205' : location.href = config.exceptionDishCurrentURL; break;
+    case '90007' : location.href = config.exceptionLinkURL; break;
     default : break;
   }
 };
@@ -126,7 +124,7 @@ exports.callBell = (timer) => (dispatch, getStates) => {
         dispatch(setTimerStatus({ timerStatus:false }));
       });
     } else {
-      if (basicData.code === '201') { // 已经操作过了
+      if (basicData.code === '201') { // 已经呼叫过服务员了
         dispatch(setCallMsg({ info:basicData.msg, callStatus:true }));
         dispatch(setTimerStatus({ timerStatus:true }));
         commonHelper.interValSetting(timer, () => {
@@ -155,7 +153,6 @@ const fetchTableInfo = exports.fetchTableInfo = (tableParam) => (dispatch, getSt
     then(tableInfo => {
       if (tableInfo.code !== '200') {
         dispatch(setErrorMsg(tableInfo.msg));
-        errorLocation(tableInfo.code);
       }
       sessionStorage.tableInfo = JSON.stringify(tableInfo.data);
     }).
@@ -177,7 +174,6 @@ const fetchServiceStatus = exports.fetchServiceStatus = (tableParam) => (dispatc
         if (serviceStatus.msg === '未登录') {
           dispatch(setServiceStatus({ data:serviceStatus.data, isLogin:false }));
         } else {
-          errorLocation(serviceStatus.code);
           dispatch(setErrorMsg(serviceStatus.msg));
           dispatch(setServiceStatus({ data:serviceStatus.data, isLogin:true }));
         }
@@ -186,6 +182,25 @@ const fetchServiceStatus = exports.fetchServiceStatus = (tableParam) => (dispatc
       }
       // 保存ServiceStatus
       sessionStorage.serviceStatus = JSON.stringify(serviceStatus.data);
+    }).
+    catch(err => {
+      console.log(err);
+    });
+
+// 获取用户是否在其他桌台下单
+const getOtherTableId = exports.getOtherTableId = () => (dispatch, getState) =>
+  fetch(`${config.getOtherTableIdAPI}?shopId=${helper.getUrlParam('shopId')}`, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('获取获取用户是否在其他桌台下单失败...'));
+      }
+      return res.json();
+    }).
+    then(otherTableId => {
+      if (otherTableId.code === '90007') {
+        dispatch(setErrorMsg(otherTableId.msg));
+        errorLocation(otherTableId.code);
+      }
     }).
     catch(err => {
       console.log(err);
@@ -204,9 +219,11 @@ exports.fetchTableId = (tableKey, tableId) => (dispatch, getState) => {
   } else if (tableKey) {
     fetchTableInfo(`tablekey=${tableKey}`)(dispatch, getState);
     fetchServiceStatus(`tablekey=${tableKey}`)(dispatch, getState);
+    getOtherTableId()(dispatch, getState);
   } else {
     fetchTableInfo(`tableId=${tableId}`)(dispatch, getState);
     fetchServiceStatus(`tableId=${tableId}`)(dispatch, getState);
+    getOtherTableId()(dispatch, getState);
   }
   // 保存tableId和tablekey到sessionStorage
   sessionStorage.tablekey = tableKey || '';

@@ -11,8 +11,8 @@ const QuickMenu = React.createClass({
     callBell:React.PropTypes.func.isRequired,
     clearBell:React.PropTypes.func.isRequired,
     callMsg:React.PropTypes.object.isRequired,
-    isMenu:React.PropTypes.bool.isRequired,
-    canCall:React.PropTypes.bool.isRequired,
+    expandMenu:React.PropTypes.bool.isRequired,
+    callAble:React.PropTypes.bool.isRequired,
     timerStatus:React.PropTypes.bool.isRequired,
   },
   getInitialState() {
@@ -37,7 +37,7 @@ const QuickMenu = React.createClass({
   componentDidMount() {},
   componentWillReceiveProps(nextProps) {
     this.setState({ timerStatus: nextProps.timerStatus });
-    if (nextProps.canCall && nextProps.canCall !== this.props.canCall) {
+    if (nextProps.callAble && nextProps.callAble !== this.props.callAble) {
       this.setState({ endStatus:true });
       this._timer = setTimeout(() => {
         this.setState({ isShow:false, endStatus:false });
@@ -45,9 +45,9 @@ const QuickMenu = React.createClass({
     }
   },
   // 呼叫
-  getMethod(callColor, callGray) {
+  getCallPart(callColor, callGray) {
     const { options, endStatus } = this.state;
-    const { animate, isMenu } = this.props;
+    const { animate, expandMenu } = this.props;
     // animateBar 60秒间隔
     const timer = 60;
     if (!callColor && !endStatus) {
@@ -59,7 +59,7 @@ const QuickMenu = React.createClass({
           onPress={() => this.callPress(timer)}
           options={options}
         >
-          <div className={isMenu ? `call-bell call-bell-${animate} ${callGray}` : 'call-bell'}>
+          <div className={expandMenu ? `call-bell call-bell-${animate} ${callGray}` : 'call-bell'}>
             <i className="call-bell-inner"></i>
             <span className="detail">呼叫</span>
           </div>
@@ -68,7 +68,7 @@ const QuickMenu = React.createClass({
     }
     return (
       <Hammer>
-        <div className={isMenu ? `call-bell call-bell-${animate} ${callGray}` : 'call-bell'}>
+        <div className={expandMenu ? `call-bell call-bell-${animate} ${callGray}` : 'call-bell'}>
           <i className="call-bell-inner"></i>
           <span className="detail">呼叫</span>
         </div>
@@ -81,8 +81,8 @@ const QuickMenu = React.createClass({
   callBegin(e) {
     e.preventDefault();
     const { timerStatus } = this.state;
-    const { callMsg, clearBell, canCall } = this.props;
-    if (!canCall) {
+    const { callMsg, clearBell, callAble } = this.props;
+    if (!callAble) {
       return;
     }
     if (!callMsg.callStatus || !timerStatus) {
@@ -91,16 +91,16 @@ const QuickMenu = React.createClass({
     this.setState({ isShow:true });
   },
   callEnd() {
-    const { canCall } = this.props;
-    if (!canCall) {
+    const { callAble } = this.props;
+    if (!callAble) {
       return;
     }
     this.setState({ isShow:false });
   },
   callPress(timer) {
     const { timerStatus } = this.state;
-    const { callBell, canCall } = this.props;
-    if (!canCall) {
+    const { callBell, callAble } = this.props;
+    if (!callAble) {
       return;
     }
     if (!timerStatus) {
@@ -111,7 +111,7 @@ const QuickMenu = React.createClass({
     const { isShow, timerStatus } = this.state;
     const { callColor, callMsg } = this.props;
     const callGray = callColor || timerStatus ? 'call-bell-gray' : '';
-    const method = this.getMethod(callColor, callGray);
+    const callPart = this.getCallPart(callColor, callGray);
 
     let isShowBar = true;
     if (isShow) {
@@ -124,7 +124,7 @@ const QuickMenu = React.createClass({
 
     return (
       <div>
-        {method}
+        {callPart}
         <ProgressHolder
           isShowZone={isShow}// 是否显示区域
           isShowBar={isShowBar}// 是否显示进度条

@@ -49,7 +49,7 @@ module.exports = {
   getUserLoginSupportAPI: `${apiBase}/user/supportTypes.json`,
   getServiceStatusAPI: `${apiBase}/shop/serviceStatus.json`, // 获取基本信息
   getTableInfoAPI: `${apiBase}/shop/tableInfo.json`, // 获取tableInfo
-  getTableIdAPI: `${apiBase}/shop/tableId.json`, // 获取tableInfo
+  getOtherTableIdAPI: `${apiBase}/shop/getTableId.json`, // 获取用户是否在其他桌台下单
   getOrderTableTypeAPI: `${apiBase}/shop/orderTableType.json`, // 获取tableInfo
   callServiceAPI: `${apiBase}/shop/callService.json`, // 获取tableId
 
@@ -77,9 +77,10 @@ module.exports = {
   orderDetailURL:`${apiBase}/order/orderDetail`, // 堂食订单详情页 结算前
   cartOrderURL:`${apiBase}/order/cartOrder`, // 购物车详情页
   dishBoxTsURL:`${apiBase}/orderall/dishBox`, // 堂食下单页面
-  exceptionDishURL:'exception-dish.html', // 异常页面(无法在该桌台点餐)
-  exceptionDishCurrentURL:'`exception-dish-current.html`', // 异常页面(该桌台无法点餐)
-  exceptionLinkURL:'exception-link.html', // 异常页面(链接无效)
+
+  exceptionDishURL:`${apiBase}/orderall/tableCantOrder`, // 异常页面(无法在该桌台点餐)
+  exceptionDishCurrentURL:`${apiBase}/orderall/tableError`, // 异常页面(该桌台无法点餐)
+  exceptionLinkURL:`${apiBase}/orderall/tableTimeout`, // 异常页面(链接无效)
   exceptionDeviceURL:'exception-device.html', // 异常页面(请在微信浏览器打开连接)
 
   getDefaultSendArea: `${apiBase}/user/getDefaultSendArea.json`,

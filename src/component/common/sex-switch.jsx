@@ -12,7 +12,7 @@ module.exports = React.createClass({ // SexSwitch
   },
   componentWillMount() {},
   componentDidMount() {},
-  sexSwitch(sex, e) {
+  sexSwitch(sex) {
     const { changeSex } = this.props;
     changeSex({ sex });
   },

@@ -23,15 +23,10 @@ const DishMenuZcApplication = React.createClass({
     orderDish: React.PropTypes.func.isRequired,
     showDishDetail: React.PropTypes.func.isRequired,
     showDishDesc: React.PropTypes.func.isRequired,
-    // confirmOrder: React.PropTypes.func.isRequired,
-    // removeAllOrders: React.PropTypes.func.isRequired,
     fetchOrderDiscountInfo:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     dishDescData: React.PropTypes.object,
-    // openTimeList: React.PropTypes.array,
-    // isAcceptTakeaway: React.PropTypes.bool,
-    // ServiceBellProps
     dishMenuZcReducer: React.PropTypes.object.isRequired,
     dishMenuReducer: React.PropTypes.object.isRequired,
     callBell: React.PropTypes.func.isRequired,
@@ -54,7 +49,7 @@ const DishMenuZcApplication = React.createClass({
   },
   render() {
     // states
-    const { callMsg, canCall, timerStatus, serviceStatus } = this.props.dishMenuZcReducer;
+    const { callMsg, callAble, timerStatus, serviceStatus } = this.props.dishMenuZcReducer;
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData,
             errorMessage } = this.props.dishMenuReducer;
     // actions
@@ -88,7 +83,7 @@ const DishMenuZcApplication = React.createClass({
           callBell={callBell}
           clearBell={clearBell}
           callMsg={callMsg}
-          canCall={canCall}
+          callAble={callAble}
           timerStatus={timerStatus}
           dishes={dishesData}
           serviceStatus={serviceStatus}

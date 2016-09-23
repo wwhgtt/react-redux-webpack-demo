@@ -1,13 +1,13 @@
 const React = require('react');
 require('./quick-menu.scss');
-const commonHelper = require('../../../helper/common-helper');
 const helper = require('../../../helper/dish-hepler');
-const shopId = commonHelper.getUrlParam('shopId');
-const type = commonHelper.getUrlParam('type');
+const shopId = helper.getUrlParam('shopId');
+const type = helper.getUrlParam('type');
+const tableKey = helper.getUrlParam('tablekey');
+const tableId = helper.getUrlParam('tableId');
 const config = require('../../../config');
 const ServiceBell = require('./service-bell.jsx');
 const orderDetailUrl = `${config.orderDetailURL}?shopId=${shopId}`;
-const dishBoxTsUrl = `${config.dishBoxTsURL}?type=TS&shopId=${shopId}`;
 const cartOrderUrl = `${config.cartOrderURL}?type=${type}&shopId=${shopId}`;
 
 const QuickMenu = React.createClass({
@@ -16,78 +16,97 @@ const QuickMenu = React.createClass({
     callBell:React.PropTypes.func.isRequired,
     clearBell:React.PropTypes.func.isRequired,
     callMsg:React.PropTypes.object.isRequired,
-    canCall:React.PropTypes.bool.isRequired,
+    callAble:React.PropTypes.bool.isRequired,
     timerStatus:React.PropTypes.bool.isRequired,
     dishes: React.PropTypes.array.isRequired,
     serviceStatus: React.PropTypes.object,
   },
   getInitialState() {
     return {
-      isMenu:false,
+      expandMenu:false,
       animate:'',
-      hideOuter:'hide',
+      hideComponent:'hide',
     };
   },
   componentWillMount() {},
   componentDidMount() {
     setTimeout(() => {
-      this.setState({ hideOuter:'' });
+      this.setState({ hideComponent:'' });
     }, 400);
   },
-  bellMenu() {
-    const status = this.state.isMenu;
-    if (status) {
-      this.setState({ animate:'' }, () => {
-        setTimeout(() => {
-          this.setState({ isMenu:false });
-        }, 400);
-      });
-    } else {
-      this.setState({ isMenu:true }, () => {
-        this.setState({ animate:'animation' });
-      });
-    }
-  },
-  billIsAble(enableOrder, isLogin) {
-    if (!enableOrder || !isLogin) {
-      return 'bill-menu-gray';
+  setBillClass(enableOrder, isLogin) {
+    // 不带桌台的时候
+    if (!tableKey && !tableId) {
+      if (!enableOrder || !isLogin) {
+        return 'bill-menu-gray';
+      }
+    } else { // 带桌台的时候
+      if (!enableOrder) {
+        return 'bill-menu-gray';
+      }
     }
     return '';
   },
-  gotoDetail(enableOrder, isLogin) { // 进入订单详情页
-    if (enableOrder && isLogin) {
-      location.href = orderDetailUrl;
-    }
-  },
-  payIsAble(enablePay) {
+  setPayClass(enablePay) {
     if (!enablePay) {
       return 'pay-menu-gray';
     }
     return '';
   },
-  gotoPay(enablePay) { // 进入下单页面
-    if (enablePay) {
-      location.href = dishBoxTsUrl;
-    }
-  },
-  callIsAble(enableCallService) {
+  setCallClass(enableCallService) {
     if (!enableCallService) {
       return 'call-menu-gray';
     }
     return '';
   },
+  goToDetail(enableOrder, isLogin) { // 进入订单详情页
+    // 不带桌台的时候
+    if (!tableKey && !tableId) {
+      if (enableOrder && isLogin) {
+        location.href = orderDetailUrl;
+      }
+    } else { // 带桌台的时候
+      if (enableOrder) {
+        location.href = orderDetailUrl;
+      }
+    }
+  },
+  goToPay(enablePay) { // 进入下单页面
+    if (enablePay) {
+      location.href = `${config.dishBoxTsURL}?type=TS&shopId=${shopId}`;
+    }
+  },
   jumpDetail(num) {
+    const { serviceStatus } = this.props;
     if (num) {
-      location.href = cartOrderUrl; // 跳转到购物车详情页面
+      if (serviceStatus.isLogin) {
+        location.href = cartOrderUrl; // 跳转到购物车详情页面
+      } else {
+        location.href = `${config.logAddressURL}?shopId=${shopId}&returnUrl=${encodeURIComponent(cartOrderUrl)}`; // 跳转到登录页面
+      }
+    }
+  },
+  bellMenu() {
+    const status = this.state.expandMenu;
+    if (status) {
+      this.setState({ animate:'' }, () => {
+        setTimeout(() => {
+          this.setState({ expandMenu:false });
+        }, 400);
+      });
+    } else {
+      this.setState({ expandMenu:true }, () => {
+        this.setState({ animate:'animation' });
+      });
     }
   },
   render() {
-    const { isMenu, animate, hideOuter } = this.state;
-    const { callBell, clearBell, callMsg, canCall, timerStatus, dishes, serviceStatus } = this.props;
+    const { expandMenu, animate, hideComponent } = this.state;
+    const { callBell, clearBell, callMsg, callAble, timerStatus, dishes, serviceStatus } = this.props;
     // 逻辑判断
-    const billColor = this.billIsAble(serviceStatus.data.enableOrder, serviceStatus.isLogin);
-    const payColor = this.payIsAble(serviceStatus.data.enablePay);
-    const callColor = this.callIsAble(serviceStatus.data.enableCallService);
+    const billColor = this.setBillClass(serviceStatus.data.enableOrder, serviceStatus.isLogin);
+    const payColor = this.setPayClass(serviceStatus.data.enablePay);
+    const callColor = this.setCallClass(serviceStatus.data.enableCallService);
 
     const orderedDishes = helper.getOrderedDishes(dishes);
     const dishesCount = helper.getDishesCount(orderedDishes);
@@ -102,29 +121,29 @@ const QuickMenu = React.createClass({
             <div>
               <div className="menuouter">
                 <div className="main-menu" onTouchTap={this.bellMenu}>
-                  <i className={isMenu ? 'main-menu-inner extra' : 'main-menu-inner'}></i>
+                  <i className={expandMenu ? 'main-menu-inner extra' : 'main-menu-inner'}></i>
                 </div>
-                <div className={isMenu ? 'menu-outer' : `menu-outer vh ${hideOuter}`}>
+                <div className={expandMenu ? 'menu-outer' : `menu-outer vh ${hideComponent}`}>
                   <ServiceBell
                     callColor={callColor}
                     callBell={callBell}
                     clearBell={clearBell}
                     callMsg={callMsg}
                     animate={animate}
-                    isMenu={isMenu}
-                    canCall={canCall}
+                    expandMenu={expandMenu}
+                    callAble={callAble}
                     timerStatus={timerStatus}
                   />
                   <div
-                    className={isMenu ? `bill-menu bill-menu-${animate} ${billColor}` : 'bill-menu'}
-                    onTouchTap={() => this.gotoDetail(serviceStatus.data.enableOrder, serviceStatus.isLogin)}
+                    className={expandMenu ? `bill-menu bill-menu-${animate} ${billColor}` : 'bill-menu'}
+                    onTouchTap={() => this.goToDetail(serviceStatus.data.enableOrder, serviceStatus.isLogin)}
                   >
                     <i className="bill-menu-inner"></i>
                     <span className="detail">已下单</span>
                   </div>
                   <div
-                    className={isMenu ? `pay-menu pay-menu-${animate} ${payColor}` : 'pay-menu'}
-                    onTouchTap={() => this.gotoPay(serviceStatus.data.enablePay)}
+                    className={expandMenu ? `pay-menu pay-menu-${animate} ${payColor}` : 'pay-menu'}
+                    onTouchTap={() => this.goToPay(serviceStatus.data.enablePay)}
                   >
                     <i className="pay-menu-inner"></i>
                     <span className="detail">结账</span>
@@ -150,5 +169,4 @@ const QuickMenu = React.createClass({
     );
   },
 });
-
 module.exports = QuickMenu;
