@@ -16,7 +16,7 @@ const registerUrl = ` ${config.registerMemberURL}?shopId=${shopId}`;
 const bindMobileUrl = ` ${config.bindMobileURL}?shopId=${shopId}`;
 const bindWXUrl = ` ${config.bindWXURL}?shopId=${shopId}`;
 
-require('./ShowMenuList.scss');
+require('./show-menu-list.scss');
 
 module.exports = React.createClass({
   displayName: 'Name',

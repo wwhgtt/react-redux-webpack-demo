@@ -1,5 +1,5 @@
 const React = require('react');
-require('./ShowSettingList.scss');
+require('./show-setting-list.scss');
 const SexSwitch = require('../common/sex-switch.jsx');
 const config = require('../../config');
 const commonHelper = require('../../helper/common-helper');
@@ -78,7 +78,7 @@ module.exports = React.createClass({
             <a className="settingLink" href=" javascript:void(0)" style={{ padding : '0.75em 0' }} >
               <span className="middle"></span>
               <span className="name">姓名</span>
-              <SexSwitch getSex={this.getSex} sex={sex} />
+              <SexSwitch changeSex={this.getSex} sex={sex} />
               <div className="input-outer fr">
                 <input
                   className="input"

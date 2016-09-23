@@ -6814,7 +6814,7 @@ module.exports = {
       'sendTimeList': null,
     },
     'time': 1464145389875,
-    'code': '200',
-    'msg': '',
+    'code': '201',
+    'msg': '未登录',
   },
 };

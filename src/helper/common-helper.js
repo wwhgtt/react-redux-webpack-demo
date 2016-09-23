@@ -80,6 +80,17 @@ exports.getWeixinVersionInfo = () => {
   return result;
 };
 
+exports.interValSetting = (num, timerEnd) => {
+  let cnum = num;
+  const timer = setInterval(() => {
+    cnum = cnum - 1;
+    if (cnum === 0) {
+      timerEnd();
+      clearInterval(timer);
+    }
+  }, 1000);
+};
+
 /* 日期 */
 exports.dateUtility = {
   format(date, formatStr = 'yyyy-MM-dd') {

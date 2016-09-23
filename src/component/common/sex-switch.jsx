@@ -4,8 +4,8 @@ require('./sex-switch.scss');
 module.exports = React.createClass({ // SexSwitch
   displayName: 'SexSwitch',
   propTypes:{
-    sex:React.PropTypes.string,
-    getSex:React.PropTypes.func,
+    sex:React.PropTypes.string.isRequired,
+    changeSex:React.PropTypes.func.isRequired,
   },
   getInitialState() {
     return { sex: '' };
@@ -13,8 +13,8 @@ module.exports = React.createClass({ // SexSwitch
   componentWillMount() {},
   componentDidMount() {},
   sexSwitch(sex, e) {
-    const { getSex } = this.props;
-    getSex({ sex });
+    const { changeSex } = this.props;
+    changeSex({ sex });
   },
   render() {
     // this.setState({value: Info.name});
