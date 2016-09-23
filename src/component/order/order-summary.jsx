@@ -1,5 +1,4 @@
 const React = require('react');
-const config = require('../../config.js');
 const helper = require('../../helper/order-helper.js');
 const OrderedDish = require('./ordered-dish.jsx');
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
@@ -47,7 +46,7 @@ module.exports = React.createClass({
     return dividedDishes.map(dish => (<OrderedDish key={dish.key} dish={dish} />));
   },
   render() {
-    const { serviceProps, commercialProps, orderedDishesProps, shopId, isNeedShopMaterial } = this.props;
+    const { serviceProps, commercialProps, orderedDishesProps, isNeedShopMaterial } = this.props;
     const dishesPrice = orderedDishesProps.dishes && orderedDishesProps.dishes.length ? getDishesPrice(orderedDishesProps.dishes) : 0;
     if (!orderedDishesProps.dishes || !orderedDishesProps.dishes.length) return false;
 
@@ -55,7 +54,7 @@ module.exports = React.createClass({
     return (
       <div className="options-group">
         {isNeedShopMaterial ?
-          <a className="option option-shop" href={config.shopDetailURL + '?shopId=' + shopId}>
+          <a className="option option-shop">
             <img className="option-shop-icon" src={commercialProps.commercialLogo || defaultShopLogo} alt="" />
             <p className="option-shop-desc ellipsis">{commercialProps.name}</p>
           </a>

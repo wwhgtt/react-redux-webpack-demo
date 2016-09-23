@@ -52,5 +52,6 @@ exports.initializeDishes = (dishes) => {
     }
     return dish;
   });
+  localStorage.setItem('lastOrderedDishes', JSON.stringify({ dishes }));
   return dishes;
 };
