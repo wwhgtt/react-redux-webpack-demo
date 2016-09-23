@@ -6,9 +6,10 @@ const getUrlParam = require('../../helper/common-helper.js').getUrlParam;
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setOrderDetail = createAction('SET_ORDER_DETAIL', orderDetail => orderDetail);
 const shopId = getUrlParam('shopId');
+const orderId = getUrlParam('orderId');
 
 exports.getOrderDetailUncheck = () => (dispatch, getState) => {
-  const getOrderDetailUncheckURL = `${config.tradeDetailUncheckAPI}?${shopId}`;
+  const getOrderDetailUncheckURL = `${config.tradeDetailUncheckAPI}?shopId=${shopId}&?orderId=${orderId}`;
   fetch(getOrderDetailUncheckURL, config.requestOptions).
   then(res => {
     if (!res.ok) {

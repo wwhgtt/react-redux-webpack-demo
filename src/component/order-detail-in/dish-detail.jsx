@@ -73,8 +73,12 @@ const DishDetail = React.createClass({
                 mainDish.subDishItems.map((item, index) =>
                   <div className="dish-sub-info" key={index}>
                     <span className="dish-name ellipsis">{item.dishName}</span>
-                    <span className="badge-price">+2元</span>
-                    <span className="dish-count ellipsis">{item.num}</span>
+                    {
+                      item.propertyAmount ?
+                        <span className="badge-price">+{item.propertyAmount}元</span>
+                      : ''
+                    }
+                    <span className="dish-count ellipsis">x{item.num}</span>
                     {
                       item.memo ?
                         <p className="dish-memo">{item.memo}</p>

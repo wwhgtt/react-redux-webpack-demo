@@ -6,6 +6,9 @@ const DishInfo = require('../../component/order-detail-in/dish-info.jsx');
 const DishDetail = require('../../component/order-detail-in/dish-detail.jsx');
 const shopIcon = require('../../asset/images/default.png');
 const Toast = require('../../component/mui/toast.jsx');
+const getUrlParam = require('../../helper/common-helper').getUrlParam;
+const orderId = getUrlParam('orderId');
+const shopId = getUrlParam('shopId');
 
 require('../../asset/style/style.scss');
 require('./application.scss');
@@ -25,6 +28,7 @@ const OrderDetailInApplication = React.createClass({
 
   componentWillMount() {
     this.props.getOrderDetailUncheck();
+    setInterval(this.props.getOrderDetailUncheck, 10000);
   },
 
   handleStatus(dishStatus) {
@@ -39,11 +43,15 @@ const OrderDetailInApplication = React.createClass({
 
   hanleCheck() {
     const { orderDetail } = this.props;
-    if (orderDetail.checkout) {
-      alert('跳转');
-    } else {
+    if (orderDetail.priviledge) {
       this.setState({ errorMsg: '请联系服务员结账' });
+    } else {
+      location.href = `http://${location.host}/check?shopId=${shopId}&?tradeId=${orderId}`;
     }
+  },
+
+  handleDishMenu() {
+    location.href = `http://${location.host}/orderall/selectDish?shopId=${shopId}&?tradeId=${orderId}`;
   },
 
   handleClearErrorMsg() {
@@ -58,8 +66,7 @@ const OrderDetailInApplication = React.createClass({
       shopName: orderDetail.shopName,
       orderNo: orderDetail.serialNo,
       customNum: orderDetail.peopleCount,
-      // deskNo: orderDetail.tableNo,
-      deskNo: { area: '大厅区', table: '05678桌' },
+      deskNo: { area: orderDetail.tableArea, table: orderDetail.tableNo },
     };
     let dishTotal = {};
     if (orderDetail.dishTotal) {
@@ -67,7 +74,7 @@ const OrderDetailInApplication = React.createClass({
     }
 
     let btnDis = '';
-    if (dishTotal.status !== 2) {
+    if (!orderDetail.hideCheckout) {
       btnDis = 'btn-count-dis';
     }
     const statusType = this.handleStatus(dishTotal.status);
@@ -96,7 +103,7 @@ const OrderDetailInApplication = React.createClass({
             }
             <div className="option">
               <span>优惠总计</span>
-              <span className="price fr">-{dishTotal.priviledgeAmount}</span>
+              <span className="discount fr">{dishTotal.priviledgeAmount}</span>
             </div>
             <div className="option">
               {
@@ -119,7 +126,7 @@ const OrderDetailInApplication = React.createClass({
         </div>
         <div className="order-operate flex-none">
           <div className={btnDis}>
-            <a href="" className="btn--yellow btn-dish">继续点菜</a>
+            <a className="btn--yellow btn-dish" onTouchTap={this.handleDishMenu}>继续点菜</a>
             <a className="btn-count" onTouchTap={this.hanleCheck}>结账</a>
           </div>
         </div>

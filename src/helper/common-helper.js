@@ -94,15 +94,28 @@ exports.interValSetting = (num, timerEnd) => {
 /* 日期 */
 exports.dateUtility = {
   format(date, formatStr = 'yyyy-MM-dd') {
-    if (!date || !(date instanceof Date)) {
+    if (!date) {
+      return date;
+    }
+
+    if (typeof date === 'string') {
+      date = this.parse(date);
+    }
+    if (!(date instanceof Date)) {
       return date;
     }
 
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
     const result = formatStr.replace(/yyyy/, year.toString())
       .replace(/(M+)/, (str, $1) => padStart(month.toString(), $1.length, '0'))
-      .replace(/(d+)/, (str, $1) => padStart(date.getDate().toString(), $1.length, '0'));
+      .replace(/(d+)/, (str, $1) => padStart(date.getDate().toString(), $1.length, '0'))
+      .replace(/(H+)/, (str, $1) => padStart(hours.toString(), $1.length, '0'))
+      .replace(/(m+)/, (str, $1) => padStart(minutes.toString(), $1.length, '0'))
+      .replace(/(s+)/, (str, $1) => padStart(seconds.toString(), $1.length, '0'));
     return result;
   },
   parse(str) {
