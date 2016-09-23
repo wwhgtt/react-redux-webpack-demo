@@ -98,10 +98,9 @@ const removeBasicSession = (name) => {
 
 const errorLocation = (errorCode) => {
   switch (errorCode) {
-    case '203' : location.href = config.error1URL; break;
-    case '204' : location.href = config.error2URL; break;
-    case '205' : location.href = config.error2URL; break;
-    case '206' : location.href = config.error2URL; break;
+    case '203' : location.href = config.exceptionLinkURL; break;
+    case '204' : location.href = config.exceptionDishURL; break;
+    case '205' : location.href = config.exceptionDishCurrentURL; break;
     default : break;
   }
 };

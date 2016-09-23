@@ -4,7 +4,7 @@ require('./progress-bar.scss');
 const ProgressHolder = React.createClass({
   displayName: 'ProgressHolder',
   propTypes:{
-    isShowBar:React.PropTypes.bool.isRequired, // 请求数据的状态
+    isShowBar:React.PropTypes.bool.isRequired, // 进度条是否显示
     isShowZone:React.PropTypes.bool.isRequired, // 进度条组件是否显示
     zoneInfo:React.PropTypes.string.isRequired, // 请求数据的提示文字
     progressTimer:React.PropTypes.string.isRequired,  // 秒之后隐藏进度条

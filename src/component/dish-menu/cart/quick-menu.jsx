@@ -85,7 +85,6 @@ const QuickMenu = React.createClass({
     const { isMenu, animate, hideOuter } = this.state;
     const { callBell, clearBell, callMsg, canCall, timerStatus, dishes, serviceStatus } = this.props;
     // 逻辑判断
-    const info = { list:[], confirm:false };
     const billColor = this.billIsAble(serviceStatus.data.enableOrder, serviceStatus.isLogin);
     const payColor = this.payIsAble(serviceStatus.data.enablePay);
     const callColor = this.callIsAble(serviceStatus.data.enableCallService);
@@ -107,7 +106,6 @@ const QuickMenu = React.createClass({
                 </div>
                 <div className={isMenu ? 'menu-outer' : `menu-outer vh ${hideOuter}`}>
                   <ServiceBell
-                    info={info}
                     callColor={callColor}
                     callBell={callBell}
                     clearBell={clearBell}
