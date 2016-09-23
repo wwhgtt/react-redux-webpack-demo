@@ -30,6 +30,15 @@
   }
 }
 
+.btn--orange {
+  text-align: center;
+  color: $color-white;
+  background: $color-orange;
+
+  &.btn-disabled {
+    background: darken($color-alto, 15%);
+  }
+}
 
 // BUTTON ELEMENTS
 .btn-choose-property {

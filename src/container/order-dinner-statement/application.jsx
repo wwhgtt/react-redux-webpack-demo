@@ -138,7 +138,7 @@ const OrderDinnerStateMentApplication = React.createClass({
               </div>
             </div>
             <div className="order-cart-right">
-              <a className="order-cart-btn btn--yellow" onTouchTap={submitDinnerOrder}>结账</a>
+              <a className="order-cart-btn btn--orange" onTouchTap={submitDinnerOrder}>结账</a>
             </div>
           </div>
           :
