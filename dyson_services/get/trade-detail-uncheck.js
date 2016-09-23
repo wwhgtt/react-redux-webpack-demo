@@ -4,8 +4,8 @@ module.exports = {
     data: {
       shopName: '测试门店（高新区）', // 门店名称
       shopLogo: null, // 门店LOGO地址
-      serialNo: '001', // 订单流水号
-      peopleCount: 5, // 就餐人数
+      serialNo: 'test', // 订单流水号
+      peopleCount: 8, // 就餐人数
       tableArea : '大厅区', // 桌台区域名
       tableNo: '001桌', // 桌台号名
       priviledge: false, // 是否使用了优惠

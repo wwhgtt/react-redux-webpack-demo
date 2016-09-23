@@ -64,8 +64,8 @@ const OrderDetailInApplication = React.createClass({
     const orderInfo = {
       shopIcon: orderDetail.shopLogo ? orderDetail.shopLogo : shopIcon,
       shopName: orderDetail.shopName,
-      orderNo: orderDetail.serialNo,
-      customNum: orderDetail.peopleCount,
+      orderNo: orderDetail.serialNo || '',
+      customNum: orderDetail.peopleCount || 0,
       deskNo: { area: orderDetail.tableArea, table: orderDetail.tableNo },
     };
     let dishTotal = {};

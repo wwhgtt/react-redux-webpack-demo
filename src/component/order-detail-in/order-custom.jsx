@@ -12,15 +12,11 @@ const OrderCustom = React.createClass({
     return (
       <div className="option">
         {
-          customInfo.headUrl ?
-            <img className="order-custom-icon" src={customInfo.headUrl} role="presentation" />
-          : ''
+          customInfo.headUrl && <img className="order-custom-icon" src={customInfo.headUrl} role="presentation" />
         }
         <span className="order-custom-name">{customInfo.name}</span>
         {
-          customInfo.sex ?
-            <span>{customInfo.sex}</span>
-          : ''
+          customInfo.sex && <span>{customInfo.sex}</span>
         }
       </div>
     );
