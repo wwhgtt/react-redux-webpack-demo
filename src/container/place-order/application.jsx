@@ -2,8 +2,6 @@ const React = require('react');
 const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const connect = require('react-redux').connect;
 const actions = require('../../action/place-order/place-order');
-const config = require('../../config.js');
-const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getSelectedTable = require('../../helper/order-helper.js').getSelectedTable;
 const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
 const TableSelect = require('../../component/order/select/table-select.jsx');
@@ -165,7 +163,7 @@ const PlaceOrderApplication = React.createClass({
     return (
       <div className="application">
         <div className="options-group">
-          <a className="option option-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
+          <a className="option option-shop">
             <img className="option-shop-icon" src={commercialProps.shopLogo || defaultShopLogo} alt="" />
             <p className="option-shop-desc ellipsis">{commercialProps.shopName}</p>
           </a>
