@@ -2,8 +2,8 @@ const React = require('react');
 require('./progress-bar.scss');
 const classnames = require('classnames');
 
-const ProgressHolder = React.createClass({
-  displayName: 'ProgressHolder',
+const ProgressBar = React.createClass({
+  displayName: 'ProgressBar',
   propTypes:{
     isShowBar:React.PropTypes.bool.isRequired, // 进度条是否显示
     isShowZone:React.PropTypes.bool.isRequired, // 进度条组件是否显示
@@ -58,4 +58,4 @@ const ProgressHolder = React.createClass({
   },
 });
 
-module.exports = ProgressHolder;
+module.exports = ProgressBar;

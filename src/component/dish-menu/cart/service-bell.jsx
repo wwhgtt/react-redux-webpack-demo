@@ -4,8 +4,8 @@ const Hammer = require('react-hammerjs');
 const ProgressHolder = require('../../mui/progress-bar.jsx');
 const classnames = require('classnames');
 
-const QuickMenu = React.createClass({
-  displayName: 'QuickMenu',
+const ServiceBell = React.createClass({
+  displayName: 'ServiceBell',
   propTypes:{
     callColor:React.PropTypes.string,
     animate:React.PropTypes.string,
@@ -146,4 +146,4 @@ const QuickMenu = React.createClass({
   },
 });
 
-module.exports = QuickMenu;
+module.exports = ServiceBell;
