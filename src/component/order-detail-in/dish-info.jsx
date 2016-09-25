@@ -1,7 +1,7 @@
 const React = require('react');
 const OrderCustom = require('../../component/order-detail-in/order-custom.jsx');
 const DishDetail = require('../../component/order-detail-in/dish-detail.jsx');
-const shopIcon = require('../../asset/images/default.png');
+// const shopIcon = require('../../asset/images/default.png');
 
 const DishInfo = React.createClass({
   displayName: 'DishInfo',
@@ -13,8 +13,8 @@ const DishInfo = React.createClass({
     const { orderDetail } = this.props;
     const customInfo = {
       name: orderDetail.name,
-      sex: '先生',
-      headUrl: orderDetail.headImage || shopIcon,
+      sex: orderDetail.sex,
+      headUrl: orderDetail.headImage,
     };
     return (
       <div className="options-group">

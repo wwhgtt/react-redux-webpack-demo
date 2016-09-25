@@ -4,9 +4,9 @@ require('./dining-options.scss');
 module.exports = React.createClass({
   displayName: 'DiningOptions',
   propTypes: {
-    dineSerialNumber:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]),
-    dineCount:React.PropTypes.number,
-    dineTableProp:React.PropTypes.object,
+    dineSerialNumber:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]).isRequired,
+    dineCount:React.PropTypes.number.isRequired,
+    dineTableProp:React.PropTypes.object.isRequired,
   },
   componentDidMount() {
 
