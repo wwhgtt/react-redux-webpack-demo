@@ -5,7 +5,7 @@ module.exports = {
     'data': {
       'isShow': true,
       'enableCallService': true,
-      'enableOrder': true,
+      'enableOrder': false,
       'enablePay': true,
     },
     'time': 1472458598918,

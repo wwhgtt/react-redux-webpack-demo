@@ -1,5 +1,6 @@
 const React = require('react');
 require('./progress-bar.scss');
+const classnames = require('classnames');
 
 const ProgressHolder = React.createClass({
   displayName: 'ProgressHolder',
@@ -38,7 +39,7 @@ const ProgressHolder = React.createClass({
     return (
       <div className="progress">
         <div className="progress-holder">
-          <p className={isShowBar && timerLimit ? 'bar' : 'bar vh'}>
+          <p className={classnames('bar', { vh: !isShowBar || !timerLimit })}>
             <i className={`bar-inner bar-inner-${animateBar}`}></i>
           </p>
           <span>
@@ -52,7 +53,7 @@ const ProgressHolder = React.createClass({
     const { isShowZone } = this.props;
     let fillBar = this.fillBar();
     return (
-      <div className={isShowZone ? '' : 'vh'}>{fillBar}</div>
+      <div className={classnames({ vh: !isShowZone })}>{fillBar}</div>
     );
   },
 });

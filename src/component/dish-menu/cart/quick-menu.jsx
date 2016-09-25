@@ -9,6 +9,7 @@ const config = require('../../../config');
 const ServiceBell = require('./service-bell.jsx');
 const orderDetailUrl = `${config.orderDetailURL}?shopId=${shopId}`;
 const cartOrderUrl = `${config.cartOrderURL}?type=${type}&shopId=${shopId}`;
+const classnames = require('classnames');
 
 const QuickMenu = React.createClass({
   displayName: 'QuickMenu',
@@ -25,34 +26,10 @@ const QuickMenu = React.createClass({
     return {
       expandMenu:false,
       animate:'',
-      hideComponent:'hide',
     };
   },
   componentWillMount() {},
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({ hideComponent:'' });
-    }, 400);
-  },
-  setBillClass(enableOrder, isLogin) {
-    // 不带桌台的时候
-    if (!tableKey && !tableId) {
-      if (!enableOrder || !isLogin) {
-        return 'bill-menu-gray';
-      }
-    } else { // 带桌台的时候
-      if (!enableOrder) {
-        return 'bill-menu-gray';
-      }
-    }
-    return '';
-  },
-  setPayClass(enablePay) {
-    if (!enablePay) {
-      return 'pay-menu-gray';
-    }
-    return '';
-  },
+  componentDidMount() {},
   setCallClass(enableCallService) {
     if (!enableCallService) {
       return 'call-menu-gray';
@@ -101,11 +78,11 @@ const QuickMenu = React.createClass({
     }
   },
   render() {
-    const { expandMenu, animate, hideComponent } = this.state;
+    const { expandMenu, animate } = this.state;
     const { callBell, clearBell, callMsg, callAble, timerStatus, dishes, serviceStatus } = this.props;
     // 逻辑判断
-    const billColor = this.setBillClass(serviceStatus.data.enableOrder, serviceStatus.isLogin);
-    const payColor = this.setPayClass(serviceStatus.data.enablePay);
+    const payAnimate = JSON.parse(`{ "pay-menu-${animate}": ${expandMenu} }`);
+    const billAnimate = JSON.parse(`{ "bill-menu-${animate}": ${expandMenu} }`);
     const callColor = this.setCallClass(serviceStatus.data.enableCallService);
 
     const orderedDishes = helper.getOrderedDishes(dishes);
@@ -121,9 +98,9 @@ const QuickMenu = React.createClass({
             <div>
               <div className="menuouter">
                 <div className="main-menu" onTouchTap={this.bellMenu}>
-                  <i className={expandMenu ? 'main-menu-inner extra' : 'main-menu-inner'}></i>
+                  <i className={classnames('main-menu-inner', { extra: expandMenu })}></i>
                 </div>
-                <div className={expandMenu ? 'menu-outer' : `menu-outer vh ${hideComponent}`}>
+                <div className="menu-outer">
                   <ServiceBell
                     callColor={callColor}
                     callBell={callBell}
@@ -135,14 +112,21 @@ const QuickMenu = React.createClass({
                     timerStatus={timerStatus}
                   />
                   <div
-                    className={expandMenu ? `bill-menu bill-menu-${animate} ${billColor}` : 'bill-menu'}
+                    className={classnames('bill-menu',
+                      billAnimate,
+                      { 'bill-menu-gray': !tableKey && !tableId && (!serviceStatus.data.enableOrder || !serviceStatus.isLogin) },
+                      { 'bill-menu-gray': (tableKey || tableId) && serviceStatus.data.enableOrder },
+                    )}
                     onTouchTap={() => this.goToDetail(serviceStatus.data.enableOrder, serviceStatus.isLogin)}
                   >
                     <i className="bill-menu-inner"></i>
                     <span className="detail">已下单</span>
                   </div>
                   <div
-                    className={expandMenu ? `pay-menu pay-menu-${animate} ${payColor}` : 'pay-menu'}
+                    className={classnames('pay-menu',
+                      payAnimate,
+                      { 'pay-menu-gray': !serviceStatus.data.enablePay }
+                    )}
                     onTouchTap={() => this.goToPay(serviceStatus.data.enablePay)}
                   >
                     <i className="pay-menu-inner"></i>

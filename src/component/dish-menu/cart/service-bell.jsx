@@ -2,6 +2,7 @@ const React = require('react');
 require('./service-bell.scss');
 const Hammer = require('react-hammerjs');
 const ProgressHolder = require('../../mui/progress-bar.jsx');
+const classnames = require('classnames');
 
 const QuickMenu = React.createClass({
   displayName: 'QuickMenu',
@@ -48,6 +49,7 @@ const QuickMenu = React.createClass({
   getCallPart(callColor, callGray) {
     const { options, endStatus } = this.state;
     const { animate, expandMenu } = this.props;
+    const callAnimate = JSON.parse(`{ "call-bell-${animate} ${callGray}": ${expandMenu} }`);
     // animateBar 60秒间隔
     const timer = 60;
     if (!callColor && !endStatus) {
@@ -59,7 +61,11 @@ const QuickMenu = React.createClass({
           onPress={() => this.callPress(timer)}
           options={options}
         >
-          <div className={expandMenu ? `call-bell call-bell-${animate} ${callGray}` : 'call-bell'}>
+          <div
+            className={classnames('call-bell',
+              callAnimate
+            )}
+          >
             <i className="call-bell-inner"></i>
             <span className="detail">呼叫</span>
           </div>
@@ -68,7 +74,11 @@ const QuickMenu = React.createClass({
     }
     return (
       <Hammer>
-        <div className={expandMenu ? `call-bell call-bell-${animate} ${callGray}` : 'call-bell'}>
+        <div
+          className={classnames('call-bell',
+            callAnimate
+          )}
+        >
           <i className="call-bell-inner"></i>
           <span className="detail">呼叫</span>
         </div>
