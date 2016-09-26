@@ -11,6 +11,9 @@ module.exports = {
       // 'babel-polyfill',
       './src/dish-menu.jsx',
     ],
+    'dish-menu-zc-entry': [
+      './src/dish-menu-zc.jsx',
+    ],
     'order-entry': [
       './src/order.jsx',
     ],
@@ -47,6 +50,21 @@ module.exports = {
     ],
     'user-login-entry': [
       './src/user-login.jsx',
+    ],
+    'exception-device-entry': [
+      './src/exception-device.jsx',
+    ],
+    'exception-link-entry': [
+      './src/exception-link.jsx',
+    ],
+    'exception-dish-entry': [
+      './src/exception-dish.jsx',
+    ],
+    'exception-dish-current-entry': [
+      './src/exception-dish-current.jsx',
+    ],
+    'order-detail-in-entry': [
+      './src/order-detail-in.jsx',
     ],
   },
   resolve: {
@@ -89,6 +107,14 @@ module.exports = {
         title: 'DishMenuApplication',
         filename: 'dish-menu.html',
         chunks: ['common', 'dish-menu-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'DishMenuZcApplication',
+        filename: 'dish-menu-zc.html',
+        chunks: ['common', 'dish-menu-zc-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
@@ -193,6 +219,46 @@ module.exports = {
         title: 'UserLoginApplication',
         filename: 'user-login.html',
         chunks: ['common', 'user-login-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'exceptionDeviceApplication',
+        filename: 'exception-device.html',
+        chunks: ['common', 'exception-device-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'exceptionLinkApplication',
+        filename: 'exception-link.html',
+        chunks: ['common', 'exception-link-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'exceptionDishApplication',
+        filename: 'exception-dish.html',
+        chunks: ['common', 'exception-dish-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'exceptionDishCurrentApplication',
+        filename: 'exception-dish-current.html',
+        chunks: ['common', 'exception-dish-current-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'OrderDetailInApplication',
+        filename: 'order-detail-in.html',
+        chunks: ['common', 'order-detail-in-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

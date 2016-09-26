@@ -1,0 +1,65 @@
+@import "settings.colors";
+
+// stylelint-disable selector-no-id
+// Root element id
+#app-placeholder,
+[data-reactroot] {
+  height: 100%;
+  background: $color-gallery;
+}
+
+.dish-head {
+  font-size: 14px;
+}
+
+.btn-dish,
+.btn-count {
+  line-height: 50px;
+  display: inline-block;
+  width: 50%;
+  text-decoration: none;
+}
+
+.btn-count {
+  text-align: center;
+  color: $color-white;
+  background-color: $color-neon-carrot;
+}
+
+.btn-count-dis {
+  .btn-count {
+    display: none;
+  }
+
+  .btn-dish {
+    width: 100%;
+  }
+}
+
+.order-status {
+  position: relative;
+
+  &-symbal {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+  }
+}
+
+.order-demo-title {
+  display: inline-block;
+  width: 100px;
+  color: #999;
+}
+
+.order-demo-info {
+  width: calc(100% - 100px);
+}
+
+.order-operate {
+  height: 50px;
+}
+
+.dish-box .badge-price {
+  margin: 0;
+}

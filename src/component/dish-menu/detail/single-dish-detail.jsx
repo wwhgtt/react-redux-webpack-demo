@@ -34,7 +34,7 @@ module.exports = React.createClass({
       onAddToCarBtnTap(dish);
       return true;
     }
-    
+
     this.showToast();
     return false;
   },

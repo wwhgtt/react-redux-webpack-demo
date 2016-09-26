@@ -205,7 +205,7 @@ const RegisterMember = React.createClass({
             <div className="options-group">
               <div className="option register-user">
                 <span className="option-title register-user-name">姓名</span>
-                <SexSwitch sex={userSex} getSex={this.handleSex} />
+                <SexSwitch sex={userSex} changeSex={this.handleSex} />
                 <input
                   type="text"
                   className="option-input register-input register-user-input"
