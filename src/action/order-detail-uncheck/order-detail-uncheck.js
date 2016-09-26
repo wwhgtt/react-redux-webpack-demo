@@ -10,6 +10,7 @@ const orderId = getUrlParam('orderId');
 
 exports.getOrderDetailUncheck = () => (dispatch, getState) => {
   const getOrderDetailUncheckURL = `${config.tradeDetailUncheckAPI}?shopId=${shopId}&orderId=${orderId}`;
+  config.requestOptions.headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
   fetch(getOrderDetailUncheckURL, config.requestOptions).
   then(res => {
     if (!res.ok) {
