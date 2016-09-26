@@ -1,9 +1,9 @@
 const React = require('react');
-const actions = require('../../action/order-detail-in/order-detail-in.js');
+const actions = require('../../action/order-detail-uncheck/order-detail-uncheck.js');
 const connect = require('react-redux').connect;
-const OrderInfo = require('../../component/order-detail-in/order-info.jsx');
-const DishInfo = require('../../component/order-detail-in/dish-info.jsx');
-const DishDetail = require('../../component/order-detail-in/dish-detail.jsx');
+const OrderInfo = require('../../component/order-detail-uncheck/order-info.jsx');
+const DishInfo = require('../../component/order-detail-uncheck/dish-info.jsx');
+const DishDetail = require('../../component/order-detail-uncheck/dish-detail.jsx');
 const shopIcon = require('../../asset/images/default.png');
 const Toast = require('../../component/mui/toast.jsx');
 const getUrlParam = require('../../helper/common-helper').getUrlParam;
@@ -26,9 +26,14 @@ const OrderDetailInApplication = React.createClass({
     };
   },
 
-  componentWillMount() {
-    this.props.getOrderDetailUncheck();
-    setInterval(this.props.getOrderDetailUncheck, 10000);
+  componentDidMount() {
+    const { getOrderDetailUncheck } = this.props;
+    getOrderDetailUncheck();
+    setInterval(getOrderDetailUncheck, 10000);
+  },
+  componentWillReceiveProps(nextProps) {
+    const { errorInfo } = nextProps;
+    this.setState({ errorMsg: errorInfo });
   },
 
   handleStatus(dishStatus) {
@@ -51,7 +56,7 @@ const OrderDetailInApplication = React.createClass({
   },
 
   handleDishMenu() {
-    location.href = `http://${location.host}/orderall/selectDish?shopId=${shopId}&?tradeId=${orderId}`;
+    location.href = `http://${location.host}/orderall/selectDish?shopId=${shopId}&?type=TS`;
   },
 
   handleClearErrorMsg() {
@@ -143,6 +148,7 @@ const OrderDetailInApplication = React.createClass({
 const mapStateToProps = function (state) {
   return {
     orderDetail: state.orderDetail,
+    errorInfo: state.errorMessage,
   };
 };
 
