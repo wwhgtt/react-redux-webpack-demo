@@ -11,7 +11,7 @@ const _setOrderDish = createAction('ORDER_DISH', (dishData, increment) => [dishD
 const initOrderInfo = createAction('INIT_ORDER_INFO', (evt, option) => option);
 const setMenuData = createAction('SET_MENU_DATA', option => option);
 const gotoDishMenuPage = exports.gotoDishMenuPage = () => {
-  location.href = `${config.getMoreTSDishesURL}?type=${'TS'}&shopId=${shopId}`;
+  location.href = `/orderall/dishMenu4Dinner?type=${'TS'}&shopId=${shopId}`;
 };
 
 const setOrderInfo = exports.setOrderInfo = createAction('SET_ORDER_INFO', (evt, option) => option);
@@ -115,7 +115,7 @@ exports.submitOrder = (data, setLoading, setErrorMsg) => (dispatch, getState) =>
     .then(result => {
       if (result.code === '200') {
         clearDishesLocalStorage();
-        location.href = `${config.getMoreTSDishesURL}?type=${'TS'}&shopId=${shopId}&orderId=${result.data.orderId}`;
+        location.href = `${config.tradeDetailUncheckURL}?type=${'TS'}&shopId=${shopId}&orderId=${result.data.orderId}`;
         return;
       }
       setErrorMsg(result.msg);
