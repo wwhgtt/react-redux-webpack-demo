@@ -160,9 +160,8 @@ const fetchTableInfo = exports.fetchTableInfo = (tableParam) => (dispatch, getSt
       if (tableInfo.code === '200') {
         if (tableInfo.data && tableInfo.data.errCode) {
           errorLocation(tableInfo.data.errCode); // 获取tableInfo错误地址跳转
-          return;
         }
-      } else {
+      } else if (tableInfo.msg !== '未登录') {
         dispatch(setErrorMsg(tableInfo.msg));
       }
       sessionStorage.tableInfo = JSON.stringify(tableInfo.data || {});
@@ -185,6 +184,7 @@ const fetchServiceStatus = exports.fetchServiceStatus = (tableParam) => (dispatc
         if (serviceStatus.msg === '未登录') {
           dispatch(setServiceStatus({ data:serviceStatus.data || {}, isLogin:false }));
         } else {
+          dispatch(setErrorMsg(serviceStatus.msg));
           dispatch(setServiceStatus({ data:serviceStatus.data || {}, isLogin:true }));
         }
       } else {
@@ -207,7 +207,7 @@ const getOtherTableId = exports.getOtherTableId = () => (dispatch, getState) =>
       return res.json();
     }).
     then(otherTableId => {
-      if (otherTableId.code !== '200' && otherTableId.data && otherTableId.data.errCode === '90007') {
+      if (otherTableId.code === '90007') {
         dispatch(setErrorMsg(otherTableId.msg));
         errorLocation(otherTableId.code);
       }
@@ -226,7 +226,6 @@ exports.fetchTableId = (tableKey, tableId) => (dispatch, getState) => {
   // 没有tableId或者tableKey的情况
   if (!tableKey && !tableId) {
     fetchServiceStatus('')(dispatch, getState);
-    return;
   } else if (tableKey) {
     fetchTableInfo(`tableKey=${tableKey}`)(dispatch, getState);
     fetchServiceStatus(`tableKey=${tableKey}`)(dispatch, getState);
