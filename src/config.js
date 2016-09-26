@@ -27,7 +27,7 @@ module.exports = {
   orderTakeAwayAPi: `${apiBase}/takeaway/dishBox.json`,
   orderCouponsAPI:`${apiBase}/coupon/getCanUseCoupons.json`,
   orderDiscountInfoAPI:`${apiBase}/shop/discountInfo.json`,
-  orderDinnerStatementAPI:`${apiBase}/orderall/settlement4Dinner`,
+  orderDinnerStatementAPI:`${apiBase}/orderall/settlement4Dinner.json`,
   submitTSOrderAPI:`${apiBase}/orderall/subOrder.json`,
   submitWMOrderAPI:`${apiBase}/takeaway/subOrder.json`,
   userAddressAPI: `${apiBase}/user/addressList.json`,
@@ -102,7 +102,7 @@ module.exports = {
   registerAPI: `${apiBase}/member/addMember.json`, // 申请会员
   checkCodeAvaliableAPI:`${apiBase}/user/validMobile.json`,
   tradeDetailUncheckAPI: `${apiBase}/order/tradeDetailUncheck.json`, // 订单详情（结算前）
-  getWXAuthInfo: `${apiBase}/weixinapi/jsApiToken.json`,
+  getWXAuthInfo: `${apiBase}/weixinapi/jsApiTicket.json`,
   getTableIdFromQRCode: `${apiBase}/orderall/tableExt.json`,
   requestOptions,
 };
