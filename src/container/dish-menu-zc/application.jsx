@@ -11,7 +11,7 @@ const DishDescPopup = require('../../component/dish-menu/detail/dish-desc-popup.
 const QuickMenu = require('../../component/dish-menu/cart/quick-menu.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const helper = require('../../helper/dish-hepler');
-const tableKey = helper.getUrlParam('tablekey');
+const tableKey = helper.getUrlParam('tableKey');
 const tableId = helper.getUrlParam('tableId');
 
 const DishMenuZcApplication = React.createClass({

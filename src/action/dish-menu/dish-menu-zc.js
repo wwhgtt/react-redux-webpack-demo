@@ -236,8 +236,8 @@ exports.fetchTableId = (tableKey, tableId) => (dispatch, getState) => {
     fetchServiceStatus(`tableId=${tableId}`)(dispatch, getState);
     getOtherTableId()(dispatch, getState);
   }
-  // 保存tableId和tablekey到sessionStorage
-  sessionStorage.tablekey = tableKey || '';
+  // 保存tableId和tableKey到sessionStorage
+  sessionStorage.tableKey = tableKey || '';
   sessionStorage.tableId = tableId || '';
 
   return;
