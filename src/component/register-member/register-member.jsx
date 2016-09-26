@@ -66,12 +66,12 @@ const RegisterMember = React.createClass({
   },
 
   // 获取电话号码
-  getPhoneNum(obj) {
+  setPhoneNum(obj) {
     this.setState({ errorMsgP: obj.errorMsg, phoneNum: obj.numVal });
   },
 
   // 获取密码
-  getPassword(obj) {
+  setPassword(obj) {
     this.setState({ errorMsgC: obj.errorMsg, password: obj.numVal });
   },
 
@@ -181,8 +181,8 @@ const RegisterMember = React.createClass({
     const currentY = new Date().getFullYear();
     // debugger;
     return (
-      <div>
-        <div className="register-member ">
+      <div className="flex-columns">
+        <div className="register-member flex-rest">
           <div className="register-banner">
             <img className="register-banner-img" alt="" src={brandPicUrl} />
           </div>
@@ -195,7 +195,7 @@ const RegisterMember = React.createClass({
                   placeholder={'请填写手机号'}
                   regs={regP}
                   className={'option-input register-input'}
-                  onGetNum={this.getPhoneNum}
+                  onSetNum={this.setPhoneNum}
                   defaultVal={phoneNum}
                   disabled={isDisabled}
                 />
@@ -248,7 +248,7 @@ const RegisterMember = React.createClass({
                   placeholder={'请填写6位数字密码'}
                   regs={regC}
                   className={'option-input register-input register-pwd-in'}
-                  onGetNum={this.getPassword}
+                  onSetNum={this.setPassword}
                   defaultVal={password}
                 />
                 <input
@@ -282,7 +282,9 @@ const RegisterMember = React.createClass({
             : ''
           }
         </div>
-        <button className="btn--yellow btn-submit" onTouchTap={this.registerMember}>注册会员</button>
+        <div className="flex-none">
+          <button className="btn--yellow btn-submit" onTouchTap={this.registerMember}>注册会员</button>
+        </div>
       </div>
     );
   },
