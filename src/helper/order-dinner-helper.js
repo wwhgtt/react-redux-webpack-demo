@@ -32,7 +32,7 @@ exports.initializeDishes = (dishes) => {
           isChildDish:true,
           dishIngredientInfos:item.dishIngredientInfos,
           dishPropertyTypeInfos:item.propertyTypeList,
-          order:[{
+          order:isSingleDishWithoutProps(item) ? item.num : [{
             count:item.num,
             dishIngredientInfos:item.dishIngredientInfos,
             dishPropertyTypeInfos:item.propertyTypeList,

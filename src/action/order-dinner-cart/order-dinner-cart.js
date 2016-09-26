@@ -67,8 +67,9 @@ exports.fetchWXAuthInfo = (setErrorMsg) => (dispatch, getState) => {
 };
 
 exports.initOrderTable = (callback) => (dispatch, getState) => {
-  const tableId = sessionStorage.getItem('tableKey') || sessionStorage.getItem('tableId');
-  const tableInfo = { tableId };
+  const tableKey = sessionStorage.getItem('tableKey');
+  const tableId = sessionStorage.getItem('tableId');
+  const tableInfo = { tableId, tableKey };
   dispatch(setOrderInfo(null, tableInfo));
   if (callback) {
     callback(tableInfo);
@@ -103,8 +104,13 @@ exports.submitOrder = (data, setLoading, setErrorMsg) => (dispatch, getState) =>
     body: JSON.stringify(data),
   });
 
+  const { tableKey } = getState().orderTSCart;
+  let url = `${config.submitTSOrderCartAPI}?shopId=${shopId}`;
+  if (tableKey) {
+    url += `&tableKey=${tableKey}`;
+  }
   setLoading({ text: '系统处理中...', ing: true });
-  return fetch(`${config.submitTSOrderCartAPI}?shopId=${shopId}`, requestOptions)
+  return fetch(url, requestOptions)
     .then(res => {
       setLoading({ ing: false });
       if (!res.ok) {

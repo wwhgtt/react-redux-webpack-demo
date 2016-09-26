@@ -240,14 +240,14 @@ const OrderTSCartApplication = React.createClass({
     }
     return true;
   },
-  placeOrder(tableId) {
+  placeOrder(tableId, tableKey) {
     const validateResult = this.validateMoblieUserInfo();
     if (validateResult) {
-      this.submitOrder(tableId);
+      this.submitOrder(tableId, tableKey);
     }
   },
-  submitOrder(tableId) {
-    if (!tableId) {
+  submitOrder(tableId, tableKey) {
+    if (!tableId && !tableKey) {
       this.setErrorMsg('请选择桌台');
       return;
     }
@@ -274,12 +274,12 @@ const OrderTSCartApplication = React.createClass({
     Object.assign(data, this.getSubmitDishData(dishesData));
     this.props.submitOrder(data, this.setLoadingInfo, this.setErrorMsg);
   },
-  buildButtonGroupElement(tableId, shopSetting) {
-    if (tableId) {
+  buildButtonGroupElement(tableId, tableKey, shopSetting) {
+    if (tableId || tableKey) {
       return (
         <div className="flex-row">
           <button className="flex-rest btn btn-continue" onTouchTap={this.continueDishMenu}>继续点菜</button>
-          <button className="flex-rest btn btn-select-table" onTouchTap={() => this.placeOrder(tableId)}>下单</button>
+          <button className="flex-rest btn btn-select-table" onTouchTap={() => this.placeOrder(tableId, tableKey)}>下单</button>
         </div>
       );
     }
@@ -326,7 +326,7 @@ const OrderTSCartApplication = React.createClass({
   },
   render() {
     const { dishMenu, orderTSCart } = this.props;
-    const { member, peopleCount, memo, commercialName, commercialLogo, tableProps, mainOrderId, tableId, shopSetting } = orderTSCart;
+    const { member, peopleCount, memo, commercialName, commercialLogo, tableProps, mainOrderId, tableId, tableKey, shopSetting } = orderTSCart;
     const { errorMessage, loadingInfo } = this.state;
     const dishesData = dishMenu.dishesData || [];
     const dishCount = dishHelper.getDishesCount(dishesData);
@@ -412,7 +412,7 @@ const OrderTSCartApplication = React.createClass({
           </div>
         </div>
         <div className="flex-none btn-group-bottom">
-            {this.buildButtonGroupElement(tableId, shopSetting)}
+            {this.buildButtonGroupElement(tableId, tableKey, shopSetting)}
         </div>
         <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
           {this.state.tableVisible &&
