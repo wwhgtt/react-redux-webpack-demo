@@ -32,7 +32,7 @@ const OrderTSCartApplication = React.createClass({
     gotoDishMenuPage: React.PropTypes.func.isRequired,
     submitOrder: React.PropTypes.func.isRequired,
     initOrderTable: React.PropTypes.func.isRequired,
-    fetchTableIdFromNewVersionQRCode: React.PropTypes.func.isRequiored,
+    fetchTableIdFromNewVersionQRCode: React.PropTypes.func.isRequired,
     // MapedStatesToProps
     orderTSCart: React.PropTypes.object.isRequired,
     dishMenu: React.PropTypes.object.isRequired,
