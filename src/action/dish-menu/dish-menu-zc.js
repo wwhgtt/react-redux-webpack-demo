@@ -165,7 +165,7 @@ const fetchTableInfo = exports.fetchTableInfo = (tableParam) => (dispatch, getSt
       } else {
         dispatch(setErrorMsg(tableInfo.msg));
       }
-      sessionStorage.tableInfo = JSON.stringify(tableInfo.data);
+      sessionStorage.tableInfo = JSON.stringify(tableInfo.data || {});
     }).
     catch(err => {
       console.log(err);
