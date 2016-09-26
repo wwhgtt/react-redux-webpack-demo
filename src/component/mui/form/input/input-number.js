@@ -3,7 +3,7 @@ const React = require('react');
 const InputNum = React.createClass({
   displayName:'InputNum',
   propTypes: {
-    onGetNum: React.PropTypes.func,
+    onSetNum: React.PropTypes.func,
     regs: React.PropTypes.array,
     defaultVal: React.PropTypes.string,
     maxLength: React.PropTypes.number,
@@ -40,8 +40,8 @@ const InputNum = React.createClass({
       }
     }
     // 将提示信息和值传出
-    if (this.props.onGetNum) {
-      this.props.onGetNum({
+    if (this.props.onSetNum) {
+      this.props.onSetNum({
         errorMsg: errorFlag,
         numVal: inputNum,
       });
