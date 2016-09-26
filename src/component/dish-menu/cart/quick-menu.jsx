@@ -37,7 +37,7 @@ const QuickMenu = React.createClass({
     return '';
   },
   goToDetail(enableOrder, isLogin) { // 进入订单详情页
-    const orderId = JSON.stringify(sessionStorage.serviceStatus).orderId;
+    const orderId = JSON.parse(sessionStorage.serviceStatus).orderId || '';
     // 不带桌台的时候
     if (!tableKey && !tableId) {
       if (enableOrder && isLogin) {
@@ -50,7 +50,7 @@ const QuickMenu = React.createClass({
     }
   },
   goToPay(enablePay) { // 进入结算页面
-    const orderId = JSON.stringify(sessionStorage.serviceStatus).orderId;
+    const orderId = JSON.parse(sessionStorage.serviceStatus).orderId || '';
     if (enablePay) {
       location.href = `${config.settlement4DinnerURL}?type=TS&shopId=${shopId}&orderId=${orderId}`;
     }
