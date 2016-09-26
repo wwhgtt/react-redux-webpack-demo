@@ -1,5 +1,5 @@
 module.exports = {
-  path:'/orderall/tradeTsDetail.json',
+  path:'/orderall/settlement4Dinner',
   template:{
     data:{
       shopName: '小土豆石方菜菜软件园店',

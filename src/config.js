@@ -27,7 +27,7 @@ module.exports = {
   orderTakeAwayAPi: `${apiBase}/takeaway/dishBox.json`,
   orderCouponsAPI:`${apiBase}/coupon/getCanUseCoupons.json`,
   orderDiscountInfoAPI:`${apiBase}/shop/discountInfo.json`,
-  orderDinnerStatementAPI:`${apiBase}/orderall/tradeTsDetail.json`,
+  orderDinnerStatementAPI:`${apiBase}/orderall/settlement4Dinner`,
   submitTSOrderAPI:`${apiBase}/orderall/subOrder.json`,
   submitWMOrderAPI:`${apiBase}/takeaway/subOrder.json`,
   userAddressAPI: `${apiBase}/user/addressList.json`,
@@ -43,6 +43,7 @@ module.exports = {
   saveAddressAPI: `${apiBase}/user/saveAddress.json`,
   deleteAddressAPI: `${apiBase}/user/delAddress.json`,
   getOrderAddressInfoAPI: `${apiBase}/user/getAddressInfo.json`,
+  submitTSOrderCartAPI: `${apiBase}/orderall/subOrderDinner.json`,
 
   userLoginAPI: `${apiBase}/user/login.json`,
   userLoginWXURL: `${apiBase}/user/login4WX`,
@@ -100,7 +101,8 @@ module.exports = {
   registerInfoAPI: `${apiBase}/member/register.json`, // 获取用户信息
   registerAPI: `${apiBase}/member/addMember.json`, // 申请会员
   checkCodeAvaliableAPI:`${apiBase}/user/validMobile.json`,
-
   tradeDetailUncheckAPI: `${apiBase}/order/tradeDetailUncheck.json`, // 订单详情（结算前）
+  getWXAuthInfo: `${apiBase}/weixinapi/jsApiToken.json`,
+  getTableIdFromQRCode: `${apiBase}/orderall/tableExt.json`,
   requestOptions,
 };

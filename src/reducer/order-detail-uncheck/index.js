@@ -1,5 +1,5 @@
 import Immutable from 'seamless-immutable';
-const orderDetailInHelper = require('../../helper/order-detail-in-helper.js');
+const orderDetailInHelper = require('../../helper/order-detail-uncheck-helper.js');
 
 const defaultState = Immutable.from({
   errorMessage: '',

@@ -1,6 +1,6 @@
 const React = require('react');
-const OrderCustom = require('../../component/order-detail-in/order-custom.jsx');
-const DishDetail = require('../../component/order-detail-in/dish-detail.jsx');
+const OrderCustom = require('../../component/order-detail-uncheck/order-custom.jsx');
+const DishDetail = require('../../component/order-detail-uncheck/dish-detail.jsx');
 // const shopIcon = require('../../asset/images/default.png');
 
 const DishInfo = React.createClass({

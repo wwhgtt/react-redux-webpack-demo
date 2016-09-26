@@ -278,14 +278,13 @@ const getDishCookieObject = exports.getDishCookieObject = function (dish, orderI
   const groupChildDishIds = !splitPropsIds.join('#') || splitPropsIds.join('#') === '' ? id + '|1--' : splitPropsIds.join('#');
   return { key : `${consumeType}_${shopId}_${id}_${groupChildDishIds}`, value : `${orderCount}|${marketPrice}` };
 };
-exports.storeDishesLocalStorage = function (data) {
-  let lastOrderedDishes = {
+exports.storeDishesLocalStorage = function (data, func) {
+  const lastOrderedDishes = {
     shopId: getUrlParam('shopId'),
     type: getUrlParam('type'),
     expires: Date.now() + 24 * 60 * 60 * 1000,
-    dishes: getOrderedDishes(data),
+    dishes: func ? func(data) : getOrderedDishes(data),
   };
-
   localStorage.setItem('lastOrderedDishes', JSON.stringify(lastOrderedDishes));
 };
 const clearDishesLocalStorage = exports.clearDishesLocalStorage = function () {
