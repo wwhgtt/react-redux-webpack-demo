@@ -98,13 +98,13 @@ const removeBasicSession = (name) => {
 
 const errorLocation = (errorCode) => {
   switch (errorCode) {
-    case '90007' : location.href = config.exceptionLinkURL; break;
-    case '2' : location.href = config.exceptionDishCurrentURL; break;
-    case '3' : location.href = config.exceptionDishCurrentURL; break;
-    case '4' : location.href = config.exceptionDishURL; break;
-    case '5' : location.href = config.exceptionDishURL; break;
-    case '6' : location.href = config.exceptionDishURL; break;
-    case '7' : location.href = config.exceptionLinkURL; break;
+    case '90007' : location.href = `${config.exceptionLinkURL}?shopId=${shopId}`; break;
+    case '2' : location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`; break;
+    case '3' : location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`; break;
+    case '4' : location.href = `${config.exceptionDishURL}?shopId=${shopId}`; break;
+    case '5' : location.href = `${config.exceptionDishURL}?shopId=${shopId}`; break;
+    case '6' : location.href = `${config.exceptionDishURL}?shopId=${shopId}`; break;
+    case '7' : location.href = `${config.exceptionLinkURL}?shopId=${shopId}`; break;
     default : break;
   }
 };
@@ -130,7 +130,7 @@ exports.callBell = (timer) => (dispatch, getStates) => {
         dispatch(setTimerStatus({ timerStatus:false }));
       });
     } else {
-      if (basicData.code === '90002') { // 已经呼叫过服务员了
+      if (basicData.code === '1501') { // 已经呼叫过服务员了
         dispatch(setCallMsg({ info:basicData.msg, callStatus:true }));
         dispatch(setTimerStatus({ timerStatus:true }));
         commonHelper.interValSetting(timer, () => {
