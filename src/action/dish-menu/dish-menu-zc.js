@@ -130,7 +130,7 @@ exports.callBell = (timer) => (dispatch, getStates) => {
         dispatch(setTimerStatus({ timerStatus:false }));
       });
     } else {
-      if (basicData.data && basicData.data.errCode === '90002') { // 已经呼叫过服务员了
+      if (basicData.code === '90002') { // 已经呼叫过服务员了
         dispatch(setCallMsg({ info:basicData.msg, callStatus:true }));
         dispatch(setTimerStatus({ timerStatus:true }));
         commonHelper.interValSetting(timer, () => {
