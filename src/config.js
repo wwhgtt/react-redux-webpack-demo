@@ -27,7 +27,7 @@ module.exports = {
   orderTakeAwayAPi: `${apiBase}/takeaway/dishBox.json`,
   orderCouponsAPI:`${apiBase}/coupon/getCanUseCoupons.json`,
   orderDiscountInfoAPI:`${apiBase}/shop/discountInfo.json`,
-  orderDinnerStatementAPI:`${apiBase}/orderall/tradeTsDetail.json`,
+  orderDinnerStatementAPI:`${apiBase}/orderall/settlement4Dinner`,
   submitTSOrderAPI:`${apiBase}/orderall/subOrder.json`,
   submitWMOrderAPI:`${apiBase}/takeaway/subOrder.json`,
   userAddressAPI: `${apiBase}/user/addressList.json`,
@@ -75,9 +75,9 @@ module.exports = {
   getCouponListURL:`${apiBase}/coupon/getCouponList`, // 优惠券
   addressListURL:`${apiBase}/user/addressList`, // 地址管理
   modifyPwdURL:`${apiBase}/member/modifyPwd`, // 修改密码
-  orderDetailURL:`${apiBase}/order/orderDetail`, // 堂食订单详情页 结算前
-  cartOrderURL:`${apiBase}/order/cartOrder`, // 购物车详情页
-  dishBoxTsURL:`${apiBase}/orderall/dishBox`, // 堂食下单页面
+  tradeDetailUncheckURL:`${apiBase}/order/tradeDetailUncheck`, // 堂食正餐订单详情页 结算前
+  dishCart4DinnerURL:`${apiBase}/orderall/dishCart4Dinner`, // 购物车详情页
+  settlement4DinnerURL:`${apiBase}/orderall/settlement4Dinner`, // 正餐结算页面
 
   exceptionDishURL:`${apiBase}/orderall/tableCantOrder`, // 异常页面(无法在该桌台点餐)
   exceptionDishCurrentURL:`${apiBase}/orderall/tableError`, // 异常页面(该桌台无法点餐)
@@ -102,7 +102,7 @@ module.exports = {
   registerAPI: `${apiBase}/member/addMember.json`, // 申请会员
   checkCodeAvaliableAPI:`${apiBase}/user/validMobile.json`,
   tradeDetailUncheckAPI: `${apiBase}/order/tradeDetailUncheck.json`, // 订单详情（结算前）
-  getWXAuthInfo: `${apiBase}/weixinapi/jsApiToken.json`,
+  getWXAuthInfo: `${apiBase}/weixinapi/jsApiTicket.json`,
   getTableIdFromQRCode: `${apiBase}/orderall/tableExt.json`,
   requestOptions,
 };

@@ -60,8 +60,8 @@ module.exports = {
     'exception-dish-current-entry': [
       './src/exception-dish-current.jsx',
     ],
-    'order-detail-in-entry': [
-      './src/order-detail-in.jsx',
+    'order-detail-uncheck-entry': [
+      './src/order-detail-uncheck.jsx',
     ],
     'order-dinner-cart-entry': [
       './src/order-dinner-cart.jsx',
@@ -101,6 +101,7 @@ module.exports = {
   },
   plugins: [
     new webpack.EnvironmentPlugin(['NODE_ENV', 'PROD_HOST']),
+    // new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin(
       {
         title: 'DishMenuApplication',
@@ -256,8 +257,8 @@ module.exports = {
     new HtmlWebpackPlugin(
       {
         title: 'OrderDetailInApplication',
-        filename: 'order-detail-in.html',
-        chunks: ['common', 'order-detail-in-entry'],
+        filename: 'order-detail-uncheck.html',
+        chunks: ['common', 'order-detail-uncheck-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
