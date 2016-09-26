@@ -60,7 +60,7 @@ const OrderTSCartApplication = React.createClass({
     const { wxAuthInfo } = newProps.orderTSCart;
     if (!this._wxClient && wxAuthInfo) {
       this._wxClient = wxClient(Object.assign({
-        debug: false,
+        debug: true,
         appId: wxAuthInfo.appid,
         timestamp: 0,
         nonceStr: wxAuthInfo.noncestr,
