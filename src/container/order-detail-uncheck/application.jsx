@@ -38,12 +38,12 @@ const OrderDetailInApplication = React.createClass({
     this.setState({ errorMsg: errorInfo });
   },
 
-  // 订单状态 1：待确认 2：已确认
+  // 订单状态 1：待确认 3：已确认
   handleStatus(dishStatus) {
     let statusType = '';
     if (dishStatus === 1) {
       statusType = 'status-square-uncheck';
-    } else if (dishStatus === 2) {
+    } else if (dishStatus === 3) {
       statusType = 'status-square-checked';
     }
     return statusType;
