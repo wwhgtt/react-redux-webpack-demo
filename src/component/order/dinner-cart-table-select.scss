@@ -1,0 +1,67 @@
+@import "settings.colors";
+
+.dinner-cart-table-select {
+  .dialog {
+    position: absolute;
+    z-index: 2000;
+    bottom: 260px;
+    left: 50%;
+    overflow: hidden;
+    width: 80%;
+    border-radius: 4px;
+    background: #fff;
+    transform: translateX(-50%);
+
+    &-content {
+      height: 170px;
+      background: #fff;
+    }
+
+    &-header {
+      font-size: 14px;
+      line-height: 40px;
+      height: 40px;
+      text-align: center;
+      background: $color-gallery;
+    }
+
+    &-body {
+      position: relative;
+    }
+
+    &-footer {
+      height: 40px;
+    }
+
+    .btn {
+      font-size: 16px;
+      height: 40px;
+      color: #fff;
+      background: $color-sliver;
+    }
+
+    .btn-confirm {
+      background: $color-sunglow;
+    }
+  }
+
+  .table-title {
+    font-size: 16px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 5px 10px;
+    color: $color-sunglow;
+    border: 1px dashed $color-dusty-grey;
+    transform: translate(-50%, -50%);
+  }
+
+  .scroll-select-header {
+    text-align: center;
+  }
+
+  .scroll-select-confirm {
+    display: none;
+  }
+}
+
