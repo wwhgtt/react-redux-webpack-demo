@@ -32,7 +32,7 @@ const OrderTSCartApplication = React.createClass({
     gotoDishMenuPage: React.PropTypes.func.isRequired,
     submitOrder: React.PropTypes.func.isRequired,
     initOrderTable: React.PropTypes.func.isRequired,
-    fetchTableIdFromNewVersionQRCode: React.PropTypes.func.isRequired,
+    fetchTableIdFromNewVersionQRCode: React.PropTypes.func.isRequiored,
     // MapedStatesToProps
     orderTSCart: React.PropTypes.object.isRequired,
     dishMenu: React.PropTypes.object.isRequired,
@@ -268,6 +268,8 @@ const OrderTSCartApplication = React.createClass({
       peopleCount,
       tableId,
       mainOrderId: null,
+      payMethod: 0,
+      needPayPrice: dishHelper.getDishesPrice(dishesData),
       serviceApproach: 'totable',
     });
 
