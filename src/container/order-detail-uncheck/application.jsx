@@ -29,13 +29,16 @@ const OrderDetailInApplication = React.createClass({
   componentDidMount() {
     const { getOrderDetailUncheck } = this.props;
     getOrderDetailUncheck();
+    // 每隔10秒获取数据
     setInterval(getOrderDetailUncheck, 10000);
   },
+
   componentWillReceiveProps(nextProps) {
     const { errorInfo } = nextProps;
     this.setState({ errorMsg: errorInfo });
   },
 
+  // 订单状态 1：待确认 2：已确认
   handleStatus(dishStatus) {
     let statusType = '';
     if (dishStatus === 1) {
@@ -46,17 +49,18 @@ const OrderDetailInApplication = React.createClass({
     return statusType;
   },
 
+  // 是否可以结账
   hanleCheck() {
     const { orderDetail } = this.props;
     if (orderDetail.priviledge) {
       this.setState({ errorMsg: '请联系服务员结账' });
     } else {
-      location.href = `http://${location.host}/check?shopId=${shopId}&?tradeId=${orderId}`;
+      location.href = `http://${location.host}/orderall/settlement4Dinner?shopId=${shopId}&?tradeId=${orderId}`;
     }
   },
 
   handleDishMenu() {
-    location.href = `http://${location.host}/orderall/selectDish?shopId=${shopId}&?type=TS`;
+    location.href = `http://${location.host}/orderall/dishMenu4Dinner?shopId=${shopId}&?type=TS&?orderId=${orderId}`;
   },
 
   handleClearErrorMsg() {
