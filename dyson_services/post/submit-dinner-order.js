@@ -1,5 +1,5 @@
 module.exports = {
-  path:'/order/tradeBilling.json',
+  path:'/orderall/tradeBilling.json',
   template:{
     data: {
       orderId: 0,
