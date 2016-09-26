@@ -7,8 +7,8 @@ const tableKey = helper.getUrlParam('tablekey');
 const tableId = helper.getUrlParam('tableId');
 const config = require('../../../config');
 const ServiceBell = require('./service-bell.jsx');
-const orderDetailUrl = `${config.orderDetailURL}?shopId=${shopId}`;
-const cartOrderUrl = `${config.cartOrderURL}?type=${type}&shopId=${shopId}`;
+const tradeDetailUncheckUrl = `${config.tradeDetailUncheckURL}?type=${type}&shopId=${shopId}`;
+const dishCart4DinnerUrl = `${config.dishCart4DinnerURL}?type=${type}&shopId=${shopId}`;
 const classnames = require('classnames');
 
 const QuickMenu = React.createClass({
@@ -37,29 +37,31 @@ const QuickMenu = React.createClass({
     return '';
   },
   goToDetail(enableOrder, isLogin) { // 进入订单详情页
+    const orderId = JSON.parse(sessionStorage.serviceStatus).orderId || '';
     // 不带桌台的时候
     if (!tableKey && !tableId) {
       if (enableOrder && isLogin) {
-        location.href = orderDetailUrl;
+        location.href = `${tradeDetailUncheckUrl}&orderId=${orderId}`;
       }
     } else { // 带桌台的时候
       if (enableOrder) {
-        location.href = orderDetailUrl;
+        location.href = `${tradeDetailUncheckUrl}&orderId=${orderId}`;
       }
     }
   },
-  goToPay(enablePay) { // 进入下单页面
+  goToPay(enablePay) { // 进入结算页面
+    const orderId = JSON.parse(sessionStorage.serviceStatus).orderId || '';
     if (enablePay) {
-      location.href = `${config.dishBoxTsURL}?type=TS&shopId=${shopId}`;
+      location.href = `${config.settlement4DinnerURL}?type=TS&shopId=${shopId}&orderId=${orderId}`;
     }
   },
   jumpDetail(num) {
     const { serviceStatus } = this.props;
     if (num) {
       if (serviceStatus.isLogin) {
-        location.href = cartOrderUrl; // 跳转到购物车详情页面
+        location.href = dishCart4DinnerUrl; // 跳转到购物车详情页面
       } else {
-        location.href = `${config.logAddressURL}?shopId=${shopId}&returnUrl=${encodeURIComponent(cartOrderUrl)}`; // 跳转到登录页面
+        location.href = `${config.logAddressURL}?shopId=${shopId}&returnUrl=${encodeURIComponent(dishCart4DinnerUrl)}`; // 跳转到登录页面
       }
     }
   },

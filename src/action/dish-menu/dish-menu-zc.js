@@ -99,6 +99,12 @@ const removeBasicSession = (name) => {
 const errorLocation = (errorCode) => {
   switch (errorCode) {
     case '90007' : location.href = config.exceptionLinkURL; break;
+    case '2' : location.href = config.exceptionDishCurrentURL; break;
+    case '3' : location.href = config.exceptionDishCurrentURL; break;
+    case '4' : location.href = config.exceptionDishURL; break;
+    case '5' : location.href = config.exceptionDishURL; break;
+    case '6' : location.href = config.exceptionDishURL; break;
+    case '7' : location.href = config.exceptionLinkURL; break;
     default : break;
   }
 };
@@ -124,7 +130,7 @@ exports.callBell = (timer) => (dispatch, getStates) => {
         dispatch(setTimerStatus({ timerStatus:false }));
       });
     } else {
-      if (basicData.code === '201') { // 已经呼叫过服务员了
+      if (basicData.code === '90002') { // 已经呼叫过服务员了
         dispatch(setCallMsg({ info:basicData.msg, callStatus:true }));
         dispatch(setTimerStatus({ timerStatus:true }));
         commonHelper.interValSetting(timer, () => {
@@ -151,10 +157,15 @@ const fetchTableInfo = exports.fetchTableInfo = (tableParam) => (dispatch, getSt
       return res.json();
     }).
     then(tableInfo => {
-      if (tableInfo.code !== '200') {
+      if (tableInfo.code === '200') {
+        if (tableInfo.data && tableInfo.data.errCode) {
+          errorLocation(tableInfo.data.errCode); // 获取tableInfo错误地址跳转
+          return;
+        }
+      } else {
         dispatch(setErrorMsg(tableInfo.msg));
       }
-      sessionStorage.tableInfo = JSON.stringify(tableInfo.data);
+      sessionStorage.tableInfo = JSON.stringify(tableInfo.data || {});
     }).
     catch(err => {
       console.log(err);
@@ -172,16 +183,15 @@ const fetchServiceStatus = exports.fetchServiceStatus = (tableParam) => (dispatc
     then(serviceStatus => {
       if (serviceStatus.code !== '200') {
         if (serviceStatus.msg === '未登录') {
-          dispatch(setServiceStatus({ data:serviceStatus.data, isLogin:false }));
+          dispatch(setServiceStatus({ data:serviceStatus.data || {}, isLogin:false }));
         } else {
-          dispatch(setErrorMsg(serviceStatus.msg));
-          dispatch(setServiceStatus({ data:serviceStatus.data, isLogin:true }));
+          dispatch(setServiceStatus({ data:serviceStatus.data || {}, isLogin:true }));
         }
       } else {
-        dispatch(setServiceStatus({ data:serviceStatus.data, isLogin:true }));
+        dispatch(setServiceStatus({ data:serviceStatus.data || {}, isLogin:true }));
       }
       // 保存ServiceStatus
-      sessionStorage.serviceStatus = JSON.stringify(serviceStatus.data);
+      sessionStorage.serviceStatus = JSON.stringify(serviceStatus.data || {});
     }).
     catch(err => {
       console.log(err);
@@ -192,12 +202,12 @@ const getOtherTableId = exports.getOtherTableId = () => (dispatch, getState) =>
   fetch(`${config.getOtherTableIdAPI}?shopId=${helper.getUrlParam('shopId')}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
-        dispatch(setErrorMsg('获取获取用户是否在其他桌台下单失败...'));
+        dispatch(setErrorMsg('获取用户是否在其他桌台下单失败...'));
       }
       return res.json();
     }).
     then(otherTableId => {
-      if (otherTableId.code === '90007') {
+      if (otherTableId.code !== '200' && otherTableId.data && otherTableId.data.errCode === '90007') {
         dispatch(setErrorMsg(otherTableId.msg));
         errorLocation(otherTableId.code);
       }
@@ -206,13 +216,14 @@ const getOtherTableId = exports.getOtherTableId = () => (dispatch, getState) =>
       console.log(err);
     });
 
+
 // 取到tableId 或者 根据key值获取tableId
 exports.fetchTableId = (tableKey, tableId) => (dispatch, getState) => {
   removeBasicSession('tableInfo');
   removeBasicSession('serviceStatus');
   removeBasicSession('tableId');
   removeBasicSession('tableKey');
-  // 没有tableId的情况
+  // 没有tableId或者tableKey的情况
   if (!tableKey && !tableId) {
     fetchServiceStatus('')(dispatch, getState);
     return;
