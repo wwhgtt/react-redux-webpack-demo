@@ -161,7 +161,7 @@ const fetchTableInfo = exports.fetchTableInfo = (tableParam) => (dispatch, getSt
         if (tableInfo.data && tableInfo.data.errCode) {
           errorLocation(tableInfo.data.errCode); // 获取tableInfo错误地址跳转
         }
-      } else {
+      } else if (tableInfo.msg !== '未登录') {
         dispatch(setErrorMsg(tableInfo.msg));
       }
       sessionStorage.tableInfo = JSON.stringify(tableInfo.data || {});
@@ -184,6 +184,7 @@ const fetchServiceStatus = exports.fetchServiceStatus = (tableParam) => (dispatc
         if (serviceStatus.msg === '未登录') {
           dispatch(setServiceStatus({ data:serviceStatus.data || {}, isLogin:false }));
         } else {
+          dispatch(setErrorMsg(serviceStatus.msg));
           dispatch(setServiceStatus({ data:serviceStatus.data || {}, isLogin:true }));
         }
       } else {
