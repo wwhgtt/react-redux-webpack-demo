@@ -92,11 +92,10 @@ const OrderDetailInApplication = React.createClass({
         <div className="flex-rest">
           <OrderInfo orderInfo={orderInfo} />
           {
-            orderDetail.orderMetas ?
+            orderDetail.orderMetas &&
             orderDetail.orderMetas.map((item, index) =>
               <DishInfo orderDetail={item} key={index} />
             )
-            : ''
           }
           <div className="options-group">
             <div className="option order-status">
@@ -104,34 +103,41 @@ const OrderDetailInApplication = React.createClass({
               <div className={`order-status-symbal status-square ${statusType}`}></div>
             </div>
             {
-              dishTotal.dishItems ?
+              dishTotal.dishItems &&
                 dishTotal.dishItems.map((item, index) =>
                   <DishDetail mainDish={item} key={index} />
                 )
-              : ''
             }
-            <div className="option">
-              <span>优惠总计</span>
-              <span className="discount fr">{dishTotal.priviledgeAmount}</span>
-            </div>
+            {
+              Boolean(dishTotal.priviledgeAmount) && (
+                <div className="option">
+                  <span>优惠总计</span>
+                  <span className="discount fr">{dishTotal.priviledgeAmount}</span>
+                </div>
+              )
+            }
+
             <div className="option">
               {
-                dishTotal.dishItems ?
-                  <span>共 {dishTotal.dishItems.length} 份商品</span>
-                : ''
+                dishTotal.dishItems && <span>共 {dishTotal.dishItems.length} 份商品</span>
               }
               <div className="fr">
-                <span>总计:</span>
+                <span>总计：</span>
                 <span className="text-neon-carrot price">{dishTotal.totalRrice}</span>
               </div>
             </div>
           </div>
-          <div className="options-group">
-            <div className="option">
-              <span className="order-demo-title fl">整单备注</span>
-              <p className="order-demo-info fl">{dishTotal.memo}</p>
-            </div>
-          </div>
+          {
+            dishTotal.memo && (
+              <div className="options-group">
+                <div className="option">
+                  <span className="order-demo-title fl">整单备注</span>
+                  <p className="order-demo-info fl">{dishTotal.memo}</p>
+                </div>
+              </div>
+           )
+          }
+
         </div>
         <div className="order-operate flex-none">
           <div className={btnDis}>
@@ -140,9 +146,8 @@ const OrderDetailInApplication = React.createClass({
           </div>
         </div>
         {
-          errorMsg ?
+          errorMsg &&
             <Toast errorMessage={errorMsg} clearErrorMsg={this.handleClearErrorMsg} />
-          : ''
         }
       </div>
     );
