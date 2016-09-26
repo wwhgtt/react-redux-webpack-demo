@@ -706,9 +706,10 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
       }
     }
   } else {
-    let sex = +state.customerProps.sex;
-    if (isNaN(sex) || state.customerProps.sex === null || sex === -1) {
-      return { success:false, msg:'未选择性别' };
+    const sex = +String(state.customerProps.sex);
+    // 仅手机号登陆登录校验性别
+    if (state.customerProps.loginType === 0 && (isNaN(sex) || sex === -1)) {
+      return { success: false, msg:'未选择性别' };
     }
     params = '?name=' + state.customerProps.name
         + '&Invoice=' + receipt + '&memo=' + note
