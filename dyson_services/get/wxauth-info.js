@@ -1,5 +1,5 @@
 module.exports = {
-  path: '/weixinapi/jsApiToken.json',
+  path: '/weixinapi/jsApiTicket.json',
   template:{
     data: {
       noncestr: 'Wm3WZYTPz0wzccnW',
