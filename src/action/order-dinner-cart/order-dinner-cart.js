@@ -114,9 +114,8 @@ exports.submitOrder = (data, setLoading, setErrorMsg) => (dispatch, getState) =>
     })
     .then(result => {
       if (result.code === '200') {
-        // clearDishesLocalStorage();
-        // gotoDishMenuPage();
-        setErrorMsg('下单成功');
+        clearDishesLocalStorage();
+        location.href = `${config.getMoreTSDishesURL}?type=${'TS'}&shopId=${shopId}&orderId=${result.data.orderId}`;
         return;
       }
       setErrorMsg(result.msg);
