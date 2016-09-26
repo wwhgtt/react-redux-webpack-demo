@@ -1,0 +1,72 @@
+@import "settings.colors";
+
+// stylelint-disable selector-no-id
+// Root element id
+#app-placeholder,
+[data-reactroot] {
+  height: 100%;
+}
+
+.application {
+  height: 100%;
+  background: $color-gallery;
+}
+
+// override option styles
+.option {
+  &-input {
+    font-size: 14px;
+    float: right;
+    width: 150px;
+    text-align: right;
+    color: $color-dusty-grey;
+  }
+}
+
+.cart {
+  &-clear {
+    font-size: 14px;
+    float: right;
+    padding-right: 10px;
+    color: $color-dusty-grey;
+
+    &::before {
+      float: left;
+      width: 15px;
+      height: 16px;
+      margin: 2px 3px 0 0;
+      content: "";
+      background-image: url("../../asset/images/cart-clear.png"); // image size 30 * 32px
+      background-size: cover;
+    }
+  }
+}
+
+.btn-group-bottom {
+  .btn {
+    height: 50px;
+    color: #fff;
+
+    &-continue {
+      background: $color-sunglow;
+    }
+
+    &-order {
+      background: $color-crusta;
+    }
+
+    &-select-table {
+      background: $color-jaffa;
+    }
+  }
+}
+
+.totalprice {
+  font-size: 16px;
+  color: #333;
+
+  &::after {
+    content: attr(data-count);
+    color: $color-crusta;
+  }
+}

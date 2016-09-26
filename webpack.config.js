@@ -66,6 +66,9 @@ module.exports = {
     'order-detail-in-entry': [
       './src/order-detail-in.jsx',
     ],
+    'order-dinner-cart-entry': [
+      './src/order-dinner-cart.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -259,6 +262,14 @@ module.exports = {
         title: 'OrderDetailInApplication',
         filename: 'order-detail-in.html',
         chunks: ['common', 'order-detail-in-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'OrderTSCartApplication',
+        filename: 'order-dinner-cart.html',
+        chunks: ['common', 'order-dinner-cart-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

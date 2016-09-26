@@ -411,6 +411,7 @@ const OrderApplication = React.createClass({
         <div className="option">没有可用{isSelfFetch ? '取餐时间' : '送达时间'}</div>
       );
     };
+
     return (
       <div className="application flex-columns">
         <div className="flex-rest">
