@@ -13,13 +13,14 @@ exports.getOrderDetailUncheck = () => (dispatch, getState) => {
   fetch(getOrderDetailUncheckURL, config.requestOptions).
   then(res => {
     if (!res.ok) {
-      dispatch(setErrorMsg('获取订单信息失败'));
+      dispatch(setErrorMsg('获取信息失败'));
     }
     return res.json();
   }).
   then(res => {
     if (res.code === '200') {
       dispatch(setOrderDetail(res.data));
+      dispatch(setErrorMsg(''));
     } else {
       dispatch(setErrorMsg(res.msg));
     }
