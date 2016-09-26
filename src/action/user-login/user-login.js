@@ -10,7 +10,7 @@ const shopId = getUrlParam('shopId');
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setLoadingInfo = exports.setLoadingInfo = createAction('SET_LOADING_INFO', info => info);
 const setSupportInfo = createAction('SET_SUPPORT_INFO', info => info);
-
+const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
 
 exports.login = (info) => (dispatch, getState) => {
   if (!shopId) {
@@ -25,7 +25,8 @@ exports.login = (info) => (dispatch, getState) => {
   }
 
   dispatch(setLoadingInfo({ ing: true, text: '系统处理中...' }));
-  const url = `${config.userLoginAPI}?shopId=${shopId}&mobile=${info.phoneNum}&code=${info.code}`;
+  const timestamp = getState().timestamp;
+  const url = `${config.userLoginAPI}?shopId=${shopId}&mobile=${info.phoneNum}&code=${info.code}&timestamp=${timestamp}`;
   return fetch(url, config.requestOptions).
     then(res => {
       if (!res.ok) {
@@ -43,7 +44,7 @@ exports.login = (info) => (dispatch, getState) => {
       location.href = decodeURIComponent(returnUrl);
     }).
     catch(err => {
-      console.log(err);
+      throw new Error(err);
     });
 };
 
@@ -66,9 +67,10 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
         dispatch(setErrorMsg(result.msg));
         return;
       }
+      dispatch(setTimeStamp(result.data.timeStamp));
     }).
     catch(err => {
-      console.log(err);
+      throw new Error(err);
     });
 };
 
@@ -88,11 +90,10 @@ exports.fetchSupportInfo = () => (dispatch, getState) => {
         dispatch(setErrorMsg(result.msg));
         return;
       }
-
       dispatch(setSupportInfo(result.data));
     }).
     catch(err => {
-      console.log(err);
+      throw new Error(err);
     });
 };
 
