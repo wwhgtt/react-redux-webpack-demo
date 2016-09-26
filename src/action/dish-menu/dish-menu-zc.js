@@ -228,8 +228,8 @@ exports.fetchTableId = (tableKey, tableId) => (dispatch, getState) => {
     fetchServiceStatus('')(dispatch, getState);
     return;
   } else if (tableKey) {
-    fetchTableInfo(`tablekey=${tableKey}`)(dispatch, getState);
-    fetchServiceStatus(`tablekey=${tableKey}`)(dispatch, getState);
+    fetchTableInfo(`tableKey=${tableKey}`)(dispatch, getState);
+    fetchServiceStatus(`tableKey=${tableKey}`)(dispatch, getState);
     getOtherTableId()(dispatch, getState);
   } else {
     fetchTableInfo(`tableId=${tableId}`)(dispatch, getState);
