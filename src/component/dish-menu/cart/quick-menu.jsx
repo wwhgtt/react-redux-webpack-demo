@@ -3,7 +3,7 @@ require('./quick-menu.scss');
 const helper = require('../../../helper/dish-hepler');
 const shopId = helper.getUrlParam('shopId');
 const type = helper.getUrlParam('type');
-const tableKey = helper.getUrlParam('tablekey');
+const tableKey = helper.getUrlParam('tableKey');
 const tableId = helper.getUrlParam('tableId');
 const config = require('../../../config');
 const ServiceBell = require('./service-bell.jsx');

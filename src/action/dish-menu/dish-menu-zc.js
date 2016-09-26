@@ -228,16 +228,16 @@ exports.fetchTableId = (tableKey, tableId) => (dispatch, getState) => {
     fetchServiceStatus('')(dispatch, getState);
     return;
   } else if (tableKey) {
-    fetchTableInfo(`tablekey=${tableKey}`)(dispatch, getState);
-    fetchServiceStatus(`tablekey=${tableKey}`)(dispatch, getState);
+    fetchTableInfo(`tableKey=${tableKey}`)(dispatch, getState);
+    fetchServiceStatus(`tableKey=${tableKey}`)(dispatch, getState);
     getOtherTableId()(dispatch, getState);
   } else {
     fetchTableInfo(`tableId=${tableId}`)(dispatch, getState);
     fetchServiceStatus(`tableId=${tableId}`)(dispatch, getState);
     getOtherTableId()(dispatch, getState);
   }
-  // 保存tableId和tablekey到sessionStorage
-  sessionStorage.tablekey = tableKey || '';
+  // 保存tableId和tableKey到sessionStorage
+  sessionStorage.tableKey = tableKey || '';
   sessionStorage.tableId = tableId || '';
 
   return;
