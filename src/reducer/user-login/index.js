@@ -8,7 +8,7 @@ module.exports = (
       isxeq: false,
       weixin: false,
     },
-    timestamp: '',
+    timestamp: null,
   }),
   action
 ) => {

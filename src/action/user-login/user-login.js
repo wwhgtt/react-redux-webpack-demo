@@ -25,7 +25,7 @@ exports.login = (info) => (dispatch, getState) => {
   }
 
   dispatch(setLoadingInfo({ ing: true, text: '系统处理中...' }));
-  const timestamp = getState().timestamp;
+  const timestamp = getState().timestamp || new Date().getTime();
   const url = `${config.userLoginAPI}?shopId=${shopId}&mobile=${info.phoneNum}&code=${info.code}&timestamp=${timestamp}`;
   return fetch(url, config.requestOptions).
     then(res => {
