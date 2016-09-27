@@ -22,6 +22,7 @@ const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error =>
 const setCustomToShopAddress = createAction('SET_ADDRESS_TOSHOP_TO_ORDER', option => option);
 const setOrderTimeProps = createAction('SET_ORDER_TIME_PROPS', timeJson => timeJson);
 const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
+const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 
@@ -319,6 +320,7 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
 
   if (state.phoneValidateCode) {
     data.code = state.phoneValidateCode;
+    data.timestamp = state.timestamp || new Date().getTime();
   }
   requestOptions.body = JSON.stringify(data);
 
@@ -352,6 +354,7 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
         dispatch(setErrorMsg(result.msg));
         return;
       }
+      dispatch(setTimeStamp(result.data.timeStamp));
     }).
     catch(err => {
       console.log(err);

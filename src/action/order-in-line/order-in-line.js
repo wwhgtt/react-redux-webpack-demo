@@ -6,6 +6,7 @@ const setOrderInLineProps = createAction('SET_ORDER_INLINE_PROPS', props => prop
 exports.setCustomerProps = createAction('SET_CUSTOMER_PROPS', props => props);
 exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
 const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
+const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
 const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 require('es6-promise');
 require('isomorphic-fetch');
@@ -39,6 +40,7 @@ exports.clearErrorMsg = () => (dispatch, getState) =>
 const submitOrder = exports.submitOrder = () => (dispatch, getState) => {
   const state = getState();
   const code = state.phoneValidateCode ? `&code=${state.phoneValidateCode}` : '';
+  const timestamp = state.phoneValidateCode ? state.timestamp || new Date().getTime() : '';
   if (!state.customerProps.name || !state.customerProps.mobile || state.customerProps.sex === null) {
     dispatch(setErrorMsg('请先完善排队信息...'));
     return;
@@ -52,7 +54,8 @@ const submitOrder = exports.submitOrder = () => (dispatch, getState) => {
     + '&sex=' + state.customerProps.sex
     + '&mobile=' + mobile
     + '&peopleCount=' + state.dinePersonCount
-    + code;
+    + code
+    + timestamp;
   fetch(`${config.submitOrderInLineAPI}${params}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
@@ -90,6 +93,7 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
         dispatch(setErrorMsg(result.msg));
         return;
       }
+      dispatch(setTimeStamp(result.data.timeStamp));
     }).
     catch(err => {
       console.log(err);

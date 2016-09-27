@@ -10,6 +10,7 @@ exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
 exports.setCustomerProps = createAction('SET_CUSTOMER_PROPS', option => option);
 const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
+const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 const shopId = getUrlParam('shopId');
@@ -87,6 +88,7 @@ const placeOrder = exports.placeOrder = (note) => (dispatch, getState) => {
     return;
   }
   const code = state.phoneValidateCode ? `&code=${state.phoneValidateCode}` : '';
+  const timestamp = state.phoneValidateCode ? state.timestamp || new Date().getTime() : '';
   let mobile = state.customerProps.mobile.toString();
   if (mobile.indexOf('4') === 0 && mobile.length === 9) {
     mobile = '0' + mobile;
@@ -99,7 +101,8 @@ const placeOrder = exports.placeOrder = (note) => (dispatch, getState) => {
       + '&orderNumber=' + state.dinePersonCount
       + '&orderTime=' + orderTime
       + '&shopId=' + getUrlParam('shopId')
-      + code;
+      + code
+      + timestamp;
   fetch(`${config.submitPlaceOrderAPI}${params}`, config.requestOptions)
     .then(res => {
       if (!res.ok) {
@@ -137,6 +140,7 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
         dispatch(setErrorMsg(result.msg));
         return;
       }
+      dispatch(setTimeStamp(result.data.timeStamp));
     }).
     catch(err => {
       console.log(err);
