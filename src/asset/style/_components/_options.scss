@@ -27,6 +27,10 @@
     border-bottom: 0;
   }
 
+  &--nopadding {
+    padding: 0;
+  }
+
   // adjuster counter styles
   > .customers-counter {
     margin-top: -3px;

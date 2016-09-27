@@ -45,8 +45,8 @@ module.exports = React.createClass({
             </div>
             <div className="flex-none dialog-footer">
               <div className="flex-row">
-                <button className="flex-rest btn" onTouchTap={this.onCancel}>取消</button>
-                <button className="flex-rest btn btn-confirm" onTouchTap={this.onConfirm}>下单</button>
+                <button className="flex-rest" onTouchTap={this.onCancel}>取消</button>
+                <button className="flex-rest btn-confirm" onTouchTap={this.onConfirm}>下单</button>
               </div>
             </div>
           </div>

@@ -63,3 +63,26 @@
 .dish-box .badge-price {
   margin-left: 3px;
 }
+
+// status
+.status-square {
+  width: 45px;
+  height: 31px;
+  background-repeat: no-repeat;
+  background-size: 45px;
+
+  &-uncheck {
+    // 待确认
+    background-image: url("../../asset/images/daiqueren.png");
+  }
+
+  &-checked {
+    // 已确认
+    background-image: url("../../asset/images/yiqueren.png");
+  }
+
+  &-refused {
+    // 已拒绝
+    background-image: url("../../asset/images/yijujue.png");
+  }
+}
