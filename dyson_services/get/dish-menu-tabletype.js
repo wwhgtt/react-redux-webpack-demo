@@ -1,6 +1,6 @@
 /* eslint-disable quote-props */
 module.exports = {
-  path: '/shop/orderTableType.json',
+  path: '/orderall/orderTableType.json',
   template: {
     data: {
       enableSelectTable: false, // 是否支持选桌
