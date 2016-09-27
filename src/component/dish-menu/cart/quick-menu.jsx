@@ -2,7 +2,7 @@ const React = require('react');
 require('./quick-menu.scss');
 const helper = require('../../../helper/dish-hepler');
 const shopId = helper.getUrlParam('shopId');
-const type = helper.getUrlParam('type');
+const type = helper.getUrlParam('type') || 'TS';
 const tableKey = helper.getUrlParam('tableKey');
 const tableId = helper.getUrlParam('tableId');
 const config = require('../../../config');
@@ -55,7 +55,10 @@ const QuickMenu = React.createClass({
       location.href = `${config.settlement4DinnerURL}?type=TS&shopId=${shopId}&orderId=${orderId}`;
     }
   },
-  jumpDetail(num) {
+  jumpDetail(evt, num) {
+    if (evt) {
+      evt.preventDefault();
+    }
     const { serviceStatus } = this.props;
     if (num) {
       if (serviceStatus.isLogin) {
@@ -138,7 +141,7 @@ const QuickMenu = React.createClass({
               </div>
               <button
                 className={cartIconClass}
-                onTouchTap={() => this.jumpDetail(dishesCount)}
+                onTouchTap={(evt) => this.jumpDetail(evt, dishesCount)}
                 data-count={dishesCount || null}
               >
               </button>
@@ -146,7 +149,7 @@ const QuickMenu = React.createClass({
           :
             <button
               className={cartIconClass}
-              onTouchTap={() => this.jumpDetail(dishesCount)}
+              onTouchTap={(evt) => this.jumpDetail(evt, dishesCount)}
               data-count={dishesCount || null}
             >
             </button>
