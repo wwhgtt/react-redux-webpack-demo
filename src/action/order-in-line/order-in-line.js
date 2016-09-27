@@ -98,7 +98,7 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
 exports.checkCodeAvaliable = (data) => (dispatch, getState) => {
   const timestamp = getState().timestamp || new Date().getTime();
   fetch(
-    `${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}&shopId=${shopId}&timestamp=${timestamp}`,
+    `${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}&shopId=${shopId}&timeStamp=${timestamp}`,
     config.requestOptions
   )
   .then(res => {
