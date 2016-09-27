@@ -610,14 +610,59 @@ const validateAddressInfo = exports.validateAddressInfo = (info, isTakeaway, fil
   }
   return { valid: true, msg: '' };
 };
-exports.getSubmitUrlParams = function (state, note, receipt) {
+
+const getSubmitDishData = exports.getSubmitDishData = dishesData => {
+  const result = { singleDishInfos: [], multiDishInfos: [] };
+  const push = [].push;
+  const getSingleDishInfo = (dishes, func) => (dishes || []).map(dish => {
+    let order = dish.order;
+    const dishInfo = {
+      num: 0,
+      price: dish.marketPrice,
+      ingredientIds: [],
+      propertyIds: [],
+      dishId: dish.id,
+    };
+    if (typeof order === 'number' && order > 0) {
+      dishInfo.num = order;
+    } else if (Array.isArray(order) && order.length > 0) {
+      order = order[0];
+      dishInfo.num = order.count;
+      dishInfo.ingredientIds = (order.dishIngredientInfos || []).filter(item => item.isChecked).map(item => item.id);
+      (order.dishPropertyTypeInfos || []).forEach(item => {
+        push.apply(dishInfo.propertyIds, (item.properties || []).filter(subItem => subItem.isChecked).map(subItem => subItem.id));
+      });
+    }
+    if (func) {
+      func(dishInfo);
+    }
+    return dishInfo;
+  }).filter(dish => dish.num > 0);
+
+  result.singleDishInfos = getSingleDishInfo(dishesData.filter(dish => dish.type === 0));
+  result.multiDishInfos = dishesData.filter(dish => dish.type === 1).map(dish => {
+    const order = dish.order[0] || [];
+    const dishInfo = { num: order.count, price: dish.marketPrice, dishId: dish.id, subDish: [] };
+    (order.groups || []).forEach(group => {
+      push.apply(dishInfo.subDish, getSingleDishInfo(group.childInfos, info => {
+        const _info = info;
+        _info.groupId = group.id;
+      }));
+    });
+    return dishInfo;
+  });
+  return result;
+};
+
+exports.getSubmitUrlParams = (state, note, receipt) => {
   const name = state.customerProps.name;
   const type = getUrlParam('type');
   if (!name && type === 'TS' && state.customerProps.loginType === 1) {
-    return { success:false, msg:'未填写姓名' };
+    return { success:false, msg: '未填写姓名' };
   }
 
-  const dishesPrice = getDishesPrice(state.orderedDishesProps.dishes);
+  const dishes = state.orderedDishesProps.dishes;
+  const dishesPrice = getDishesPrice(dishes);
   const integral = state.serviceProps.integralsInfo.isChecked ? countIntegralsToCash(
     Number(countPriceWithCouponAndDiscount(dishesPrice, state.serviceProps)),
     state.serviceProps.integralsDetail
@@ -635,7 +680,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
     payMethodScope = '1';
   }
 
-  const useDiscount = !state.serviceProps.discountProps.inUseDiscount ? '0' : '1';
+  const useDiscount = !state.serviceProps.discountProps.inUseDiscount ? 0 : 1;
   const serviceApproach = state.serviceProps.isPickupFromFrontDesk.isChecked ? 'pickup' : 'totable';
   const coupId = state.serviceProps.couponsProps.inUseCoupon &&
                 state.serviceProps.couponsProps.inUseCouponDetail.id ?
@@ -657,7 +702,17 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
     return { success:false, msg:'没有可用桌台' };
   }
 
-  let params;
+  const params = {
+    shopId: getUrlParam('shopId'),
+    coupId,
+    useDiscount,
+    memo: note,
+    needPayPrice,
+    integral: Number(integral),
+    payMethod: payMethodScope,
+    Invoice: receipt,
+  };
+  Object.assign(params, getSubmitDishData(dishes || []));
   if (type === 'WM') {
     const sendAreaId = state.serviceProps.sendAreaId === -1 ? 0 : state.serviceProps.sendAreaId;
     const selectedDateTime = state.timeProps.selectedDateTime;
@@ -675,34 +730,30 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
       return { success: false, msg: validateAddressResult.msg };
     }
 
-    let sex = selectedAddress.sex;
+    const sex = selectedAddress.sex;
     isSelfFetch = selectedAddress.id === 0;
     if (!selectedDateTime.date) {
-      return { success:false, msg: `请选择${isSelfFetch ? '取餐' : '送达'}时间` };
+      return { success: false, msg: `请选择${isSelfFetch ? '取餐' : '送达'}时间` };
     }
-    const toShopFlag = isSelfFetch ? '1' : '0';
+    const toShopFlag = isSelfFetch ? 1 : 0;
     let mobile = selectedAddress.mobile.toString();
     if (mobile.indexOf('4') === 0 && mobile.length === 9) {
       mobile = '0' + mobile;
     }
-    params = '?name=' + selectedAddress.name
-        + '&Invoice=' + receipt + '&memo=' + note
-        + '&mobile=' + mobile
-        + '&sex=' + sex
-        + '&payMethod=' + payMethodScope
-        + '&coupId=' + coupId
-        + '&integral=' + Number(integral)
-        + '&useDiscount=' + useDiscount
-        + '&orderType=WM'
-        + '&shopId=' + getUrlParam('shopId')
-        + '&needPayPrice=' + needPayPrice
-        + '&address=' + (isSelfFetch ? '' : selectedAddress.address)
-        + '&memberAddressId=' + selectedAddress.id
-        + '&sendAreaId=' + sendAreaId
-        + '&toShopFlag=' + toShopFlag;
+
+    Object.assign(params, {
+      name: selectedAddress.name,
+      mobile,
+      sex,
+      orderType: 'WM',
+      address: isSelfFetch ? '' : selectedAddress.address,
+      memberAddressId: selectedAddress.id,
+      sendAreaId,
+      toShopFlag,
+    });
     if (selectedDateTime.time) {
       if (selectedDateTime.time !== '立即取餐' && selectedDateTime.time !== '立即送餐') {
-        params += `&time=${selectedDateTime.date}%20${selectedDateTime.time}`;
+        params.time = `${selectedDateTime.date} ${selectedDateTime.time}`;
       }
     }
   } else {
@@ -711,20 +762,16 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
     if (state.customerProps.loginType === 0 && (isNaN(sex) || sex === -1)) {
       return { success: false, msg:'未选择性别' };
     }
-    params = '?name=' + state.customerProps.name
-        + '&Invoice=' + receipt + '&memo=' + note
-        + '&mobile=' + state.customerProps.mobile
-        + '&sex=' + sex
-        + '&payMethod=' + payMethodScope
-        + '&coupId=' + coupId
-        + '&integral=' + Number(integral)
-        + '&useDiscount=' + useDiscount
-        + '&orderType=TS'
-        + '&tableId=' + tableId
-        + '&peopleCount=' + state.customerProps.customerCount
-        + '&serviceApproach=' + serviceApproach
-        + '&shopId=' + getUrlParam('shopId')
-        + '&needPayPrice=' + needPayPrice;
+
+    Object.assign(params, {
+      name: state.customerProps.name,
+      mobile: state.customerProps.mobile,
+      sex,
+      orderType: 'TS',
+      tableId,
+      peopleCount: state.customerProps.customerCount,
+      serviceApproach,
+    });
   }
-  return { success:true, params, needPayPrice };
+  return { success: true, params, needPayPrice };
 };
