@@ -51,7 +51,7 @@ exports.fetchShopSetting = (setErrorMsg) => (dispatch, getState) => {
 
 exports.fetchWXAuthInfo = (setErrorMsg) => (dispatch, getState) => {
   const url = encodeURIComponent(location.href);
-  fetch(`${config.getWXAuthInfo}?shopId=${shopId}&reqUrl=${url}`, config.requestOptions)
+  fetch(`${config.getWXAuthInfoAPI}?shopId=${shopId}&reqUrl=${url}`, config.requestOptions)
     .then(res => {
       if (!res.ok) {
         setErrorMsg('获取信息失败...');
@@ -66,11 +66,37 @@ exports.fetchWXAuthInfo = (setErrorMsg) => (dispatch, getState) => {
     });
 };
 
+exports.fetchMainOrderInfo = (tableId, tableKey, setErrorMsg) => (dispatch, getState) => {
+  let url = `${config.getMainOrderAPI}?shopId=${shopId}`;
+  if (tableId) {
+    url += `&tableId=${tableId}`;
+  }
+  if (tableKey) {
+    url += `&tableKey=${tableKey}`;
+  }
+  fetch(url, config.requestOptions)
+    .then(res => {
+      if (!res.ok) {
+        setErrorMsg('获取信息失败...');
+      }
+      return res.json();
+    })
+    .then(result => {
+      if (result.code === '200') {
+        const data = Object.assign({}, result.data);
+        data.mainOrderId = data.tradeId;
+        dispatch(setOrderInfo(null, data));
+      }
+    })
+    .catch(err => {
+      throw new Error(err);
+    });
+};
+
 exports.initOrderTable = (callback) => (dispatch, getState) => {
   const tableKey = sessionStorage.getItem('tableKey');
   const tableId = sessionStorage.getItem('tableId');
-  const mainOrderId = getUrlParam('orderId');
-  const tableInfo = { tableId, tableKey, mainOrderId };
+  const tableInfo = { tableId, tableKey };
   dispatch(setOrderInfo(null, tableInfo));
   if (callback) {
     callback(tableInfo);
@@ -135,7 +161,7 @@ exports.submitOrder = (data, setLoading, setErrorMsg) => (dispatch, getState) =>
 exports.fetchTableIdFromNewVersionQRCode = (url, setLoading, callback) => (dispatch, getState) => {
   setLoading({ text: '系统处理中...', ing: true });
   const encodedUrl = encodeURIComponent(url);
-  return fetch(`${config.getTableIdFromQRCode}?url=${encodedUrl}&shopId=${shopId}`, config.requestOptions)
+  return fetch(`${config.getTableIdFromQRCodeAPI}?url=${encodedUrl}&shopId=${shopId}`, config.requestOptions)
     .then(res => {
       setLoading({ ing: false });
       return res.json();

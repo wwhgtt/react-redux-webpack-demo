@@ -102,7 +102,8 @@ module.exports = {
   registerAPI: `${apiBase}/member/addMember.json`, // 申请会员
   checkCodeAvaliableAPI:`${apiBase}/user/validMobile.json`,
   tradeDetailUncheckAPI: `${apiBase}/order/tradeDetailUncheck.json`, // 订单详情（结算前）
-  getWXAuthInfo: `${apiBase}/weixinapi/jsApiTicket.json`,
-  getTableIdFromQRCode: `${apiBase}/orderall/tableExt.json`,
+  getWXAuthInfoAPI: `${apiBase}/weixinapi/jsApiTicket.json`,
+  getTableIdFromQRCodeAPI: `${apiBase}/orderall/tableExt.json`,
+  getMainOrderAPI: `${apiBase}/orderall/getMainOrder.json`,
   requestOptions,
 };
