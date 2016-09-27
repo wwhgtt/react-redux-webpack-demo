@@ -27,7 +27,7 @@
   &-clear {
     font-size: 14px;
     padding-right: 0;
-    color: $color-dusty-grey;
+    color: $color-jaffa;
 
     &::before {
       float: left;
@@ -35,7 +35,7 @@
       height: 16px;
       margin: 2px 3px 0 0;
       content: "";
-      background-image: url("../../asset/images/cart-clear.png"); // image size 30 * 32px
+      background-image: url("../../asset/images/cart-clear-orange.png"); // image size 30 * 32px
       background-size: cover;
     }
   }
@@ -52,11 +52,11 @@
   }
 
   .btn-order {
-    background: $color-crusta;
+    background: $color-jaffa;
   }
 
   .btn-select-table {
-    background: $color-jaffa;
+    background: $color-crusta;
   }
 }
 
