@@ -9,6 +9,7 @@ const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const CartOrderedDish = require('../../component/dish-menu/cart/cart-ordered-dish.jsx');
 const wxClient = require('wechat-jssdk/client');
 const dishHelper = require('../../helper/dish-hepler');
+const getSubmitDishData = require('../../helper/order-helper').getSubmitDishData;
 const defaultShopLogo = require('../../asset/images/default.png');
 const shopId = dishHelper.getUrlParam('shopId');
 
@@ -102,48 +103,6 @@ const OrderTSCartApplication = React.createClass({
     this.props.selectTable(data);
     this.setState({ tableVisible: false });
     this.submitOrder(tableId);
-  },
-  getSubmitDishData(dishesData) {
-    const result = { singleDishInfos: [], multiDishInfos: [] };
-    const push = [].push;
-    const getSingleDishInfo = (dishes, func) => (dishes || []).map(dish => {
-      let order = dish.order;
-      const dishInfo = {
-        num: 0,
-        price: dish.marketPrice,
-        ingredientIds: [],
-        propertyIds: [],
-        dishId: dish.id,
-      };
-      if (typeof order === 'number' && order > 0) {
-        dishInfo.num = order;
-      } else if (Array.isArray(order) && order.length > 0) {
-        order = order[0];
-        dishInfo.num = order.count;
-        dishInfo.ingredientIds = (order.dishIngredientInfos || []).filter(item => item.isChecked).map(item => item.id);
-        (order.dishPropertyTypeInfos || []).forEach(item => {
-          push.apply(dishInfo.propertyIds, (item.properties || []).filter(subItem => subItem.isChecked).map(subItem => subItem.id));
-        });
-      }
-      if (func) {
-        func(dishInfo);
-      }
-      return dishInfo;
-    }).filter(dish => dish.num > 0);
-
-    result.singleDishInfos = getSingleDishInfo(dishesData.filter(dish => dish.type === 0));
-    result.multiDishInfos = dishesData.filter(dish => dish.type === 1).map(dish => {
-      const order = dish.order[0] || [];
-      const dishInfo = { num: order.count, price: dish.marketPrice, dishId: dish.id, subDish: [] };
-      (order.groups || []).forEach(group => {
-        push.apply(dishInfo.subDish, getSingleDishInfo(group.childInfos, info => {
-          const _info = info;
-          _info.groupId = group.id;
-        }));
-      });
-      return dishInfo;
-    });
-    return result;
   },
   getAreaTableTitle() {
     const { tableId, tableProps, tableName } = this.props.orderTSCart;
@@ -280,7 +239,7 @@ const OrderTSCartApplication = React.createClass({
       serviceApproach: 'totable',
     });
 
-    Object.assign(data, this.getSubmitDishData(dishesData));
+    Object.assign(data, getSubmitDishData(dishesData));
     this.props.submitOrder(data, this.setLoadingInfo, this.setErrorMsg);
   },
   buildButtonGroupElement(tableId, tableKey, shopSetting) {
