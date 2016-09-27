@@ -117,7 +117,7 @@ const QuickMenu = React.createClass({
                     className={classnames('bill-menu',
                       billAnimate,
                       { 'bill-menu-gray': !tableKey && !tableId && (!serviceStatus.data.enableOrder || !serviceStatus.isLogin) },
-                      { 'bill-menu-gray': (tableKey || tableId) && serviceStatus.data.enableOrder },
+                      { 'bill-menu-gray': (tableKey || tableId) && !serviceStatus.data.enableOrder },
                     )}
                     onTouchTap={() => this.goToDetail(serviceStatus.data.enableOrder, serviceStatus.isLogin)}
                   >
