@@ -680,7 +680,7 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
     payMethodScope = '1';
   }
 
-  const useDiscount = !state.serviceProps.discountProps.inUseDiscount ? '0' : '1';
+  const useDiscount = !state.serviceProps.discountProps.inUseDiscount ? 0 : 1;
   const serviceApproach = state.serviceProps.isPickupFromFrontDesk.isChecked ? 'pickup' : 'totable';
   const coupId = state.serviceProps.couponsProps.inUseCoupon &&
                 state.serviceProps.couponsProps.inUseCouponDetail.id ?
@@ -735,7 +735,7 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
     if (!selectedDateTime.date) {
       return { success: false, msg: `请选择${isSelfFetch ? '取餐' : '送达'}时间` };
     }
-    const toShopFlag = isSelfFetch ? '1' : '0';
+    const toShopFlag = isSelfFetch ? 1 : 0;
     let mobile = selectedAddress.mobile.toString();
     if (mobile.indexOf('4') === 0 && mobile.length === 9) {
       mobile = '0' + mobile;
