@@ -26,7 +26,11 @@ exports.fetchOrder = () => (dispatch, getState) =>
       return res.json();
     }).
     then(order => {
-      dispatch(setOrder(order.data));
+      if (order.code === '200') {
+        dispatch(setOrder(order.data));
+      } else {
+        dispatch(setErrorMsg(order.msg));
+      }
     }).
     catch(err => {
       console.log(err);
