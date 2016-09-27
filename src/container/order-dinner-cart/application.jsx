@@ -33,6 +33,7 @@ const OrderTSCartApplication = React.createClass({
     submitOrder: React.PropTypes.func.isRequired,
     initOrderTable: React.PropTypes.func.isRequired,
     fetchTableIdFromNewVersionQRCode: React.PropTypes.func.isRequired,
+    fetchMainOrderInfo: React.PropTypes.func.isRequired,
     // MapedStatesToProps
     orderTSCart: React.PropTypes.object.isRequired,
     dishMenu: React.PropTypes.object.isRequired,
@@ -45,15 +46,17 @@ const OrderTSCartApplication = React.createClass({
     };
   },
   componentDidMount() {
-    const { fetchOrderInfo, fetchLastOrderedDishes, fetchShopSetting, fetchWXAuthInfo, initOrderTable } = this.props;
+    const { fetchOrderInfo, fetchLastOrderedDishes, fetchShopSetting, fetchWXAuthInfo, initOrderTable, fetchMainOrderInfo } = this.props;
     fetchLastOrderedDishes();
     fetchOrderInfo(this.setErrorMsg);
     initOrderTable(tableInfo => {
-      const { tableId } = tableInfo;
-      if (!tableId) {
+      const { tableId, tableKey } = tableInfo;
+      if (!tableId && !tableKey) {
         fetchShopSetting(this.setErrorMsg);
         fetchWXAuthInfo(this.setErrorMsg);
+        return;
       }
+      fetchMainOrderInfo(tableId, tableKey, this.setErrorMsg);
     });
   },
   componentWillReceiveProps(newProps) {
@@ -143,7 +146,11 @@ const OrderTSCartApplication = React.createClass({
     return result;
   },
   getAreaTableTitle() {
-    const { tableId, tableProps } = this.props.orderTSCart;
+    const { tableId, tableProps, tableName } = this.props.orderTSCart;
+    if (tableName) {
+      return tableName;
+    }
+
     if (!tableId) {
       return '';
     }
@@ -240,20 +247,20 @@ const OrderTSCartApplication = React.createClass({
     }
     return true;
   },
-  placeOrder(tableId, tableKey, mainOrderId) {
+  placeOrder(tableId, tableKey) {
     const validateResult = this.validateMoblieUserInfo();
     if (validateResult) {
-      this.submitOrder(tableId, tableKey, mainOrderId);
+      this.submitOrder(tableId, tableKey);
     }
   },
-  submitOrder(tableId, tableKey, mainOrderId) {
+  submitOrder(tableId, tableKey) {
     if (!tableId && !tableKey) {
       this.setErrorMsg('请选择桌台');
       return;
     }
 
     const data = { shopId };
-    const { member, peopleCount, memo } = this.props.orderTSCart;
+    const { member, peopleCount, memo, mainOrderId } = this.props.orderTSCart;
     const { dishesData } = this.props.dishMenu;
     if (!dishesData || !dishesData.length) {
       this.setErrorMsg('请点餐');
@@ -267,7 +274,7 @@ const OrderTSCartApplication = React.createClass({
       memo,
       peopleCount,
       tableId,
-      mainOrderId: mainOrderId || null,
+      mainOrderId: mainOrderId || -1,
       payMethod: 0,
       needPayPrice: dishHelper.getDishesPrice(dishesData),
       serviceApproach: 'totable',
@@ -276,12 +283,12 @@ const OrderTSCartApplication = React.createClass({
     Object.assign(data, this.getSubmitDishData(dishesData));
     this.props.submitOrder(data, this.setLoadingInfo, this.setErrorMsg);
   },
-  buildButtonGroupElement(tableId, tableKey, mainOrderId, shopSetting) {
-    if (tableId || tableKey || mainOrderId) {
+  buildButtonGroupElement(tableId, tableKey, shopSetting) {
+    if (tableId || tableKey) {
       return (
         <div className="flex-row">
           <button className="flex-rest btn btn-continue" onTouchTap={this.continueDishMenu}>继续点菜</button>
-          <button className="flex-rest btn btn-select-table" onTouchTap={() => this.placeOrder(tableId, tableKey, mainOrderId)}>下单</button>
+          <button className="flex-rest btn btn-select-table" onTouchTap={() => this.placeOrder(tableId, tableKey)}>下单</button>
         </div>
       );
     }
@@ -328,7 +335,8 @@ const OrderTSCartApplication = React.createClass({
   },
   render() {
     const { dishMenu, orderTSCart } = this.props;
-    const { member, peopleCount, memo, commercialName, commercialLogo, tableProps, mainOrderId, tableId, tableKey, shopSetting } = orderTSCart;
+    const { member, peopleCount, memo, commercialName, commercialLogo } = orderTSCart;
+    const { tableProps, mainOrderId, tableId, tableKey, shopSetting, addItemStatus } = orderTSCart;
     const { errorMessage, loadingInfo } = this.state;
     const dishesData = dishMenu.dishesData || [];
     const dishCount = dishHelper.getDishesCount(dishesData);
@@ -382,7 +390,7 @@ const OrderTSCartApplication = React.createClass({
               {this.buildOrderedElements(dishesData)}
             </div>
           </div>
-          {!mainOrderId &&
+          {!(mainOrderId !== -1 && addItemStatus === 1) &&
             <div className="options-group">
               <div className="option">
                 <span className="option-tile">就餐人数：</span>
@@ -414,7 +422,7 @@ const OrderTSCartApplication = React.createClass({
           </div>
         </div>
         <div className="flex-none btn-group-bottom">
-            {this.buildButtonGroupElement(tableId, tableKey, mainOrderId, shopSetting)}
+            {this.buildButtonGroupElement(tableId, tableKey, shopSetting)}
         </div>
         <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
           {this.state.tableVisible &&
