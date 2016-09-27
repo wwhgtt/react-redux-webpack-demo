@@ -287,19 +287,19 @@ const OrderTSCartApplication = React.createClass({
     if (tableId || tableKey) {
       return (
         <div className="flex-row">
-          <button className="flex-rest btn btn-continue" onTouchTap={this.continueDishMenu}>继续点菜</button>
-          <button className="flex-rest btn btn-select-table" onTouchTap={() => this.placeOrder(tableId, tableKey)}>下单</button>
+          <button className="flex-rest btn-continue" onTouchTap={this.continueDishMenu}>继续点菜</button>
+          <button className="flex-rest btn-select-table" onTouchTap={() => this.placeOrder(tableId, tableKey)}>下单</button>
         </div>
       );
     }
 
     return (
       <div className="flex-row">
-        <button className="flex-rest btn btn-continue" onTouchTap={this.continueDishMenu}>继续点菜</button>
+        <button className="flex-rest btn-continue" onTouchTap={this.continueDishMenu}>继续点菜</button>
         {shopSetting && !shopSetting.enableScanTable &&
-          <button className="flex-rest btn btn-select-table" onTouchTap={this.selectTable}>选桌下单</button>
+          <button className="flex-rest btn-select-table" onTouchTap={this.selectTable}>选桌下单</button>
         }
-        <button className="flex-rest btn btn-order" onTouchTap={this.scanTableQRCode}>扫码下单</button>
+        <button className="flex-rest btn-order" onTouchTap={this.scanTableQRCode}>扫码下单</button>
       </div>
     );
   },
@@ -355,7 +355,7 @@ const OrderTSCartApplication = React.createClass({
             <div className="option">
               <div className="flex-row">
                 <span className="options-title flex-rest">{this.getAreaTableTitle()}</span>
-                <button className="btn flex-none cart-clear" onTouchTap={this.onClearCart}>清空购物车</button>
+                <button className="cart-clear flex-none" onTouchTap={this.onClearCart}>清空购物车</button>
               </div>
             </div>
             <div className="option editor">
@@ -386,7 +386,7 @@ const OrderTSCartApplication = React.createClass({
                 </div>
               </div>
             </div>
-            <div className="option">
+            <div className="option option--nopadding">
               {this.buildOrderedElements(dishesData)}
             </div>
           </div>
@@ -421,8 +421,8 @@ const OrderTSCartApplication = React.createClass({
             </label>
           </div>
         </div>
-        <div className="flex-none btn-group-bottom">
-            {this.buildButtonGroupElement(tableId, tableKey, shopSetting)}
+        <div className="flex-none order-dinner-buttons">
+          {this.buildButtonGroupElement(tableId, tableKey, shopSetting)}
         </div>
         <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
           {this.state.tableVisible &&

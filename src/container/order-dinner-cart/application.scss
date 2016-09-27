@@ -26,8 +26,7 @@
 .cart {
   &-clear {
     font-size: 14px;
-    float: right;
-    padding-right: 10px;
+    padding-right: 0;
     color: $color-dusty-grey;
 
     &::before {
@@ -42,22 +41,22 @@
   }
 }
 
-.btn-group-bottom {
-  .btn {
+.order-dinner-buttons {
+  button {
     height: 50px;
     color: #fff;
+  }
 
-    &-continue {
-      background: $color-sunglow;
-    }
+  .btn-continue {
+    background: $color-sunglow;
+  }
 
-    &-order {
-      background: $color-crusta;
-    }
+  .btn-order {
+    background: $color-crusta;
+  }
 
-    &-select-table {
-      background: $color-jaffa;
-    }
+  .btn-select-table {
+    background: $color-jaffa;
   }
 }
 
