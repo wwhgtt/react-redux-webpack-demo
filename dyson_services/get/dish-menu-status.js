@@ -5,7 +5,7 @@ module.exports = {
     'data': {
       'isShow': true,
       'enableCallService': true,
-      'enableOrder': false,
+      'enableOrder': true,
       'enablePay': true,
       'orderId': 5895231,
     },

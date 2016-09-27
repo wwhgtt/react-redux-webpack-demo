@@ -4,7 +4,7 @@ module.exports = {
   template: {
     'data': {},
     'time': 1472458598918,
-    'code': '90007',
-    'msg': '已经有重复桌台可选',
+    'code': '200',
+    'msg': '成功',
   },
 };
