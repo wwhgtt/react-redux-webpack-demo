@@ -19,7 +19,7 @@
 
   .dish-name {
     display: inline-block;
-    width: calc(100% - 170px);
+    max-width: calc(100% - 180px);
     vertical-align: middle;
   }
 
