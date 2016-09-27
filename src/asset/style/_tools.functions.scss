@@ -1,8 +1,8 @@
 // border function
-@function bordersolid($px, $color: #e7e7ef) {
+@function bordersolid($px, $color: $color-athens-grey) {
   @return #{$px}px solid $color;
 }
 
-@function borderdotted($px, $color: #e7e7ef) {
+@function borderdotted($px, $color: $color-athens-grey) {
   @return #{$px}px dotted $color;
 }

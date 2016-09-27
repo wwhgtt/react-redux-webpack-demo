@@ -60,7 +60,7 @@ const OrderDetailInApplication = React.createClass({
   },
 
   handleDishMenu() {
-    location.href = `http://${location.host}/orderall/dishMenu4Dinner?shopId=${shopId}&type=TS&orderId=${orderId}`;
+    location.href = `http://${location.host}/orderall/dishMenu4Dinner?shopId=${shopId}&type=TS`;
   },
 
   handleClearErrorMsg() {

@@ -7,14 +7,13 @@
   }
 }
 
-
 // Border-thin
-@mixin border-thin($po) {
+@mixin border-thin($position) {
   position: absolute;
   left: 0;
   width: 100%;
   height: 2px;
   content: "";
   transform: scale(1, .5);
-  transform-origin: 0 $po;
+  transform-origin: 0 $position;
 }
