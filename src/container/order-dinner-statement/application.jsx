@@ -1,6 +1,5 @@
 const React = require('react');
 const connect = require('react-redux').connect;
-const config = require('../../config.js');
 const actions = require('../../action/order-dinner-statement/order-dinner-statement.js');
 const helper = require('../../helper/order-helper');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
@@ -60,7 +59,7 @@ const OrderDinnerStateMentApplication = React.createClass({
     return (
       <div className="application">
         <div className="options-group">
-          <a className="option option-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
+          <a className="option option-shop">
             <img className="option-shop-icon" src={commercialProps.shopLogo || defaultShopLogo} alt="" />
             <p className="option-shop-desc ellipsis">{commercialProps.shopName}</p>
           </a>

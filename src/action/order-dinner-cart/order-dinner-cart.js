@@ -69,7 +69,8 @@ exports.fetchWXAuthInfo = (setErrorMsg) => (dispatch, getState) => {
 exports.initOrderTable = (callback) => (dispatch, getState) => {
   const tableKey = sessionStorage.getItem('tableKey');
   const tableId = sessionStorage.getItem('tableId');
-  const tableInfo = { tableId, tableKey };
+  const mainOrderId = getUrlParam('orderId');
+  const tableInfo = { tableId, tableKey, mainOrderId };
   dispatch(setOrderInfo(null, tableInfo));
   if (callback) {
     callback(tableInfo);

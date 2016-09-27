@@ -240,13 +240,13 @@ const OrderTSCartApplication = React.createClass({
     }
     return true;
   },
-  placeOrder(tableId, tableKey) {
+  placeOrder(tableId, tableKey, mainOrderId) {
     const validateResult = this.validateMoblieUserInfo();
     if (validateResult) {
-      this.submitOrder(tableId, tableKey);
+      this.submitOrder(tableId, tableKey, mainOrderId);
     }
   },
-  submitOrder(tableId, tableKey) {
+  submitOrder(tableId, tableKey, mainOrderId) {
     if (!tableId && !tableKey) {
       this.setErrorMsg('请选择桌台');
       return;
@@ -267,7 +267,7 @@ const OrderTSCartApplication = React.createClass({
       memo,
       peopleCount,
       tableId,
-      mainOrderId: null,
+      mainOrderId: mainOrderId || null,
       payMethod: 0,
       needPayPrice: dishHelper.getDishesPrice(dishesData),
       serviceApproach: 'totable',
@@ -276,12 +276,12 @@ const OrderTSCartApplication = React.createClass({
     Object.assign(data, this.getSubmitDishData(dishesData));
     this.props.submitOrder(data, this.setLoadingInfo, this.setErrorMsg);
   },
-  buildButtonGroupElement(tableId, tableKey, shopSetting) {
-    if (tableId || tableKey) {
+  buildButtonGroupElement(tableId, tableKey, mainOrderId, shopSetting) {
+    if (tableId || tableKey || mainOrderId) {
       return (
         <div className="flex-row">
           <button className="flex-rest btn btn-continue" onTouchTap={this.continueDishMenu}>继续点菜</button>
-          <button className="flex-rest btn btn-select-table" onTouchTap={() => this.placeOrder(tableId, tableKey)}>下单</button>
+          <button className="flex-rest btn btn-select-table" onTouchTap={() => this.placeOrder(tableId, tableKey, mainOrderId)}>下单</button>
         </div>
       );
     }
@@ -382,30 +382,30 @@ const OrderTSCartApplication = React.createClass({
               {this.buildOrderedElements(dishesData)}
             </div>
           </div>
-          <div className="options-group">
-            <div className="option">
-              <span className="option-tile">就餐人数：</span>
-              <ImportableCounter
-                setErrorMsg={this.setErrorMsg}
-                onCountChange={(count) => this.onValueChange({ target: { name: 'peopleCount', value: count } })}
-                count={peopleCount}
-                disabled={!!mainOrderId}
-                maximum={99}
-                minimum={1}
-              />
+          {!mainOrderId &&
+            <div className="options-group">
+              <div className="option">
+                <span className="option-tile">就餐人数：</span>
+                <ImportableCounter
+                  setErrorMsg={this.setErrorMsg}
+                  onCountChange={(count) => this.onValueChange({ target: { name: 'peopleCount', value: count } })}
+                  count={peopleCount}
+                  maximum={99}
+                  minimum={1}
+                />
+              </div>
+              <label className="option">
+                <span className="option-title">备注: </span>
+                <input
+                  className="option-input"
+                  name="memo"
+                  placeholder="输入备注"
+                  maxLength="35"
+                  onChange={this.onValueChange} value={memo}
+                />
+              </label>
             </div>
-            <label className="option">
-              <span className="option-title">备注: </span>
-              <input
-                className="option-input"
-                name="memo"
-                placeholder="输入备注"
-                maxLength="35"
-                disabled={!!mainOrderId}
-                onChange={this.onValueChange} value={memo}
-              />
-            </label>
-          </div>
+          }
           <div className="options-group">
             <label className="option">
               <span className="option-title">共{dishCount}份商品: </span>
@@ -414,7 +414,7 @@ const OrderTSCartApplication = React.createClass({
           </div>
         </div>
         <div className="flex-none btn-group-bottom">
-            {this.buildButtonGroupElement(tableId, tableKey, shopSetting)}
+            {this.buildButtonGroupElement(tableId, tableKey, mainOrderId, shopSetting)}
         </div>
         <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
           {this.state.tableVisible &&
