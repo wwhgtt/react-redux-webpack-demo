@@ -1,6 +1,6 @@
 /* eslint-disable quote-props */
 module.exports = {
-  path: '/shop/tableInfo.json',
+  path: '/orderall/tableInfo.json',
   template: {
     data: {
       tableName: '桌台1',

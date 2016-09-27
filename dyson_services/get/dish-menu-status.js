@@ -1,6 +1,6 @@
 /* eslint-disable quote-props */
 module.exports = {
-  path: '/shop/serviceStatus.json',
+  path: '/orderall/serviceStatus.json',
   template: {
     'data': {
       'isShow': true,

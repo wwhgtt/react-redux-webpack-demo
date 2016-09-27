@@ -1,5 +1,5 @@
 module.exports = {
-  path:'/shop/callService.json',
+  path:'/orderall/callService.json',
   template:{
     data: null,
     time: 1472458598918,

@@ -20,8 +20,7 @@ const dishMenuZcReducer = function (
   const { type, payload } = action;
   switch (type) {
     case 'SET_CALL_MSG': {
-      const data = payload || {};
-      return state.set('callMsg', data);
+      return state.set('callMsg', payload || {});
     }
     case 'SET_CAN_CALL': {
       return state.set('callAble', payload);
@@ -30,7 +29,7 @@ const dishMenuZcReducer = function (
       return state.set('timerStatus', payload.timerStatus);
     }
     case 'SET_SERVICE_STATUS': {
-      return state.set('serviceStatus', payload);
+      return state.set('serviceStatus', payload || {});
     }
     default:
       return state;
