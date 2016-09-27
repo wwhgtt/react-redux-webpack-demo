@@ -106,7 +106,7 @@ exports.submitDinnerOrder = () => (dispatch, getState) => {
 
   let requestOptions = Object.assign({}, config.requestOptions);
   requestOptions.method = 'POST';
-  requestOptions.body = JSON.stringify({ shopId, orderId:tradeId, coupId, integral });
+  requestOptions.body = JSON.stringify({ shopId:+shopId, orderId:+tradeId, coupId, integral });
 
   return fetch(`${config.submitDinnerOrderAPI}?shopId=${shopId}&orderId=${tradeId}`, requestOptions).
     then(res => {

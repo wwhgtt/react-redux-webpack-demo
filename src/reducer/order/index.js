@@ -39,6 +39,7 @@ module.exports = function (
     childView:null,
     errorMessage:null,
     shuoldPhoneValidateShow:false,
+    timeStamp:null,
   }),
   action
 ) {
@@ -465,6 +466,8 @@ module.exports = function (
         );
     case 'SET_PHONE_VALIDATE_PROPS':
       return state.set('shuoldPhoneValidateShow', payload);
+    case 'SET_TIMESTAMP':
+      return state.set('timeStamp', payload);
     default:
   }
   return state;

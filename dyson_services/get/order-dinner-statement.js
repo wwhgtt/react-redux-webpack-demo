@@ -32,15 +32,27 @@ module.exports = {
       },
       dishItems:[
         {
-          id: 599385,  // 菜品id
-          brandDishId:87687887,
-          unitName:'碗',
-          name: '宫保鸡丁', // 菜品名称
-          marketPrice: 35.02, // 金额
-          num: 2, // 份量
-          type: 0, // 菜品类型 1 套餐 0单菜
-          propertyTypeList:[],
-          dishIngredientInfos:[],
+          id: 56,
+          name: '火爆肥肠',
+          brandDishId: 25,
+          type: 0,
+          marketPrice: 25,
+          num: 1,
+          unitName: '份',
+          propertyTypeList: [
+            {
+              name: '做法类别1',
+              type: 1,
+              properties: [
+                {
+                  id: 126203,
+                  name: '做法类别1做法名称6',
+                  reprice: -0.01,
+                },
+              ],
+            },
+          ],
+          dishIngredientInfos: [],
         },
         {
           id: 61,  // 菜品id
@@ -217,7 +229,7 @@ module.exports = {
       ],
     },
     time: 1474284552572,
-    code: 200,
+    code: '200',
     msg: '',
   },
 };

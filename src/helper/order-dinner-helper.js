@@ -49,6 +49,7 @@ exports.initializeDishes = (dishes) => {
         dishIngredientInfos:dish.dishIngredientInfos,
         dishPropertyTypeInfos:dish.propertyTypeList,
       }];
+      dish.dishPropertyTypeInfos = dish.propertyTypeList;
     }
     return dish;
   });

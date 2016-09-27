@@ -22,6 +22,7 @@ const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error =>
 const setCustomToShopAddress = createAction('SET_ADDRESS_TOSHOP_TO_ORDER', option => option);
 const setOrderTimeProps = createAction('SET_ORDER_TIME_PROPS', timeJson => timeJson);
 const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
+const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 
@@ -317,9 +318,6 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
     }
   };
 
-  if (state.phoneValidateCode) {
-    data.code = state.phoneValidateCode;
-  }
   requestOptions.body = JSON.stringify(data);
 
   fetch(url, requestOptions)
@@ -352,26 +350,32 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
         dispatch(setErrorMsg(result.msg));
         return;
       }
+      dispatch(setTimeStamp(result.data.timeStamp));
     }).
     catch(err => {
       console.log(err);
     });
 };
-exports.checkCodeAvaliable = (data, note, receipt) => (dispatch, getState) =>
-  fetch(`${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}&shopId=${shopId}`, config.requestOptions)
-    .then(res => {
-      if (!res.ok) {
-        dispatch(setErrorMsg('校验验证码信息失败...'));
-      }
-      return res.json();
-    })
-    .then(result => {
-      if (result.code.toString() === '200') {
-        submitOrder(note, receipt)(dispatch, getState);
-      } else {
-        dispatch(setErrorMsg(result.msg), setPhoneValidateProps(true));
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    });
+exports.checkCodeAvaliable = (data, note, receipt) => (dispatch, getState) => {
+  const timestamp = getState().timestamp || new Date().getTime();
+  fetch(
+    `${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}&shopId=${shopId}&timeStamp=${timestamp}`,
+    config.requestOptions
+  )
+  .then(res => {
+    if (!res.ok) {
+      dispatch(setErrorMsg('校验验证码信息失败...'));
+    }
+    return res.json();
+  })
+  .then(result => {
+    if (result.code.toString() === '200') {
+      submitOrder(note, receipt)(dispatch, getState);
+    } else {
+      dispatch(setErrorMsg(result.msg), setPhoneValidateProps(true));
+    }
+  })
+  .catch(err => {
+    console.log(err);
+  });
+};
