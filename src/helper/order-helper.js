@@ -742,6 +742,7 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
     }
 
     Object.assign(params, {
+      name: selectedAddress.name,
       mobile,
       sex,
       orderType: 'WM',
