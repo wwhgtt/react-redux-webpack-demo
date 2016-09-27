@@ -39,8 +39,6 @@ exports.clearErrorMsg = () => (dispatch, getState) =>
 
 const submitOrder = exports.submitOrder = () => (dispatch, getState) => {
   const state = getState();
-  const code = state.phoneValidateCode ? `&code=${state.phoneValidateCode}` : '';
-  const timestamp = state.phoneValidateCode ? state.timestamp || new Date().getTime() : '';
   if (!state.customerProps.name || !state.customerProps.mobile || state.customerProps.sex === null) {
     dispatch(setErrorMsg('请先完善排队信息...'));
     return;
@@ -53,9 +51,7 @@ const submitOrder = exports.submitOrder = () => (dispatch, getState) => {
     + '&name=' + state.customerProps.name
     + '&sex=' + state.customerProps.sex
     + '&mobile=' + mobile
-    + '&peopleCount=' + state.dinePersonCount
-    + code
-    + timestamp;
+    + '&peopleCount=' + state.dinePersonCount;
   fetch(`${config.submitOrderInLineAPI}${params}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
@@ -99,21 +95,26 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
       console.log(err);
     });
 };
-exports.checkCodeAvaliable = (data) => (dispatch, getState) =>
-  fetch(`${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}&shopId=${shopId}`, config.requestOptions)
-    .then(res => {
-      if (!res.ok) {
-        dispatch(setErrorMsg('校验验证码信息失败...'));
-      }
-      return res.json();
-    })
-    .then(result => {
-      if (result.code.toString() === '200') {
-        submitOrder()(dispatch, getState);
-      } else {
-        dispatch(setErrorMsg(result.msg), setPhoneValidateProps(true));
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    });
+exports.checkCodeAvaliable = (data) => (dispatch, getState) => {
+  const timestamp = getState().timestamp || new Date().getTime();
+  fetch(
+    `${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}&shopId=${shopId}&timestamp=${timestamp}`,
+    config.requestOptions
+  )
+  .then(res => {
+    if (!res.ok) {
+      dispatch(setErrorMsg('校验验证码信息失败...'));
+    }
+    return res.json();
+  })
+  .then(result => {
+    if (result.code.toString() === '200') {
+      submitOrder()(dispatch, getState);
+    } else {
+      dispatch(setErrorMsg(result.msg), setPhoneValidateProps(true));
+    }
+  })
+  .catch(err => {
+    console.log(err);
+  });
+};

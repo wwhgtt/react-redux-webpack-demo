@@ -87,8 +87,6 @@ const placeOrder = exports.placeOrder = (note) => (dispatch, getState) => {
     dispatch(setErrorMsg('请先完善预订信息...'));
     return;
   }
-  const code = state.phoneValidateCode ? `&code=${state.phoneValidateCode}` : '';
-  const timestamp = state.phoneValidateCode ? state.timestamp || new Date().getTime() : '';
   let mobile = state.customerProps.mobile.toString();
   if (mobile.indexOf('4') === 0 && mobile.length === 9) {
     mobile = '0' + mobile;
@@ -100,9 +98,7 @@ const placeOrder = exports.placeOrder = (note) => (dispatch, getState) => {
       + '&tableId=' + state.tableProps.selectedTableId
       + '&orderNumber=' + state.dinePersonCount
       + '&orderTime=' + orderTime
-      + '&shopId=' + getUrlParam('shopId')
-      + code
-      + timestamp;
+      + '&shopId=' + getUrlParam('shopId');
   fetch(`${config.submitPlaceOrderAPI}${params}`, config.requestOptions)
     .then(res => {
       if (!res.ok) {
@@ -146,8 +142,12 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
       console.log(err);
     });
 };
-exports.checkCodeAvaliable = (data, note) => (dispatch, getState) =>
-  fetch(`${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}&shopId=${shopId}`, config.requestOptions)
+exports.checkCodeAvaliable = (data, note) => (dispatch, getState) => {
+  const timestamp = getState().timestamp || new Date().getTime();
+  fetch(
+    `${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}&shopId=${shopId}&timestamp=${timestamp}`,
+    config.requestOptions
+  )
     .then(res => {
       if (!res.ok) {
         dispatch(setErrorMsg('校验验证码信息失败...'));
@@ -164,3 +164,4 @@ exports.checkCodeAvaliable = (data, note) => (dispatch, getState) =>
     .catch(err => {
       console.log(err);
     });
+};

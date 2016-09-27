@@ -318,10 +318,6 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
     }
   };
 
-  if (state.phoneValidateCode) {
-    data.code = state.phoneValidateCode;
-    data.timestamp = state.timestamp || new Date().getTime();
-  }
   requestOptions.body = JSON.stringify(data);
 
   fetch(url, requestOptions)
@@ -360,21 +356,26 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
       console.log(err);
     });
 };
-exports.checkCodeAvaliable = (data, note, receipt) => (dispatch, getState) =>
-  fetch(`${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}&shopId=${shopId}`, config.requestOptions)
-    .then(res => {
-      if (!res.ok) {
-        dispatch(setErrorMsg('校验验证码信息失败...'));
-      }
-      return res.json();
-    })
-    .then(result => {
-      if (result.code.toString() === '200') {
-        submitOrder(note, receipt)(dispatch, getState);
-      } else {
-        dispatch(setErrorMsg(result.msg), setPhoneValidateProps(true));
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    });
+exports.checkCodeAvaliable = (data, note, receipt) => (dispatch, getState) => {
+  const timestamp = getState().timestamp || new Date().getTime();
+  fetch(
+    `${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}&shopId=${shopId}&timestamp=${timestamp}`,
+    config.requestOptions
+  )
+  .then(res => {
+    if (!res.ok) {
+      dispatch(setErrorMsg('校验验证码信息失败...'));
+    }
+    return res.json();
+  })
+  .then(result => {
+    if (result.code.toString() === '200') {
+      submitOrder(note, receipt)(dispatch, getState);
+    } else {
+      dispatch(setErrorMsg(result.msg), setPhoneValidateProps(true));
+    }
+  })
+  .catch(err => {
+    console.log(err);
+  });
+};
