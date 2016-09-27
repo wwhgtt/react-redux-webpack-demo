@@ -14,7 +14,7 @@ const orderTSCart = (
     },
     peopleCount: 1,
     memo: '',
-    mainOrderId: null,
+    mainOrderId: -1,
     commercialName: '',
     commercialLogo: null,
     serviceApproach: 'pickup,totable',
@@ -26,6 +26,9 @@ const orderTSCart = (
       tableList: null,
       selectedTableId: null,
     },
+    addItemStatus: 0,
+    tradeNo: '',
+    tableName: '',
   }),
   action
 ) => {
