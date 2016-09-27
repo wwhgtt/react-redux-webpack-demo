@@ -4,6 +4,7 @@ const createAction = require('redux-actions').createAction;
 const config = require('../../config');
 const helper = require('../../helper/common-helper.js');
 
+const setTimestamp = exports.setTimestamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
 const setLoadMsg = exports.setLoadMsg = createAction('SET_LOAD_MSG', loadinfo => loadinfo);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
@@ -27,6 +28,7 @@ exports.sendCode = phoneNum => (dispatch, getStates) => {
   then(res => {
     if (res.code === '200') {
       dispatch(setErrorMsg('验证码发送成功注意查收'));
+      dispatch(setTimestamp(res.data.timeStamp));
     } else {
       dispatch(setErrorMsg(res.msg));
     }
@@ -36,8 +38,9 @@ exports.sendCode = phoneNum => (dispatch, getStates) => {
 // 绑定手机
 exports.bindPhone = phoneInfo => (dispatch, getStates) => {
   const phoneNum = phoneInfo.phoneNum;
+  const timestamp = getStates().timestamp || '';
   const code = phoneInfo.code;
-  const bindPhoneURL = `${config.bindPhoneAPI}?shopId=${shopId}&mobile=${phoneNum}&code=${code}`;
+  const bindPhoneURL = `${config.bindPhoneAPI}?shopId=${shopId}&mobile=${phoneNum}&code=${code}&timestamp=${timestamp}`;
 
   fetch(bindPhoneURL, config.requestOptions).
   then(res => {
