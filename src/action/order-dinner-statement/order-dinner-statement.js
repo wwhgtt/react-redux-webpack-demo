@@ -91,9 +91,9 @@ exports.submitDinnerOrder = () => (dispatch, getState) => {
   const state = getState();
   const coupId = state.serviceProps.couponsProps.inUseCoupon &&
                 state.serviceProps.couponsProps.inUseCouponDetail.id ?
-                state.serviceProps.couponsProps.inUseCouponDetail.id
+                +state.serviceProps.couponsProps.inUseCouponDetail.id
                 :
-                '0';
+                0;
   const dishesPrice = getDishesPrice(state.orderedDishesProps.dishes);
   const integral = state.serviceProps.integralsInfo.isChecked ? helper.countIntegralsToCash(
     Number(helper.countPriceWithCouponAndDiscount(dishesPrice, state.serviceProps)),
@@ -102,7 +102,7 @@ exports.submitDinnerOrder = () => (dispatch, getState) => {
 
   let requestOptions = Object.assign({}, config.requestOptions);
   requestOptions.method = 'POST';
-  requestOptions.body = JSON.stringify({ shopId, orderId:tradeId, couponId:coupId, integral });
+  requestOptions.body = JSON.stringify({ shopId, orderId:tradeId, coupId, integral });
 
   return fetch(`${config.submitDinnerOrderAPI}?shopId=${shopId}&orderId=${tradeId}`, requestOptions).
     then(res => {
