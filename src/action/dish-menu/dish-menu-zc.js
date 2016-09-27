@@ -113,9 +113,9 @@ const errorLocation = (errorCode) => {
 exports.callBell = (timer) => (dispatch, getStates) => {
   dispatch(setCanCall(false));
   dispatch(setCallMsg({ info:'正在发送...', callStatus:false }));
-  // 保存tableId到sessionStorage
-  const tableId = sessionStorage.tableId;
-  fetch(`${config.callServiceAPI}`, commonHelper.getFetchPostParam({ shopId:commonHelper.getUrlParam('shopId'), tableId })).
+  const orderId = JSON.parse(sessionStorage.serviceStatus).orderId || '';
+
+  fetch(`${config.callServiceAPI}`, commonHelper.getFetchPostParam({ shopId:commonHelper.getUrlParam('shopId'), orderId })).
   then(res => {
     if (!res.ok) {
       dispatch(setCallMsg({ info:'非常抱歉，发送失败了', callStatus:false }));

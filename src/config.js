@@ -48,11 +48,11 @@ module.exports = {
   userLoginAPI: `${apiBase}/user/login.json`,
   userLoginWXURL: `${apiBase}/user/login4WX`,
   getUserLoginSupportAPI: `${apiBase}/user/supportTypes.json`,
-  getServiceStatusAPI: `${apiBase}/shop/serviceStatus.json`, // 获取基本信息
-  getTableInfoAPI: `${apiBase}/shop/tableInfo.json`, // 获取tableInfo
-  getOtherTableIdAPI: `${apiBase}/shop/getTableId.json`, // 获取用户是否在其他桌台下单
-  getOrderTableTypeAPI: `${apiBase}/shop/orderTableType.json`, // 获取tableInfo
-  callServiceAPI: `${apiBase}/shop/callService.json`, // 获取tableId
+  getServiceStatusAPI: `${apiBase}/orderall/serviceStatus.json`, // 获取基本信息
+  getTableInfoAPI: `${apiBase}/orderall/tableInfo.json`, // 获取tableInfo
+  getOtherTableIdAPI: `${apiBase}/orderall/getTableId.json`, // 获取用户是否在其他桌台下单
+  getOrderTableTypeAPI: `${apiBase}/orderall/orderTableType.json`, // 获取tableInfo
+  callServiceAPI: `${apiBase}/orderall/callService.json`, // 获取tableId
 
   // 跳转URL
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
