@@ -167,7 +167,7 @@ const fetchTableInfo = exports.fetchTableInfo = (tableParam) => (dispatch, getSt
       console.log(err);
     });
 
-// 根据tableId获取基本信息
+// 根据tableID获取基本信息
 const fetchServiceStatus = exports.fetchServiceStatus = (tableParam) => (dispatch, getState) =>
   fetch(`${config.getServiceStatusAPI}?shopId=${helper.getUrlParam('shopId')}&${tableParam}`, config.requestOptions).
     then(res => {
