@@ -6,6 +6,7 @@ const createAction = require('redux-actions').createAction;
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const storeDishesLocalStorage = require('../../helper/dish-hepler.js').storeDishesLocalStorage;
 const clearDishesLocalStorage = require('../../helper/dish-hepler.js').clearDishesLocalStorage;
+const getDishesCount = require('../../helper/dish-hepler').getDishesCount;
 const shopId = getUrlParam('shopId');
 const _setOrderDish = createAction('ORDER_DISH', (dishData, increment) => [dishData, increment]);
 const initOrderInfo = createAction('INIT_ORDER_INFO', (evt, option) => option);
@@ -128,7 +129,13 @@ exports.fetchLastOrderedDishes = () => (dispatch, getState) => {
 
 exports.setOrderDish = (dishData, increment) => (dispatch, getStates) => {
   dispatch(_setOrderDish(dishData, increment));
-  storeDishesLocalStorage(getStates().dishMenu.dishesData, dishes => dishes);
+  const dishesData = getStates().dishMenu.dishesData;
+  const count = getDishesCount(dishesData);
+  storeDishesLocalStorage(dishesData, dishes => dishes);
+  if (count === 0) {
+    clearDishesLocalStorage();
+    gotoDishMenuPage();
+  }
 };
 
 exports.removeAllOrders = (orders) => (dispatch, getStates) => {
