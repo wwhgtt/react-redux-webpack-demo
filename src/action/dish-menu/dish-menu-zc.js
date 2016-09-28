@@ -59,11 +59,11 @@ exports.confirmOrder = () => (dispatch, getStates) => {
   helper.deleteOldDishCookie();
   helper.setDishCookie(dishesData, orderedData);
   localStorage.setItem('dishBoxPrice', helper.getDishBoxprice(orderedData, dishBoxChargeInfo));
-  //  堂食情况下需要考虑是否有synFlag的情况
-  const synFlag = helper.getUrlParam('synFlag');
-  if (synFlag) {
+  //  堂食情况下需要考虑是否有tableId的情况
+  const tableId = helper.getUrlParam('tableId');
+  if (tableId) {
     location.href =
-      `/orderall/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}&synFlag=${synFlag}`;
+      `/orderall/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}&tableId=${tableId}`;
   } else {
     location.href =
       `/orderall/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}`;
@@ -145,7 +145,7 @@ exports.callBell = (timer) => (dispatch, getStates) => {
     console.info(err);
   });
 };
-// 根据synFlag获取桌台基本信息
+// 根据tableId获取桌台基本信息
 const fetchTableInfo = exports.fetchTableInfo = (tableParam) => (dispatch, getState) =>
   fetch(`${config.getTableInfoAPI}?shopId=${helper.getUrlParam('shopId')}&${tableParam}`, config.requestOptions).
     then(res => {
@@ -167,7 +167,7 @@ const fetchTableInfo = exports.fetchTableInfo = (tableParam) => (dispatch, getSt
       console.log(err);
     });
 
-// 根据synFlag获取基本信息
+// 根据tableId获取基本信息
 const fetchServiceStatus = exports.fetchServiceStatus = (tableParam) => (dispatch, getState) =>
   fetch(`${config.getServiceStatusAPI}?shopId=${helper.getUrlParam('shopId')}&${tableParam}`, config.requestOptions).
     then(res => {
@@ -195,25 +195,25 @@ const fetchServiceStatus = exports.fetchServiceStatus = (tableParam) => (dispatc
       console.log(err);
     });
 
-// 取到synFlag 或者 根据key值获取synFlag
-exports.fetchTableId = (tableKey, synFlag) => (dispatch, getState) => {
+// 取到tableId 或者 根据key值获取tableId
+exports.fetchTableId = (tableKey, tableId) => (dispatch, getState) => {
   removeBasicSession('tableInfo');
   removeBasicSession('serviceStatus');
-  removeBasicSession('synFlag');
+  removeBasicSession('tableId');
   removeBasicSession('tableKey');
-  // 没有synFlag或者tableKey的情况
-  if (!tableKey && !synFlag) {
+  // 没有tableId或者tableKey的情况
+  if (!tableKey && !tableId) {
     fetchServiceStatus('')(dispatch, getState);
   } else if (tableKey) {
     fetchTableInfo(`tableKey=${tableKey}`)(dispatch, getState);
     fetchServiceStatus(`tableKey=${tableKey}`)(dispatch, getState);
   } else {
-    fetchTableInfo(`synFlag=${synFlag}`)(dispatch, getState);
-    fetchServiceStatus(`synFlag=${synFlag}`)(dispatch, getState);
+    fetchTableInfo(`tableId=${tableId}`)(dispatch, getState);
+    fetchServiceStatus(`tableId=${tableId}`)(dispatch, getState);
   }
-  // 保存synFlag和tableKey到sessionStorage
+  // 保存tableId和tableKey到sessionStorage
   sessionStorage.tableKey = tableKey || '';
-  sessionStorage.synFlag = synFlag || '';
+  sessionStorage.tableId = tableId || '';
 
   return;
 };
