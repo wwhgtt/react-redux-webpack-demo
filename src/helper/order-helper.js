@@ -613,9 +613,9 @@ const validateAddressInfo = exports.validateAddressInfo = (info, isTakeaway, fil
 
 const getSubmitDishData = exports.getSubmitDishData = dishesData => {
   const result = { singleDishInfos: [], multiDishInfos: [] };
-  const push = [].push;
-  const getSingleDishInfo = (dishes, func) => (dishes || []).map(dish => {
-    let order = dish.order;
+  const getSingleDishInfo = (dishes, func) => [].concat.apply([], (dishes || []).map(dish => {
+    let orderDishes = [];
+    const order = dish.order;
     const dishInfo = {
       num: 0,
       price: dish.marketPrice,
@@ -625,32 +625,45 @@ const getSubmitDishData = exports.getSubmitDishData = dishesData => {
     };
     if (typeof order === 'number' && order > 0) {
       dishInfo.num = order;
-    } else if (Array.isArray(order) && order.length > 0) {
-      order = order[0];
-      dishInfo.num = order.count;
-      dishInfo.ingredientIds = (order.dishIngredientInfos || []).filter(item => item.isChecked).map(item => item.id);
-      (order.dishPropertyTypeInfos || []).forEach(item => {
-        push.apply(dishInfo.propertyIds, (item.properties || []).filter(subItem => subItem.isChecked).map(subItem => subItem.id));
+      orderDishes.push(dishInfo);
+    } else if (Array.isArray(order) && order.length) {
+      orderDishes = order.map(orderDish => {
+        const duplicateDishInfo = Object.assign({}, dishInfo);
+        duplicateDishInfo.num = orderDish.count;
+        duplicateDishInfo.ingredientIds = (orderDish.dishIngredientInfos || []).filter(item => item.isChecked).map(item => item.id);
+        duplicateDishInfo.propertyIds = [];
+        (orderDish.dishPropertyTypeInfos || []).forEach(item => {
+          [].push.apply(duplicateDishInfo.propertyIds, (item.properties || []).filter(subItem => subItem.isChecked).map(subItem => subItem.id));
+        });
+        if (func) {
+          func(duplicateDishInfo);
+        }
+        return duplicateDishInfo;
       });
     }
-    if (func) {
-      func(dishInfo);
-    }
-    return dishInfo;
-  }).filter(dish => dish.num > 0);
+    return orderDishes.filter(orderDish => orderDish.num > 0);
+  }));
 
   result.singleDishInfos = getSingleDishInfo(dishesData.filter(dish => dish.type === 0));
-  result.multiDishInfos = dishesData.filter(dish => dish.type === 1).map(dish => {
-    const order = dish.order[0] || [];
-    const dishInfo = { num: order.count, price: dish.marketPrice, dishId: dish.id, subDish: [] };
-    (order.groups || []).forEach(group => {
-      push.apply(dishInfo.subDish, getSingleDishInfo(group.childInfos, info => {
-        const _info = info;
-        _info.groupId = group.id;
-      }));
+  result.multiDishInfos = [].concat.apply([], dishesData.filter(dish => dish.type === 1).map(dish => {
+    const orderDishes = [];
+    const dishInfo = { num: 0, price: dish.marketPrice, dishId: dish.id, subDish: [] };
+    (dish.order || []).forEach(orderDish => {
+      if (!orderDish.count) {
+        return;
+      }
+
+      const duplicateDishInfo = Object.assign({}, dishInfo, { num: orderDish.count, subDish: [] });
+      (orderDish.groups || []).forEach(group => {
+        [].push.apply(duplicateDishInfo.subDish, getSingleDishInfo(group.childInfos, info => {
+          const _info = info;
+          _info.groupId = group.id;
+        }));
+      });
+      orderDishes.push(duplicateDishInfo);
     });
-    return dishInfo;
-  });
+    return orderDishes;
+  }));
   return result;
 };
 
