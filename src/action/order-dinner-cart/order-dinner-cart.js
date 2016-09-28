@@ -1,8 +1,8 @@
-const config = require('../../config');
-const createAction = require('redux-actions').createAction;
 require('es6-promise');
 require('isomorphic-fetch');
 
+const config = require('../../config');
+const createAction = require('redux-actions').createAction;
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const storeDishesLocalStorage = require('../../helper/dish-hepler.js').storeDishesLocalStorage;
 const clearDishesLocalStorage = require('../../helper/dish-hepler.js').clearDishesLocalStorage;
@@ -10,8 +10,28 @@ const shopId = getUrlParam('shopId');
 const _setOrderDish = createAction('ORDER_DISH', (dishData, increment) => [dishData, increment]);
 const initOrderInfo = createAction('INIT_ORDER_INFO', (evt, option) => option);
 const setMenuData = createAction('SET_MENU_DATA', option => option);
+
+const getTableInfoFromStorage = () => {
+  const tableKey = sessionStorage.getItem('tableKey');
+  const tableId = sessionStorage.getItem('tableId');
+  return { tableId, tableKey };
+};
+
+const appendUrlParamsWithTableInfo = url => {
+  const { tableId, tableKey } = getTableInfoFromStorage();
+  let result = url;
+  if (tableId) {
+    result += `&tableId=${tableId}`;
+  }
+  if (tableKey) {
+    result += `&tableKey=${tableKey}`;
+  }
+  return result;
+};
+
 const gotoDishMenuPage = exports.gotoDishMenuPage = () => {
-  location.href = `/orderall/dishMenu4Dinner?type=${'TS'}&shopId=${shopId}`;
+  const url = appendUrlParamsWithTableInfo(`/orderall/dishMenu4Dinner?type=${'TS'}&shopId=${shopId}`);
+  location.href = url;
 };
 
 const setOrderInfo = exports.setOrderInfo = createAction('SET_ORDER_INFO', (evt, option) => option);
@@ -67,13 +87,7 @@ exports.fetchWXAuthInfo = (setErrorMsg) => (dispatch, getState) => {
 };
 
 exports.fetchMainOrderInfo = (tableId, tableKey, setErrorMsg) => (dispatch, getState) => {
-  let url = `${config.getMainOrderAPI}?shopId=${shopId}`;
-  if (tableId) {
-    url += `&tableId=${tableId}`;
-  }
-  if (tableKey) {
-    url += `&tableKey=${tableKey}`;
-  }
+  const url = appendUrlParamsWithTableInfo(`${config.getMainOrderAPI}?shopId=${shopId}`);
   fetch(url, config.requestOptions)
     .then(res => {
       if (!res.ok) {
@@ -94,9 +108,7 @@ exports.fetchMainOrderInfo = (tableId, tableKey, setErrorMsg) => (dispatch, getS
 };
 
 exports.initOrderTable = (callback) => (dispatch, getState) => {
-  const tableKey = sessionStorage.getItem('tableKey');
-  const tableId = sessionStorage.getItem('tableId');
-  const tableInfo = { tableId, tableKey };
+  const tableInfo = getTableInfoFromStorage();
   dispatch(setOrderInfo(null, tableInfo));
   if (callback) {
     callback(tableInfo);
