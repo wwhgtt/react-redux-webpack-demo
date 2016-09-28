@@ -115,7 +115,7 @@ exports.callBell = (timer) => (dispatch, getStates) => {
   dispatch(setCallMsg({ info:'正在发送...', callStatus:false }));
   const orderId = JSON.parse(sessionStorage.serviceStatus).orderId || '';
 
-  fetch(`${config.callServiceAPI}`, commonHelper.getFetchPostParam({ shopId:commonHelper.getUrlParam('shopId'), orderId })).
+  fetch(`${config.callServiceAPI}?shopId=${commonHelper.getUrlParam('shopId')}&orderId=${orderId}`).
   then(res => {
     if (!res.ok) {
       dispatch(setCallMsg({ info:'非常抱歉，发送失败了', callStatus:false }));
