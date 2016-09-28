@@ -705,10 +705,10 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
       }
     }
   } else {
-    let sex = +state.customerProps.sex;
-    if (isNaN(sex) || state.customerProps.sex === null || sex === -1) {
+    if (state.customerProps.sex === null && state.customerProps.loginType === 0) {
       return { success:false, msg:'未选择性别' };
     }
+    let sex = state.customerProps.sex !== null && state.customerProps.sex >= 0 ? state.customerProps.sex : 1;
     params = '?name=' + state.customerProps.name
         + '&Invoice=' + receipt + '&memo=' + note
         + '&mobile=' + state.customerProps.mobile
