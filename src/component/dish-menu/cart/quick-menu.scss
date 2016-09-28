@@ -66,7 +66,7 @@
     position: absolute;
     z-index: 2;
     top: -.25em;
-    right: 0;
+    right: -.25em;
     width: 4.5em;
     height: 4.5em;
     padding: .7em 0;
@@ -75,6 +75,7 @@
     border: bordersolid(1, #cdc3ef);
     border-radius: 2.5em;
     background: $color-dusty-grey;
+    transform: scale(.8, .8);
     transition: all .6s;
 
     &-inner {
@@ -92,6 +93,7 @@
       right: -7em;
       opacity: 1;
       background: #b57ffb;
+      transform: scale(1, 1);
     }
 
     &-gray {
@@ -108,8 +110,8 @@
     font-size: 12px;
     position: absolute;
     z-index: 2;
-    top: 0;
-    right: 0;
+    top: -.25em;
+    right: -.25em;
     width: 4.5em;
     height: 4.5em;
     padding: .7em 0;
@@ -118,6 +120,7 @@
     border: bordersolid(1, #b3ddf7);
     border-radius: 2.5em;
     background: $color-dusty-grey;
+    transform: scale(.8, .8);
     transition: all .4s;
 
     &-inner {
@@ -135,6 +138,7 @@
       right: -5em;
       opacity: 1;
       background: #28acf9;
+      transform: scale(1, 1);
     }
 
     &-gray {

@@ -51,7 +51,7 @@ const ServiceBell = React.createClass({
     const { options, endStatus } = this.state;
     const { animate, expandMenu } = this.props;
     const callAnimate = JSON.parse(`{ "call-bell-${animate} ${callGray}": ${expandMenu} }`);
-    const bool = true;
+    const direction = 'DIRECTION_ALL';
     // animateBar 60秒间隔
     const timer = 60;
     if (!callColor && !endStatus) {
@@ -62,7 +62,7 @@ const ServiceBell = React.createClass({
           onTouchEnd={this.callEnd}
           onPress={() => this.callPress(timer)}
           options={options}
-          vertical={bool}
+          direction={direction}
         >
           <div
             className={classnames('call-bell',
