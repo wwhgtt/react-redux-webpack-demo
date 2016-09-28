@@ -123,8 +123,8 @@ exports.submitDinnerOrder = () => (dispatch, getState) => {
         sessionStorage.removeItem(`${shopId}_customer_toshopinfo`);
 
         helper.setCallbackUrl(result.data.orderId);
-
-        location.href = `/order/orderallDetail?shopId=${shopId}&orderId=${result.data.orderId}`;
+        const paramStr = `shopId=${shopId}&orderId=${result.data.orderId}`;
+        location.href = `/shop/payDetail?${paramStr}&orderType=TS`;
       } else {
         dispatch(setErrorMsg(result.msg));
       }
