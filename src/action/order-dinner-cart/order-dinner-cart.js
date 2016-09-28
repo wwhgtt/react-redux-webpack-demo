@@ -144,13 +144,12 @@ exports.removeAllOrders = (orders) => (dispatch, getStates) => {
   gotoDishMenuPage();
 };
 
-exports.submitOrder = (data, setLoading, setErrorMsg) => (dispatch, getState) => {
+exports.submitOrder = (tableKey, data, setLoading, setErrorMsg) => (dispatch, getState) => {
   const requestOptions = Object.assign({}, config.requestOptions, {
     method: 'POST',
     body: JSON.stringify(data),
   });
 
-  const { tableKey } = getState().orderTSCart;
   let url = `${config.submitTSOrderCartAPI}?shopId=${shopId}`;
   if (tableKey) {
     url += `&tableKey=${tableKey}`;
