@@ -91,12 +91,14 @@ const OrderDetailInApplication = React.createClass({
       <div className="flex-columns">
         <div className="flex-rest">
           <OrderInfo orderInfo={orderInfo} />
+          {orderDetail.orderMetas && orderDetail.orderMetas.length > 0 && <p className="order-block-title">加菜订单</p>}
           {
             orderDetail.orderMetas &&
             orderDetail.orderMetas.map((item, index) =>
               <DishInfo orderDetail={item} key={index} />
             )
           }
+          <p className="order-block-title">客看单</p>
           <div className="options-group">
             <div className="option order-status">
               <span>订单状态</span>
