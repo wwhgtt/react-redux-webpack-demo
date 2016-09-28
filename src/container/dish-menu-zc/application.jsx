@@ -12,7 +12,7 @@ const QuickMenu = require('../../component/dish-menu/cart/quick-menu.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const helper = require('../../helper/dish-hepler');
 const tableKey = helper.getUrlParam('tableKey');
-const tableId = helper.getUrlParam('tableId');
+const synFlag = helper.getUrlParam('synFlag');
 
 const DishMenuZcApplication = React.createClass({
   displayName: 'DishMenuZcApplication',
@@ -38,7 +38,7 @@ const DishMenuZcApplication = React.createClass({
     fetchMenuData().then(
       fetchOrderDiscountInfo
     );
-    fetchTableId(tableKey, tableId);
+    fetchTableId(tableKey, synFlag);
   },
   componentDidUpdate() {
   },

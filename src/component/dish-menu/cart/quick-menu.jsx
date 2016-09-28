@@ -4,7 +4,7 @@ const helper = require('../../../helper/dish-hepler');
 const shopId = helper.getUrlParam('shopId');
 const type = helper.getUrlParam('type') || 'TS';
 const tableKey = helper.getUrlParam('tableKey');
-const tableId = helper.getUrlParam('tableId');
+const synFlag = helper.getUrlParam('synFlag');
 const config = require('../../../config');
 const ServiceBell = require('./service-bell.jsx');
 const tradeDetailUncheckUrl = `${config.tradeDetailUncheckURL}?type=${type}&shopId=${shopId}`;
@@ -39,7 +39,7 @@ const QuickMenu = React.createClass({
   goToDetail(enableOrder, isLogin) { // 进入订单详情页
     const orderId = JSON.parse(sessionStorage.serviceStatus || '{}').orderId || '';
     // 不带桌台的时候
-    if (!tableKey && !tableId) {
+    if (!tableKey && !synFlag) {
       if (enableOrder && isLogin) {
         location.href = `${tradeDetailUncheckUrl}&orderId=${orderId}`;
       }
@@ -119,8 +119,8 @@ const QuickMenu = React.createClass({
                   <div
                     className={classnames('bill-menu',
                       billAnimate,
-                      { 'bill-menu-gray': !tableKey && !tableId && (!serviceStatus.data.enableOrder || !serviceStatus.isLogin) },
-                      { 'bill-menu-gray': (tableKey || tableId) && !serviceStatus.data.enableOrder },
+                      { 'bill-menu-gray': !tableKey && !synFlag && (!serviceStatus.data.enableOrder || !serviceStatus.isLogin) },
+                      { 'bill-menu-gray': (tableKey || synFlag) && !serviceStatus.data.enableOrder },
                     )}
                     onTouchTap={() => this.goToDetail(serviceStatus.data.enableOrder, serviceStatus.isLogin)}
                   >
