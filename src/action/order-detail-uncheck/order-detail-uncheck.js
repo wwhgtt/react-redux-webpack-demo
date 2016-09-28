@@ -25,6 +25,9 @@ exports.getOrderDetailUncheck = () => (dispatch, getState) => {
     if (res.code === '200') {
       dispatch(setOrderDetail(res.data));
       dispatch(setErrorMsg(''));
+    } else if (res.code === '70005') {
+      dispatch(setErrorMsg(res.msg));
+      setTimeout(() => { location.href = `http://${location.host}/order/orderallDetail?shopId=${shopId}&orderId=${orderId}`; }, 3000);
     } else {
       dispatch(setErrorMsg(res.msg));
     }
