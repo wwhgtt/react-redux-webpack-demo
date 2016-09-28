@@ -708,7 +708,7 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
         :
         { success:false, msg:'未选择桌台信息' };
     }
-    tableId = state.tableProps.tables.filter(table => table.isChecked)[0].id;
+    tableId = state.tableProps.tables.filter(table => table.isChecked)[0].synFlag;
   } else if (type === 'TS' && serviceApproach && serviceApproach.indexOf('pickup') !== -1 || type === 'WM') {
     tableId = 0;
   } else {
