@@ -99,9 +99,9 @@ const removeBasicSession = (name) => {
 const errorLocation = (errorCode) => {
   switch (errorCode) {
     case '90006' : location.href = `${config.exceptionLinkURL}?shopId=${shopId}`; break; // 请重新扫描二维码,链接已失效
-    case '90008' : location.href = `${config.exceptionDishURL}?shopId=${shopId}`; break; // 该桌台有多个未支付的正餐订单
-    case '90012' : location.href = `${config.exceptionDishURL}?shopId=${shopId}`; break; // 该用户在该门店下有多个正餐加菜订单
-    case '90013' : location.href = `${config.exceptionDishURL}?shopId=${shopId}`; break; // 该用户在该门店下有多个正餐订单
+    // case '90008' : location.href = `${config.exceptionDishURL}?shopId=${shopId}`; break; // 该桌台有多个未支付的正餐订单
+    // case '90012' : location.href = `${config.exceptionDishURL}?shopId=${shopId}`; break; // 该用户在该门店下有多个正餐加菜订单
+    // case '90013' : location.href = `${config.exceptionDishURL}?shopId=${shopId}`; break; // 该用户在该门店下有多个正餐订单
     case '90014' : location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`; break; // 待清台,桌台锁定中,桌台不属于该门店,不存在对应桌台,对应桌台已被删除
     default : break;
   }
@@ -145,7 +145,7 @@ exports.callBell = (timer) => (dispatch, getStates) => {
     console.info(err);
   });
 };
-// 根据tableID获取桌台基本信息
+// 根据tableId获取桌台基本信息
 const fetchTableInfo = exports.fetchTableInfo = (tableParam) => (dispatch, getState) =>
   fetch(`${config.getTableInfoAPI}?shopId=${helper.getUrlParam('shopId')}&${tableParam}`, config.requestOptions).
     then(res => {
