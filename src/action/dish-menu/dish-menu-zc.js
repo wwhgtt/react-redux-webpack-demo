@@ -98,13 +98,11 @@ const removeBasicSession = (name) => {
 
 const errorLocation = (errorCode) => {
   switch (errorCode) {
-    case '90007' : location.href = `${config.exceptionLinkURL}?shopId=${shopId}`; break;
-    case '2' : location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`; break;
-    case '3' : location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`; break;
-    case '4' : location.href = `${config.exceptionDishURL}?shopId=${shopId}`; break;
-    case '5' : location.href = `${config.exceptionDishURL}?shopId=${shopId}`; break;
-    case '6' : location.href = `${config.exceptionDishURL}?shopId=${shopId}`; break;
-    case '7' : location.href = `${config.exceptionLinkURL}?shopId=${shopId}`; break;
+    case '90006' : location.href = `${config.exceptionLinkURL}?shopId=${shopId}`; break; // 请重新扫描二维码,链接已失效
+    case '90008' : location.href = `${config.exceptionDishURL}?shopId=${shopId}`; break; // 该桌台有多个未支付的正餐订单
+    case '90012' : location.href = `${config.exceptionDishURL}?shopId=${shopId}`; break; // 该用户在该门店下有多个正餐加菜订单
+    case '90013' : location.href = `${config.exceptionDishURL}?shopId=${shopId}`; break; // 该用户在该门店下有多个正餐订单
+    case '90014' : location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`; break; // 待清台,桌台锁定中,桌台不属于该门店,不存在对应桌台,对应桌台已被删除
     default : break;
   }
 };
@@ -157,12 +155,11 @@ const fetchTableInfo = exports.fetchTableInfo = (tableParam) => (dispatch, getSt
       return res.json();
     }).
     then(tableInfo => {
-      if (tableInfo.code === '200') {
-        if (tableInfo.data && tableInfo.data.errCode) {
-          errorLocation(tableInfo.data.errCode); // 获取tableInfo错误地址跳转
+      if (tableInfo.code !== '200') {
+        if (tableInfo.msg !== '未登录') {
+          errorLocation(tableInfo.code); // 获取tableInfo错误地址跳转
+          dispatch(setErrorMsg(tableInfo.msg));
         }
-      } else if (tableInfo.msg !== '未登录') {
-        dispatch(setErrorMsg(tableInfo.msg));
       }
       sessionStorage.tableInfo = JSON.stringify(tableInfo.data || {});
     }).
@@ -184,6 +181,7 @@ const fetchServiceStatus = exports.fetchServiceStatus = (tableParam) => (dispatc
         if (serviceStatus.msg === '未登录') {
           dispatch(setServiceStatus({ data:serviceStatus.data || {}, isLogin:false }));
         } else {
+          errorLocation(serviceStatus.code);
           dispatch(setErrorMsg(serviceStatus.msg));
           dispatch(setServiceStatus({ data:serviceStatus.data || {}, isLogin:true }));
         }
@@ -197,26 +195,6 @@ const fetchServiceStatus = exports.fetchServiceStatus = (tableParam) => (dispatc
       console.log(err);
     });
 
-// 获取用户是否在其他桌台下单
-const getOtherTableId = exports.getOtherTableId = () => (dispatch, getState) =>
-  fetch(`${config.getOtherTableIdAPI}?shopId=${helper.getUrlParam('shopId')}`, config.requestOptions).
-    then(res => {
-      if (!res.ok) {
-        dispatch(setErrorMsg('获取用户是否在其他桌台下单失败...'));
-      }
-      return res.json();
-    }).
-    then(otherTableId => {
-      if (otherTableId.code === '90007') {
-        dispatch(setErrorMsg(otherTableId.msg));
-        errorLocation(otherTableId.code);
-      }
-    }).
-    catch(err => {
-      console.log(err);
-    });
-
-
 // 取到tableId 或者 根据key值获取tableId
 exports.fetchTableId = (tableKey, tableId) => (dispatch, getState) => {
   removeBasicSession('tableInfo');
@@ -229,11 +207,9 @@ exports.fetchTableId = (tableKey, tableId) => (dispatch, getState) => {
   } else if (tableKey) {
     fetchTableInfo(`tableKey=${tableKey}`)(dispatch, getState);
     fetchServiceStatus(`tableKey=${tableKey}`)(dispatch, getState);
-    getOtherTableId()(dispatch, getState);
   } else {
     fetchTableInfo(`tableId=${tableId}`)(dispatch, getState);
     fetchServiceStatus(`tableId=${tableId}`)(dispatch, getState);
-    getOtherTableId()(dispatch, getState);
   }
   // 保存tableId和tableKey到sessionStorage
   sessionStorage.tableKey = tableKey || '';
