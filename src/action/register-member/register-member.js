@@ -97,7 +97,7 @@ exports.sendCode = phoneNum => (dispatch, getStates) => {
 exports.checkCode = (phoneInfo, userInfo) => (dispatch, getStates) => {
   dispatch(setLoadMsg({ status: true, word: '验证中……' }));
   const timestamp = getStates().timestamp || '';
-  const checkCodeURL = `${config.checkCodeAvaliableAPI}?shopId=${shopId}&mobile=${phoneInfo.phoneNum}&code=${phoneInfo.code}&timestamp=${timestamp}`;
+  const checkCodeURL = `${config.checkCodeAvaliableAPI}?shopId=${shopId}&mobile=${phoneInfo.phoneNum}&code=${phoneInfo.code}&timeStamp=${timestamp}`;
 
   fetch(checkCodeURL, config.requestOptions).
   then(res => {

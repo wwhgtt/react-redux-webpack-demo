@@ -40,7 +40,7 @@ exports.bindPhone = phoneInfo => (dispatch, getStates) => {
   const phoneNum = phoneInfo.phoneNum;
   const timestamp = getStates().timestamp || '';
   const code = phoneInfo.code;
-  const bindPhoneURL = `${config.bindPhoneAPI}?shopId=${shopId}&mobile=${phoneNum}&code=${code}&timestamp=${timestamp}`;
+  const bindPhoneURL = `${config.bindPhoneAPI}?shopId=${shopId}&mobile=${phoneNum}&code=${code}&timeStamp=${timestamp}`;
 
   fetch(bindPhoneURL, config.requestOptions).
   then(res => {
