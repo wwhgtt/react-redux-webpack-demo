@@ -100,9 +100,13 @@ const OrderTSCartApplication = React.createClass({
   },
   onCompleteSelectTable(evt, data) {
     const tableId = data.table.id;
+    const { tableList } = this.props.orderTSCart;
+    const table = tableList.filter(item => item.tableID === tableId)[0];
     this.props.selectTable(data);
     this.setState({ tableVisible: false });
-    this.submitOrder(tableId);
+    if (table) {
+      this.submitOrder(table.synFlag);
+    }
   },
   getAreaTableTitle() {
     const { tableId, tableProps, tableName } = this.props.orderTSCart;
@@ -174,7 +178,7 @@ const OrderTSCartApplication = React.createClass({
           this.setErrorMsg('该桌台编码无效');
           return;
         }
-        this.submitOrder(data.tableId);
+        this.submitOrder(data.synFlag);
       });
     };
     if (wx) {
@@ -232,7 +236,7 @@ const OrderTSCartApplication = React.createClass({
       mobile: member.mobile,
       memo,
       peopleCount,
-      tableId,
+      tableId: tableId || '',
       mainOrderId: mainOrderId || -1,
       payMethod: 0,
       needPayPrice: dishHelper.getDishesPrice(dishesData),
@@ -240,7 +244,7 @@ const OrderTSCartApplication = React.createClass({
     });
 
     Object.assign(data, getSubmitDishData(dishesData));
-    this.props.submitOrder(data, this.setLoadingInfo, this.setErrorMsg);
+    this.props.submitOrder(tableKey, data, this.setLoadingInfo, this.setErrorMsg);
   },
   buildButtonGroupElement(tableId, tableKey, shopSetting) {
     if (tableId || tableKey) {
