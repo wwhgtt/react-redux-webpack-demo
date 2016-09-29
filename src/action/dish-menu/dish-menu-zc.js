@@ -142,6 +142,8 @@ exports.callBell = (timer) => (dispatch, getStates) => {
     dispatch(setCanCall(true));
   }).
   catch(err => {
+    dispatch(setCallMsg({ info:'网络出错', callStatus:false }));
+    dispatch(setCanCall(true));
     console.info(err);
   });
 };
