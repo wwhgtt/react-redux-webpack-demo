@@ -67,14 +67,12 @@ const DishDetail = React.createClass({
                     <span className="dish-name ellipsis">{item.dishName}</span>
                     {
                       item.propertyAmount ?
-                        <span className="badge-price">+{item.propertyAmount}元</span>
+                        <span className="badge-price">{item.propertyAmount > 0 ? '+' : ''}{item.propertyAmount}元</span>
                       : ''
                     }
                     <span className="dish-count ellipsis">x{item.num}</span>
                     {
-                      item.memo ?
-                        <p className="dish-memo">{item.memo}</p>
-                      : ''
+                      item.memo && <p className="dish-memo">{item.memo}</p>
                     }
                   </div>
                 ) : ''
