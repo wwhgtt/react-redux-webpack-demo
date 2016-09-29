@@ -167,7 +167,7 @@ exports.submitOrder = (tableKey, data, setLoading, setErrorMsg) => (dispatch, ge
       if (result.code === '200') {
         clearDishesLocalStorage();
         const tradeDetailUncheckUrl =
-          appendUrlParamsWithTableInfo(`${config.tradeDetailUncheckURL}?type=${'TS'}&shopId=${shopId}&orderId=${result.data.orderId}`);
+          appendUrlParamsWithTableInfo(`${config.tradeDetailUncheckURL}?type=TS&shopId=${shopId}&orderId=${result.data.orderId}`);
         location.href = tradeDetailUncheckUrl;
         return;
       }
