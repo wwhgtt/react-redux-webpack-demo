@@ -10,7 +10,7 @@ const ExceptionDishApplication = React.createClass({
   render() {
     const tips = '非常抱歉，该桌台目前无法点餐';
     const returnName = '返回门店首页';
-    const returnUrl = `http://${location.host}/brand/index?shopId=${shopId}`;
+    const returnUrl = `http://${location.host}/shop/detail?shopId=${shopId}`;
     return (
       <div className="exception-dish">
         <ExceptionInfo
