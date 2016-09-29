@@ -9,6 +9,8 @@ const Toast = require('../../component/mui/toast.jsx');
 const getUrlParam = require('../../helper/common-helper').getUrlParam;
 const orderId = getUrlParam('orderId');
 const shopId = getUrlParam('shopId');
+const tableId = getUrlParam('tableId');
+const tableKey = getUrlParam('tableKey');
 
 require('../../asset/style/style.scss');
 require('./application.scss');
@@ -60,7 +62,12 @@ const OrderDetailInApplication = React.createClass({
   },
 
   handleDishMenu() {
-    location.href = `http://${location.host}/orderall/dishMenu4Dinner?shopId=${shopId}&type=TS`;
+    const dishUrl = `http://${location.host}/orderall/dishMenu4Dinner?shopId=${shopId}&type=TS`;
+    if (tableId) {
+      location.href = `${dishUrl}&tableId=${tableId}`;
+    } else {
+      location.href = `${dishUrl}&tableKey=${tableKey}`;
+    }
   },
 
   handleClearErrorMsg() {
