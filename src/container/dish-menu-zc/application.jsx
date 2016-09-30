@@ -51,7 +51,7 @@ const DishMenuZcApplication = React.createClass({
     // states
     const { callMsg, callAble, timerStatus, serviceStatus } = this.props.dishMenuZcReducer;
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData,
-            errorMessage } = this.props.dishMenuReducer;
+            errorMessage, openTimeList } = this.props.dishMenuReducer;
     // actions
     const { activeDishType, orderDish, showDishDetail, showDishDesc,
             clearErrorMsg, callBell, clearBell } = this.props;
@@ -87,6 +87,7 @@ const DishMenuZcApplication = React.createClass({
           timerStatus={timerStatus}
           dishes={dishesData}
           serviceStatus={serviceStatus}
+          openTimeList={openTimeList}
         />
       </div>
     );

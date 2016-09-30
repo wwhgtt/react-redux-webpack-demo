@@ -10,7 +10,7 @@ const ServiceBell = require('./service-bell.jsx');
 const tradeDetailUncheckUrl = `${config.tradeDetailUncheckURL}?type=${type}&shopId=${shopId}`;
 const dishCart4DinnerUrl = `${config.dishCart4DinnerURL}?type=${type}&shopId=${shopId}`;
 const classnames = require('classnames');
-
+const isShopOpen = require('../../../helper/dish-hepler.js').isShopOpen;
 const QuickMenu = React.createClass({
   displayName: 'QuickMenu',
   propTypes:{
@@ -21,6 +21,7 @@ const QuickMenu = React.createClass({
     timerStatus:React.PropTypes.bool.isRequired,
     dishes: React.PropTypes.array.isRequired,
     serviceStatus: React.PropTypes.object,
+    openTimeList:React.PropTypes.array,
   },
   getInitialState() {
     return {
@@ -84,7 +85,7 @@ const QuickMenu = React.createClass({
   },
   render() {
     const { expandMenu, animate } = this.state;
-    const { callBell, clearBell, callMsg, callAble, timerStatus, dishes, serviceStatus } = this.props;
+    const { callBell, clearBell, callMsg, callAble, timerStatus, dishes, serviceStatus, openTimeList } = this.props;
     // 逻辑判断
     const payAnimate = JSON.parse(`{ "pay-menu-${animate}": ${expandMenu} }`);
     const billAnimate = JSON.parse(`{ "bill-menu-${animate}": ${expandMenu} }`);
@@ -93,7 +94,7 @@ const QuickMenu = React.createClass({
     const orderedDishes = helper.getOrderedDishes(dishes);
     const dishesCount = helper.getDishesCount(orderedDishes);
     let cartIconClass = 'cart-icon cart-icon--tiny cart-icon--fixed';
-    if (!dishesCount) {
+    if (!dishesCount || !isShopOpen(openTimeList)) {
       cartIconClass += ' cart-icon--transparent';
     }
     return (
