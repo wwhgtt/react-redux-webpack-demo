@@ -1,16 +1,6 @@
-// stylelint-disable selector-no-universal
-// Reset box-sizing for all elements
-// This is the only place can use universal selector
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  height: 100%;
   cursor: default;
   user-select: none;
   text-size-adjust: 100%;
@@ -18,11 +8,7 @@ html {
 }
 
 body {
-  font: 16px/1 -apple-system, Helvetica, "Droid Sans", sans-serif;
-  height: 100%;
   margin: 0;
-  color: $color-mine-shaft;
-  background: $color-white;
 }
 
 main {
