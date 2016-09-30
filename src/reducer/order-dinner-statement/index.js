@@ -44,7 +44,7 @@ module.exports = function (
   const { type, payload } = action;
   switch (type) {
     case 'SET_ORDER': {
-      return state.setIn(['customerProps', 'dineCount'], payload.tradePeopleCount)
+      return state.setIn(['customerProps', 'dineCount'], payload.peopleCount)
       .setIn(['customerProps', 'dineSerialNumber'], payload.serialNo)
       .setIn(['customerProps', 'dineTableProp'], { area:payload.tableArea, table: payload.tableName })
       .setIn(['commercialProps', 'shopLogo'], payload.shopLogo)

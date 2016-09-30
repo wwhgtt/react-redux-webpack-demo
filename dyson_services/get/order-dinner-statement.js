@@ -5,7 +5,7 @@ module.exports = {
       shopName: '小土豆石方菜菜软件园店',
       shopLogo: 'http://kry-test-2.qiniudn.com/980afeeec2004447a5e72d124ed2186a.jpg?imageView/2/w/512/h/512',
       serialNo:'013', // 流水号
-      tradePeopleCount:4, // 人数
+      peopleCount:4, // 人数
       tableArea:'大厅区', // 桌台区域
       tableName:'9号桌', // 桌台
       isMember:true, // 是否会员
