@@ -3,9 +3,9 @@ const dateUtility = require('./common-helper.js').dateUtility;
 const getTotalRrice = function (array) {
   let totalRrice = 0;
   for (let i = 0; i < array.length; i ++) {
-    totalRrice += array[i].price;
+    totalRrice += array[i].price * 100;
   }
-  return totalRrice;
+  return totalRrice / 100;
 };
 
 const sexFormat = function (orderSex) {
