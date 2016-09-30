@@ -1,14 +1,7 @@
 @import "settings.colors";
 
-// stylelint-disable selector-no-id
-// Root element id
-#app-placeholder,
-[data-reactroot] {
+.application {
   font-size: 14px;
-  height: 100%;
-}
-
-[data-reactroot] {
   padding: 10px 15px;
 }
 

@@ -57,7 +57,7 @@ const RegisterMemberApplication = React.createClass({
   render() {
     const { errorMessage, userInfo, loadInfo, sendCode, phoneCode } = this.props;
     return (
-      <div className="register-page">
+      <div className="application">
         <RegisterMember
           userInfo={userInfo}
           registerPhoneCode={phoneCode}

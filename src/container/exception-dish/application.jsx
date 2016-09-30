@@ -12,7 +12,7 @@ const ExceptionDishApplication = React.createClass({
     const returnName = '返回门店首页';
     const returnUrl = `http://${location.host}/brand/index?shopId=${shopId}`;
     return (
-      <div className="exception-dish">
+      <div className="application">
         <ExceptionInfo
           tips={tips}
           returnName={returnName}
