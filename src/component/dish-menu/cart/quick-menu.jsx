@@ -57,9 +57,11 @@ const QuickMenu = React.createClass({
     }
   },
   jumpDetail(evt, num) {
-    if (evt) {
-      evt.preventDefault();
+    const { openTimeList } = this.props;
+    if (!isShopOpen(openTimeList)) {
+      return false;
     }
+    evt.preventDefault();
     const { serviceStatus } = this.props;
     if (num) {
       if (serviceStatus.isLogin) {
@@ -68,6 +70,7 @@ const QuickMenu = React.createClass({
         location.href = `${config.logAddressURL}?shopId=${shopId}&returnUrl=${encodeURIComponent(dishCart4DinnerUrl)}`; // 跳转到登录页面
       }
     }
+    return true;
   },
   bellMenu() {
     const status = this.state.expandMenu;
