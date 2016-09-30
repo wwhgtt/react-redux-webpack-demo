@@ -32,8 +32,8 @@ exports.initializeDishes = (dishes) => {
           isChildDish:true,
           dishIngredientInfos:item.dishIngredientInfos,
           dishPropertyTypeInfos:item.propertyTypeList,
-          order:isSingleDishWithoutProps(item) ? item.num : [{
-            count:item.num,
+          order:isSingleDishWithoutProps(item) ? item.num / dish.num : [{
+            count:item.num / dish.num,
             dishIngredientInfos:item.dishIngredientInfos,
             dishPropertyTypeInfos:item.propertyTypeList,
           }],
