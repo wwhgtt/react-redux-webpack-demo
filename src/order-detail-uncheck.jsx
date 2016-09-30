@@ -20,9 +20,7 @@ if (process.env.NODE_ENV === 'production') {
 const store = storeCreator(reducer);
 ReactDOM.render(
   <Provider store={store}>
-    <div>
-      <OrderDetailInApplication />
-    </div>
+    <OrderDetailInApplication />
   </Provider>,
   document.getElementById('app-placeholder')
 );

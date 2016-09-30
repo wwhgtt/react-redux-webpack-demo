@@ -95,7 +95,7 @@ const OrderDetailInApplication = React.createClass({
     }
     const statusType = this.handleStatus(dishTotal.status);
     return (
-      <div className="flex-columns">
+      <div className="application flex-columns">
         <div className="flex-rest">
           <OrderInfo orderInfo={orderInfo} />
           {orderDetail.orderMetas && orderDetail.orderMetas.length > 0 && <p className="order-block-title">加菜订单</p>}
