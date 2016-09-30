@@ -18,9 +18,12 @@ const getTableInfoFromStorage = () => {
   return { tableId, tableKey };
 };
 
-const appendUrlParamsWithTableInfo = url => {
+const appendUrlParamsWithTableInfo = (url, data) => {
   const { tableId, tableKey } = getTableInfoFromStorage();
   let result = url;
+  if (data && data.tableId) {
+    return result += `&tableId=${data.tableId}`;
+  }
   if (tableId) {
     result += `&tableId=${tableId}`;
   }
@@ -31,7 +34,7 @@ const appendUrlParamsWithTableInfo = url => {
 };
 
 const gotoDishMenuPage = exports.gotoDishMenuPage = () => {
-  const url = appendUrlParamsWithTableInfo(`/orderall/dishMenu4Dinner?type=${'TS'}&shopId=${shopId}`);
+  const url = appendUrlParamsWithTableInfo(`/orderall/dishMenu4Dinner?type=${'TS'}&shopId=${shopId}`, null);
   location.href = url;
 };
 
@@ -88,7 +91,7 @@ exports.fetchWXAuthInfo = (setErrorMsg) => (dispatch, getState) => {
 };
 
 exports.fetchMainOrderInfo = (tableId, tableKey, setErrorMsg) => (dispatch, getState) => {
-  const url = appendUrlParamsWithTableInfo(`${config.getMainOrderAPI}?shopId=${shopId}`);
+  const url = appendUrlParamsWithTableInfo(`${config.getMainOrderAPI}?shopId=${shopId}`, null);
   fetch(url, config.requestOptions)
     .then(res => {
       if (!res.ok) {
@@ -167,7 +170,7 @@ exports.submitOrder = (tableKey, data, setLoading, setErrorMsg) => (dispatch, ge
       if (result.code === '200') {
         clearDishesLocalStorage();
         const tradeDetailUncheckUrl =
-          appendUrlParamsWithTableInfo(`${config.tradeDetailUncheckURL}?type=TS&shopId=${shopId}&orderId=${result.data.orderId}`);
+          appendUrlParamsWithTableInfo(`${config.tradeDetailUncheckURL}?type=TS&shopId=${shopId}&orderId=${result.data.orderId}`, data);
         location.href = tradeDetailUncheckUrl;
         return;
       }
