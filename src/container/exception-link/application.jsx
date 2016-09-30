@@ -10,7 +10,7 @@ const ExceptionLinkApplication = React.createClass({
   render() {
     const tips = '该链接已失效，如需点餐请重新扫码';
     const returnName = '返回门店首页';
-    const returnUrl = `http://${location.host}/brand/index?shopId=${shopId}`;
+    const returnUrl = `http://${location.host}/shop/detail?shopId=${shopId}`;
     return (
       <div className="exception-dish">
         <ExceptionInfo
