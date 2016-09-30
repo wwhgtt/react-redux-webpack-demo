@@ -98,7 +98,7 @@ const OrderDinnerStateMentApplication = React.createClass({
           {commercialProps && commercialProps.isSupportReceipt === 1 ?
             <label className="option">
               <span className="option-title">发票抬头: </span>
-              <input className="option-input" name="receipt" maxLength="35" placeholder="输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
+              <input className="option-input" name="receipt" maxLength="35" placeholder="如需发票请填写" onChange={this.noteOrReceiptChange} />
             </label>
             :
             false
