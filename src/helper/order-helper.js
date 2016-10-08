@@ -611,7 +611,7 @@ const validateAddressInfo = exports.validateAddressInfo = (info, isTakeaway, fil
   return { valid: true, msg: '' };
 };
 
-const getSubmitDishData = exports.getSubmitDishData = dishesData => {
+const getSubmitDishData = exports.getSubmitDishData = (dishesData, shopId) => {
   const result = { singleDishInfos: [], multiDishInfos: [] };
   const getSingleDishInfo = (dishes, func) => [].concat.apply([], (dishes || []).map(dish => {
     let orderDishes = [];
@@ -622,7 +622,11 @@ const getSubmitDishData = exports.getSubmitDishData = dishesData => {
       ingredientIds: [],
       propertyIds: [],
       dishId: dish.id,
+      shopId,
     };
+    if (func) {
+      func(dishInfo);
+    }
     if (typeof order === 'number' && order > 0) {
       dishInfo.num = order;
       orderDishes.push(dishInfo);
@@ -635,9 +639,6 @@ const getSubmitDishData = exports.getSubmitDishData = dishesData => {
         (orderDish.dishPropertyTypeInfos || []).forEach(item => {
           [].push.apply(duplicateDishInfo.propertyIds, (item.properties || []).filter(subItem => subItem.isChecked).map(subItem => subItem.id));
         });
-        if (func) {
-          func(duplicateDishInfo);
-        }
         return duplicateDishInfo;
       });
     }
@@ -647,7 +648,7 @@ const getSubmitDishData = exports.getSubmitDishData = dishesData => {
   result.singleDishInfos = getSingleDishInfo(dishesData.filter(dish => dish.type === 0));
   result.multiDishInfos = [].concat.apply([], dishesData.filter(dish => dish.type === 1).map(dish => {
     const orderDishes = [];
-    const dishInfo = { num: 0, price: dish.marketPrice, dishId: dish.id, subDish: [] };
+    const dishInfo = { num: 0, price: dish.marketPrice, dishId: dish.id, subDish: [], shopId };
     (dish.order || []).forEach(orderDish => {
       if (!orderDish.count) {
         return;
@@ -725,7 +726,7 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
     payMethod: payMethodScope,
     Invoice: receipt,
   };
-  Object.assign(params, getSubmitDishData(dishes || []));
+  Object.assign(params, getSubmitDishData(dishes || []), parseInt(params.shopId, 10) || 0);
   if (type === 'WM') {
     const sendAreaId = state.serviceProps.sendAreaId === -1 ? 0 : state.serviceProps.sendAreaId;
     const selectedDateTime = state.timeProps.selectedDateTime;

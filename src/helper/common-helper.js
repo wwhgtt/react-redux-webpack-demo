@@ -123,8 +123,15 @@ exports.dateUtility = {
       return str;
     }
 
-    const time = Date.parse(str.replace(/\D+/g, '-').replace(/\D+$/, ''));
-    return isNaN(time) ? null : new Date(time);
+    const [datePart, timePart = '00:00:00'] = str.split(/\s+/);
+    const [year, month = 1, day = 1] = datePart.split(/\D+/);
+    if (!year) {
+      return null;
+    }
+
+    const [hours = 0, minutes = 0, seconds = 0] = timePart.split(/\D+/);
+    const result = new Date(year, month - 1, day, hours, minutes, seconds);
+    return isNaN(+result) ? null : result;
   },
 };
 
