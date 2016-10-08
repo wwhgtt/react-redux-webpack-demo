@@ -1,0 +1,8 @@
+// stylelint-disable selector-no-universal
+// Reset box-sizing for all elements
+// This is the only place can use universal selector
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}

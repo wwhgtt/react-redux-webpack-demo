@@ -1,13 +1,3 @@
-// stylelint-disable selector-no-id
-// Root element id
-#app-placeholder,
-[data-reactroot] {
-  height: 100%;
-}
-
 .application {
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-  height: 100%;
   background: #fafafa;
 }

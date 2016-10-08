@@ -56,7 +56,7 @@ const UserLoginApplication = React.createClass({
         </div>);
     }
     return (
-      <div className="flex-columns">
+      <div className="application flex-columns">
         <div className="flex-rest">
           <PhoneVerificationCode
             hasForeignZone={supportInfo.xiangEQ}
