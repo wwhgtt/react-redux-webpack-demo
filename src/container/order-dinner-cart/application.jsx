@@ -259,10 +259,12 @@ const OrderTSCartApplication = React.createClass({
     return (
       <div className="flex-row">
         <button className="flex-rest btn-continue" onTouchTap={this.continueDishMenu}>继续点菜</button>
-        {shopSetting && !shopSetting.enableScanTable &&
+        {shopSetting && shopSetting.enableSelectTable &&
           <button className="flex-rest btn-select-table" onTouchTap={this.selectTable}>选桌下单</button>
         }
-        <button className="flex-rest btn-order" onTouchTap={this.scanTableQRCode}>扫码下单</button>
+        {shopSetting && shopSetting.enableScanTable &&
+          <button className="flex-rest btn-order" onTouchTap={this.scanTableQRCode}>扫码下单</button>
+        }
       </div>
     );
   },
