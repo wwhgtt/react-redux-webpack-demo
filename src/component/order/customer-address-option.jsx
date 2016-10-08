@@ -11,7 +11,7 @@ module.exports = React.createClass({
     name: React.PropTypes.string,
   },
   render() {
-    const { id, address, ...props, sex, name, mobile } = this.props;
+    const { id, address, sex, name, mobile, ...props } = this.props;
     return (
       <DynamicClassDiv className="address-option" {...props}>
         <h3 className="address-title ellipsis">{address}</h3>
