@@ -243,7 +243,7 @@ const OrderTSCartApplication = React.createClass({
       serviceApproach: 'totable',
     });
 
-    Object.assign(data, getSubmitDishData(dishesData));
+    Object.assign(data, getSubmitDishData(dishesData, parseInt(shopId, 10) || 0));
     this.props.submitOrder(tableKey, data, this.setLoadingInfo, this.setErrorMsg);
   },
   buildButtonGroupElement(tableId, tableKey, shopSetting) {
