@@ -57,7 +57,7 @@ exports.fetchOrderInfo = (setErrorMsg) => (dispatch, getState) =>
       throw new Error(err);
     });
 
-exports.fetchShopSetting = (setErrorMsg) => (dispatch, getState) => {
+exports.fetchShopSetting = (setErrorMsg) => (dispatch, getState) =>
   fetch(`${config.getOrderTableTypeAPI}?shopId=${shopId}`, config.requestOptions)
     .then(res => {
       if (!res.ok) {
@@ -71,7 +71,6 @@ exports.fetchShopSetting = (setErrorMsg) => (dispatch, getState) => {
     .catch(err => {
       throw new Error(err);
     });
-};
 
 exports.fetchWXAuthInfo = (setErrorMsg) => (dispatch, getState) => {
   const url = encodeURIComponent(location.href);
