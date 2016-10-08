@@ -85,7 +85,7 @@ const OrderTSCartApplication = React.createClass({
         jsApiList: [
           'scanQRCode',
         ],
-      }));
+      }, wxAuthInfo));
     }
   },
   onValueChange(evt) {
