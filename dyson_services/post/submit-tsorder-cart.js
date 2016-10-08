@@ -5,7 +5,7 @@ module.exports = {
       orderId: +new Date(),
     },
     time: 1472439316794,
-    code: '200',
-    msg: '',
+    code: '90016',
+    msg: '当前用户在该桌台有未处理的订单',
   },
 };
