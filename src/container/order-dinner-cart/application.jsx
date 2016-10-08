@@ -245,7 +245,7 @@ const OrderTSCartApplication = React.createClass({
 
     Object.assign(data, {
       name: (member.name || '').trim(),
-      sex: member.sex,
+      sex: this.getValidSexValue(member.sex),
       mobile: member.mobile,
       memo,
       peopleCount,
