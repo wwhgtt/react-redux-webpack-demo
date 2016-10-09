@@ -25,6 +25,7 @@ const DishMenuZcApplication = React.createClass({
     showDishDesc: React.PropTypes.func.isRequired,
     fetchOrderDiscountInfo:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
+    showErrMsgFunc:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     dishDescData: React.PropTypes.object,
     dishMenuZcReducer: React.PropTypes.object.isRequired,
@@ -54,7 +55,7 @@ const DishMenuZcApplication = React.createClass({
             errorMessage, openTimeList } = this.props.dishMenuReducer;
     // actions
     const { activeDishType, orderDish, showDishDetail, showDishDesc,
-            clearErrorMsg, callBell, clearBell } = this.props;
+            clearErrorMsg, callBell, clearBell, showErrMsgFunc } = this.props;
     return (
       <div className="application">
         <DishTypeScroller
@@ -89,6 +90,7 @@ const DishMenuZcApplication = React.createClass({
           serviceStatus={serviceStatus}
           openTimeList={openTimeList}
           isShowButton={isShowButton}
+          shopNotOpenMsg={showErrMsgFunc}
         />
       </div>
     );

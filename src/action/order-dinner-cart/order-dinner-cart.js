@@ -44,8 +44,8 @@ const appendUrlParamsWithTableInfo = (url, data) => {
   return result;
 };
 
-const gotoDishMenuPage = exports.gotoDishMenuPage = () => {
-  const url = appendUrlParamsWithTableInfo(`/orderall/dishMenu4Dinner?type=${'TS'}&shopId=${shopId}`, null);
+const gotoDishMenuPage = () => {
+  const url = appendUrlParamsWithTableInfo(`/orderall/dishMenu4Dinner?type=${'TS'}&shopId=${shopId}`);
   location.href = url;
 };
 
@@ -208,4 +208,8 @@ exports.fetchTableIdFromNewVersionQRCode = (url, setLoading, callback) => (dispa
     .catch(err => {
       throw new Error(err);
     });
+};
+
+exports.gotoDishMenuPage = () => (dispatch, getState) => {
+  gotoDishMenuPage();
 };

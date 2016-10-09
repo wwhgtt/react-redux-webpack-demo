@@ -49,7 +49,8 @@ module.exports = {
   userLoginAPI: `${apiBase}/user/login.json`,
   userLoginWXURL: `${apiBase}/user/login4WX`,
   getUserLoginSupportAPI: `${apiBase}/user/supportTypes.json`,
-  getServiceStatusAPI: `${apiBase}/orderall/serviceStatus.json`, // 获取基本信息
+  getServiceStatusHaveTableAPI: `${apiBase}/orderall/serviceStatusHaveTable.json`, // 获取基本信息(带桌台)
+  getServiceStatusNoTableAPI: `${apiBase}/orderall/serviceStatusNoTable.json`, // 获取基本信息(不带桌台)
   getIsShowButtonAPI: `${apiBase}/orderall/isShowButton.json`, // 按钮是否显示
   getTableInfoAPI: `${apiBase}/orderall/tableInfo.json`, // 获取tableInfo
   getOtherTableIdAPI: `${apiBase}/orderall/getTableId.json`, // 获取用户是否在其他桌台下单
