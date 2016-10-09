@@ -10,7 +10,7 @@ module.exports = {
       'orderId': 5895231,
     },
     'time': 1472458598918,
-    'code': '200',
+    'code': 'NOT_LOGIN',
     'msg': '未登录',
   },
 };
