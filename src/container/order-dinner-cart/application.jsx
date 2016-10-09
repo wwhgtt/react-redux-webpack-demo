@@ -245,7 +245,7 @@ const OrderTSCartApplication = React.createClass({
 
     Object.assign(data, {
       name: (member.name || '').trim(),
-      sex: member.sex,
+      sex: this.getValidSexValue(member.sex),
       mobile: member.mobile,
       memo,
       peopleCount,
@@ -395,7 +395,7 @@ const OrderTSCartApplication = React.createClass({
           }
           <div className="options-group">
             <label className="option">
-              <span className="option-title">共{dishCount}份商品: </span>
+              <span className="option-title">共 {dishCount} 份商品</span>
               <span className="option-input totalprice" data-count={`￥${totalPrice}`}>总计:</span>
             </label>
           </div>

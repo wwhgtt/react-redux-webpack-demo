@@ -107,8 +107,9 @@ exports.submitDinnerOrder = () => (dispatch, getState) => {
   let requestOptions = Object.assign({}, config.requestOptions);
   requestOptions.method = 'POST';
   requestOptions.body = JSON.stringify({ shopId:+shopId, orderId:+tradeId, coupId, integral });
-
-  return fetch(`${config.submitDinnerOrderAPI}?shopId=${shopId}&orderId=${tradeId}`, requestOptions).
+  const needPayMoney = helper.countFinalNeedPayMoney(state.orderedDishesProps, state.serviceProps, state.commercialProps);
+  let url = needPayMoney === 0 ? config.orderDinnerStatementZeroAPI : config.submitDinnerOrderAPI;
+  return fetch(`${url}?shopId=${shopId}&orderId=${tradeId}`, requestOptions).
     then(res => {
       if (!res.ok) {
         dispatch(setErrorMsg('提交订单信息失败'));
@@ -123,8 +124,16 @@ exports.submitDinnerOrder = () => (dispatch, getState) => {
         sessionStorage.removeItem(`${shopId}_customer_toshopinfo`);
 
         helper.setCallbackUrl(result.data.orderId);
-        const paramStr = `shopId=${shopId}&orderId=${result.data.orderId}`;
-        location.href = `/shop/payDetail?${paramStr}&orderType=TS`;
+        if (needPayMoney === 0) {
+          if (result.data.orderPayStatus === 3 && result.data.orderStatus === 4) {
+            dispatch(setErrorMsg('支付成功'));
+          } else {
+            dispatch(setErrorMsg('支付失败'));
+          }
+        } else {
+          const paramStr = `shopId=${shopId}&orderId=${result.data.orderId}`;
+          location.href = `/shop/payDetail?${paramStr}&orderType=TS`;
+        }
       } else {
         dispatch(setErrorMsg(result.msg));
       }

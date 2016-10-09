@@ -1,13 +1,5 @@
 const dateUtility = require('./common-helper.js').dateUtility;
 
-const getTotalRrice = function (array) {
-  let totalRrice = 0;
-  for (let i = 0; i < array.length; i ++) {
-    totalRrice += array[i].price * 100;
-  }
-  return totalRrice / 100;
-};
-
 const sexFormat = function (orderSex) {
   let sex = '';
   if (orderSex === 0) {
@@ -24,12 +16,13 @@ const sexFormat = function (orderSex) {
 exports.getOrderDetail = (orderDetail) => {
   const dishTotal = orderDetail.orderMetas.pop();
   orderDetail.dishTotal = dishTotal;
-  const totalRrice = getTotalRrice(orderDetail.dishTotal.dishItems);
-  const priviledgeAmount = dishTotal.priviledgeAmount || 0;
   const orderMetas = orderDetail.orderMetas;
   const dishItems = dishTotal.dishItems;
 
-  orderDetail.dishTotal.totalRrice = totalRrice - priviledgeAmount;
+  // 优惠总计处理
+  if (dishTotal.priviledgeAmount) {
+    dishTotal.priviledgeAmount = (dishTotal.priviledgeAmount).toString().substring(1);
+  }
 
   // 总单数据处理
   for (let i = 0; i < dishItems.length; i ++) {

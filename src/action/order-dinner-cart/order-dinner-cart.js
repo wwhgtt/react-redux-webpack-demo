@@ -18,11 +18,22 @@ const getTableInfoFromStorage = () => {
   return { tableId, tableKey };
 };
 
+const gotoExceptionPage = code => {
+  const codeUrls = {
+    90014: config.exceptionDishCurrentURL,
+    90015: config.exceptionDishCurrentURL,
+    90016: config.exceptionDishURL,
+    default: config.exceptionDishCurrentURL,
+  };
+  const url = codeUrls[code] || codeUrls.default;
+  location.href = `${url}?shopId=${shopId}`;
+};
+
 const appendUrlParamsWithTableInfo = (url, data) => {
   const { tableId, tableKey } = getTableInfoFromStorage();
   let result = url;
   if (data && data.tableId) {
-    return result += `&tableId=${data.tableId}`;
+    return `${result}&tableId=${data.tableId}`;
   }
   if (tableId) {
     result += `&tableId=${tableId}`;
@@ -174,6 +185,9 @@ exports.submitOrder = (tableKey, data, setLoading, setErrorMsg) => (dispatch, ge
         return;
       }
       setErrorMsg(result.msg);
+      setTimeout(() => {
+        gotoExceptionPage(result.code);
+      }, 3000);
     })
     .catch(err => {
       throw new Error(err);
