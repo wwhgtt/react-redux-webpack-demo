@@ -18,11 +18,22 @@ const getTableInfoFromStorage = () => {
   return { tableId, tableKey };
 };
 
+const gotoExceptionPage = code => {
+  const codeUrls = {
+    90014: config.exceptionDishCurrentURL,
+    90015: config.exceptionDishCurrentURL,
+    90016: config.exceptionDishURL,
+    default: config.exceptionDishCurrentURL,
+  };
+  const url = codeUrls[code] || codeUrls.default;
+  location.href = `${url}?shopId=${shopId}`;
+};
+
 const appendUrlParamsWithTableInfo = (url, data) => {
   const { tableId, tableKey } = getTableInfoFromStorage();
   let result = url;
   if (data && data.tableId) {
-    return result += `&tableId=${data.tableId}`;
+    return `${result}&tableId=${data.tableId}`;
   }
   if (tableId) {
     result += `&tableId=${tableId}`;
@@ -57,7 +68,7 @@ exports.fetchOrderInfo = (setErrorMsg) => (dispatch, getState) =>
       throw new Error(err);
     });
 
-exports.fetchShopSetting = (setErrorMsg) => (dispatch, getState) => {
+exports.fetchShopSetting = (setErrorMsg) => (dispatch, getState) =>
   fetch(`${config.getOrderTableTypeAPI}?shopId=${shopId}`, config.requestOptions)
     .then(res => {
       if (!res.ok) {
@@ -71,7 +82,6 @@ exports.fetchShopSetting = (setErrorMsg) => (dispatch, getState) => {
     .catch(err => {
       throw new Error(err);
     });
-};
 
 exports.fetchWXAuthInfo = (setErrorMsg) => (dispatch, getState) => {
   const url = encodeURIComponent(location.href);
@@ -175,6 +185,9 @@ exports.submitOrder = (tableKey, data, setLoading, setErrorMsg) => (dispatch, ge
         return;
       }
       setErrorMsg(result.msg);
+      setTimeout(() => {
+        gotoExceptionPage(result.code);
+      }, 3000);
     })
     .catch(err => {
       throw new Error(err);

@@ -7,7 +7,8 @@
 @import "tools.functions";
 
 // generic
-@import "generic";
+@import "generic.box-sizing";
+@import "generic.reset";
 
 // base
 @import "base";
@@ -23,3 +24,6 @@
 @import "_components/toast";
 @import "_components/options";
 @import "_components/list";
+
+// trump
+@import "trump.application";

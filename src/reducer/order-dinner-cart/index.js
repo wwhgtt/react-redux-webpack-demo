@@ -17,6 +17,7 @@ const orderTSCart = (
     mainOrderId: -1,
     commercialName: '',
     commercialLogo: null,
+    wxAuthSuccess: false,
     serviceApproach: 'pickup,totable',
     diningForm: 1,
     wxAuthInfo: null,

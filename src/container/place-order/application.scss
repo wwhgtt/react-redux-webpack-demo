@@ -1,14 +1,6 @@
 @import "settings.colors";
 
-// stylelint-disable selector-no-id
-// Root element id
-#app-placeholder,
-[data-reactroot] {
-  height: 100%;
-}
-
 .application {
-  height: 100%;
   background: $color-gallery;
 }
 
@@ -33,6 +25,7 @@
       background-size: 18px;
     }
   }
+
   // adjuster counter styles
   > .counter {
     margin-top: -3px;

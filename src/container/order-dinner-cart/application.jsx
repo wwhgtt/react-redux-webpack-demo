@@ -53,8 +53,9 @@ const OrderTSCartApplication = React.createClass({
     initOrderTable(tableInfo => {
       const { tableId, tableKey } = tableInfo;
       if (!tableId && !tableKey) {
-        fetchShopSetting(this.setErrorMsg);
-        fetchWXAuthInfo(this.setErrorMsg);
+        fetchShopSetting(this.setErrorMsg).then(res => {
+          fetchWXAuthInfo(this.setErrorMsg);
+        });
         return;
       }
       fetchMainOrderInfo(tableId, tableKey, this.setErrorMsg);
@@ -63,12 +64,24 @@ const OrderTSCartApplication = React.createClass({
   componentWillReceiveProps(newProps) {
     const { wxAuthInfo } = newProps.orderTSCart;
     if (!this._wxClient && wxAuthInfo) {
+      const { shopSetting } = this.props.orderTSCart;
+      let wxAuthSuccess = true;
       this._wxClient = wxClient(Object.assign({
         debug: false,
         appId: wxAuthInfo.appid,
         timestamp: 0,
         nonceStr: wxAuthInfo.noncestr,
         signature: '',
+        success: suc => {
+          this.props.setOrderInfo(null, { wxAuthSuccess });
+        },
+        error: err => {
+          // 强制扫码
+          if (shopSetting.enableScanTable && !shopSetting.enableSelectTable) {
+            this.setErrorMsg(`商户配置错误 ${err.errMsg}`);
+          }
+          wxAuthSuccess = false;
+        },
         jsApiList: [
           'scanQRCode',
         ],
@@ -232,7 +245,7 @@ const OrderTSCartApplication = React.createClass({
 
     Object.assign(data, {
       name: (member.name || '').trim(),
-      sex: member.sex,
+      sex: this.getValidSexValue(member.sex),
       mobile: member.mobile,
       memo,
       peopleCount,
@@ -243,7 +256,7 @@ const OrderTSCartApplication = React.createClass({
       serviceApproach: 'totable',
     });
 
-    Object.assign(data, getSubmitDishData(dishesData));
+    Object.assign(data, getSubmitDishData(dishesData, parseInt(shopId, 10) || 0));
     this.props.submitOrder(tableKey, data, this.setLoadingInfo, this.setErrorMsg);
   },
   buildButtonGroupElement(tableId, tableKey, shopSetting) {
@@ -256,13 +269,16 @@ const OrderTSCartApplication = React.createClass({
       );
     }
 
+    const { wxAuthSuccess } = this.props.orderTSCart;
     return (
       <div className="flex-row">
         <button className="flex-rest btn-continue" onTouchTap={this.continueDishMenu}>继续点菜</button>
-        {shopSetting && !shopSetting.enableScanTable &&
+        {shopSetting && shopSetting.enableSelectTable &&
           <button className="flex-rest btn-select-table" onTouchTap={this.selectTable}>选桌下单</button>
         }
-        <button className="flex-rest btn-order" onTouchTap={this.scanTableQRCode}>扫码下单</button>
+        {shopSetting && shopSetting.enableScanTable && wxAuthSuccess &&
+          <button className="flex-rest btn-order" onTouchTap={this.scanTableQRCode}>扫码下单</button>
+        }
       </div>
     );
   },
