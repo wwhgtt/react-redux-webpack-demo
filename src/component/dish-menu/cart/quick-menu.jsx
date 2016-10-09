@@ -22,6 +22,7 @@ const QuickMenu = React.createClass({
     dishes: React.PropTypes.array.isRequired,
     serviceStatus: React.PropTypes.object,
     openTimeList:React.PropTypes.array,
+    isShowButton:React.PropTypes.bool.isRequired,
   },
   getInitialState() {
     return {
@@ -88,7 +89,7 @@ const QuickMenu = React.createClass({
   },
   render() {
     const { expandMenu, animate } = this.state;
-    const { callBell, clearBell, callMsg, callAble, timerStatus, dishes, serviceStatus, openTimeList } = this.props;
+    const { callBell, clearBell, callMsg, callAble, timerStatus, dishes, serviceStatus, openTimeList, isShowButton } = this.props;
     // 逻辑判断
     const payAnimate = JSON.parse(`{ "pay-menu-${animate}": ${expandMenu} }`);
     const billAnimate = JSON.parse(`{ "bill-menu-${animate}": ${expandMenu} }`);
@@ -103,7 +104,7 @@ const QuickMenu = React.createClass({
     return (
       <div>
         {
-          serviceStatus.data.isShow ?
+          isShowButton ?
             <div>
               <div className="menuouter">
                 <div className="main-menu" onTouchTap={this.bellMenu}>
