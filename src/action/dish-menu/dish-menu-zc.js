@@ -161,7 +161,7 @@ const fetchTableInfo = exports.fetchTableInfo = (tableParam) => (dispatch, getSt
     }).
     then(tableInfo => {
       if (tableInfo.code !== '200') {
-        if (tableInfo.msg !== 'NOT_LOGIN') {
+        if (tableInfo.code !== 'NOT_LOGIN') {
           errorLocation(tableInfo.code); // 获取tableInfo错误地址跳转
           dispatch(setErrorMsg(tableInfo.msg));
         }
