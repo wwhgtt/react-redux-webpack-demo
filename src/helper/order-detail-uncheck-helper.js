@@ -21,7 +21,7 @@ exports.getOrderDetail = (orderDetail) => {
 
   // 优惠总计处理
   if (dishTotal.priviledgeAmount) {
-    dishTotal.priviledgeAmount = (dishTotal.priviledgeAmount).toString().substring(1);
+    dishTotal.priviledgeAmount = (dishTotal.priviledgeAmount).toString().replace(/[^\d^.]/g, '');
   }
 
   // 总单数据处理
