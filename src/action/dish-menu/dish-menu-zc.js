@@ -90,6 +90,9 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
       console.log(err);
     });
 
+exports.showErrMsgFunc = (msg) => (dispatch, getState) =>
+  dispatch(setErrorMsg(msg));
+
 exports.clearErrorMsg = () => (dispatch, getState) =>
   dispatch(setErrorMsg(null));
 
@@ -172,9 +175,31 @@ const fetchTableInfo = exports.fetchTableInfo = (tableParam) => (dispatch, getSt
       console.log(err);
     });
 
-// 根据tableId获取基本信息
-const fetchServiceStatus = exports.fetchServiceStatus = (tableParam) => (dispatch, getState) =>
-  fetch(`${config.getServiceStatusAPI}?shopId=${helper.getUrlParam('shopId')}&${tableParam}`, config.requestOptions).
+// 根据tableId获取基本信息(带桌台)
+const fetchServiceStatusHaveTable = exports.fetchServiceStatusHaveTable = (tableParam) => (dispatch, getState) =>
+  fetch(`${config.getServiceStatusHaveTableAPI}?shopId=${helper.getUrlParam('shopId')}&${tableParam}`, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('获取快捷菜单信息失败...'));
+      }
+      return res.json();
+    }).
+    then(serviceStatus => {
+      if (serviceStatus.code !== '200') {
+        errorLocation(serviceStatus.code);
+        dispatch(setErrorMsg(serviceStatus.msg));
+      }
+      dispatch(setServiceStatus({ data:serviceStatus.data || {}, isLogin:true }));
+      // 保存ServiceStatus
+      sessionStorage.serviceStatus = JSON.stringify(serviceStatus.data || {});
+    }).
+    catch(err => {
+      console.log(err);
+    });
+
+// 根据tableId获取基本信息(不带桌台)
+const fetchServiceStatusNoTable = exports.fetchServiceStatusNoTable = () => (dispatch, getState) =>
+  fetch(`${config.getServiceStatusNoTableAPI}?shopId=${helper.getUrlParam('shopId')}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         dispatch(setErrorMsg('获取快捷菜单信息失败...'));
@@ -228,13 +253,13 @@ exports.fetchTableId = (tableKey, tableId) => (dispatch, getState) => {
   fetchIsShowButton('')(dispatch, getState);
   // 没有tableId或者tableKey的情况
   if (!tableKey && !tableId) {
-    fetchServiceStatus('')(dispatch, getState);
+    fetchServiceStatusNoTable()(dispatch, getState);
   } else if (tableKey) {
     fetchTableInfo(`tableKey=${tableKey}`)(dispatch, getState);
-    fetchServiceStatus(`tableKey=${tableKey}`)(dispatch, getState);
+    fetchServiceStatusHaveTable(`tableKey=${tableKey}`)(dispatch, getState);
   } else {
     fetchTableInfo(`tableId=${tableId}`)(dispatch, getState);
-    fetchServiceStatus(`tableId=${tableId}`)(dispatch, getState);
+    fetchServiceStatusHaveTable(`tableId=${tableId}`)(dispatch, getState);
   }
   // 保存tableId和tableKey到sessionStorage
   sessionStorage.tableKey = tableKey || '';
@@ -246,3 +271,4 @@ exports.fetchTableId = (tableKey, tableId) => (dispatch, getState) => {
 exports.clearBell = (msg) => (dispatch, getStates) => {
   dispatch(setCallMsg({ info:msg, callStatus:false }));
 };
+
