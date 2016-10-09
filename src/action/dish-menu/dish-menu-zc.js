@@ -176,7 +176,7 @@ const fetchTableInfo = exports.fetchTableInfo = (tableParam) => (dispatch, getSt
     });
 
 // 根据tableId获取基本信息(带桌台)
-const fetchServiceStatusHaveTable = exports.fetchServiceStatus = (tableParam) => (dispatch, getState) =>
+const fetchServiceStatusHaveTable = exports.fetchServiceStatusHaveTable = (tableParam) => (dispatch, getState) =>
   fetch(`${config.getServiceStatusHaveTableAPI}?shopId=${helper.getUrlParam('shopId')}&${tableParam}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
@@ -198,7 +198,7 @@ const fetchServiceStatusHaveTable = exports.fetchServiceStatus = (tableParam) =>
     });
 
 // 根据tableId获取基本信息(不带桌台)
-const fetchServiceStatusNoTable = exports.fetchServiceStatus = () => (dispatch, getState) =>
+const fetchServiceStatusNoTable = exports.fetchServiceStatusNoTable = () => (dispatch, getState) =>
   fetch(`${config.getServiceStatusNoTableAPI}?shopId=${helper.getUrlParam('shopId')}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
