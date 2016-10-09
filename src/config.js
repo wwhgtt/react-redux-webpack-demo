@@ -28,6 +28,7 @@ module.exports = {
   orderCouponsAPI:`${apiBase}/coupon/getCanUseCoupons.json`,
   orderDiscountInfoAPI:`${apiBase}/shop/discountInfo.json`,
   orderDinnerStatementAPI:`${apiBase}/orderall/settlement4Dinner.json`,
+  orderDinnerStatementZeroAPI:`${apiBase}/pay/pay4Zero.json`,
   submitTSOrderAPI:`${apiBase}/orderall/subOrder.json`,
   submitWMOrderAPI:`${apiBase}/takeaway/subOrder.json`,
   userAddressAPI: `${apiBase}/user/addressList.json`,
@@ -49,6 +50,7 @@ module.exports = {
   userLoginWXURL: `${apiBase}/user/login4WX`,
   getUserLoginSupportAPI: `${apiBase}/user/supportTypes.json`,
   getServiceStatusAPI: `${apiBase}/orderall/serviceStatus.json`, // 获取基本信息
+  getIsShowButtonAPI: `${apiBase}/orderall/isShowButton.json`, // 按钮是否显示
   getTableInfoAPI: `${apiBase}/orderall/tableInfo.json`, // 获取tableInfo
   getOtherTableIdAPI: `${apiBase}/orderall/getTableId.json`, // 获取用户是否在其他桌台下单
   getOrderTableTypeAPI: `${apiBase}/orderall/orderTableType.json`, // 获取tableInfo

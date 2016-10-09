@@ -14,6 +14,7 @@ const dishMenuZcReducer = function (
       data:{},
       isLogin:false,
     },
+    isShowButton:false,
   }),
   action
 ) {
@@ -30,6 +31,9 @@ const dishMenuZcReducer = function (
     }
     case 'SET_SERVICE_STATUS': {
       return state.set('serviceStatus', payload || {});
+    }
+    case 'SET_IS_SHOW_BUTTON': {
+      return state.set('isShowButton', payload);
     }
     default:
       return state;

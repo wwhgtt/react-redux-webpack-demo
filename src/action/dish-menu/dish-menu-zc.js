@@ -15,6 +15,7 @@ const setCallMsg = createAction('SET_CALL_MSG', callInfo => callInfo);
 const setCanCall = createAction('SET_CAN_CALL', callAble => callAble);
 const setTimerStatus = createAction('SET_TIMER_STATUS', timerStatus => timerStatus);
 const setServiceStatus = createAction('SET_SERVICE_STATUS', serviceStatus => serviceStatus);
+const setIsShowButton = createAction('SET_IS_SHOW_BUTTON', isShowButton => isShowButton);
 
 exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => {
   if (evt && /dish-type-item/.test(evt.target.className)) {
@@ -160,7 +161,7 @@ const fetchTableInfo = exports.fetchTableInfo = (tableParam) => (dispatch, getSt
     }).
     then(tableInfo => {
       if (tableInfo.code !== '200') {
-        if (tableInfo.msg !== '未登录') {
+        if (tableInfo.code !== 'NOT_LOGIN') {
           errorLocation(tableInfo.code); // 获取tableInfo错误地址跳转
           dispatch(setErrorMsg(tableInfo.msg));
         }
@@ -182,8 +183,9 @@ const fetchServiceStatus = exports.fetchServiceStatus = (tableParam) => (dispatc
     }).
     then(serviceStatus => {
       if (serviceStatus.code !== '200') {
-        if (serviceStatus.msg === '未登录') {
-          dispatch(setServiceStatus({ data:serviceStatus.data || {}, isLogin:false }));
+        if (serviceStatus.code === 'NOT_LOGIN') {
+          const fakeServiceStatus = { enableCallService: false, enableOrder: false, enablePay : false };
+          dispatch(setServiceStatus({ data:serviceStatus.data || fakeServiceStatus, isLogin:false }));
         } else {
           errorLocation(serviceStatus.code);
           dispatch(setErrorMsg(serviceStatus.msg));
@@ -199,12 +201,31 @@ const fetchServiceStatus = exports.fetchServiceStatus = (tableParam) => (dispatc
       console.log(err);
     });
 
+// 根据isShowButton获取快捷菜单按钮是否显示
+const fetchIsShowButton = exports.fetchIsShowButton = () => (dispatch, getState) =>
+  fetch(`${config.getIsShowButtonAPI}?shopId=${helper.getUrlParam('shopId')}`, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('获取快捷菜单是否显示失败...'));
+      }
+      return res.json();
+    }).
+    then(isShowButton => {
+      if (isShowButton.code === '200') {
+        dispatch(setIsShowButton(isShowButton.data.isShow));
+      }
+    }).
+    catch(err => {
+      console.log(err);
+    });
+
 // 取到tableId 或者 根据key值获取tableId
 exports.fetchTableId = (tableKey, tableId) => (dispatch, getState) => {
   removeBasicSession('tableInfo');
   removeBasicSession('serviceStatus');
   removeBasicSession('tableId');
   removeBasicSession('tableKey');
+  fetchIsShowButton('')(dispatch, getState);
   // 没有tableId或者tableKey的情况
   if (!tableKey && !tableId) {
     fetchServiceStatus('')(dispatch, getState);
