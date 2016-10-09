@@ -83,6 +83,7 @@ const OrderDetailInApplication = React.createClass({
       orderNo: orderDetail.serialNo || '',
       customNum: orderDetail.peopleCount || 0,
       deskNo: { area: orderDetail.tableArea, table: orderDetail.tableNo },
+      tradeAmount: orderDetail.tradeAmount,
     };
     let dishTotal = {};
     if (orderDetail.dishTotal) {
@@ -132,7 +133,7 @@ const OrderDetailInApplication = React.createClass({
               }
               <div className="fr">
                 <span>总计：</span>
-                <span className="text-neon-carrot price">{dishTotal.totalRrice}</span>
+                <span className="text-neon-carrot price">{orderInfo.tradeAmount}</span>
               </div>
             </div>
           </div>

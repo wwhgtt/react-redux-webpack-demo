@@ -10,6 +10,7 @@ module.exports = {
       tableNo: '001桌', // 桌台号名
       priviledge: false, // 是否使用了优惠
       hideCheckout : true, //  是否展示结算按钮
+      tradeAmount: 23.33,
       orderMetas: [
         {
           name: '小红', // 下单人姓名
@@ -69,14 +70,14 @@ module.exports = {
           headImage: null, // 微信头像地址。可能不存在这个字段。
           dateTime: 1472439316794, // 下单时间. 毫秒时间戳。
           memo: '主单备注，必须展示哟', // 备注。 只有主单才会存在此字段。
-          priviledgeAmount: 3.0, // 优惠总额。 只有主单才会存在此字段
+          priviledgeAmount: -3.0, // 优惠总额。 只有主单才会存在此字段
           status: 1, //  只有主单才会存在此字段
           dishItems: [ // 菜品信息
             {
               dishId : 9,
               dishName : '红烧鸡', // 菜品名称
               num: 1, // 份数
-              price: 119, // 菜品总价（变价已经计算在内）
+              price: 3, // 菜品总价（变价已经计算在内）
               status: 2, // 菜品状态
               memo: '这个不要展示了哈', //  菜品备注。如果是套餐主菜，不存在这个字段。
               propertyAmount: 2.0, // 变价金额。如果是套餐主菜，不存在这个字段。
