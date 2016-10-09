@@ -48,7 +48,8 @@ const QuickMenu = React.createClass({
       }
     } else { // 带桌台的时候
       if (enableOrder) {
-        location.href = `${tradeDetailUncheckUrl}&orderId=${orderId}`;
+        const tableParam = tableKey ? `&tableKey=${tableKey}` : `&tableId=${tableId}`;
+        location.href = `${tradeDetailUncheckUrl}&orderId=${orderId}${tableParam}`;
       }
     }
   },
@@ -60,6 +61,12 @@ const QuickMenu = React.createClass({
   },
   jumpDetail(evt, num) {
     const { openTimeList, shopNotOpenMsg } = this.props;
+    let tableParam = '';
+    if (tableKey) {
+      tableParam = `&tableKey=${tableKey}`;
+    } else if (tableId) {
+      tableParam = `&tableId=${tableId}`;
+    }
     if (!isShopOpen(openTimeList)) {
       shopNotOpenMsg('非常抱歉，门店已打烊');
       return false;
@@ -68,9 +75,10 @@ const QuickMenu = React.createClass({
     const { serviceStatus } = this.props;
     if (num) {
       if (serviceStatus.isLogin) {
-        location.href = dishCart4DinnerUrl; // 跳转到购物车详情页面
+        location.href = `${dishCart4DinnerUrl}${tableParam}`; // 跳转到购物车详情页面
       } else {
-        location.href = `${config.logAddressURL}?shopId=${shopId}&returnUrl=${encodeURIComponent(dishCart4DinnerUrl)}`; // 跳转到登录页面
+        const returnUrl = `${dishCart4DinnerUrl}${tableParam}`;
+        location.href = `${config.logAddressURL}?shopId=${shopId}&returnUrl=${encodeURIComponent(returnUrl)}`; // 跳转到登录页面
       }
     }
     return true;
