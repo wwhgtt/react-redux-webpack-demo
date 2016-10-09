@@ -90,6 +90,9 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
       console.log(err);
     });
 
+exports.showErrMsgFunc = (msg) => (dispatch, getState) =>
+  dispatch(setErrorMsg(msg));
+
 exports.clearErrorMsg = () => (dispatch, getState) =>
   dispatch(setErrorMsg(null));
 
@@ -246,3 +249,4 @@ exports.fetchTableId = (tableKey, tableId) => (dispatch, getState) => {
 exports.clearBell = (msg) => (dispatch, getStates) => {
   dispatch(setCallMsg({ info:msg, callStatus:false }));
 };
+

@@ -23,6 +23,7 @@ const QuickMenu = React.createClass({
     serviceStatus: React.PropTypes.object,
     openTimeList:React.PropTypes.array,
     isShowButton:React.PropTypes.bool.isRequired,
+    shopNotOpenMsg:React.PropTypes.func,
   },
   getInitialState() {
     return {
@@ -58,8 +59,9 @@ const QuickMenu = React.createClass({
     }
   },
   jumpDetail(evt, num) {
-    const { openTimeList } = this.props;
+    const { openTimeList, shopNotOpenMsg } = this.props;
     if (!isShopOpen(openTimeList)) {
+      shopNotOpenMsg('非常抱歉，门店已打烊');
       return false;
     }
     evt.preventDefault();
