@@ -28,6 +28,7 @@ module.exports = {
   orderCouponsAPI:`${apiBase}/coupon/getCanUseCoupons.json`,
   orderDiscountInfoAPI:`${apiBase}/shop/discountInfo.json`,
   orderDinnerStatementAPI:`${apiBase}/orderall/settlement4Dinner.json`,
+  orderDinnerStatementZeroAPI:`${apiBase}/pay/pay4Zero.json`,
   submitTSOrderAPI:`${apiBase}/orderall/subOrder.json`,
   submitWMOrderAPI:`${apiBase}/takeaway/subOrder.json`,
   userAddressAPI: `${apiBase}/user/addressList.json`,
