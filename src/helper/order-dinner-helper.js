@@ -56,3 +56,25 @@ exports.initializeDishes = (dishes) => {
   localStorage.setItem('lastOrderedDishes', JSON.stringify({ dishes }));
   return dishes;
 };
+exports.reconstructDishes = (dishes) => {
+  for (let i in dishes) {
+    if (dishes[i].isDelete) {
+      // console.log(123);
+    } else {
+      dishes[i].isDelete = false;
+    }
+    dishes[i].isRepeted = true;
+    const withSameIdDishes = dishes.filter(dish => !dish.isRepeted).filter(dish => dish.id === dishes[i].id);
+    if (withSameIdDishes && withSameIdDishes.length) {
+      for (let j = 0; j < withSameIdDishes.length; j++) {
+        dishes[i].order.push(withSameIdDishes[j].order[0]);
+        for (let k in dishes) {
+          if (withSameIdDishes[j].id === dishes[k].id && k > i) {
+            dishes[k].isDelete = true;
+          }
+        }
+      }
+    }
+  }
+  return dishes.filter(dish => !dish.isDelete);
+};

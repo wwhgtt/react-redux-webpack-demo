@@ -33,7 +33,7 @@ module.exports = {
       dishItems:[
         {
           id: 56,
-          name: '火爆肥肠',
+          name: '火爆肥肠1',
           brandDishId: 25,
           type: 0,
           marketPrice: 25,
@@ -47,6 +47,29 @@ module.exports = {
                 {
                   id: 126203,
                   name: '做法类别1做法名称6',
+                  reprice: -0.01,
+                },
+              ],
+            },
+          ],
+          dishIngredientInfos: [],
+        },
+        {
+          id: 56,
+          name: '火爆肥肠1',
+          brandDishId: 25,
+          type: 0,
+          marketPrice: 25,
+          num: 1,
+          unitName: '份',
+          propertyTypeList: [
+            {
+              name: '做法类别1',
+              type: 1,
+              properties: [
+                {
+                  id: 126203,
+                  name: '做法类别1做法名称62222',
                   reprice: -0.01,
                 },
               ],
@@ -105,6 +128,61 @@ module.exports = {
             {
               id: 3, // 配料id
               name: '豆沙包', // 配料名称
+              reprice: 1.5, // 变价
+            },
+          ],
+        },
+        {
+          id: 61,  // 菜品id
+          name: '火爆肥肠', // 菜品名称
+          brandDishId:876878827,
+          marketPrice: 30.02, // 金额
+          num: 2, // 份量
+          unitName:'碗',
+          type: 0, // 菜品类型 1 套餐 0单菜
+          propertyTypeList: [
+            {
+              name: '容量', // 口味做法名称
+              type: 4,
+              properties: [
+                {
+                  id: 1, // 属性id
+                  name: '中杯22', // 属性名称
+                  reprice: 1.5,  // 变价
+                },
+                {
+                  id: 2,
+                  name: '中杯22',
+                  reprice: 1.5,
+                },
+              ],
+            },
+            {
+              name: '做法', // 口味做法名称
+              type: 1,
+              properties: [
+                {
+                  id: 3, // 属性id
+                  name: '狂暴22', // 属性名称
+                  reprice: 1.5,  // 变价
+                },
+                {
+                  id: 4,
+                  name: '腊肉22',
+                  reprice: 1.5,
+                },
+              ],
+            },
+          ],
+          dishIngredientInfos: [
+            {
+              id: 1, // 配料id
+              name: '豆沙22', // 配料名称
+              reprice: 1.5, // 变价
+            },
+            {
+              id: 3, // 配料id
+              name: '豆沙包222', // 配料名称
               reprice: 1.5, // 变价
             },
           ],
@@ -177,6 +255,123 @@ module.exports = {
               name: '宫保鸡丁2',
               marketPrice: 23.02,
               num: 10,
+              propertyTypeList: [
+                {
+                  name: '容量', // 口味做法名称
+                  type: 4,
+                  properties: [
+                    {
+                      id: 1, // 属性id
+                      name: '中杯', // 属性名称
+                      reprice: 1.5,  // 变价
+                    },
+                    {
+                      id: 2,
+                      name: '中杯',
+                      reprice: 1.5,
+                    },
+                  ],
+                },
+                {
+                  name: '做法', // 口味做法名称
+                  type: 1,
+                  properties: [
+                    {
+                      id: 3, // 属性id
+                      name: '狂暴', // 属性名称
+                      reprice: 1.5,  // 变价
+                    },
+                    {
+                      id: 4,
+                      name: '腊肉',
+                      reprice: 1.5,
+                    },
+                  ],
+                },
+              ],
+              dishIngredientInfos: [
+                {
+                  id: 1, // 配料id
+                  name: '豆沙', // 配料名称
+                  reprice: 1.5, // 变价
+                },
+                {
+                  id: 3, // 配料id
+                  name: '豆沙包', // 配料名称
+                  reprice: 1.5, // 变价
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 5747203,  // 菜品id
+          name: '套餐', // 菜品名称
+          marketPrice: 30.02, // 金额
+          brandDishId:876878870,
+          num: 3, // 份量
+          type: 1, // 菜品类型 1 套餐 0单菜
+          unitName:'份',
+          subDishItems: [
+            {
+              groupId:123, // 分组id
+              itemId: 574470,
+              name: '宫保鸡丁3',
+              marketPrice: 23.02,
+              num: 12,
+              propertyTypeList: [
+                {
+                  name: '容量', // 口味做法名称
+                  type: 4,
+                  properties: [
+                    {
+                      id: 1, // 属性id
+                      name: '中杯', // 属性名称
+                      reprice: 1.5,  // 变价
+                    },
+                    {
+                      id: 2,
+                      name: '中杯',
+                      reprice: 1.5,
+                    },
+                  ],
+                },
+                {
+                  name: '做法', // 口味做法名称
+                  type: 1,
+                  properties: [
+                    {
+                      id: 3, // 属性id
+                      name: '狂暴', // 属性名称
+                      reprice: 1.5,  // 变价
+                    },
+                    {
+                      id: 4,
+                      name: '腊肉',
+                      reprice: 1.5,
+                    },
+                  ],
+                },
+              ],
+              dishIngredientInfos: [
+                {
+                  id: 1, // 配料id
+                  name: '豆沙', // 配料名称
+                  reprice: 1.5, // 变价
+                },
+                {
+                  id: 3, // 配料id
+                  name: '豆沙包', // 配料名称
+                  reprice: 1.5, // 变价
+                },
+              ],
+            },
+            {
+              groupId:1232, // 分组id
+              itemId: 5744270,
+              name: '宫保鸡丁4',
+              marketPrice: 23.02,
+              num: 100,
               propertyTypeList: [
                 {
                   name: '容量', // 口味做法名称
