@@ -11,8 +11,10 @@ const DishDescPopup = require('../../component/dish-menu/detail/dish-desc-popup.
 const QuickMenu = require('../../component/dish-menu/cart/quick-menu.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const helper = require('../../helper/dish-hepler');
+const cartHelper = require('../../helper/order-dinner-cart-helper');
 const tableKey = helper.getUrlParam('tableKey');
 const tableId = helper.getUrlParam('tableId');
+const shopId = helper.getUrlParam('shopId');
 
 const DishMenuZcApplication = React.createClass({
   displayName: 'DishMenuZcApplication',
@@ -33,13 +35,21 @@ const DishMenuZcApplication = React.createClass({
     callBell: React.PropTypes.func.isRequired,
     clearBell: React.PropTypes.func.isRequired,
     fetchTableId: React.PropTypes.func.isRequired,
+    // saveTableParam
+    saveTableParam: React.PropTypes.func.isRequired,
   },
   componentDidMount() {
-    const { fetchMenuData, fetchOrderDiscountInfo, fetchTableId } = this.props;
+    // tableId 或者 tableKey 存入localStorage
+    const { fetchMenuData, fetchOrderDiscountInfo, fetchTableId, saveTableParam } = this.props;
+    const localTableKey = (cartHelper.getTableInfoInLocalStorage(shopId) || {}).tableKey || '';
+    const localTableId = (cartHelper.getTableInfoInLocalStorage(shopId) || {}).tableId || '';
+    saveTableParam({ tableKey: tableKey || '', tableId: tableId || '' });
+
     fetchMenuData().then(
       fetchOrderDiscountInfo
     );
-    fetchTableId(tableKey, tableId);
+
+    fetchTableId(localTableKey, localTableId);
   },
   componentDidUpdate() {
   },

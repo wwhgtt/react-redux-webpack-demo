@@ -1,16 +1,19 @@
 const React = require('react');
 require('./quick-menu.scss');
 const helper = require('../../../helper/dish-hepler');
+const cartHelper = require('../../../helper/order-dinner-cart-helper');
 const shopId = helper.getUrlParam('shopId');
 const type = helper.getUrlParam('type') || 'TS';
-const tableKey = helper.getUrlParam('tableKey');
-const tableId = helper.getUrlParam('tableId');
 const config = require('../../../config');
 const ServiceBell = require('./service-bell.jsx');
 const tradeDetailUncheckUrl = `${config.tradeDetailUncheckURL}?type=${type}&shopId=${shopId}`;
 const dishCart4DinnerUrl = `${config.dishCart4DinnerURL}?type=${type}&shopId=${shopId}`;
 const classnames = require('classnames');
 const isShopOpen = require('../../../helper/dish-hepler.js').isShopOpen;
+
+const tableKey = (cartHelper.getTableInfoInLocalStorage(shopId) || {}).tableKey || '';
+const tableId = (cartHelper.getTableInfoInLocalStorage(shopId) || {}).tableId || '';
+
 const QuickMenu = React.createClass({
   displayName: 'QuickMenu',
   propTypes:{
@@ -48,8 +51,7 @@ const QuickMenu = React.createClass({
       }
     } else { // 带桌台的时候
       if (enableOrder) {
-        const tableParam = tableKey ? `&tableKey=${tableKey}` : `&tableId=${tableId}`;
-        location.href = `${tradeDetailUncheckUrl}&orderId=${orderId}${tableParam}`;
+        location.href = `${tradeDetailUncheckUrl}&orderId=${orderId}`;
       }
     }
   },
@@ -61,12 +63,6 @@ const QuickMenu = React.createClass({
   },
   jumpDetail(evt, num) {
     const { openTimeList, shopNotOpenMsg } = this.props;
-    let tableParam = '';
-    if (tableKey) {
-      tableParam = `&tableKey=${tableKey}`;
-    } else if (tableId) {
-      tableParam = `&tableId=${tableId}`;
-    }
     if (!isShopOpen(openTimeList)) {
       shopNotOpenMsg('非常抱歉，门店已打烊');
       return false;
@@ -75,10 +71,9 @@ const QuickMenu = React.createClass({
     const { serviceStatus } = this.props;
     if (num) {
       if (serviceStatus.isLogin) {
-        location.href = `${dishCart4DinnerUrl}${tableParam}`; // 跳转到购物车详情页面
+        location.href = `${dishCart4DinnerUrl}`; // 跳转到购物车详情页面
       } else {
-        const returnUrl = `${dishCart4DinnerUrl}${tableParam}`;
-        location.href = `${config.logAddressURL}?shopId=${shopId}&returnUrl=${encodeURIComponent(returnUrl)}`; // 跳转到登录页面
+        location.href = `${config.logAddressURL}?shopId=${shopId}&returnUrl=${encodeURIComponent(dishCart4DinnerUrl)}`; // 跳转到登录页面
       }
     }
     return true;
