@@ -85,7 +85,6 @@ const OrderDetailInApplication = React.createClass({
       orderNo: orderDetail.serialNo || '',
       customNum: orderDetail.peopleCount || 0,
       deskNo: { area: orderDetail.tableArea, table: orderDetail.tableNo },
-      tradeAmount: orderDetail.tradeAmount,
     };
     let dishTotal = {};
     if (orderDetail.dishTotal) {
@@ -121,6 +120,15 @@ const OrderDetailInApplication = React.createClass({
                 )
             }
             {
+              Boolean(orderDetail.addPrivilege) && (
+                <div className="option">
+                  <span>附加费总计</span>
+                  <span className="price fr">{orderDetail.addPrivilege}</span>
+                </div>
+              )
+            }
+
+            {
               Boolean(dishTotal.priviledgeAmount) && (
                 <div className="option">
                   <span>优惠总计</span>
@@ -135,7 +143,7 @@ const OrderDetailInApplication = React.createClass({
               }
               <div className="fr">
                 <span>总计：</span>
-                <span className="text-neon-carrot price">{orderInfo.tradeAmount}</span>
+                <span className="text-neon-carrot price">{orderDetail.tradeAmount}</span>
               </div>
             </div>
           </div>
