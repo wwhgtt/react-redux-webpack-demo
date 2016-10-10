@@ -62,11 +62,15 @@ const OrderDetailInApplication = React.createClass({
   },
 
   handleDishMenu() {
+    const { orderDetail } = this.props;
+    const tableIdFromApi = orderDetail.tableId;
     const dishUrl = `http://${location.host}/orderall/dishMenu4Dinner?shopId=${shopId}&type=TS`;
     if (tableId) {
       location.href = `${dishUrl}&tableId=${tableId}`;
     } else if (tableKey) {
       location.href = `${dishUrl}&tableKey=${tableKey}`;
+    } else if (tableIdFromApi) {
+      location.href = `${dishUrl}&tableId=${tableIdFromApi}`;
     } else {
       location.href = dishUrl;
     }
