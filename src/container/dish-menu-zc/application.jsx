@@ -43,8 +43,9 @@ const DishMenuZcApplication = React.createClass({
     const { fetchMenuData, fetchOrderDiscountInfo, fetchTableId, saveTableParam } = this.props;
     const localTableKey = (cartHelper.getTableInfoInLocalStorage(shopId) || {}).tableKey || '';
     const localTableId = (cartHelper.getTableInfoInLocalStorage(shopId) || {}).tableId || '';
-    saveTableParam({ tableKey: tableKey || '', tableId: tableId || '' });
-
+    if (tableKey || tableId) {
+      saveTableParam({ tableKey, tableId });
+    }
     fetchMenuData().then(
       fetchOrderDiscountInfo
     );
