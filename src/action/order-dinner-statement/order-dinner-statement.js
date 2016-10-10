@@ -126,7 +126,7 @@ exports.submitDinnerOrder = (receipt) => (dispatch, getState) => {
         if (result.data.isPaid && result.data.isPaid === 1) {
           location.href = `order/orderallDetail?shopId=${shopId}&orderId=${result.data.orderId}&enterWay=true`;
         } else {
-          const paramStr = `shopId=&orderId=${result.data.orderId}`;
+          const paramStr = `shopId=${shopId}&orderId=${result.data.orderId}`;
           location.href = `/shop/payDetail?${paramStr}&orderType=TS`;
         }
       } else {
