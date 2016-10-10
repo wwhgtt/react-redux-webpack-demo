@@ -1,16 +1,19 @@
 const React = require('react');
 require('./quick-menu.scss');
 const helper = require('../../../helper/dish-hepler');
+const cartHelper = require('../../../helper/order-dinner-cart-helper');
 const shopId = helper.getUrlParam('shopId');
 const type = helper.getUrlParam('type') || 'TS';
-const tableKey = helper.getUrlParam('tableKey');
-const tableId = helper.getUrlParam('tableId');
 const config = require('../../../config');
 const ServiceBell = require('./service-bell.jsx');
 const tradeDetailUncheckUrl = `${config.tradeDetailUncheckURL}?type=${type}&shopId=${shopId}`;
 const dishCart4DinnerUrl = `${config.dishCart4DinnerURL}?type=${type}&shopId=${shopId}`;
 const classnames = require('classnames');
 const isShopOpen = require('../../../helper/dish-hepler.js').isShopOpen;
+
+const tableKey = (cartHelper.getTableInfoInLocalStorage(shopId) || {}).tableKey || '';
+const tableId = (cartHelper.getTableInfoInLocalStorage(shopId) || {}).tableId || '';
+
 const QuickMenu = React.createClass({
   displayName: 'QuickMenu',
   propTypes:{

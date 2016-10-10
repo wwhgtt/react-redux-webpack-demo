@@ -3,6 +3,7 @@ const createAction = require('redux-actions').createAction;
 require('es6-promise');
 require('isomorphic-fetch');
 const helper = require('../../helper/dish-hepler');
+const cartHelper = require('../../helper/order-dinner-cart-helper');
 const commonHelper = require('../../helper/common-helper');
 const setMenuData = createAction('SET_MENU_DATA', menuData => menuData);
 const _orderDish = createAction('ORDER_DISH', (dishData, action) => [dishData, action]);
@@ -128,13 +129,7 @@ exports.callBell = (timer) => (dispatch, getStates) => {
   }).
   then(basicData => {
     if (basicData.code === '200') {
-      dispatch(setCallMsg({ info:'客官稍等，服务员马上就来', callStatus:true }));
-      dispatch(setTimerStatus({ timerStatus:true }));
-      commonHelper.interValSetting(timer, () => {
-        dispatch(setTimerStatus({ timerStatus:false }));
-      });
-    } else {
-      if (basicData.code === '1501') { // 已经呼叫过服务员了
+      if (basicData.data.status === '1501') { // 已经呼叫过服务员了
         dispatch(setCallMsg({ info:basicData.msg, callStatus:true }));
         dispatch(setTimerStatus({ timerStatus:true }));
         commonHelper.interValSetting(timer, () => {
@@ -143,6 +138,12 @@ exports.callBell = (timer) => (dispatch, getStates) => {
         dispatch(setCanCall(true));
         return;
       }
+      dispatch(setCallMsg({ info:'客官稍等，服务员马上就来', callStatus:true }));
+      dispatch(setTimerStatus({ timerStatus:true }));
+      commonHelper.interValSetting(timer, () => {
+        dispatch(setTimerStatus({ timerStatus:false }));
+      });
+    } else {
       dispatch(setCallMsg({ info:'非常抱歉，发送失败了', callStatus:false }));
     }
     dispatch(setCanCall(true));
@@ -270,5 +271,9 @@ exports.fetchTableId = (tableKey, tableId) => (dispatch, getState) => {
 
 exports.clearBell = (msg) => (dispatch, getStates) => {
   dispatch(setCallMsg({ info:msg, callStatus:false }));
+};
+
+exports.saveTableParam = (tableInfo) => (dispatch, getStates) => {
+  cartHelper.setTableInfoInLocalStorage(shopId, tableInfo);
 };
 
