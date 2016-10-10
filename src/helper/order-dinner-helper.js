@@ -67,7 +67,11 @@ exports.reconstructDishes = (dishes) => {
     const withSameIdDishes = dishes.filter(dish => !dish.isRepeted).filter(dish => dish.id === dishes[i].id);
     if (withSameIdDishes && withSameIdDishes.length) {
       for (let j = 0; j < withSameIdDishes.length; j++) {
-        dishes[i].order.push(withSameIdDishes[j].order[0]);
+        if (dishes[i].order instanceof Array) {
+          dishes[i].order.push(withSameIdDishes[j].order[0]);
+        } else {
+          dishes[i].order += withSameIdDishes[j].order;
+        }
         for (let k in dishes) {
           if (withSameIdDishes[j].id === dishes[k].id && k > i) {
             dishes[k].isDelete = true;
