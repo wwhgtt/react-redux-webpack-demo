@@ -91,7 +91,7 @@ exports.fetchOrderCoupons = () => (dispatch, getState) => {
 exports.clearErrorMsg = () => (dispatch, getState) =>
   dispatch(setErrorMsg(null));
 
-exports.submitDinnerOrder = () => (dispatch, getState) => {
+exports.submitDinnerOrder = (receipt) => (dispatch, getState) => {
   const state = getState();
   const coupId = state.serviceProps.couponsProps.inUseCoupon &&
                 state.serviceProps.couponsProps.inUseCouponDetail.id ?
@@ -106,7 +106,7 @@ exports.submitDinnerOrder = () => (dispatch, getState) => {
 
   let requestOptions = Object.assign({}, config.requestOptions);
   requestOptions.method = 'POST';
-  requestOptions.body = JSON.stringify({ shopId:+shopId, orderId:+tradeId, coupId, integral });
+  requestOptions.body = JSON.stringify({ shopId:+shopId, orderId:+tradeId, coupId, integral, invoice:receipt });
   const needPayMoney = helper.countFinalNeedPayMoney(state.orderedDishesProps, state.serviceProps, state.commercialProps);
   let url = needPayMoney === 0 ? config.orderDinnerStatementZeroAPI : config.submitDinnerOrderAPI;
   return fetch(`${url}?shopId=${shopId}&orderId=${tradeId}`, requestOptions).
