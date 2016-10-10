@@ -129,20 +129,16 @@ exports.callBell = (timer) => (dispatch, getStates) => {
   }).
   then(basicData => {
     if (basicData.code === '200') {
-      if (basicData.data.status === '1501') { // 已经呼叫过服务员了
-        dispatch(setCallMsg({ info:basicData.msg, callStatus:true }));
-        dispatch(setTimerStatus({ timerStatus:true }));
-        commonHelper.interValSetting(timer, () => {
-          dispatch(setTimerStatus({ timerStatus:false }));
-        });
-        dispatch(setCanCall(true));
-        return;
-      }
-      dispatch(setCallMsg({ info:'客官稍等，服务员马上就来', callStatus:true }));
       dispatch(setTimerStatus({ timerStatus:true }));
       commonHelper.interValSetting(timer, () => {
         dispatch(setTimerStatus({ timerStatus:false }));
       });
+      if (basicData.data.status === '1501') { // 已经呼叫过服务员了
+        dispatch(setCallMsg({ info:basicData.msg, callStatus:true }));
+        dispatch(setCanCall(true));
+        return;
+      }
+      dispatch(setCallMsg({ info:'客官稍等，服务员马上就来', callStatus:true }));
     } else {
       dispatch(setCallMsg({ info:'非常抱歉，发送失败了', callStatus:false }));
     }
