@@ -34,6 +34,11 @@ const OrderDinnerStateMentApplication = React.createClass({
     errorMessage:React.PropTypes.string,
     childView: React.PropTypes.string,
   },
+  getInitialState() {
+    return {
+      receipt:'',
+    };
+  },
   componentWillMount() {
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
   },
@@ -53,8 +58,19 @@ const OrderDinnerStateMentApplication = React.createClass({
     const hash = location.hash;
     setChildView(hash);
   },
+  noteOrReceiptChange(evt) {
+    const value = evt.target.value;
+    this.setState({
+      receipt:value,
+    });
+  },
+  submitDinnerOrder() {
+    const { submitDinnerOrder } = this.props;
+    const receipt = this.state.receipt;
+    submitDinnerOrder(receipt);
+  },
   render() {
-    const { commercialProps, customerProps, serviceProps, orderedDishesProps, childView, errorMessage, submitDinnerOrder } = this.props; // state
+    const { commercialProps, customerProps, serviceProps, orderedDishesProps, childView, errorMessage } = this.props; // state
     const { setOrderProps, clearErrorMsg } = this.props;// actions
     return (
       <div className="application">
@@ -137,7 +153,7 @@ const OrderDinnerStateMentApplication = React.createClass({
               </div>
             </div>
             <div className="order-cart-right">
-              <a className="order-cart-btn btn--orange" onTouchTap={submitDinnerOrder}>结账</a>
+              <a className="order-cart-btn btn--orange" onTouchTap={evt => this.submitDinnerOrder()}>结账</a>
             </div>
           </div>
           :

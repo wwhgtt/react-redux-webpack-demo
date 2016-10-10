@@ -10,7 +10,7 @@ module.exports = {
       tableName:'9号桌', // 桌台
       isMember:true, // 是否会员
       diningForm:0, // 0-正餐，1-快餐
-      isInvoice:0, // 是否发票
+      isInvoice:1, // 是否发票
       carryRuleVO:// 进位规则
       {
         scale:2, // 保留小数点位数
