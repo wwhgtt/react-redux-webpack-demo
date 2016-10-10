@@ -251,7 +251,7 @@ const OrderTSCartApplication = React.createClass({
       peopleCount,
       tableId: tableId || '',
       mainOrderId: mainOrderId || -1,
-      payMethod: 0,
+      payMethod: 1,
       needPayPrice: dishHelper.getDishesPrice(dishesData),
       serviceApproach: 'totable',
     });

@@ -357,7 +357,7 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
     });
 };
 exports.checkCodeAvaliable = (data, note, receipt) => (dispatch, getState) => {
-  const timestamp = getState().timestamp || new Date().getTime();
+  const timestamp = getState().timeStamp || new Date().getTime();
   fetch(
     `${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}&shopId=${shopId}&timeStamp=${timestamp}`,
     config.requestOptions
