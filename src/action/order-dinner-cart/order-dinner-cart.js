@@ -7,16 +7,13 @@ const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const storeDishesLocalStorage = require('../../helper/dish-hepler.js').storeDishesLocalStorage;
 const clearDishesLocalStorage = require('../../helper/dish-hepler.js').clearDishesLocalStorage;
 const getDishesCount = require('../../helper/dish-hepler').getDishesCount;
+const orderDinnerCartHelper = require('../../helper/order-dinner-cart-helper.js');
 const shopId = getUrlParam('shopId');
 const _setOrderDish = createAction('ORDER_DISH', (dishData, increment) => [dishData, increment]);
 const initOrderInfo = createAction('INIT_ORDER_INFO', (evt, option) => option);
 const setMenuData = createAction('SET_MENU_DATA', option => option);
 
-const getTableInfoFromStorage = () => {
-  const tableKey = sessionStorage.getItem('tableKey');
-  const tableId = sessionStorage.getItem('tableId');
-  return { tableId, tableKey };
-};
+const getTableInfoFromStorage = () => orderDinnerCartHelper.getTableInfoInLocalStorage(shopId) || {};
 
 const gotoExceptionPage = code => {
   const codeUrls = {
@@ -178,6 +175,9 @@ exports.submitOrder = (tableKey, data, setLoading, setErrorMsg) => (dispatch, ge
     })
     .then(result => {
       if (result.code === '200') {
+        if (data.tableId) {
+          orderDinnerCartHelper.setTableInfoInLocalStorage(shopId, { tableId: data.tableId });
+        }
         clearDishesLocalStorage();
         const tradeDetailUncheckUrl =
           appendUrlParamsWithTableInfo(`${config.tradeDetailUncheckURL}?type=TS&shopId=${shopId}&orderId=${result.data.orderId}`, data);
