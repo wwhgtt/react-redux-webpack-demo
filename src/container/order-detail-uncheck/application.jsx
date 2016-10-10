@@ -57,7 +57,7 @@ const OrderDetailInApplication = React.createClass({
     if (orderDetail.priviledge) {
       this.setState({ errorMsg: '请联系服务员结账' });
     } else {
-      location.href = `http://${location.host}/orderall/settlement4Dinner?shopId=${shopId}&tradeId=${orderId}`;
+      location.href = `http://${location.host}/orderall/settlement4Dinner?shopId=${shopId}&tradeId=${orderId}&type=TS`;
     }
   },
 
