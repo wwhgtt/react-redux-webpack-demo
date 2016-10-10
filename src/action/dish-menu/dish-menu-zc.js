@@ -103,7 +103,7 @@ const removeBasicSession = (name) => {
 const errorLocation = (errorCode) => {
   switch (errorCode) {
     case '90006' : location.href = `${config.exceptionLinkURL}?shopId=${shopId}`; break; // 请重新扫描二维码,链接已失效
-    // case '90008' : location.href = `${config.exceptionDishURL}?shopId=${shopId}`; break; // 该桌台有多个未支付的正餐订单
+    case '90008' : location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`; break; // 该桌台有多个未支付的正餐订单
     // case '90012' : location.href = `${config.exceptionDishURL}?shopId=${shopId}`; break; // 该用户在该门店下有多个正餐加菜订单
     // case '90013' : location.href = `${config.exceptionDishURL}?shopId=${shopId}`; break; // 该用户在该门店下有多个正餐订单
     case '90014' : location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`; break; // 该桌台待清台或锁定中，请稍等
