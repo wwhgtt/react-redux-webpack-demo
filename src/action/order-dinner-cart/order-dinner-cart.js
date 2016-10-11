@@ -17,6 +17,7 @@ const getTableInfoFromStorage = () => orderDinnerCartHelper.getTableInfoInLocalS
 
 const gotoExceptionPage = code => {
   const codeUrls = {
+    90006: config.exceptionDishURL,
     90014: config.exceptionDishCurrentURL,
     90015: config.exceptionDishCurrentURL,
     90016: config.exceptionDishURL,
@@ -118,7 +119,13 @@ exports.fetchMainOrderInfo = (tableId, tableKey, setErrorMsg) => (dispatch, getS
         const data = Object.assign({}, result.data);
         data.mainOrderId = data.tradeId;
         dispatch(setOrderInfo(null, data));
+        return;
       }
+
+      setErrorMsg(result.msg);
+      setTimeout(() => {
+        gotoExceptionPage(result.code);
+      }, 3000);
     })
     .catch(err => {
       throw new Error(err);
