@@ -724,7 +724,7 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
     needPayPrice,
     integral: Number(integral),
     payMethod: payMethodScope,
-    Invoice: receipt,
+    invoice: receipt,
   };
   Object.assign(params, getSubmitDishData(dishes || []), parseInt(params.shopId, 10) || 0);
   if (type === 'WM') {
