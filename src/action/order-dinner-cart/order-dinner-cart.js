@@ -13,7 +13,7 @@ const _setOrderDish = createAction('ORDER_DISH', (dishData, increment) => [dishD
 const initOrderInfo = createAction('INIT_ORDER_INFO', (evt, option) => option);
 const setMenuData = createAction('SET_MENU_DATA', option => option);
 
-const getTableInfoFromStorage = () => orderDinnerCartHelper.getTableInfoInLocalStorage(shopId) || {};
+const getTableInfoFromStorage = () => orderDinnerCartHelper.getTableInfoInSessionStorage(shopId) || {};
 
 const gotoExceptionPage = code => {
   const codeUrls = {
@@ -190,7 +190,7 @@ exports.submitOrder = (tableKey, data, setLoading, setErrorMsg) => (dispatch, ge
     .then(result => {
       if (result.code === '200') {
         if (data.tableId) {
-          orderDinnerCartHelper.setTableInfoInLocalStorage(shopId, { tableId: data.tableId });
+          orderDinnerCartHelper.setTableInfoInSessionStorage(shopId, { tableId: data.tableId });
         }
         clearDishesLocalStorage();
         const tradeDetailUncheckUrl =

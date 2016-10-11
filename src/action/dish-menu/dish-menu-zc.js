@@ -87,31 +87,31 @@ const removeBasicSession = (name) => {
 const errorLocation = (errorCode) => {
   switch (errorCode) {
     case '90006' : // 请重新扫描二维码,链接已失效
-      cartHelper.clearTableInfoInLocalStorage();
+      cartHelper.clearTableInfoInSessionStorage();
       location.href = `${config.exceptionLinkURL}?shopId=${shopId}`;
       break;
     case '90008' : // 该桌台有多个未支付的正餐订单
-      cartHelper.clearTableInfoInLocalStorage();
+      cartHelper.clearTableInfoInSessionStorage();
       location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`;
       break;
     case '90012' : // 该用户在该门店下有多个正餐加菜订单
-      cartHelper.clearTableInfoInLocalStorage();
+      cartHelper.clearTableInfoInSessionStorage();
       location.href = `${config.exceptionDishURL}?shopId=${shopId}`;
       break;
     case '90013' : // 该用户在该门店下有多个正餐订单
-      cartHelper.clearTableInfoInLocalStorage();
+      cartHelper.clearTableInfoInSessionStorage();
       location.href = `${config.exceptionDishURL}?shopId=${shopId}`;
       break;
     case '90014' : // 该桌台待清台或锁定中，请稍等
-      cartHelper.clearTableInfoInLocalStorage();
+      cartHelper.clearTableInfoInSessionStorage();
       location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`;
       break;
     case '90015' : // 桌台不存在
-      cartHelper.clearTableInfoInLocalStorage();
+      cartHelper.clearTableInfoInSessionStorage();
       location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`;
       break;
     case '90016' : // 当前用户在该桌台有未处理的订单
-      cartHelper.clearTableInfoInLocalStorage();
+      cartHelper.clearTableInfoInSessionStorage();
       location.href = `${config.exceptionDishURL}?shopId=${shopId}`;
       break;
     default : break;
@@ -122,7 +122,7 @@ const errorLocation = (errorCode) => {
 exports.callBell = (timer) => (dispatch, getStates) => {
   dispatch(setCanCall(false));
   dispatch(setCallMsg({ info:'正在发送...', callStatus:false }));
-  const orderId = JSON.parse(sessionStorage.serviceStatus).orderId || '';
+  const orderId = sessionStorage.orderId || '';
 
   fetch(`${config.callServiceAPI}?shopId=${commonHelper.getUrlParam('shopId')}&orderId=${orderId}`).
   then(res => {
@@ -170,7 +170,6 @@ const fetchTableInfo = exports.fetchTableInfo = (tableParam) => (dispatch, getSt
           errorLocation(tableInfo.code); // 获取tableInfo错误地址跳转
         }
       }
-      sessionStorage.tableInfo = JSON.stringify(tableInfo.data || {});
     }).
     catch(err => {
       console.log(err);
@@ -192,7 +191,7 @@ const fetchServiceStatusHaveTable = exports.fetchServiceStatusHaveTable = (table
       }
       dispatch(setServiceStatus({ data:serviceStatus.data || {}, isLogin:true }));
       // 保存ServiceStatus
-      sessionStorage.serviceStatus = JSON.stringify(serviceStatus.data || {});
+      sessionStorage.orderId = (serviceStatus.data || {}).orderId;
     }).
     catch(err => {
       console.log(err);
@@ -217,10 +216,11 @@ const fetchServiceStatusNoTable = exports.fetchServiceStatusNoTable = () => (dis
           dispatch(setServiceStatus({ data:serviceStatus.data || {}, isLogin:true }));
         }
       } else {
+        cartHelper.setTableInfoInSessionStorage(shopId, { tableId: (serviceStatus.data || {}).tableId });
         dispatch(setServiceStatus({ data:serviceStatus.data || {}, isLogin:true }));
       }
       // 保存ServiceStatus
-      sessionStorage.serviceStatus = JSON.stringify(serviceStatus.data || {});
+      sessionStorage.orderId = (serviceStatus.data || {}).orderId;
     }).
     catch(err => {
       console.log(err);
@@ -258,10 +258,8 @@ const fetchIsShowButton = exports.fetchIsShowButton = (tableKey, tableId) => (di
 
 // 取到tableId 或者 根据key值获取tableId
 exports.fetchTableId = (tableKey, tableId) => (dispatch, getState) => {
-  removeBasicSession('tableInfo');
-  removeBasicSession('serviceStatus');
-  removeBasicSession('tableId');
-  removeBasicSession('tableKey');
+  removeBasicSession('orderId');
+
   localStorage.removeItem('dishBoxPrice');
   fetchIsShowButton(tableKey, tableId)(dispatch, getState);
 
@@ -271,11 +269,6 @@ exports.fetchTableId = (tableKey, tableId) => (dispatch, getState) => {
   } else if (tableId) {
     fetchTableInfo(`tableId=${tableId}`)(dispatch, getState);
   }
-
-  // 保存tableId和tableKey到sessionStorage
-  sessionStorage.tableKey = tableKey || '';
-  sessionStorage.tableId = tableId || '';
-
   return;
 };
 
@@ -284,6 +277,6 @@ exports.clearBell = (msg) => (dispatch, getStates) => {
 };
 
 exports.saveTableParam = (tableInfo) => (dispatch, getStates) => {
-  cartHelper.setTableInfoInLocalStorage(shopId, tableInfo);
+  cartHelper.setTableInfoInSessionStorage(shopId, tableInfo);
 };
 
