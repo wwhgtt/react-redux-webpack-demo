@@ -35,6 +35,7 @@ module.exports = function (
         discountList:[],
         discountType:'',
         inUseDiscount:null,
+        isMember:false,
       },
     },
     childView:null,
@@ -78,6 +79,7 @@ module.exports = function (
          )
          .setIn(['serviceProps', 'discountProps', 'discountList'], payload.dishList)
          .setIn(['serviceProps', 'discountProps', 'discountType'], payload.type)
+         .setIn(['serviceProps', 'discountProps', 'isMember'], true)
          .setIn(
            ['serviceProps', 'discountProps', 'inUseDiscount'],
             helper.countMemberPrice(true, state.orderedDishesProps.dishes, payload.dishList, payload.type)
@@ -91,7 +93,8 @@ module.exports = function (
            )
         );
       }
-      break;
+      return state.setIn(
+        ['serviceProps', 'discountProps', 'isMember'], payload.isMember);
     case 'SET_CHILDVIEW':
       if (payload === '#coupon-select') {
         return state.set('childView', 'coupon-select');
