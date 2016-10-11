@@ -41,11 +41,13 @@ const DishMenuZcApplication = React.createClass({
   componentDidMount() {
     // tableId 或者 tableKey 存入localStorage
     const { fetchMenuData, fetchOrderDiscountInfo, fetchTableId, saveTableParam } = this.props;
-    const localTableKey = (cartHelper.getTableInfoInLocalStorage(shopId) || {}).tableKey || '';
-    const localTableId = (cartHelper.getTableInfoInLocalStorage(shopId) || {}).tableId || '';
     if (tableKey || tableId) {
       saveTableParam({ tableKey, tableId });
     }
+
+    const localTableKey = (cartHelper.getTableInfoInLocalStorage(shopId) || {}).tableKey || '';
+    const localTableId = (cartHelper.getTableInfoInLocalStorage(shopId) || {}).tableId || '';
+
     fetchMenuData().then(
       fetchOrderDiscountInfo
     );

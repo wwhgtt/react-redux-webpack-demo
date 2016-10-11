@@ -3,7 +3,7 @@ module.exports = {
   path: '/orderall/isShowButton.json',
   template: {
     'data': {
-      'isShow': true,
+      'isShow': false,
     },
     'time': 1472458598918,
     'code': '200',
