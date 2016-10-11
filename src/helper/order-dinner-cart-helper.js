@@ -1,20 +1,20 @@
 const tableInfoLocalStorageKey = 'lastTableInfo';
 
-const clearTableInfoInLocalStorage = exports.clearTableInfoInLocalStorage = () => {
-  localStorage.removeItem(tableInfoLocalStorageKey);
+const clearTableInfoInSessionStorage = exports.clearTableInfoInSessionStorage = () => {
+  sessionStorage.removeItem(tableInfoLocalStorageKey);
 };
 
-exports.setTableInfoInLocalStorage = (shopId, tableInfo) => {
+exports.setTableInfoInSessionStorage = (shopId, tableInfo) => {
   const tableInfoWrap = {
     shopId,
     expires: Date.now() + 1 * 60 * 60 * 1000,
     tableInfo,
   };
-  localStorage.setItem(tableInfoLocalStorageKey, JSON.stringify(tableInfoWrap));
+  sessionStorage.setItem(tableInfoLocalStorageKey, JSON.stringify(tableInfoWrap));
 };
 
-exports.getTableInfoInLocalStorage = shopId => {
-  const json = localStorage.getItem(tableInfoLocalStorageKey);
+exports.getTableInfoInSessionStorage = shopId => {
+  const json = sessionStorage.getItem(tableInfoLocalStorageKey);
   if (!json) {
     return null;
   }
@@ -24,6 +24,6 @@ exports.getTableInfoInLocalStorage = shopId => {
     return tableInfoWrap.tableInfo;
   }
 
-  clearTableInfoInLocalStorage();
+  clearTableInfoInSessionStorage();
   return null;
 };

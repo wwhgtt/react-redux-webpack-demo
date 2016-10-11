@@ -11,8 +11,8 @@ const dishCart4DinnerUrl = `${config.dishCart4DinnerURL}?type=${type}&shopId=${s
 const classnames = require('classnames');
 const isShopOpen = require('../../../helper/dish-hepler.js').isShopOpen;
 
-const tableKey = (cartHelper.getTableInfoInLocalStorage(shopId) || {}).tableKey || '';
-const tableId = (cartHelper.getTableInfoInLocalStorage(shopId) || {}).tableId || '';
+const tableKey = (cartHelper.getTableInfoInSessionStorage(shopId) || {}).tableKey || '';
+const tableId = (cartHelper.getTableInfoInSessionStorage(shopId) || {}).tableId || '';
 
 const QuickMenu = React.createClass({
   displayName: 'QuickMenu',
@@ -43,7 +43,7 @@ const QuickMenu = React.createClass({
     return '';
   },
   goToDetail(enableOrder, isLogin) { // 进入订单详情页
-    const orderId = JSON.parse(sessionStorage.serviceStatus || '{}').orderId || '';
+    const orderId = sessionStorage.orderId || '';
     // 不带桌台的时候
     if (!tableKey && !tableId) {
       if (enableOrder && isLogin) {
