@@ -5,7 +5,7 @@ const sexFormat = function (orderSex) {
   if (orderSex === 0) {
     sex = '女士';
   } else if (orderSex === 1) {
-    sex = '男士';
+    sex = '先生';
   } else {
     sex = '';
   }
