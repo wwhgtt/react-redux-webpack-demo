@@ -87,32 +87,32 @@ const removeBasicSession = (name) => {
 const errorLocation = (errorCode) => {
   switch (errorCode) {
     case '90006' : // 请重新扫描二维码,链接已失效
-      location.href = `${config.exceptionLinkURL}?shopId=${shopId}`;
       cartHelper.clearTableInfoInLocalStorage();
+      location.href = `${config.exceptionLinkURL}?shopId=${shopId}`;
       break;
     case '90008' : // 该桌台有多个未支付的正餐订单
-      location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`;
       cartHelper.clearTableInfoInLocalStorage();
+      location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`;
       break;
     case '90012' : // 该用户在该门店下有多个正餐加菜订单
-      location.href = `${config.exceptionDishURL}?shopId=${shopId}`;
       cartHelper.clearTableInfoInLocalStorage();
+      location.href = `${config.exceptionDishURL}?shopId=${shopId}`;
       break;
     case '90013' : // 该用户在该门店下有多个正餐订单
-      location.href = `${config.exceptionDishURL}?shopId=${shopId}`;
       cartHelper.clearTableInfoInLocalStorage();
+      location.href = `${config.exceptionDishURL}?shopId=${shopId}`;
       break;
     case '90014' : // 该桌台待清台或锁定中，请稍等
-      location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`;
       cartHelper.clearTableInfoInLocalStorage();
+      location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`;
       break;
     case '90015' : // 桌台不存在
-      location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`;
       cartHelper.clearTableInfoInLocalStorage();
+      location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`;
       break;
     case '90016' : // 当前用户在该桌台有未处理的订单
-      location.href = `${config.exceptionDishURL}?shopId=${shopId}`;
       cartHelper.clearTableInfoInLocalStorage();
+      location.href = `${config.exceptionDishURL}?shopId=${shopId}`;
       break;
     default : break;
   }
