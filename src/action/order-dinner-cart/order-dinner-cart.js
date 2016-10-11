@@ -20,9 +20,12 @@ const gotoExceptionPage = code => {
     90014: config.exceptionDishCurrentURL,
     90015: config.exceptionDishCurrentURL,
     90016: config.exceptionDishURL,
-    default: config.exceptionDishCurrentURL,
   };
-  const url = codeUrls[code] || codeUrls.default;
+  const url = codeUrls[code];
+  if (!url) {
+    return;
+  }
+
   location.href = `${url}?shopId=${shopId}`;
 };
 

@@ -333,7 +333,7 @@ const OrderTSCartApplication = React.createClass({
           id="editor-name"
           placeholder={member.name || '请输入姓名'}
           onChange={this.onValueChange}
-          maxLength="60"
+          maxLength="30"
         />
         <div className="editor-gender-group flex-none">
           <label className="half">

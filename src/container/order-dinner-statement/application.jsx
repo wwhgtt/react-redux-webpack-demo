@@ -5,8 +5,10 @@ const helper = require('../../helper/order-helper');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const Toast = require('../../component/mui/toast.jsx');
 const DiningOptions = require('../../component/order/dining-options.jsx');
+/*
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
+*/
 const OrderSummary = require('../../component/order/order-summary.jsx');
 const CouponSelect = require('../../component/order/coupon-select.jsx');
 const defaultShopLogo = require('../../asset/images/default.png');
@@ -102,12 +104,12 @@ const OrderDinnerStateMentApplication = React.createClass({
               <span className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
             </a>
           : false}
-          {serviceProps.integralsInfo ?
+          {/* serviceProps.integralsInfo ?
             <ActiveSelect
               optionsData={[serviceProps.integralsInfo]} onSelectOption={setOrderProps}
               optionComponent={OrderPropOption}
             />
-          : false}
+          : false */}
         </div>
 
         <div className="options-group">
