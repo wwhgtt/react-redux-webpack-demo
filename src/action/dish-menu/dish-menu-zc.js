@@ -209,7 +209,6 @@ const fetchServiceStatusNoTable = exports.fetchServiceStatusNoTable = () => (dis
           const fakeServiceStatus = { enableCallService: false, enableOrder: false, enablePay : false };
           dispatch(setServiceStatus({ data:serviceStatus.data || fakeServiceStatus, isLogin:false }));
         } else {
-          errorLocation(serviceStatus.code);
           dispatch(setErrorMsg(serviceStatus.msg));
           dispatch(setServiceStatus({ data:serviceStatus.data || {}, isLogin:true }));
         }
