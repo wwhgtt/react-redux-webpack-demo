@@ -1,6 +1,6 @@
 const tableInfoLocalStorageKey = 'lastTableInfo';
 
-const clearTableInfoInLocalStorage = exports.clearTableInfoLocalStorage = () => {
+const clearTableInfoInLocalStorage = exports.clearTableInfoInLocalStorage = () => {
   localStorage.removeItem(tableInfoLocalStorageKey);
 };
 

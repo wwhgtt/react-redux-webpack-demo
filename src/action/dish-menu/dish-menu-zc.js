@@ -166,8 +166,8 @@ const fetchTableInfo = exports.fetchTableInfo = (tableParam) => (dispatch, getSt
     then(tableInfo => {
       if (tableInfo.code !== '200') {
         if (tableInfo.code !== 'NOT_LOGIN') {
-          errorLocation(tableInfo.code); // 获取tableInfo错误地址跳转
           dispatch(setErrorMsg(tableInfo.msg));
+          errorLocation(tableInfo.code); // 获取tableInfo错误地址跳转
         }
       }
       sessionStorage.tableInfo = JSON.stringify(tableInfo.data || {});
@@ -187,8 +187,8 @@ const fetchServiceStatusHaveTable = exports.fetchServiceStatusHaveTable = (table
     }).
     then(serviceStatus => {
       if (serviceStatus.code !== '200') {
-        errorLocation(serviceStatus.code);
         dispatch(setErrorMsg(serviceStatus.msg));
+        errorLocation(serviceStatus.code);
       }
       dispatch(setServiceStatus({ data:serviceStatus.data || {}, isLogin:true }));
       // 保存ServiceStatus
