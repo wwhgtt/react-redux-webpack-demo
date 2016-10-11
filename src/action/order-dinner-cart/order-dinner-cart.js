@@ -59,6 +59,10 @@ exports.fetchOrderInfo = (setErrorMsg) => (dispatch, getState) =>
       return res.json();
     })
     .then(result => {
+      if (result.code === 'NOT_LOGIN') {
+        location.href = `${config.logAddressURL}?shopId=${shopId}&returnUrl=${encodeURIComponent(location.href)}`;
+        return;
+      }
       dispatch(initOrderInfo(null, result.data));
     })
     .catch(err => {
