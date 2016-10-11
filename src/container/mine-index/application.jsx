@@ -1,8 +1,8 @@
 const React = require('react');
 const connect = require('react-redux').connect;
 const actions = require('../../action/mine/mine-index.js');
-const ShowBasicInfo = require('../../component/mine/ShowBasicInfo.jsx');
-const ShowMenuList = require('../../component/mine/ShowMenuList.jsx');
+const ShowBasicInfo = require('../../component/mine/show-basic-info.jsx');
+const ShowMenuList = require('../../component/mine/show-menu-list.jsx');
 const Loading = require('../../component/mui/loading.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 

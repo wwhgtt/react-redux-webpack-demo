@@ -1,10 +1,5 @@
 @import "settings.colors";
 
-// stylelint-disable selector-no-id
-// Root element id
-#app-placeholder,
-[data-reactroot],
 .application {
-  min-height: 100%;
   background: $color-gallery;
 }

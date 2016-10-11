@@ -1,0 +1,57 @@
+html {
+  cursor: default;
+  user-select: none;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  display: block;
+}
+
+a {
+  cursor: pointer;
+  text-decoration-skip: objects;
+  color: inherit;
+  outline: 0;
+  background-color: transparent;
+}
+
+img {
+  border-style: none;
+}
+
+input,
+textarea,
+button {
+  font: inherit;
+  margin: 0;
+  padding: 0;
+  border-style: none;
+  outline-style: none;
+  appearance: none;
+}
+
+input::placeholder {
+  opacity: .6;
+  color: inherit;
+}
+
+textarea {
+  overflow: auto;
+  resize: none;
+}
+
+button {
+  cursor: pointer;
+  background: transparent;
+
+  &::-moz-focus-inner {
+    padding: 0;
+    border-style: none;
+  }
+}

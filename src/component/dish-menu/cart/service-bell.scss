@@ -1,0 +1,59 @@
+@import "settings.colors";
+@import "tools.functions";
+@import "tools.mixins";
+
+.call-bell {
+  $full: 100%;
+  $none: none;
+  $background: url("../../../asset/images/bell-spirit.png") left top/6.25em auto no-repeat;
+
+  font-size: 12px;
+  position: absolute;
+  z-index: 2;
+  top: -.25em;
+  left: -.25em;
+  width: 4.5em;
+  height: 4.5em;
+  padding: .7em 0;
+  opacity: 0;
+  color: $color-white;
+  border: bordersolid(1, #aee5e5);
+  border-radius: 2.5em;
+  background: $color-dusty-grey;
+  transform: scale(.8, .8);
+  transition: all .2s;
+
+  &-inner {
+    display: block;
+    width: 1.2em;
+    height: 1.2em;
+    margin: 0 auto;
+    background: $background;
+    background-position: -1.5em top;
+    background-size: 4em auto;
+  }
+
+  &-animation {
+    top: -7em;
+    left: -.25em;
+    opacity: 1;
+    background: #18c6bd;
+    transform: scale(1, 1);
+  }
+
+  &-gray {
+    border-color: $color-dusty-grey;
+    background: $color-dusty-grey;
+  }
+
+  &:active {
+    opacity: .5;
+  }
+
+  .vh {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+

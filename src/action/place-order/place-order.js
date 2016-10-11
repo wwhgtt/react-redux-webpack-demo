@@ -10,6 +10,7 @@ exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
 exports.setCustomerProps = createAction('SET_CUSTOMER_PROPS', option => option);
 const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
+const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 const shopId = getUrlParam('shopId');
@@ -22,11 +23,11 @@ exports.fetchCommercialProps = () => (dispatch, getState) =>
       return res.json();
     })
     .then(commercial => {
-      if (!commercial.data.m.mobile) {
-        location.href = `http://${location.host}/user/bindMobile?shopId=${shopId}&returnUrl=${encodeURIComponent(location.href)}`;
-      } else {
-        dispatch(setCommercialProps(commercial.data));
-      }
+      // if (!commercial.data.m.mobile) {
+      //   location.href = `http://${location.host}/user/bindMobile?shopId=${shopId}&returnUrl=${encodeURIComponent(location.href)}`;
+      // } else {
+      dispatch(setCommercialProps(commercial.data));
+      // }
     })
     .catch(err => {
       console.log(err);
@@ -86,7 +87,6 @@ const placeOrder = exports.placeOrder = (note) => (dispatch, getState) => {
     dispatch(setErrorMsg('请先完善预订信息...'));
     return;
   }
-  const code = state.phoneValidateCode ? `&code=${state.phoneValidateCode}` : '';
   let mobile = state.customerProps.mobile.toString();
   if (mobile.indexOf('4') === 0 && mobile.length === 9) {
     mobile = '0' + mobile;
@@ -98,8 +98,7 @@ const placeOrder = exports.placeOrder = (note) => (dispatch, getState) => {
       + '&tableId=' + state.tableProps.selectedTableId
       + '&orderNumber=' + state.dinePersonCount
       + '&orderTime=' + orderTime
-      + '&shopId=' + getUrlParam('shopId')
-      + code;
+      + '&shopId=' + getUrlParam('shopId');
   fetch(`${config.submitPlaceOrderAPI}${params}`, config.requestOptions)
     .then(res => {
       if (!res.ok) {
@@ -137,13 +136,18 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
         dispatch(setErrorMsg(result.msg));
         return;
       }
+      dispatch(setTimeStamp(result.data.timeStamp));
     }).
     catch(err => {
       console.log(err);
     });
 };
-exports.checkCodeAvaliable = (data, note) => (dispatch, getState) =>
-  fetch(`${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}&shopId=${shopId}`, config.requestOptions)
+exports.checkCodeAvaliable = (data, note) => (dispatch, getState) => {
+  const timestamp = getState().timeStamp || new Date().getTime();
+  fetch(
+    `${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}&shopId=${shopId}&timeStamp=${timestamp}`,
+    config.requestOptions
+  )
     .then(res => {
       if (!res.ok) {
         dispatch(setErrorMsg('校验验证码信息失败...'));
@@ -160,3 +164,4 @@ exports.checkCodeAvaliable = (data, note) => (dispatch, getState) =>
     .catch(err => {
       console.log(err);
     });
+};

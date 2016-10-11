@@ -27,9 +27,12 @@ module.exports = {
   orderTakeAwayAPi: `${apiBase}/takeaway/dishBox.json`,
   orderCouponsAPI:`${apiBase}/coupon/getCanUseCoupons.json`,
   orderDiscountInfoAPI:`${apiBase}/shop/discountInfo.json`,
+  orderDinnerStatementAPI:`${apiBase}/orderall/settlement4Dinner.json`,
+  orderDinnerStatementZeroAPI:`${apiBase}/pay/pay4Zero.json`,
   submitTSOrderAPI:`${apiBase}/orderall/subOrder.json`,
   submitWMOrderAPI:`${apiBase}/takeaway/subOrder.json`,
   userAddressAPI: `${apiBase}/user/addressList.json`,
+  submitDinnerOrderAPI:`${apiBase}/orderall/tradeBilling.json`,
 
   individualAPI:`${apiBase}/user/individual.json`, // 获取用户基本信息(我的页面)
   individualviewAPI:`${apiBase}/user/individualView.json`,  // 获取用户基本信息(设置页面)
@@ -41,10 +44,18 @@ module.exports = {
   saveAddressAPI: `${apiBase}/user/saveAddress.json`,
   deleteAddressAPI: `${apiBase}/user/delAddress.json`,
   getOrderAddressInfoAPI: `${apiBase}/user/getAddressInfo.json`,
+  submitTSOrderCartAPI: `${apiBase}/orderall/subOrderDinner.json`,
 
   userLoginAPI: `${apiBase}/user/login.json`,
   userLoginWXURL: `${apiBase}/user/login4WX`,
   getUserLoginSupportAPI: `${apiBase}/user/supportTypes.json`,
+  getServiceStatusHaveTableAPI: `${apiBase}/orderall/serviceStatusHaveTable.json`, // 获取基本信息(带桌台)
+  getServiceStatusNoTableAPI: `${apiBase}/orderall/serviceStatusNoTable.json`, // 获取基本信息(不带桌台)
+  getIsShowButtonAPI: `${apiBase}/orderall/isShowButton.json`, // 按钮是否显示
+  getTableInfoAPI: `${apiBase}/orderall/tableInfo.json`, // 获取tableInfo
+  getOtherTableIdAPI: `${apiBase}/orderall/getTableId.json`, // 获取用户是否在其他桌台下单
+  getOrderTableTypeAPI: `${apiBase}/orderall/orderTableType.json`, // 获取tableInfo
+  callServiceAPI: `${apiBase}/orderall/callService.json`, // 获取tableId
 
   // 跳转URL
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
@@ -67,6 +78,14 @@ module.exports = {
   getCouponListURL:`${apiBase}/coupon/getCouponList`, // 优惠券
   addressListURL:`${apiBase}/user/addressList`, // 地址管理
   modifyPwdURL:`${apiBase}/member/modifyPwd`, // 修改密码
+  tradeDetailUncheckURL:`${apiBase}/order/tradeDetailUncheck`, // 堂食正餐订单详情页 结算前
+  dishCart4DinnerURL:`${apiBase}/orderall/dishCart4Dinner`, // 购物车详情页
+  settlement4DinnerURL:`${apiBase}/orderall/settlement4Dinner`, // 正餐结算页面
+
+  exceptionDishURL:`${apiBase}/orderall/tableCantOrder`, // 异常页面(无法在该桌台点餐)
+  exceptionDishCurrentURL:`${apiBase}/orderall/tableError`, // 异常页面(该桌台无法点餐)
+  exceptionLinkURL:`${apiBase}/orderall/tableTimeout`, // 异常页面(链接无效)
+  exceptionDeviceURL:'exception-device.html', // 异常页面(请在微信浏览器打开连接)
 
   getDefaultSendArea: `${apiBase}/user/getDefaultSendArea.json`,
   getOrderInLineAPI: `${apiBase}/queue/info.json`,
@@ -75,19 +94,19 @@ module.exports = {
   getCheckTableAvaliable:`${apiBase}/booking/getTableByAreaAndNum.json`,
   getPlaceOrderTablesAPI:`${apiBase}/booking/getTables.json`,
   submitPlaceOrderAPI:`${apiBase}/booking/addBooking.json`,
-  // ================================
-  // 账号绑定
-  // ================================
+
   sendCodeAPI: `${apiBase}/user/sendCode.json`, // 发送验证码
   bindPhoneAPI: `${apiBase}/user/bindMobile.json`, // 绑定手机
   wxOauthAPI: `${apiBase}/weixinapi/weixinOauthUrl`, // 获取openid
   bindWXAPI: `${apiBase}/user/bindOpenid.json`, // 绑定微信
   getWXInfoAPI: `${apiBase}/user/weixinUserInfo.json`, // 获取微信信息
-  // =======
-  // 会员注册
-  // =======
+
   registerInfoAPI: `${apiBase}/member/register.json`, // 获取用户信息
   registerAPI: `${apiBase}/member/addMember.json`, // 申请会员
   checkCodeAvaliableAPI:`${apiBase}/user/validMobile.json`,
+  tradeDetailUncheckAPI: `${apiBase}/order/tradeDetailUncheck.json`, // 订单详情（结算前）
+  getWXAuthInfoAPI: `${apiBase}/weixinapi/jsApiTicket.json`,
+  getTableIdFromQRCodeAPI: `${apiBase}/orderall/tableExt.json`,
+  getMainOrderAPI: `${apiBase}/orderall/getMainOrder.json`,
   requestOptions,
 };

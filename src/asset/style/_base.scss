@@ -1,8 +1,14 @@
+html {
+  height: 100%;
+}
+
 body {
   font: 16px/1 -apple-system, Helvetica, "Droid Sans", sans-serif;
   height: 100%;
   color: $color-mine-shaft;
+  background: $color-white;
 }
+
 
 h1,
 h2,

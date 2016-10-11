@@ -8,6 +8,7 @@ module.exports = (
       isxeq: false,
       weixin: false,
     },
+    timestamp: null,
   }),
   action
 ) => {
@@ -19,6 +20,8 @@ module.exports = (
       return state.set('loadingInfo', payload);
     case 'SET_SUPPORT_INFO':
       return state.set('supportInfo', payload);
+    case 'SET_TIMESTAMP':
+      return state.set('timestamp', payload);
     default:
   }
   return state;

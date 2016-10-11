@@ -6,15 +6,12 @@ const getUrlParam = exports.getUrlParam = function (param) {
   }
   return null;
 };
-const isSingleDishWithoutProps = exports.isSingleDishWithoutProps = function (dish) {
-  if (dish.type !== 1 && dish.dishPropertyTypeInfos.length === 0) {
-    return true;
-  } else if (dish.type !== 1 && Array.isArray(dish.dishPropertyTypeInfos)
-    && dish.dishPropertyTypeInfos.length
-    && dish.dishPropertyTypeInfos.every(prop => prop.type === 4)) {
-    return true;
-  }
-  return false;
+const isSingleDishWithoutProps = exports.isSingleDishWithoutProps = dish => {
+  if (dish.type === 1) return false;
+
+  const propTypeInfo = dish.dishPropertyTypeInfos || [];
+  const ingredientInfos = dish.dishIngredientInfos || [];
+  return !ingredientInfos.length && (!propTypeInfo.length || propTypeInfo.every(prop => prop.type === 4));
 };
 const isGroupDish = exports.isGroupDish = function (dish) {
   return dish.groups !== undefined;
@@ -281,14 +278,13 @@ const getDishCookieObject = exports.getDishCookieObject = function (dish, orderI
   const groupChildDishIds = !splitPropsIds.join('#') || splitPropsIds.join('#') === '' ? id + '|1--' : splitPropsIds.join('#');
   return { key : `${consumeType}_${shopId}_${id}_${groupChildDishIds}`, value : `${orderCount}|${marketPrice}` };
 };
-exports.storeDishesLocalStorage = function (data) {
-  let lastOrderedDishes = {
+exports.storeDishesLocalStorage = function (data, func) {
+  const lastOrderedDishes = {
     shopId: getUrlParam('shopId'),
     type: getUrlParam('type'),
     expires: Date.now() + 24 * 60 * 60 * 1000,
-    dishes: getOrderedDishes(data),
+    dishes: func ? func(data) : getOrderedDishes(data),
   };
-
   localStorage.setItem('lastOrderedDishes', JSON.stringify(lastOrderedDishes));
 };
 const clearDishesLocalStorage = exports.clearDishesLocalStorage = function () {
@@ -393,4 +389,3 @@ exports.generateDishNameWithUnit = (dishData) => {
   }
   return `${dishData.name}/${dishData.unitName}`;
 };
-

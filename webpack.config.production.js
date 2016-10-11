@@ -8,11 +8,24 @@ module.exports = {
     'dish-menu-entry': [
       './src/dish-menu.jsx',
     ],
+    'dish-menu-zc-entry': [
+      './src/dish-menu-zc.jsx',
+    ],
     'order-entry': [
       './src/order.jsx',
     ],
+    'order-dinner-statement-entry': [
+      './src/order-dinner-statement.jsx',
+    ],
+    'storyboard-entry':'./src/storyboard.jsx',
     'customer-address-entry': [
       './src/customer-address.jsx',
+    ],
+    'mine-index-entry': [
+      './src/mine-index.jsx',
+    ],
+    'mine-setting-entry': [
+      './src/mine-setting.jsx',
     ],
     'address-list-entry': [
       './src/address-list.jsx',
@@ -23,23 +36,35 @@ module.exports = {
     'place-order-entry': [
       './src/place-order.jsx',
     ],
-    'mine-index-entry': [
-      './src/mine-index.jsx',
-    ],
-    'mine-setting-entry': [
-      './src/mine-setting.jsx',
-    ],
     'bind-phone-entry': [
       './src/bind-phone.jsx',
     ],
     'bind-wx-entry': [
       './src/bind-wx.jsx',
     ],
-    'register-member-entry' :[
+    'register-member-entry': [
       './src/register-member.jsx',
     ],
     'user-login-entry': [
       './src/user-login.jsx',
+    ],
+    'exception-device-entry': [
+      './src/exception-device.jsx',
+    ],
+    'exception-link-entry': [
+      './src/exception-link.jsx',
+    ],
+    'exception-dish-entry': [
+      './src/exception-dish.jsx',
+    ],
+    'exception-dish-current-entry': [
+      './src/exception-dish-current.jsx',
+    ],
+    'order-detail-uncheck-entry': [
+      './src/order-detail-uncheck.jsx',
+    ],
+    'order-dinner-cart-entry': [
+      './src/order-dinner-cart.jsx',
     ],
   },
   resolve: {
@@ -76,6 +101,7 @@ module.exports = {
   },
   plugins: [
     new webpack.EnvironmentPlugin(['NODE_ENV', 'PROD_HOST']),
+    // new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin(
       {
         title: 'DishMenuApplication',
@@ -86,9 +112,25 @@ module.exports = {
     ),
     new HtmlWebpackPlugin(
       {
+        title: 'DishMenuZcApplication',
+        filename: 'dish-menu-zc.html',
+        chunks: ['common', 'dish-menu-zc-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
         title: 'OrderApplication',
         filename: 'order.html',
         chunks: ['common', 'order-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'OrderDinnerStateMentApplication',
+        filename: 'order-dinner-statement.html',
+        chunks: ['common', 'order-dinner-statement-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
@@ -111,7 +153,7 @@ module.exports = {
     new HtmlWebpackPlugin(
       {
         title: 'MineIndexApplication',
-        filename: 'mine-index.html',
+        filename: 'mineIndex.html',
         chunks: ['common', 'mine-index-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
@@ -119,7 +161,7 @@ module.exports = {
     new HtmlWebpackPlugin(
       {
         title: 'MineSettingApplication',
-        filename: 'mine-setting.html',
+        filename: 'mineSetting.html',
         chunks: ['common', 'mine-setting-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
@@ -177,6 +219,54 @@ module.exports = {
         title: 'UserLoginApplication',
         filename: 'user-login.html',
         chunks: ['common', 'user-login-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'exceptionDeviceApplication',
+        filename: 'exception-device.html',
+        chunks: ['common', 'exception-device-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'exceptionLinkApplication',
+        filename: 'exception-link.html',
+        chunks: ['common', 'exception-link-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'exceptionDishApplication',
+        filename: 'exception-dish.html',
+        chunks: ['common', 'exception-dish-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'exceptionDishCurrentApplication',
+        filename: 'exception-dish-current.html',
+        chunks: ['common', 'exception-dish-current-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'OrderDetailInApplication',
+        filename: 'order-detail-uncheck.html',
+        chunks: ['common', 'order-detail-uncheck-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'OrderTSCartApplication',
+        filename: 'order-dinner-cart.html',
+        chunks: ['common', 'order-dinner-cart-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

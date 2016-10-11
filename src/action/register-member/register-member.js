@@ -4,6 +4,7 @@ import { createAction } from 'redux-actions';
 const config = require('../../config');
 const helper = require('../../helper/common-helper.js');
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
+const setTimestamp = exports.setTimestamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
 const setLoadMsg = exports.setLoadMsg = createAction('SET_LOAD_MSG', loadinfo => loadinfo);
 const setUserInfo = createAction('SET_USER_INFO', userInfo => userInfo);
 const setPhoneCode = createAction('SET_PHONE_CODE', phoneCode => phoneCode);
@@ -86,6 +87,7 @@ exports.sendCode = phoneNum => (dispatch, getStates) => {
   then(res => {
     if (res.code === '200') {
       dispatch(setErrorMsg('验证码发送成功注意查收'));
+      dispatch(setTimestamp(res.data.timeStamp));
     } else {
       dispatch(setErrorMsg(res.msg));
     }
@@ -94,7 +96,9 @@ exports.sendCode = phoneNum => (dispatch, getStates) => {
 
 exports.checkCode = (phoneInfo, userInfo) => (dispatch, getStates) => {
   dispatch(setLoadMsg({ status: true, word: '验证中……' }));
-  const checkCodeURL = `${config.checkCodeAvaliableAPI}?shopId=${shopId}&mobile=${phoneInfo.phoneNum}&code=${phoneInfo.code}`;
+  const timestamp = getStates().timestamp || '';
+  const checkCodeURL = `${config.checkCodeAvaliableAPI}?shopId=${shopId}&mobile=${phoneInfo.phoneNum}&code=${phoneInfo.code}&timeStamp=${timestamp}`;
+
   fetch(checkCodeURL, config.requestOptions).
   then(res => {
     if (!res.ok) {

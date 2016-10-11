@@ -1,14 +1,6 @@
 @import "settings.colors";
 
-// stylelint-disable selector-no-id
-// Root element id
-#app-placeholder,
-[data-reactroot] {
-  height: 100%;
-}
-
 .application {
-  height: 100%;
   background: $color-gallery;
 }
 
@@ -102,7 +94,6 @@
   $order-right-width: 120px;
 
   height: 50px;
-  border-top: 1px solid #e1e1e1;
   background: $color-white;
   box-shadow: 0 -1px 0 $color-mercury;
 

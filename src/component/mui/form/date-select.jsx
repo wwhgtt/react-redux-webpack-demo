@@ -1,36 +1,11 @@
 const React = require('react');
 const ActiveScrollSelect = require('../select/active-scroll-select.jsx');
 const DateTimeOption = require('../misc/dynamic-class-hoc.jsx')('a');
+const dateUtility = require('../../../helper/common-helper.js').dateUtility;
+const padStart = require('lodash.padstart');
 
 require('../../order/select/select-container.scss');
 require('./date-select.scss');
-
-const stringPadStr = (str, targetLength, padCh) => {
-  const padLength = targetLength - str.length;
-  if (padLength <= 0) {
-    return str;
-  }
-  return new Array(padLength + 1).join(padCh) + str;
-};
-const formatDate = (date, formatStr) => {
-  if (!date || !(date instanceof Date)) {
-    return date;
-  }
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  let result = formatStr.replace(/yyyy/, year.toString());
-  result = result.replace(/(M+)/, (str, $1) => stringPadStr(month.toString(), $1.length, '0'));
-  result = result.replace(/(d+)/, (str, $1) => stringPadStr(date.getDate().toString(), $1.length, '0'));
-  return result;
-};
-const parseDateFromStr = dateStr => {
-  if (!dateStr || typeof dateStr !== 'string') {
-    return dateStr;
-  }
-
-  const time = Date.parse(dateStr.replace(/\D+/g, '-').replace(/\D+$/, ''));
-  return isNaN(time) ? null : new Date(time);
-};
 
 module.exports = React.createClass({
   displayName: 'DateSelect',
@@ -114,7 +89,7 @@ module.exports = React.createClass({
     const { onCompleteDateSelect, format } = this.props;
     const { currentDate } = this.state;
     onCompleteDateSelect({
-      text: formatDate(currentDate, format),
+      text: dateUtility.format(currentDate, format),
       value: currentDate,
     });
     evt.stopPropagation();
@@ -136,7 +111,7 @@ module.exports = React.createClass({
     const maxRange = this.getMaxRangeDate(year, month);
     for (let i = 1; i <= maxRange; i++) {
       list.push({
-        label: stringPadStr(i.toString(), 2, '0'),
+        label: padStart(i.toString(), 2, '0'),
         id: i,
         isChecked: i === date,
       });
@@ -148,7 +123,7 @@ module.exports = React.createClass({
     const maxRange = this.getMaxRangeMonth(year);
     for (let i = 1; i <= maxRange; i++) {
       list.push({
-        label: stringPadStr(i.toString(), 2, '0'),
+        label: padStart(i.toString(), 2, '0'),
         id: i,
         isChecked: i === month,
       });
@@ -196,7 +171,7 @@ module.exports = React.createClass({
     const { startYear, endYear, date } = this.props;
     let defaultDate = date;
     if (typeof date === 'string') {
-      defaultDate = parseDateFromStr(date) || new Date();
+      defaultDate = dateUtility.parse(date) || new Date();
     }
     const currentYear = defaultDate.getFullYear();
     const currentMonth = defaultDate.getMonth() + 1;

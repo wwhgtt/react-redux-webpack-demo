@@ -10,10 +10,12 @@ require('./select-container.scss');
 module.exports = React.createClass({
   displayName: 'TableSelect',
   propTypes: {
+    title: React.PropTypes.string,
     areas: React.PropTypes.array.isRequired,
     tables: React.PropTypes.array.isRequired,
     onDone: React.PropTypes.func.isRequired,
     onTableSelect: React.PropTypes.func.isRequired,
+    onSelectedChange: React.PropTypes.func,
   },
   getInitialState() {
     let { areas, tables } = this.props;
@@ -33,13 +35,14 @@ module.exports = React.createClass({
   componentDidMount() {
     // 强制获取焦点，解决 mobile safari 无法收起键盘的问题
     this.refs.picker.focus();
+    this.onSelectedChange();
   },
   onAreaSelect(evt, area) {
     const { areas, tables } = this.state;
     let tableMark = true;
     this.setState({
       areas: areas.flatMap(
-        eachArea => eachArea.id === area.id ? eachArea.set('isChecked', true) : eachArea.set('isChecked', false)
+        eachArea => eachArea.set('isChecked', eachArea.id === area.id)
       ),
       tables: tables.flatMap(
         eachTable => {
@@ -50,6 +53,8 @@ module.exports = React.createClass({
           return eachTable.set('isChecked', false);
         }
       ),
+    }, () => {
+      this.onSelectedChange();
     });
     if (evt) {
       evt.stopPropagation();
@@ -59,11 +64,22 @@ module.exports = React.createClass({
     const { tables } = this.state;
     this.setState({
       tables: tables.flatMap(
-        eachTable => eachTable.id === table.id ? eachTable.set('isChecked', true) : eachTable.set('isChecked', false)
+        eachTable => eachTable.set('isChecked', eachTable.id === table.id)
       ),
+    }, () => {
+      this.onSelectedChange();
     });
     if (evt) {
       evt.stopPropagation();
+    }
+  },
+  onSelectedChange() {
+    const { tables, areas } = this.state;
+    if (this.props.onSelectedChange) {
+      this.props.onSelectedChange({
+        area: _find(areas, { isChecked: true }),
+        table: _find(tables, { isChecked: true }),
+      });
     }
   },
   onSubmit(evt) {
@@ -71,8 +87,8 @@ module.exports = React.createClass({
     const { areas, tables } = this.state;
     onTableSelect(null, {
       id: 'table',
-      area: _find(areas, { isChecked:true }),
-      table: _find(tables, { isChecked:true }),
+      area: _find(areas, { isChecked: true }),
+      table: _find(tables, { isChecked: true }),
     });
     evt.stopPropagation();
     evt.preventDefault();
@@ -85,18 +101,19 @@ module.exports = React.createClass({
     onDone(evt);
   },
   getTablesOfSelectedArea(areas, tables) {
-    const selectedArea = _find(areas, { isChecked:true });
+    const selectedArea = _find(areas, { isChecked: true });
     return tables.filter(table => table.areaId === selectedArea.id);
   },
   render() {
     const { areas, tables } = this.state;
+    const { title } = this.props;
     const tablesOfArea = this.getTablesOfSelectedArea(areas, tables);
     return (
       <div className="scroll-select-container" tabIndex="-1" ref="picker">
         <div className="scroll-select-close" onTouchTap={this.onCancel}></div>
         <div className="scroll-select-content">
           <div className="scroll-select-header">
-            <span>选择桌台</span>
+            <span>{title || '选择桌台'}</span>
             <div className="scroll-select-confirm btn--yellow" onTouchTap={this.onSubmit}>确定</div>
           </div>
           <div className="flex-row">

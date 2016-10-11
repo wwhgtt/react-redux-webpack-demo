@@ -22,6 +22,15 @@
   }
 }
 
+.btn--orange {
+  text-align: center;
+  color: $color-white;
+  background: $color-orange;
+
+  &.btn-disabled {
+    background: darken($color-alto, 15%);
+  }
+}
 
 // BUTTON ELEMENTS
 .btn-choose-property {
@@ -154,14 +163,14 @@
     @include border-thin(bottom);
 
     bottom: 0;
-    border-bottom: bordersolid(1, #e7e7ef);
+    border-bottom: bordersolid(1, $color-athens-grey);
   }
 
   &::before {
     @include border-thin(top);
 
     top: 0;
-    border-top: bordersolid(1, #e7e7ef);
+    border-top: bordersolid(1, $color-athens-grey);
   }
 
   &:active {

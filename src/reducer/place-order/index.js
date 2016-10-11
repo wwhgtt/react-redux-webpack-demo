@@ -28,6 +28,7 @@ module.exports = function (
     dinePersonCount:4,
     errorMessage:null,
     shuoldPhoneValidateShow:false,
+    timeStamp:null,
   }),
   action
 ) {
@@ -120,6 +121,8 @@ module.exports = function (
         .setIn(['tableProps', 'selectedTableId'], payload.tableId);
     case 'SET_PHONE_VALIDATE_PROPS':
       return state.set('shuoldPhoneValidateShow', payload);
+    case 'SET_TIMESTAMP':
+      return state.set('timeStamp', payload);
     default:
   }
   return state;

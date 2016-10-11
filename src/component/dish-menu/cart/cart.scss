@@ -21,6 +21,10 @@
   color: $color-white;
   background: $color-abbey;
 
+  &-transparent {
+    background: none;
+  }
+
   &-left {
     position: relative;
     float: left;
@@ -128,6 +132,16 @@
     float: left;
     margin-top: -10px;
     margin-right: 10px;
+  }
+
+  &--fixed {
+    position: fixed;
+    right: 1em;
+    bottom: 1em;
+  }
+
+  &--transparent {
+    opacity: .7;
   }
 
   &--expand {

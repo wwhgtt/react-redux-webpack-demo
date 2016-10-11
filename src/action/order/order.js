@@ -22,6 +22,7 @@ const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error =>
 const setCustomToShopAddress = createAction('SET_ADDRESS_TOSHOP_TO_ORDER', option => option);
 const setOrderTimeProps = createAction('SET_ORDER_TIME_PROPS', timeJson => timeJson);
 const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
+const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 
@@ -281,47 +282,56 @@ exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
 };
 
 const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState) => {
-  const submitUrl = type === 'WM' ? config.submitWMOrderAPI : config.submitTSOrderAPI;
   const state = getState();
   const paramsData = helper.getSubmitUrlParams(state, note, receipt);
   if (!paramsData.success) {
     dispatch(setErrorMsg(paramsData.msg));
-    return false;
+    return;
   }
-  const code = state.phoneValidateCode ? `&code=${state.phoneValidateCode}` : '';
-  return fetch(`${submitUrl}${paramsData.params}${code}`, config.requestOptions).
-    then(res => {
+
+  const isWM = type === 'WM';
+  const url = `${isWM ? config.submitWMOrderAPI : config.submitTSOrderAPI}?shopId=${shopId}`;
+  const data = Object.assign({}, paramsData.params);
+  const requestOptions = Object.assign({}, config.requestOptions, { method: 'POST' });
+  const complete = result => {
+    if (result.code === '200') {
+      localStorage.removeItem('lastOrderedDishes');
+      sessionStorage.removeItem('receiveOrderCustomerInfo');
+      sessionStorage.removeItem(`${shopId}_sendArea_id`);
+      sessionStorage.removeItem(`${shopId}_customer_toshopinfo`);
+
+      helper.setCallbackUrl(result.data.orderId);
+      const isOnlinePay = state.serviceProps.payMethods.some(payMethod => payMethod.id === 'online-payment' && payMethod.isChecked);
+      const paramStr = `shopId=${shopId}&orderId=${result.data.orderId}`;
+      let jumpToUrl = '';
+      if (isOnlinePay && paramsData.needPayPrice.toString() !== '0') {
+        jumpToUrl = `/shop/payDetail?${paramStr}&orderType=${type}`;
+      } else {
+        jumpToUrl = type === 'WM' ? '/order/takeOutDetail?' : '/order/orderallDetail?';
+        jumpToUrl += paramStr;
+      }
+      location.href = jumpToUrl;
+    } else if (result.code.toString() === '20013') {
+      dispatch(setPhoneValidateProps(true));
+    } else {
+      dispatch(setErrorMsg(result.msg));
+    }
+  };
+
+  requestOptions.body = JSON.stringify(data);
+
+  fetch(url, requestOptions)
+    .then(res => {
       if (!res.ok) {
         dispatch(setErrorMsg('提交订单信息失败'));
       }
       return res.json();
-    }).
-    then(result => {
-      if (result.code === '200') {
-        localStorage.removeItem('lastOrderedDishes');
-        sessionStorage.removeItem('receiveOrderCustomerInfo');
-        sessionStorage.removeItem(`${shopId}_sendArea_id`);
-        sessionStorage.removeItem(`${shopId}_customer_toshopinfo`);
-
-        helper.setCallbackUrl(result.data.orderId);
-        const isOnlinePay = state.serviceProps.payMethods.some(payMethod => payMethod.id === 'online-payment' && payMethod.isChecked);
-        const paramStr = `shopId=${shopId}&orderId=${result.data.orderId}`;
-        let jumpToUrl = '';
-        if (isOnlinePay && paramsData.needPayPrice.toString() !== '0') {
-          jumpToUrl = `/shop/payDetail?${paramStr}&orderType=${type}`;
-        } else {
-          jumpToUrl = type === 'WM' ? '/order/takeOutDetail?' : '/order/orderallDetail?';
-          jumpToUrl += paramStr;
-        }
-        location.href = jumpToUrl;
-      } else if (result.code.toString() === '20013') {
-        dispatch(setPhoneValidateProps(true));
-      } else {
-        dispatch(setErrorMsg(result.msg));
-      }
-    }).
-    catch(err => {
-      console.log(err);
+    })
+    .then(result => {
+      complete(result);
+    })
+    .catch(err => {
+      throw new Error(err);
     });
 };
 exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
@@ -340,26 +350,32 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
         dispatch(setErrorMsg(result.msg));
         return;
       }
+      dispatch(setTimeStamp(result.data.timeStamp));
     }).
     catch(err => {
       console.log(err);
     });
 };
-exports.checkCodeAvaliable = (data, note, receipt) => (dispatch, getState) =>
-  fetch(`${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}&shopId=${shopId}`, config.requestOptions)
-    .then(res => {
-      if (!res.ok) {
-        dispatch(setErrorMsg('校验验证码信息失败...'));
-      }
-      return res.json();
-    })
-    .then(result => {
-      if (result.code.toString() === '200') {
-        submitOrder(note, receipt)(dispatch, getState);
-      } else {
-        dispatch(setErrorMsg(result.msg), setPhoneValidateProps(true));
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    });
+exports.checkCodeAvaliable = (data, note, receipt) => (dispatch, getState) => {
+  const timestamp = getState().timeStamp || new Date().getTime();
+  fetch(
+    `${config.checkCodeAvaliableAPI}?mobile=${data.phoneNum}&code=${data.code}&shopId=${shopId}&timeStamp=${timestamp}`,
+    config.requestOptions
+  )
+  .then(res => {
+    if (!res.ok) {
+      dispatch(setErrorMsg('校验验证码信息失败...'));
+    }
+    return res.json();
+  })
+  .then(result => {
+    if (result.code.toString() === '200') {
+      submitOrder(note, receipt)(dispatch, getState);
+    } else {
+      dispatch(setErrorMsg(result.msg), setPhoneValidateProps(true));
+    }
+  })
+  .catch(err => {
+    console.log(err);
+  });
+};

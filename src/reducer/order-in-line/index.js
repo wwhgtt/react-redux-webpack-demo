@@ -17,6 +17,7 @@ module.exports = function (
     queueList:[],
     errorMessage:null,
     shuoldPhoneValidateShow:false,
+    timestamp:null,
   }),
   action
 ) {
@@ -50,6 +51,8 @@ module.exports = function (
           .set('errorMessage', payload);
     case 'SET_PHONE_VALIDATE_PROPS':
       return state.set('shuoldPhoneValidateShow', payload);
+    case 'SET_TIMESTAMP':
+      return state.set('timeStamp', payload);
     default:
   }
   return state;

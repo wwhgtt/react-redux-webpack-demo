@@ -1,0 +1,66 @@
+@import "settings.colors";
+@import "tools.functions";
+@import "tools.mixins";
+
+.progress {
+  $full: 100%;
+  $none: none;
+
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: $full;
+  height: $full;
+  text-align: center;
+  background: transparent;
+  transform: translateZ(0);
+
+  .bar {
+    display: block;
+    width: 12em;
+    height: .5em;
+    margin: 0 auto 1em;
+    border: bordersolid(1, #fff);
+    border-radius: 2px;
+
+    &-inner {
+      display: block;
+      width: 0;
+      height: $full;
+      background: $color-white;
+    }
+
+    &-inner-animation2000 {
+      width: $full;
+      transition: all 2s linear;
+    }
+
+    &-inner-animation3000 {
+      width: $full;
+      transition: all 3s linear;
+    }
+
+    &.vh {
+      visibility: hidden;
+      height: 0;
+      margin: 0;
+      opacity: 0;
+    }
+  }
+
+  &-holder {
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 15em;
+    padding: 1em 0;
+    color: $color-white;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, .6);
+    transform: translate(-50%, -50%);
+  }
+}
+
+

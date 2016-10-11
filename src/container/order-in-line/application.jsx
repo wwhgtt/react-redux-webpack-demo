@@ -1,12 +1,10 @@
 const React = require('react');
 const connect = require('react-redux').connect;
-const config = require('../../config.js');
 const actions = require('../../action/order-in-line/order-in-line.js');
 const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
 const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
-const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const weilianwangImg = require('../../asset/images/weilianwang.png');
 const yidayangImg = require('../../asset/images/yidayang.png');
 const defaultShopLogo = require('../../asset/images/default.png');
@@ -101,7 +99,7 @@ const OrderInlineApplication = React.createClass({
     return (
       <div className="application">
         <div className="options-group">
-          <a className="option option-shop" href={config.shopDetailURL + '?shopId=' + getUrlParam('shopId')}>
+          <a className="option option-shop">
             <img className="option-shop-icon" src={commercialProps.shopLogo || defaultShopLogo} alt="" />
             <p className="option-shop-desc ellipsis">{commercialProps.shopName}</p>
           </a>
@@ -109,7 +107,11 @@ const OrderInlineApplication = React.createClass({
 
         {commercialProps.openStatus === '营业中' ?
           <div className="queue-form">
-            <CustomerInfoEditor customerProps={customerProps} onCustomerPropsChange={setCustomerProps} isMobileDisabled />
+            <CustomerInfoEditor
+              customerProps={customerProps}
+              onCustomerPropsChange={setCustomerProps}
+              isMobileDisabled={customerProps.mobile === null}
+            />
 
             <div className="options-group">
               <div className="option">

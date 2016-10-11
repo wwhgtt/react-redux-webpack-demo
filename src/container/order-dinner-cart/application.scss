@@ -1,0 +1,69 @@
+@import "settings.colors";
+
+.application {
+  background: $color-gallery;
+}
+
+// override option styles
+.option {
+  &-input {
+    font-size: 14px;
+    float: right;
+    width: 150px;
+    text-align: right;
+    color: $color-dusty-grey;
+  }
+}
+
+.cart {
+  &-clear {
+    font-size: 14px;
+    padding-right: 0;
+    color: $color-jaffa;
+
+    &::before {
+      float: left;
+      width: 15px;
+      height: 16px;
+      margin: 2px 3px 0 0;
+      content: "";
+      background-image: url("../../asset/images/cart-clear-orange.png"); // image size 30 * 32px
+      background-size: cover;
+    }
+  }
+}
+
+.order-dinner-buttons {
+  button {
+    height: 50px;
+    color: #fff;
+  }
+
+  .btn-continue {
+    background: $color-sunglow;
+  }
+
+  .btn-order {
+    background: $color-jaffa;
+  }
+
+  .btn-select-table {
+    background: $color-crusta;
+  }
+}
+
+.totalprice {
+  font-size: 16px;
+  color: #333;
+
+  &::after {
+    content: attr(data-count);
+    color: $color-crusta;
+  }
+}
+
+.weixin-login {
+  .option {
+    padding: 0 10px;
+  }
+}

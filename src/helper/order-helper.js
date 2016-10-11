@@ -6,6 +6,7 @@ const isSingleDishWithoutProps = require('../helper/dish-hepler.js').isSingleDis
 const getDishPrice = require('../helper/dish-hepler.js').getDishPrice;
 const getOrderPrice = require('../helper/dish-hepler.js').getOrderPrice;
 const replaceEmojiWith = require('../helper/common-helper.js').replaceEmojiWith;
+const dateUtility = require('../helper/common-helper.js').dateUtility;
 const config = require('../config.js');
 // 判断一个对象是否为空
 exports.isEmptyObject = (obj) => {
@@ -25,7 +26,7 @@ exports.getDefaultSelectedDateTime = (timeTable, defaultSelectedDateTime) => {
       return Object.assign(selectedDateTime, defaultSelectedDateTime);
     }
   }
-  const todayStr = new Date().toISOString().substr(0, 10);
+  const todayStr = dateUtility.format(new Date());
   let defaultDate = '';
   for (const key in timeTable) {
     if (!timeTable.hasOwnProperty(key)) {
@@ -74,7 +75,7 @@ exports.initializeTimeTable = (times) => {
   }
 
   const now = new Date();
-  const todayTimes = times[now.toISOString().substr(0, 10)];
+  const todayTimes = times[dateUtility.format(now)];
   if (!todayTimes || !todayTimes.length) {
     return times;
   }
@@ -452,7 +453,7 @@ const countPriceWithBenefit = exports.countPriceWithBenefit = function (dishesPr
   const totalPrice = Number(countPriceWithCouponAndDiscount(dishesPrice, serviceProps));
   // 至此处理完了配送费和优惠券 还有折扣信息  需要考虑积分抵扣了
   const priceWithIntergrals = serviceProps.integralsInfo.isChecked ?
-    totalPrice - countIntegralsToCash(totalPrice, serviceProps.integralsInfo.integralsDetail).commutation
+    totalPrice - countIntegralsToCash(totalPrice, serviceProps.integralsDetail).commutation
     :
     totalPrice;
   // 至此各种优惠信息已经处理完
@@ -460,7 +461,7 @@ const countPriceWithBenefit = exports.countPriceWithBenefit = function (dishesPr
 };
 // 计算自动进位规则
 const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishesPrice, serviceProps) {
-  // serviceProps.integralsInfo.integralsDetail  前提条件
+  // serviceProps.integralsDetail  前提条件
   const { transferType, scale } = carryRuleVO;
   const priceWithBenefit = countPriceWithBenefit(dishesPrice, serviceProps);
   if (transferType === 1) {
@@ -609,17 +610,76 @@ const validateAddressInfo = exports.validateAddressInfo = (info, isTakeaway, fil
   }
   return { valid: true, msg: '' };
 };
-exports.getSubmitUrlParams = function (state, note, receipt) {
+
+const getSubmitDishData = exports.getSubmitDishData = (dishesData, shopId) => {
+  const result = { singleDishInfos: [], multiDishInfos: [] };
+  const getSingleDishInfo = (dishes, func) => [].concat.apply([], (dishes || []).map(dish => {
+    let orderDishes = [];
+    const order = dish.order;
+    const dishInfo = {
+      num: 0,
+      price: dish.marketPrice,
+      ingredientIds: [],
+      propertyIds: [],
+      dishId: dish.id,
+      shopId,
+    };
+    if (func) {
+      func(dishInfo);
+    }
+    if (typeof order === 'number' && order > 0) {
+      dishInfo.num = order;
+      orderDishes.push(dishInfo);
+    } else if (Array.isArray(order) && order.length) {
+      orderDishes = order.map(orderDish => {
+        const duplicateDishInfo = Object.assign({}, dishInfo);
+        duplicateDishInfo.num = orderDish.count;
+        duplicateDishInfo.ingredientIds = (orderDish.dishIngredientInfos || []).filter(item => item.isChecked).map(item => item.id);
+        duplicateDishInfo.propertyIds = [];
+        (orderDish.dishPropertyTypeInfos || []).forEach(item => {
+          [].push.apply(duplicateDishInfo.propertyIds, (item.properties || []).filter(subItem => subItem.isChecked).map(subItem => subItem.id));
+        });
+        return duplicateDishInfo;
+      });
+    }
+    return orderDishes.filter(orderDish => orderDish.num > 0);
+  }));
+
+  result.singleDishInfos = getSingleDishInfo(dishesData.filter(dish => dish.type === 0));
+  result.multiDishInfos = [].concat.apply([], dishesData.filter(dish => dish.type === 1).map(dish => {
+    const orderDishes = [];
+    const dishInfo = { num: 0, price: dish.marketPrice, dishId: dish.id, subDish: [], shopId };
+    (dish.order || []).forEach(orderDish => {
+      if (!orderDish.count) {
+        return;
+      }
+
+      const duplicateDishInfo = Object.assign({}, dishInfo, { num: orderDish.count, subDish: [] });
+      (orderDish.groups || []).forEach(group => {
+        [].push.apply(duplicateDishInfo.subDish, getSingleDishInfo(group.childInfos, info => {
+          const _info = info;
+          _info.groupId = group.id;
+        }));
+      });
+      orderDishes.push(duplicateDishInfo);
+    });
+    return orderDishes;
+  }));
+  return result;
+};
+
+exports.getSubmitUrlParams = (state, note, receipt) => {
   const name = state.customerProps.name;
   const type = getUrlParam('type');
   if (!name && type === 'TS' && state.customerProps.loginType === 1) {
-    return { success:false, msg:'未填写姓名' };
+    return { success:false, msg: '未填写姓名' };
   }
 
-  const dishesPrice = getDishesPrice(state.orderedDishesProps.dishes);
+  const dishes = state.orderedDishesProps.dishes;
+  const dishesPrice = getDishesPrice(dishes);
   const integral = state.serviceProps.integralsInfo.isChecked ? countIntegralsToCash(
     Number(countPriceWithCouponAndDiscount(dishesPrice, state.serviceProps)),
-    state.serviceProps.integralsInfo.integralsDetail
+    state.serviceProps.integralsDetail
   ).integralInUsed : false;
   const needPayPrice = clearSmallChange(
     state.commercialProps.carryRuleVO,
@@ -634,7 +694,7 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
     payMethodScope = '1';
   }
 
-  const useDiscount = !state.serviceProps.discountProps.inUseDiscount ? '0' : '1';
+  const useDiscount = !state.serviceProps.discountProps.inUseDiscount ? 0 : 1;
   const serviceApproach = state.serviceProps.isPickupFromFrontDesk.isChecked ? 'pickup' : 'totable';
   const coupId = state.serviceProps.couponsProps.inUseCoupon &&
                 state.serviceProps.couponsProps.inUseCouponDetail.id ?
@@ -649,14 +709,24 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
         :
         { success:false, msg:'未选择桌台信息' };
     }
-    tableId = state.tableProps.tables.filter(table => table.isChecked)[0].id;
+    tableId = state.tableProps.tables.filter(table => table.isChecked)[0].synFlag;
   } else if (type === 'TS' && serviceApproach && serviceApproach.indexOf('pickup') !== -1 || type === 'WM') {
     tableId = 0;
   } else {
     return { success:false, msg:'没有可用桌台' };
   }
 
-  let params;
+  const params = {
+    shopId: getUrlParam('shopId'),
+    coupId,
+    useDiscount,
+    memo: note,
+    needPayPrice,
+    integral: Number(integral),
+    payMethod: payMethodScope,
+    invoice: receipt,
+  };
+  Object.assign(params, getSubmitDishData(dishes || []), parseInt(params.shopId, 10) || 0);
   if (type === 'WM') {
     const sendAreaId = state.serviceProps.sendAreaId === -1 ? 0 : state.serviceProps.sendAreaId;
     const selectedDateTime = state.timeProps.selectedDateTime;
@@ -674,55 +744,48 @@ exports.getSubmitUrlParams = function (state, note, receipt) {
       return { success: false, msg: validateAddressResult.msg };
     }
 
-    let sex = selectedAddress.sex;
+    const sex = selectedAddress.sex;
     isSelfFetch = selectedAddress.id === 0;
     if (!selectedDateTime.date) {
-      return { success:false, msg: `请选择${isSelfFetch ? '取餐' : '送达'}时间` };
+      return { success: false, msg: `请选择${isSelfFetch ? '取餐' : '送达'}时间` };
     }
-    const toShopFlag = isSelfFetch ? '1' : '0';
+    const toShopFlag = isSelfFetch ? 1 : 0;
     let mobile = selectedAddress.mobile.toString();
     if (mobile.indexOf('4') === 0 && mobile.length === 9) {
       mobile = '0' + mobile;
     }
-    params = '?name=' + selectedAddress.name
-        + '&Invoice=' + receipt + '&memo=' + note
-        + '&mobile=' + mobile
-        + '&sex=' + sex
-        + '&payMethod=' + payMethodScope
-        + '&coupId=' + coupId
-        + '&integral=' + Number(integral)
-        + '&useDiscount=' + useDiscount
-        + '&orderType=WM'
-        + '&shopId=' + getUrlParam('shopId')
-        + '&needPayPrice=' + needPayPrice
-        + '&address=' + (isSelfFetch ? '' : selectedAddress.address)
-        + '&memberAddressId=' + selectedAddress.id
-        + '&sendAreaId=' + sendAreaId
-        + '&toShopFlag=' + toShopFlag;
+
+    Object.assign(params, {
+      name: selectedAddress.name,
+      mobile,
+      sex,
+      orderType: 'WM',
+      address: isSelfFetch ? '' : selectedAddress.address,
+      memberAddressId: selectedAddress.id,
+      sendAreaId,
+      toShopFlag,
+    });
     if (selectedDateTime.time) {
       if (selectedDateTime.time !== '立即取餐' && selectedDateTime.time !== '立即送餐') {
-        params += `&time=${selectedDateTime.date}%20${selectedDateTime.time}`;
+        params.time = `${selectedDateTime.date} ${selectedDateTime.time}`;
       }
     }
   } else {
-    if (state.customerProps.sex === null && state.customerProps.loginType === 0) {
-      return { success:false, msg:'未选择性别' };
+    const sex = +String(state.customerProps.sex);
+    // 仅手机号登陆登录校验性别
+    if (state.customerProps.loginType === 0 && (isNaN(sex) || sex === -1)) {
+      return { success: false, msg:'未选择性别' };
     }
-    let sex = state.customerProps.sex !== null && state.customerProps.sex >= 0 ? state.customerProps.sex : 1;
-    params = '?name=' + state.customerProps.name
-        + '&Invoice=' + receipt + '&memo=' + note
-        + '&mobile=' + state.customerProps.mobile
-        + '&sex=' + sex
-        + '&payMethod=' + payMethodScope
-        + '&coupId=' + coupId
-        + '&integral=' + Number(integral)
-        + '&useDiscount=' + useDiscount
-        + '&orderType=TS'
-        + '&tableId=' + tableId
-        + '&peopleCount=' + state.customerProps.customerCount
-        + '&serviceApproach=' + serviceApproach
-        + '&shopId=' + getUrlParam('shopId')
-        + '&needPayPrice=' + needPayPrice;
+
+    Object.assign(params, {
+      name: state.customerProps.name,
+      mobile: state.customerProps.mobile,
+      sex,
+      orderType: 'TS',
+      tableId,
+      peopleCount: state.customerProps.customerCount,
+      serviceApproach,
+    });
   }
-  return { success:true, params, needPayPrice };
+  return { success: true, params, needPayPrice };
 };

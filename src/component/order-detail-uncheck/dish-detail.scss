@@ -1,0 +1,72 @@
+.dish-box {
+  .dish-main {
+    position: relative;
+  }
+
+  .dish-sub {
+    position: relative;
+    margin-top: 15px;
+    padding-left: 30px;
+
+    .dish-name {
+      font-size: 14px;
+    }
+
+    .dish-count {
+      margin-right: 70px;
+    }
+  }
+
+  .dish-name {
+    display: inline-block;
+    max-width: calc(100% - 180px);
+    vertical-align: middle;
+  }
+
+  .dish-price {
+    display: block;
+    float: right;
+    width: 70px;
+    text-align: right;
+  }
+
+  .dish-count {
+    font-size: 14px;
+    display: block;
+    float: right;
+    width: 42px;
+    color: #999;
+  }
+
+  .dish-memo {
+    font-size: 12px;
+    line-height: 15px;
+    color: #999;
+  }
+
+  .dish-status {
+    position: absolute;
+    top: -5px;
+    right: 120px;
+  }
+}
+
+.dish-name--trigger::after {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 170px;
+  width: 20px;
+  height: 22px;
+  content: "";
+  background-image: url("../../asset/images/arrow-top-grey.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 10px 6px;
+  transform: rotate(180deg);
+  transition: transform .15s;
+}
+
+.dish-name--trigger.is-open::after {
+  transform: rotate(0);
+}
