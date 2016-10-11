@@ -107,8 +107,14 @@ const errorLocation = (errorCode) => {
     case '90008' : location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`; break; // 该桌台有多个未支付的正餐订单
     case '90012' : location.href = `${config.exceptionDishURL}?shopId=${shopId}`; break; // 该用户在该门店下有多个正餐加菜订单
     case '90013' : location.href = `${config.exceptionDishURL}?shopId=${shopId}`; break; // 该用户在该门店下有多个正餐订单
-    case '90014' : location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`; break; // 该桌台待清台或锁定中，请稍等
-    case '90015' : location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`; break; // 桌台不存在
+    case '90014' : // 该桌台待清台或锁定中，请稍等
+      location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`;
+      cartHelper.clearTableInfoInLocalStorage();
+      break;
+    case '90015' : // 桌台不存在
+      location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`;
+      cartHelper.clearTableInfoInLocalStorage();
+      break;
     case '90016' : location.href = `${config.exceptionDishURL}?shopId=${shopId}`; break; // 当前用户在该桌台有未处理的订单
     default : break;
   }
