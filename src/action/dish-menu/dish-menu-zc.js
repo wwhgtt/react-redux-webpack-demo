@@ -258,7 +258,7 @@ const fetchIsShowButton = exports.fetchIsShowButton = (tableKey, tableId) => (di
 
 // 取到tableId 或者 根据key值获取tableId
 exports.fetchTableId = (tableKey, tableId) => (dispatch, getState) => {
-  removeBasicSession('serviceStatus');
+  removeBasicSession('orderId');
 
   localStorage.removeItem('dishBoxPrice');
   fetchIsShowButton(tableKey, tableId)(dispatch, getState);
