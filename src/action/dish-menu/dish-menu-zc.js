@@ -54,6 +54,23 @@ exports.removeAllOrders = (orders) => (dispatch, getStates) => {
   helper.clearDishesLocalStorage();
 };
 
+exports.confirmOrder = () => (dispatch, getStates) => {
+  const dishesData = getStates().dishMenuReducer.dishesData;
+  const orderedData = helper.getOrderedDishes(dishesData);
+  const dishBoxChargeInfo = getStates().dishMenuReducer.dishBoxChargeInfo;
+  helper.deleteOldDishCookie();
+  helper.setDishCookie(dishesData, orderedData);
+  localStorage.setItem('dishBoxPrice', helper.getDishBoxprice(orderedData, dishBoxChargeInfo));
+  //  堂食情况下需要考虑是否有tableId的情况
+  const tableId = helper.getUrlParam('tableId');
+  if (tableId) {
+    location.href =
+      `/orderall/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}&tableId=${tableId}`;
+  } else {
+    location.href =
+      `/orderall/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}`;
+  }
+};
 exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
   fetch(config.orderDiscountInfoAPI + '?shopId=' + helper.getUrlParam('shopId'), config.requestOptions).
     then(res => {
@@ -247,6 +264,7 @@ exports.fetchTableId = (tableKey, tableId) => (dispatch, getState) => {
   removeBasicSession('serviceStatus');
   removeBasicSession('tableId');
   removeBasicSession('tableKey');
+  localStorage.removeItem('dishBoxPrice');
   fetchIsShowButton(tableKey, tableId)(dispatch, getState);
 
   // tableInfo
