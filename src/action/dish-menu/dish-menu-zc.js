@@ -224,7 +224,7 @@ const fetchServiceStatusNoTable = exports.fetchServiceStatusNoTable = () => (dis
     });
 
 // 根据isShowButton获取快捷菜单按钮是否显示
-const fetchIsShowButton = exports.fetchIsShowButton = () => (dispatch, getState) =>
+const fetchIsShowButton = exports.fetchIsShowButton = (tableKey, tableId) => (dispatch, getState) =>
   fetch(`${config.getIsShowButtonAPI}?shopId=${helper.getUrlParam('shopId')}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
@@ -235,6 +235,18 @@ const fetchIsShowButton = exports.fetchIsShowButton = () => (dispatch, getState)
     then(isShowButton => {
       if (isShowButton.code === '200') {
         dispatch(setIsShowButton(isShowButton.data.isShow));
+        if (isShowButton.data.isShow) {
+          // 没有tableId或者tableKey的情况
+          if (!tableKey && !tableId) {
+            fetchServiceStatusNoTable()(dispatch, getState);
+          } else if (tableKey) {
+            fetchServiceStatusHaveTable(`tableKey=${tableKey}`)(dispatch, getState);
+          } else {
+            fetchServiceStatusHaveTable(`tableId=${tableId}`)(dispatch, getState);
+          }
+        } else {
+          dispatch(setServiceStatus({ data:{}, isLogin:true }));
+        }
       }
     }).
     catch(err => {
@@ -247,17 +259,15 @@ exports.fetchTableId = (tableKey, tableId) => (dispatch, getState) => {
   removeBasicSession('serviceStatus');
   removeBasicSession('tableId');
   removeBasicSession('tableKey');
-  fetchIsShowButton('')(dispatch, getState);
-  // 没有tableId或者tableKey的情况
-  if (!tableKey && !tableId) {
-    fetchServiceStatusNoTable()(dispatch, getState);
-  } else if (tableKey) {
+  fetchIsShowButton(tableKey, tableId)(dispatch, getState);
+
+  // tableInfo
+  if (tableKey) {
     fetchTableInfo(`tableKey=${tableKey}`)(dispatch, getState);
-    fetchServiceStatusHaveTable(`tableKey=${tableKey}`)(dispatch, getState);
-  } else {
+  } else if (tableId) {
     fetchTableInfo(`tableId=${tableId}`)(dispatch, getState);
-    fetchServiceStatusHaveTable(`tableId=${tableId}`)(dispatch, getState);
   }
+
   // 保存tableId和tableKey到sessionStorage
   sessionStorage.tableKey = tableKey || '';
   sessionStorage.tableId = tableId || '';

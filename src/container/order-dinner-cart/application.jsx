@@ -374,7 +374,7 @@ const OrderTSCartApplication = React.createClass({
           <div className="options-group">
             <div className="option">
               <div className="flex-row">
-                <span className="options-title flex-rest">{this.getAreaTableTitle()}</span>
+                <div className="options-title flex-rest">{this.getAreaTableTitle()}</div>
                 <button className="cart-clear flex-none" onTouchTap={this.onClearCart}>清空购物车</button>
               </div>
             </div>
