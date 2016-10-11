@@ -123,7 +123,9 @@ exports.fetchMainOrderInfo = (tableId, tableKey, setErrorMsg) => (dispatch, getS
       }
 
       setErrorMsg(result.msg);
-      gotoExceptionPage(result.code);
+      setTimeout(() => {
+        gotoExceptionPage(result.code);
+      }, 3000);
     })
     .catch(err => {
       throw new Error(err);
