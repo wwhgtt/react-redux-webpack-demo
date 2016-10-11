@@ -56,7 +56,7 @@ const QuickMenu = React.createClass({
     }
   },
   goToPay(enablePay) { // 进入结算页面
-    const tradeId = JSON.parse(sessionStorage.serviceStatus || '{}').orderId || '';
+    const tradeId = sessionStorage.orderId || '';
     if (enablePay) {
       location.href = `${config.settlement4DinnerURL}?type=TS&shopId=${shopId}&tradeId=${tradeId}`;
     }
