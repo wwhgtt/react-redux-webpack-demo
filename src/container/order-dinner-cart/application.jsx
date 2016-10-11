@@ -312,6 +312,48 @@ const OrderTSCartApplication = React.createClass({
       </div>
     );
   },
+  buildCustomerInfoElement(member) {
+    const sex = this.getValidSexValue(member.sex);
+    if (+member.loginType === 1) {
+      return (
+        <div className="weixin-login">
+          <a className="option option-user">
+            <img className="option-user-icon" src={member.iconUri} alt="用户头像" />
+            <p className="option-user-name">{member.name}</p>
+          </a>
+        </div>
+      );
+    }
+
+    return (
+      <div className="flex-row">
+        <input
+          className="editor-input flex-rest"
+          name="name"
+          id="editor-name"
+          placeholder={member.name || '请输入姓名'}
+          onChange={this.onValueChange}
+          maxLength="60"
+        />
+        <div className="editor-gender-group flex-none">
+          <label className="half">
+            <input
+              className="option-radio" type="radio" name="sex" defaultValue="0"
+              onChange={this.onValueChange} checked={sex === 0}
+            />
+            <span className="editor-gender">女士</span>
+          </label>
+          <label className="half">
+            <input
+              className="option-radio" type="radio" name="sex" defaultValue="1"
+              onChange={this.onValueChange} checked={sex === 1}
+            />
+            <span className="editor-gender">先生</span>
+          </label>
+        </div>
+      </div>
+    );
+  },
   render() {
     const { dishMenu, orderTSCart } = this.props;
     const { member, peopleCount, memo, commercialName, commercialLogo } = orderTSCart;
@@ -320,7 +362,6 @@ const OrderTSCartApplication = React.createClass({
     const dishesData = dishMenu.dishesData || [];
     const dishCount = dishHelper.getDishesCount(dishesData);
     const totalPrice = dishHelper.getDishesPrice(dishesData);
-    const sex = this.getValidSexValue(member.sex);
     return (
       <div className="application flex-columns">
         <div className="flex-rest">
@@ -338,32 +379,7 @@ const OrderTSCartApplication = React.createClass({
               </div>
             </div>
             <div className="option editor">
-              <div className="flex-row">
-                <input
-                  className="editor-input flex-rest"
-                  name="name"
-                  id="editor-name"
-                  placeholder={member.name || '请输入姓名'}
-                  onChange={this.onValueChange}
-                  maxLength="60"
-                />
-                <div className="editor-gender-group flex-none">
-                  <label className="half">
-                    <input
-                      className="option-radio" type="radio" name="sex" defaultValue="0"
-                      onChange={this.onValueChange} checked={sex === 0}
-                    />
-                    <span className="editor-gender">女士</span>
-                  </label>
-                  <label className="half">
-                    <input
-                      className="option-radio" type="radio" name="sex" defaultValue="1"
-                      onChange={this.onValueChange} checked={sex === 1}
-                    />
-                    <span className="editor-gender">先生</span>
-                  </label>
-                </div>
-              </div>
+              {this.buildCustomerInfoElement(member)}
             </div>
             <div className="option option--nopadding">
               {this.buildOrderedElements(dishesData)}
