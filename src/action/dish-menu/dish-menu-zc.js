@@ -134,7 +134,7 @@ exports.callBell = (timer) => (dispatch, getStates) => {
         dispatch(setTimerStatus({ timerStatus:false }));
       });
       if (basicData.data.status.toString() === '1501') { // 已经呼叫过服务员了
-        dispatch(setCallMsg({ info:basicData.msg, callStatus:true }));
+        dispatch(setCallMsg({ info:basicData.data.message, callStatus:true }));
         dispatch(setCanCall(true));
         return;
       }
