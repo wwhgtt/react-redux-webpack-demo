@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="305px" height="257px" viewBox="0 0 305 257" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="2.84217094e-14" y="-1.13686838e-13" width="219" height="141" rx="16"></rect>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="219" height="141" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="页3" transform="translate(-221.000000, -266.000000)">
+            <g id="Group-2" transform="translate(223.000000, 268.000000)">
+                <ellipse id="Oval-2" fill="#FFC334" cx="150" cy="244.5" rx="100" ry="10.5"></ellipse>
+                <g id="Group-2-Copy" transform="translate(150.279221, 132.279221) rotate(-45.000000) translate(-150.279221, -132.279221) translate(40.779221, 61.779221)">
+                    <use id="Rectangle-Copy" stroke="#FFC334" mask="url(#mask-2)" stroke-width="10" fill="#FFFFFF" xlink:href="#path-1"></use>
+                    <rect id="Rectangle-2" fill="#FFC334" opacity="0.4" x="18" y="18" width="93" height="15"></rect>
+                    <g id="Group" opacity="0.3" transform="translate(18.000000, 82.000000)" fill="#FFC334">
+                        <rect id="Rectangle-2-Copy" x="0" y="0" width="41.0687489" height="14.6360658"></rect>
+                        <rect id="Rectangle-2-Copy" x="96" y="0" width="41.0687489" height="14.6360658"></rect>
+                        <rect id="Rectangle-2-Copy" x="48" y="-1.13686838e-13" width="41.0687489" height="14.6360658"></rect>
+                        <rect id="Rectangle-2-Copy" x="144" y="0" width="41.0687489" height="14.6360658"></rect>
+                    </g>
+                    <g id="Group-Copy" opacity="0.3" transform="translate(18.000000, 107.000000)" fill="#FFC334">
+                        <rect id="Rectangle-2-Copy" x="0" y="0" width="41.0687489" height="14.6360658"></rect>
+                        <rect id="Rectangle-2-Copy" x="95.5087184" y="-2.27373675e-13" width="41.0687489" height="14.6360658"></rect>
+                        <rect id="Rectangle-2-Copy" x="47.7543592" y="0" width="41.0687489" height="14.6360658"></rect>
+                        <rect id="Rectangle-2-Copy" x="143.263078" y="0" width="41.0687489" height="14.6360658"></rect>
+                    </g>
+                </g>
+                <g id="Group-4-Copy" stroke="#FFC334" stroke-width="4">
+                    <g id="Group-3" transform="translate(20.000000, 75.000000)" stroke-linecap="round">
+                        <path d="M5,0.289473684 L5,10.7105263" id="Line"></path>
+                        <path d="M10,5.21052632 L0,5.21052632" id="Line-Copy"></path>
+                    </g>
+                    <g id="Group-3-Copy-2" transform="translate(117.000000, 0.000000)" stroke-linecap="round">
+                        <path d="M5,0.289473684 L5,10.7105263" id="Line"></path>
+                        <path d="M10,5.21052632 L0,5.21052632" id="Line-Copy"></path>
+                    </g>
+                    <g id="Group-3-Copy" transform="translate(254.000000, 162.000000)" stroke-linecap="round">
+                        <path d="M7,0.394736842 L7,14.6052632" id="Line"></path>
+                        <path d="M14,7.10526316 L0,7.10526316" id="Line-Copy"></path>
+                    </g>
+                    <circle id="Oval-Copy" fill="#FFFFFF" cx="6" cy="105" r="6"></circle>
+                    <circle id="Oval-Copy-2" fill="#FFFFFF" cx="295" cy="159" r="6"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

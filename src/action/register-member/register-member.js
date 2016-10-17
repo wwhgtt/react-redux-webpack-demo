@@ -1,6 +1,6 @@
 require('es6-promise');
 require('isomorphic-fetch');
-import { createAction } from 'redux-actions';
+const createAction = require('redux-actions').createAction;
 const config = require('../../config');
 const helper = require('../../helper/common-helper.js');
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
