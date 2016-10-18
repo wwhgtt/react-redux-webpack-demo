@@ -26,6 +26,7 @@ module.exports = function (
         discountType:'',
         inUseDiscount:null,
       },
+      acvitityBenefit:null,
     },
     tableProps:{
       isEditable:true,

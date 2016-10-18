@@ -103,6 +103,16 @@ module.exports = React.createClass({
             :
             false
           }
+          {serviceProps.acvitityBenefit > 0 ?
+            <p className="order-summary-entry clearfix">
+              <span className="option-title option-title--icon order-summary-icon1">活动优惠:</span>
+              <span className="order-discount discount">
+                {serviceProps.acvitityBenefit}
+              </span>
+            </p>
+            :
+            false
+          }
           {serviceProps.deliveryProps && serviceProps.deliveryProps.freeDeliveryPrice >= 0 && serviceProps.deliveryProps.deliveryPrice
             && dishesPrice >= serviceProps.deliveryProps.freeDeliveryPrice && serviceProps.deliveryProps.deliveryPrice !== 0 ?
             <p className="order-summary-entry clearfix">
