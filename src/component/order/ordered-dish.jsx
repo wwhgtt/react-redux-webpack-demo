@@ -76,6 +76,18 @@ module.exports = React.createClass({
       </div>
     );
   },
+  buildDishBenefit(dish) {
+    if (dish.order instanceof Array) {
+      if (dish.order[0].benefitOptions) {
+        return <BenefitOptions benefitProps={dish.order[0].benefitOptions} />;
+      }
+      return false;
+    }
+    return dish.benefitOptions ?
+      <BenefitOptions benefitProps={dish.benefitOptions} />
+      :
+      false;
+  },
   render() {
     const { dish, orderStatus } = this.props;
     const { expand } = this.state;
@@ -111,11 +123,7 @@ module.exports = React.createClass({
           <span className="order-dish-count">x{helper.getDishesCount([dish])}</span>
         </div>
         {expand ? detailInfo : false}
-        {dish.benefitOptions ?
-          <BenefitOptions />
-          :
-          false
-        }
+        {this.buildDishBenefit(dish)}
       </div>
     );
   },

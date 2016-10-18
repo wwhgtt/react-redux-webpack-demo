@@ -424,7 +424,11 @@ exports.addBenefitTodish = (benefitProps, dish) => {
   let orderedDish = dish.asMutable({ deep: true });
   benefitProps.dishPriList.map(benefit => {
     if (benefit.dishId === orderedDish.id) {
-      orderedDish.benefitOptions = benefit.dishPriInfo;
+      if (orderedDish.order instanceof Array) {
+        orderedDish.order[0].benefitOptions = benefit.dishPriInfo;
+      } else {
+        orderedDish.benefitOptions = benefit.dishPriInfo;
+      }
     }
     return true;
   });

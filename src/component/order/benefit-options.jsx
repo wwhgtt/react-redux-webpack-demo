@@ -2,26 +2,25 @@ const React = require('react');
 module.exports = React.createClass({
   displayName: 'BenefitOptions',
   propTypes: {
-    benefitProp:React.PropTypes.object.isRequired,
-    benefitLength:React.PropTypes.func.isRequired,
+    benefitProps:React.PropTypes.array.isRequired,
   },
   componentDidMount() {
 
   },
   render() {
-    const { benefitProp, benefitLength } = this.props;
+    const { benefitProps } = this.props;
     return (
       <div className="options">
         <div className="">
-          {benefitProp ?
+          {benefitProps ?
             <div className="benefit-prop">
               <span>优惠</span>
-              <span>{benefitProp}</span>
+              <span>{benefitProps[0].priName}</span>
             </div>
             :
             false
           }
-          {benefitLength > 1 ?
+          {benefitProps.length > 1 ?
             <button onTouchTap={evt => this.onSelectBenefit(evt)}>切换优惠</button>
             :
             false
