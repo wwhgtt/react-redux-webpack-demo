@@ -4,6 +4,7 @@ const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
 const isGroupDish = require('../../helper/dish-hepler.js').isGroupDish;
+const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 const helper = require('../../helper/order-helper.js');
 require('es6-promise');
 require('isomorphic-fetch');
@@ -278,6 +279,32 @@ exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
     }).
     catch(err => {
       console.log(err);
+    });
+};
+
+exports.fetchAcvitityBenefit = () => (dispatch, getState) => {
+  const lastOrderedDishes = getState().orderedDishesProps;
+  let dishInfo = [];
+  lastOrderedDishes.dishes.map(dish => {
+    let dishDetailObject = {
+      dishId:dish.id,
+      dishNum:getDishesCount([dish]),
+    };
+    return dishInfo.push(dishDetailObject);
+  });
+  console.log(dishInfo);
+  fetch(`${config.orderedDishBenefitAPI}?shopId=${shopId}&dishInfo=${dishInfo}`, config.requestOptions)
+    .then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('提交订单信息失败'));
+      }
+      return res.json();
+    })
+    .then(result => {
+      console.log(123);
+    })
+    .catch(err => {
+      throw new Error(err);
     });
 };
 

@@ -48,6 +48,7 @@ const OrderApplication = React.createClass({
     setPhoneValidateProps:React.PropTypes.func.isRequired,
     checkCodeAvaliable:React.PropTypes.func.isRequired,
     fetchVericationCode:React.PropTypes.func.isRequired,
+    fetchAcvitityBenefit:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     customerAddressListInfo:React.PropTypes.object,
@@ -80,14 +81,15 @@ const OrderApplication = React.createClass({
   },
   componentDidMount() {
     this.setChildViewAccordingToHash();
-    const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons } = this.props;
+    const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons, fetchAcvitityBenefit } = this.props;
     fetchOrder().then(
       fetchOrderDiscountInfo
     )
     .then(fetchOrderCoupons)
     .then(
       () => { this.setChildViewAccordingToHash(); }
-    );
+    )
+    .then(fetchAcvitityBenefit);
   },
   componentWillReceiveProps(nextProps) {
     this.setState({
