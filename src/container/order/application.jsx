@@ -49,6 +49,7 @@ const OrderApplication = React.createClass({
     checkCodeAvaliable:React.PropTypes.func.isRequired,
     fetchVericationCode:React.PropTypes.func.isRequired,
     fetchAcvitityBenefit:React.PropTypes.func.isRequired,
+    onSelectBenefit:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     customerAddressListInfo:React.PropTypes.object,
@@ -487,6 +488,7 @@ const OrderApplication = React.createClass({
           <OrderSummary
             serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
             commercialProps={commercialProps} shopId={shopId} isNeedShopMaterial
+            onSelectBenefit={this.props.onSelectBenefit}
           />
 
           {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?

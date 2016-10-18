@@ -3,12 +3,13 @@ module.exports = React.createClass({
   displayName: 'BenefitOptions',
   propTypes: {
     benefitProps:React.PropTypes.array.isRequired,
+    onSelectBenefit:React.PropTypes.func.isRequired,
   },
   componentDidMount() {
 
   },
   render() {
-    const { benefitProps } = this.props;
+    const { benefitProps, onSelectBenefit } = this.props;
     return (
       <div className="options">
         <div className="">
@@ -20,7 +21,7 @@ module.exports = React.createClass({
             :
             false
           }
-          <button onTouchTap={evt => this.onSelectBenefit(evt)}>切换优惠</button>
+          <button onTouchTap={onSelectBenefit}>切换优惠</button>
         </div>
       </div>
     );

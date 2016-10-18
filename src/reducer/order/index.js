@@ -40,6 +40,7 @@ module.exports = function (
     errorMessage:null,
     shuoldPhoneValidateShow:false,
     timeStamp:null,
+    isBenefitSelectWindowShow:false,
   }),
   action
 ) {
@@ -418,6 +419,8 @@ module.exports = function (
           return Object.assign({ rangeId: item.rangeId }, address);
         })),
       });
+    case 'ON_SELECT_BENEFIT':
+      return state.set('isBenefitSelectWindowShow', !state.isBenefitSelectWindowShow);
     case 'SET_SEND_AREA_ID':
       if (!payload || payload === 0) {
         // 表示到店取餐的情况

@@ -15,6 +15,7 @@ module.exports = React.createClass({
     orderedDishesProps:React.PropTypes.oneOfType([React.PropTypes.object, React.PropTypes.array]).isRequired,
     shopId:React.PropTypes.string.isRequired,
     isNeedShopMaterial:React.PropTypes.bool.isRequired,
+    onSelectBenefit:React.PropTypes.func.isRequired,
   },
   getInitialState() {
     return {
@@ -43,7 +44,7 @@ module.exports = React.createClass({
       );
     }
     const dividedDishes = divideDishes(orderedDishes);
-    return dividedDishes.map(dish => (<OrderedDish key={dish.key} dish={dish} />));
+    return dividedDishes.map(dish => (<OrderedDish key={dish.key} dish={dish} onSelectBenefit={this.props.onSelectBenefit} />));
   },
   render() {
     const { serviceProps, commercialProps, orderedDishesProps, isNeedShopMaterial } = this.props;
