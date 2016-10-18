@@ -24,6 +24,7 @@ const setCustomToShopAddress = createAction('SET_ADDRESS_TOSHOP_TO_ORDER', optio
 const setOrderTimeProps = createAction('SET_ORDER_TIME_PROPS', timeJson => timeJson);
 const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
 const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
+const setBenefitOptions = createAction('SET_BENEFIT_OPTIONS', options => options);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 
@@ -301,7 +302,11 @@ exports.fetchAcvitityBenefit = () => (dispatch, getState) => {
       return res.json();
     })
     .then(result => {
-      console.log(123);
+      if (result.code.toString() === '200') {
+        dispatch(setBenefitOptions(result.data));
+      } else {
+        dispatch(setErrorMsg(result.msg));
+      }
     })
     .catch(err => {
       throw new Error(err);
