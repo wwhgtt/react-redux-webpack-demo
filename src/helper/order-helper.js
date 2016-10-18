@@ -418,6 +418,18 @@ const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, tota
   }
   return true;
 };
+
+// 为已点菜品添加对应的优惠选项
+exports.addBenefitTodish = (benefitProps, dish) => {
+  let orderedDish = dish.asMutable({ deep: true });
+  benefitProps.dishPriList.map(benefit => {
+    if (benefit.dishId === orderedDish.id) {
+      orderedDish.benefitOptions = benefit.dishPriInfo;
+    }
+    return true;
+  });
+  return orderedDish;
+};
 // 计算可以参与优惠的价格(针对的是有配送费减免的情况)
 const getPriceCanBeUsedToBenefit = exports.getPriceCanBeUsedToBenefit = function (dishesPrice, deliveryProps) {
   // 这里需要判断一下  如果此时有配送费 并且配送费时可以减去的  那么不应该把配送费算作计入优惠的总价

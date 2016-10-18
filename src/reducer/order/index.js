@@ -364,7 +364,7 @@ module.exports = function (
       }
       break;
     case 'SET_BENEFIT_OPTIONS':
-      return state;
+      return state.updateIn(['orderedDishesProps', 'dishes'], dishes => dishes.flatMap(dish => helper.addBenefitTodish(payload, dish)));
     case 'SET_COUPONS_TO_ORDER':
       return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], payload);
     case 'SET_DISCOUNT_TO_ORDER':

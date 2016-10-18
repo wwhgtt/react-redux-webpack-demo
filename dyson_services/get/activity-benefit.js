@@ -24,13 +24,13 @@ module.exports = {
           dishId: 601453,
           dishPriInfo: [
             {
-              priId: 2583,
+              priId: 2584,
               priName: '满2件减5元',
               priType: 2,
               priAmount: 5.0,
             },
             {
-              priId: 2581,
+              priId: 2582,
               priName: '满100送鸡蛋汤',
               priType: 1,
               priAmount: 0,

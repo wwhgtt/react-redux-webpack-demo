@@ -1,6 +1,7 @@
 const React = require('react');
 const helper = require('../../helper/dish-hepler.js');
 const classnames = require('classnames');
+const BenefitOptions = require('../order/benefit-options.jsx');
 require('../../component/dish-menu/cart/cart-ordered-dish.scss');
 require('./ordered-dish.scss');
 
@@ -110,6 +111,11 @@ module.exports = React.createClass({
           <span className="order-dish-count">x{helper.getDishesCount([dish])}</span>
         </div>
         {expand ? detailInfo : false}
+        {dish.benefitOptions ?
+          <BenefitOptions />
+          :
+          false
+        }
       </div>
     );
   },
