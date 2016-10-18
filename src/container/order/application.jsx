@@ -17,6 +17,7 @@ const OrderSummary = require('../../component/order/order-summary.jsx');
 const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
+const BenefitSelect = require('../../component/order/benefit-select.jsx');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
@@ -62,6 +63,7 @@ const OrderApplication = React.createClass({
     timeProps: React.PropTypes.object,
     childView: React.PropTypes.string,
     errorMessage: React.PropTypes.string,
+    isBenefitSelectWindowShow:React.PropTypes.bool.isRequired,
   },
   getInitialState() {
     return {
@@ -338,6 +340,7 @@ const OrderApplication = React.createClass({
       defaultCustomerProps,
       setCustomerToShopAddress,
       shuoldPhoneValidateShow,
+      isBenefitSelectWindowShow,
     } = this.props; // state
     const { setOrderProps, fetchUserAddressListInfo, setChildView } = this.props;// actions
     const type = getUrlParam('type');
@@ -539,6 +542,11 @@ const OrderApplication = React.createClass({
           false
         }
 
+        {isBenefitSelectWindowShow ?
+          <BenefitSelect benefitProps={'2222'} onSelectBenefit={'2222'} dish={'2222'} />
+          :
+          false
+        }
         {childView === 'customer-info' && type === 'TS' ?
           <CustomerInfoEditor
             customerProps={customerProps} onCustomerPropsChange={setCustomerProps} onDone={this.resetChildView}

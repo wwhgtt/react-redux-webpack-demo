@@ -17,11 +17,6 @@ module.exports = React.createClass({
     isNeedShopMaterial:React.PropTypes.bool.isRequired,
     onSelectBenefit:React.PropTypes.func.isRequired,
   },
-  getInitialState() {
-    return {
-      template:'OrderedDish',
-    };
-  },
   componentDidMount() {
 
   },

@@ -1,0 +1,36 @@
+const React = require('react');
+const ActiveSelect = require('../mui/select/active-select.jsx');
+const benefitPropOption = require('./benefit-prop-option.jsx');
+module.exports = React.createClass({
+  displayName: 'BenefitSelect',
+  propTypes: {
+    dish:React.PropTypes.object.isRequired,
+    benefitProps:React.PropTypes.array.isRequired,
+    onSelectBenefit:React.PropTypes.func.isRequired,
+  },
+  componentDidMount() {
+
+  },
+  buildBenefitDetail() {
+    const { benefitProps, onSelectBenefit } = this.props;
+    return (
+      <div className="benefit-item">
+        <ActiveSelect
+          optionsData={benefitProps} onSelectOption={onSelectBenefit}
+          optionComponent={benefitPropOption}
+        />
+      </div>
+    );
+  },
+  render() {
+    return (
+      <div className="options">
+        <div className="">
+          <p className="title">该商品可参加一下优惠</p>
+          {this.buildBenefitDetail()}
+          <button onTouchTap={this.onSelectBenefit()}>确定</button>
+        </div>
+      </div>
+    );
+  },
+});
