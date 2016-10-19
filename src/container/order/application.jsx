@@ -545,7 +545,7 @@ const OrderApplication = React.createClass({
         }
 
         {isBenefitSelectWindowShow ?
-          <BenefitSelect setAcvitityBenefit={setAcvitityBenefit} dish={serviceProps.acvitityBenefit.relatedDish} />
+          <BenefitSelect setAcvitityBenefit={setAcvitityBenefit} dish={serviceProps.acvitityBenefit.relatedDish} serviceProps={serviceProps} />
           :
           false
         }

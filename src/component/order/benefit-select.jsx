@@ -1,11 +1,13 @@
 const React = require('react');
+const _find = require('lodash.find');
 const ActiveSelect = require('../mui/select/active-select.jsx');
-const benefitPropOption = require('./benefit-prop-option.jsx');
+const BenefitPropOption = require('./benefit-prop-option.jsx');
 module.exports = React.createClass({
   displayName: 'BenefitSelect',
   propTypes: {
     dish:React.PropTypes.object.isRequired,
     setAcvitityBenefit:React.PropTypes.func.isRequired,
+    serviceProps:React.PropTypes.object.isRequired,
   },
   componentDidMount() {
 
@@ -14,13 +16,20 @@ module.exports = React.createClass({
     console.log(1234);
   },
   buildBenefitDetail() {
-    const { dish, setAcvitityBenefit } = this.props;
+    const { dish, setAcvitityBenefit, serviceProps } = this.props;
+    const discountDish = _find(serviceProps.discountProps.discountList, discount => discount.dishId === dish.id);
     return (
       <div className="benefit-item">
         <ActiveSelect
           optionsData={dish.benefitOptions || dish.order[0].benefitOptions} onSelectOption={setAcvitityBenefit}
-          optionComponent={benefitPropOption}
+          optionComponent={BenefitPropOption}
         />
+        {discountDish ?
+          <BenefitPropOption priName={'会员价'} priId={'discount'} priType={'discount'} />
+          :
+          false
+        }
+        <BenefitPropOption priName={'不享受优惠'} priId={'noBenefit'} priType={'no-benefit'} />
       </div>
     );
   },
