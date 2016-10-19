@@ -30,7 +30,7 @@ module.exports = React.createClass({
         <div className="">
           <p className="title">该商品可参加一下优惠</p>
           {this.buildBenefitDetail()}
-          <button onTouchTap={this.onSelectBenefit()}>确定</button>
+          <button onTouchTap={() => this.onSelectBenefit()}>确定</button>
         </div>
       </div>
     );
