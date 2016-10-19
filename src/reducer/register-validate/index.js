@@ -2,7 +2,10 @@ import Immutable from 'seamless-immutable';
 
 const defaultState = Immutable.from({
   errorMessage: '',
-  loadInfo: '',
+  loadInfo: {
+    status: false,
+    word: '',
+  },
   timestamp: '',
 });
 

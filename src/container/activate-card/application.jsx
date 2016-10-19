@@ -6,6 +6,7 @@ const commonAction = require('../../action/common-action/common-action.js');
 const ActivateSuccess = require('../../component/activate-card/activate-success.jsx');
 const ActivateBound = require('../../component/activate-card/activate-bound.jsx');
 const ActivateValid = require('../../component/activate-card/activate-valid.jsx');
+const ActivateFaild = require('../../component/activate-card/activate-faild.jsx');
 
 require('../../asset/style/style.scss');
 require('./application.scss');
@@ -38,6 +39,8 @@ const ActivateCardApplication = React.createClass({
       showSection = <ActivateBound />;
     } else if (childView === '#activate-valid') {
       showSection = <ActivateValid />;
+    } else if (childView === '#activate-faild') {
+      showSection = <ActivateFaild />;
     } else {
       showSection = <ActivateSuccess />;
     }

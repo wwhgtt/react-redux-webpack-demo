@@ -16,7 +16,7 @@ const returnUrl = getUrlParam('returnUrl');
 const shopId = getUrlParam('shopId');
 
 const ActivateValidateApplication = React.createClass({
-  displayName: 'RegisterValidateApplication',
+  displayName: 'ActivateValidateApplication',
   propTypes:{
     errorMessage: React.PropTypes.string,
     loadInfo: React.PropTypes.object,

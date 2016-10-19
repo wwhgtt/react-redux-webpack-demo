@@ -6,7 +6,7 @@ module.exports = {
       vip: false, // 表示这个手机号是不是会员
     },
     time: 1472436273622,
-    code: '200',
+    code: '11005',
     msg: 'd',
   },
 };
