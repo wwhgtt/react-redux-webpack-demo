@@ -14,6 +14,7 @@ module.exports = React.createClass({
     onOrderBtnTap: React.PropTypes.func.isRequired,
     onPropsBtnTap: React.PropTypes.func.isRequired,
     onImageBtnTap: React.PropTypes.func.isRequired,
+    marketList: React.PropTypes.object.isRequired,
   },
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
@@ -58,9 +59,16 @@ module.exports = React.createClass({
     }
     return dishData.name;
   },
+  disCountInfo(type, status, marketList, dishId) {
+    if (type !== 'zc' && status && marketList[dishId] && marketList[dishId].length !== 0) {
+      return (<span className="dish-item-discount">{marketList[dishId][0].ruleName}</span>);
+    }
+    return (<span className="dish-item-discount"></span>);
+  },
   render() {
-    const { dishData } = this.props;
+    const { dishData, marketList } = this.props;
     const orderBtn = this.buildOrderBtn(dishData);
+    const discountPart = this.disCountInfo('WM', true, marketList, dishData.id);
     return (
       <div className="dish-on-selling">
         {dishData.currRemainTotal !== 0 ?
@@ -73,6 +81,7 @@ module.exports = React.createClass({
 
             <div className="dish-item-content">
               <span className="dish-item-name ellipsis">{helper.generateDishNameWithUnit(dishData)}</span>
+              {discountPart}
               <span className="dish-item-price price">{dishData.marketPrice}</span>
               {orderBtn}
             </div>

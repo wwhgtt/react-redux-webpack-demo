@@ -48,7 +48,7 @@ module.exports = React.createClass({ // ShowBasicInfo
     return (
       <div className="basicInfoBg">
         <img className="basicInfoBg-img" src={realImage} alt="用户头像" title={info.name || ''} ref="logo" onError={() => this.imgError(info.sex)} />
-        <p className="basicInfoBg-name omit">
+        <p className="basicInfoBg-name ellipsis">
           {info.name || '不愿透露姓名的用户'} {info.mobile && info.name ? realSex : ''}
         </p>
         <div className="basicInfoBg-wave"></div>

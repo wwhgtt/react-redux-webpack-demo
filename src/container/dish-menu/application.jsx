@@ -9,6 +9,8 @@ const CartContainer = require('../../component/dish-menu/cart/cart-container.jsx
 const DishDetailContainer = require('../../component/dish-menu/detail/dish-detail-container.jsx');
 const DishDescPopup = require('../../component/dish-menu/detail/dish-desc-popup.jsx');
 const Toast = require('../../component/mui/toast.jsx');
+const AdsColumn = require('../../component/dish-menu/ads-column.jsx');
+const helper = require('../../helper/dish-hepler');
 
 const DishMenuApplication = React.createClass({
   displayName: 'DishMenuApplication',
@@ -24,6 +26,8 @@ const DishMenuApplication = React.createClass({
     removeAllOrders: React.PropTypes.func.isRequired,
     fetchOrderDiscountInfo:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
+    shopInfo:React.PropTypes.object.isRequired,
+    marketing:React.PropTypes.array,
     // MapedStatesToProps
     activeDishTypeId: React.PropTypes.number.isRequired,
     dishTypesData: React.PropTypes.array,
@@ -52,18 +56,21 @@ const DishMenuApplication = React.createClass({
   render() {
     // states
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, confirmOrder, takeawayServiceProps,
-            openTimeList, isAcceptTakeaway, errorMessage } = this.props;
+            openTimeList, isAcceptTakeaway, errorMessage, shopInfo, marketing } = this.props;
     // actions
     const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders, clearErrorMsg } = this.props;
+    const marketList = helper.formatMarket(marketing);
+    const marketListUpdate = helper.formatMarketUpdate(marketing);
     return (
       <div className="application">
+        <AdsColumn dishesData={dishesData} shopInfo={shopInfo} marketList={marketList} marketListUpdate={marketListUpdate} />
         <DishTypeScroller
           dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeId={activeDishTypeId}
           onDishTypeElementTap={activeDishType}
         />
         <DishScroller
           dishTypesData={dishTypesData} dishesData={dishesData}
-          activeDishTypeId={activeDishTypeId} onScroll={activeDishType}
+          activeDishTypeId={activeDishTypeId} onScroll={activeDishType} marketList={marketList}
           onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail} onImageBtnTap={showDishDesc}
         />
         <CartContainer
