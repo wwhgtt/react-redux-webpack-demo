@@ -7,8 +7,13 @@ const PhoneVerficationCode = require('../../component/mui/form/phone-verificatio
 const Toast = require('../../component/mui/toast.jsx');
 const Loading = require('../../component/mui/loading.jsx');
 
+const getUrlParam = require('../../helper/common-helper.js').getUrlParam;
+
 require('../../asset/style/style.scss');
 require('./application.scss');
+
+const returnUrl = getUrlParam('returnUrl');
+const shopId = getUrlParam('shopId');
 
 const ActivateValidateApplication = React.createClass({
   displayName: 'RegisterValidateApplication',
@@ -38,7 +43,7 @@ const ActivateValidateApplication = React.createClass({
 
   // 手机号可以正常注册
   handleSuccessMobile() {
-    // console.log('可以注册哟=======');
+    location.href = `http://${location.host}/member/register?shopId=${shopId}&returnUrl=${returnUrl}`;
   },
 
   // 手机号已和其他微信绑定

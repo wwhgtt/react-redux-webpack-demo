@@ -4,13 +4,10 @@ const createAction = require('redux-actions').createAction;
 const config = require('../../config');
 const helper = require('../../helper/common-helper.js');
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
-const setTimestamp = exports.setTimestamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
 const setLoadMsg = exports.setLoadMsg = createAction('SET_LOAD_MSG', loadinfo => loadinfo);
 const setUserInfo = createAction('SET_USER_INFO', userInfo => userInfo);
-const setPhoneCode = createAction('SET_PHONE_CODE', phoneCode => phoneCode);
 const shopId = helper.getUrlParam('shopId');
 const returnUrl = helper.getUrlParam('returnUrl');
-const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 const getFetchPostParam = require('../../helper/common-helper').getFetchPostParam;
 
 exports.getUserInfo = () => (dispatch, getStates) => {
@@ -32,7 +29,7 @@ exports.getUserInfo = () => (dispatch, getStates) => {
   });
 };
 
-const register = exports.saveRegisterMember = (info) => (dispatch, getStates) => {
+exports.saveRegisterMember = (info) => (dispatch, getStates) => {
   dispatch(setLoadMsg({ status: true, word: '注册中，请稍后……' }));
   const registerURL = `${config.registerAPI}?shopId=${shopId}`;
 
@@ -69,53 +66,6 @@ const register = exports.saveRegisterMember = (info) => (dispatch, getStates) =>
     } else {
       dispatch(setLoadMsg({ status:false, word: '' }));
       dispatch(setErrorMsg(res.msg));
-    }
-  });
-};
-
-exports.sendCode = phoneNum => (dispatch, getStates) => {
-  const codeObj = Object.assign({}, { shopId, mobile: phoneNum, timestamp: new Date().getTime() });
-  const paramStr = getSendCodeParamStr(codeObj);
-  const sendCodeURl = `${config.sendCodeAPI}?${paramStr}`;
-  fetch(sendCodeURl, config.requestOptions).
-  then(res => {
-    if (!res.ok) {
-      dispatch(setErrorMsg('验证码发送失败'));
-    }
-    return res.json();
-  }).
-  then(res => {
-    if (res.code === '200') {
-      dispatch(setErrorMsg('验证码发送成功注意查收'));
-      dispatch(setTimestamp(res.data.timeStamp));
-    } else {
-      dispatch(setErrorMsg(res.msg));
-    }
-  });
-};
-
-exports.checkCode = (phoneInfo, userInfo) => (dispatch, getStates) => {
-  dispatch(setLoadMsg({ status: true, word: '验证中……' }));
-  const timestamp = getStates().timestamp || '';
-  const checkCodeURL = `${config.checkCodeAvaliableAPI}?shopId=${shopId}&mobile=${phoneInfo.phoneNum}&code=${phoneInfo.code}&timeStamp=${timestamp}`;
-
-  fetch(checkCodeURL, config.requestOptions).
-  then(res => {
-    if (!res.ok) {
-      dispatch(setErrorMsg('手机验证失败'));
-      dispatch(setLoadMsg({ status:false, word: '' }));
-      dispatch(setPhoneCode(''));
-    }
-    return res.json();
-  }).then(res => {
-    if (res.code === '200') {
-      dispatch(setLoadMsg({ status:false, word: '' }));
-      dispatch(setPhoneCode(phoneInfo.code));
-      dispatch(register(userInfo));
-    } else {
-      dispatch(setErrorMsg(res.msg));
-      dispatch(setLoadMsg({ status:false, word: '' }));
-      dispatch(setPhoneCode(''));
     }
   });
 };
