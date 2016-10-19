@@ -1,4 +1,5 @@
 const React = require('react');
+const _find = require('lodash.find');
 module.exports = React.createClass({
   displayName: 'BenefitOptions',
   propTypes: {
@@ -12,13 +13,14 @@ module.exports = React.createClass({
   },
   render() {
     const { benefitProps } = this.props;
+    let chosenBenefit = _find(benefitProps, prop => prop.isChecked);
     return (
       <div className="options">
         <div className="">
           {benefitProps ?
             <div className="benefit-prop">
               <span>优惠</span>
-              <span>{benefitProps.filter(prop => prop.isChecked).priName || '不享受优惠'}</span>
+              <span>{chosenBenefit ? chosenBenefit.priName : '不享受优惠'}</span>
             </div>
             :
             false

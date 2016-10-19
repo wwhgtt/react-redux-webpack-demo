@@ -413,7 +413,7 @@ module.exports = function (
         }
         return state;
       }
-      return state;
+      return state.setIn(['orderedDishesProps', 'dishes'], helper.filterChosenDish(state.orderedDishesProps.dishes, payload));
     case 'SET_ADDRESS_INFO_TO_ORDER':
       return state.setIn(
         ['customerProps', 'addresses'],

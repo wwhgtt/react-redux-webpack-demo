@@ -806,3 +806,21 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
   }
   return { success: true, params, needPayPrice };
 };
+
+exports.filterChosenDish = (dishes, benefitProp) => {
+  const newDishes = dishes.asMutable({ deep: true });
+  newDishes.filter(function (dish) {
+    if (dish.benefitOptions) {
+      return dish;
+    } else if (dish.order[0] && dish.order[0].benefitOptions) {
+      return dish;
+    }
+    return false;
+  }).map(dish => {
+    (dish.benefitOptions || dish.order[0].benefitOptions).forEach(benefit => {
+      if (benefit.priId === benefitProp.priId) { benefit.isChecked = true; }
+    });
+    return dish;
+  });
+  return newDishes;
+};
