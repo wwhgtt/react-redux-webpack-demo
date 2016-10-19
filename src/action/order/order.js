@@ -296,7 +296,10 @@ exports.fetchAcvitityBenefit = () => (dispatch, getState) => {
     return dishInfo.push(JSON.stringify(dishDetailObject));
   });
   console.log(dishInfo);
-  fetch(`${config.orderedDishBenefitAPI}?shopId=${shopId}&dishInfo=${dishInfo}`, config.requestOptions)
+  fetch(
+    `${config.orderedDishBenefitAPI}?shopId=${shopId}&orderAmount=${getDishesPrice(lastOrderedDishes.dishes)}&dishInfo=${dishInfo}`,
+    config.requestOptions
+  )
     .then(res => {
       if (!res.ok) {
         dispatch(setErrorMsg('提交订单信息失败'));

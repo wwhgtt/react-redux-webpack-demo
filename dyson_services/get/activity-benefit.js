@@ -9,12 +9,20 @@ module.exports = {
             {
               priId: 2583, // 优惠ID
               priName: '满2件减5元', // 优惠名称
-              priType: 2, // 优惠类型（1单商品营销方案2礼品券）
+              priType: 1, // 优惠类型（1单商品营销方案2礼品券）
+              type:1, // 规则类型 1立减 ，2折扣
+              dishNum:2, // 满减份数
+              reduce:5, // 减免金额
+              discount: 5, // 折扣
             },
             {
               priId: 2581,
-              priName: '满100送鸡蛋汤',
-              priType: 1,
+              priName: '满100赠送',
+              priType: 2,
+              type:null, // 规则类型 1立减 ，2折扣
+              dishNum:3, // 满减份数
+              reduce:null, // 减免金额
+              discount: null, // 折扣
             },
           ],
         },
@@ -22,14 +30,22 @@ module.exports = {
           dishId: 599399,
           dishPriInfo: [
             {
-              priId: 2584,
-              priName: '满2件减5元',
-              priType: 2,
+              priId: 2584, // 优惠ID
+              priName: '满2件减5元', // 优惠名称
+              priType: 1, // 优惠类型（1单商品营销方案2礼品券）
+              type:1, // 规则类型 1立减 ，2折扣
+              dishNum:2, // 满减份数
+              reduce:5, // 减免金额
+              discount: 5, // 折扣
             },
             {
-              priId: 2582,
-              priName: '满100送鸡蛋汤',
-              priType: 1,
+              priId: 2585,
+              priName: '满100赠送',
+              priType: 2,
+              type:null, // 规则类型 1立减 ，2折扣
+              dishNum:3, // 满减份数
+              reduce:null, // 减免金额
+              discount: null, // 折扣
             },
           ],
         },
