@@ -2,18 +2,28 @@ const React = require('react');
 const _find = require('lodash.find');
 const ActiveSelect = require('../mui/select/active-select.jsx');
 const BenefitPropOption = require('./benefit-prop-option.jsx');
+const BenefitPropOptionDuplicate = require('./benefit-prop-option-duplicate.jsx');
 module.exports = React.createClass({
   displayName: 'BenefitSelect',
   propTypes: {
     dish:React.PropTypes.object.isRequired,
     setAcvitityBenefit:React.PropTypes.func.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
+    onSelectBenefit:React.PropTypes.func.isRequired,
   },
   componentDidMount() {
 
   },
   onSelectBenefit() {
-    console.log(1234);
+    const { onSelectBenefit } = this.props;
+    onSelectBenefit('closeWindow');
+  },
+  setAcvitityBenefit(evt, id) {
+    const option = {
+      id,
+      dish:this.props.dish,
+    };
+    this.props.setAcvitityBenefit(evt, option);
   },
   buildBenefitDetail() {
     const { dish, setAcvitityBenefit, serviceProps } = this.props;
@@ -25,11 +35,11 @@ module.exports = React.createClass({
           optionComponent={BenefitPropOption}
         />
         {discountDish ?
-          <BenefitPropOption priName={'会员价'} priId={'discount'} priType={'discount'} />
+          <BenefitPropOptionDuplicate priName={'会员价'} setAcvitityBenefit={(evt) => this.setAcvitityBenefit(evt, 'discount')} />
           :
           false
         }
-        <BenefitPropOption priName={'不享受优惠'} priId={'noBenefit'} priType={'no-benefit'} />
+        <BenefitPropOptionDuplicate priName={'不享受优惠'} setAcvitityBenefit={(evt) => this.setAcvitityBenefit(evt, 'noBenefit')} />
       </div>
     );
   },

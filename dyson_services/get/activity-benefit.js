@@ -19,7 +19,7 @@ module.exports = {
           ],
         },
         {
-          dishId: 601453,
+          dishId: 599399,
           dishPriInfo: [
             {
               priId: 2584,

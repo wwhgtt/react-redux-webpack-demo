@@ -26,7 +26,7 @@ const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_
 const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
 const setBenefitOptions = createAction('SET_BENEFIT_OPTIONS', options => options);
 exports.onSelectBenefit = createAction('ON_SELECT_BENEFIT', option => option);
-exports.setAcvitityBenefit = createAction('SET_ACVITITY_BENEFIT', prop => prop);
+const setAcvitityBenefit = createAction('SET_ACVITITY_BENEFIT', prop => prop);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 
@@ -412,4 +412,7 @@ exports.checkCodeAvaliable = (data, note, receipt) => (dispatch, getState) => {
   .catch(err => {
     console.log(err);
   });
+};
+exports.setAcvitityBenefit = (evt, option) => (dispatch, getState) => {
+  dispatch(setAcvitityBenefit(option));
 };

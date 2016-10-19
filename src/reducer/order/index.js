@@ -396,6 +396,24 @@ module.exports = function (
         );
       }
       break;
+    case 'SET_ACVITITY_BENEFIT':
+      if (payload.id === 'discount') {
+        return state;
+      } else if (payload.id === 'noBenefit') {
+        const discountDish = _find(state.serviceProps.discountProps.discountList, discount => discount.dishId === payload.dish.id);
+        if (discountDish) {
+          return state.updateIn(
+            ['orderedDishesProps', 'dishes'],
+            dishes => dishes.flatMap(
+                dish => dish.set(
+                  'noUseDiscount', dish.noUseDiscount ? true : dish.id === discountDish.dishId
+                )
+            )
+          );
+        }
+        return state;
+      }
+      return state;
     case 'SET_ADDRESS_INFO_TO_ORDER':
       return state.setIn(
         ['customerProps', 'addresses'],
@@ -423,6 +441,16 @@ module.exports = function (
         })),
       });
     case 'ON_SELECT_BENEFIT':
+      if (payload === 'closeWindow') {
+        return state
+          .set('isBenefitSelectWindowShow', !state.isBenefitSelectWindowShow)
+          .setIn(
+            ['serviceProps', 'discountProps', 'inUseDiscount'],
+            helper.countMemberPrice(
+              true, state.orderedDishesProps.dishes, state.serviceProps.discountProps.discountList, state.serviceProps.discountProps.discountType
+            )
+          );
+      }
       return state.set('isBenefitSelectWindowShow', !state.isBenefitSelectWindowShow)
         .setIn(['serviceProps', 'acvitityBenefit', 'relatedDish'], _find(state.orderedDishesProps.dishes, dish => dish.id === payload));
     case 'SET_SEND_AREA_ID':

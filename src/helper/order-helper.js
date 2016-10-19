@@ -243,7 +243,7 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, discountL
   if (discountType === 1) {
     discountList.forEach(
       dishcount => {
-        newOrderedDishes.forEach(
+        newOrderedDishes.filter(dish => !dish.noUseDiscount).forEach(
           orderedDish => {
             if (orderedDish.id === dishcount.dishId) {
               disCountPriceList.push(
@@ -258,7 +258,7 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, discountL
     // 表示会员价格
     discountList.forEach(
       dishcount => {
-        newOrderedDishes.forEach(
+        newOrderedDishes.filter(dish => !dish.noUseDiscount).forEach(
           orderedDish => {
             if (orderedDish.id === dishcount.dishId) {
               disCountPriceList.push(
