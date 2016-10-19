@@ -36,6 +36,7 @@ const RegisterMemberApplication = React.createClass({
       password: '',
       userSex: '-1',
       userName: '',
+      userMobile: '',
     };
   },
 
@@ -48,6 +49,7 @@ const RegisterMemberApplication = React.createClass({
     const { userInfo, errorMessage } = nextProps;
     this.setState({
       errorMSG: errorMessage,
+      userMobile: userInfo.mobile,
     });
     if (this._isPropsFirstLoad) {
       return;
@@ -130,7 +132,7 @@ const RegisterMemberApplication = React.createClass({
 
   render() {
     const { userInfo, loadInfo } = this.props;
-    const { birthDay, userSex, userName, password, errorMSG } = this.state;
+    const { birthDay, userSex, userName, password, errorMSG, userMobile } = this.state;
     // const regEmpty = /\S/; // 非空验证规则
     const regCode = /\d{6}/; // 6位数字验证规则
 
@@ -140,11 +142,11 @@ const RegisterMemberApplication = React.createClass({
       { regMsg: '请输入6位密码', reg: regCode },
     ];
     const currentY = new Date().getFullYear();
-    let userMobile = '';
+    let phonNum = '';
     if (mobile) {
-      userMobile = mobile;
+      phonNum = mobile;
     } else {
-      userMobile = userInfo.mobile;
+      phonNum = userMobile;
     }
     return (
       <div className="application">
@@ -157,7 +159,7 @@ const RegisterMemberApplication = React.createClass({
               <div className="options-group">
                 <div className="option">
                   <span className="option-title">手机号</span>
-                  <input type="text" disabled ref="userMobile" className={'option-input register-input'} defaultValue={userMobile} />
+                  <input type="text" disabled ref="userMobile" className={'option-input register-input'} value={phonNum} />
                 </div>
               </div>
 
