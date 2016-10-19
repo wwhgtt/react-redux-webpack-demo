@@ -1,4 +1,7 @@
 const React = require('react');
+const getUrlParam = require('../../helper/common-helper.js').getUrlParam;
+
+const shopId = getUrlParam('shopId');
 
 const ActivateValidApplication = React.createClass({
   displayName: 'ActivateValidApplication',
@@ -18,7 +21,7 @@ const ActivateValidApplication = React.createClass({
         </div>
         <div className="activate-operate">
           <a className="btn--yellow">去激活</a>
-          <a className="btn--yellow">使用其他手机号激活</a>
+          <a className="btn--yellow" href={`http://${location.host}/activate-validate.html?shopId=${shopId}`}>使用其他手机号激活</a>
         </div>
       </div>
     );
