@@ -10,6 +10,9 @@ module.exports = React.createClass({
   componentDidMount() {
 
   },
+  onSelectBenefit() {
+    console.log(1234);
+  },
   buildBenefitDetail() {
     const { dish, setAcvitityBenefit } = this.props;
     return (

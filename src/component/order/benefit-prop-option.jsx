@@ -7,15 +7,14 @@ module.exports = React.createClass({
   displayName: 'BenefitPropOption',
   propTypes: {
     priName: React.PropTypes.string.isRequired,
-    id:React.PropTypes.string.isRequired,
   },
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
   },
   render() {
-    const { priName, id, ...otherProps } = this.props;
+    const { priName, ...otherProps } = this.props;
     return (
-      <div className="option" key={id}>
+      <div className="option">
         <span className="option-title">{priName}</span>
         <DynamicClassLink className={classnames('option-btn')} {...otherProps} />
       </div>

@@ -6,9 +6,6 @@ module.exports = React.createClass({
     onSelectBenefit:React.PropTypes.func.isRequired,
     dish:React.PropTypes.object.isRequired,
   },
-  componentDidMount() {
-
-  },
   onSelectBenefit() {
     const { onSelectBenefit, dish } = this.props;
     onSelectBenefit(dish.id);
@@ -26,7 +23,7 @@ module.exports = React.createClass({
             :
             false
           }
-          <button onTouchTap={evt => this.onSelectBenefit(evt)}>切换优惠</button>
+          <button onTouchTap={this.onSelectBenefit}>切换优惠</button>
         </div>
       </div>
     );

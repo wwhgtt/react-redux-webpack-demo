@@ -424,6 +424,7 @@ exports.addBenefitTodish = (benefitProps, dish) => {
   let orderedDish = dish.asMutable({ deep: true });
   benefitProps.dishPriList.map(benefit => {
     if (benefit.dishId === orderedDish.id) {
+      benefit.dishPriInfo.forEach(info => info.id = info.priId);
       if (orderedDish.order instanceof Array) {
         orderedDish.order[0].benefitOptions = benefit.dishPriInfo;
       } else {

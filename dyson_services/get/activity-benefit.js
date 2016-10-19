@@ -10,13 +10,11 @@ module.exports = {
               priId: 2583, // 优惠ID
               priName: '满2件减5元', // 优惠名称
               priType: 2, // 优惠类型（1单商品营销方案2礼品券）
-              priAmount: 5.0, // 优惠后金额
             },
             {
               priId: 2581,
               priName: '满100送鸡蛋汤',
               priType: 1,
-              priAmount: 0,
             },
           ],
         },
@@ -27,13 +25,11 @@ module.exports = {
               priId: 2584,
               priName: '满2件减5元',
               priType: 2,
-              priAmount: 5.0,
             },
             {
               priId: 2582,
               priName: '满100送鸡蛋汤',
               priType: 1,
-              priAmount: 0,
             },
           ],
         },
