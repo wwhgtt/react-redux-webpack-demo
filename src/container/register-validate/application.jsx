@@ -43,7 +43,8 @@ const RegisterValidateApplication = React.createClass({
 
   // 手机号可以正常注册
   handleSuccessMobile() {
-    location.href = `http://${location.host}/member/register?shopId=${shopId}&returnUrl=${returnUrl}`;
+    const phoneInfo = this.refs.verificationCode.getInputInfo();
+    location.href = `http://${location.host}/member/register?shopId=${shopId}&mobile=${phoneInfo.data.phoneNum}&returnUrl=${returnUrl}`;
   },
 
   // 手机号已和其他微信绑定

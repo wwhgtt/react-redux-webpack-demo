@@ -36,7 +36,6 @@ const RegisterMemberApplication = React.createClass({
       password: '',
       userSex: '-1',
       userName: '',
-      userMobile: '',
     };
   },
 
@@ -49,7 +48,6 @@ const RegisterMemberApplication = React.createClass({
     const { userInfo, errorMessage } = nextProps;
     this.setState({
       errorMSG: errorMessage,
-      userMobile: userInfo.mobile,
     });
     if (this._isPropsFirstLoad) {
       return;
@@ -102,7 +100,6 @@ const RegisterMemberApplication = React.createClass({
       userName,
     } = this.state;
     const userNameValid = replaceEmojiWith(userName.trim());
-    const userMobile = this.refs.userMobile.value;
     if (!userNameValid) {
       this.setState({ errorMSG: '请填写姓名' });
     } else if (!(userSex === '0' || userSex === '1')) {
@@ -117,7 +114,7 @@ const RegisterMemberApplication = React.createClass({
       const registerInfo = {
         name: userNameValid,
         birth: birthDay,
-        mobile: userMobile,
+        mobile: this.phonNum,
         sex: userSex,
         pwd: password,
       };
@@ -142,11 +139,11 @@ const RegisterMemberApplication = React.createClass({
       { regMsg: '请输入6位密码', reg: regCode },
     ];
     const currentY = new Date().getFullYear();
-    let phonNum = '';
+
     if (mobile) {
-      phonNum = mobile;
+      this.phonNum = mobile;
     } else {
-      phonNum = userMobile;
+      this.phonNum = userMobile;
     }
     return (
       <div className="application">
@@ -159,7 +156,7 @@ const RegisterMemberApplication = React.createClass({
               <div className="options-group">
                 <div className="option">
                   <span className="option-title">手机号</span>
-                  <input type="text" disabled ref="userMobile" className={'option-input register-input'} value={phonNum} />
+                  <span className={'option-input register-input'}>{this.phonNum}</span>
                 </div>
               </div>
 
