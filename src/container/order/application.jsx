@@ -51,6 +51,7 @@ const OrderApplication = React.createClass({
     fetchVericationCode:React.PropTypes.func.isRequired,
     fetchAcvitityBenefit:React.PropTypes.func.isRequired,
     onSelectBenefit:React.PropTypes.func.isRequired,
+    setAcvitityBenefit:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     customerAddressListInfo:React.PropTypes.object,
@@ -341,6 +342,7 @@ const OrderApplication = React.createClass({
       setCustomerToShopAddress,
       shuoldPhoneValidateShow,
       isBenefitSelectWindowShow,
+      setAcvitityBenefit,
     } = this.props; // state
     const { setOrderProps, fetchUserAddressListInfo, setChildView } = this.props;// actions
     const type = getUrlParam('type');
@@ -543,7 +545,7 @@ const OrderApplication = React.createClass({
         }
 
         {isBenefitSelectWindowShow ?
-          <BenefitSelect benefitProps={'2222'} onSelectBenefit={'2222'} dish={'2222'} />
+          <BenefitSelect setAcvitityBenefit={setAcvitityBenefit} dish={serviceProps.acvitityBenefit.relatedDish} />
           :
           false
         }

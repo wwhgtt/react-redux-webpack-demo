@@ -6,7 +6,7 @@ require('../../component/dish-menu/cart/cart-ordered-dish.scss');
 require('./ordered-dish.scss');
 
 module.exports = React.createClass({
-  displayName: 'CartOrderedDish',
+  displayName: 'OrderedDish',
   propTypes:{
     dish: React.PropTypes.object.isRequired,
     orderStatus:React.PropTypes.string,
@@ -81,12 +81,12 @@ module.exports = React.createClass({
     const { onSelectBenefit } = this.props;
     if (dish.order instanceof Array) {
       if (dish.order[0].benefitOptions) {
-        return <BenefitOptions benefitProps={dish.order[0].benefitOptions} onSelectBenefit={onSelectBenefit} />;
+        return <BenefitOptions benefitProps={dish.order[0].benefitOptions} onSelectBenefit={onSelectBenefit} dish={dish} />;
       }
       return false;
     }
     return dish.benefitOptions ?
-      <BenefitOptions benefitProps={dish.benefitOptions} onSelectBenefit={onSelectBenefit} />
+      <BenefitOptions benefitProps={dish.benefitOptions} onSelectBenefit={onSelectBenefit} dish={dish} />
       :
       false;
   },

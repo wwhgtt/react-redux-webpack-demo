@@ -5,18 +5,17 @@ module.exports = React.createClass({
   displayName: 'BenefitSelect',
   propTypes: {
     dish:React.PropTypes.object.isRequired,
-    benefitProps:React.PropTypes.array.isRequired,
-    onSelectBenefit:React.PropTypes.func.isRequired,
+    setAcvitityBenefit:React.PropTypes.func.isRequired,
   },
   componentDidMount() {
 
   },
   buildBenefitDetail() {
-    const { benefitProps, onSelectBenefit } = this.props;
+    const { dish, setAcvitityBenefit } = this.props;
     return (
       <div className="benefit-item">
         <ActiveSelect
-          optionsData={benefitProps} onSelectOption={onSelectBenefit}
+          optionsData={dish.benefitOptions || dish.order[0].benefitOptions} onSelectOption={setAcvitityBenefit}
           optionComponent={benefitPropOption}
         />
       </div>

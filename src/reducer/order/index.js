@@ -26,7 +26,9 @@ module.exports = function (
         discountType:'',
         inUseDiscount:null,
       },
-      acvitityBenefit:null,
+      acvitityBenefit:{
+        relatedDish:null,
+      },
     },
     tableProps:{
       isEditable:true,
@@ -421,7 +423,8 @@ module.exports = function (
         })),
       });
     case 'ON_SELECT_BENEFIT':
-      return state.set('isBenefitSelectWindowShow', !state.isBenefitSelectWindowShow);
+      return state.set('isBenefitSelectWindowShow', !state.isBenefitSelectWindowShow)
+        .setIn(['serviceProps', 'acvitityBenefit', 'relatedDish'], _find(state.orderedDishesProps.dishes, dish => dish.id === payload));
     case 'SET_SEND_AREA_ID':
       if (!payload || payload === 0) {
         // 表示到店取餐的情况

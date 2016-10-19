@@ -25,7 +25,8 @@ const setOrderTimeProps = createAction('SET_ORDER_TIME_PROPS', timeJson => timeJ
 const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
 const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
 const setBenefitOptions = createAction('SET_BENEFIT_OPTIONS', options => options);
-exports.onSelectBenefit = createAction('ON_SELECT_BENEFIT');
+exports.onSelectBenefit = createAction('ON_SELECT_BENEFIT', option => option);
+exports.setAcvitityBenefit = createAction('SET_ACVITITY_BENEFIT', prop => prop);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 
