@@ -7,15 +7,18 @@ module.exports = React.createClass({
   displayName: 'BenefitPropOption',
   propTypes: {
     priName: React.PropTypes.string.isRequired,
+    priId:React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]).isRequired,
+    priType:React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]).isRequired,
   },
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
   },
   render() {
-    const { priName, ...otherProps } = this.props;
+    const { priName, priId, priType, ...otherProps } = this.props;
     return (
       <div className="option">
         <span className="option-title">{priName}</span>
+        <span style={{ display:'none' }}>{priId}{priType}</span>
         <DynamicClassLink className={classnames('option-btn')} {...otherProps} />
       </div>
     );
