@@ -18,7 +18,7 @@ const shopId = commonHelper.getUrlParam('shopId');
 // 发送验证码参数
 const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 
-
+// 发送验证码
 exports.sendCode = phoneNum => (dispatch, getStates) => {
   const codeObj = Object.assign({}, { shopId, mobile: phoneNum, timestamp: new Date().getTime() });
   const paramStr = getSendCodeParamStr(codeObj);
@@ -40,12 +40,14 @@ exports.sendCode = phoneNum => (dispatch, getStates) => {
   });
 };
 
-exports.checkCode = (phoneInfo, userInfo) => (dispatch, getStates) => {
+// 校验手机绑定验证码
+exports.checkBindCode = (phoneInfo, vipCallBack, successCallBack, boundCallBack) => (dispatch, getStates) => {
   dispatch(setLoadMsg({ status: true, word: '验证中……' }));
   const timestamp = getStates().timestamp || new Date().getTime();
-  const checkCodeURL = `${config.checkCodeAvaliableAPI}?shopId=${shopId}&mobile=${phoneInfo.phoneNum}&code=${phoneInfo.code}&timeStamp=${timestamp}`;
+  const validBindMobileURL =
+  `${config.validBindMobileAPI}?shopId=${shopId}&mobile=${phoneInfo.phoneNum}&code=${phoneInfo.code}&timeStamp=${timestamp}`;
 
-  fetch(checkCodeURL, config.requestOptions).
+  fetch(validBindMobileURL, config.requestOptions).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('手机验证失败'));
@@ -54,6 +56,17 @@ exports.checkCode = (phoneInfo, userInfo) => (dispatch, getStates) => {
     return res.json();
   }).then(res => {
     if (res.code === '200') {
+      if (res.data.vip) {
+        // 是会员，到成功激活页面
+        vipCallBack();
+      } else {
+        // 验证成功
+        successCallBack();
+      }
+      dispatch(setLoadMsg({ status:false, word: '' }));
+    } else if (res.code === '11005') {
+      // 该手机已于其他微信号绑定
+      boundCallBack();
       dispatch(setLoadMsg({ status:false, word: '' }));
     } else {
       dispatch(setErrorMsg(res.msg));

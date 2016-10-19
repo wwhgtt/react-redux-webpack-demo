@@ -108,5 +108,6 @@ module.exports = {
   getWXAuthInfoAPI: `${apiBase}/weixinapi/jsApiTicket.json`,
   getTableIdFromQRCodeAPI: `${apiBase}/orderall/tableExt.json`,
   getMainOrderAPI: `${apiBase}/orderall/getMainOrder.json`,
+  validBindMobileAPI: `${apiBase}/user/validBindMobile.json`, // 绑定手机验证码校验：是否会员/是否和其他微信绑定
   requestOptions,
 };
