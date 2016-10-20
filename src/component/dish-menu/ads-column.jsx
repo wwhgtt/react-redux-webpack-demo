@@ -45,8 +45,8 @@ const AdsColumn = React.createClass({
     this.setState({ allDiscount : false });
   },
   scrollPartFuc() {
-    const { dishesData, marketListUpdate } = this.props;
-    const formatDishesData = helper.formatDishesData(dishesData);
+    const { marketListUpdate, shopInfo } = this.props;
+    const formatDishesData = shopInfo.formatDishesData;
     const scrollAll = marketListUpdate.map((item, index) => {
       let vip = '';
       if (item.rule.customerType === 1) {

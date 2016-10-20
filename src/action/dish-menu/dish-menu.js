@@ -37,6 +37,12 @@ exports.fetchMenuData = () => (dispatch, getStates) =>
       return res.json();
     }).
     then(menuData => {
+      window.formatDishesData =
+        helper.formatDishesData(
+          helper.setDishPropertyTypeInfos(
+            helper.restoreDishesLocalStorage(menuData.data).dishList
+          )
+        );
       dispatch(setMenuData(helper.restoreDishesLocalStorage(menuData.data)));
     }).
     catch(err => {
