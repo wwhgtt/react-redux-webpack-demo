@@ -79,3 +79,27 @@ exports.checkBindCode = (phoneInfo, vipCallBack, successCallBack, boundCallBack)
     }
   });
 };
+
+// 绑定手机
+exports.bindPhone = (phoneInfo, successCallBack) => (dispatch, getStates) => {
+  const phoneNum = phoneInfo.mobile;
+  const bindPhoneURL = `${config.bindPhoneAPI}?shopId=${shopId}&mobile=${phoneNum}`;
+
+  fetch(bindPhoneURL, config.requestOptions).
+  then(res => {
+    if (!res.ok) {
+      dispatch(setLoadMsg({ status: false, word: '' }));
+      dispatch(setErrorMsg('绑定手机失败'));
+    }
+    return res.json();
+  }).
+  then(res => {
+    if (res.code === '200') {
+      successCallBack();
+    } else {
+      dispatch(setLoadMsg({ status: false, word: '' }));
+      dispatch(setErrorMsg(res.msg));
+    }
+  });
+};
+

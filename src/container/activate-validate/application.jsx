@@ -70,9 +70,9 @@ const ActivateValidateApplication = React.createClass({
   render() {
     const { sendCode, errorMessage, loadInfo } = this.props;
     return (
-      <div className="register-validate">
+      <div className="phone-validate">
         <PhoneVerficationCode ref="verificationCode" onGetVerificationCode={sendCode} />
-        <a className="btn--yellow" onTouchTap={this.onValidMobile}>确定</a>
+        <a className="btn btn--yellow btn-validate" onTouchTap={this.onValidMobile}>确定</a>
         {
           errorMessage && <Toast errorMessage={errorMessage} clearErrorMsg={this.handleClearErrorMsg} />
         }
