@@ -7,18 +7,21 @@ module.exports = React.createClass({
   displayName: 'BenefitPropOption',
   propTypes: {
     priName: React.PropTypes.string.isRequired,
-    priId:React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]).isRequired,
-    priType:React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]).isRequired,
+    priId:React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+    priType:React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+    dishNum:React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+    reduce:React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+    discount:React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
   },
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
   },
   render() {
-    const { priName, priId, priType, ...otherProps } = this.props;
+    const { priName, priId, priType, dishNum, reduce, discount, ...otherProps } = this.props;
     return (
       <div className="option">
         <span className="option-title">{priName}</span>
-        <span style={{ display:'none' }}>{priId}{priType}</span>
+        <span style={{ display:'none' }}>{priId}{priType}{dishNum}{reduce}{discount}</span>
         <DynamicClassLink className={classnames('option-btn')} {...otherProps} />
       </div>
     );
