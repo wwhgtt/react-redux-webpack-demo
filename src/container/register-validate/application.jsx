@@ -2,6 +2,7 @@ const React = require('react');
 const commonAction = require('../../action/common-action/common-action.js');
 const connect = require('react-redux').connect;
 const bindActionCreators = require('redux').bindActionCreators;
+const config = require('../../config');
 
 const PhoneVerficationCode = require('../../component/mui/form/phone-verification-code.jsx');
 const Toast = require('../../component/mui/toast.jsx');
@@ -23,7 +24,7 @@ const RegisterValidateApplication = React.createClass({
     sendCode: React.PropTypes.func,
     setErrorMsg: React.PropTypes.func,
     checkBindCode: React.PropTypes.func,
-    bindWX: React.PropTypes.func,
+    bindPhone: React.PropTypes.func,
   },
 
   onValidMobile() {
@@ -49,8 +50,18 @@ const RegisterValidateApplication = React.createClass({
 
   // 手机号是会员
   hanleVipMobile() {
-    const phoneNum = this.getPhoneInfo().phoneNum;
-    location.href = `returnUrl&mobile=${phoneNum}`;
+    const phoneInfo = this.getPhoneInfo();
+    this.props.bindPhone(phoneInfo, this.handleSuccessBind);
+  },
+
+  handleSuccessBind() {
+    let displayUrl = '';
+    if (returnUrl) {
+      displayUrl = decodeURIComponent(returnUrl);
+    } else {
+      displayUrl = `${config.mineIndexURL}?shopId=${shopId}`;
+    }
+    location.href = displayUrl;
   },
 
   // 手机号可以正常注册

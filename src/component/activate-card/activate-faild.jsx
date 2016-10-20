@@ -18,7 +18,7 @@ const ActivateFaildApplication = React.createClass({
           <p className="activate-info-item">原因：{errorMsg}</p>
         </div>
         <div className="activate-operate">
-          <a className="btn--yellow" href={returnUrl}>重试</a>
+          <a className="btn--yellow" href={decodeURIComponent(returnUrl)}>重试</a>
         </div>
       </div>
     );
