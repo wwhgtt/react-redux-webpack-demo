@@ -509,9 +509,9 @@ exports.renderDay = (week) => {
       days = periDay[0];
 
       if (days.length > 1) {
-        strDay += `周${formateDay((dayIndex + 1))}到周${formateDay((dayIndex + days.length))},`;
+        strDay += `周${formateDay((dayIndex + 1))}到周${formateDay((dayIndex + days.length))}，`;
       } else {
-        strDay += `周${formateDay((dayIndex + 1))},`;
+        strDay += `周${formateDay((dayIndex + 1))}，`;
       }
     }
   }

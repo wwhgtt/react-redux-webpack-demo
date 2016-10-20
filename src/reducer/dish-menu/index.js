@@ -45,7 +45,6 @@ module.exports = function (
       .setIn(['dishesData'], helper.setDishPropertyTypeInfos(payload.dishList))
       .setIn(['activeDishTypeId'], getFirstValidDishTypeId(payload))
       .set('dishBoxChargeInfo', helper.getUrlParam('type') === 'WM' && payload.extraCharge ? payload.extraCharge : null)
-      .set('diningForm', payload.diningForm !== 0)
       .set('shopInfo', { commercialName:payload.commercialName, openTimeList:payload.openTimeList, diningForm:payload.diningForm !== 0 })
       .set('marketing', payload.marketing || [])
       .setIn(['openTimeList'], payload.openTimeList)

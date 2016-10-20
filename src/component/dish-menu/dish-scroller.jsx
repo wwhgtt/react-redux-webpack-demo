@@ -21,7 +21,8 @@ module.exports = React.createClass({
     onOrderBtnTap: React.PropTypes.func.isRequired,
     onPropsBtnTap: React.PropTypes.func.isRequired,
     onImageBtnTap: React.PropTypes.func.isRequired,
-    marketList: React.PropTypes.object.isRequired,
+    marketList: React.PropTypes.object,
+    diningForm: React.PropTypes.bool,
   },
   getInitialState() {
     return { distance:window.innerHeight - 84 };
@@ -32,7 +33,6 @@ module.exports = React.createClass({
   },
   componentDidMount() {
     const { onScroll } = this.props;
-    const type = 'WM';
     const cache = this._cache = {};
     const iScroll = cache.iScroll = new IScroll(findDOMNode(this), {
       click: true,
@@ -46,8 +46,9 @@ module.exports = React.createClass({
       }
     });
     iScroll.on('scrollEnd', () => {
+      const { diningForm } = this.props;
       let dishTypeId = '';
-      if (type !== 'zc') {
+      if (diningForm) {
         dishTypeId = this.findCurrentDishTypeId(iScroll.y - 34);
       } else {
         dishTypeId = this.findCurrentDishTypeId(iScroll.y);
@@ -159,6 +160,7 @@ module.exports = React.createClass({
                           onPropsBtnTap={onDishBtnTap}
                           onImageBtnTap={this.props.onImageBtnTap}
                           marketList={this.props.marketList}
+                          diningForm={this.props.diningForm}
                         />
                       :
                         <div className="dish-on-selling">

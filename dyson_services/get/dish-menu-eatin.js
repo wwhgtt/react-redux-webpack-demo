@@ -4,7 +4,7 @@ module.exports = {
   template: {
     "data": {
         "commercialName" : "小土豆石方菜菜成都市高新区天府天府大道软件园店E区",
-        "diningForm" : "0",
+        "diningForm" : 1,
         "marketing":[//优惠规则信息
             {
               dishId : 1295360,

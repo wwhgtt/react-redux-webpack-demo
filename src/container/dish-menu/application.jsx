@@ -63,13 +63,16 @@ const DishMenuApplication = React.createClass({
     const marketListUpdate = helper.formatMarketUpdate(marketing);
     return (
       <div className="application">
-        <AdsColumn dishesData={dishesData} shopInfo={shopInfo} marketList={marketList} marketListUpdate={marketListUpdate} />
+        <AdsColumn
+          dishesData={dishesData} shopInfo={shopInfo} marketList={marketList}
+          marketListUpdate={marketListUpdate}
+        />
         <DishTypeScroller
           dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeId={activeDishTypeId}
           onDishTypeElementTap={activeDishType}
         />
         <DishScroller
-          dishTypesData={dishTypesData} dishesData={dishesData}
+          dishTypesData={dishTypesData} dishesData={dishesData} diningForm={shopInfo.diningForm}
           activeDishTypeId={activeDishTypeId} onScroll={activeDishType} marketList={marketList}
           onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail} onImageBtnTap={showDishDesc}
         />

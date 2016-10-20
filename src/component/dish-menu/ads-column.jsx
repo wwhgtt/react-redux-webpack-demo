@@ -29,7 +29,7 @@ const AdsColumn = React.createClass({
           this.setState({ animation:{ transition:'all 0.2s' }, num:0 });
           return;
         }
-        const distanceClass = { top: '-28' * count + 'px' };
+        const distanceClass = { top: '-30' * count + 'px' };
         this.setState({ animation:distanceClass });
       });
     }, 3000);
@@ -61,7 +61,7 @@ const AdsColumn = React.createClass({
       return (
         <p className={classnames('shopdiscount-item', { jian: item.rule.type === 1, zhe: item.rule.type === 2 })} key={index}>
           {formatDishesData[item.dishId].name} {item.rule.ruleName}
-          （{vip} {openDay} {item.rule.periodStart}~{item.rule.periodEnd}）
+          （{vip} {openDay}{item.rule.periodStart}~{item.rule.periodEnd}，每单仅限{item.rule.dishNum}份）
         </p>
       );
     });
@@ -93,7 +93,7 @@ const AdsColumn = React.createClass({
         </div>
         <img src={filterBg} className="hide" alt="" />
         <div className="flex-none">
-          更多优惠
+          更多详情
           <i className="btn-arrow-right"></i>
         </div>
         {
