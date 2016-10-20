@@ -20,6 +20,17 @@ exports.getUrlParam = param => {
   }
   return null;
 };
+
+// 将多个url参数组成字符串
+exports.getUrlParams = paramObj => {
+  let paramStr = '';
+  for (let i in paramObj) {
+    paramStr += `${i}=${paramObj[i]}&`;
+  }
+  paramStr = paramStr.substring(0, paramStr.length - 1);
+  return paramStr;
+};
+
 // 设置cookie
 exports.setCookie = (name, value) => {
   const Days = 30;

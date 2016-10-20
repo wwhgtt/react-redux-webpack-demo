@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="246px" height="286px" viewBox="0 0 246 286" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 3</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="页4" transform="translate(-252.000000, -308.000000)">
+            <g id="Group-3" transform="translate(255.000000, 313.000000)">
+                <ellipse id="Oval-4" fill="#FFC334" cx="121" cy="268" rx="90" ry="10"></ellipse>
+                <circle id="Oval-3" stroke="#FFC334" stroke-width="6" fill="#FFFFFF" cx="120" cy="120" r="120"></circle>
+                <circle id="Oval-3" fill-opacity="0.2" fill="#FFC334" cx="120" cy="120" r="100"></circle>
+                <g id="Group" transform="translate(68.888889, 97.777778)" stroke="#FFC334" stroke-width="5" stroke-linecap="round">
+                    <path d="M0,0 L21.8098499,21.6971872" id="Line"></path>
+                    <path d="M22.1949854,0 L0,22.0803332" id="Line-Copy"></path>
+                </g>
+                <g id="Group-Copy" transform="translate(147.777778, 97.777778)" stroke="#FFC334" stroke-width="5" stroke-linecap="round">
+                    <path d="M0,0 L21.8098499,21.6971872" id="Line"></path>
+                    <path d="M22.1949854,0 L0,22.0803332" id="Line-Copy"></path>
+                </g>
+                <path d="M128.140076,125 L128.140076,125 C127.387672,121.814778 124.526202,119.444444 121.111111,119.444444 C117.69602,119.444444 114.834551,121.814778 114.082146,125" id="Combined-Shape" stroke="#FFC334" stroke-width="4" stroke-linecap="round"></path>
+            </g>
+        </g>
+    </g>
+</svg>

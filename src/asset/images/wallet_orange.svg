@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="315px" height="320px" viewBox="0 0 315 320" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 6</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M32,129 C32,115.192881 43.1882723,104 57.0018445,104 L246.025288,104 C259.833425,104 282.210733,104 294,104 L294,104 L294,154 L57.0029792,154 C43.1942151,154 32,142.810155 32,129 L32,129 Z" id="path-1"></path>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="262" height="50" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <rect id="path-3" x="0" y="0" width="219" height="141" rx="16"></rect>
+        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="219" height="141" fill="white">
+            <use xlink:href="#path-3"></use>
+        </mask>
+        <path d="M98,147 L98,318 L56.9988165,318 C43.1923514,318 32,306.811708 32,293.002301 L32,122 C32,135.810155 43.1942151,147 57.0029792,147 L98,147 Z" id="path-5"></path>
+        <mask id="mask-6" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="66" height="196" fill="white">
+            <use xlink:href="#path-5"></use>
+        </mask>
+        <polygon id="path-7" points="93 147 199.5 147 306 147 306 318 93 318"></polygon>
+        <mask id="mask-8" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="213" height="171" fill="white">
+            <use xlink:href="#path-7"></use>
+        </mask>
+        <polygon id="path-9" points="104 158 199.5 158 295 158 295 307 104 307"></polygon>
+        <mask id="mask-10" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="191" height="149" fill="white">
+            <use xlink:href="#path-9"></use>
+        </mask>
+        <path d="M247,232.5 C247,221.178163 256.170421,212 267.500592,212 L280,212 L313,212 L313,253 L267.498466,253 C256.177476,253 247,243.824327 247,232.5 L247,232.5 Z" id="path-11"></path>
+        <mask id="mask-12" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="66" height="41" fill="white">
+            <use xlink:href="#path-11"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="页1" transform="translate(-207.000000, -314.000000)">
+            <g id="Group-6" transform="translate(209.000000, 316.000000)">
+                <use id="Rectangle-Copy-4" stroke="#FFC334" mask="url(#mask-2)" stroke-width="10" fill="#FFE7AE" xlink:href="#path-1"></use>
+                <g id="Group-2" transform="translate(171.015621, 129.438456) rotate(-15.000000) translate(-171.015621, -129.438456) translate(61.515621, 58.938456)">
+                    <use id="Rectangle-Copy" stroke="#FFC334" mask="url(#mask-4)" stroke-width="10" fill="#FFFFFF" xlink:href="#path-3"></use>
+                    <rect id="Rectangle-2" fill-opacity="0.4" fill="#FFC334" x="18" y="18" width="93" height="15"></rect>
+                    <g id="Group" opacity="0.3" transform="translate(18.000000, 82.000000)">
+                        <rect id="Rectangle-2-Copy" fill="#F6A623" x="0" y="0" width="41.0687489" height="14.6360658"></rect>
+                        <rect id="Rectangle-2-Copy" fill="#FFC334" x="95.5087184" y="0" width="41.0687489" height="14.6360658"></rect>
+                        <rect id="Rectangle-2-Copy" fill="#F6A623" x="47.7543592" y="0" width="41.0687489" height="14.6360658"></rect>
+                        <rect id="Rectangle-2-Copy" fill="#FFC334" x="143.263078" y="0" width="41.0687489" height="14.6360658"></rect>
+                    </g>
+                    <g id="Group-Copy" opacity="0.3" transform="translate(18.000000, 107.000000)" fill="#F6A623">
+                        <rect id="Rectangle-2-Copy" x="0" y="0" width="41.0687489" height="14.6360658"></rect>
+                        <rect id="Rectangle-2-Copy" x="95.5087184" y="0" width="41.0687489" height="14.6360658"></rect>
+                        <rect id="Rectangle-2-Copy" x="47.7543592" y="0" width="41.0687489" height="14.6360658"></rect>
+                        <rect id="Rectangle-2-Copy" x="143.263078" y="0" width="41.0687489" height="14.6360658"></rect>
+                    </g>
+                </g>
+                <use id="Combined-Shape" stroke="#FFC334" mask="url(#mask-6)" stroke-width="10" fill="#FFFFFF" xlink:href="#path-5"></use>
+                <use id="Rectangle-Copy-3" stroke="#FFC334" mask="url(#mask-8)" stroke-width="10" fill="#FFFFFF" xlink:href="#path-7"></use>
+                <use id="Rectangle-Copy-3" stroke="#F6A623" mask="url(#mask-10)" stroke-width="4" stroke-linejoin="round" stroke-dasharray="8,4" opacity="0.5" xlink:href="#path-9"></use>
+                <use id="Rectangle-Copy-5" stroke="#FFC334" mask="url(#mask-12)" stroke-width="10" fill="#FFFFFF" xlink:href="#path-11"></use>
+                <circle id="Oval" stroke="#FFC334" stroke-width="2" fill="#FFFFFF" cx="267.5" cy="232.5" r="9.5"></circle>
+                <g id="Group-4" stroke="#FFC334" stroke-width="4">
+                    <g id="Group-3" transform="translate(20.000000, 75.000000)" stroke-linecap="round">
+                        <path d="M5,0.289473684 L5,10.7105263" id="Line"></path>
+                        <path d="M10,5.21052632 L0,5.21052632" id="Line-Copy"></path>
+                    </g>
+                    <g id="Group-3-Copy-2" transform="translate(117.000000, 0.000000)" stroke-linecap="round">
+                        <path d="M5,0.289473684 L5,10.7105263" id="Line"></path>
+                        <path d="M10,5.21052632 L0,5.21052632" id="Line-Copy"></path>
+                    </g>
+                    <g id="Group-3-Copy" transform="translate(275.000000, 22.000000)" stroke-linecap="round">
+                        <path d="M7,0.394736842 L7,14.6052632" id="Line"></path>
+                        <path d="M14,7.10526316 L0,7.10526316" id="Line-Copy"></path>
+                    </g>
+                    <circle id="Oval-Copy" cx="6" cy="105" r="6"></circle>
+                    <circle id="Oval-Copy-2" cx="300" cy="69" r="6"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
