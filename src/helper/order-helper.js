@@ -807,8 +807,9 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
   return { success: true, params, needPayPrice };
 };
 
-exports.filterChosenDish = (dishes, benefitProp) => {
+const filterChosenDish = exports.filterChosenDish = (dishes, benefitProp) => {
   const newDishes = dishes.asMutable({ deep: true });
+  console.log(benefitProp);
   newDishes.filter(function (dish) {
     if (dish.benefitOptions) {
       return dish;
@@ -818,9 +819,45 @@ exports.filterChosenDish = (dishes, benefitProp) => {
     return false;
   }).map(dish => {
     (dish.benefitOptions || dish.order[0].benefitOptions).forEach(benefit => {
-      if (benefit.priId === benefitProp.priId) { benefit.isChecked = true; }
+      if (benefit.priId === benefitProp.priId) {
+        benefit.isChecked = true;
+        if (benefitProp.type === 1) {
+          if (dish.benefitOptions) {
+            dish.acvitityBenefit = benefitProp.reduce;
+          } else {
+            dish.acvitityBenefit = parseFloat((benefitProp.reduce / dish.order.length).toFixed(2));
+            dish.order.forEach(order => {
+              order.acvitityBenefit = 0;
+            });
+          }
+        } else {
+          // 礼品券的情况
+          if (isSingleDishWithoutProps(dish)) {
+            dish.acvitityBenefit = dish.marketPrice * dish.order;
+          } else {
+            dish.acvitityBenefit = 0;
+            dish.order.forEach(order => {
+              order.acvitityBenefit = getOrderPrice(dish, order) >= dish.marketPrice ?
+                dish.marketPrice : getOrderPrice(dish, order);
+            });
+          }
+        }
+      }
     });
     return dish;
   });
   return newDishes;
+};
+exports.reorganizedAcvitityBenefit = (acvitityBenefit, dishes, benefitProp) => {
+  const newDishes = filterChosenDish(dishes, benefitProp); // newDishes此时是可编辑状态
+  const newAcvitityBenefit = acvitityBenefit.asMutable({ deep: true });
+  console.log(newAcvitityBenefit);
+  console.log(benefitProp);
+  if (benefitProp.type === 1) {
+    newAcvitityBenefit.benefitMoney += benefitProp.reduce;
+  }
+  return {
+    dishes:newDishes,
+    acvitityBenefit:newAcvitityBenefit,
+  };
 };

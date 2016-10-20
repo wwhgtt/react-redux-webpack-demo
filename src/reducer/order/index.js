@@ -28,6 +28,7 @@ module.exports = function (
       },
       acvitityBenefit:{
         relatedDish:null,
+        benefitMoney:0,
       },
     },
     tableProps:{
@@ -413,7 +414,23 @@ module.exports = function (
         }
         return state;
       }
-      return state.setIn(['orderedDishesProps', 'dishes'], helper.filterChosenDish(state.orderedDishesProps.dishes, payload));
+      return state
+        .setIn(
+          ['orderedDishesProps', 'dishes'],
+          helper.reorganizedAcvitityBenefit(
+            state.serviceProps.acvitityBenefit,
+            state.orderedDishesProps.dishes,
+            payload
+          ).dishes
+        )
+        .setIn(
+          ['serviceProps', 'acvitityBenefit'],
+          helper.reorganizedAcvitityBenefit(
+            state.serviceProps.acvitityBenefit,
+            state.orderedDishesProps.dishes,
+            payload
+          ).acvitityBenefit
+        );
     case 'SET_ADDRESS_INFO_TO_ORDER':
       return state.setIn(
         ['customerProps', 'addresses'],
