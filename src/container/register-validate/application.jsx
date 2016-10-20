@@ -23,28 +23,40 @@ const RegisterValidateApplication = React.createClass({
     sendCode: React.PropTypes.func,
     setErrorMsg: React.PropTypes.func,
     checkBindCode: React.PropTypes.func,
+    bindWX: React.PropTypes.func,
   },
 
   onValidMobile() {
     const phoneInfo = this.refs.verificationCode.getInputInfo();
     const { checkBindCode, setErrorMsg } = this.props;
+    const mobileInfo = {
+      mobile: phoneInfo.data.phoneNum,
+      code: phoneInfo.data.code,
+    };
+
     if (!phoneInfo.validation.valid) {
       setErrorMsg(phoneInfo.validation.msg);
       return;
     }
 
-    checkBindCode(phoneInfo.data, this.hanleVipMobile, this.handleSuccessMobile, this.handleBoundMobile);
+    checkBindCode(mobileInfo, this.hanleVipMobile, this.handleSuccessMobile, this.handleBoundMobile);
+  },
+
+  getPhoneInfo() {
+    const phoneInfo = this.refs.verificationCode.getInputInfo();
+    return phoneInfo.data;
   },
 
   // 手机号是会员
   hanleVipMobile() {
-    // console.log('是会员呀=======');
+    const phoneNum = this.getPhoneInfo().phoneNum;
+    location.href = `returnUrl&mobile=${phoneNum}`;
   },
 
   // 手机号可以正常注册
   handleSuccessMobile() {
-    const phoneInfo = this.refs.verificationCode.getInputInfo();
-    location.href = `http://${location.host}/member/register?shopId=${shopId}&mobile=${phoneInfo.data.phoneNum}&returnUrl=${returnUrl}`;
+    const phoneNum = this.getPhoneInfo().phoneNum;
+    location.href = `http://${location.host}/member/register?shopId=${shopId}&mobile=${phoneNum}&returnUrl=${returnUrl}`;
   },
 
   // 手机号已和其他微信绑定

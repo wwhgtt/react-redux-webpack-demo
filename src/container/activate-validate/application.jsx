@@ -28,27 +28,39 @@ const ActivateValidateApplication = React.createClass({
   onValidMobile() {
     const phoneInfo = this.refs.verificationCode.getInputInfo();
     const { checkBindCode, setErrorMsg } = this.props;
+    const userMobile = {
+      mobile: phoneInfo.data.phoneNum,
+      code: phoneInfo.data.code,
+      activation: 'memberCardActivate',
+    };
+
     if (!phoneInfo.validation.valid) {
       setErrorMsg(phoneInfo.validation.msg);
       return;
     }
 
-    checkBindCode(phoneInfo.data, this.hanleVipMobile, this.handleSuccessMobile, this.handleBoundMobile);
+    checkBindCode(userMobile, this.hanleVipMobile, this.handleSuccessMobile, this.handleBoundMobile);
+  },
+
+  getPhoneInfo() {
+    const phoneInfo = this.refs.verificationCode.getInputInfo();
+    return phoneInfo.data;
   },
 
   // 手机号是会员
   hanleVipMobile() {
-    // console.log('是会员呀=======');
+    const phoneNum = this.getPhoneInfo().phoneNum;
+    location.href = `${returnUrl}&mobile=${phoneNum}`;
   },
 
   // 手机号可以正常注册
   handleSuccessMobile() {
-    location.href = `http://${location.host}/member/register?shopId=${shopId}&returnUrl=${returnUrl}`;
+    location.href = `http://${location.host}/member/register?shopId=${shopId}&returnUrl=${returnUrl}&activation=memberCardActivate`;
   },
 
   // 手机号已和其他微信绑定
   handleBoundMobile() {
-    // console.log('已和其他微信绑定=======');
+    this.props.setErrorMsg('该手机号已与其它微信号绑定过，请在对应微信号内或使用其他手机号激活');
   },
 
   handleClearErrorMsg() {

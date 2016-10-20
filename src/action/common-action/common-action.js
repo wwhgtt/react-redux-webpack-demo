@@ -18,6 +18,9 @@ const shopId = commonHelper.getUrlParam('shopId');
 // 发送验证码参数
 const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 
+// 将url参数整合成字符串
+const getUrlParams = commonHelper.getUrlParams;
+
 // 发送验证码
 exports.sendCode = phoneNum => (dispatch, getStates) => {
   const codeObj = Object.assign({}, { shopId, mobile: phoneNum, timestamp: new Date().getTime() });
@@ -39,13 +42,15 @@ exports.sendCode = phoneNum => (dispatch, getStates) => {
     }
   });
 };
+// &mobile=${phoneInfo.phoneNum}&code=${phoneInfo.code}
 
 // 校验手机绑定验证码
 exports.checkBindCode = (phoneInfo, vipCallBack, successCallBack, boundCallBack) => (dispatch, getStates) => {
   dispatch(setLoadMsg({ status: true, word: '验证中……' }));
   const timestamp = getStates().timestamp || new Date().getTime();
+  const paramStr = getUrlParams(phoneInfo);
   const validBindMobileURL =
-  `${config.validBindMobileAPI}?shopId=${shopId}&mobile=${phoneInfo.phoneNum}&code=${phoneInfo.code}&timeStamp=${timestamp}`;
+  `${config.validBindMobileAPI}?shopId=${shopId}&timeStamp=${timestamp}&${paramStr}`;
 
   fetch(validBindMobileURL, config.requestOptions).
   then(res => {
@@ -57,7 +62,7 @@ exports.checkBindCode = (phoneInfo, vipCallBack, successCallBack, boundCallBack)
   }).then(res => {
     if (res.code === '200') {
       if (res.data.vip) {
-        // 是会员，到成功激活页面
+        // 是会员
         vipCallBack();
       } else {
         // 验证成功

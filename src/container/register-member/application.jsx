@@ -129,7 +129,7 @@ const RegisterMemberApplication = React.createClass({
 
   render() {
     const { userInfo, loadInfo } = this.props;
-    const { birthDay, userSex, userName, password, errorMSG, userMobile } = this.state;
+    const { birthDay, userSex, userName, password, errorMSG } = this.state;
     // const regEmpty = /\S/; // 非空验证规则
     const regCode = /\d{6}/; // 6位数字验证规则
 
@@ -143,7 +143,7 @@ const RegisterMemberApplication = React.createClass({
     if (mobile) {
       this.phonNum = mobile;
     } else {
-      this.phonNum = userMobile;
+      this.phonNum = userInfo.mobile;
     }
     return (
       <div className="application">

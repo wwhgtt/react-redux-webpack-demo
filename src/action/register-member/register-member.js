@@ -8,10 +8,15 @@ const setLoadMsg = exports.setLoadMsg = createAction('SET_LOAD_MSG', loadinfo =>
 const setUserInfo = createAction('SET_USER_INFO', userInfo => userInfo);
 const shopId = helper.getUrlParam('shopId');
 const returnUrl = helper.getUrlParam('returnUrl');
+const activation = helper.getUrlParam('activation');
 const getFetchPostParam = require('../../helper/common-helper').getFetchPostParam;
 
 exports.getUserInfo = () => (dispatch, getStates) => {
-  const getRegisterInfoURL = `${config.registerInfoAPI}?shopId=${shopId}`;
+  let getRegisterInfoURL = `${config.registerInfoAPI}?shopId=${shopId}`;
+  if (activation === 'memberCardActivate') {
+    getRegisterInfoURL = `${getRegisterInfoURL}&activation=memberCardActivate`;
+  }
+
   fetch(getRegisterInfoURL, config.requestOptions).
   then(res => {
     if (!res.ok) {
@@ -31,7 +36,10 @@ exports.getUserInfo = () => (dispatch, getStates) => {
 
 exports.saveRegisterMember = (info) => (dispatch, getStates) => {
   dispatch(setLoadMsg({ status: true, word: '注册中，请稍后……' }));
-  const registerURL = `${config.registerAPI}?shopId=${shopId}`;
+  let registerURL = `${config.registerAPI}?shopId=${shopId}`;
+  if (activation === 'memberCardActivate') {
+    registerURL = `${registerURL}&activation=memberCardActivate`;
+  }
 
   let displayUrl = '';
   if (returnUrl) {

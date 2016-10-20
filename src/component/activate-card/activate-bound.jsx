@@ -1,6 +1,7 @@
 const React = require('react');
 const getUrlParam = require('../../helper/common-helper.js').getUrlParam;
 
+const returnUrl = getUrlParam('returnUrl');
 const shopId = getUrlParam('shopId');
 
 const ActivateBoundApplication = React.createClass({
@@ -19,7 +20,7 @@ const ActivateBoundApplication = React.createClass({
           <p className="activate-info-item">请使用对应微信号或其他手机号激活</p>
         </div>
         <div className="activate-operate">
-          <a className="btn--yellow" href={`http://${location.host}/activate-validate.html?shopId=${shopId}`}>使用其他手机号激活</a>
+          <a className="btn--yellow" href={`http://${location.host}/activate-validate.html?shopId=${shopId}&returnUrl=${returnUrl}`}>使用其他手机号激活</a>
         </div>
       </div>
     );

@@ -7,28 +7,36 @@
   padding: 60px 0 15px;
 }
 
-.activate-img-success {
-  width: 155px;
-  height: 157px;
+.activate-img {
   margin: 0 auto;
-  background-image: url("../../asset/images/wallet_orange.svg");
-  background-size: 155px;
-}
 
-.activate-img-bound {
-  width: 149px;
-  height: 126px;
-  margin: 0 auto;
-  background-image: url("../../asset/images/link_orange.svg");
-  background-size: 149px;
-}
+  &-success {
+    width: 155px;
+    height: 157px;
+    background-image: url("../../asset/images/wallet_orange.svg");
+    background-size: 155px;
+  }
 
-.activate-img-valid {
-  width: 151px;
-  height: 126px;
-  margin: 0 auto;
-  background-image: url("../../asset/images/card_orange.svg");
-  background-size: 151px;
+  &-bound {
+    width: 149px;
+    height: 126px;
+    background-image: url("../../asset/images/link_orange.svg");
+    background-size: 149px;
+  }
+
+  &-valid {
+    width: 151px;
+    height: 126px;
+    background-image: url("../../asset/images/card_orange.svg");
+    background-size: 151px;
+  }
+
+  &-faild {
+    width: 120px;
+    height: 140px;
+    background-image: url("../../asset/images/faild_orange.svg");
+    background-size: 120px;
+  }
 }
 
 .activate-info {

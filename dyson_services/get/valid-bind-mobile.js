@@ -3,10 +3,10 @@ module.exports = {
   template: {
     data: {
       mobile: '139000001',
-      vip: false, // 表示这个手机号是不是会员
+      vip: true, // 表示这个手机号是不是会员
     },
     time: 1472436273622,
-    code: '11005',
+    code: '200',
     msg: 'd',
   },
 };
