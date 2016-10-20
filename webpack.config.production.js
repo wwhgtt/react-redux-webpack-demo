@@ -97,7 +97,7 @@ module.exports = {
         loaders: ['style', 'css', 'postcss', 'sass?includePaths[]=./src/asset/style'],
       },
       {
-        test: /\.(gif|png)$/,
+        test: /\.(gif|png|svg)$/,
         loaders: ['url?limit=8192&name=asset/img/[hash].[ext]'],
       },
       {
