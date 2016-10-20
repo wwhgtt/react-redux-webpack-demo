@@ -26,7 +26,7 @@ module.exports = function (
         discountType:'',
         inUseDiscount:null,
       },
-      acvitityBenefit:{
+      activityBenefit:{
         relatedDish:null,
         benefitMoney:0,
       },
@@ -397,7 +397,7 @@ module.exports = function (
         );
       }
       break;
-    case 'SET_ACVITITY_BENEFIT':
+    case 'SET_ACTIVITY_BENEFIT':
       if (payload.id === 'discount') {
         return state.updateIn(
           ['orderedDishesProps', 'dishes'],
@@ -416,19 +416,19 @@ module.exports = function (
       return state
         .setIn(
           ['orderedDishesProps', 'dishes'],
-          helper.reorganizedAcvitityBenefit(
-            state.serviceProps.acvitityBenefit,
+          helper.reorganizedActivityBenefit(
+            state.serviceProps.activityBenefit,
             state.orderedDishesProps.dishes,
             payload
           ).dishes
         )
         .setIn(
-          ['serviceProps', 'acvitityBenefit'],
-          helper.reorganizedAcvitityBenefit(
-            state.serviceProps.acvitityBenefit,
+          ['serviceProps', 'activityBenefit'],
+          helper.reorganizedActivityBenefit(
+            state.serviceProps.activityBenefit,
             state.orderedDishesProps.dishes,
             payload
-          ).acvitityBenefit
+          ).activityBenefit
         );
     case 'SET_ADDRESS_INFO_TO_ORDER':
       return state.setIn(
@@ -467,12 +467,12 @@ module.exports = function (
             )
           )
           .setIn(
-            ['serviceProps', 'acvitityBenefit', 'benefitMoney'],
+            ['serviceProps', 'activityBenefit', 'benefitMoney'],
             helper.countAcvitityMoney(state.orderedDishesProps.dishes)
           );
       }
       return state.set('isBenefitSelectWindowShow', !state.isBenefitSelectWindowShow)
-        .setIn(['serviceProps', 'acvitityBenefit', 'relatedDish'], _find(state.orderedDishesProps.dishes, dish => dish.id === payload));
+        .setIn(['serviceProps', 'activityBenefit', 'relatedDish'], _find(state.orderedDishesProps.dishes, dish => dish.id === payload));
     case 'SET_SEND_AREA_ID':
       if (!payload || payload === 0) {
         // 表示到店取餐的情况

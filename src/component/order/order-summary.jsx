@@ -124,11 +124,11 @@ module.exports = React.createClass({
             :
             false
           }
-          {serviceProps.acvitityBenefit.benefitMoney > 0 ?
+          {serviceProps.activityBenefit.benefitMoney > 0 ?
             <p className="order-summary-entry clearfix">
               <span className="option-title option-title--icon order-summary-icon1">活动优惠:</span>
               <span className="order-discount discount">
-                {serviceProps.acvitityBenefit.benefitMoney}
+                {serviceProps.activityBenefit.benefitMoney}
               </span>
             </p>
             :
@@ -154,7 +154,7 @@ module.exports = React.createClass({
                     helper.countPriceByCoupons(
                       serviceProps.couponsProps.inUseCouponDetail,
                       helper.getPriceCanBeUsedToBenefit(dishesPrice, serviceProps.deliveryProps)
-                        - serviceProps.discountProps.inUseDiscount - serviceProps.acvitityBenefit.benefitMoney
+                        - serviceProps.discountProps.inUseDiscount - serviceProps.activityBenefit.benefitMoney
                     )
                   )
                   :
@@ -162,7 +162,7 @@ module.exports = React.createClass({
                     helper.countPriceByCoupons(
                       serviceProps.couponsProps.inUseCouponDetail,
                       helper.getPriceCanBeUsedToBenefit(dishesPrice, serviceProps.deliveryProps)
-                        - serviceProps.acvitityBenefit.benefitMoney
+                        - serviceProps.activityBenefit.benefitMoney
                     )
                   )
                 }

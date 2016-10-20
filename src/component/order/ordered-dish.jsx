@@ -103,10 +103,10 @@ module.exports = React.createClass({
     }
     const detailInfo = hasProps ? this.buildDetailInfo(dish) : false;
     let dishBenefitPrice = 0;
-    if (dish.acvitityBenefit) {
-      dishBenefitPrice = dish.acvitityBenefit;
-    } else if (dish.order[0] && dish.order[0].acvitityBenefit) {
-      dishBenefitPrice = dish.order[0].acvitityBenefit;
+    if (dish.activityBenefit) {
+      dishBenefitPrice = dish.activityBenefit;
+    } else if (dish.order[0] && dish.order[0].activityBenefit) {
+      dishBenefitPrice = dish.order[0].activityBenefit;
     }
     return (
       <div className="cart-ordered-dish">

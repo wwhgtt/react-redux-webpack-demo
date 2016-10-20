@@ -7,7 +7,7 @@ module.exports = React.createClass({
   displayName: 'BenefitSelect',
   propTypes: {
     dish:React.PropTypes.object.isRequired,
-    setAcvitityBenefit:React.PropTypes.func.isRequired,
+    setActivityBenefit:React.PropTypes.func.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
     onSelectBenefit:React.PropTypes.func.isRequired,
   },
@@ -18,28 +18,28 @@ module.exports = React.createClass({
     const { onSelectBenefit } = this.props;
     onSelectBenefit('closeWindow');
   },
-  setAcvitityBenefit(evt, id) {
+  setActivityBenefit(evt, id) {
     const option = {
       id,
       dish:this.props.dish,
     };
-    this.props.setAcvitityBenefit(evt, option);
+    this.props.setActivityBenefit(evt, option);
   },
   buildBenefitDetail() {
-    const { dish, setAcvitityBenefit, serviceProps } = this.props;
+    const { dish, setActivityBenefit, serviceProps } = this.props;
     const discountDish = _find(serviceProps.discountProps.discountList, discount => discount.dishId === dish.id);
     return (
       <div className="benefit-item">
         <ActiveSelect
-          optionsData={dish.benefitOptions || dish.order[0].benefitOptions} onSelectOption={setAcvitityBenefit}
+          optionsData={dish.benefitOptions || dish.order[0].benefitOptions} onSelectOption={setActivityBenefit}
           optionComponent={BenefitPropOption}
         />
         {discountDish ?
-          <BenefitPropOptionDuplicate priName={'会员价'} setAcvitityBenefit={(evt) => this.setAcvitityBenefit(evt, 'discount')} />
+          <BenefitPropOptionDuplicate priName={'会员价'} setActivityBenefit={(evt) => this.setActivityBenefit(evt, 'discount')} />
           :
           false
         }
-        <BenefitPropOptionDuplicate priName={'不享受优惠'} setAcvitityBenefit={(evt) => this.setAcvitityBenefit(evt, 'noBenefit')} />
+        <BenefitPropOptionDuplicate priName={'不享受优惠'} setActivityBenefit={(evt) => this.setActivityBenefit(evt, 'noBenefit')} />
       </div>
     );
   },

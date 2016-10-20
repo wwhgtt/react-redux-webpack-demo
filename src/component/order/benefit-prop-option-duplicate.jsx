@@ -7,15 +7,15 @@ module.exports = React.createClass({
   displayName: 'BenefitPropOptionDuplicate',
   propTypes: {
     priName: React.PropTypes.string.isRequired,
-    setAcvitityBenefit:React.PropTypes.func.isRequired,
+    setActivityBenefit:React.PropTypes.func.isRequired,
   },
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
   },
   render() {
-    const { priName, setAcvitityBenefit, ...otherProps } = this.props;
+    const { priName, setActivityBenefit, ...otherProps } = this.props;
     return (
-      <div className="option" onTouchTap={setAcvitityBenefit} >
+      <div className="option" onTouchTap={setActivityBenefit} >
         <span className="option-title">{priName}</span>
         <DynamicClassLink className={classnames('option-btn')} {...otherProps} />
       </div>

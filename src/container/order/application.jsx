@@ -49,9 +49,9 @@ const OrderApplication = React.createClass({
     setPhoneValidateProps:React.PropTypes.func.isRequired,
     checkCodeAvaliable:React.PropTypes.func.isRequired,
     fetchVericationCode:React.PropTypes.func.isRequired,
-    fetchAcvitityBenefit:React.PropTypes.func.isRequired,
+    fetchActivityBenefit:React.PropTypes.func.isRequired,
     onSelectBenefit:React.PropTypes.func.isRequired,
-    setAcvitityBenefit:React.PropTypes.func.isRequired,
+    setActivityBenefit:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     customerAddressListInfo:React.PropTypes.object,
@@ -85,7 +85,7 @@ const OrderApplication = React.createClass({
   },
   componentDidMount() {
     this.setChildViewAccordingToHash();
-    const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons, fetchAcvitityBenefit } = this.props;
+    const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons, fetchActivityBenefit } = this.props;
     fetchOrder().then(
       fetchOrderDiscountInfo
     )
@@ -93,7 +93,7 @@ const OrderApplication = React.createClass({
     .then(
       () => { this.setChildViewAccordingToHash(); }
     )
-    .then(fetchAcvitityBenefit);
+    .then(fetchActivityBenefit);
   },
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -342,7 +342,7 @@ const OrderApplication = React.createClass({
       setCustomerToShopAddress,
       shuoldPhoneValidateShow,
       isBenefitSelectWindowShow,
-      setAcvitityBenefit,
+      setActivityBenefit,
     } = this.props; // state
     const { setOrderProps, fetchUserAddressListInfo, setChildView } = this.props;// actions
     const type = getUrlParam('type');
@@ -524,8 +524,8 @@ const OrderApplication = React.createClass({
 
         {isBenefitSelectWindowShow ?
           <BenefitSelect
-            setAcvitityBenefit={setAcvitityBenefit}
-            dish={serviceProps.acvitityBenefit.relatedDish}
+            setActivityBenefit={setActivityBenefit}
+            dish={serviceProps.activityBenefit.relatedDish}
             serviceProps={serviceProps}
             onSelectBenefit={this.props.onSelectBenefit}
           />

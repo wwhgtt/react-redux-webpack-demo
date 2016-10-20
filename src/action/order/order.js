@@ -26,7 +26,7 @@ const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_
 const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
 const setBenefitOptions = createAction('SET_BENEFIT_OPTIONS', options => options);
 exports.onSelectBenefit = createAction('ON_SELECT_BENEFIT', option => option);
-const setAcvitityBenefit = createAction('SET_ACVITITY_BENEFIT', prop => prop);
+const setActivityBenefit = createAction('SET_ACTIVITY_BENEFIT', prop => prop);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 
@@ -285,7 +285,7 @@ exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
     });
 };
 
-exports.fetchAcvitityBenefit = () => (dispatch, getState) => {
+exports.fetchActivityBenefit = () => (dispatch, getState) => {
   const lastOrderedDishes = getState().orderedDishesProps;
   let dishInfo = [];
   lastOrderedDishes.dishes.map(dish => {
@@ -416,6 +416,6 @@ exports.checkCodeAvaliable = (data, note, receipt) => (dispatch, getState) => {
     console.log(err);
   });
 };
-exports.setAcvitityBenefit = (evt, option) => (dispatch, getState) => {
-  dispatch(setAcvitityBenefit(option));
+exports.setActivityBenefit = (evt, option) => (dispatch, getState) => {
+  dispatch(setActivityBenefit(option));
 };
