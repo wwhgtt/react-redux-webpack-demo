@@ -44,7 +44,7 @@ const AdsColumn = React.createClass({
     e.stopPropagation();
     this.setState({ allDiscount : false });
   },
-  scrollPartFuc() {
+  scrollPartFunc() {
     const { marketListUpdate, shopInfo } = this.props;
     const formatDishesData = shopInfo.formatDishesData;
     const scrollAll = marketListUpdate.map((item, index) => {
@@ -82,7 +82,7 @@ const AdsColumn = React.createClass({
   render() {
     const { animation, allDiscount } = this.state;
     const { shopInfo } = this.props;
-    const scrollPart = this.scrollPartFuc();
+    const scrollPart = this.scrollPartFunc();
     const animatePart = this.animatePartFunc();
     return (
       <div className="ads-column flex-row" onTouchTap={this.showAllDiscount}>
