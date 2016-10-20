@@ -293,11 +293,11 @@ exports.fetchActivityBenefit = () => (dispatch, getState) => {
       dishId:dish.id,
       dishNum:getDishesCount([dish]),
     };
-    return dishInfo.push(JSON.stringify(dishDetailObject));
+    return dishInfo.push(dishDetailObject);
   });
-  console.log(dishInfo);
+  console.log(JSON.stringify(dishInfo));
   fetch(
-    `${config.orderedDishBenefitAPI}?shopId=${shopId}&orderAmount=${getDishesPrice(lastOrderedDishes.dishes)}&dishInfo=${dishInfo}`,
+    `${config.orderedDishBenefitAPI}?shopId=${shopId}&orderAmount=${getDishesPrice(lastOrderedDishes.dishes)}&dishInfo=${JSON.stringify(dishInfo)}`,
     config.requestOptions
   )
     .then(res => {
