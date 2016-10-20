@@ -17,7 +17,7 @@ module.exports = {
             },
             {
               priId: 2581,
-              priName: '满100赠送',
+              priName: '礼品券(满100赠送)',
               priType: 2,
               type:null, // 规则类型 1立减 ，2折扣
               dishNum:2, // 满减份数
