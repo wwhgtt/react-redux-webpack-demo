@@ -399,20 +399,19 @@ module.exports = function (
       break;
     case 'SET_ACVITITY_BENEFIT':
       if (payload.id === 'discount') {
-        return state;
+        return state.updateIn(
+          ['orderedDishesProps', 'dishes'],
+          dishes => dishes.flatMap(
+              dish => helper.setDishBenefitInfo(payload.dish, dish, 'discount')
+          )
+        );
       } else if (payload.id === 'noBenefit') {
-        const discountDish = _find(state.serviceProps.discountProps.discountList, discount => discount.dishId === payload.dish.id);
-        if (discountDish) {
-          return state.updateIn(
-            ['orderedDishesProps', 'dishes'],
-            dishes => dishes.flatMap(
-                dish => dish.set(
-                  'noUseDiscount', dish.noUseDiscount ? true : dish.id === discountDish.dishId
-                )
-            )
-          );
-        }
-        return state;
+        return state.updateIn(
+          ['orderedDishesProps', 'dishes'],
+          dishes => dishes.flatMap(
+              dish => helper.setDishBenefitInfo(payload.dish, dish, 'noBenefit')
+          )
+        );
       }
       return state
         .setIn(
@@ -466,6 +465,10 @@ module.exports = function (
             helper.countMemberPrice(
               true, state.orderedDishesProps.dishes, state.serviceProps.discountProps.discountList, state.serviceProps.discountProps.discountType
             )
+          )
+          .setIn(
+            ['serviceProps', 'acvitityBenefit', 'benefitMoney'],
+            helper.countAcvitityMoney(state.orderedDishesProps.dishes)
           );
       }
       return state.set('isBenefitSelectWindowShow', !state.isBenefitSelectWindowShow)

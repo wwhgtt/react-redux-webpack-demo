@@ -1,5 +1,6 @@
 const React = require('react');
 const helper = require('../../helper/dish-hepler.js');
+const formatPrice = require('../../helper/common-helper.js').formatPrice;
 const classnames = require('classnames');
 const BenefitOptions = require('../order/benefit-options.jsx');
 require('../../component/dish-menu/cart/cart-ordered-dish.scss');
@@ -101,7 +102,12 @@ module.exports = React.createClass({
       hasProps = false;
     }
     const detailInfo = hasProps ? this.buildDetailInfo(dish) : false;
-
+    let dishBenefitPrice = 0;
+    if (dish.acvitityBenefit) {
+      dishBenefitPrice = dish.acvitityBenefit;
+    } else if (dish.order[0] && dish.order[0].acvitityBenefit) {
+      dishBenefitPrice = dish.order[0].acvitityBenefit;
+    }
     return (
       <div className="cart-ordered-dish">
         <div className="ordered-dish">
@@ -118,6 +124,11 @@ module.exports = React.createClass({
           }
           {orderStatus ?
             <span className={classnames('order-status', { orderStatus })}>{orderStatus}</span>
+            :
+            false
+          }
+          {dishBenefitPrice ?
+            <span className="order-dish-price price">{formatPrice(helper.getDishPrice(dish) - dishBenefitPrice)}</span>
             :
             false
           }

@@ -447,9 +447,13 @@ const getPriceCanBeUsedToBenefit = exports.getPriceCanBeUsedToBenefit = function
   }
   return totalPrice;
 };
-// 计算出优惠券和会员价后的价格
+// 计算出优惠券和会员价和活动优惠后的价格
 const countPriceWithCouponAndDiscount = exports.countPriceWithCouponAndDiscount = function (dishesPrice, serviceProps) {
-  let totalPrice = getPriceCanBeUsedToBenefit(dishesPrice, serviceProps.deliveryProps);
+  const withoutBenefitPrice = getPriceCanBeUsedToBenefit(dishesPrice, serviceProps.deliveryProps);
+  let totalPrice = serviceProps.acvitityBenefit.benefitMoney ?
+    withoutBenefitPrice - serviceProps.acvitityBenefit.benefitMoney
+    :
+    withoutBenefitPrice;
   if (!serviceProps.couponsProps.inUseCoupon && !serviceProps.discountProps.inUseDiscount) {
     // 即没有使用任何优惠
     totalPrice = parseFloat(totalPrice.toFixed(2));
@@ -809,7 +813,7 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
 
 const filterChosenDish = exports.filterChosenDish = (dishes, benefitProp) => {
   const newDishes = dishes.asMutable({ deep: true });
-  console.log(benefitProp);
+  // console.log(benefitProp);
   newDishes.filter(function (dish) {
     if (dish.benefitOptions) {
       return dish;
@@ -821,6 +825,7 @@ const filterChosenDish = exports.filterChosenDish = (dishes, benefitProp) => {
     (dish.benefitOptions || dish.order[0].benefitOptions).forEach(benefit => {
       if (benefit.priId === benefitProp.priId) {
         benefit.isChecked = true;
+        dish.noUseDiscount = true;
         if (benefitProp.type === 1) {
           if (dish.benefitOptions) {
             dish.acvitityBenefit = benefitProp.reduce;
@@ -836,10 +841,18 @@ const filterChosenDish = exports.filterChosenDish = (dishes, benefitProp) => {
             dish.acvitityBenefit = dish.marketPrice * dish.order;
           } else {
             dish.acvitityBenefit = 0;
-            dish.order.forEach(order => {
-              order.acvitityBenefit = getOrderPrice(dish, order) >= dish.marketPrice ?
-                dish.marketPrice : getOrderPrice(dish, order);
-            });
+            let benefitNumber = benefitProp.dishNum || 1;
+            for (let i = 0; i <= benefitNumber; i++) {
+              if (dish.order[i].count < benefitNumber) {
+                dish.order[i].acvitityBenefit = getOrderPrice(dish, dish.order[i]) >= dish.marketPrice ?
+                  dish.marketPrice * dish.order[i].count : getOrderPrice(dish, dish.order[i]) * dish.order[i].count;
+                benefitNumber = benefitNumber - dish.order[i].count;
+              } else {
+                dish.order[i].acvitityBenefit = getOrderPrice(dish, dish.order[i]) >= dish.marketPrice ?
+                  dish.marketPrice * benefitNumber : getOrderPrice(dish, dish.order[i]) * benefitNumber;
+                benefitNumber = 0;
+              }
+            }
           }
         }
       }
@@ -851,8 +864,8 @@ const filterChosenDish = exports.filterChosenDish = (dishes, benefitProp) => {
 exports.reorganizedAcvitityBenefit = (acvitityBenefit, dishes, benefitProp) => {
   const newDishes = filterChosenDish(dishes, benefitProp); // newDishes此时是可编辑状态
   const newAcvitityBenefit = acvitityBenefit.asMutable({ deep: true });
-  console.log(newAcvitityBenefit);
-  console.log(benefitProp);
+  // console.log(newAcvitityBenefit);
+  // console.log(benefitProp);
   if (benefitProp.type === 1) {
     newAcvitityBenefit.benefitMoney += benefitProp.reduce;
   }
@@ -860,4 +873,37 @@ exports.reorganizedAcvitityBenefit = (acvitityBenefit, dishes, benefitProp) => {
     dishes:newDishes,
     acvitityBenefit:newAcvitityBenefit,
   };
+};
+// 活动优惠菜品选择会员价 或者不选择任何优惠
+exports.setDishBenefitInfo = (chosenDish, dish, benefitType) => {
+  if (chosenDish.id !== dish.id) {
+    return dish;
+  }
+  let newDish = dish.asMutable({ deep: true });
+  newDish.noUseDiscount = benefitType !== 'discount';
+  if (isSingleDishWithoutProps(newDish)) {
+    newDish.acvitityBenefit = 0; // 活动优惠和礼品券全部归0
+  } else {
+    newDish.order.forEach(order => {
+      order.acvitityBenefit = 0;
+    });
+  }
+  return newDish;
+};
+exports.countAcvitityMoney = (dishes) => {
+  let acvitityCollection = [];
+  dishes.map(dish => {
+    if (isSingleDishWithoutProps(dish)) {
+      acvitityCollection.push(dish.acvitityBenefit ? dish.acvitityBenefit : 0);
+    } else {
+      dish.order.map(order => {
+        acvitityCollection.push(order.acvitityBenefit ? order.acvitityBenefit : 0);
+        return true;
+      });
+      acvitityCollection.push(dish.acvitityBenefit * dish.order.length);
+    }
+    return true;
+  });
+  // console.log(acvitityCollection);
+  return parseFloat((acvitityCollection.reduce((c, p) => c + p)).toFixed(2));
 };

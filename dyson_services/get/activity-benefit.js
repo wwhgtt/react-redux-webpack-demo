@@ -20,7 +20,7 @@ module.exports = {
               priName: '满100赠送',
               priType: 2,
               type:null, // 规则类型 1立减 ，2折扣
-              dishNum:3, // 满减份数
+              dishNum:2, // 满减份数
               reduce:null, // 减免金额
               discount: null, // 折扣
             },

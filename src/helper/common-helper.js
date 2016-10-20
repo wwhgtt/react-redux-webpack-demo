@@ -134,4 +134,12 @@ exports.dateUtility = {
     return isNaN(+result) ? null : result;
   },
 };
-
+exports.formatPrice = (price) => {
+  if (price.toString().indexOf('.') < 0) {
+    return price;
+  }
+  if (price.toString().split('.')[1].length > 2) {
+    return price.toFixed(2);
+  }
+  return price;
+};
