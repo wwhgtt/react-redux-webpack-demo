@@ -25,6 +25,7 @@ module.exports = React.createClass({
 
   },
   buildOrderedElements(orderedDishes) {
+    const { serviceProps } = this.props;
     function divideDishes(dishes) {
       return [].concat.apply(
         [], dishes.map(dish => {
@@ -43,7 +44,9 @@ module.exports = React.createClass({
       );
     }
     const dividedDishes = divideDishes(orderedDishes);
-    return dividedDishes.map(dish => (<OrderedDish key={dish.key} dish={dish} onSelectBenefit={this.props.onSelectBenefit} />));
+    return dividedDishes.map(
+      dish => (<OrderedDish key={dish.key} dish={dish} onSelectBenefit={this.props.onSelectBenefit} serviceProps={serviceProps} />)
+    );
   },
   render() {
     const { serviceProps, commercialProps, orderedDishesProps, isNeedShopMaterial, setOrderProps } = this.props;

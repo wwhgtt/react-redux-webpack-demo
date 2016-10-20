@@ -12,6 +12,7 @@ module.exports = React.createClass({
     dish: React.PropTypes.object.isRequired,
     orderStatus:React.PropTypes.string,
     onSelectBenefit:React.PropTypes.func.isRequired,
+    serviceProps:React.PropTypes.object.isRequired,
   },
   getInitialState() {
     return {
@@ -79,15 +80,20 @@ module.exports = React.createClass({
     );
   },
   buildDishBenefit(dish) {
-    const { onSelectBenefit } = this.props;
+    const { onSelectBenefit, serviceProps } = this.props;
     if (dish.order instanceof Array) {
       if (dish.order[0].benefitOptions) {
-        return <BenefitOptions benefitProps={dish.order[0].benefitOptions} onSelectBenefit={onSelectBenefit} dish={dish} />;
+        return (<BenefitOptions
+          benefitProps={dish.order[0].benefitOptions}
+          onSelectBenefit={onSelectBenefit}
+          dish={dish}
+          serviceProps={serviceProps}
+        />);
       }
       return false;
     }
     return dish.benefitOptions ?
-      <BenefitOptions benefitProps={dish.benefitOptions} onSelectBenefit={onSelectBenefit} dish={dish} />
+      <BenefitOptions benefitProps={dish.benefitOptions} onSelectBenefit={onSelectBenefit} dish={dish} serviceProps={serviceProps} />
       :
       false;
   },
