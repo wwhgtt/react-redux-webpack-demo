@@ -4,7 +4,7 @@ const SexSwitch = require('../common/sex-switch.jsx');
 const config = require('../../config');
 const commonHelper = require('../../helper/common-helper');
 const shopId = commonHelper.getUrlParam('shopId');
-const registerUrl = ` ${config.registerMemberURL}?shopId=${shopId}`;
+let registerUrl = ` ${config.registerMemberURL}?shopId=${shopId}`;
 const modifypwdUrl = ` ${config.modifyPwdURL}?shopId=${shopId}`;
 const bindMobileUrl = ` ${config.bindMobileURL}?shopId=${shopId}`;
 const bindWXUrl = ` ${config.bindWXURL}?shopId=${shopId}`;
@@ -70,6 +70,13 @@ module.exports = React.createClass({
     const { name, sex } = this.state;
 
     // 几种状态的判断
+
+    // 用户注册地址判断
+    if (info.loginType === 1) {
+      registerUrl = `http://${location.host}/user/validBindMobile?shopId=${shopId}`;
+    } else if (info.loginType === 0) {
+      registerUrl = `${registerUrl}&mobile=${info.mobile}`;
+    }
 
     if (condition === 2 || condition === 3 || condition === 4) {
       partOne = (

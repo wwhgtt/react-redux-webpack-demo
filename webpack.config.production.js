@@ -66,6 +66,16 @@ module.exports = {
     'order-dinner-cart-entry': [
       './src/order-dinner-cart.jsx',
     ],
+    'register-validate-entry': [
+      './src/register-validate.jsx',
+    ],
+    'activate-card-entry': [
+      './src/activate-card.jsx',
+    ],
+    'activate-validate-entry': [
+      './src/activate-validate.jsx',
+    ],
+
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -87,7 +97,7 @@ module.exports = {
         loaders: ['style', 'css', 'postcss', 'sass?includePaths[]=./src/asset/style'],
       },
       {
-        test: /\.(gif|png)$/,
+        test: /\.(gif|png|svg)$/,
         loaders: ['url?limit=8192&name=asset/img/[hash].[ext]'],
       },
       {
@@ -267,6 +277,30 @@ module.exports = {
         title: 'OrderTSCartApplication',
         filename: 'order-dinner-cart.html',
         chunks: ['common', 'order-dinner-cart-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'RegisterValidateApplication',
+        filename: 'register-validate.html',
+        chunks: ['common', 'register-validate-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'ActivateCardApplication',
+        filename: 'activate-card.html',
+        chunks: ['common', 'activate-card-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'ActivateValidateApplication',
+        filename: 'activate-validate.html',
+        chunks: ['common', 'activate-validate-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

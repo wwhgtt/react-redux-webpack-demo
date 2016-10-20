@@ -2,13 +2,15 @@ const React = require('react');
 const connect = require('react-redux').connect;
 const Toast = require('../../component/mui/toast.jsx');
 const Loading = require('../../component/mui/loading.jsx');
-const actions = require('../../action/bind-account/bind-phone.js');
+const commonAction = require('../../action/common-action/common-action.js');
+
 require('../../asset/style/style.scss');
 require('./application.scss');
 
 const BindPhoneIndex = require('../../component/bind-account/bind-phone/bind-phone-index.jsx');
 const BindPhoneValidate = require('../../component/bind-account/bind-phone/bind-phone-validate.jsx');
 const BindPhoneSuccess = require('../../component/bind-account/bind-phone/bind-phone-success.jsx');
+
 
 const BindPhoneApplication = React.createClass({
   displayName: 'BindPhoneApplication',
@@ -20,6 +22,7 @@ const BindPhoneApplication = React.createClass({
     sendCode: React.PropTypes.func,
     loadInfo: React.PropTypes.object,
     setLoadMsg: React.PropTypes.func,
+    checkBindCode: React.PropTypes.func,
     // MapedStatesToProps
     childView: React.PropTypes.string,
     errorMessage: React.PropTypes.string,
@@ -43,14 +46,8 @@ const BindPhoneApplication = React.createClass({
     this.props.setErrorMsg('');
   },
 
-  handleBindPhone(info) {
-    const { bindPhone, setLoadMsg } = this.props;
-    bindPhone(info);
-    setLoadMsg({ status: true, word: '绑定中，请稍后……' });
-  },
-
   render() {
-    const { childView, errorMessage, setErrorMsg, sendCode, loadInfo } = this.props;
+    const { childView, errorMessage, setErrorMsg, sendCode, loadInfo, checkBindCode, bindPhone } = this.props;
     const phoneInfo = JSON.parse(sessionStorage.getItem('phoneInfo'));
     let bindSection;
 
@@ -59,6 +56,8 @@ const BindPhoneApplication = React.createClass({
         onBindPhone={this.handleBindPhone}
         setErrorMsg={setErrorMsg}
         sendCode={sendCode}
+        checkBindCode={checkBindCode}
+        bindPhone={bindPhone}
       />);
     } else if (childView === '#phone-success') {
       bindSection = <BindPhoneSuccess phoneInfo={phoneInfo} />;
@@ -83,4 +82,4 @@ const BindPhoneApplication = React.createClass({
   },
 });
 
-module.exports = connect(state => state, actions)(BindPhoneApplication);
+module.exports = connect(state => state, commonAction)(BindPhoneApplication);
