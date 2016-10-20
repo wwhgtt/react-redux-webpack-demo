@@ -451,28 +451,6 @@ const OrderApplication = React.createClass({
               }
             )}
           </div>
-          <div className="options-group">
-            {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length
-              && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 && commercialProps.diningForm !== 0 ?
-              <a className="option" href="#coupon-select">
-                <span className="option-title">使用优惠券</span>
-                <span className="badge-coupon">
-                  {serviceProps.couponsProps.inUseCoupon ?
-                    '已使用一张优惠券'
-                    :
-                    `${helper.getCouponsLength(serviceProps.couponsProps.couponsList)}张可用`
-                  }
-                </span>
-                <span className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
-              </a>
-            : false}
-            {serviceProps.integralsInfo && commercialProps.diningForm !== 0 ?
-              <ActiveSelect
-                optionsData={[serviceProps.integralsInfo]} onSelectOption={setOrderProps}
-                optionComponent={OrderPropOption}
-              />
-            : false}
-          </div>
 
           <div className="options-group">
             {buildSelectTimeElemnet()}
@@ -493,7 +471,7 @@ const OrderApplication = React.createClass({
           <OrderSummary
             serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
             commercialProps={commercialProps} shopId={shopId} isNeedShopMaterial
-            onSelectBenefit={this.props.onSelectBenefit}
+            onSelectBenefit={this.props.onSelectBenefit} setOrderProps={setOrderProps}
           />
 
           {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?

@@ -1,9 +1,12 @@
 const React = require('react');
+const ActiveSelect = require('../mui/select/active-select.jsx');
+const OrderPropOption = require('./order-prop-option.jsx');
 const helper = require('../../helper/order-helper.js');
 const OrderedDish = require('./ordered-dish.jsx');
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
 const isSingleDishWithoutProps = require('../../helper/dish-hepler.js').isSingleDishWithoutProps;
 const defaultShopLogo = require('../../asset/images/default.png');
+const formatPrice = require('../../helper/common-helper.js').formatPrice;
 
 require('./order-summary.scss');
 
@@ -16,6 +19,7 @@ module.exports = React.createClass({
     shopId:React.PropTypes.string.isRequired,
     isNeedShopMaterial:React.PropTypes.bool.isRequired,
     onSelectBenefit:React.PropTypes.func.isRequired,
+    setOrderProps:React.PropTypes.func.isRequired,
   },
   componentDidMount() {
 
@@ -42,7 +46,7 @@ module.exports = React.createClass({
     return dividedDishes.map(dish => (<OrderedDish key={dish.key} dish={dish} onSelectBenefit={this.props.onSelectBenefit} />));
   },
   render() {
-    const { serviceProps, commercialProps, orderedDishesProps, isNeedShopMaterial } = this.props;
+    const { serviceProps, commercialProps, orderedDishesProps, isNeedShopMaterial, setOrderProps } = this.props;
     const dishesPrice = orderedDishesProps.dishes && orderedDishesProps.dishes.length ? getDishesPrice(orderedDishesProps.dishes) : 0;
     if (!orderedDishesProps.dishes || !orderedDishesProps.dishes.length) return false;
 
@@ -76,6 +80,28 @@ module.exports = React.createClass({
             :
             false
           }
+          <div className="options-group">
+            {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length
+              && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 && commercialProps.diningForm !== 0 ?
+              <a className="option" href="#coupon-select">
+                <span className="option-title">使用优惠券</span>
+                <span className="badge-coupon">
+                  {serviceProps.couponsProps.inUseCoupon ?
+                    '已使用一张优惠券'
+                    :
+                    `${helper.getCouponsLength(serviceProps.couponsProps.couponsList)}张可用`
+                  }
+                </span>
+                <span className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
+              </a>
+            : false}
+            {serviceProps.integralsInfo && commercialProps.diningForm !== 0 ?
+              <ActiveSelect
+                optionsData={[serviceProps.integralsInfo]} onSelectOption={setOrderProps}
+                optionComponent={OrderPropOption}
+              />
+            : false}
+          </div>
           {commercialProps.carryRuleVO && helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).smallChange < 0 ?
             <p className="order-summary-entry clearfix">
               <span className="option-title">尾数调整:</span>
@@ -124,16 +150,20 @@ module.exports = React.createClass({
               <span className="option-title option-title--icon order-summary-icon3">优惠券优惠:</span>
               <span className="order-discount discount">
                 {serviceProps.discountProps.discountInfo && serviceProps.discountProps.discountInfo.isChecked ?
-                  helper.countPriceByCoupons(
-                    serviceProps.couponsProps.inUseCouponDetail,
-                    helper.getPriceCanBeUsedToBenefit(dishesPrice, serviceProps.deliveryProps)
-                      - serviceProps.discountProps.inUseDiscount - serviceProps.acvitityBenefit.benefitMoney
+                  formatPrice(
+                    helper.countPriceByCoupons(
+                      serviceProps.couponsProps.inUseCouponDetail,
+                      helper.getPriceCanBeUsedToBenefit(dishesPrice, serviceProps.deliveryProps)
+                        - serviceProps.discountProps.inUseDiscount - serviceProps.acvitityBenefit.benefitMoney
+                    )
                   )
                   :
-                  helper.countPriceByCoupons(
-                    serviceProps.couponsProps.inUseCouponDetail,
-                    helper.getPriceCanBeUsedToBenefit(dishesPrice, serviceProps.deliveryProps)
-                      - serviceProps.acvitityBenefit.benefitMoney
+                  formatPrice(
+                    helper.countPriceByCoupons(
+                      serviceProps.couponsProps.inUseCouponDetail,
+                      helper.getPriceCanBeUsedToBenefit(dishesPrice, serviceProps.deliveryProps)
+                        - serviceProps.acvitityBenefit.benefitMoney
+                    )
                   )
                 }
               </span>
