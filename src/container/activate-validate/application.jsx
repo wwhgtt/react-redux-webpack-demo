@@ -50,7 +50,7 @@ const ActivateValidateApplication = React.createClass({
   // 手机号是会员
   hanleVipMobile() {
     const phoneNum = this.getPhoneInfo().phoneNum;
-    location.href = `${returnUrl}&mobile=${phoneNum}`;
+    location.href = `${decodeURIComponent(returnUrl)}&mobile=${phoneNum}`;
   },
 
   // 手机号可以正常注册
