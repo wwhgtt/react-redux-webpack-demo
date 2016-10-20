@@ -55,7 +55,9 @@ const ActivateValidateApplication = React.createClass({
 
   // 手机号可以正常注册
   handleSuccessMobile() {
-    location.href = `http://${location.host}/member/register?shopId=${shopId}&returnUrl=${returnUrl}&activation=memberCardActivate`;
+    const phoneNum = this.getPhoneInfo().phoneNum;
+    location.href =
+      `http://${location.host}/member/register?shopId=${shopId}&mobile=${phoneNum}&returnUrl=${returnUrl}&activation=memberCardActivate`;
   },
 
   // 手机号已和其他微信绑定
