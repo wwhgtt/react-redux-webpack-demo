@@ -5,7 +5,7 @@ const helper = require('../../helper/dish-hepler');
 const classnames = require('classnames');
 
 const AdsColumn = React.createClass({
-  displayName: 'QuickMenu',
+  displayName: 'AdsColumn',
   propTypes:{
     dishesData:React.PropTypes.array,
     shopInfo:React.PropTypes.object,
