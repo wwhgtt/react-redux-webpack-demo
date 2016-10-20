@@ -636,6 +636,10 @@ const getSubmitDishData = exports.getSubmitDishData = (dishesData, shopId) => {
   const result = { singleDishInfos: [], multiDishInfos: [] };
   const getSingleDishInfo = (dishes, func) => [].concat.apply([], (dishes || []).map(dish => {
     let orderDishes = [];
+    const benefitDish = dish.benefitOptions || (dish.order[0] && dish.order[0].benefitOptions) || [];
+    const beSelectedBenefit = _find(benefitDish, benefit => benefit.isChecked);
+    const priId = beSelectedBenefit ? beSelectedBenefit.priId : null;
+    const priType = beSelectedBenefit ? beSelectedBenefit.priType : null;
     const order = dish.order;
     const dishInfo = {
       num: 0,
@@ -644,6 +648,8 @@ const getSubmitDishData = exports.getSubmitDishData = (dishesData, shopId) => {
       propertyIds: [],
       dishId: dish.id,
       shopId,
+      priId,
+      priType,
     };
     if (func) {
       func(dishInfo);
@@ -669,7 +675,11 @@ const getSubmitDishData = exports.getSubmitDishData = (dishesData, shopId) => {
   result.singleDishInfos = getSingleDishInfo(dishesData.filter(dish => dish.type === 0));
   result.multiDishInfos = [].concat.apply([], dishesData.filter(dish => dish.type === 1).map(dish => {
     const orderDishes = [];
-    const dishInfo = { num: 0, price: dish.marketPrice, dishId: dish.id, subDish: [], shopId };
+    const benefitDish = dish.benefitOptions || (dish.order[0] && dish.order[0].benefitOptions) || [];
+    const beSelectedBenefit = _find(benefitDish, benefit => benefit.isChecked);
+    const priId = beSelectedBenefit ? { priId:beSelectedBenefit.priId } : '';
+    const priType = beSelectedBenefit ? { priType:beSelectedBenefit.priType } : '';
+    const dishInfo = { num: 0, price: dish.marketPrice, priId, priType, dishId: dish.id, subDish: [], shopId };
     (dish.order || []).forEach(orderDish => {
       if (!orderDish.count) {
         return;
