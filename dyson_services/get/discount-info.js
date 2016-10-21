@@ -9,11 +9,11 @@ module.exports = {
       isMember:true,
       dishList:[
         {
-          dishId:599385,
+          dishId:599384,
           value:8,
         },
         {
-          dishId:61,
+          dishId:599399,
           value:9,
         },
       ],

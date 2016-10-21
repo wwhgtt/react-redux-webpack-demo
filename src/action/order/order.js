@@ -4,6 +4,7 @@ const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
 const isGroupDish = require('../../helper/dish-hepler.js').isGroupDish;
+const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 const helper = require('../../helper/order-helper.js');
 require('es6-promise');
 require('isomorphic-fetch');
@@ -23,6 +24,9 @@ const setCustomToShopAddress = createAction('SET_ADDRESS_TOSHOP_TO_ORDER', optio
 const setOrderTimeProps = createAction('SET_ORDER_TIME_PROPS', timeJson => timeJson);
 const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
 const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
+const setBenefitOptions = createAction('SET_BENEFIT_OPTIONS', options => options);
+exports.onSelectBenefit = createAction('ON_SELECT_BENEFIT', option => option);
+const setActivityBenefit = createAction('SET_ACTIVITY_BENEFIT', prop => prop);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 
@@ -281,6 +285,43 @@ exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
     });
 };
 
+exports.fetchActivityBenefit = () => (dispatch, getState) => {
+  const lastOrderedDishes = getState().orderedDishesProps;
+  let dishInfo = [];
+  lastOrderedDishes.dishes.map(dish => {
+    let dishDetailObject = {
+      dishId:dish.id,
+      dishNum:getDishesCount([dish]),
+    };
+    return dishInfo.push(dishDetailObject);
+  });
+  console.log(JSON.stringify(dishInfo));
+  const requestOptions = Object.assign({}, config.requestOptions, { method: 'POST' });
+  let fetchOptions = {
+    shopId,
+    orderAmount:getDishesPrice(lastOrderedDishes.dishes),
+    dishInfo,
+  };
+  requestOptions.body = JSON.stringify(fetchOptions);
+  fetch(`${config.orderedDishBenefitAPI}?shopId=${shopId}`, requestOptions)
+    .then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('提交订单信息失败'));
+      }
+      return res.json();
+    })
+    .then(result => {
+      if (result.code.toString() === '200') {
+        dispatch(setBenefitOptions(result.data));
+      } else {
+        dispatch(setErrorMsg(result.msg));
+      }
+    })
+    .catch(err => {
+      throw new Error(err);
+    });
+};
+
 const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState) => {
   const state = getState();
   const paramsData = helper.getSubmitUrlParams(state, note, receipt);
@@ -378,4 +419,7 @@ exports.checkCodeAvaliable = (data, note, receipt) => (dispatch, getState) => {
   .catch(err => {
     console.log(err);
   });
+};
+exports.setActivityBenefit = (evt, option) => (dispatch, getState) => {
+  dispatch(setActivityBenefit(option));
 };
