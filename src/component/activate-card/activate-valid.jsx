@@ -3,7 +3,7 @@ const getUrlParam = require('../../helper/common-helper.js').getUrlParam;
 
 const shopId = getUrlParam('shopId');
 const mobile = getUrlParam('mobile');
-const returnUrl = getUrlParam('returnUrl');
+const returnUrl = getUrlParam('returnUrl') || '';
 
 const ActivateValidApplication = React.createClass({
   displayName: 'ActivateValidApplication',
