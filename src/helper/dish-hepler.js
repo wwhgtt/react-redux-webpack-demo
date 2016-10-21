@@ -444,38 +444,31 @@ exports.formatOpenTime = (openTimeList, isWeekend) => {
 
 exports.formatMarket = (marketList) => {
   const formatMarket = {};
-  marketList.map((item, index) => {
-    if (!item.rules || item.rules.length === 0) {
-      return false;
+  marketList.forEach((item, index) => {
+    if (item.rules && item.rules.length !== 0) {
+      Object.assign(formatMarket, JSON.parse('{ "' + item.dishId + '" : ' + JSON.stringify(item.rules) + '}'));
     }
-    Object.assign(formatMarket, JSON.parse('{ "' + item.dishId + '" : ' + JSON.stringify(item.rules) + '}'));
-    return index;
   });
   return formatMarket;
 };
 
 exports.formatMarketUpdate = (marketList) => {
   let formatMarketUpdate = [];
-  marketList.map((item, index) => {
+  marketList.forEach((item, index) => {
     const dishId = item.dishId;
-    if (!item.rules || item.rules.length === 0) {
-      return false;
-    }
-    return (
-      item.rules.map((itemt, indext) => {
+    if (item.rules && item.rules.length !== 0) {
+      item.rules.forEach((itemt, indext) => {
         formatMarketUpdate = formatMarketUpdate.concat({ dishId, rule:itemt });
-        return formatMarketUpdate;
-      })
-    );
+      });
+    }
   });
   return formatMarketUpdate.sort((a, b) => b.rule.updateTime > a.rule.updateTime);
 };
 
 exports.formatDishesData = (dishesData) => {
   const formatDishesData = {};
-  dishesData.map((item, index) => {
-    Object.assign(formatDishesData, JSON.parse('{ "' + item.id + '" : ' + JSON.stringify(item) + '}'));
-    return index;
+  dishesData.forEach((item, index) => {
+    Object.assign(formatDishesData, JSON.parse('{ "' + item.brandDishId + '" : ' + JSON.stringify(item) + '}'));
   });
   return formatDishesData;
 };
