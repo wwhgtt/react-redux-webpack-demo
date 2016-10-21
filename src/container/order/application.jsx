@@ -17,6 +17,7 @@ const OrderSummary = require('../../component/order/order-summary.jsx');
 const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
+const BenefitSelect = require('../../component/order/benefit-select.jsx');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
@@ -48,6 +49,9 @@ const OrderApplication = React.createClass({
     setPhoneValidateProps:React.PropTypes.func.isRequired,
     checkCodeAvaliable:React.PropTypes.func.isRequired,
     fetchVericationCode:React.PropTypes.func.isRequired,
+    fetchActivityBenefit:React.PropTypes.func.isRequired,
+    onSelectBenefit:React.PropTypes.func.isRequired,
+    setActivityBenefit:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     customerAddressListInfo:React.PropTypes.object,
@@ -60,6 +64,7 @@ const OrderApplication = React.createClass({
     timeProps: React.PropTypes.object,
     childView: React.PropTypes.string,
     errorMessage: React.PropTypes.string,
+    isBenefitSelectWindowShow:React.PropTypes.bool.isRequired,
   },
   getInitialState() {
     return {
@@ -80,14 +85,15 @@ const OrderApplication = React.createClass({
   },
   componentDidMount() {
     this.setChildViewAccordingToHash();
-    const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons } = this.props;
+    const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons, fetchActivityBenefit } = this.props;
     fetchOrder().then(
       fetchOrderDiscountInfo
     )
     .then(fetchOrderCoupons)
     .then(
       () => { this.setChildViewAccordingToHash(); }
-    );
+    )
+    .then(fetchActivityBenefit);
   },
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -335,6 +341,8 @@ const OrderApplication = React.createClass({
       defaultCustomerProps,
       setCustomerToShopAddress,
       shuoldPhoneValidateShow,
+      isBenefitSelectWindowShow,
+      setActivityBenefit,
     } = this.props; // state
     const { setOrderProps, fetchUserAddressListInfo, setChildView } = this.props;// actions
     const type = getUrlParam('type');
@@ -443,28 +451,6 @@ const OrderApplication = React.createClass({
               }
             )}
           </div>
-          <div className="options-group">
-            {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length
-              && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 && commercialProps.diningForm !== 0 ?
-              <a className="option" href="#coupon-select">
-                <span className="option-title">使用优惠券</span>
-                <span className="badge-coupon">
-                  {serviceProps.couponsProps.inUseCoupon ?
-                    '已使用一张优惠券'
-                    :
-                    `${helper.getCouponsLength(serviceProps.couponsProps.couponsList)}张可用`
-                  }
-                </span>
-                <span className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
-              </a>
-            : false}
-            {serviceProps.integralsInfo && commercialProps.diningForm !== 0 ?
-              <ActiveSelect
-                optionsData={[serviceProps.integralsInfo]} onSelectOption={setOrderProps}
-                optionComponent={OrderPropOption}
-              />
-            : false}
-          </div>
 
           <div className="options-group">
             {buildSelectTimeElemnet()}
@@ -485,6 +471,7 @@ const OrderApplication = React.createClass({
           <OrderSummary
             serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
             commercialProps={commercialProps} shopId={shopId} isNeedShopMaterial
+            onSelectBenefit={this.props.onSelectBenefit} setOrderProps={setOrderProps}
           />
 
           {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
@@ -535,6 +522,16 @@ const OrderApplication = React.createClass({
           false
         }
 
+        {isBenefitSelectWindowShow ?
+          <BenefitSelect
+            setActivityBenefit={setActivityBenefit}
+            dish={serviceProps.activityBenefit.relatedDish}
+            serviceProps={serviceProps}
+            onSelectBenefit={this.props.onSelectBenefit}
+          />
+          :
+          false
+        }
         {childView === 'customer-info' && type === 'TS' ?
           <CustomerInfoEditor
             customerProps={customerProps} onCustomerPropsChange={setCustomerProps} onDone={this.resetChildView}

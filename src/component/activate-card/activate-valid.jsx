@@ -8,7 +8,19 @@ const returnUrl = getUrlParam('returnUrl');
 const ActivateValidApplication = React.createClass({
   displayName: 'ActivateValidApplication',
   propTypes: {
+    onBindWx: React.PropTypes.func,
+  },
 
+  handleActive() {
+    const phoneInfo = {
+      phoneNum: mobile,
+    };
+
+    this.props.onBindWx(phoneInfo, this.handleSuccessBind);
+  },
+
+  handleSuccessBind() {
+    location.href = decodeURIComponent(returnUrl);
   },
 
   render() {
@@ -22,7 +34,7 @@ const ActivateValidApplication = React.createClass({
           <p className="activate-info-item">如果该手机号不是您的，请使用其他手机号激活</p>
         </div>
         <div className="activate-operate">
-          <a className="btn--yellow" href={decodeURIComponent(returnUrl)}>去激活</a>
+          <a className="btn--yellow" onTouchTap={this.handleActive}>去激活</a>
           <a className="btn--yellow" href={`http://${location.host}/activate-validate.html?shopId=${shopId}`}>使用其他手机号激活</a>
         </div>
       </div>
