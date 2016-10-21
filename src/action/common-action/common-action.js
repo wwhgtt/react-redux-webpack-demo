@@ -103,3 +103,21 @@ exports.bindPhone = (phoneInfo, successCallBack) => (dispatch, getStates) => {
   });
 };
 
+// 绑定微信
+exports.bindWX = (phoneInfo, successCallBack) => (dispatch, getStates) => {
+  const bindWXURL = `${config.bindWXAPI}?shopId=${shopId}&mobile=${phoneInfo.phoneNum}`;
+  fetch(bindWXURL, config.requestOptions).
+  then(res => {
+    if (!res.ok) {
+      dispatch(setErrorMsg('绑定微信失败'));
+    }
+    return res.json();
+  }).
+  then(res => {
+    if (res.code === '200') {
+      successCallBack();
+    } else {
+      dispatch(setErrorMsg(res.msg));
+    }
+  });
+};
