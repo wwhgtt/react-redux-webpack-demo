@@ -785,7 +785,8 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
     if (mobile.indexOf('4') === 0 && mobile.length === 9) {
       mobile = '0' + mobile;
     }
-
+    const latitude = selectedAddress.latitude || 0;
+    const longitude = selectedAddress.longitude || 0;
     Object.assign(params, {
       name: selectedAddress.name,
       mobile,
@@ -795,6 +796,8 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
       memberAddressId: selectedAddress.id,
       sendAreaId,
       toShopFlag,
+      latitude,
+      longitude,
     });
     if (selectedDateTime.time) {
       if (selectedDateTime.time !== '立即取餐' && selectedDateTime.time !== '立即送餐') {

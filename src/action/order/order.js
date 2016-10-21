@@ -290,7 +290,7 @@ exports.fetchActivityBenefit = () => (dispatch, getState) => {
   let dishInfo = [];
   lastOrderedDishes.dishes.map(dish => {
     let dishDetailObject = {
-      dishId:dish.id,
+      dishId:dish.brandDishId,
       dishNum:getDishesCount([dish]),
     };
     return dishInfo.push(dishDetailObject);
