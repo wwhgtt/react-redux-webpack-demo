@@ -153,7 +153,13 @@
   }
 }
 
+.dishScrollerOuter {
+  padding-bottom: 50px;
+}
+
 .dish-type-scroller,
 .dish-scroller {
-  height: calc(100% - 85px);
+  height: 100%;
 }
+
+
