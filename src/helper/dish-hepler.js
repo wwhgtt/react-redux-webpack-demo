@@ -482,10 +482,10 @@ exports.formatDishesData = (dishesData) => {
 
 exports.matchDishesData = (marketListUpdate, formatDishesData) => {
   let widthNoAds = false;
-  marketListUpdate.map((item, index) => {
-    if (!formatDishesData[item.dishId]) { return false; }
-    widthNoAds = true;
-    return widthNoAds;
+  marketListUpdate.forEach((item, index) => {
+    if (formatDishesData[item.dishId]) {
+      widthNoAds = true;
+    }
   });
   return widthNoAds;
 };
