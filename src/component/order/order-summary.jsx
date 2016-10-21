@@ -157,7 +157,7 @@ module.exports = React.createClass({
                     helper.countPriceByCoupons(
                       serviceProps.couponsProps.inUseCouponDetail,
                       helper.getPriceCanBeUsedToBenefit(dishesPrice, serviceProps.deliveryProps)
-                        - serviceProps.discountProps.inUseDiscount - serviceProps.activityBenefit.benefitMoney
+                        - serviceProps.discountProps.inUseDiscount - Number(serviceProps.activityBenefit.benefitMoney)
                     )
                   )
                   :
@@ -165,7 +165,7 @@ module.exports = React.createClass({
                     helper.countPriceByCoupons(
                       serviceProps.couponsProps.inUseCouponDetail,
                       helper.getPriceCanBeUsedToBenefit(dishesPrice, serviceProps.deliveryProps)
-                        - serviceProps.activityBenefit.benefitMoney
+                        - Number(serviceProps.activityBenefit.benefitMoney)
                     )
                   )
                 }

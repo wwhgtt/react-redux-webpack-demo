@@ -905,18 +905,22 @@ exports.setDishBenefitInfo = (chosenDish, dish, benefitType) => {
 };
 exports.countAcvitityMoney = (dishes) => {
   let acvitityCollection = [];
-  dishes.map(dish => {
+  dishes.filter(dish => dish.benefitOptions || (dish.order[0] && dish.order[0].benefitOptions)).map(dish => {
     if (isSingleDishWithoutProps(dish)) {
+      console.log(dish);
       acvitityCollection.push(dish.activityBenefit ? dish.activityBenefit : 0);
     } else {
+      console.log(dish);
       dish.order.map(order => {
         acvitityCollection.push(order.activityBenefit ? order.activityBenefit : 0);
         return true;
       });
-      acvitityCollection.push(dish.activityBenefit * dish.order.length);
+      if (dish.activityBenefit) {
+        acvitityCollection.push(dish.activityBenefit * dish.order.length);
+      }
     }
     return true;
   });
-  // console.log(acvitityCollection);
+  console.log(acvitityCollection);
   return parseFloat((acvitityCollection.reduce((c, p) => c + p)).toFixed(2));
 };

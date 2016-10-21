@@ -150,7 +150,7 @@ exports.formatPrice = (price) => {
     return price;
   }
   if (price.toString().split('.')[1].length > 2) {
-    return price.toFixed(2);
+    return parseFloat(price.toFixed(2));
   }
   return price;
 };

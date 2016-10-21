@@ -4,7 +4,7 @@ module.exports = {
     data: {
       dishPriList: [
         {
-          dishId: 599384, // 菜品ID
+          dishId: 25, // 菜品ID
           dishPriInfo: [
             {
               priId: 2583, // 优惠ID
