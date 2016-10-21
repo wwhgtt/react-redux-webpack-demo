@@ -423,7 +423,7 @@ const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, tota
 exports.addBenefitTodish = (benefitProps, dish) => {
   let orderedDish = dish.asMutable({ deep: true });
   benefitProps.dishPriList.map(benefit => {
-    if (benefit.dishId === orderedDish.id) {
+    if (benefit.dishId === orderedDish.brandDishId) {
       benefit.dishPriInfo.forEach(info => info.id = info.priId);
       if (orderedDish.order instanceof Array) {
         orderedDish.order[0].benefitOptions = benefit.dishPriInfo;
