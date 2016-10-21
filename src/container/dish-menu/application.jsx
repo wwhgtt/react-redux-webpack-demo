@@ -60,20 +60,27 @@ const DishMenuApplication = React.createClass({
     const marketList = shopInfo.marketList;
     const marketListUpdate = shopInfo.marketListUpdate;
     return (
-      <div className="application">
-        <AdsColumn
-          dishesData={dishesData} shopInfo={shopInfo} marketList={marketList}
-          marketListUpdate={marketListUpdate}
-        />
-        <DishTypeScroller
-          dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeId={activeDishTypeId}
-          onDishTypeElementTap={activeDishType}
-        />
-        <DishScroller
-          dishTypesData={dishTypesData} dishesData={dishesData} diningForm={shopInfo.diningForm}
-          activeDishTypeId={activeDishTypeId} onScroll={activeDishType} marketList={marketList}
-          onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail} onImageBtnTap={showDishDesc}
-        />
+      <div className="application flex-columns">
+        {
+          marketListUpdate.length !== 0 && (
+            <AdsColumn
+              dishesData={dishesData} shopInfo={shopInfo} marketList={marketList}
+              marketListUpdate={marketListUpdate}
+            />
+          )
+        }
+        <div className="dishScrollerOuter flex-rest">
+          <DishTypeScroller
+            dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeId={activeDishTypeId}
+            onDishTypeElementTap={activeDishType}
+          />
+          <DishScroller
+            dishTypesData={dishTypesData} dishesData={dishesData} diningForm={shopInfo.diningForm}
+            activeDishTypeId={activeDishTypeId} onScroll={activeDishType} marketList={marketList}
+            onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail} onImageBtnTap={showDishDesc}
+            marketListUpdate={marketListUpdate}
+          />
+        </div>
         <CartContainer
           dishes={dishesData} takeawayServiceProps={takeawayServiceProps}
           openTimeList={openTimeList} isAcceptTakeaway={isAcceptTakeaway}

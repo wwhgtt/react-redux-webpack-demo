@@ -445,6 +445,9 @@ exports.formatOpenTime = (openTimeList, isWeekend) => {
 exports.formatMarket = (marketList) => {
   const formatMarket = {};
   marketList.map((item, index) => {
+    if (!item.rules || item.rules.length === 0) {
+      return false;
+    }
     Object.assign(formatMarket, JSON.parse('{ "' + item.dishId + '" : ' + JSON.stringify(item.rules) + '}'));
     return index;
   });
@@ -455,6 +458,9 @@ exports.formatMarketUpdate = (marketList) => {
   let formatMarketUpdate = [];
   marketList.map((item, index) => {
     const dishId = item.dishId;
+    if (!item.rules || item.rules.length === 0) {
+      return false;
+    }
     return (
       item.rules.map((itemt, indext) => {
         formatMarketUpdate = formatMarketUpdate.concat({ dishId, rule:itemt });

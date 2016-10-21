@@ -1,14 +1,18 @@
 const React = require('react');
 const helper = require('../../helper/dish-hepler.js');
+const formatPrice = require('../../helper/common-helper.js').formatPrice;
 const classnames = require('classnames');
+const BenefitOptions = require('../order/benefit-options.jsx');
 require('../../component/dish-menu/cart/cart-ordered-dish.scss');
 require('./ordered-dish.scss');
 
 module.exports = React.createClass({
-  displayName: 'CartOrderedDish',
+  displayName: 'OrderedDish',
   propTypes:{
     dish: React.PropTypes.object.isRequired,
     orderStatus:React.PropTypes.string,
+    onSelectBenefit:React.PropTypes.func.isRequired,
+    serviceProps:React.PropTypes.object.isRequired,
   },
   getInitialState() {
     return {
@@ -75,6 +79,24 @@ module.exports = React.createClass({
       </div>
     );
   },
+  buildDishBenefit(dish) {
+    const { onSelectBenefit, serviceProps } = this.props;
+    if (dish.order instanceof Array) {
+      if (dish.order[0].benefitOptions) {
+        return (<BenefitOptions
+          benefitProps={dish.order[0].benefitOptions}
+          onSelectBenefit={onSelectBenefit}
+          dish={dish}
+          serviceProps={serviceProps}
+        />);
+      }
+      return false;
+    }
+    return dish.benefitOptions ?
+      <BenefitOptions benefitProps={dish.benefitOptions} onSelectBenefit={onSelectBenefit} dish={dish} serviceProps={serviceProps} />
+      :
+      false;
+  },
   render() {
     const { dish, orderStatus } = this.props;
     const { expand } = this.state;
@@ -86,7 +108,12 @@ module.exports = React.createClass({
       hasProps = false;
     }
     const detailInfo = hasProps ? this.buildDetailInfo(dish) : false;
-
+    let dishBenefitPrice = 0;
+    if (dish.activityBenefit) {
+      dishBenefitPrice = dish.activityBenefit;
+    } else if (dish.order[0] && dish.order[0].activityBenefit) {
+      dishBenefitPrice = dish.order[0].activityBenefit;
+    }
     return (
       <div className="cart-ordered-dish">
         <div className="ordered-dish">
@@ -106,10 +133,16 @@ module.exports = React.createClass({
             :
             false
           }
+          {dishBenefitPrice ?
+            <span className="order-dish-price price">{formatPrice(helper.getDishPrice(dish) - dishBenefitPrice)}</span>
+            :
+            false
+          }
           <span className="order-dish-price price">{helper.getDishPrice(dish)}</span>
           <span className="order-dish-count">x{helper.getDishesCount([dish])}</span>
         </div>
         {expand ? detailInfo : false}
+        {this.buildDishBenefit(dish)}
       </div>
     );
   },
