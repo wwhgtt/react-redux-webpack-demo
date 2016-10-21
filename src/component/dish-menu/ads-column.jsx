@@ -15,7 +15,9 @@ const AdsColumn = React.createClass({
   getInitialState() {
     return { num:0, animation:{}, allDiscount:false };
   },
-  componentWillMount() {},
+  componentWillMount() {
+    this.showColumn = false;
+  },
   componentDidMount() {
     this._setInterval = setInterval(() => {
       let count = this.state.num;
@@ -48,6 +50,7 @@ const AdsColumn = React.createClass({
     const { marketListUpdate, shopInfo } = this.props;
     const formatDishesData = shopInfo.formatDishesData;
     const scrollAll = marketListUpdate.map((item, index) => {
+      if (!formatDishesData[item.dishId]) { return false; }
       let vip = '';
       if (item.rule.customerType === 1) {
         vip = '仅限会员使用';
@@ -59,7 +62,7 @@ const AdsColumn = React.createClass({
       const openDay = helper.renderDay(item.rule.weekdays);
       return (
         <p className={classnames('shopdiscount-item', { jian: item.rule.type === 1, zhe: item.rule.type === 2 })} key={index}>
-          {formatDishesData[item.dishId] ? formatDishesData[item.dishId].name : ''} {item.rule.ruleName}
+          {formatDishesData[item.dishId].name} {item.rule.ruleName}
           （{vip} {openDay}{item.rule.periodStart}~{item.rule.periodEnd}，每单仅限{item.rule.dishNum}份）
         </p>
       );
@@ -67,14 +70,21 @@ const AdsColumn = React.createClass({
     return scrollAll;
   },
   animatePartFunc() {
-    const { marketListUpdate } = this.props;
-    const animateAll = marketListUpdate.map((item, index) =>
-      (
-      <div className="content of" key={index}>
-        <i className={classnames('icon', { 'icon-jian': item.rule.type === 1, 'icon-zhe': item.rule.type === 2 })}></i>
-        <span className="detail ellipsis flex-rest">{item.rule.ruleName}</span>
-      </div>
-      )
+    const { marketListUpdate, shopInfo } = this.props;
+    const formatDishesData = shopInfo.formatDishesData;
+    const animateAll = marketListUpdate.map((item, index) => {
+      if (!formatDishesData[item.dishId]) { return []; }
+      this.showColumn = true;
+      return (
+        <div className="content of" key={index}>
+          <i className={classnames('icon', { 'icon-jian': item.rule.type === 1, 'icon-zhe': item.rule.type === 2 })}></i>
+          <span className="detail ellipsis flex-rest">
+            {formatDishesData[item.dishId].name}
+            {item.rule.ruleName}
+          </span>
+        </div>
+      );
+    }
     );
     return animateAll;
   },
@@ -84,39 +94,44 @@ const AdsColumn = React.createClass({
     const scrollPart = this.scrollPartFunc();
     const animatePart = this.animatePartFunc();
     return (
-      <div className="ads-column flex-row" onTouchTap={this.showAllDiscount}>
-        <div className="flex-rest of">
-          <div className="content-outer" style={animation}>
-            {animatePart}
-          </div>
-        </div>
-        <img src={filterBg} className="hide" alt="" />
-        <div className="flex-none ads-more">
-          更多详情
-          <i className="btn-arrow-right"></i>
-        </div>
+      <div>
         {
-          allDiscount ?
-            <div className="ads-detail">
-              <p className="shopname ellipsis">{shopInfo.commercialName || '未知的门店'}</p>
-              <div className="shopopentime">
-                <span className="title">营业时间：</span>
-                <div className="time">
-                  {helper.formatOpenTime(shopInfo.openTimeList, false)}
-                  <br />
-                  {helper.formatOpenTime(shopInfo.openTimeList, true)}
+          this.showColumn &&
+            <div className="ads-column flex-row" onTouchTap={this.showAllDiscount}>
+              <div className="flex-rest of">
+                <div className="content-outer" style={animation}>
+                  {animatePart}
                 </div>
               </div>
-              <fieldset className="shopdiscount">
-                <legend className="shopdiscount-brief">优惠信息</legend>
-                <div className="scrollpart">
-                  {scrollPart}
-                </div>
-                <div className="closedetail" onTouchTap={this.hideAllDiscount}></div>
-              </fieldset>
+              <img src={filterBg} className="hide" alt="" />
+              <div className="flex-none ads-more">
+                更多详情
+                <i className="btn-arrow-right"></i>
+              </div>
+              {
+                allDiscount ?
+                  <div className="ads-detail">
+                    <p className="shopname ellipsis">{shopInfo.commercialName || '未知的门店'}</p>
+                    <div className="shopopentime">
+                      <span className="title">营业时间：</span>
+                      <div className="time">
+                        {helper.formatOpenTime(shopInfo.openTimeList, false)}
+                        <br />
+                        {helper.formatOpenTime(shopInfo.openTimeList, true)}
+                      </div>
+                    </div>
+                    <fieldset className="shopdiscount">
+                      <legend className="shopdiscount-brief">优惠信息</legend>
+                      <div className="scrollpart">
+                        {scrollPart}
+                      </div>
+                      <div className="closedetail" onTouchTap={this.hideAllDiscount}></div>
+                    </fieldset>
+                  </div>
+                :
+                  false
+              }
             </div>
-          :
-            false
         }
       </div>
     );

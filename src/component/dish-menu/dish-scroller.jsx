@@ -23,6 +23,7 @@ module.exports = React.createClass({
     onImageBtnTap: React.PropTypes.func.isRequired,
     marketList: React.PropTypes.object,
     diningForm: React.PropTypes.bool,
+    marketListUpdate:React.PropTypes.array,
   },
   getInitialState() {
     return { distance:window.innerHeight - 84 };
@@ -46,9 +47,9 @@ module.exports = React.createClass({
       }
     });
     iScroll.on('scrollEnd', () => {
-      const { diningForm } = this.props;
+      const { diningForm, marketListUpdate } = this.props;
       let dishTypeId = '';
-      if (diningForm) {
+      if (diningForm && marketListUpdate.length !== 0) {
         dishTypeId = this.findCurrentDishTypeId(iScroll.y - 34);
       } else {
         dishTypeId = this.findCurrentDishTypeId(iScroll.y);
