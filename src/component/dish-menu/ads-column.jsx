@@ -15,9 +15,7 @@ const AdsColumn = React.createClass({
   getInitialState() {
     return { num:0, animation:{}, allDiscount:false };
   },
-  componentWillMount() {
-    this.showColumn = false;
-  },
+  componentWillMount() {},
   componentDidMount() {
     this._setInterval = setInterval(() => {
       let count = this.state.num;
@@ -74,7 +72,6 @@ const AdsColumn = React.createClass({
     const formatDishesData = shopInfo.formatDishesData;
     const animateAll = marketListUpdate.map((item, index) => {
       if (!formatDishesData[item.dishId]) { return []; }
-      this.showColumn = true;
       return (
         <div className="content of" key={index}>
           <i className={classnames('icon', { 'icon-jian': item.rule.type === 1, 'icon-zhe': item.rule.type === 2 })}></i>
@@ -96,7 +93,7 @@ const AdsColumn = React.createClass({
     return (
       <div>
         {
-          this.showColumn &&
+          shopInfo.marketMatchDishes &&
             <div className="ads-column flex-row" onTouchTap={this.showAllDiscount}>
               <div className="flex-rest of">
                 <div className="content-outer" style={animation}>
