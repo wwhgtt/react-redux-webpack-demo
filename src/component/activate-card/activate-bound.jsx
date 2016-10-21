@@ -1,7 +1,7 @@
 const React = require('react');
 const getUrlParam = require('../../helper/common-helper.js').getUrlParam;
 
-const returnUrl = getUrlParam('returnUrl');
+const returnUrl = getUrlParam('returnUrl') || '';
 const shopId = getUrlParam('shopId');
 
 const ActivateBoundApplication = React.createClass({

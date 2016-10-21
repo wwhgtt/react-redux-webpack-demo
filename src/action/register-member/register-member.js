@@ -7,7 +7,7 @@ const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error =>
 const setLoadMsg = exports.setLoadMsg = createAction('SET_LOAD_MSG', loadinfo => loadinfo);
 const setUserInfo = createAction('SET_USER_INFO', userInfo => userInfo);
 const shopId = helper.getUrlParam('shopId');
-const returnUrl = helper.getUrlParam('returnUrl');
+const returnUrl = helper.getUrlParam('returnUrl') || '';
 const activation = helper.getUrlParam('activation');
 const getFetchPostParam = require('../../helper/common-helper').getFetchPostParam;
 
