@@ -10,6 +10,7 @@ const DishDetailContainer = require('../../component/dish-menu/detail/dish-detai
 const DishDescPopup = require('../../component/dish-menu/detail/dish-desc-popup.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const AdsColumn = require('../../component/dish-menu/ads-column.jsx');
+const classnames = require('classnames');
 
 const DishMenuApplication = React.createClass({
   displayName: 'DishMenuApplication',
@@ -60,7 +61,7 @@ const DishMenuApplication = React.createClass({
     const marketList = shopInfo.marketList;
     const marketListUpdate = shopInfo.marketListUpdate;
     return (
-      <div className="application flex-columns">
+      <div className="application">
         {
           marketListUpdate.length !== 0 && (
             <AdsColumn
@@ -69,7 +70,16 @@ const DishMenuApplication = React.createClass({
             />
           )
         }
-        <div className="dishScrollerOuter flex-rest">
+        <div
+          className={
+            classnames(
+              {
+                dishScrollerOuter: marketListUpdate.length !== 0 && shopInfo.marketMatchDishes,
+                dishScrollerOutermarketMatchDishes: marketListUpdate.length === 0 || !shopInfo.marketMatchDishes,
+              }
+            )
+          }
+        >
           <DishTypeScroller
             dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeId={activeDishTypeId}
             onDishTypeElementTap={activeDishType}

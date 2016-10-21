@@ -480,6 +480,16 @@ exports.formatDishesData = (dishesData) => {
   return formatDishesData;
 };
 
+exports.matchDishesData = (marketListUpdate, formatDishesData) => {
+  let marketMatchDishes = false;
+  marketListUpdate.forEach((item, index) => {
+    if (formatDishesData[item.dishId]) {
+      marketMatchDishes = true;
+    }
+  });
+  return marketMatchDishes;
+};
+
 // 优惠券可用day展示
 exports.renderDay = (week) => {
   const regDay = /1{1,}/g; // 匹配一个1或多个1

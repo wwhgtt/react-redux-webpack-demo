@@ -14,6 +14,7 @@ module.exports = function (
       formatDishesData:{},
       marketList:{},
       marketListUpdate:[],
+      marketMatchDishes:false,
     },
     dishDetailData: undefined,
     takeawayServiceProps:undefined,
@@ -54,6 +55,10 @@ module.exports = function (
         formatDishesData:helper.formatDishesData(helper.setDishPropertyTypeInfos(payload.dishList)),
         marketList:helper.formatMarket(payload.marketing || []),
         marketListUpdate:helper.formatMarketUpdate(payload.marketing || []),
+        marketMatchDishes:helper.matchDishesData(
+          helper.formatMarketUpdate(payload.marketing || []),
+          helper.formatDishesData(helper.setDishPropertyTypeInfos(payload.dishList)),
+        ),
       })
       .setIn(['openTimeList'], payload.openTimeList)
       // equal to 0, means accepting takeaway 24 hours, 2016-07-30 16:46:31 后端调整为bool型
