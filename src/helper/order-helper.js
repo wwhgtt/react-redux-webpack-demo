@@ -826,7 +826,6 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
 
 const filterChosenDish = exports.filterChosenDish = (dishes, benefitProp) => {
   const newDishes = dishes.asMutable({ deep: true });
-  // console.log(benefitProp);
   newDishes.filter(function (dish) {
     if (dish.benefitOptions) {
       return dish;
@@ -839,11 +838,12 @@ const filterChosenDish = exports.filterChosenDish = (dishes, benefitProp) => {
       if (benefit.priId === benefitProp.priId) {
         benefit.isChecked = true;
         dish.noUseDiscount = true;
+        const reduce = benefitProp.reduce ? benefitProp.reduce : benefitProp.discount * dish.marketPrice;
         if (benefitProp.type === 1) {
           if (dish.benefitOptions) {
-            dish.activityBenefit = benefitProp.reduce;
+            dish.activityBenefit = reduce;
           } else {
-            dish.activityBenefit = parseFloat((benefitProp.reduce / dish.order.length).toFixed(2));
+            dish.activityBenefit = parseFloat((reduce / dish.order.length).toFixed(2));
             dish.order.forEach(order => {
               order.activityBenefit = 0;
             });
@@ -877,8 +877,6 @@ const filterChosenDish = exports.filterChosenDish = (dishes, benefitProp) => {
 exports.reorganizedActivityBenefit = (activityBenefit, dishes, benefitProp) => {
   const newDishes = filterChosenDish(dishes, benefitProp); // newDishes此时是可编辑状态
   const newActivityBenefit = activityBenefit.asMutable({ deep: true });
-  // console.log(newactivityBenefit);
-  // console.log(benefitProp);
   if (benefitProp.type === 1) {
     newActivityBenefit.benefitMoney += benefitProp.reduce;
   }
@@ -907,10 +905,8 @@ exports.countAcvitityMoney = (dishes) => {
   let acvitityCollection = [];
   dishes.filter(dish => dish.benefitOptions || (dish.order[0] && dish.order[0].benefitOptions)).map(dish => {
     if (isSingleDishWithoutProps(dish)) {
-      console.log(dish);
       acvitityCollection.push(dish.activityBenefit ? dish.activityBenefit : 0);
     } else {
-      console.log(dish);
       dish.order.map(order => {
         acvitityCollection.push(order.activityBenefit ? order.activityBenefit : 0);
         return true;
@@ -921,6 +917,5 @@ exports.countAcvitityMoney = (dishes) => {
     }
     return true;
   });
-  console.log(acvitityCollection);
   return parseFloat((acvitityCollection.reduce((c, p) => c + p)).toFixed(2));
 };
