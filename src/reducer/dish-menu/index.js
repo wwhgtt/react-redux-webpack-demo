@@ -7,6 +7,14 @@ module.exports = function (
     activeDishTypeId:-1,
     dishTypesData:[],
     dishesData:[],
+    shopInfo:{
+      commercialName:'',
+      openTimeList:[],
+      diningForm:undefined,
+      formatDishesData:{},
+      marketList:{},
+      marketListUpdate:[],
+    },
     dishDetailData: undefined,
     takeawayServiceProps:undefined,
     dishBoxChargeInfo:null,
@@ -39,6 +47,14 @@ module.exports = function (
       .setIn(['dishesData'], helper.setDishPropertyTypeInfos(payload.dishList))
       .setIn(['activeDishTypeId'], getFirstValidDishTypeId(payload))
       .set('dishBoxChargeInfo', helper.getUrlParam('type') === 'WM' && payload.extraCharge ? payload.extraCharge : null)
+      .set('shopInfo', {
+        commercialName:payload.commercialName,
+        openTimeList:payload.openTimeList,
+        diningForm:payload.diningForm !== 0,
+        formatDishesData:helper.formatDishesData(helper.setDishPropertyTypeInfos(payload.dishList)),
+        marketList:helper.formatMarket(payload.marketing || []),
+        marketListUpdate:helper.formatMarketUpdate(payload.marketing || []),
+      })
       .setIn(['openTimeList'], payload.openTimeList)
       // equal to 0, means accepting takeaway 24 hours, 2016-07-30 16:46:31 后端调整为bool型
       .setIn(['isAcceptTakeaway'], payload.isAcceptTakeaway === true)

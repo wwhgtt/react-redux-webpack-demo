@@ -389,3 +389,131 @@ exports.generateDishNameWithUnit = (dishData) => {
   }
   return `${dishData.name}/${dishData.unitName}`;
 };
+
+exports.formatOpenTime = (openTimeList, isWeekend) => {
+  let restore1 = '';
+  let restore2 = '';
+  let restoreAll = '';
+  if (!openTimeList || openTimeList.length === 0 && !isWeekend) {
+    return '整周：全天候';
+  }
+  openTimeList.map((item, index) => {
+    const startTime = item.startTime.substring(0, 5);
+    const endTime = item.endTime.substring(0, 5);
+    const allTime = `${startTime}-${endTime}`;
+
+    if (item.type === 0 && item.week === 7) {
+      if (!isWeekend) {
+        restoreAll = `整周：${allTime}`;
+      } else {
+        restoreAll = '';
+      }
+    } else if (item.type === 1) {
+      if (index === 0 && item.week === 0 && !isWeekend) {
+        restore1 = `${allTime}`;
+      } else if (index === 1 && item.week === 1 && isWeekend) {
+        restore2 = `${allTime}`;
+      }
+      restoreAll = `${isWeekend ? '休息日' : '工作日'}：${isWeekend ? restore2 : restore1}`;
+    } else if (item.type === 3 && item.week === 7) { // 分餐
+      if (!isWeekend) {
+        if (index === 0) {
+          restore1 = `${allTime}`;
+        }
+        restore2 = `${allTime}`;
+        restoreAll = `整周：${restore1} ${restore2}`;
+      } else {
+        restoreAll = '';
+      }
+    } else if (item.type === 2) {
+      if (index === 0 && item.week === 0) {
+        restore1 = `${allTime}`;
+      } else if (index === 1 && item.week === 0) {
+        restore2 = `${allTime}`;
+      } else if (index === 2 && item.week === 1 && isWeekend) {
+        restore1 = `${allTime}`;
+      } else if (index === 3 && item.week === 1 && isWeekend) {
+        restore2 = `${allTime}`;
+      }
+      restoreAll = `${isWeekend ? '休息日' : '工作日'}：${restore1} ${restore2}`;
+    }
+    return false;
+  });
+  return restoreAll;
+};
+
+exports.formatMarket = (marketList) => {
+  const formatMarket = {};
+  marketList.map((item, index) => {
+    Object.assign(formatMarket, JSON.parse('{ "' + item.dishId + '" : ' + JSON.stringify(item.rules) + '}'));
+    return index;
+  });
+  return formatMarket;
+};
+
+exports.formatMarketUpdate = (marketList) => {
+  let formatMarketUpdate = [];
+  marketList.map((item, index) => {
+    const dishId = item.dishId;
+    return (
+      item.rules.map((itemt, indext) => {
+        formatMarketUpdate = formatMarketUpdate.concat({ dishId, rule:itemt });
+        return formatMarketUpdate;
+      })
+    );
+  });
+  return formatMarketUpdate.sort((a, b) => b.rule.updateTime > a.rule.updateTime);
+};
+
+exports.formatDishesData = (dishesData) => {
+  const formatDishesData = {};
+  dishesData.map((item, index) => {
+    Object.assign(formatDishesData, JSON.parse('{ "' + item.id + '" : ' + JSON.stringify(item) + '}'));
+    return index;
+  });
+  return formatDishesData;
+};
+
+// 优惠券可用day展示
+exports.renderDay = (week) => {
+  const regDay = /1{1,}/g; // 匹配一个1或多个1
+  let periDay = '';
+  let strDay = '';
+  let dayIndex = '';
+  let days = '';
+
+  const formateDay = (day) => {
+    switch (day) {
+      case 1:
+        return '一';
+      case 2:
+        return '二';
+      case 3:
+        return '三';
+      case 4:
+        return '四';
+      case 5:
+        return '五';
+      case 6:
+        return '六';
+      case 7:
+        return '日';
+      default:
+        return '';
+    }
+  };
+  while (periDay != null) {
+    periDay = regDay.exec(week);
+    if (periDay) {
+      dayIndex = periDay.index;
+      days = periDay[0];
+
+      if (days.length > 1) {
+        strDay += `周${formateDay((dayIndex + 1))}到周${formateDay((dayIndex + days.length))}，`;
+      } else {
+        strDay += `周${formateDay((dayIndex + 1))}，`;
+      }
+    }
+  }
+  return strDay;
+};
