@@ -93,7 +93,7 @@ const AdsColumn = React.createClass({
     return (
       <div>
         {
-          shopInfo.withNoAds &&
+          shopInfo.marketMatchDishes &&
             <div className="ads-column flex-row" onTouchTap={this.showAllDiscount}>
               <div className="flex-rest of">
                 <div className="content-outer" style={animation}>

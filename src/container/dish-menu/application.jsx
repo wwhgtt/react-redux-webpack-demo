@@ -74,8 +74,8 @@ const DishMenuApplication = React.createClass({
           className={
             classnames(
               {
-                dishScrollerOuter: marketListUpdate.length !== 0 && shopInfo.withNoAds,
-                dishScrollerOuterWithNoAds: marketListUpdate.length === 0 || !shopInfo.withNoAds,
+                dishScrollerOuter: marketListUpdate.length !== 0 && shopInfo.marketMatchDishes,
+                dishScrollerOutermarketMatchDishes: marketListUpdate.length === 0 || !shopInfo.marketMatchDishes,
               }
             )
           }
