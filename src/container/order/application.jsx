@@ -21,6 +21,7 @@ const BenefitSelect = require('../../component/order/benefit-select.jsx');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
+const Dialog = require('../../component/mui/dialog/dialog.jsx');
 
 require('../../asset/style/style.scss');
 require('./application.scss');
@@ -523,12 +524,17 @@ const OrderApplication = React.createClass({
         }
 
         {isBenefitSelectWindowShow ?
-          <BenefitSelect
-            setActivityBenefit={setActivityBenefit}
-            dish={serviceProps.activityBenefit.relatedDish}
-            serviceProps={serviceProps}
-            onSelectBenefit={this.props.onSelectBenefit}
-          />
+          <Dialog
+            title="该商品可参加以下优惠"
+            button={[{ text: '确定', className: 'btn-confirm btn--yellow' }]}
+          >
+            <BenefitSelect
+              setActivityBenefit={setActivityBenefit}
+              dish={serviceProps.activityBenefit.relatedDish}
+              serviceProps={serviceProps}
+              onSelectBenefit={this.props.onSelectBenefit}
+            />
+          </Dialog>
           :
           false
         }

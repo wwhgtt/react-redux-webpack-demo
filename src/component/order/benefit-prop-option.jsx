@@ -20,9 +20,9 @@ module.exports = React.createClass({
     const { priName, priId, priType, dishNum, reduce, discount, ...otherProps } = this.props;
     return (
       <div className="option">
-        <span className="option-title">{+priType === 2 ? `礼品券(${priName})` : priName}</span>
+        <span className="option-title ellipsis">{+priType === 2 ? `礼品券(${priName})` : priName}</span>
         <span style={{ display:'none' }}>{priId}{priType}{dishNum}{reduce}{discount}</span>
-        <DynamicClassLink className={classnames('option-btn')} {...otherProps} />
+        <DynamicClassLink className={classnames('option-btn btn-tickbox')} {...otherProps} />
       </div>
     );
   },

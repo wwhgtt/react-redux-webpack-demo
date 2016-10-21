@@ -1,0 +1,17 @@
+@import "settings.colors";
+@import "settings.sizes";
+
+
+.dialog-content {
+  text-align: left;
+
+  .option-title {
+    width: 200px;
+  }
+
+  &-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+}
