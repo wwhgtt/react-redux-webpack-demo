@@ -82,7 +82,7 @@ exports.checkBindCode = (phoneInfo, vipCallBack, successCallBack, boundCallBack)
 
 // 绑定手机
 exports.bindPhone = (phoneInfo, successCallBack) => (dispatch, getStates) => {
-  const phoneNum = phoneInfo.mobile;
+  const phoneNum = phoneInfo.phoneNum;
   const bindPhoneURL = `${config.bindPhoneAPI}?shopId=${shopId}&mobile=${phoneNum}`;
 
   fetch(bindPhoneURL, config.requestOptions).
