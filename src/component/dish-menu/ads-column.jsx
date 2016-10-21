@@ -57,10 +57,9 @@ const AdsColumn = React.createClass({
         vip = '';
       }
       const openDay = helper.renderDay(item.rule.weekdays);
-
       return (
         <p className={classnames('shopdiscount-item', { jian: item.rule.type === 1, zhe: item.rule.type === 2 })} key={index}>
-          {formatDishesData[item.dishId].name} {item.rule.ruleName}
+          {formatDishesData[item.dishId] ? formatDishesData[item.dishId].name : ''} {item.rule.ruleName}
           （{vip} {openDay}{item.rule.periodStart}~{item.rule.periodEnd}，每单仅限{item.rule.dishNum}份）
         </p>
       );
@@ -92,7 +91,7 @@ const AdsColumn = React.createClass({
           </div>
         </div>
         <img src={filterBg} className="hide" alt="" />
-        <div className="flex-none">
+        <div className="flex-none ads-more">
           更多详情
           <i className="btn-arrow-right"></i>
         </div>

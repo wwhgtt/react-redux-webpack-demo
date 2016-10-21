@@ -20,6 +20,10 @@
     transition: all .5s;
   }
 
+  .ads-more {
+    line-height: 1.2em;
+  }
+
   .content {
     display: flex;
     margin-bottom: 1em;
@@ -51,9 +55,9 @@
   /* 覆盖样式 */
   .btn-arrow-right::after {
     width: 10px;
-    height: 12px;
+    height: 15px;
     background-image: url("../../asset/images/arrow-right-white.png");
-    background-size: auto 100%;
+    background-size: auto .8em;
   }
 }
 
