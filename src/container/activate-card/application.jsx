@@ -1,6 +1,5 @@
 const React = require('react');
 const connect = require('react-redux').connect;
-const bindActionCreators = require('redux').bindActionCreators;
 const commonAction = require('../../action/common-action/common-action.js');
 
 const ActivateSuccess = require('../../component/activate-card/activate-success.jsx');
@@ -17,6 +16,7 @@ const ActivateCardApplication = React.createClass({
   propTypes: {
     childView: React.PropTypes.string,
     setChildView: React.PropTypes.func,
+    bindWX: React.PropTypes.func,
   },
 
   componentWillMount() {
@@ -32,13 +32,13 @@ const ActivateCardApplication = React.createClass({
   },
 
   render() {
-    const { childView } = this.props;
+    const { childView, bindWX } = this.props;
 
     let showSection = '';
     if (childView === '#activate-bound') {
       showSection = <ActivateBound />;
     } else if (childView === '#activate-valid') {
-      showSection = <ActivateValid />;
+      showSection = <ActivateValid onBindWx={bindWX} />;
     } else if (childView === '#activate-faild') {
       showSection = <ActivateFaild />;
     } else {
@@ -64,9 +64,4 @@ const mapStateToProps = function (state) {
   };
 };
 
-const mapDispatchToProps = function (dispatch) {
-  const actionObj = Object.assign({}, commonAction);
-  return bindActionCreators(actionObj, dispatch);
-};
-
-module.exports = connect(mapStateToProps, mapDispatchToProps)(ActivateCardApplication);
+module.exports = connect(mapStateToProps, commonAction)(ActivateCardApplication);
