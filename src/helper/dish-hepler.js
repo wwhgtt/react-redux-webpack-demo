@@ -468,7 +468,7 @@ exports.formatMarketUpdate = (marketList) => {
 exports.formatDishesData = (dishesData) => {
   const formatDishesData = {};
   dishesData.forEach((item, index) => {
-    Object.assign(formatDishesData, JSON.parse('{ "' + item.id + '" : ' + JSON.stringify(item) + '}'));
+    Object.assign(formatDishesData, JSON.parse('{ "' + item.brandDishId + '" : ' + JSON.stringify(item) + '}'));
   });
   return formatDishesData;
 };

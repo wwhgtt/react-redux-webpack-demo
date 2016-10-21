@@ -80,7 +80,7 @@ module.exports = React.createClass({
   render() {
     const { dishData, marketList, diningForm } = this.props;
     const orderBtn = this.buildOrderBtn(dishData);
-    const discountPart = this.disCountInfo(diningForm, marketList, dishData.id);
+    const discountPart = this.disCountInfo(diningForm, marketList, dishData.brandDishId);
     return (
       <div className="dish-on-selling">
         {dishData.currRemainTotal !== 0 ?

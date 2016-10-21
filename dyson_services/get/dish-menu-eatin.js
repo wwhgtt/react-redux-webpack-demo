@@ -7,10 +7,70 @@ module.exports = {
         "diningForm" : 1,
         "marketing":[//优惠规则信息
             {
-              dishId : 1295360
+              dishId : 1295360,
+              rules : [{
+                      dishId : 1,
+                      planId : 11,
+                      ruleId : 1,
+                      ruleName : "立减3元",
+                      type : 1,
+                      dishNum : 2,
+                      reduce : 3,
+                      discount : null,
+                      periodStart : "07:00:00",
+                      periodEnd : "23:59:59",
+                      weekdays : "1110011",
+                      customerType : 1,
+                      updateTime: "2016-05-01"
+                  }, {
+                      dishId : 2,
+                      planId : 22,
+                      ruleId : 222,
+                      ruleName : "享受8.5折",
+                      type : 2,
+                      dishNum : 2,
+                      reduce : null,
+                      discount : 8.5,
+                      periodStart : "07:00:00",
+                      periodEnd : "23:59:59",
+                      weekdays : "1111110",
+                      customerType : 2,
+                      updateTime: "2016-05-09"
+                  }
+              ]
             },
             {
-              dishId : 1284046
+              dishId : 1284046,
+              rules : [{
+                      dishId : 1,
+                      planId : 11,
+                      ruleId : 1,
+                      ruleName : "小波打5折",
+                      type : 1,
+                      dishNum : 2,
+                      reduce : 3,
+                      discount : null,
+                      periodStart : "07:00:00",
+                      periodEnd : "23:59:59",
+                      weekdays : "1111111",
+                      customerType : 3,
+                      updateTime: "2016-05-20"
+                  }, {
+                      dishId : 2,
+                      planId : 22,
+                      ruleId : 222,
+                      ruleName : "享受8.5折",
+                      type : 2,
+                      dishNum : 2,
+                      reduce : null,
+                      discount : 8.5,
+                      periodStart : "07:00:00",
+                      periodEnd : "23:59:59",
+                      weekdays : "1001111",
+                      customerType : 2,
+                      updateTime: "2016-05-08"
+                  }
+              ]
             }
         ],
         "dishTypeList": [
