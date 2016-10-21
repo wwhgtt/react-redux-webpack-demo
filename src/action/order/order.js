@@ -303,7 +303,7 @@ exports.fetchActivityBenefit = () => (dispatch, getState) => {
     dishInfo,
   };
   requestOptions.body = JSON.stringify(fetchOptions);
-  fetch(config.orderedDishBenefitAPI, requestOptions)
+  fetch(`${config.orderedDishBenefitAPI}?shopId=${shopId}`, requestOptions)
     .then(res => {
       if (!res.ok) {
         dispatch(setErrorMsg('提交订单信息失败'));
