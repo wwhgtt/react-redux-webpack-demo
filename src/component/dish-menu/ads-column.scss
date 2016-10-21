@@ -154,7 +154,11 @@
 }
 
 .dishScrollerOuter {
-  padding-bottom: 50px;
+  height: calc(100% - 84px);
+}
+
+.dishScrollerOuterWithNoAds {
+  height: calc(100% - 50px);
 }
 
 .dish-type-scroller,
