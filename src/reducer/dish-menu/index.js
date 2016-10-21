@@ -14,7 +14,7 @@ module.exports = function (
       formatDishesData:{},
       marketList:{},
       marketListUpdate:[],
-      widthNoAds:false,
+      withNoAds:false,
     },
     dishDetailData: undefined,
     takeawayServiceProps:undefined,
@@ -55,7 +55,7 @@ module.exports = function (
         formatDishesData:helper.formatDishesData(helper.setDishPropertyTypeInfos(payload.dishList)),
         marketList:helper.formatMarket(payload.marketing || []),
         marketListUpdate:helper.formatMarketUpdate(payload.marketing || []),
-        widthNoAds:helper.matchDishesData(
+        withNoAds:helper.matchDishesData(
           helper.formatMarketUpdate(payload.marketing || []),
           helper.formatDishesData(helper.setDishPropertyTypeInfos(payload.dishList)),
         ),

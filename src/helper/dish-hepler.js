@@ -481,13 +481,13 @@ exports.formatDishesData = (dishesData) => {
 };
 
 exports.matchDishesData = (marketListUpdate, formatDishesData) => {
-  let widthNoAds = false;
+  let withNoAds = false;
   marketListUpdate.forEach((item, index) => {
     if (formatDishesData[item.dishId]) {
-      widthNoAds = true;
+      withNoAds = true;
     }
   });
-  return widthNoAds;
+  return withNoAds;
 };
 
 // 优惠券可用day展示
