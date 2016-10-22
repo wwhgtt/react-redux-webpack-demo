@@ -526,7 +526,8 @@ const OrderApplication = React.createClass({
         {isBenefitSelectWindowShow ?
           <Dialog
             title="该商品可参加以下优惠"
-            button={[{ text: '确定', className: 'btn-confirm btn--yellow' }]}
+            theme="sliver"
+            hasTopBtnClose={false}
           >
             <BenefitSelect
               setActivityBenefit={setActivityBenefit}

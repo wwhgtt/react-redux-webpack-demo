@@ -32,7 +32,7 @@ module.exports = React.createClass({
     const { dish, setActivityBenefit, serviceProps } = this.props;
     const discountDish = _find(serviceProps.discountProps.discountList, discount => discount.dishId === dish.id);
     return (
-      <div className="options-group">
+      <div className="dialog-options-group">
         <ActiveSelect
           optionsData={dish.benefitOptions || dish.order[0].benefitOptions} onSelectOption={setActivityBenefit}
           optionComponent={BenefitPropOption}
@@ -48,7 +48,7 @@ module.exports = React.createClass({
   },
   render() {
     return (
-      <div className="dialog-content options-group">
+      <div className="dialog-content">
         {this.buildBenefitDetail()}
         <button className="dialog-content-btn" onTouchTap={() => this.onSelectBenefit()}>确定</button>
       </div>
