@@ -14,13 +14,14 @@
   top: 50%;
   left: 50%;
   width: 85%;
-  text-align: center;
   border-radius: 4px;
   background-color: #fff;
   transform: translate(-50%, -50%);
 
   &-header {
+    overflow: hidden;
     padding: 1.2em 20px .5em;
+    text-align: center;
   }
 
   &-title {
@@ -42,6 +43,10 @@
     button {
       flex: 1;
       border-radius: 4px;
+    }
+
+    &:empty {
+      padding: 10px 0 0;
     }
   }
 
@@ -98,4 +103,34 @@
   left: 0;
   opacity: .4;
   background: #000;
+}
+
+.sliver {
+  overflow: hidden;
+
+  .dialog-header {
+    font-size: 14px;
+    line-height: 40px;
+    height: 40px;
+    padding: 0;
+    background: $color-gallery;
+  }
+
+
+  .dialog-footer {
+    height: 40px;
+    padding: 0;
+  }
+
+  button {
+    font-size: 16px;
+    height: 40px;
+    color: #fff;
+    border-radius: 0;
+    background: $color-sliver;
+  }
+
+  .btn-confirm {
+    background: $color-sunglow;
+  }
 }
