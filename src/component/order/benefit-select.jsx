@@ -33,10 +33,14 @@ module.exports = React.createClass({
     const discountDish = _find(serviceProps.discountProps.discountList, discount => discount.dishId === dish.id);
     return (
       <div className="dialog-options-group">
-        <ActiveSelect
-          optionsData={dish.benefitOptions || dish.order[0].benefitOptions} onSelectOption={setActivityBenefit}
-          optionComponent={BenefitPropOption}
-        />
+        {dish.benefitOptions || (dish.order[0] && dish.order[0].benefitOptions) ?
+          <ActiveSelect
+            optionsData={dish.benefitOptions || dish.order[0].benefitOptions} onSelectOption={setActivityBenefit}
+            optionComponent={BenefitPropOption}
+          />
+          :
+          false
+        }
         {discountDish ?
           <BenefitPropOptionDuplicate priName={'会员价'} setActivityBenefit={(evt) => this.setActivityBenefit(evt, 'discount')} />
           :

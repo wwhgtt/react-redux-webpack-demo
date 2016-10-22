@@ -1,4 +1,5 @@
 const React = require('react');
+const _find = require('lodash.find');
 const helper = require('../../helper/dish-hepler.js');
 const formatPrice = require('../../helper/common-helper.js').formatPrice;
 const classnames = require('classnames');
@@ -81,6 +82,7 @@ module.exports = React.createClass({
   },
   buildDishBenefit(dish) {
     const { onSelectBenefit, serviceProps } = this.props;
+    const discountDish = _find(serviceProps.discountProps.discountList, discount => discount.dishId === dish.id);
     if (dish.order instanceof Array) {
       if (dish.order[0].benefitOptions) {
         return (<BenefitOptions
@@ -92,8 +94,8 @@ module.exports = React.createClass({
       }
       return false;
     }
-    return dish.benefitOptions ?
-      <BenefitOptions benefitProps={dish.benefitOptions} onSelectBenefit={onSelectBenefit} dish={dish} serviceProps={serviceProps} />
+    return (dish.benefitOptions || discountDish) ?
+      <BenefitOptions benefitProps={dish.benefitOptions || []} onSelectBenefit={onSelectBenefit} dish={dish} serviceProps={serviceProps} />
       :
       false;
   },
