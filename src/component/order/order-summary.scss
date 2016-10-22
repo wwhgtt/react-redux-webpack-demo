@@ -5,7 +5,7 @@
   border-bottom: 1px solid $color-alto;
 
   // order-summary icons
-  @for $i from 1 through 5 {
+  @for $i from 1 through 6 {
     &-icon#{$i}::before {
       background-image: url("../../asset/images/summary-#{$i}.png");
     }
@@ -20,15 +20,8 @@
     line-height: 32px;
   }
 
-  &-cart .ordered-dish {
-    > .dish-name {
-      width: calc(100% - 190px) !important;
-    }
-
-    > .order-dish-price:nth-last-of-type(2) {
-      text-decoration: line-through;
-      color: $color-dusty-grey;
-    }
+  &-cart .dish-name {
+    width: calc(100% - 190px) !important;
   }
 }
 

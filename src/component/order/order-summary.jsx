@@ -69,7 +69,7 @@ module.exports = React.createClass({
           {orderedElements}
 
           {serviceProps.deliveryProps && serviceProps.deliveryProps.deliveryPrice ?
-            <p className="order-summary-entry clearfix">
+            <p className="option clearfix">
               <span className="option-title">配送费:</span>
               <span className="order-discount price">{serviceProps.deliveryProps.deliveryPrice}</span>
             </p>
@@ -77,7 +77,7 @@ module.exports = React.createClass({
             false
           }
           {helper.getDishBoxPrice() ?
-            <p className="order-summary-entry clearfix">
+            <p className="option clearfix">
               <span className="option-title">餐盒费:</span>
               <span className="order-discount price">{helper.getDishBoxPrice()}</span>
             </p>
@@ -129,7 +129,7 @@ module.exports = React.createClass({
             }
             {serviceProps.activityBenefit.benefitMoney > 0 ?
               <p className="order-summary-entry clearfix">
-                <span className="option-title option-title--icon order-summary-icon1">活动优惠:</span>
+                <span className="option-title option-title--icon order-summary-icon6">活动优惠:</span>
                 <span className="order-discount discount">
                   {serviceProps.activityBenefit.benefitMoney}
                 </span>
