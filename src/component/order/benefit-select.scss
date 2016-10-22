@@ -9,14 +9,20 @@
   }
 
   &-option {
+    display: block;
     overflow: hidden;
     padding: 12px 0;
+    cursor: pointer;
     border-bottom: 1px solid $color-alto;
 
     &-title {
       line-height: 20px;
       float: left;
       width: 200px;
+    }
+
+    &-tickbox {
+      float: right;
     }
   }
 }

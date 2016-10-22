@@ -1,6 +1,4 @@
 const React = require('react');
-const classnames = require('classnames');
-const DynamicClassLink = require('../mui/misc/dynamic-class-hoc.jsx')('a');
 const shallowCompare = require('react-addons-shallow-compare');
 
 module.exports = React.createClass({
@@ -13,12 +11,18 @@ module.exports = React.createClass({
     return shallowCompare(this, nextProps, nextState);
   },
   render() {
-    const { priName, setActivityBenefit, ...otherProps } = this.props;
+    const { priName, setActivityBenefit } = this.props;
     return (
-      <div className="dialog-option" onTouchTap={setActivityBenefit} >
+      <label className="dialog-option" >
         <span className="dialog-option-title ellipsis">{priName}</span>
-        <DynamicClassLink className={classnames('option-btn btn-tickbox')} {...otherProps} />
-      </div>
+        <div className="dialog-option-tickbox">
+          <input
+            className="option-radio" type="radio" name="benefit" defaultValue="1"
+            onChange={setActivityBenefit}
+          />
+          <span className="btn-tickbox"></span>
+        </div>
+      </label>
     );
   },
 });

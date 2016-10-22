@@ -1,6 +1,5 @@
 const React = require('react');
 const _find = require('lodash.find');
-const ActiveSelect = require('../mui/select/active-select.jsx');
 const BenefitPropOption = require('./benefit-prop-option.jsx');
 const BenefitPropOptionDuplicate = require('./benefit-prop-option-duplicate.jsx');
 
@@ -34,10 +33,8 @@ module.exports = React.createClass({
     return (
       <div className="dialog-options-group">
         {dish.benefitOptions || (dish.order[0] && dish.order[0].benefitOptions) ?
-          <ActiveSelect
-            optionsData={dish.benefitOptions || dish.order[0].benefitOptions} onSelectOption={setActivityBenefit}
-            optionComponent={BenefitPropOption}
-          />
+          (dish.benefitOptions || dish.order[0].benefitOptions).map(benefitProp =>
+            <BenefitPropOption setActivityBenefit={setActivityBenefit} benefitProp={benefitProp} key={benefitProp.priId} />)
           :
           false
         }
