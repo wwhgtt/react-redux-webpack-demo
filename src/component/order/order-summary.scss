@@ -5,7 +5,7 @@
   border-bottom: 1px solid $color-alto;
 
   // order-summary icons
-  @for $i from 1 through 5 {
+  @for $i from 1 through 6 {
     &-icon#{$i}::before {
       background-image: url("../../asset/images/summary-#{$i}.png");
     }

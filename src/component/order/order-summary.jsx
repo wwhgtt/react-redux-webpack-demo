@@ -129,7 +129,7 @@ module.exports = React.createClass({
             }
             {serviceProps.activityBenefit.benefitMoney > 0 ?
               <p className="order-summary-entry clearfix">
-                <span className="option-title option-title--icon order-summary-icon1">活动优惠:</span>
+                <span className="option-title option-title--icon order-summary-icon6">活动优惠:</span>
                 <span className="order-discount discount">
                   {serviceProps.activityBenefit.benefitMoney}
                 </span>
