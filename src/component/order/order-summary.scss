@@ -20,15 +20,8 @@
     line-height: 32px;
   }
 
-  &-cart .ordered-dish {
-    > .dish-name {
-      width: calc(100% - 190px) !important;
-    }
-
-    > .order-dish-price:nth-last-of-type(2) {
-      text-decoration: line-through;
-      color: $color-dusty-grey;
-    }
+  &-cart .dish-name {
+    width: calc(100% - 190px) !important;
   }
 }
 
