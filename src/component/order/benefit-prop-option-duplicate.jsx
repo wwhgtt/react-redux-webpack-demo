@@ -15,9 +15,9 @@ module.exports = React.createClass({
   render() {
     const { priName, setActivityBenefit, ...otherProps } = this.props;
     return (
-      <div className="option" onTouchTap={setActivityBenefit} >
-        <span className="option-title">{priName}</span>
-        <DynamicClassLink className={classnames('option-btn')} {...otherProps} />
+      <div className="dialog-option" onTouchTap={setActivityBenefit} >
+        <span className="dialog-option-title ellipsis">{priName}</span>
+        <DynamicClassLink className={classnames('option-btn btn-tickbox')} {...otherProps} />
       </div>
     );
   },

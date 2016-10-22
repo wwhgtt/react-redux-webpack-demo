@@ -3,6 +3,9 @@ const _find = require('lodash.find');
 const ActiveSelect = require('../mui/select/active-select.jsx');
 const BenefitPropOption = require('./benefit-prop-option.jsx');
 const BenefitPropOptionDuplicate = require('./benefit-prop-option-duplicate.jsx');
+
+require('./benefit-select.scss');
+
 module.exports = React.createClass({
   displayName: 'BenefitSelect',
   propTypes: {
@@ -29,7 +32,7 @@ module.exports = React.createClass({
     const { dish, setActivityBenefit, serviceProps } = this.props;
     const discountDish = _find(serviceProps.discountProps.discountList, discount => discount.dishId === dish.id);
     return (
-      <div className="benefit-item">
+      <div className="dialog-options-group">
         <ActiveSelect
           optionsData={dish.benefitOptions || dish.order[0].benefitOptions} onSelectOption={setActivityBenefit}
           optionComponent={BenefitPropOption}
@@ -45,12 +48,9 @@ module.exports = React.createClass({
   },
   render() {
     return (
-      <div className="options">
-        <div className="">
-          <p className="title">该商品可参加一下优惠</p>
-          {this.buildBenefitDetail()}
-          <button onTouchTap={() => this.onSelectBenefit()}>确定</button>
-        </div>
+      <div className="dialog-content">
+        {this.buildBenefitDetail()}
+        <button className="dialog-content-btn" onTouchTap={() => this.onSelectBenefit()}>确定</button>
       </div>
     );
   },

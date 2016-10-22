@@ -905,8 +905,10 @@ exports.countAcvitityMoney = (dishes) => {
   let acvitityCollection = [];
   dishes.filter(dish => dish.benefitOptions || (dish.order[0] && dish.order[0].benefitOptions)).map(dish => {
     if (isSingleDishWithoutProps(dish)) {
+      console.log(dish);
       acvitityCollection.push(dish.activityBenefit ? dish.activityBenefit : 0);
     } else {
+      console.log(dish);
       dish.order.map(order => {
         acvitityCollection.push(order.activityBenefit ? order.activityBenefit : 0);
         return true;

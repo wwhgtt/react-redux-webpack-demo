@@ -1,5 +1,8 @@
 const React = require('react');
 const _find = require('lodash.find');
+
+require('./benefit-options.scss');
+
 module.exports = React.createClass({
   displayName: 'BenefitOptions',
   propTypes: {
@@ -27,18 +30,16 @@ module.exports = React.createClass({
     const { benefitProps } = this.props;
     let chosenBenefit = _find(benefitProps, prop => prop.isChecked);
     return (
-      <div className="options">
-        <div className="">
-          {benefitProps ?
-            <div className="benefit-prop">
-              <span>优惠</span>
-              <span>{this.buildBenefitName(chosenBenefit)}</span>
-            </div>
-            :
-            false
-          }
-          <button onTouchTap={this.onSelectBenefit}>切换优惠</button>
-        </div>
+      <div className="benefit-banner clearfix">
+        {benefitProps ?
+          <div className="fl">
+            <span className="benefit-badge">优惠</span>
+            <span className="benefit-text">{this.buildBenefitName(chosenBenefit)}</span>
+          </div>
+          :
+          false
+        }
+        <button className="benefit-btn btn--ellips fr" onTouchTap={this.onSelectBenefit}>切换优惠</button>
       </div>
     );
   },
