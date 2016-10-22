@@ -55,7 +55,7 @@ module.exports = React.createClass({
 
     const orderedElements = this.buildOrderedElements(orderedDishesProps.dishes);
     return (
-      <div>
+      <div className="order-summary-cart">
         <div className="options-group">
           {isNeedShopMaterial ?
             <a className="option option-shop">
