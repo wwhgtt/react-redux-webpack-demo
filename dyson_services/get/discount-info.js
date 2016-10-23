@@ -9,7 +9,7 @@ module.exports = {
       isMember:true,
       dishList:[
         {
-          dishId:599384,
+          dishId:56,
           value:8,
         },
         {

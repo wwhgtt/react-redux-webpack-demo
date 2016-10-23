@@ -39,11 +39,19 @@ module.exports = React.createClass({
           false
         }
         {discountDish ?
-          <BenefitPropOptionDuplicate priName={'会员价'} setActivityBenefit={(evt) => this.setActivityBenefit(evt, 'discount')} />
+          <BenefitPropOptionDuplicate
+            priName={'会员价'}
+            isChecked={!dish.noUseDiscount && !dish.noBenefit}
+            setActivityBenefit={(evt) => this.setActivityBenefit(evt, 'discount')}
+          />
           :
           false
         }
-        <BenefitPropOptionDuplicate priName={'不享受优惠'} setActivityBenefit={(evt) => this.setActivityBenefit(evt, 'noBenefit')} />
+        <BenefitPropOptionDuplicate
+          priName={'不享受优惠'}
+          isChecked={dish.noBenefit}
+          setActivityBenefit={(evt) => this.setActivityBenefit(evt, 'noBenefit')}
+        />
       </div>
     );
   },
@@ -51,7 +59,7 @@ module.exports = React.createClass({
     return (
       <div className="dialog-content">
         {this.buildBenefitDetail()}
-        <button className="dialog-content-btn" onTouchTap={() => this.onSelectBenefit()}>确定</button>
+        <button className="dialog-content-btn" onTouchTap={(evt) => { evt.preventDefault(); this.onSelectBenefit(); }}>确定</button>
       </div>
     );
   },

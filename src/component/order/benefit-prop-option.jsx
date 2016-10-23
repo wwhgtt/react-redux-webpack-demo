@@ -23,6 +23,7 @@ module.exports = React.createClass({
           <input
             className="option-radio" type="radio" name="benefit" defaultValue="1"
             onChange={evt => this.setActivityBenefit(evt, benefitProp)}
+            defaultChecked={benefitProp.isChecked}
           />
           <span className="btn-tickbox"></span>
         </div>
