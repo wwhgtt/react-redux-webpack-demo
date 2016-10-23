@@ -246,9 +246,24 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, discountL
         newOrderedDishes.filter(dish => !dish.noUseDiscount).forEach(
           orderedDish => {
             if (orderedDish.id === dishcount.dishId) {
-              disCountPriceList.push(
-                parseFloat(((1 - parseFloat(dishcount.value) / 10) * getDishesCount([orderedDish]) * orderedDish.marketPrice).toFixed(2))
-              );
+              if (isSingleDishWithoutProps(orderedDish)) {
+                disCountPriceList.push(parseFloat(
+                  ((1 - parseFloat(dishcount.value) / 10) * getDishesCount([orderedDish]) * orderedDish.marketPrice).toFixed(2)
+                ));
+              } else {
+                orderedDish.order.map(order => {
+                  let orderPrice = getOrderPrice(orderedDish, order);
+                  let discountPrice = parseFloat(
+                    ((1 - parseFloat(dishcount.value) / 10) * order.count * orderedDish.marketPrice).toFixed(2)
+                  );
+                  if (orderPrice > discountPrice) {
+                    disCountPriceList.push(discountPrice);
+                  } else {
+                    disCountPriceList.push(orderPrice);
+                  }
+                  return true;
+                });
+              }
             }
           }
         );
@@ -261,9 +276,24 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, discountL
         newOrderedDishes.filter(dish => !dish.noUseDiscount).forEach(
           orderedDish => {
             if (orderedDish.id === dishcount.dishId) {
-              disCountPriceList.push(
-                parseFloat(((orderedDish.marketPrice - dishcount.value) * getDishesCount([orderedDish])).toFixed(2))
-              );
+              if (isSingleDishWithoutProps(orderedDish)) {
+                disCountPriceList.push(
+                  parseFloat(((orderedDish.marketPrice - dishcount.value) * getDishesCount([orderedDish])).toFixed(2))
+                );
+              } else {
+                orderedDish.order.map(order => {
+                  let orderPrice = getOrderPrice(orderedDish, order);
+                  let discountPrice = parseFloat(
+                    ((orderedDish.marketPrice - dishcount.value) * order.count * orderedDish.marketPrice).toFixed(2)
+                  );
+                  if (orderPrice > discountPrice) {
+                    disCountPriceList.push(discountPrice);
+                  } else {
+                    disCountPriceList.push(orderPrice);
+                  }
+                  return true;
+                });
+              }
             }
           }
         );

@@ -1,7 +1,9 @@
 const React = require('react');
+const Immutable = require('seamless-immutable');
 const _find = require('lodash.find');
 const helper = require('../../helper/dish-hepler.js');
 const formatPrice = require('../../helper/common-helper.js').formatPrice;
+const countMemberPrice = require('../../helper/order-helper.js').countMemberPrice;
 const classnames = require('classnames');
 const BenefitOptions = require('../order/benefit-options.jsx');
 require('../../component/dish-menu/cart/cart-ordered-dish.scss');
@@ -100,7 +102,7 @@ module.exports = React.createClass({
       false;
   },
   render() {
-    const { dish, orderStatus } = this.props;
+    const { dish, orderStatus, serviceProps } = this.props;
     const { expand } = this.state;
 
     let hasProps;
@@ -115,6 +117,14 @@ module.exports = React.createClass({
       dishBenefitPrice = dish.activityBenefit;
     } else if (dish.order[0] && dish.order[0].activityBenefit) {
       dishBenefitPrice = dish.order[0].activityBenefit;
+    } else {
+      dishBenefitPrice =
+        countMemberPrice(
+          true,
+          Immutable.from([dish]),
+          serviceProps.discountProps.discountList,
+          serviceProps.discountProps.discountType
+        );
     }
     return (
       <div className="cart-ordered-dish">
@@ -135,7 +145,7 @@ module.exports = React.createClass({
             :
             false
           }
-          {dishBenefitPrice ?
+          {dishBenefitPrice && helper.getDishPrice(dish) > dishBenefitPrice ?
             <span className="order-dish-price price">{formatPrice(helper.getDishPrice(dish) - dishBenefitPrice)}</span>
             :
             false
