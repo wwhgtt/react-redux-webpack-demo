@@ -246,9 +246,24 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, discountL
         newOrderedDishes.filter(dish => !dish.noUseDiscount).forEach(
           orderedDish => {
             if (orderedDish.id === dishcount.dishId) {
-              disCountPriceList.push(
-                parseFloat(((1 - parseFloat(dishcount.value) / 10) * getDishesCount([orderedDish]) * orderedDish.marketPrice).toFixed(2))
-              );
+              if (isSingleDishWithoutProps(orderedDish)) {
+                disCountPriceList.push(parseFloat(
+                  ((1 - parseFloat(dishcount.value) / 10) * getDishesCount([orderedDish]) * orderedDish.marketPrice).toFixed(2)
+                ));
+              } else {
+                orderedDish.order.map(order => {
+                  let orderPrice = getOrderPrice(orderedDish, order);
+                  let discountPrice = parseFloat(
+                    ((1 - parseFloat(dishcount.value) / 10) * order.count * orderedDish.marketPrice).toFixed(2)
+                  );
+                  if (orderPrice > discountPrice) {
+                    disCountPriceList.push(discountPrice);
+                  } else {
+                    disCountPriceList.push(orderPrice);
+                  }
+                  return true;
+                });
+              }
             }
           }
         );
@@ -261,9 +276,24 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, discountL
         newOrderedDishes.filter(dish => !dish.noUseDiscount).forEach(
           orderedDish => {
             if (orderedDish.id === dishcount.dishId) {
-              disCountPriceList.push(
-                parseFloat(((orderedDish.marketPrice - dishcount.value) * getDishesCount([orderedDish])).toFixed(2))
-              );
+              if (isSingleDishWithoutProps(orderedDish)) {
+                disCountPriceList.push(
+                  parseFloat(((orderedDish.marketPrice - dishcount.value) * getDishesCount([orderedDish])).toFixed(2))
+                );
+              } else {
+                orderedDish.order.map(order => {
+                  let orderPrice = getOrderPrice(orderedDish, order);
+                  let discountPrice = parseFloat(
+                    ((orderedDish.marketPrice - dishcount.value) * order.count * orderedDish.marketPrice).toFixed(2)
+                  );
+                  if (orderPrice > discountPrice) {
+                    disCountPriceList.push(discountPrice);
+                  } else {
+                    disCountPriceList.push(orderPrice);
+                  }
+                  return true;
+                });
+              }
             }
           }
         );
@@ -838,7 +868,8 @@ const filterChosenDish = exports.filterChosenDish = (dishes, benefitProp) => {
       if (benefit.priId === benefitProp.priId) {
         benefit.isChecked = true;
         dish.noUseDiscount = true;
-        const reduce = benefitProp.reduce ? benefitProp.reduce : benefitProp.discount * dish.marketPrice;
+        dish.noBenefit = false;
+        const reduce = benefitProp.reduce ? benefitProp.reduce : (benefitProp.discount / 10 * dish.marketPrice) * getDishesCount([dish]);
         if (benefitProp.type === 1) {
           if (dish.benefitOptions) {
             dish.activityBenefit = reduce;
@@ -856,18 +887,21 @@ const filterChosenDish = exports.filterChosenDish = (dishes, benefitProp) => {
             dish.activityBenefit = 0;
             let benefitNumber = benefitProp.dishNum || 1;
             for (let i = 0; i <= benefitNumber; i++) {
+              const eachOrderPrice = getOrderPrice(dish, dish.order[i]) / dish.order[i].count;
               if (dish.order[i].count < benefitNumber) {
-                dish.order[i].activityBenefit = getOrderPrice(dish, dish.order[i]) >= dish.marketPrice ?
-                  dish.marketPrice * dish.order[i].count : getOrderPrice(dish, dish.order[i]) * dish.order[i].count;
+                dish.order[i].activityBenefit = eachOrderPrice >= dish.marketPrice ?
+                  dish.marketPrice * dish.order[i].count : eachOrderPrice * dish.order[i].count;
                 benefitNumber = benefitNumber - dish.order[i].count;
               } else {
-                dish.order[i].activityBenefit = getOrderPrice(dish, dish.order[i]) >= dish.marketPrice ?
-                  dish.marketPrice * benefitNumber : getOrderPrice(dish, dish.order[i]) * benefitNumber;
+                dish.order[i].activityBenefit = eachOrderPrice >= dish.marketPrice ?
+                  dish.marketPrice * benefitNumber : eachOrderPrice * benefitNumber;
                 benefitNumber = 0;
               }
             }
           }
         }
+      } else {
+        benefit.isChecked = false;
       }
     });
     return dish;
@@ -892,13 +926,20 @@ exports.setDishBenefitInfo = (chosenDish, dish, benefitType) => {
   }
   let newDish = dish.asMutable({ deep: true });
   newDish.noUseDiscount = benefitType !== 'discount';
-  if (isSingleDishWithoutProps(newDish)) {
-    newDish.activityBenefit = 0; // 活动优惠和礼品券全部归0
-  } else {
-    newDish.order.forEach(order => {
-      order.activityBenefit = 0;
-    });
+  newDish.noBenefit = benefitType !== 'discount';
+  if (newDish.benefitOptions || (newDish.order[0] && newDish.order[0].benefitOptions)) {
+    if (isSingleDishWithoutProps(newDish)) {
+      newDish.activityBenefit = 0; // 活动优惠和礼品券全部归0
+      newDish.benefitOptions.forEach(benefit => benefit.isChecked = false);
+    } else {
+      newDish.activityBenefit = 0;
+      newDish.order.forEach(order => {
+        order.activityBenefit = 0;
+      });
+      newDish.order[0].benefitOptions.forEach(benefit => benefit.isChecked = false);
+    }
   }
+
   return newDish;
 };
 exports.countAcvitityMoney = (dishes) => {
@@ -908,7 +949,6 @@ exports.countAcvitityMoney = (dishes) => {
       console.log(dish);
       acvitityCollection.push(dish.activityBenefit ? dish.activityBenefit : 0);
     } else {
-      console.log(dish);
       dish.order.map(order => {
         acvitityCollection.push(order.activityBenefit ? order.activityBenefit : 0);
         return true;

@@ -11,9 +11,10 @@ module.exports = React.createClass({
     dish:React.PropTypes.object.isRequired,
     serviceProps:React.PropTypes.object.isRequired,
   },
-  onSelectBenefit() {
+  onSelectBenefit(evt) {
     const { onSelectBenefit, dish } = this.props;
     onSelectBenefit(dish.id);
+    evt.preventDefault();
   },
   buildBenefitName(benefit) {
     const { serviceProps, dish } = this.props;
@@ -39,7 +40,7 @@ module.exports = React.createClass({
           :
           false
         }
-        <button className="benefit-btn btn--ellips fr" onTouchTap={this.onSelectBenefit}>切换优惠</button>
+        <button className="benefit-btn btn--ellips fr" onTouchTap={evt => this.onSelectBenefit(evt)}>切换优惠</button>
       </div>
     );
   },
