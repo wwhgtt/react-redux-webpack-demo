@@ -870,7 +870,7 @@ const filterChosenDish = exports.filterChosenDish = (dishes, benefitProp) => {
         dish.noUseDiscount = true;
         dish.noBenefit = false;
         const reduce = benefitProp.reduce ? benefitProp.reduce : (benefitProp.discount / 10 * dish.marketPrice) * getDishesCount([dish]);
-        if (benefitProp.type === 1) {
+        if (benefitProp.priType === 1) {
           if (dish.benefitOptions) {
             dish.activityBenefit = reduce;
           } else {
@@ -911,7 +911,7 @@ const filterChosenDish = exports.filterChosenDish = (dishes, benefitProp) => {
 exports.reorganizedActivityBenefit = (activityBenefit, dishes, benefitProp) => {
   const newDishes = filterChosenDish(dishes, benefitProp); // newDishes此时是可编辑状态
   const newActivityBenefit = activityBenefit.asMutable({ deep: true });
-  if (benefitProp.type === 1) {
+  if (benefitProp.priType === 1) {
     newActivityBenefit.benefitMoney += benefitProp.reduce;
   }
   return {
