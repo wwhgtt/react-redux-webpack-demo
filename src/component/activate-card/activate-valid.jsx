@@ -21,18 +21,23 @@ const ActivateValidApplication = React.createClass({
     this.props.onBindWx(phoneInfo, this.handleSuccessBind);
   },
 
+  // 绑定成功
   handleSuccessBind() {
     location.href = decodeURIComponent(returnUrl);
   },
 
+  // 使用其他手机激活
   handleOtherActive() {
+    // 退出当前账号
     this.props.onLogout(this.handleSuccessLogout, this.handleFaildLogout);
   },
 
+  // 成功退出
   handleSuccessLogout() {
-    location.href = `http://${location.host}/user/validBindMobile?shopId=${shopId}&returnUrl=${returnUrl}`;
+    location.href = `http://${location.host}/user/validBindMobileActive?shopId=${shopId}&returnUrl=${returnUrl}`;
   },
 
+  // 退出失败
   handleFaildLogout() {
     this.props.setErrorMsg('操作失败，请重试');
   },
