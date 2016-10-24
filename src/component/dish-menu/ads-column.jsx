@@ -1,6 +1,5 @@
 const React = require('react');
 require('./ads-column.scss');
-const filterBg = require('../../asset/images/filter-bg.jpg');
 const helper = require('../../helper/dish-hepler');
 const classnames = require('classnames');
 
@@ -60,7 +59,8 @@ const AdsColumn = React.createClass({
       const openDay = helper.renderDay(item.rule.weekdays);
       return (
         <p className={classnames('shopdiscount-item', { jian: item.rule.type === 1, zhe: item.rule.type === 2 })} key={index}>
-          {formatDishesData[item.dishId].name} {item.rule.ruleName}
+          {formatDishesData[item.dishId].name}
+          {item.rule.dishNum > 1 ? `满${item.rule.dishNum}份${item.rule.ruleName}` : item.rule.ruleName}
           （{vip} {openDay}{item.rule.periodStart}~{item.rule.periodEnd}，每单仅限{item.rule.dishNum}份）
         </p>
       );
@@ -77,7 +77,7 @@ const AdsColumn = React.createClass({
           <i className={classnames('icon', { 'icon-jian': item.rule.type === 1, 'icon-zhe': item.rule.type === 2 })}></i>
           <span className="detail ellipsis flex-rest">
             {formatDishesData[item.dishId].name}
-            {item.rule.ruleName}
+            {item.rule.dishNum > 1 ? `满${item.rule.dishNum}份${item.rule.ruleName}` : item.rule.ruleName}
           </span>
         </div>
       );
@@ -100,7 +100,6 @@ const AdsColumn = React.createClass({
                   {animatePart}
                 </div>
               </div>
-              <img src={filterBg} className="hide" alt="" />
               <div className="flex-none ads-more">
                 更多详情
                 <i className="btn-arrow-right"></i>
