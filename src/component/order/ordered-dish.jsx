@@ -145,7 +145,7 @@ module.exports = React.createClass({
             :
             false
           }
-          {dishBenefitPrice && helper.getDishPrice(dish) > dishBenefitPrice ?
+          {dishBenefitPrice && helper.getDishPrice(dish) >= dishBenefitPrice ?
             <span className="order-dish-price price">{formatPrice(helper.getDishPrice(dish) - dishBenefitPrice)}</span>
             :
             false

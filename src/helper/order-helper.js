@@ -668,8 +668,15 @@ const getSubmitDishData = exports.getSubmitDishData = (dishesData, shopId) => {
     let orderDishes = [];
     const benefitDish = dish.benefitOptions || (dish.order[0] && dish.order[0].benefitOptions) || [];
     const beSelectedBenefit = _find(benefitDish, benefit => benefit.isChecked);
-    const priId = beSelectedBenefit ? beSelectedBenefit.priId : null;
-    const priType = beSelectedBenefit ? beSelectedBenefit.priType : null;
+    let priId = dish.isMember ? 0 : null;
+    let priType = dish.isMember ? 3 : null;// 会员价的情况
+    if (beSelectedBenefit) {
+      priId = beSelectedBenefit.priId;
+      priType = beSelectedBenefit.priType;
+    } else if (dish.noBenefit) {
+      priId = null;
+      priType = null;
+    }
     const order = dish.order;
     const dishInfo = {
       num: 0,
