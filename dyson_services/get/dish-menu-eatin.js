@@ -20,7 +20,7 @@ module.exports = {
                       periodStart : "07:00:00",
                       periodEnd : "23:59:59",
                       weekdays : "1110011",
-                      customerType : 1,
+                      customerType : 5,
                       updateTime: "2016-05-01"
                   }, {
                       dishId : 2,
