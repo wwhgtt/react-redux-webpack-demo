@@ -13,7 +13,7 @@ module.exports = {
               type:1, // 规则类型 1立减 ，2折扣
               dishNum:2, // 满减份数
               reduce:null, // 减免金额
-              discount: 5, // 折扣
+              discount: 8, // 折扣
             },
             {
               priId: 2581,

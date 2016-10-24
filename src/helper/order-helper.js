@@ -861,7 +861,7 @@ const filterChosenDish = exports.filterChosenDish = (dishes, benefitProp) => {
         benefit.isChecked = true;
         dish.noUseDiscount = true;
         dish.noBenefit = false;
-        const reduce = benefitProp.reduce ? benefitProp.reduce : (benefitProp.discount / 10 * dish.marketPrice) * getDishesCount([dish]);
+        const reduce = benefitProp.reduce ? benefitProp.reduce : ((1 - benefitProp.discount / 10) * dish.marketPrice) * benefitProp.dishNum;
         if (benefitProp.priType === 1) {
           if (dish.benefitOptions) {
             dish.activityBenefit = reduce;
