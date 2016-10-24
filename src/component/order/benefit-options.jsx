@@ -17,12 +17,12 @@ module.exports = React.createClass({
     evt.preventDefault();
   },
   buildBenefitName(benefit) {
-    const { serviceProps, dish } = this.props;
-    const isDiscountDish = _find(serviceProps.discountProps.discountList, discount => discount.dishId === dish.id);
+    const { dish } = this.props;
+    // const isDiscountDish = _find(serviceProps.discountProps.discountList, discount => discount.dishId === dish.id);
     if (benefit) {
       return benefit.priName;
     }
-    if (isDiscountDish) {
+    if (dish.isMember) {
       return dish.noUseDiscount ? '不享受优惠' : '会员价';
     }
     return '不享受优惠';
