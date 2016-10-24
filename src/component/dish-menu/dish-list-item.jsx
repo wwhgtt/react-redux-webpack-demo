@@ -70,7 +70,12 @@ module.exports = React.createClass({
       }
       return (
         <span className="dish-item-discount ellipsis">
-          {marketList[dishId][0].ruleName}
+          {
+            marketList[dishId][0].dishNum > 1 ?
+              `满${marketList[dishId][0].dishNum}份${marketList[dishId][0].ruleName}`
+            :
+              marketList[dishId][0].ruleName
+          }
           {vip}每单限{marketList[dishId][0].dishNum}份)
         </span>);
     }
