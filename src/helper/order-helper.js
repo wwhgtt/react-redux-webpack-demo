@@ -981,9 +981,7 @@ exports.countInitializeBenefit = (benefitProps, dishes) => {
   let dishCollection = [];
   for (let i = 0; i < newOrderedDishes.length; i++) {
     let dish = addBenefitTodish(benefitProps, Immutable.from(newOrderedDishes[i]));
-    console.log(dish);
     dishCollection.push(dish);
   }
-  console.log(dishCollection);
   return countAcvitityMoney(dishCollection);
 };
