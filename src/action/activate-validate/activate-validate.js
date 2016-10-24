@@ -17,7 +17,7 @@ exports.checkBindCodeActive = (phoneInfo, vipCallBack, successCallBack, boundCal
   const timestamp = getStates().timestamp || new Date().getTime();
   const paramStr = getUrlParams(phoneInfo);
   const validBindMobileURL =
-  `${config.validBindMobileAPI}?shopId=${shopId}&timeStamp=${timestamp}&${paramStr}`;
+  `${config.validBindMobileActiveAPI}?shopId=${shopId}&timeStamp=${timestamp}&${paramStr}`;
 
   fetch(validBindMobileURL, config.requestOptions).
   then(res => {
