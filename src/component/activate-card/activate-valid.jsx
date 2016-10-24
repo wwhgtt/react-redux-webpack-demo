@@ -9,6 +9,8 @@ const ActivateValidApplication = React.createClass({
   displayName: 'ActivateValidApplication',
   propTypes: {
     onBindWx: React.PropTypes.func,
+    onLogout: React.PropTypes.func,
+    setErrorMsg: React.PropTypes.func,
   },
 
   handleActive() {
@@ -23,6 +25,18 @@ const ActivateValidApplication = React.createClass({
     location.href = decodeURIComponent(returnUrl);
   },
 
+  handleOtherActive() {
+    this.props.onLogout(this.handleSuccessLogout, this.handleFaildLogout);
+  },
+
+  handleSuccessLogout() {
+    location.href = `http://${location.host}/user/validBindMobile?shopId=${shopId}&returnUrl=${returnUrl}`;
+  },
+
+  handleFaildLogout() {
+    this.props.setErrorMsg('操作失败，请重试');
+  },
+
   render() {
     return (
       <div className="activate-valid flex-rest">
@@ -35,7 +49,7 @@ const ActivateValidApplication = React.createClass({
         </div>
         <div className="activate-operate">
           <a className="btn--yellow" onTouchTap={this.handleActive}>去激活</a>
-          <a className="btn--yellow" href={`http://${location.host}/user/validBindMobile?shopId=${shopId}&returnUrl=${returnUrl}`}>使用其他手机号激活</a>
+          <a className="btn--yellow" onTouchTap={this.handleOtherActive}>使用其他手机号激活</a>
         </div>
       </div>
     );

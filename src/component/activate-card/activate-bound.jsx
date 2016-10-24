@@ -7,7 +7,23 @@ const shopId = getUrlParam('shopId');
 const ActivateBoundApplication = React.createClass({
   displayName: 'ActivateBoundApplication',
   propTypes: {
+    onLogout: React.PropTypes.func,
+    setErrorMsg: React.PropTypes.func,
 
+  },
+
+  handleActivate() {
+    this.props.onLogout(this.handleSuccessLogout, this.handleFaildLogout);
+  },
+
+  // 成功退出
+  handleSuccessLogout() {
+    location.href = `http://${location.host}/user/validBindMobile?shopId=${shopId}&returnUrl=${returnUrl}`;
+  },
+
+  // 退出失败
+  handleFaildLogout() {
+    this.props.setErrorMsg('操作失败，请重试');
   },
 
   render() {
@@ -20,7 +36,7 @@ const ActivateBoundApplication = React.createClass({
           <p className="activate-info-item">请使用对应微信号或其他手机号激活</p>
         </div>
         <div className="activate-operate">
-          <a className="btn--yellow" href={`http://${location.host}/user/validBindMobile?shopId=${shopId}&returnUrl=${returnUrl}`}>使用其他手机号激活</a>
+          <a className="btn--yellow" onTouchTap={this.handleActivate}>使用其他手机号激活</a>
         </div>
       </div>
     );

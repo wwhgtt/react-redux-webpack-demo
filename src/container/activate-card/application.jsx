@@ -2,6 +2,7 @@ const React = require('react');
 const connect = require('react-redux').connect;
 const commonAction = require('../../action/common-action/common-action.js');
 
+const Toast = require('../../component/mui/toast.jsx');
 const ActivateSuccess = require('../../component/activate-card/activate-success.jsx');
 const ActivateBound = require('../../component/activate-card/activate-bound.jsx');
 const ActivateValid = require('../../component/activate-card/activate-valid.jsx');
@@ -17,6 +18,9 @@ const ActivateCardApplication = React.createClass({
     childView: React.PropTypes.string,
     setChildView: React.PropTypes.func,
     bindWX: React.PropTypes.func,
+    logout: React.PropTypes.func,
+    setErrorMsg: React.PropTypes.func,
+    errorMessage: React.PropTypes.string,
   },
 
   componentWillMount() {
@@ -31,14 +35,18 @@ const ActivateCardApplication = React.createClass({
     setChildView(hash);
   },
 
+  handleClearErrorMsg() {
+    this.props.setErrorMsg('');
+  },
+
   render() {
-    const { childView, bindWX } = this.props;
+    const { childView, bindWX, logout, setErrorMsg, errorMessage } = this.props;
 
     let showSection = '';
     if (childView === '#activate-bound') {
-      showSection = <ActivateBound />;
+      showSection = <ActivateBound onLogout={logout} setErrorMsg={setErrorMsg} />;
     } else if (childView === '#activate-valid') {
-      showSection = <ActivateValid onBindWx={bindWX} />;
+      showSection = <ActivateValid onBindWx={bindWX} onLogout={logout} setErrorMsg={setErrorMsg} />;
     } else if (childView === '#activate-faild') {
       showSection = <ActivateFaild />;
     } else {
@@ -51,6 +59,9 @@ const ActivateCardApplication = React.createClass({
           <span>powered by </span>
           <img src={kryPic} role="presentation" />
         </div>
+        {
+          errorMessage && <Toast errorMessage={errorMessage} clearErrorMsg={this.handleClearErrorMsg} />
+        }
       </div>
     );
   },
