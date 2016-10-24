@@ -7,7 +7,7 @@ module.exports = {
         "diningForm" : 1,
         "marketing":[//优惠规则信息
             {
-              dishId : 1295360,
+              dishId : 745360,
               rules : [{
                       dishId : 1,
                       planId : 11,
@@ -40,7 +40,7 @@ module.exports = {
               ]
             },
             {
-              dishId : 1284046,
+              dishId : 1247100,
               rules : [{
                       dishId : 1,
                       planId : 11,
@@ -10722,8 +10722,8 @@ module.exports = {
         ],
         "openTimeList": [
             {
-                "week": 0,
-                "type": 2,
+                "week": 7,
+                "type": 0,
                 "startTime": "00:01:00",
                 "endTime": "00:02:00"
             }
