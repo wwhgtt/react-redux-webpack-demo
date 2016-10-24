@@ -18,7 +18,7 @@ const ActivateBoundApplication = React.createClass({
 
   // 成功退出
   handleSuccessLogout() {
-    location.href = `http://${location.host}/user/validBindMobile?shopId=${shopId}&returnUrl=${returnUrl}`;
+    location.href = `http://${location.host}/user/validBindMobileActive?shopId=${shopId}&returnUrl=${returnUrl}`;
   },
 
   // 退出失败
