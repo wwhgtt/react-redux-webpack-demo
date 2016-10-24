@@ -66,12 +66,16 @@ module.exports = React.createClass({
       switch (marketList[dishId][0].customerType) {
         case 1 : vip = '(会员 '; break;
         case 2 : vip = '(非会员 '; break;
-        case 3 : vip = '('; break;
-        default: break;
+        default: vip = '('; break;
       }
       return (
         <span className="dish-item-discount ellipsis">
-          {marketList[dishId][0].ruleName}
+          {
+            marketList[dishId][0].dishNum > 1 ?
+              `满${marketList[dishId][0].dishNum}份${marketList[dishId][0].ruleName}`
+            :
+              marketList[dishId][0].ruleName
+          }
           {vip}每单限{marketList[dishId][0].dishNum}份)
         </span>);
     }
