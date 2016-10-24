@@ -409,12 +409,12 @@ exports.formatOpenTime = (openTimeList, isWeekend) => {
         restoreAll = '';
       }
     } else if (item.type === 1) {
-      if (index === 0 && item.week === 0 && !isWeekend) {
-        restore1 = `${allTime}`;
-      } else if (index === 1 && item.week === 1 && isWeekend) {
-        restore2 = `${allTime}`;
+      if (item.week === 0 && !isWeekend) {
+        restore1 = `工作日：${allTime}`;
+      } else if (item.week === 1 && !isWeekend) {
+        restore1 = `休息日：${allTime}`;
       }
-      restoreAll = `${isWeekend ? '休息日' : '工作日'}：${isWeekend ? restore2 : restore1}`;
+      restoreAll = `${isWeekend ? restore2 : restore1}`;
     } else if (item.type === 3 && item.week === 7) { // 分餐
       if (!isWeekend) {
         if (index === 0) {
