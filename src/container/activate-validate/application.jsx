@@ -2,6 +2,7 @@ const React = require('react');
 const commonAction = require('../../action/common-action/common-action.js');
 const connect = require('react-redux').connect;
 const bindActionCreators = require('redux').bindActionCreators;
+const actionActive = require('../../action/activate-validate/activate-validate.js');
 
 const PhoneVerficationCode = require('../../component/mui/form/phone-verification-code.jsx');
 const Toast = require('../../component/mui/toast.jsx');
@@ -22,12 +23,12 @@ const ActivateValidateApplication = React.createClass({
     loadInfo: React.PropTypes.object,
     sendCode: React.PropTypes.func,
     setErrorMsg: React.PropTypes.func,
-    checkBindCode: React.PropTypes.func,
+    checkBindCodeActive: React.PropTypes.func,
   },
 
   onValidMobile() {
     const phoneInfo = this.refs.verificationCode.getInputInfo();
-    const { checkBindCode, setErrorMsg } = this.props;
+    const { checkBindCodeActive, setErrorMsg } = this.props;
     const userMobile = {
       mobile: phoneInfo.data.phoneNum,
       code: phoneInfo.data.code,
@@ -39,7 +40,7 @@ const ActivateValidateApplication = React.createClass({
       return;
     }
 
-    checkBindCode(userMobile, this.hanleVipMobile, this.handleSuccessMobile, this.handleBoundMobile);
+    checkBindCodeActive(userMobile, this.hanleVipMobile, this.handleSuccessMobile, this.handleBoundMobile);
   },
 
   getPhoneInfo() {
@@ -95,7 +96,7 @@ const mapStateToProps = function getPropFromState(state) {
 };
 
 const mapDispatchToProps = function getPropsFromAction(dispatch) {
-  const actionObj = Object.assign({}, commonAction);
+  const actionObj = Object.assign({}, commonAction, actionActive);
   return bindActionCreators(actionObj, dispatch);
 };
 
