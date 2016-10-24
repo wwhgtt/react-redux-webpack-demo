@@ -1,5 +1,5 @@
 const React = require('react');
-const _find = require('lodash.find');
+// const _find = require('lodash.find');
 const BenefitPropOption = require('./benefit-prop-option.jsx');
 const BenefitPropOptionDuplicate = require('./benefit-prop-option-duplicate.jsx');
 
@@ -28,8 +28,8 @@ module.exports = React.createClass({
     this.props.setActivityBenefit(evt, option);
   },
   buildBenefitDetail() {
-    const { dish, setActivityBenefit, serviceProps } = this.props;
-    const discountDish = _find(serviceProps.discountProps.discountList, discount => discount.dishId === dish.id);
+    const { dish, setActivityBenefit } = this.props;
+    // const discountDish = _find(serviceProps.discountProps.discountList, discount => discount.dishId === dish.id);
     return (
       <div className="dialog-options-group">
         {dish.benefitOptions || (dish.order[0] && dish.order[0].benefitOptions) ?
@@ -38,7 +38,7 @@ module.exports = React.createClass({
           :
           false
         }
-        {discountDish ?
+        {dish.isMember ?
           <BenefitPropOptionDuplicate
             priName={'会员价'}
             isChecked={!dish.noUseDiscount && !dish.noBenefit}
