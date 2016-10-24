@@ -43,7 +43,8 @@ module.exports = function (
   };
 
   switch (type) {
-    case 'SET_MENU_DATA':
+    case 'SET_MENU_DATA': {
+      const formatDishesData = helper.formatDishesData(helper.setDishPropertyTypeInfos(payload.dishList));
       return state.setIn(['dishTypesData'], payload.dishTypeList)
       .setIn(['dishesData'], helper.setDishPropertyTypeInfos(payload.dishList))
       .setIn(['activeDishTypeId'], getFirstValidDishTypeId(payload))
@@ -53,17 +54,27 @@ module.exports = function (
         openTimeList:payload.openTimeList,
         diningForm:payload.diningForm !== 0,
         formatDishesData:helper.formatDishesData(helper.setDishPropertyTypeInfos(payload.dishList)),
-        marketList:helper.formatMarket(payload.marketing || []),
-        marketListUpdate:helper.formatMarketUpdate(payload.marketing || []),
+        marketList:helper.formatMarket(
+          payload.marketing || [],
+          formatDishesData
+        ),
+        marketListUpdate:helper.formatMarketUpdate(
+          payload.marketing || [],
+          formatDishesData
+        ),
         marketMatchDishes:helper.matchDishesData(
-          helper.formatMarketUpdate(payload.marketing || []),
-          helper.formatDishesData(helper.setDishPropertyTypeInfos(payload.dishList)),
+          helper.formatMarketUpdate(
+            payload.marketing || [],
+            formatDishesData
+          ),
+          formatDishesData
         ),
       })
       .setIn(['openTimeList'], payload.openTimeList)
       // equal to 0, means accepting takeaway 24 hours, 2016-07-30 16:46:31 后端调整为bool型
       .setIn(['isAcceptTakeaway'], payload.isAcceptTakeaway === true)
       .set('normalDiscountProps', payload.discountInfo);
+    }
     case 'ACTIVE_DISH_TYPE':
       return state.setIn(['activeDishTypeId'], payload);
     case 'SHOW_DISH_DETAIL':
