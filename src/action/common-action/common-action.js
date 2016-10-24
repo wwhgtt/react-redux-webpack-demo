@@ -121,3 +121,22 @@ exports.bindWX = (phoneInfo, successCallBack) => (dispatch, getStates) => {
     }
   });
 };
+
+// 用户退出
+exports.logout = (successCallBack, faildCallBack) => (dispatch, getStates) => {
+  const logoutURL = `${config.logoutAPI}?shopId=${shopId}`;
+  fetch(logoutURL, config.requestOptions).
+  then(res => {
+    if (!res.ok) {
+      faildCallBack();
+    }
+    return res.json();
+  }).
+  then(res => {
+    if (res.code === '200') {
+      successCallBack();
+    } else {
+      faildCallBack();
+    }
+  });
+};
