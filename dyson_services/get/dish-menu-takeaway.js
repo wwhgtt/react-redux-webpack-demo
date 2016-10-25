@@ -96,7 +96,7 @@ module.exports = {
         'aliasName': '',
         'unitId': null,
         'unitName': '碗',
-        'marketPrice': 0.0,
+        'marketPrice': 3.45,
         'dishDesc': '',
         'videoUrl': '',
         'dishIncreaseUnit': 2,

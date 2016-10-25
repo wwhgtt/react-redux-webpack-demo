@@ -1,4 +1,5 @@
 const _find = require('lodash.find');
+const Immutable = require('seamless-immutable');
 const getDishesPrice = require('../helper/dish-hepler.js').getDishesPrice;
 const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
 const getUrlParam = require('../helper/dish-hepler.js').getUrlParam;
@@ -449,22 +450,6 @@ const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, tota
   return true;
 };
 
-// 为已点菜品添加对应的优惠选项
-exports.addBenefitTodish = (benefitProps, dish) => {
-  let orderedDish = dish.asMutable({ deep: true });
-  benefitProps.dishPriList.map(benefit => {
-    if (benefit.dishId === orderedDish.brandDishId) {
-      benefit.dishPriInfo.forEach(info => info.id = info.priId);
-      if (orderedDish.order instanceof Array) {
-        orderedDish.order[0].benefitOptions = benefit.dishPriInfo;
-      } else {
-        orderedDish.benefitOptions = benefit.dishPriInfo;
-      }
-    }
-    return true;
-  });
-  return orderedDish;
-};
 // 计算可以参与优惠的价格(针对的是有配送费减免的情况)
 const getPriceCanBeUsedToBenefit = exports.getPriceCanBeUsedToBenefit = function (dishesPrice, deliveryProps) {
   // 这里需要判断一下  如果此时有配送费 并且配送费时可以减去的  那么不应该把配送费算作计入优惠的总价
@@ -862,7 +847,7 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
 };
 
 const filterChosenDish = exports.filterChosenDish = (dishes, benefitProp) => {
-  const newDishes = dishes.asMutable({ deep: true });
+  let newDishes = dishes.asMutable({ deep: true });
   newDishes.filter(function (dish) {
     if (dish.benefitOptions) {
       return dish;
@@ -872,11 +857,11 @@ const filterChosenDish = exports.filterChosenDish = (dishes, benefitProp) => {
     return false;
   }).map(dish => {
     (dish.benefitOptions || dish.order[0].benefitOptions).forEach(benefit => {
-      if (benefit.priId === benefitProp.priId) {
+      if (benefitProp.dishId === dish.brandDishId && benefit.priId === benefitProp.priId) {
         benefit.isChecked = true;
         dish.noUseDiscount = true;
         dish.noBenefit = false;
-        const reduce = benefitProp.reduce ? benefitProp.reduce : (benefitProp.discount / 10 * dish.marketPrice) * getDishesCount([dish]);
+        const reduce = benefitProp.reduce ? benefitProp.reduce : ((1 - benefitProp.discount / 10) * dish.marketPrice) * benefitProp.dishNum;
         if (benefitProp.priType === 1) {
           if (dish.benefitOptions) {
             dish.activityBenefit = reduce;
@@ -907,7 +892,7 @@ const filterChosenDish = exports.filterChosenDish = (dishes, benefitProp) => {
             }
           }
         }
-      } else {
+      } else if (benefitProp.dishId === dish.brandDishId) {
         benefit.isChecked = false;
       }
     });
@@ -949,11 +934,10 @@ exports.setDishBenefitInfo = (chosenDish, dish, benefitType) => {
 
   return newDish;
 };
-exports.countAcvitityMoney = (dishes) => {
+const countAcvitityMoney = exports.countAcvitityMoney = (dishes) => {
   let acvitityCollection = [];
   dishes.filter(dish => dish.benefitOptions || (dish.order[0] && dish.order[0].benefitOptions)).map(dish => {
     if (isSingleDishWithoutProps(dish)) {
-      console.log(dish);
       acvitityCollection.push(dish.activityBenefit ? dish.activityBenefit : 0);
     } else {
       dish.order.map(order => {
@@ -966,5 +950,38 @@ exports.countAcvitityMoney = (dishes) => {
     }
     return true;
   });
-  return parseFloat((acvitityCollection.reduce((c, p) => c + p)).toFixed(2));
+  return acvitityCollection.length ? parseFloat((acvitityCollection.reduce((c, p) => c + p)).toFixed(2)) : 0;
+};
+// 为已点菜品添加对应的优惠选项
+const addBenefitTodish = exports.addBenefitTodish = (benefitProps, dish) => {
+  let orderedDish = dish.asMutable({ deep: true });
+  benefitProps.dishPriList.map(benefit => {
+    if (benefit.dishId === orderedDish.brandDishId) {
+      benefit.dishPriInfo.forEach(info => { info.id = info.priId; info.dishId = orderedDish.brandDishId; });
+      if (orderedDish.order instanceof Array) {
+        orderedDish.order[0].benefitOptions = benefit.dishPriInfo;
+        if (!orderedDish.isMember) {
+          orderedDish.order[0].benefitOptions[0].isChecked = true;
+          orderedDish = filterChosenDish(Immutable.from([orderedDish]), orderedDish.order[0].benefitOptions[0]);
+        }
+      } else {
+        orderedDish.benefitOptions = benefit.dishPriInfo;
+        if (!orderedDish.isMember) {
+          orderedDish.benefitOptions[0].isChecked = true;
+          orderedDish = filterChosenDish(Immutable.from([orderedDish]), orderedDish.benefitOptions[0]);
+        }
+      }
+    }
+    return true;
+  });
+  return orderedDish instanceof Array ? orderedDish[0] : orderedDish;
+};
+exports.countInitializeBenefit = (benefitProps, dishes) => {
+  let newOrderedDishes = dishes.asMutable({ deep: true });
+  let dishCollection = [];
+  for (let i = 0; i < newOrderedDishes.length; i++) {
+    let dish = addBenefitTodish(benefitProps, Immutable.from(newOrderedDishes[i]));
+    dishCollection.push(dish);
+  }
+  return countAcvitityMoney(dishCollection);
 };
