@@ -22,7 +22,12 @@ module.exports = React.createClass({
           {+benefitProp.priType === 2 ?
             `礼品券(${benefitProp.priName})` : benefitProp.priName
           }
-          {`(仅限${benefitProp.dishNum}份)`}</span>
+          {!benefitProp.reduce && benefitProp.discount ?
+            `(仅限${benefitProp.dishNum}份)`
+            :
+            false
+          }
+        </span>
         <div className="dialog-option-tickbox">
           <input
             className="option-radio" type="radio" name="benefit" defaultValue="1"
