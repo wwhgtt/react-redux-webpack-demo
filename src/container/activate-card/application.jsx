@@ -49,8 +49,10 @@ const ActivateCardApplication = React.createClass({
       showSection = <ActivateValid onBindWx={bindWX} onLogout={logout} setErrorMsg={setErrorMsg} />;
     } else if (childView === '#activate-faild') {
       showSection = <ActivateFaild />;
-    } else {
+    } else if (childView === '#activate-success') {
       showSection = <ActivateSuccess />;
+    } else {
+      return false;
     }
     return (
       <div className="activate-card flex-columns">
