@@ -397,7 +397,14 @@ module.exports = function (
            )
         );
       }
-      break;
+      return state.updateIn(
+        ['orderedDishesProps', 'dishes'],
+        dishes => dishes.flatMap(
+          dish => dish.set(
+              'isMember', false
+            )
+        )
+     );
     case 'SET_ACTIVITY_BENEFIT':
       if (payload.id === 'discount') {
         return state.updateIn(
