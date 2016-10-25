@@ -14,7 +14,7 @@ module.exports = React.createClass({
   propTypes:{
     dish: React.PropTypes.object.isRequired,
     orderStatus:React.PropTypes.string,
-    onSelectBenefit:React.PropTypes.func.isRequired,
+    onSelectBenefit:React.PropTypes.func,
     serviceProps:React.PropTypes.object.isRequired,
   },
   getInitialState() {
@@ -117,7 +117,7 @@ module.exports = React.createClass({
       dishBenefitPrice = dish.activityBenefit;
     } else if (dish.order[0] && dish.order[0].activityBenefit) {
       dishBenefitPrice = dish.order[0].activityBenefit;
-    } else {
+    } else if (serviceProps.diningForm !== 0) {
       dishBenefitPrice =
         countMemberPrice(
           true,
