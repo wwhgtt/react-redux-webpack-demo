@@ -1,6 +1,7 @@
 const React = require('react');
 const classnames = require('classnames');
 const getCurrentPosition = require('../../../helper/common-helper.js').getCurrentPosition;
+const callWxClientMethod = require('../../../helper/wx-client-helper.js').callWxClientMethod;
 const BMap = window.BMap;
 const baiduMapConfig = {
   zoomLevel: 16,
@@ -17,11 +18,20 @@ module.exports = React.createClass({
     };
   },
   componentDidMount() {
-    getCurrentPosition(pos => {
+    const fetchPosSuccess = (pos) => {
       this.initMap({ latitude: pos.latitude, longitude: pos.longitude, isGPSPoint: true });
-    }, error => {
+    };
+    const fetchPosError = () => {
       this.setState({ isDefultPoint: true });
       this.initMap({});
+    };
+    getCurrentPosition(pos => {
+      fetchPosSuccess(pos);
+    }, error => {
+      callWxClientMethod('getLocation', {
+        success: fetchPosSuccess,
+        error: fetchPosError,
+      });
     });
   },
   mapCenter(point) {
