@@ -1,6 +1,6 @@
 const React = require('react');
 const Immutable = require('seamless-immutable');
-const _find = require('lodash.find');
+// const _find = require('lodash.find');
 const helper = require('../../helper/dish-hepler.js');
 const formatPrice = require('../../helper/common-helper.js').formatPrice;
 const countMemberPrice = require('../../helper/order-helper.js').countMemberPrice;
@@ -84,7 +84,7 @@ module.exports = React.createClass({
   },
   buildDishBenefit(dish) {
     const { onSelectBenefit, serviceProps } = this.props;
-    const discountDish = _find(serviceProps.discountProps.discountList, discount => discount.dishId === dish.id);
+    // const discountDish = _find(serviceProps.discountProps.discountList, discount => discount.dishId === dish.id);
     if (dish.order instanceof Array) {
       if (dish.order[0].benefitOptions) {
         return (<BenefitOptions
@@ -93,10 +93,17 @@ module.exports = React.createClass({
           dish={dish}
           serviceProps={serviceProps}
         />);
+      } else if (dish.isMember && dish.key.split('-')[1] === '0') {
+        return (<BenefitOptions
+          benefitProps={[]}
+          onSelectBenefit={onSelectBenefit}
+          dish={dish}
+          serviceProps={serviceProps}
+        />);
       }
       return false;
     }
-    return (dish.benefitOptions || discountDish) ?
+    return (dish.benefitOptions || dish.isMember) ?
       <BenefitOptions benefitProps={dish.benefitOptions || []} onSelectBenefit={onSelectBenefit} dish={dish} serviceProps={serviceProps} />
       :
       false;

@@ -874,7 +874,8 @@ const filterChosenDish = exports.filterChosenDish = (dishes, benefitProp) => {
         } else {
           // 礼品券的情况
           if (isSingleDishWithoutProps(dish)) {
-            dish.activityBenefit = dish.marketPrice * dish.order;
+            dish.activityBenefit = benefitProp.dishNum >= dish.order ?
+              dish.marketPrice * dish.order : dish.marketPrice * benefitProp.dishNum;
           } else {
             dish.activityBenefit = 0;
             let benefitNumber = benefitProp.dishNum || 1;

@@ -18,7 +18,16 @@ module.exports = React.createClass({
     const { benefitProp } = this.props;
     return (
       <label className="dialog-option">
-        <span className="dialog-option-title ellipsis">{+benefitProp.priType === 2 ? `礼品券(${benefitProp.priName})` : benefitProp.priName}</span>
+        <span className="dialog-option-title ellipsis">
+          {+benefitProp.priType === 2 ?
+            `礼品券(${benefitProp.priName})` : benefitProp.priName
+          }
+          {!benefitProp.reduce && benefitProp.discount ?
+            `(仅限${benefitProp.dishNum}份)`
+            :
+            false
+          }
+        </span>
         <div className="dialog-option-tickbox">
           <input
             className="option-radio" type="radio" name="benefit" defaultValue="1"
