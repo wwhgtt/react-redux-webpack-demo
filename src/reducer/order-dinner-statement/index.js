@@ -17,12 +17,14 @@ module.exports = function (
       dishes:[],
     },
     commercialProps:{
+      diningForm:0,
       shopLogo:null,
       shopName:null,
       isSupportReceipt:true,
       carryRuleVO:null,
     },
     serviceProps:{
+      diningForm:0,
       integralsInfo:null,
       integralsDetail:null,
       couponsProps:{
@@ -36,6 +38,10 @@ module.exports = function (
         discountType:'',
         inUseDiscount:null,
         isMember:false,
+      },
+      activityBenefit:{
+        relatedDish:null,
+        benefitMoney:0,
       },
     },
     childView:null,

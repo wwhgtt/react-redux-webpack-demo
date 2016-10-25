@@ -30,6 +30,7 @@ const PlaceOrderApplication = React.createClass({
     setPhoneValidateProps:React.PropTypes.func.isRequired,
     fetchVericationCode:React.PropTypes.func.isRequired,
     checkCodeAvaliable:React.PropTypes.func.isRequired,
+    onDateTimeSelect:React.PropTypes.func.isRequired,
     // MapedStatesToProps
     commercialProps:React.PropTypes.object.isRequired,
     dinePersonCount:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]).isRequired,
@@ -159,7 +160,7 @@ const PlaceOrderApplication = React.createClass({
     // mapStateToProps
     const { commercialProps, childView, tableProps, timeProps, setTableProps, setErrorMsg, clearErrorMsg, setCustomerProps } = this.props;
     // mapActionsToProps
-    const { setChildView, setOrderProps, errorMessage, dinePersonCount, customerProps, shuoldPhoneValidateShow } = this.props;
+    const { setChildView, onDateTimeSelect, errorMessage, dinePersonCount, customerProps, shuoldPhoneValidateShow } = this.props;
     return (
       <div className="application">
         <div className="options-group">
@@ -238,7 +239,7 @@ const PlaceOrderApplication = React.createClass({
             <TimeSelect
               isSelfFetch={false}
               selectedDateTime={timeProps.selectedDateTime} timeTable={timeProps.timeTable}
-              onDateTimeSelect={setOrderProps} onDone={this.resetChildView}
+              onDateTimeSelect={onDateTimeSelect} onDone={this.resetChildView}
             />
             : false
           }

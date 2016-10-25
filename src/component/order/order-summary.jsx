@@ -18,8 +18,8 @@ module.exports = React.createClass({
     orderedDishesProps:React.PropTypes.oneOfType([React.PropTypes.object, React.PropTypes.array]).isRequired,
     shopId:React.PropTypes.string.isRequired,
     isNeedShopMaterial:React.PropTypes.bool.isRequired,
-    onSelectBenefit:React.PropTypes.func.isRequired,
-    setOrderProps:React.PropTypes.func.isRequired,
+    onSelectBenefit:React.PropTypes.func,
+    setOrderProps:React.PropTypes.func,
   },
   componentDidMount() {
 
