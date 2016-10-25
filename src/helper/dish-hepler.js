@@ -491,6 +491,10 @@ exports.renderDay = (week) => {
   let strDay = '';
   let dayIndex = '';
   let days = '';
+  // 数据重组
+  const str1 = week.substring(0, 1);
+  const str2 = week.substr(1, 6);
+  const weekFormat = str2 + str1;
 
   const formateDay = (day) => {
     switch (day) {
@@ -512,8 +516,11 @@ exports.renderDay = (week) => {
         return '';
     }
   };
+  if (weekFormat === '1111111') {
+    return '';
+  }
   while (periDay != null) {
-    periDay = regDay.exec(week);
+    periDay = regDay.exec(weekFormat);
     if (periDay) {
       dayIndex = periDay.index;
       days = periDay[0];

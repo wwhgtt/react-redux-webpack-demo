@@ -1,6 +1,7 @@
 const React = require('react');
 require('./ads-column.scss');
 const helper = require('../../helper/dish-hepler');
+const commonHelper = require('../../helper/common-helper');
 const classnames = require('classnames');
 
 const AdsColumn = React.createClass({
@@ -50,9 +51,9 @@ const AdsColumn = React.createClass({
       if (!formatDishesData[item.dishId]) { return false; }
       let vip = '';
       if (item.rule.customerType === 1) {
-        vip = '仅限会员使用';
+        vip = '仅限会员';
       } else if (item.rule.customerType === 2) {
-        vip = '仅限非会员使用';
+        vip = '仅限非会员';
       } else {
         vip = '';
       }
@@ -61,7 +62,9 @@ const AdsColumn = React.createClass({
         <p className={classnames('shopdiscount-item', { jian: item.rule.type === 1, zhe: item.rule.type === 2 })} key={index}>
           {formatDishesData[item.dishId].name}
           {item.rule.dishNum > 1 ? `满${item.rule.dishNum}份${item.rule.ruleName}` : item.rule.ruleName}
-          （{vip} {openDay}{item.rule.periodStart}~{item.rule.periodEnd}，每单仅限{item.rule.dishNum}份）
+          （{vip}{openDay}
+          {commonHelper.renderTime(item.rule.periodStart, item.rule.periodEnd)}
+          每单仅限{item.rule.dishNum}份）
         </p>
       );
     });
