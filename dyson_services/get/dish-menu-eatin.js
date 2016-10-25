@@ -18,9 +18,9 @@ module.exports = {
                       reduce : 3,
                       discount : null,
                       periodStart : "07:00:00",
-                      periodEnd : "23:59:59",
+                      periodEnd : "23:58:59",
                       weekdays : "1110011",
-                      customerType : 1,
+                      customerType : 5,
                       updateTime: "2016-05-01"
                   }, {
                       dishId : 2,
@@ -50,8 +50,8 @@ module.exports = {
                       dishNum : 2,
                       reduce : 3,
                       discount : null,
-                      periodStart : "07:00:00",
-                      periodEnd : "23:59:59",
+                      periodStart : "00:00:00",
+                      periodEnd : "23:58:59",
                       weekdays : "1111111",
                       customerType : 3,
                       updateTime: "2016-05-20"

@@ -442,21 +442,22 @@ exports.formatOpenTime = (openTimeList, isWeekend) => {
   return restoreAll;
 };
 
-exports.formatMarket = (marketList) => {
+exports.formatMarket = (marketList, formatDishesData) => {
   const formatMarket = {};
   marketList.forEach((item, index) => {
-    if (item.rules && item.rules.length !== 0) {
-      Object.assign(formatMarket, JSON.parse('{ "' + item.dishId + '" : ' + JSON.stringify(item.rules) + '}'));
+    const dishId = item.dishId;
+    if (item.rules && item.rules.length !== 0 && formatDishesData[dishId]) {
+      Object.assign(formatMarket, JSON.parse('{ "' + dishId + '" : ' + JSON.stringify(item.rules) + '}'));
     }
   });
   return formatMarket;
 };
 
-exports.formatMarketUpdate = (marketList) => {
+exports.formatMarketUpdate = (marketList, formatDishesData) => {
   let formatMarketUpdate = [];
   marketList.forEach((item, index) => {
     const dishId = item.dishId;
-    if (item.rules && item.rules.length !== 0) {
+    if (item.rules && item.rules.length !== 0 && formatDishesData[dishId]) {
       item.rules.forEach((itemt, indext) => {
         formatMarketUpdate = formatMarketUpdate.concat({ dishId, rule:itemt });
       });
@@ -490,6 +491,10 @@ exports.renderDay = (week) => {
   let strDay = '';
   let dayIndex = '';
   let days = '';
+  // 数据重组
+  const str1 = week.substring(0, 1);
+  const str2 = week.substr(1, 6);
+  const weekFormat = str2 + str1;
 
   const formateDay = (day) => {
     switch (day) {
@@ -511,8 +516,11 @@ exports.renderDay = (week) => {
         return '';
     }
   };
+  if (weekFormat === '1111111') {
+    return '';
+  }
   while (periDay != null) {
-    periDay = regDay.exec(week);
+    periDay = regDay.exec(weekFormat);
     if (periDay) {
       dayIndex = periDay.index;
       days = periDay[0];
