@@ -61,7 +61,7 @@ module.exports = React.createClass({
     return dishData.name;
   },
   disCountInfo(diningForm, marketList, dishId) {
-    if (diningForm && marketList[dishId] && marketList[dishId].length !== 0) {
+    if (diningForm && marketList[dishId] && marketList[dishId].length !== 0 && marketList[dishId].isAble) {
       let vip = '';
       switch (marketList[dishId][0].customerType) {
         case 1 : vip = '(会员 '; break;

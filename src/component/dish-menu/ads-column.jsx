@@ -60,11 +60,13 @@ const AdsColumn = React.createClass({
       const openDay = helper.renderDay(item.rule.weekdays);
       return (
         <p className={classnames('shopdiscount-item', { jian: item.rule.type === 1, zhe: item.rule.type === 2 })} key={index}>
-          {formatDishesData[item.dishId].name}
-          {item.rule.dishNum > 1 ? `满${item.rule.dishNum}份${item.rule.ruleName}` : item.rule.ruleName}
-          （{vip}{openDay}
-          {commonHelper.renderTime(item.rule.periodStart, item.rule.periodEnd)}
-          每单仅限{item.rule.dishNum}份）
+          <span className="spanitem">
+            {formatDishesData[item.dishId].name}
+            {item.rule.dishNum > 1 ? `满${item.rule.dishNum}份${item.rule.ruleName}` : item.rule.ruleName}
+            （{vip}{openDay}
+            {commonHelper.renderTime(item.rule.periodStart, item.rule.periodEnd)}
+            每单仅限{item.rule.dishNum}份）
+          </span>
         </p>
       );
     });
@@ -79,8 +81,10 @@ const AdsColumn = React.createClass({
         <div className="content of" key={index}>
           <i className={classnames('icon', { 'icon-jian': item.rule.type === 1, 'icon-zhe': item.rule.type === 2 })}></i>
           <span className="detail ellipsis flex-rest">
-            {formatDishesData[item.dishId].name}
-            {item.rule.dishNum > 1 ? `满${item.rule.dishNum}份${item.rule.ruleName}` : item.rule.ruleName}
+            <span className="detail-inner ellipsis">
+              {formatDishesData[item.dishId].name}
+              {item.rule.dishNum > 1 ? `满${item.rule.dishNum}份${item.rule.ruleName}` : item.rule.ruleName}
+            </span>
           </span>
         </div>
       );

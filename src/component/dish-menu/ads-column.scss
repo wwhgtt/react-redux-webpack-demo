@@ -26,12 +26,14 @@
 
   .content {
     display: flex;
+    height: 1.143em;
     margin-bottom: 1em;
     align-items: center;
 
     .icon {
-      width: 1em;
-      height: 1em;
+      width: 1.143em;
+      height: 1.143em;
+      margin-right: .5em;
       vertical-align: middle;
     }
 
@@ -44,11 +46,18 @@
     }
 
     .detail {
-      font-size: 14px;
-      line-height: 1.2em;
       display: inline-block;
       padding-right: 1em;
       vertical-align: middle;
+    }
+
+    .detail-inner {
+      font-size: 2em;
+      line-height: 1.143em;
+      display: block;
+      width: 200%;
+      transform: scale(.5, .5);
+      transform-origin: left center;
     }
   }
 
@@ -121,8 +130,14 @@
   }
 
   .shopdiscount-item {
-    line-height: 1.3em;
     margin: 1em 0;
+
+    .spanitem {
+      font-size: 1em;
+      line-height: 1.3em;
+      display: block;
+      width: 100%;
+    }
 
     &.jian,
     &.zhe, {
@@ -133,20 +148,20 @@
 
     &.jian::before {
       position: absolute;
-      top: .1em;
+      top: 0;
       left: 0;
-      width: 1em;
-      height: 1em;
+      width: 1.143em;
+      height: 1.143em;
       content: "";
       background: url("../../asset/images/dish-jian.png") center center/100% 100% no-repeat;
     }
 
     &.zhe::before {
       position: absolute;
-      top: .1em;
+      top: 0;
       left: 0;
-      width: 1em;
-      height: 1em;
+      width: 1.143em;
+      height: 1.143em;
       content: "";
       background: url("../../asset/images/dish-zhe.png") center center/100% 100% no-repeat;
     }
