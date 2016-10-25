@@ -6,24 +6,23 @@ const getUrlParam = require('./common-helper').getUrlParam;
 const wxClient = require('wechat-jssdk/client');
 
 let wxAuthInfo = null;
-const initWXAuthInfo = (callback) => {
+const fetchWXAuthInfo = () => {
   if (wxAuthInfo) {
-    return;
+    return new Promise((resolve, reject) => {
+      resolve(wxAuthInfo);
+    });
   }
 
   const url = encodeURIComponent(location.href);
   const shopId = getUrlParam('shopId');
-  fetch(`${config.getWXAuthInfoAPI}?shopId=${shopId}&reqUrl=${url}`, config.requestOptions)
+  return fetch(`${config.getWXAuthInfoAPI}?shopId=${shopId}&reqUrl=${url}`, config.requestOptions)
     .then(res => {
       if (!res.ok) {
         throw new Error('获取信息失败...');
       }
       return res.json();
     })
-    .then(result => {
-      wxAuthInfo = result.data || {};
-      callback();
-    })
+    .then(result => result.data || {})
     .catch(err => {
       wxAuthInfo = {};
       throw new Error(err);
@@ -31,29 +30,30 @@ const initWXAuthInfo = (callback) => {
 };
 
 const callWxClientMethod = (apiName, args) => {
-  initWXAuthInfo(() => {
-    const _wxClient = wxClient(Object.assign({
-      debug: false,
-      appId: wxAuthInfo.appid,
-      timestamp: 0,
-      nonceStr: wxAuthInfo.noncestr,
-      signature: '',
-      success: suc => {
-        const { wx } = _wxClient;
-        if (wx[apiName]) {
-          wx[apiName](args);
-        }
-      },
-      error: err => {
-        if (args.error) {
-          args.error(err);
-        }
-      },
-      jsApiList: [
-        apiName,
-      ],
-    }, wxAuthInfo));
-  });
+  fetchWXAuthInfo()
+    .then(authInfo => {
+      const _wxClient = wxClient(Object.assign({
+        debug: false,
+        appId: authInfo.appid,
+        timestamp: 0,
+        nonceStr: authInfo.noncestr,
+        signature: '',
+        success: suc => {
+          const { wx } = _wxClient;
+          if (wx[apiName]) {
+            wx[apiName](args);
+          }
+        },
+        error: err => {
+          if (args.error) {
+            args.error(err);
+          }
+        },
+        jsApiList: [
+          apiName,
+        ],
+      }, authInfo));
+    });
 };
 
 exports.callWxClientMethod = (name, args) => callWxClientMethod(name, args);
