@@ -862,13 +862,15 @@ const filterChosenDish = exports.filterChosenDish = (dishes, benefitProp) => {
         dish.noUseDiscount = true;
         dish.noBenefit = false;
         const reduce = benefitProp.reduce ? benefitProp.reduce : ((1 - benefitProp.discount / 10) * dish.marketPrice) * benefitProp.dishNum;
+        console.log(reduce);
         if (benefitProp.priType === 1) {
           if (dish.benefitOptions) {
-            dish.activityBenefit = reduce;
+            dish.activityBenefit = getDishPrice(dish) >= reduce ? reduce : getDishPrice(dish);
           } else {
+            //  我们把优惠分配到每个OrderedDish上   因为orderedDish会把dish按照order拆开
             dish.activityBenefit = parseFloat((reduce / dish.order.length).toFixed(2));
-            dish.order.forEach(order => {
-              order.activityBenefit = 0;
+            dish.order.forEach(item => {
+              item.activityBenefit = 0;
             });
           }
         } else {
@@ -932,22 +934,28 @@ exports.setDishBenefitInfo = (chosenDish, dish, benefitType) => {
       newDish.order[0].benefitOptions.forEach(benefit => benefit.isChecked = false);
     }
   }
-
   return newDish;
 };
 const countAcvitityMoney = exports.countAcvitityMoney = (dishes) => {
   let acvitityCollection = [];
   dishes.filter(dish => dish.benefitOptions || (dish.order[0] && dish.order[0].benefitOptions)).map(dish => {
+    let dishAcvitityCollection = [];
     if (isSingleDishWithoutProps(dish)) {
-      acvitityCollection.push(dish.activityBenefit ? dish.activityBenefit : 0);
+      dishAcvitityCollection.push(dish.activityBenefit ? dish.activityBenefit : 0);
     } else {
       dish.order.map(order => {
-        acvitityCollection.push(order.activityBenefit ? order.activityBenefit : 0);
+        dishAcvitityCollection.push(order.activityBenefit ? order.activityBenefit : 0);
         return true;
       });
       if (dish.activityBenefit) {
-        acvitityCollection.push(dish.activityBenefit * dish.order.length);
+        dishAcvitityCollection.push(dish.activityBenefit * dish.order.length);
       }
+    }
+    if (parseFloat((dishAcvitityCollection.reduce((c, p) => c + p)).toFixed(2)) > getDishPrice(dish)) {
+      dishAcvitityCollection = []; dishAcvitityCollection.push(getDishPrice(dish));
+    }
+    for (let i = 0; i < dishAcvitityCollection.length; i++) {
+      acvitityCollection.push(dishAcvitityCollection[i]);
     }
     return true;
   });
