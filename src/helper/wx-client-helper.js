@@ -13,7 +13,7 @@ const fetchWXAuthInfo = () => {
     });
   }
 
-  const url = encodeURIComponent(location.href);
+  const url = encodeURIComponent(location.href.split('#').shift());
   const shopId = getUrlParam('shopId');
   return fetch(`${config.getWXAuthInfoAPI}?shopId=${shopId}&reqUrl=${url}`, config.requestOptions)
     .then(res => {
@@ -40,7 +40,6 @@ const callWxClientMethod = (apiName, args) => {
         signature: '',
         success: suc => {
           const wx = _wxClient.wx || window.wx;
-          console.log(wx);
           if (wx[apiName]) {
             wx[apiName](args);
           }
