@@ -39,7 +39,8 @@ const callWxClientMethod = (apiName, args) => {
         nonceStr: authInfo.noncestr,
         signature: '',
         success: suc => {
-          const { wx } = _wxClient;
+          const wx = _wxClient.wx || window.wx;
+          console.log(wx);
           if (wx[apiName]) {
             wx[apiName](args);
           }

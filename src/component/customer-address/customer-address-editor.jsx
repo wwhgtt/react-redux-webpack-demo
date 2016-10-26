@@ -1,6 +1,7 @@
 const React = require('react');
 const validateAddressInfo = require('../../helper/order-helper').validateAddressInfo;
 const replaceEmojiWith = require('../../helper/common-helper').replaceEmojiWith;
+const callWxClientMethod = require('../../helper/wx-client-helper').callWxClientMethod;
 const classnames = require('classnames');
 require('./customer-address-editor.scss');
 
@@ -13,6 +14,15 @@ module.exports = React.createClass({
     onRemoveAddress: React.PropTypes.func,
   },
   componentDidMount() {
+    callWxClientMethod('getLocation', {
+      type: 'wgs84',
+      success(pos) {
+        console.log(`currentError:${JSON.stringify(pos)}`);
+      },
+      error(err) {
+        console.log(`currentError:${JSON.stringify(err)}`);
+      },
+    });
   },
   onRemoveLinktap(evt) {
     evt.preventDefault();
