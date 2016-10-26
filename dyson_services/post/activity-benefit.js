@@ -35,7 +35,7 @@ module.exports = {
               priType: 1, // 优惠类型（1单商品营销方案2礼品券）
               type:1, // 规则类型 1立减 ，2折扣
               dishNum:2, // 满减份数
-              reduce:5, // 减免金额
+              reduce:75, // 减免金额
               discount: 5, // 折扣
             },
             {

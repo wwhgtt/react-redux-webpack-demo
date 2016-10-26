@@ -27,19 +27,18 @@ module.exports = React.createClass({
       this.initMap({});
     };
 
-    const wxInfo = getWeixinVersionInfo();
-    if (wxInfo.weixin) {
-      callWxClientMethod('getLocation', {
-        success: fetchPosSuccess,
-        error: fetchPosError,
-      });
-      return;
-    }
-
     getCurrentPosition(pos => {
       fetchPosSuccess(pos);
     }, error => {
-      fetchPosError();
+      const wxInfo = getWeixinVersionInfo();
+      if (wxInfo.weixin) {
+        callWxClientMethod('getLocation', {
+          success: fetchPosSuccess,
+          error: fetchPosError,
+        });
+      } else {
+        fetchPosError();
+      }
     });
   },
   mapCenter(point) {

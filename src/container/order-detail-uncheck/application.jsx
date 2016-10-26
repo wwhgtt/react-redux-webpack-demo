@@ -49,16 +49,6 @@ const OrderDetailInApplication = React.createClass({
     return statusType;
   },
 
-  // 是否可以结账
-  hanleCheck() {
-    const { orderDetail } = this.props;
-    if (orderDetail.priviledge) {
-      this.setState({ errorMsg: '请联系服务员结账' });
-    } else {
-      location.href = `http://${location.host}/orderall/settlement4Dinner?shopId=${shopId}&tradeId=${orderId}&type=TS`;
-    }
-  },
-
   handleDishMenu() {
     const dishUrl = `http://${location.host}/orderall/dishMenu4Dinner?shopId=${shopId}&type=TS`;
     location.href = dishUrl;
@@ -154,7 +144,7 @@ const OrderDetailInApplication = React.createClass({
         <div className="order-operate flex-none">
           <div className={btnDis}>
             <a className="btn--yellow btn-dish" onTouchTap={this.handleDishMenu}>继续点菜</a>
-            <a className="btn-count" onTouchTap={this.hanleCheck}>结账</a>
+            <a className="btn-count" href={`http://${location.host}/orderall/settlement4Dinner?shopId=${shopId}&tradeId=${orderId}&type=TS`}>结账</a>
           </div>
         </div>
         {

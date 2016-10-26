@@ -13,7 +13,7 @@ const fetchWXAuthInfo = () => {
     });
   }
 
-  const url = encodeURIComponent(location.href);
+  const url = encodeURIComponent(location.href.split('#').shift());
   const shopId = getUrlParam('shopId');
   return fetch(`${config.getWXAuthInfoAPI}?shopId=${shopId}&reqUrl=${url}`, config.requestOptions)
     .then(res => {
@@ -39,7 +39,7 @@ const callWxClientMethod = (apiName, args) => {
         nonceStr: authInfo.noncestr,
         signature: '',
         success: suc => {
-          const { wx } = _wxClient;
+          const wx = _wxClient.wx || window.wx;
           if (wx[apiName]) {
             wx[apiName](args);
           }

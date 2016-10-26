@@ -84,6 +84,7 @@ module.exports = React.createClass({
   },
   buildDishBenefit(dish) {
     const { onSelectBenefit, serviceProps } = this.props;
+    if (serviceProps.diningForm === 0) { return false; }
     // const discountDish = _find(serviceProps.discountProps.discountList, discount => discount.dishId === dish.id);
     if (dish.order instanceof Array) {
       if (dish.order[0].benefitOptions) {
@@ -158,7 +159,9 @@ module.exports = React.createClass({
             false
           }
           <span
-            className={classnames('order-dish-price', 'price', { 'order-dish-price--deleted': dishBenefitPrice })}
+            className={
+              classnames('order-dish-price', 'price', { 'order-dish-price--deleted': dishBenefitPrice && formatPrice(helper.getDishPrice(dish)) })
+            }
           >
           {helper.getDishPrice(dish)}</span>
           <span className="order-dish-count">x{helper.getDishesCount([dish])}</span>
