@@ -21,9 +21,11 @@ module.exports = React.createClass({
   componentDidMount() {
     const fetchPosSuccess = (pos) => {
       this.initMap({ latitude: pos.latitude, longitude: pos.longitude, isGPSPoint: true });
+      console.log(pos);
     };
     const fetchPosError = () => {
       this.setState({ isDefultPoint: true });
+      console.log({ isDefultPoint: true });
       this.initMap({});
     };
 
