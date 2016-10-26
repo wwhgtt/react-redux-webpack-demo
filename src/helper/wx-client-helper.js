@@ -32,14 +32,14 @@ const fetchWXAuthInfo = () => {
 const callWxClientMethod = (apiName, args) => {
   fetchWXAuthInfo()
     .then(authInfo => {
-      wxClient(Object.assign({
+      const _wxClient = wxClient(Object.assign({
         debug: false,
         appId: authInfo.appid,
         timestamp: 0,
         nonceStr: authInfo.noncestr,
         signature: '',
         success: suc => {
-          const { wx } = this;
+          const wx = _wxClient.wx || window.wx;
           console.log(wx);
           if (wx[apiName]) {
             wx[apiName](args);
