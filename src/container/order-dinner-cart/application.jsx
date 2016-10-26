@@ -84,6 +84,7 @@ const OrderTSCartApplication = React.createClass({
         },
         jsApiList: [
           'scanQRCode',
+          'getLocation',
         ],
       }, wxAuthInfo));
     }
@@ -195,6 +196,16 @@ const OrderTSCartApplication = React.createClass({
       });
     };
     if (wx) {
+      wx.getLocation({
+        type: 'wgs84',
+        success(pos) {
+          console.log(`currentPosition:${JSON.stringify(pos)}`);
+        },
+        error(err) {
+          console.log(`currentError:${JSON.stringify(err)}`);
+        },
+      });
+
       wx.scanQRCode({
         needResult: 1,
         scanType: ['qrCode'],
