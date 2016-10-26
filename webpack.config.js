@@ -30,6 +30,9 @@ module.exports = {
     'mine-setting-entry': [
       './src/mine-setting.jsx',
     ],
+    'mine-vip-card-entry': [
+      './src/mine-vip-card.jsx',
+    ],
     'address-list-entry': [
       './src/address-list.jsx',
     ],
@@ -167,6 +170,14 @@ module.exports = {
         title: 'MineIndexApplication',
         filename: 'mineIndex.html',
         chunks: ['common', 'mine-index-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineVipCardApplication',
+        filename: 'mineVipCard.html',
+        chunks: ['common', 'mine-vip-card-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

@@ -1,0 +1,49 @@
+@import "settings.colors";
+@import "tools.functions";
+@import "tools.mixins";
+
+
+.icon {
+  &[name="WDYE"] {
+    background: url("../../asset/images/WDYE.svg") center center/1em auto no-repeat;
+  }
+
+  &[name="WDDJ"] {
+    background: url("../../asset/images/WDDJ.svg") center center/.8em auto no-repeat;
+  }
+
+  &[name="WDJF"] {
+    background: url("../../asset/images/WDJF.svg") center center/.8em auto no-repeat;
+  }
+
+  &[name="WDTQ"] {
+    background: url("../../asset/images/WDTQ.svg") center center/1em auto no-repeat;
+  }
+}
+
+.tq-detail {
+  font-size: 15px;
+  line-height: 1.4em;
+  margin-bottom: 1em;
+  padding: 0 1em;
+  color: #474747;
+  transition: all .3s;
+
+  &-hide {
+    height: 0;
+  }
+
+  &-show {
+    height: auto;
+  }
+
+  .cube {
+    font-style: normal;
+    transform: scale(.5, .5);
+    transform-origin: center center;
+  }
+
+  .info {
+    display: block;
+  }
+}
