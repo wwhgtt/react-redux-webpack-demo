@@ -994,3 +994,10 @@ exports.countInitializeBenefit = (benefitProps, dishes) => {
   }
   return countAcvitityMoney(dishCollection);
 };
+// 计算附加费（正餐）
+exports.countExtraPrivilege = (privilegeArray) => {
+  if (!privilegeArray) { return false; }
+  let benefitCollection = [];
+  privilegeArray.map(privilege => benefitCollection.push(+privilege.privilegeAmount));
+  return benefitCollection.length ? parseFloat((benefitCollection.reduce((c, p) => c + p)).toFixed(2)) : 0;
+};

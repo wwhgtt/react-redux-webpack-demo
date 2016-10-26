@@ -91,7 +91,8 @@ exports.fetchOrderCoupons = () => (dispatch, getState) => {
 exports.clearErrorMsg = () => (dispatch, getState) =>
   dispatch(setErrorMsg(null));
 
-exports.submitDinnerOrder = (receipt) => (dispatch, getState) => {
+exports.submitDinnerOrder = (needPayMoney, receipt) => (dispatch, getState) => {
+  if (needPayMoney === 0) { dispatch(setErrorMsg('0元订单请联系服务员结帐')); return false; }
   const state = getState();
   const coupId = state.serviceProps.couponsProps.inUseCoupon &&
                 state.serviceProps.couponsProps.inUseCouponDetail.id ?

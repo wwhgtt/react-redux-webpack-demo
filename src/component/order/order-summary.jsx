@@ -84,6 +84,16 @@ module.exports = React.createClass({
             :
             false
           }
+          {serviceProps.benefitProps && serviceProps.benefitProps.extraPrivilege && serviceProps.benefitProps.extraPrivilege.length ?
+            <p className="option clearfix">
+              <span className="option-title">附加费:</span>
+              <span className="order-discount price">
+                {formatPrice(helper.countExtraPrivilege(serviceProps.benefitProps.extraPrivilege))}
+              </span>
+            </p>
+            :
+            false
+          }
           {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length
             && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 && commercialProps.diningForm !== 0 ?
             <a className="option" href="#coupon-select">
@@ -208,7 +218,10 @@ module.exports = React.createClass({
           <div className="option order-total clearfix">
             <div className="order-total-left">
               <span className="text-dove-grey">总计: </span>
-              <span className="price">{
+              <span className="price">{serviceProps.benefitProps && serviceProps.benefitProps.isPriviledge ?
+                serviceProps.benefitProps.extraPrice
+                  + helper.countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
+                :
                 helper.countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
               }</span>
             </div>
@@ -217,7 +230,9 @@ module.exports = React.createClass({
                 <div className="order-total-left">
                   <span className="text-dove-grey">优惠: </span>
                   <span className="price">
-                    {
+                    {serviceProps.benefitProps && serviceProps.benefitProps.isPriviledge ?
+                      serviceProps.benefitProps.priviledgeAmount
+                      :
                       helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)
                     }
                   </span>
@@ -225,7 +240,11 @@ module.exports = React.createClass({
                 <div className="order-total-right">
                   <span className="text-dove-grey">实付: </span>
                   <span className="price">
-                    {
+                    {serviceProps.benefitProps && serviceProps.benefitProps.isPriviledge ?
+                      serviceProps.benefitProps.extraPrice
+                        + helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
+                        - serviceProps.benefitProps.priviledgeAmount
+                      :
                       helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
                     }
                   </span>
