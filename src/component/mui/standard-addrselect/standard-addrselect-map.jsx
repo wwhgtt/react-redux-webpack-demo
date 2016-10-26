@@ -21,27 +21,24 @@ module.exports = React.createClass({
   componentDidMount() {
     const fetchPosSuccess = (pos) => {
       this.initMap({ latitude: pos.latitude, longitude: pos.longitude, isGPSPoint: true });
-      console.log(pos);
     };
     const fetchPosError = () => {
       this.setState({ isDefultPoint: true });
-      console.log({ isDefultPoint: true });
       this.initMap({});
     };
-
-    const wxInfo = getWeixinVersionInfo();
-    if (wxInfo.weixin) {
-      callWxClientMethod('getLocation', {
-        success: fetchPosSuccess,
-        error: fetchPosError,
-      });
-      return;
-    }
 
     getCurrentPosition(pos => {
       fetchPosSuccess(pos);
     }, error => {
-      fetchPosError();
+      const wxInfo = getWeixinVersionInfo();
+      if (wxInfo.weixin) {
+        callWxClientMethod('getLocation', {
+          success: fetchPosSuccess,
+          error: fetchPosError,
+        });
+      } else {
+        fetchPosError();
+      }
     });
   },
   mapCenter(point) {
