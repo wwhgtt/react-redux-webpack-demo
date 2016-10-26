@@ -66,10 +66,18 @@ const OrderDinnerStateMentApplication = React.createClass({
       receipt:value,
     });
   },
-  submitDinnerOrder() {
+  submitDinnerOrder(orderedDishesProps, serviceProps, commercialProps) {
     const { submitDinnerOrder } = this.props;
+    let needPayMoney = 0;
+    if (serviceProps.benefitProps.isPriviledge) {
+      needPayMoney = serviceProps.benefitProps.extraPrice
+      + helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
+      - serviceProps.benefitProps.priviledgeAmount;
+    } else {
+      needPayMoney = helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps);
+    }
     const receipt = this.state.receipt;
-    submitDinnerOrder(receipt);
+    submitDinnerOrder(needPayMoney, receipt);
   },
   render() {
     const { commercialProps, customerProps, serviceProps, orderedDishesProps, childView, errorMessage } = this.props; // state
@@ -90,7 +98,7 @@ const OrderDinnerStateMentApplication = React.createClass({
           </div>
         </div>
         <div className="options-group">
-          {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length
+          {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length && !serviceProps.benefitProps.isPriviledge
             && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 && serviceProps.discountProps.isMember ?
             <a className="option" href="#coupon-select">
               <span className="option-title">使用优惠券</span>
@@ -137,13 +145,21 @@ const OrderDinnerStateMentApplication = React.createClass({
                   <div>
                     <div className="order-cart-entry text-dove-grey">已优惠:&nbsp;
                       <span className="price">
-                        {helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)}
+                        {serviceProps.benefitProps.isPriviledge ?
+                          serviceProps.benefitProps.priviledgeAmount
+                          :
+                          helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)
+                        }
                       </span>
                     </div>
                     <div className="order-cart-entry">
                       <span className="text-dove-grey">待支付: </span>
                       <span className="order-cart-price price">
-                        {
+                        {serviceProps.benefitProps.isPriviledge ?
+                          serviceProps.benefitProps.extraPrice
+                          + helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
+                          - serviceProps.benefitProps.priviledgeAmount
+                          :
                           helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
                         }
                       </span>
@@ -155,7 +171,10 @@ const OrderDinnerStateMentApplication = React.createClass({
               </div>
             </div>
             <div className="order-cart-right">
-              <a className="order-cart-btn btn--orange" onTouchTap={evt => this.submitDinnerOrder()}>结账</a>
+              <a
+                className="order-cart-btn btn--orange"
+                onTouchTap={evt => this.submitDinnerOrder(orderedDishesProps, serviceProps, commercialProps)}
+              >结账</a>
             </div>
           </div>
           :
