@@ -1,9 +1,9 @@
 const Immutable = require('seamless-immutable');
+const balanceHelper = require('../../helper/mine-helper.js');
 
 module.exports = function (
   state = Immutable.from({
     balanceInfo:{},
-    errorMessage:'',
   }),
   action
 ) {
@@ -11,10 +11,7 @@ module.exports = function (
 
   switch (type) {
     case 'SET_BALANCE_INFO': {
-      return state.set('balanceInfo', payload);
-    }
-    case 'SET_ERROR_MSG': {
-      return state.set('errorMessage', payload || '');
+      return state.set('balanceInfo', balanceHelper.getBalanceInfo(payload));
     }
     default:
   }
