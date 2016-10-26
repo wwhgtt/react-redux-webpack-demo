@@ -84,6 +84,7 @@ module.exports = React.createClass({
   },
   buildDishBenefit(dish) {
     const { onSelectBenefit, serviceProps } = this.props;
+    if (serviceProps.diningForm === 0) { return false; }
     // const discountDish = _find(serviceProps.discountProps.discountList, discount => discount.dishId === dish.id);
     if (dish.order instanceof Array) {
       if (dish.order[0].benefitOptions) {
