@@ -158,7 +158,9 @@ module.exports = React.createClass({
             false
           }
           <span
-            className={classnames('order-dish-price', 'price', { 'order-dish-price--deleted': dishBenefitPrice })}
+            className={
+              classnames('order-dish-price', 'price', { 'order-dish-price--deleted': dishBenefitPrice && formatPrice(helper.getDishPrice(dish)) })
+            }
           >
           {helper.getDishPrice(dish)}</span>
           <span className="order-dish-count">x{helper.getDishesCount([dish])}</span>
