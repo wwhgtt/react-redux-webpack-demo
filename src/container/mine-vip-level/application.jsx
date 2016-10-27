@@ -6,7 +6,7 @@ require('./application.scss');
 const Loading = require('../../component/mui/loading.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const ShowVipProcess = require('../../component/mine/show-vip-process.jsx');
-const ShowVipRights = require('../../component/mine/show-vip-rights.jsx');
+const VipCurrentLevel = require('../../component/mine/get-vip-current-level.jsx');
 
 const MineVipLevelApplication = React.createClass({
   displayName: 'MineVipLevelApplication',
@@ -31,7 +31,7 @@ const MineVipLevelApplication = React.createClass({
     return (
       <div className="application">
         <ShowVipProcess grownLevelInfo={grownLevelInfo} />
-        <ShowVipRights grownLevelInfo={grownLevelInfo} />
+        <VipCurrentLevel grownLevelInfo={grownLevelInfo} />
         {
           load.status ?
             <Loading word={load.word} />

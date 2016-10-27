@@ -1,0 +1,19 @@
+@import "settings.colors";
+@import "tools.functions";
+@import "tools.mixins";
+
+.list-term {
+  font-size: 15px;
+  line-height: 1.4em;
+  color: #474747;
+
+  .cube {
+    font-style: normal;
+    transform: scale(.5, .5);
+    transform-origin: center center;
+  }
+
+  .content {
+    display: block;
+  }
+}

@@ -7,31 +7,31 @@
 
   .vip-name {
     font-size: 1.438em;
+    font-weight: lighter;
     line-height: 1.4em;
     margin-bottom: .5em;
-    color: #fff;
     text-align: center;
-    font-weight: lighter;
+    color: #fff;
   }
 
   .vip-value {
     font-size: 1em;
     line-height: 1.375em;
-    color: #fff;
     text-align: center;
+    color: #fff;
 
     &-link {
       font-size: 14px;
-      margin-left:1em;
+      margin-left: 1em;
       text-decoration: none;
-      color: #FFD463;
+      color: #ffd463;
     }
   }
 
   .line {
     margin: 1em 1em 2em;
-    border-top: 1px solid #fff;
     opacity: .15;
+    border-top: 1px solid #fff;
   }
 
   .vip-process {
@@ -41,14 +41,10 @@
 }
 
 .process {
-  &-ul {
-
-  }
-  
   &-icon {
-    margin: 0 auto 1em;
     width: 6.5em;
     height: 10.188em;
+    margin: 0 auto 1em;
 
     &.lv1 {
       background: url("../../asset/images/lv1.svg") center center/100% auto no-repeat;
@@ -72,68 +68,67 @@
   }
 
   &-li {
-    position: relative;
     font-size: 12px;
-    color: #999;
-    text-align: center;
+    position: relative;
     overflow: hidden;
+    text-align: center;
+    color: #999;
 
     &.fakeActive {
       color: #ffc334;
     }
 
-    &.active:before {
+    &.active::before {
       border-color: #ffc334;
     }
-    
-    &.active:after {
+
+    &.active::after {
       border-color: #ffc334;
     }
 
     &.active .process-num {
-      background: #ffc334;
       color: #434343;
+      background: #ffc334;
     }
-    
 
-    &:before {
+    &::before {
       position: absolute;
+      top: 1.2em;
       left: 0;
-      top: 1.2em;
-      content: "";
       width: 50%;
+      content: "";
+      opacity: .84;
       border-top: 1px solid #5b5b5b;
-      opacity: 0.84;
     }
 
-    &:after {
+    &::after {
       position: absolute;
-      right: 0;
       top: 1.2em;
-      content: "";
+      right: 0;
       width: 50%;
+      content: "";
+      opacity: .84;
       border-top: 1px solid #5b5b5b;
-      opacity: 0.84;
     }
 
-    &:first-child:before {
-      display:none;
+    &:first-child::before {
+      display: none;
     }
 
-    &:last-child:after {
-      display:none;
+    &:last-child::after {
+      display: none;
     }
 
     .process-num {
+      line-height: 2.5em;
       position: relative;
       z-index: 1;
       width: 2.5em;
       height: 2.5em;
-      line-height: 2.5em;
       margin: 0 auto 1em;
+      text-align: center;
       border-radius: 2em;
       background: #5b5b5b;
-      text-align: center;
     }
   }
 }

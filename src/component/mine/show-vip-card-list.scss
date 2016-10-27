@@ -21,13 +21,8 @@
   }
 }
 
-.tq-detail {
-  font-size: 15px;
-  line-height: 1.4em;
-  margin-bottom: 1em;
+.tq-outer {
   padding: 0 1em;
-  color: #474747;
-  transition: all .3s;
 
   &-hide {
     height: 0;
@@ -35,15 +30,5 @@
 
   &-show {
     height: auto;
-  }
-
-  .cube {
-    font-style: normal;
-    transform: scale(.5, .5);
-    transform-origin: center center;
-  }
-
-  .info {
-    display: block;
   }
 }
