@@ -75,7 +75,12 @@ module.exports = {
     'activate-validate-entry': [
       './src/activate-validate.jsx',
     ],
-
+    'mine-accumulation-entry': [
+      './src/mine-accumulation.jsx',
+    ],
+    'mine-growup-entry': [
+      './src/mine-growup.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -301,6 +306,22 @@ module.exports = {
         title: 'ActivateValidateApplication',
         filename: 'activate-validate.html',
         chunks: ['common', 'activate-validate-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineBalanceApplication',
+        filename: 'mine-accumulation.html',
+        chunks: ['common', 'mine-accumulation-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineGrowupApplication',
+        filename: 'mine-growup.html',
+        chunks: ['common', 'mine-growup-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

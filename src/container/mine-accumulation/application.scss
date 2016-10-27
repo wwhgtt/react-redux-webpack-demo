@@ -1,0 +1,109 @@
+@import "settings.colors";
+
+body {
+  background-color: #f1f1f1;
+}
+
+.masthead {
+  padding: 0 0 24px;
+  text-align: center;
+  color: #fff;
+  background: $color-azure;
+
+  &-total {
+    font-size: 45px;
+    padding-top: 32px;
+  }
+
+  &-title {
+    font-size: 14px;
+    margin-top: 5px;
+  }
+
+  &-discription {
+    &-title {
+      font-size: 12px;
+      float: right;
+      margin: 10px 15px 0;
+      padding: 1px 0 0 18px;
+      background: url("../../asset/images/info.svg") 1px 0 no-repeat;
+      background-size: contain;
+    }
+
+    &-content {
+      font-size: 12px;
+      line-height: 20px;
+      padding: 5px 15px;
+      text-align: left;
+      background: $dark-background;
+    }
+
+    &-content:empty {
+      display: none !important;
+    }
+  }
+}
+
+.detail {
+  &-title {
+    font-size: 14px;
+    line-height: 35px;
+    height: 35px;
+    padding: 0 15px;
+    color: $color-dove-grey;
+  }
+}
+
+.footer {
+  font-size: 12px;
+  line-height: 25px;
+  height: 25px;
+  text-align: center;
+  color: #ccc;
+}
+
+.list-amount {
+  .symbol {
+    position: relative;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+
+    &::before,
+    &::after {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      margin: auto;
+      content: " ";
+      border-radius: 1px;
+      background: $color-dove-grey;
+    }
+
+    &::before {
+      width: 12px;
+      height: 2px;
+    }
+  }
+}
+
+.positivenum {
+  color: $color-azure;
+
+  .symbol {
+    color: $color-azure;
+
+    &::before {
+      background: $color-azure;
+    }
+
+    &::after {
+      width: 2px;
+      height: 12px;
+      background: $color-azure;
+    }
+  }
+}

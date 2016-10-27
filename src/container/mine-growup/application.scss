@@ -1,0 +1,16 @@
+@import "settings.colors";
+
+.masthead {
+  background: $color-cyan;
+}
+
+.positivenum.list-amount {
+  color: $color-cyan;
+
+  .symbol {
+    &::before,
+    &::after {
+      background: $color-cyan;
+    }
+  }
+}
