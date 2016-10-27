@@ -20,6 +20,9 @@ module.exports = React.createClass({
     const { dish } = this.props;
     // const isDiscountDish = _find(serviceProps.discountProps.discountList, discount => discount.dishId === dish.id);
     if (benefit) {
+      if (benefit.priType === 1) {
+        return benefit.type === 1 ? benefit.priName : `满${benefit.dishNum}份可享${benefit.discount}折`;
+      }
       return benefit.priName;
     }
     if (dish.isMember) {

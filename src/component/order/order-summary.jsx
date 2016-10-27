@@ -38,7 +38,8 @@ module.exports = React.createClass({
           return dish.order.map((dishOrder, idx) =>
             Object.assign({}, dish,
               { key:`${dish.id}-${idx}` },
-              { order:[Object.assign({}, dishOrder)] }
+              { order:[Object.assign({}, dishOrder)] },
+              { orderLength:dish.order.length }
             )
           );
         })

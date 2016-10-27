@@ -32,8 +32,8 @@ module.exports = React.createClass({
     // const discountDish = _find(serviceProps.discountProps.discountList, discount => discount.dishId === dish.id);
     return (
       <div className="dialog-options-group">
-        {dish.benefitOptions || (dish.order[0] && dish.order[0].benefitOptions) ?
-          (dish.benefitOptions || dish.order[0].benefitOptions).map(benefitProp =>
+        {dish.benefitOptions || (dish.order[0] && dish.order[dish.order.length - 1].benefitOptions) ?
+          (dish.benefitOptions || dish.order[dish.order.length - 1].benefitOptions).map(benefitProp =>
             <BenefitPropOption setActivityBenefit={setActivityBenefit} benefitProp={benefitProp} key={benefitProp.priId} />)
           :
           false
