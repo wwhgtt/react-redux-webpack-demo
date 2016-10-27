@@ -78,6 +78,9 @@ module.exports = {
     'activate-validate-entry': [
       './src/activate-validate.jsx',
     ],
+    'mine-recharge-entry': [
+      './src/mine-recharge.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -303,6 +306,14 @@ module.exports = {
         title: 'ActivateValidateApplication',
         filename: 'activate-validate.html',
         chunks: ['common', 'activate-validate-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineRechargeApplication',
+        filename: 'mine-recharge.html',
+        chunks: ['common', 'mine-recharge-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
