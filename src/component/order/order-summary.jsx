@@ -1,4 +1,5 @@
 const React = require('react');
+const _find = require('lodash.find');
 const ActiveSelect = require('../mui/select/active-select.jsx');
 const OrderPropOption = require('./order-prop-option.jsx');
 const helper = require('../../helper/order-helper.js');
@@ -199,6 +200,49 @@ module.exports = React.createClass({
                     Number(helper.countPriceWithCouponAndDiscount(dishesPrice, serviceProps)),
                     serviceProps.integralsDetail
                   ).integralInUsed}
+                </span>
+              </p>
+              :
+              false
+            }
+            {serviceProps.benefitProps && _find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 6) ?
+              <p className="order-summary-entry clearfix">
+                <span className="option-title option-title--icon order-summary-icon1">会员优惠:</span>
+                <span className="order-discount discount">
+                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 6).privilegeAmount}
+                </span>
+              </p>
+              :
+              false
+            }
+            {serviceProps.benefitProps && _find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 4) ?
+              <p className="order-summary-entry clearfix">
+                <span className="option-title option-title--icon order-summary-icon3">优惠券优惠:</span>
+                <span className="order-discount discount">
+                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 4).privilegeAmount}
+                </span>
+              </p>
+              :
+              false
+            }
+            {serviceProps.benefitProps && _find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 5) ?
+              <p className="order-summary-entry clearfix">
+                <span className="option-title option-title--icon order-summary-icon4">积分抵扣:</span>
+                <span className="order-discount discount">
+                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 5).privilegeValue}
+                </span>
+                <span className="order-integral">
+                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 5).privilegeAmount}
+                </span>
+              </p>
+              :
+              false
+            }
+            {serviceProps.benefitProps && _find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === -100) ?
+              <p className="order-summary-entry clearfix">
+                <span className="option-title option-title--icon order-summary-icon4">其他优惠:</span>
+                <span className="order-discount discount">
+                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === -100).privilegeValue}
                 </span>
               </p>
               :
