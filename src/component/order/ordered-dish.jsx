@@ -1,14 +1,21 @@
 const React = require('react');
+const Immutable = require('seamless-immutable');
+// const _find = require('lodash.find');
 const helper = require('../../helper/dish-hepler.js');
+const formatPrice = require('../../helper/common-helper.js').formatPrice;
+const countMemberPrice = require('../../helper/order-helper.js').countMemberPrice;
 const classnames = require('classnames');
+const BenefitOptions = require('../order/benefit-options.jsx');
 require('../../component/dish-menu/cart/cart-ordered-dish.scss');
 require('./ordered-dish.scss');
 
 module.exports = React.createClass({
-  displayName: 'CartOrderedDish',
+  displayName: 'OrderedDish',
   propTypes:{
     dish: React.PropTypes.object.isRequired,
     orderStatus:React.PropTypes.string,
+    onSelectBenefit:React.PropTypes.func,
+    serviceProps:React.PropTypes.object.isRequired,
   },
   getInitialState() {
     return {
@@ -75,8 +82,35 @@ module.exports = React.createClass({
       </div>
     );
   },
+  buildDishBenefit(dish) {
+    const { onSelectBenefit, serviceProps } = this.props;
+    if (serviceProps.diningForm === 0) { return false; }
+    // const discountDish = _find(serviceProps.discountProps.discountList, discount => discount.dishId === dish.id);
+    if (dish.order instanceof Array) {
+      if (dish.order[0].benefitOptions) {
+        return (<BenefitOptions
+          benefitProps={dish.order[0].benefitOptions}
+          onSelectBenefit={onSelectBenefit}
+          dish={dish}
+          serviceProps={serviceProps}
+        />);
+      } else if (dish.isMember && dish.key.split('-')[1] === '0') {
+        return (<BenefitOptions
+          benefitProps={[]}
+          onSelectBenefit={onSelectBenefit}
+          dish={dish}
+          serviceProps={serviceProps}
+        />);
+      }
+      return false;
+    }
+    return (dish.benefitOptions || dish.isMember) ?
+      <BenefitOptions benefitProps={dish.benefitOptions || []} onSelectBenefit={onSelectBenefit} dish={dish} serviceProps={serviceProps} />
+      :
+      false;
+  },
   render() {
-    const { dish, orderStatus } = this.props;
+    const { dish, orderStatus, serviceProps } = this.props;
     const { expand } = this.state;
 
     let hasProps;
@@ -86,7 +120,20 @@ module.exports = React.createClass({
       hasProps = false;
     }
     const detailInfo = hasProps ? this.buildDetailInfo(dish) : false;
-
+    let dishBenefitPrice = 0;
+    if (dish.activityBenefit) {
+      dishBenefitPrice = dish.activityBenefit;
+    } else if (dish.order[0] && dish.order[0].activityBenefit) {
+      dishBenefitPrice = dish.order[0].activityBenefit;
+    } else if (serviceProps.diningForm !== 0) {
+      dishBenefitPrice =
+        countMemberPrice(
+          true,
+          Immutable.from([dish]),
+          serviceProps.discountProps.discountList,
+          serviceProps.discountProps.discountType
+        );
+    }
     return (
       <div className="cart-ordered-dish">
         <div className="ordered-dish">
@@ -106,10 +153,21 @@ module.exports = React.createClass({
             :
             false
           }
-          <span className="order-dish-price price">{helper.getDishPrice(dish)}</span>
+          {dishBenefitPrice && helper.getDishPrice(dish) >= formatPrice(dishBenefitPrice) ?
+            <span className="order-dish-price price">{formatPrice(helper.getDishPrice(dish) - dishBenefitPrice)}</span>
+            :
+            false
+          }
+          <span
+            className={
+              classnames('order-dish-price', 'price', { 'order-dish-price--deleted': dishBenefitPrice && formatPrice(helper.getDishPrice(dish)) })
+            }
+          >
+          {helper.getDishPrice(dish)}</span>
           <span className="order-dish-count">x{helper.getDishesCount([dish])}</span>
         </div>
         {expand ? detailInfo : false}
+        {this.buildDishBenefit(dish)}
       </div>
     );
   },

@@ -14,6 +14,8 @@ module.exports = React.createClass({
     onOrderBtnTap: React.PropTypes.func.isRequired,
     onPropsBtnTap: React.PropTypes.func.isRequired,
     onImageBtnTap: React.PropTypes.func.isRequired,
+    diningForm: React.PropTypes.bool,
+    marketList: React.PropTypes.object,
   },
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
@@ -58,9 +60,31 @@ module.exports = React.createClass({
     }
     return dishData.name;
   },
+  disCountInfo(diningForm, marketList, dishId) {
+    if (diningForm && marketList[dishId] && marketList[dishId].length !== 0 && marketList[dishId][0].isAble) {
+      let vip = '';
+      switch (marketList[dishId][0].customerType) {
+        case 1 : vip = '(会员 '; break;
+        case 2 : vip = '(非会员 '; break;
+        default: vip = '('; break;
+      }
+      return (
+        <span className="dish-item-discount ellipsis">
+          {
+            marketList[dishId][0].dishNum > 1 ?
+              `满${marketList[dishId][0].dishNum}份${marketList[dishId][0].ruleName}`
+            :
+              marketList[dishId][0].ruleName
+          }
+          {vip}每单限{marketList[dishId][0].dishNum}份)
+        </span>);
+    }
+    return (<span className="dish-item-discount ellipsis"></span>);
+  },
   render() {
-    const { dishData } = this.props;
+    const { dishData, marketList, diningForm } = this.props;
     const orderBtn = this.buildOrderBtn(dishData);
+    const discountPart = this.disCountInfo(diningForm, marketList, dishData.brandDishId);
     return (
       <div className="dish-on-selling">
         {dishData.currRemainTotal !== 0 ?
@@ -73,6 +97,7 @@ module.exports = React.createClass({
 
             <div className="dish-item-content">
               <span className="dish-item-name ellipsis">{helper.generateDishNameWithUnit(dishData)}</span>
+              {discountPart}
               <span className="dish-item-price price">{dishData.marketPrice}</span>
               {orderBtn}
             </div>

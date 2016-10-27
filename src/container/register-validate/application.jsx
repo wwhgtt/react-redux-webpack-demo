@@ -13,7 +13,7 @@ const getUrlParam = require('../../helper/common-helper.js').getUrlParam;
 require('../../asset/style/style.scss');
 require('./application.scss');
 
-const returnUrl = getUrlParam('returnUrl');
+const returnUrl = getUrlParam('returnUrl') || '';
 const shopId = getUrlParam('shopId');
 
 const RegisterValidateApplication = React.createClass({

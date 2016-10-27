@@ -2,6 +2,7 @@ const React = require('react');
 const commonAction = require('../../action/common-action/common-action.js');
 const connect = require('react-redux').connect;
 const bindActionCreators = require('redux').bindActionCreators;
+const actionActive = require('../../action/activate-validate/activate-validate.js');
 
 const PhoneVerficationCode = require('../../component/mui/form/phone-verification-code.jsx');
 const Toast = require('../../component/mui/toast.jsx');
@@ -12,7 +13,7 @@ const getUrlParam = require('../../helper/common-helper.js').getUrlParam;
 require('../../asset/style/style.scss');
 require('./application.scss');
 
-const returnUrl = getUrlParam('returnUrl');
+const returnUrl = getUrlParam('returnUrl') || '';
 const shopId = getUrlParam('shopId');
 
 const ActivateValidateApplication = React.createClass({
@@ -22,12 +23,12 @@ const ActivateValidateApplication = React.createClass({
     loadInfo: React.PropTypes.object,
     sendCode: React.PropTypes.func,
     setErrorMsg: React.PropTypes.func,
-    checkBindCode: React.PropTypes.func,
+    checkBindCodeActive: React.PropTypes.func,
   },
 
   onValidMobile() {
     const phoneInfo = this.refs.verificationCode.getInputInfo();
-    const { checkBindCode, setErrorMsg } = this.props;
+    const { checkBindCodeActive, setErrorMsg } = this.props;
     const userMobile = {
       mobile: phoneInfo.data.phoneNum,
       code: phoneInfo.data.code,
@@ -39,7 +40,7 @@ const ActivateValidateApplication = React.createClass({
       return;
     }
 
-    checkBindCode(userMobile, this.hanleVipMobile, this.handleSuccessMobile, this.handleBoundMobile);
+    checkBindCodeActive(userMobile, this.hanleVipMobile, this.handleSuccessMobile, this.handleBoundMobile);
   },
 
   getPhoneInfo() {
@@ -50,12 +51,14 @@ const ActivateValidateApplication = React.createClass({
   // 手机号是会员
   hanleVipMobile() {
     const phoneNum = this.getPhoneInfo().phoneNum;
-    location.href = `${returnUrl}&mobile=${phoneNum}`;
+    location.href = `${decodeURIComponent(returnUrl)}&mobile=${phoneNum}`;
   },
 
   // 手机号可以正常注册
   handleSuccessMobile() {
-    location.href = `http://${location.host}/member/register?shopId=${shopId}&returnUrl=${returnUrl}&activation=memberCardActivate`;
+    const phoneNum = this.getPhoneInfo().phoneNum;
+    location.href =
+      `http://${location.host}/member/register?shopId=${shopId}&mobile=${phoneNum}&returnUrl=${returnUrl}&activation=memberCardActivate`;
   },
 
   // 手机号已和其他微信绑定
@@ -93,7 +96,7 @@ const mapStateToProps = function getPropFromState(state) {
 };
 
 const mapDispatchToProps = function getPropsFromAction(dispatch) {
-  const actionObj = Object.assign({}, commonAction);
+  const actionObj = Object.assign({}, commonAction, actionActive);
   return bindActionCreators(actionObj, dispatch);
 };
 

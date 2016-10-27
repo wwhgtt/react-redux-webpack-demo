@@ -33,6 +33,7 @@ module.exports = {
   submitWMOrderAPI:`${apiBase}/takeaway/subOrder.json`,
   userAddressAPI: `${apiBase}/user/addressList.json`,
   submitDinnerOrderAPI:`${apiBase}/orderall/tradeBilling.json`,
+  orderedDishBenefitAPI:`${apiBase}/marketplan/dishPrivilegeList.json`,
 
   individualAPI:`${apiBase}/user/individual.json`, // 获取用户基本信息(我的页面)
   individualviewAPI:`${apiBase}/user/individualView.json`,  // 获取用户基本信息(设置页面)
@@ -109,5 +110,7 @@ module.exports = {
   getTableIdFromQRCodeAPI: `${apiBase}/orderall/tableExt.json`,
   getMainOrderAPI: `${apiBase}/orderall/getMainOrder.json`,
   validBindMobileAPI: `${apiBase}/user/validBindMobile.json`, // 绑定手机验证码校验：是否会员/是否和其他微信绑定
+  validBindMobileActiveAPI: `${apiBase}/user/validBindMobileActive.json`, // 绑定手机验证码校验(会员卡激活)：是否会员/是否和其他微信绑定
+
   requestOptions,
 };

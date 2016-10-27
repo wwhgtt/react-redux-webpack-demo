@@ -26,6 +26,10 @@ module.exports = function (
         discountType:'',
         inUseDiscount:null,
       },
+      activityBenefit:{
+        relatedDish:null,
+        benefitMoney:0,
+      },
     },
     tableProps:{
       isEditable:true,
@@ -40,6 +44,7 @@ module.exports = function (
     errorMessage:null,
     shuoldPhoneValidateShow:false,
     timeStamp:null,
+    isBenefitSelectWindowShow:false,
   }),
   action
 ) {
@@ -363,6 +368,9 @@ module.exports = function (
         );
       }
       break;
+    case 'SET_BENEFIT_OPTIONS':
+      return state.updateIn(['orderedDishesProps', 'dishes'], dishes => dishes.flatMap(dish => helper.addBenefitTodish(payload, dish)))
+        .setIn(['serviceProps', 'activityBenefit', 'benefitMoney'], helper.countInitializeBenefit(payload, state.orderedDishesProps.dishes));
     case 'SET_COUPONS_TO_ORDER':
       return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], payload);
     case 'SET_DISCOUNT_TO_ORDER':
@@ -389,7 +397,47 @@ module.exports = function (
            )
         );
       }
-      break;
+      return state.updateIn(
+        ['orderedDishesProps', 'dishes'],
+        dishes => dishes.flatMap(
+          dish => dish.set(
+              'isMember', false
+            )
+        )
+     );
+    case 'SET_ACTIVITY_BENEFIT':
+      if (payload.id === 'discount') {
+        return state.updateIn(
+          ['orderedDishesProps', 'dishes'],
+          dishes => dishes.flatMap(
+              dish => helper.setDishBenefitInfo(payload.dish, dish, 'discount')
+          )
+        );
+      } else if (payload.id === 'noBenefit') {
+        return state.updateIn(
+          ['orderedDishesProps', 'dishes'],
+          dishes => dishes.flatMap(
+              dish => helper.setDishBenefitInfo(payload.dish, dish, 'noBenefit')
+          )
+        );
+      }
+      return state
+        .setIn(
+          ['orderedDishesProps', 'dishes'],
+          helper.reorganizedActivityBenefit(
+            state.serviceProps.activityBenefit,
+            state.orderedDishesProps.dishes,
+            payload
+          ).dishes
+        )
+        .setIn(
+          ['serviceProps', 'activityBenefit'],
+          helper.reorganizedActivityBenefit(
+            state.serviceProps.activityBenefit,
+            state.orderedDishesProps.dishes,
+            payload
+          ).activityBenefit
+        );
     case 'SET_ADDRESS_INFO_TO_ORDER':
       return state.setIn(
         ['customerProps', 'addresses'],
@@ -416,6 +464,23 @@ module.exports = function (
           return Object.assign({ rangeId: item.rangeId }, address);
         })),
       });
+    case 'ON_SELECT_BENEFIT':
+      if (payload === 'closeWindow') {
+        return state
+          .set('isBenefitSelectWindowShow', !state.isBenefitSelectWindowShow)
+          .setIn(
+            ['serviceProps', 'discountProps', 'inUseDiscount'],
+            helper.countMemberPrice(
+              true, state.orderedDishesProps.dishes, state.serviceProps.discountProps.discountList, state.serviceProps.discountProps.discountType
+            )
+          )
+          .setIn(
+            ['serviceProps', 'activityBenefit', 'benefitMoney'],
+            helper.countAcvitityMoney(state.orderedDishesProps.dishes)
+          );
+      }
+      return state.set('isBenefitSelectWindowShow', !state.isBenefitSelectWindowShow)
+        .setIn(['serviceProps', 'activityBenefit', 'relatedDish'], _find(state.orderedDishesProps.dishes, dish => dish.id === payload));
     case 'SET_SEND_AREA_ID':
       if (!payload || payload === 0) {
         // 表示到店取餐的情况

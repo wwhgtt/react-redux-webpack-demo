@@ -9,7 +9,7 @@ const ActivateSuccessApplication = React.createClass({
   render() {
     return (
       <div className="activate-success flex-rest">
-        <div className="activate-img-success"></div>
+        <div className="activate-img activate-img-success"></div>
 
         <div className="activate-info">
           <p className="activate-info-title">恭喜</p>

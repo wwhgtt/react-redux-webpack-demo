@@ -6,6 +6,8 @@ const IScroll = require('iscroll/build/iscroll-lite');
 const classnames = require('classnames');
 const DishListItem = require('./dish-list-item.jsx');
 const setErrorMsg = require('../../action/dish-menu/dish-menu.js').setErrorMsg;
+const helper = require('../../helper/dish-hepler');
+const imagePlaceholder = require('../../asset/images/dish-placeholder.png');
 
 require('./dish-scroller.scss');
 
@@ -19,8 +21,16 @@ module.exports = React.createClass({
     onOrderBtnTap: React.PropTypes.func.isRequired,
     onPropsBtnTap: React.PropTypes.func.isRequired,
     onImageBtnTap: React.PropTypes.func.isRequired,
+    marketList: React.PropTypes.object,
+    diningForm: React.PropTypes.bool,
+    marketListUpdate:React.PropTypes.array,
+  },
+  getInitialState() {
+    return { distance:window.innerHeight - 84 };
   },
   componentWillMount() {
+    this._counter = 1;
+    this._distance = 0;
   },
   componentDidMount() {
     const { onScroll } = this.props;
@@ -37,7 +47,13 @@ module.exports = React.createClass({
       }
     });
     iScroll.on('scrollEnd', () => {
-      const dishTypeId = this.findCurrentDishTypeId(iScroll.y);
+      const { diningForm, marketListUpdate } = this.props;
+      let dishTypeId = '';
+      if (diningForm && marketListUpdate.length !== 0) {
+        dishTypeId = this.findCurrentDishTypeId(iScroll.y - 34);
+      } else {
+        dishTypeId = this.findCurrentDishTypeId(iScroll.y);
+      }
       if (!window.__activeTypeByTap__ && dishTypeId) {
         if (cache.timer) {
           window.clearTimeout(cache.timer);
@@ -46,6 +62,7 @@ module.exports = React.createClass({
       }
       cache.isScrolling = false;
       window.__activeTypeByTap__ = false;
+      this.lazyFormat(iScroll);
     });
   },
   shouldComponentUpdate(nextProps, nextState) {
@@ -75,15 +92,24 @@ module.exports = React.createClass({
     }
     // setTimeout(() => this._cache.isTaping = false, 0); // set isTaping to false at nextTick of rendering;
   },
+  lazyFormat(iScroll) {
+    const distance = (iScroll.wrapperHeight) + Math.abs(iScroll.y);
+    if (distance > this._distance) {
+      this._distance = distance;
+      this.setState({ distance });
+    }
+  },
   findCurrentDishTypeId(posY) {
     const dishTypes = findDOMNode(this).querySelectorAll('.dish-item-type');
     const showingDishTypes = Array.prototype.slice.call(dishTypes).filter(dishType => dishType.offsetTop < -posY + 5);
+    this.showingDishLength = showingDishTypes.length;
     if (showingDishTypes.length) {
       return parseInt(showingDishTypes.pop().getAttribute('data-id'), 10);
     }
     return false;
   },
   buildDishElements(activeDishTypeId, dishTypesData, dishesData, onDishBtnTap) {
+    this._counter = 1;
     function getDishById(dishId) {
       const dish = _find(dishesData, { id:dishId });
       if (!dish) {
@@ -122,10 +148,35 @@ module.exports = React.createClass({
               </li>,
             ].concat(
               dishTypeData.dishIds.map(dishId => {
+                this._counter++;
                 const dishData = getDishById(dishId);
-                return (<li className="dish-item-dish"><DishListItem
-                  dishData={dishData} onOrderBtnTap={onDishBtnTap} onPropsBtnTap={onDishBtnTap} onImageBtnTap={this.props.onImageBtnTap}
-                /></li>
+                const { distance } = this.state;
+                return (
+                  <li className="dish-item-dish">
+                    {
+                      this._counter - 1 <= ((distance - (Number(this.showingDishLength) || 1) * 30) / 88).toFixed(0) ?
+                        <DishListItem
+                          dishData={dishData}
+                          onOrderBtnTap={onDishBtnTap}
+                          onPropsBtnTap={onDishBtnTap}
+                          onImageBtnTap={this.props.onImageBtnTap}
+                          marketList={this.props.marketList}
+                          diningForm={this.props.diningForm}
+                        />
+                      :
+                        <div className="dish-on-selling">
+                          <div className="dish-list-item dish-list-word">
+                            <button
+                              className={classnames('dish-item-img', { 'is-memberdish': dishData.isMember })}
+                              style={{ backgroundImage: `url(${imagePlaceholder})` }}
+                            ></button>
+                            <div className="dish-item-content">
+                              <span className="dish-item-name ellipsis">{helper.generateDishNameWithUnit(dishData)}</span>
+                            </div>
+                          </div>
+                        </div>
+                    }
+                  </li>
                 );
               })
             )

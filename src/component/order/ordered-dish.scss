@@ -54,4 +54,9 @@
   float: right;
   width: 70px;
   text-align: right;
+
+  &--deleted {
+    text-decoration: line-through;
+    color: $color-dusty-grey;
+  }
 }

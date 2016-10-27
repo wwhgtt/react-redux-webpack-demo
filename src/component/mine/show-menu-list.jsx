@@ -12,7 +12,7 @@ const rechargeUrl = `${config.rechargeURL}?shopId=${shopId}`;
 const orderallListUrl = `${config.orderallListURL}?shopId=${shopId}`;
 const getCouponListUrl = ` ${config.getCouponListURL}?shopId=${shopId}`;
 const addressListUrl = `${config.addressListURL}?shopId=${shopId}`;
-let registerUrl = ` ${config.registerMemberURL}?shopId=${shopId}`;
+let registerUrl = `${config.registerMemberURL}?shopId=${shopId}`;
 const bindMobileUrl = ` ${config.bindMobileURL}?shopId=${shopId}`;
 const bindWXUrl = ` ${config.bindWXURL}?shopId=${shopId}`;
 
@@ -54,11 +54,7 @@ module.exports = React.createClass({
 
     // 用户注册地址判断
     if (info.loginType === 1) {
-      if (info.bindMobile) {
-        registerUrl = `${registerUrl}&mobile=${info.mobile}`;
-      } else {
-        registerUrl = `http://${location.host}/user/validBindMobile?shopId=${shopId}`;
-      }
+      registerUrl = `http://${location.host}/user/validBindMobile?shopId=${shopId}`;
     } else if (info.loginType === 0) {
       registerUrl = `${registerUrl}&mobile=${info.mobile}`;
     }

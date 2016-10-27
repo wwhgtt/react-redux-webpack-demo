@@ -1,7 +1,7 @@
 const React = require('react');
 const getUrlParam = require('../../helper/common-helper.js').getUrlParam;
 const errorMsg = decodeURIComponent(getUrlParam('errorMsg'));
-const returnUrl = getUrlParam('returnUrl');
+const returnUrl = getUrlParam('returnUrl') || '';
 
 const ActivateFaildApplication = React.createClass({
   displayName: 'ActivateFaildApplication',

@@ -145,4 +145,26 @@ exports.dateUtility = {
     return isNaN(+result) ? null : result;
   },
 };
+exports.formatPrice = (price) => {
+  if (price.toString().indexOf('.') < 0) {
+    return price;
+  }
+  if (price.toString().split('.')[1].length > 2) {
+    return parseFloat(price.toFixed(2));
+  }
+  return price;
+};
+
+// 判断时间是否满一天
+exports.renderTime = (startTime, endTime) => {
+  const formatStartTime = startTime.substring(0, 5);
+  const formatEndTime = endTime.substring(0, 5);
+  const period =
+    (Number(formatEndTime.substring(0, 2) * 60) + Number(formatEndTime.substring(3, 5))) -
+    (Number(formatStartTime.substring(0, 2) * 60) + Number(formatStartTime.substring(3, 5))) + 1;
+  if (period / 60 < 24) {
+    return `${formatStartTime}-${formatEndTime}，`;
+  }
+  return '';
+};
 

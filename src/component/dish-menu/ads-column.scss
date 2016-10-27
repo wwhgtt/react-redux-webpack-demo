@@ -1,0 +1,184 @@
+@import "settings.colors";
+@import "tools.functions";
+@import "tools.mixins";
+
+.ads-column {
+  font-size: 14px;
+  height: 2.43em;
+  padding: .65em;
+  color: #fff;
+  background: url("../../asset/images/filter-bg-small.png") center center/cover no-repeat;
+
+  .hide {
+    display: none;
+  }
+
+  .content-outer {
+    position: relative;
+    top: 0;
+    height: 1em;
+    transition: all .5s;
+  }
+
+  .ads-more {
+    line-height: 1.2em;
+  }
+
+  .content {
+    display: flex;
+    height: 1.143em;
+    margin-bottom: 1em;
+    align-items: center;
+
+    .icon {
+      width: 1.143em;
+      height: 1.143em;
+      margin-right: .5em;
+      vertical-align: middle;
+    }
+
+    .icon-jian {
+      background: url("../../asset/images/dish-jian.png") center center/100% 100% no-repeat;
+    }
+
+    .icon-zhe {
+      background: url("../../asset/images/dish-zhe.png") center center/100% 100% no-repeat;
+    }
+
+    .detail {
+      display: inline-block;
+      padding-right: 1em;
+      vertical-align: middle;
+    }
+
+    .detail-inner {
+      font-size: 2em;
+      line-height: 1.143em;
+      display: block;
+      width: 200%;
+      transform: scale(.5, .5);
+      transform-origin: left center;
+    }
+  }
+
+  /* 覆盖样式 */
+  .btn-arrow-right::after {
+    width: 10px;
+    height: 15px;
+    background-image: url("../../asset/images/arrow-right-white.png");
+    background-size: auto .8em;
+  }
+}
+
+.ads-detail {
+  line-height: normal;
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: url("../../asset/images/filter-bg.jpg") center center/100% 100% no-repeat;
+
+  .scrollpart {
+    overflow: auto;
+    height: calc(100% - 100px);
+  }
+
+  .closedetail {
+    width: 2em;
+    height: 2em;
+    margin: 1em auto;
+    background: url("../../asset/images/close-btn.png") center center/100% 100% no-repeat;
+  }
+
+  .shopname {
+    font-size: 1.5em;
+    margin: 2em 0 0;
+    padding: 0 1em;
+    text-align: center;
+  }
+
+  .shopopentime {
+    font-size: 14px;
+    line-height: 1.5em;
+    margin: 1em 0;
+    text-align: center;
+    word-break: break-all;
+
+    .title {
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .time {
+      display: inline-block;
+      vertical-align: top;
+    }
+  }
+
+  .shopdiscount {
+    height: calc(100% - 120px);
+    margin: 0 1em;
+    border-width: 1px 0 0;
+    border-color: #fff;
+
+    &-brief {
+      font-size: 1em;
+      margin: 0 auto;
+    }
+  }
+
+  .shopdiscount-item {
+    margin: 1em 0;
+
+    .spanitem {
+      font-size: 1em;
+      line-height: 1.3em;
+      display: block;
+      width: 100%;
+    }
+
+    &.jian,
+    &.zhe, {
+      position: relative;
+      padding-left: 1.5em;
+      word-break: break-all;
+    }
+
+    &.jian::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1.143em;
+      height: 1.143em;
+      content: "";
+      background: url("../../asset/images/dish-jian.png") center center/100% 100% no-repeat;
+    }
+
+    &.zhe::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1.143em;
+      height: 1.143em;
+      content: "";
+      background: url("../../asset/images/dish-zhe.png") center center/100% 100% no-repeat;
+    }
+  }
+}
+
+.dishScrollerOuter {
+  height: calc(100% - 84px);
+}
+
+.dishScrollerOutermarketMatchDishes {
+  height: calc(100% - 50px);
+}
+
+.dish-type-scroller,
+.dish-scroller {
+  height: 100%;
+}
+
+

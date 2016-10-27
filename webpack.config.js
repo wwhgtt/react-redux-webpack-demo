@@ -100,7 +100,7 @@ module.exports = {
         loaders: ['style', 'css?sourceMap', 'postcss', 'sass?&sourceMap&includePaths[]=./src/asset/style'],
       },
       {
-        test: /\.(gif|png|svg)$/,
+        test: /\.(gif|png|svg|jpg)$/,
         loaders: ['url?limit=8192&name=asset/img/[hash].[ext]'],
       },
       {
