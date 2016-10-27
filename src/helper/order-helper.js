@@ -987,7 +987,7 @@ const countAcvitityMoney = exports.countAcvitityMoney = (dishes) => {
   return acvitityCollection.length ? parseFloat((acvitityCollection.reduce((c, p) => c + p)).toFixed(2)) : 0;
 };
 // 为已点菜品添加对应的优惠选项
-const addBenefitTodish = exports.addBenefitTodish = (benefitProps, dish) => {
+const addBenefitTodish = exports.addBenefitTodish = (benefitProps, dish, dishes) => {
   let orderedDish = dish.asMutable({ deep: true });
   benefitProps.dishPriList.map(benefit => {
     if (benefit.dishId === orderedDish.brandDishId) {
@@ -995,7 +995,7 @@ const addBenefitTodish = exports.addBenefitTodish = (benefitProps, dish) => {
       if (orderedDish.order instanceof Array) {
         const hasGiftCoupon = _find(benefit.dishPriInfo, info => info.priType === 2);
         if (hasGiftCoupon) {
-          const hasMoreCountDish = _find(orderedDish.order, order => getOrderPrice(dish, order) >= hasGiftCoupon.fullValue);
+          const hasMoreCountDish = getDishesPrice(dishes) >= hasGiftCoupon.fullValue;
           // 表面有复合礼品券优惠的菜品
           if (hasMoreCountDish) {
             orderedDish.order[orderedDish.order.length - 1].benefitOptions = benefit.dishPriInfo;
@@ -1013,7 +1013,7 @@ const addBenefitTodish = exports.addBenefitTodish = (benefitProps, dish) => {
       } else {
         const hasGiftCoupon = _find(benefit.dishPriInfo, info => info.priType === 2);
         if (hasGiftCoupon) {
-          if (getDishPrice(dish) >= hasGiftCoupon.fullValue) {
+          if (getDishesPrice(dishes) >= hasGiftCoupon.fullValue) {
             orderedDish.benefitOptions = benefit.dishPriInfo;
           } else {
             orderedDish.benefitOptions = benefit.dishPriInfo.filter(info => info.priType !== 2);
@@ -1036,7 +1036,7 @@ exports.countInitializeBenefit = (benefitProps, dishes) => {
   let newOrderedDishes = dishes.asMutable({ deep: true });
   let dishCollection = [];
   for (let i = 0; i < newOrderedDishes.length; i++) {
-    let dish = addBenefitTodish(benefitProps, Immutable.from(newOrderedDishes[i]));
+    let dish = addBenefitTodish(benefitProps, Immutable.from(newOrderedDishes[i]), dishes);
     dishCollection.push(dish);
   }
   return countAcvitityMoney(dishCollection);
