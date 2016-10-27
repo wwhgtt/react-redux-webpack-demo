@@ -11,7 +11,7 @@ const VipCurrentLevel = require('../../component/mine/get-vip-current-level.jsx'
 const MineVipLevelApplication = React.createClass({
   displayName: 'MineVipLevelApplication',
   propTypes:{
-    getGrownLevelInfo:React.PropTypes.func.isRequired,
+    getInfo:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func,
     errorMessage:React.PropTypes.string,
     load:React.PropTypes.object,
@@ -23,8 +23,8 @@ const MineVipLevelApplication = React.createClass({
   },
   componentWillMount() {},
   componentDidMount() {
-    const { getGrownLevelInfo } = this.props;
-    getGrownLevelInfo();
+    const { getInfo } = this.props;
+    getInfo();
   },
   render() {
     const { errorMessage, clearErrorMsg, load, grownLevelInfo } = this.props;

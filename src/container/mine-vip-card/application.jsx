@@ -12,7 +12,7 @@ require('./application.scss');
 const MineVipCardApplication = React.createClass({
   displayName: 'MineVipCardApplication',
   propTypes:{
-    getMemberInfo:React.PropTypes.func.isRequired,
+    getInfo:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func,
     errorMessage:React.PropTypes.string,
     load:React.PropTypes.object,
@@ -24,8 +24,8 @@ const MineVipCardApplication = React.createClass({
   },
   componentWillMount() {},
   componentDidMount() {
-    const { getMemberInfo } = this.props;
-    getMemberInfo();
+    const { getInfo } = this.props;
+    getInfo();
   },
   render() {
     const { errorMessage, clearErrorMsg, load, memberInfo, userInfo } = this.props;
