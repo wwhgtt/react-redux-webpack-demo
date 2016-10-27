@@ -5,7 +5,7 @@ const defaultPic = require('../../asset/images/head-default.png');
 require('./show-basic-info.scss');
 
 module.exports = React.createClass({ // ShowBasicInfo
-  displayName: 'BrandBg',
+  displayName: 'ShowBasicInfo',
   propTypes:{
     info:React.PropTypes.object.isRequired,
   },

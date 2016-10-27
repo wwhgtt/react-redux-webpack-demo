@@ -7,7 +7,7 @@ const integralURL = `${config.integralURL}?shopId=${shopId}`;
 require('./show-vip-process.scss');
 
 module.exports = React.createClass({
-  displayName: 'ShowSettingList',
+  displayName: 'ShowVipProcess',
   propTypes:{
     grownLevelInfo:React.PropTypes.object.isRequired,
   },

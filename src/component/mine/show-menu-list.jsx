@@ -19,7 +19,7 @@ const bindWXUrl = ` ${config.bindWXURL}?shopId=${shopId}`;
 require('./show-menu-list.scss');
 
 module.exports = React.createClass({
-  displayName: 'Name',
+  displayName: 'ShowMenuList',
   propTypes:{
     info:React.PropTypes.object.isRequired,
   },

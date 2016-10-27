@@ -8,7 +8,7 @@ require('./show-vip-card-list.scss');
 const VipCurrentRights = require('./get-vip-current-rights.jsx');
 
 module.exports = React.createClass({
-  displayName: 'Name',
+  displayName: 'ShowVipCardList',
   propTypes:{
     memberInfo:React.PropTypes.object,
     userInfo:React.PropTypes.object,
