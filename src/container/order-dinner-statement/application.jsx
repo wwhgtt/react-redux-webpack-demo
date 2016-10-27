@@ -38,7 +38,7 @@ const OrderDinnerStateMentApplication = React.createClass({
   },
   getInitialState() {
     return {
-      receipt:'',
+      receipt:null,
     };
   },
   componentWillMount() {
@@ -76,7 +76,7 @@ const OrderDinnerStateMentApplication = React.createClass({
     } else {
       needPayMoney = helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps);
     }
-    const receipt = this.state.receipt;
+    const receipt = this.state.receipt || this.props.commercialProps.receipt;
     submitDinnerOrder(needPayMoney, receipt);
   },
   render() {
@@ -124,7 +124,14 @@ const OrderDinnerStateMentApplication = React.createClass({
           {commercialProps && commercialProps.isSupportReceipt === 1 ?
             <label className="option">
               <span className="option-title">发票抬头: </span>
-              <input className="option-input" name="receipt" maxLength="35" placeholder="如需发票请填写" onChange={this.noteOrReceiptChange} />
+              <input
+                className="option-input"
+                name="receipt"
+                maxLength="35"
+                disabled={commercialProps.receipt}
+                placeholder={commercialProps.receipt || '如需发票请填写'}
+                onChange={this.noteOrReceiptChange}
+              />
             </label>
             :
             false

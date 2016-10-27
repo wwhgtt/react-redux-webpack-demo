@@ -13,6 +13,7 @@ module.exports = {
       priviledgeAmount:4604.29,
       diningForm:0, // 0-正餐，1-快餐
       isInvoice:1, // 是否发票
+      invoice:'2321321',
       carryRuleVO:// 进位规则
       {
         scale:2, // 保留小数点位数
