@@ -995,7 +995,7 @@ const addBenefitTodish = exports.addBenefitTodish = (benefitProps, dish) => {
       if (orderedDish.order instanceof Array) {
         const hasGiftCoupon = _find(benefit.dishPriInfo, info => info.priType === 2);
         if (hasGiftCoupon) {
-          const hasMoreCountDish = _find(orderedDish.order, order => order.count >= hasGiftCoupon.dishNum);
+          const hasMoreCountDish = _find(orderedDish.order, order => getOrderPrice(dish, order) >= hasGiftCoupon.fullValue);
           // 表面有复合礼品券优惠的菜品
           if (hasMoreCountDish) {
             orderedDish.order[orderedDish.order.length - 1].benefitOptions = benefit.dishPriInfo;
@@ -1013,7 +1013,7 @@ const addBenefitTodish = exports.addBenefitTodish = (benefitProps, dish) => {
       } else {
         const hasGiftCoupon = _find(benefit.dishPriInfo, info => info.priType === 2);
         if (hasGiftCoupon) {
-          if (orderedDish.order >= hasGiftCoupon.dishNum) {
+          if (getDishPrice(dish) >= hasGiftCoupon.fullValue) {
             orderedDish.benefitOptions = benefit.dishPriInfo;
           } else {
             orderedDish.benefitOptions = benefit.dishPriInfo.filter(info => info.priType !== 2);

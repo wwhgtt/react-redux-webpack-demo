@@ -19,10 +19,7 @@ module.exports = {
               priId: 2581,
               priName: '满100赠送',
               priType: 2,
-              type:2, // 规则类型 1立减 ，2折扣
-              dishNum:2, // 满减份数
-              reduce:null, // 减免金额
-              discount: null, // 折扣
+              fullValue:0, // 折扣
             },
           ],
         },
@@ -42,10 +39,7 @@ module.exports = {
               priId: 2585,
               priName: '满100赠送',
               priType: 2,
-              type:null, // 规则类型 1立减 ，2折扣
-              dishNum:3, // 满减份数
-              reduce:null, // 减免金额
-              discount: null, // 折扣
+              fullValue:0,
             },
           ],
         },
