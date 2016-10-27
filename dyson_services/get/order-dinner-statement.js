@@ -30,6 +30,60 @@ module.exports = {
           privilegeAmount: 5,
         },
       ],
+      privileges: [
+        {
+          id: 1962424,
+          tradeId: 3508495,
+          tradeUuid: '318a691d84ca4ef9811d28361f110754',
+          privilegeType: 6, // 优惠类型：1:DISCOUNT:手动折扣
+          privilegeValue: 2, // 优惠值
+          privilegeAmount:12, // 优惠金额，销售时为负数，退货时为正数
+          promoId: 16859, // 优惠活动或者优惠券id,如果没有优惠活动，会为空
+          deviceIdenty: 'e0:76:d0:28:36:21',
+          uuid: '5ebfb858628b41b4a60518cc373514ed',
+          statusFlag: 1, // 是否有效，1 有效，2 无效
+          privilegeName: '米饭每碗2元参与折扣', // 优惠类型名称
+        },
+        {
+          id: 1962424,
+          tradeId: 3508495,
+          tradeUuid: '318a691d84ca4ef9811d28361f110754',
+          privilegeType: 4, // 优惠类型：1:DISCOUNT:手动折扣
+          privilegeValue: 2, // 优惠值
+          privilegeAmount: 32, // 优惠金额，销售时为负数，退货时为正数
+          promoId: 16859, // 优惠活动或者优惠券id,如果没有优惠活动，会为空
+          deviceIdenty: 'e0:76:d0:28:36:21',
+          uuid: '5ebfb858628b41b4a60518cc373514ed',
+          statusFlag: 1, // 是否有效，1 有效，2 无效
+          privilegeName: '米饭每碗2元参与折扣', // 优惠类型名称
+        },
+        {
+          id: 1962424,
+          tradeId: 3508495,
+          tradeUuid: '318a691d84ca4ef9811d28361f110754',
+          privilegeType: 5, // 优惠类型：1:DISCOUNT:手动折扣
+          privilegeValue: 2, // 优惠值
+          privilegeAmount: 22, // 优惠金额，销售时为负数，退货时为正数
+          promoId: 16859, // 优惠活动或者优惠券id,如果没有优惠活动，会为空
+          deviceIdenty: 'e0:76:d0:28:36:21',
+          uuid: '5ebfb858628b41b4a60518cc373514ed',
+          statusFlag: 1, // 是否有效，1 有效，2 无效
+          privilegeName: '米饭每碗2元参与折扣', // 优惠类型名称
+        },
+        {
+          id: 1962424,
+          tradeId: 3508495,
+          tradeUuid: '318a691d84ca4ef9811d28361f110754',
+          privilegeType: -100, // 优惠类型：1:DISCOUNT:手动折扣
+          privilegeValue: 2, // 优惠值
+          privilegeAmount: 22, // 优惠金额，销售时为负数，退货时为正数
+          promoId: 16859, // 优惠活动或者优惠券id,如果没有优惠活动，会为空
+          deviceIdenty: 'e0:76:d0:28:36:21',
+          uuid: '5ebfb858628b41b4a60518cc373514ed',
+          statusFlag: 1, // 是否有效，1 有效，2 无效
+          privilegeName: '米饭每碗2元参与折扣', // 优惠类型名称
+        },
+      ],
       member://
       {
         loginType:0, // 0微信登录 1手机登录
