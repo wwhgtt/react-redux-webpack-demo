@@ -58,6 +58,7 @@ module.exports = {
   getOrderTableTypeAPI: `${apiBase}/orderall/orderTableType.json`, // 获取tableInfo
   callServiceAPI: `${apiBase}/orderall/callService.json`, // 获取tableId
   memberIndexAPI: `${apiBase}/member/index.json`, // 获取会员基本信息
+  grownLevelxAPI:`${apiBase}/member/grownLevel.json`, // 会员页面
   // 跳转URL
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,

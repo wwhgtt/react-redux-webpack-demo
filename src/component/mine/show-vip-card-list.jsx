@@ -133,11 +133,11 @@ module.exports = React.createClass({
             <a className="list-group-link" href=" javascript:void(0)" onTouchTap={this.slideDown}>
               <i className="icon" name="WDTQ"></i>
               <span className="name">我的特权</span>
-              <span className={classnames('arrow', { 'arrow-down':!arrowUp, 'arrow-up':arrowUp })}></span>
+              <span className={classnames('arrow', { 'arrow-up':!arrowUp, 'arrow-down':arrowUp })}></span>
             </a>
           </div>
         </div>
-        <div id="aaa" className={classnames('tq-detail of', { 'tq-detail-hide': arrowUp, 'tq-detail-show': !arrowUp })}>
+        <div className={classnames('tq-detail of', { 'tq-detail-hide': arrowUp, 'tq-detail-show': !arrowUp })}>
           {scorePart}
           {scoreExchange}
           {grownPart}

@@ -1,0 +1,139 @@
+@import "settings.colors";
+@import "tools.functions";
+@import "tools.mixins";
+
+.vip-process-outer {
+  background: #434343;
+
+  .vip-name {
+    font-size: 1.438em;
+    line-height: 1.4em;
+    margin-bottom: .5em;
+    color: #fff;
+    text-align: center;
+    font-weight: lighter;
+  }
+
+  .vip-value {
+    font-size: 1em;
+    line-height: 1.375em;
+    color: #fff;
+    text-align: center;
+
+    &-link {
+      font-size: 14px;
+      margin-left:1em;
+      text-decoration: none;
+      color: #FFD463;
+    }
+  }
+
+  .line {
+    margin: 1em 1em 2em;
+    border-top: 1px solid #fff;
+    opacity: .15;
+  }
+
+  .vip-process {
+    margin-bottom: 2em;
+    padding: 0 1em;
+  }
+}
+
+.process {
+  &-ul {
+
+  }
+  
+  &-icon {
+    margin: 0 auto 1em;
+    width: 6.5em;
+    height: 10.188em;
+
+    &.lv1 {
+      background: url("../../asset/images/lv1.svg") center center/100% auto no-repeat;
+    }
+
+    &.lv2 {
+      background: url("../../asset/images/lv2.svg") center center/100% auto no-repeat;
+    }
+
+    &.lv3 {
+      background: url("../../asset/images/lv3.svg") center center/100% auto no-repeat;
+    }
+
+    &.lv4 {
+      background: url("../../asset/images/lv4.svg") center center/100% auto no-repeat;
+    }
+
+    &.lv5 {
+      background: url("../../asset/images/lv5.svg") center center/100% auto no-repeat;
+    }
+  }
+
+  &-li {
+    position: relative;
+    font-size: 12px;
+    color: #999;
+    text-align: center;
+    overflow: hidden;
+
+    &.fakeActive {
+      color: #ffc334;
+    }
+
+    &.active:before {
+      border-color: #ffc334;
+    }
+    
+    &.active:after {
+      border-color: #ffc334;
+    }
+
+    &.active .process-num {
+      background: #ffc334;
+      color: #434343;
+    }
+    
+
+    &:before {
+      position: absolute;
+      left: 0;
+      top: 1.2em;
+      content: "";
+      width: 50%;
+      border-top: 1px solid #5b5b5b;
+      opacity: 0.84;
+    }
+
+    &:after {
+      position: absolute;
+      right: 0;
+      top: 1.2em;
+      content: "";
+      width: 50%;
+      border-top: 1px solid #5b5b5b;
+      opacity: 0.84;
+    }
+
+    &:first-child:before {
+      display:none;
+    }
+
+    &:last-child:after {
+      display:none;
+    }
+
+    .process-num {
+      position: relative;
+      z-index: 1;
+      width: 2.5em;
+      height: 2.5em;
+      line-height: 2.5em;
+      margin: 0 auto 1em;
+      border-radius: 2em;
+      background: #5b5b5b;
+      text-align: center;
+    }
+  }
+}

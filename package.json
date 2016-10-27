@@ -6,8 +6,8 @@
   "scripts": {
     "test": "mocha --compilers js:babel-core/register test/**",
     "build": "./script/build",
-    "production": "NODE_ENV=production && PROD_HOST=${DEV_HOST}:5000 && webpack-dev-server --host ${DEV_HOST} --port 5000 --compress -p --config webpack.config.production.js",
-    "start": "webpack-dev-server --inline --hot --host ${DEV_HOST} --port 3000"
+    "production": "NODE_ENV=production && PROD_HOST=192.168.0.108:5000 && webpack-dev-server --host 192.168.0.108 --port 5000 --compress -p --config webpack.config.production.js",
+    "start": "webpack-dev-server --inline --hot --host 192.168.0.108 --port 3000"
   },
   "repository": {
     "type": "git",
