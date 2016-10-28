@@ -5,6 +5,7 @@ const helper = require('../../helper/order-helper');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const Toast = require('../../component/mui/toast.jsx');
 const DiningOptions = require('../../component/order/dining-options.jsx');
+const formatPrice = require('../../helper/common-helper.js').formatPrice;
 /*
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
@@ -163,11 +164,15 @@ const OrderDinnerStateMentApplication = React.createClass({
                       <span className="text-dove-grey">待支付: </span>
                       <span className="order-cart-price price">
                         {serviceProps.benefitProps.isPriviledge ?
-                          serviceProps.benefitProps.extraPrice
-                          + helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
-                          - serviceProps.benefitProps.priviledgeAmount
+                          formatPrice(
+                            serviceProps.benefitProps.extraPrice
+                            + helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
+                            - serviceProps.benefitProps.priviledgeAmount
+                          )
                           :
-                          helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
+                          formatPrice(
+                            helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
+                          )
                         }
                       </span>
                     </div>
