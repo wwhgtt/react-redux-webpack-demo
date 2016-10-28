@@ -147,7 +147,8 @@ module.exports = function (
                   .set('isMember', false)
                   .set('memberPrice', false)
                   .set('discountType', false)
-                  .set('discountLevel', false);
+                  .set('discountLevel', false)
+                  .set('isUserMember', isUserMember);
               }
               return dishData
                   .set(
