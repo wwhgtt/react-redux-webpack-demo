@@ -29,7 +29,7 @@ module.exports = React.createClass({
       if (benefit.priType === 1) {
         return benefit.type === 1 ? benefit.priName : `${this.buildDiscountName(benefit.dishNum)}可享${benefit.discount}折`;
       }
-      return benefit.priName;
+      return `礼品券(${benefit.priName})`;
     }
     if (dish.isMember) {
       return dish.noUseDiscount ? '不享受优惠' : '会员价';
