@@ -245,7 +245,7 @@ module.exports = React.createClass({
               <p className="order-summary-entry clearfix">
                 <span className="option-title option-title--icon order-summary-icon4">其他优惠:</span>
                 <span className="order-discount discount">
-                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === -100).privilegeValue}
+                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === -100).privilegeAmount}
                 </span>
               </p>
               :
