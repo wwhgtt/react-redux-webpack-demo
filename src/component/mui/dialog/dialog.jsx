@@ -31,7 +31,7 @@ module.exports = React.createClass({
     const buttonElems = (buttons || []).map((button, index) => (
       <button
         key={index}
-        className={button.className}
+        className={`dialog-footer-btn ${button.className}`}
         onTouchTap={button.onClick}
       >
         {button.text}

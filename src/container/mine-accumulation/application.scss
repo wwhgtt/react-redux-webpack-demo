@@ -1,6 +1,7 @@
 @import "settings.colors";
 
 body {
+  font-weight: 200;
   background-color: #f1f1f1;
 }
 
@@ -36,10 +37,6 @@ body {
       padding: 5px 15px;
       text-align: left;
       background: $dark-background;
-    }
-
-    &-content:empty {
-      display: none !important;
     }
   }
 }
@@ -106,4 +103,8 @@ body {
       background: $color-azure;
     }
   }
+}
+
+.btn--azure {
+  background: $color-azure;
 }

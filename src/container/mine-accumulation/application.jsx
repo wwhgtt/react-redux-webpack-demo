@@ -120,7 +120,7 @@ const MineAccumulationApplication = React.createClass({
             </ReactCSSTransitionGroup>
             <a className="masthead-discription-title" onTouchTap={this.toggleDescriptContent}>积分说明</a>
             <p className="masthead-total">{accumulationInfo.integral}</p>
-            <h3 className="masthead-title">我的积分</h3>
+            <p className="masthead-title">我的积分</p>
           </div>
           <div className="detail">
             <div className="detail-title">积分使用记录</div>

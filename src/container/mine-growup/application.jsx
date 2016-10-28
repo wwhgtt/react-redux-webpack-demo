@@ -1,13 +1,13 @@
-require('../../asset/style/style.scss');
-require('../../component/mine/income-expenses-list.scss');
-require('../mine-accumulation/application.scss');
-require('./application.scss');
-
 const React = require('react');
 const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const connect = require('react-redux').connect;
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
 const mineGrowupAction = require('../../action/mine/mine-growup.js');
+
+require('../../asset/style/style.scss');
+require('../../component/mine/income-expenses-list.scss');
+require('../mine-accumulation/application.scss');
+require('./application.scss');
 
 const MineGrowupApplication = React.createClass({
   displayName: 'MineGrowupApplication',
@@ -67,7 +67,7 @@ const MineGrowupApplication = React.createClass({
   },
   buildDescriptContentElement() {
     const { levelInfo } = this.props.growupInfo;
-    const { levelList, grownCfgMap } = levelInfo || {};
+    const { levelList, grownCfgMap, nowLevelName } = levelInfo || {};
     if (!levelList || !levelList.length) {
       return false;
     }
@@ -77,11 +77,11 @@ const MineGrowupApplication = React.createClass({
         {
           levelList.map((item, index) => {
             const grownCfg = grownCfgMap[item.id];
-            if (!grownCfg) {
+            if (!grownCfg || item.name !== nowLevelName) {
               return false;
             }
 
-            const text = `消费累计成长值${grownCfg.grownConsumeValue}元=${grownCfg.grownConsumeGainValue}成长值`;
+            const text = `消费累计成长值: ${grownCfg.grownConsumeValue}元=${grownCfg.grownConsumeGainValue}成长值`;
             return (<li key={index}>{text}</li>);
           })
         }
@@ -97,9 +97,9 @@ const MineGrowupApplication = React.createClass({
             <ReactCSSTransitionGroup transitionName="slidedown" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
               {this.state.descriptionContentVisible && this.buildDescriptContentElement()}
             </ReactCSSTransitionGroup>
-            <a className="masthead-discription-title" onTouchTap={this.toggleDescriptContent}>成长说明</a>
+            <a className="masthead-discription-title" onTouchTap={this.toggleDescriptContent}>成长值说明</a>
             <p className="masthead-total">{growupInfo.grownValue}</p>
-            <h3 className="masthead-title">我的成长值</h3>
+            <p className="masthead-title">我的成长值</p>
           </div>
           <div className="detail">
             <div className="detail-title">我的成长记录</div>
