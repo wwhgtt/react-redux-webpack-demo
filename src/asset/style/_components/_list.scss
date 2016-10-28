@@ -37,3 +37,120 @@
     margin: .4em 0 0;
   }
 }
+
+
+// list-group
+
+.list-group {
+  position: relative;
+  display: block;
+  margin-bottom: 1em;
+  text-decoration: none;
+  border: none;
+  background: $color-white;
+
+  &::before {
+    @include border-thin(top);
+
+    top: 0;
+    border-top: bordersolid(1, #e3e3e3);
+  }
+
+  &::after {
+    @include border-thin(bottom);
+
+    bottom: 0;
+    border-bottom: bordersolid(1, #e3e3e3);
+  }
+}
+
+.list-group-item {
+  font-size: 1em;
+  line-height: 1.375em;
+  display: block;
+  overflow: hidden;
+  text-decoration: none;
+  color: $color-mine-shaft;
+  border: none;
+}
+
+.list-group-link {
+  position: relative;
+  display: block;
+  height: 100%;
+  padding: 1em;
+
+  .name {
+    font-size: 1em;
+    display: inline-block;
+    margin-left: .5em;
+    vertical-align: middle;
+    text-decoration: none;
+    color: #474747;
+
+    &-detail {
+      font-size: 12px;
+      font-weight: lighter;
+      line-height: 1em;
+      display: inline-block;
+      margin-left: .5em;
+      padding: .2em .3em;
+      vertical-align: .167em;
+      color: #ff5d2e;
+      border: bordersolid(1, #ff5d2e);
+      border-radius: .5em;
+    }
+  }
+
+  .arrow {
+    position: absolute;
+    top: 50%;
+    right: 1em;
+    width: 1em;
+    height: 1em;
+    margin-top: -.5em;
+  }
+
+  .arrow-right {
+    background: url("../../asset/images/arrow-right.svg") right center/.5em auto no-repeat;
+  }
+
+  .arrow-down {
+    background: url("../../asset/images/arrow-down.svg") right center/auto .5em no-repeat;
+  }
+
+  .arrow-up {
+    background: url("../../asset/images/arrow-up.svg") right center/auto .5em no-repeat;
+  }
+
+  .brief {
+    font-size: 13px;
+    line-height: 1.5em;
+    position: absolute;
+    top: 1.45em;
+    right: 2.5em;
+    color: #bcbcbc;
+  }
+
+  .icon {
+    font-size: 1.2em;
+    display: inline-block;
+    width: 1.188em;
+    height: 1.188em;
+    vertical-align: middle;
+  }
+
+  &::after {
+    @include border-thin(bottom);
+
+    right: 1em;
+    bottom: 0;
+    left: 1em;
+    width: auto;
+    border-bottom: bordersolid(1, #e3e3e3);
+  }
+
+  &:active {
+    background: #eaeaea;
+  }
+}
