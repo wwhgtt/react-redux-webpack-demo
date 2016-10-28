@@ -710,6 +710,15 @@ const getSubmitDishData = exports.getSubmitDishData = (dishesData, shopId) => {
           duplicateDishInfo.priType = priType;
           orderIndex += 1;
         }
+        if (orderIndex === 1 && beSelectedBenefit && beSelectedBenefit.priType === 2 && orderDish.hasGiftBenefit) {
+          duplicateDishInfo.priId = priId;
+          duplicateDishInfo.priType = priType;
+          orderIndex += 1;
+        }
+        if (!beSelectedBenefit && dish.isMember && !dish.noBenefit) {
+          duplicateDishInfo.priId = priId;
+          duplicateDishInfo.priType = priType;
+        }
         return duplicateDishInfo;
       });
     }
@@ -915,6 +924,7 @@ const filterChosenDish = exports.filterChosenDish = (dishes, benefitProp) => {
               if (dish.order[i].count >= benefitNumber) {
                 dish.order[i].activityBenefit = eachOrderPrice >= dish.marketPrice ?
                   dish.marketPrice * benefitNumber : eachOrderPrice * benefitNumber;
+                dish.order[i].hasGiftBenefit = true;
                 benefitNumber = 0;
               }
             }
