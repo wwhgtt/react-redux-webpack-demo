@@ -12,17 +12,47 @@ const MineRechargeApplication = React.createClass({
     getRechargeInfo: React.PropTypes.func,
     rechargeInfo: React.PropTypes.object,
     addRecharge: React.PropTypes.func,
+    getUserInfo: React.PropTypes.func,
+    userInfo: React.PropTypes.object,
   },
 
   getInitialState() {
     return {
       rechargeValue: 0,
       isChose: false,
+      isDialogShow: false,
+      testStyle: {},
+      adNum: 0,
     };
   },
 
   componentWillMount() {
-    this.props.getRechargeInfo();
+    const { getUserInfo, getRechargeInfo } = this.props;
+    getRechargeInfo();
+    getUserInfo();
+  },
+
+  componentDidMount() {
+    this._otherSet = setInterval(() => {
+      if (this.adNo > 0) {
+        clearInterval(this._otherSet);
+        let num = this.adNo;
+        let i = 0;
+        this._setInterval = setInterval(() => {
+          if (i === num) {
+            i = 0;
+          }
+          this.setState({ testStyle: {
+            top: -44 * i,
+          } });
+          i ++;
+        }, 3000);
+      }
+    }, 1000);
+  },
+
+  componentWillUnmount() {
+    clearInterval(this._setInterval);
   },
 
   // 选择的充值金额
@@ -34,16 +64,48 @@ const MineRechargeApplication = React.createClass({
     this.props.addRecharge(this.state.rechargeValue);
   },
 
+  // 关闭活动详情
+  handleClose() {
+    this.setState({ isDialogShow: false });
+  },
+
+  // 显示活动详情
+  handleShowDialog() {
+    this.setState({ isDialogShow: true });
+  },
+
   render() {
-    const { rechargeInfo } = this.props;
-    let rechargeActiveItem = [];
+    const { rechargeInfo, userInfo } = this.props;
+    const { isDialogShow, testStyle } = this.state;
+    let rechargeActiveItems = [];
+    let rechargeActiveAds = [];
     let rechargeItem = '';
+    const buttons = [{
+      text: '确定',
+      className: 'btn-recharge-active',
+      onClick: this.handleClose,
+    }];
 
     // 充值卡
     if (rechargeInfo.ruleInfo && rechargeInfo.ruleInfo.ruleList) {
-      rechargeItem = rechargeInfo.ruleInfo.ruleList.map((item, index) =>
-        <RechargeItem rechargeInfo={item} key={index} onSetChoseValue={this.setChoseValue} />
-      );
+      let realAmount = 0;
+      rechargeItem = rechargeInfo.ruleInfo.ruleList.map((item, index) => {
+        realAmount = item.fullValue;
+        if (rechargeInfo.ruleInfo.isFullSend === 0) {
+          if (rechargeInfo.ruleInfo.sendType === 1) {
+            realAmount = item.fullValue + item.sendValue;
+            console.log(realAmount);
+          } else if (rechargeInfo.ruleInfo.sendType === 2) {
+            realAmount = item.fullValue + (item.rate * item.fullValue / 100);
+          }
+        }
+        return (<RechargeItem
+          rechargeInfo={item}
+          realAmount={realAmount}
+          key={index}
+          onSetChoseValue={this.setChoseValue}
+        />);
+      });
     }
 
     // 充值活动
@@ -61,38 +123,49 @@ const MineRechargeApplication = React.createClass({
             couponType = '代金券';
           }
 
-          const a = (<div key={Math.random() + index}>
-            <p>储值满{item.storeAmount}送{couponType}({item.couponName}）</p>
-            <p>【活动时间】{items.planStartDay}~{items.planEndDay}</p>
+          const rechargeActiveItem = (<div key={Math.random() + index} className="recharge-coupon">
+            <p className="ellipsis">储值满{item.storeAmount}送{couponType}({item.couponName}）</p>
+            <p className="ellipsis">【活动时间】{items.planStartDay}~{items.planEndDay}</p>
           </div>);
-          rechargeActiveItem.push(a);
+          const rechargeActiveAd = <div key={Math.random() + index}>储值满{item.storeAmount}送{couponType}</div>;
+          rechargeActiveAds.push(rechargeActiveAd);
+          rechargeActiveItems.push(rechargeActiveItem);
         })
 
       );
     }
 
-    console.log(rechargeActiveItem);
+    this.adNo = rechargeActiveAds.length;
 
     return (<div className="recharge-page">
       <div className="recharge-ads">
         <div className="recharge-ads-img"></div>
-        <div className="recharge-ads-title ellipsis">活动标题内容</div>
-        <a className="recharge-ads-detail">活动详情></a>
+        {
+          <div className="recharge-ads-title ellipsis" ref="rechargeAds" style={testStyle}>
+            {rechargeActiveAds}
+          </div>
+        }
+        <a className="recharge-ads-detail" onTouchTap={this.handleShowDialog}>活动详情></a>
       </div>
       <div className="recharge-banner">
         <div className="recharge-logo">
           <img
             className="recharge-logo-img"
-            role="presentation" src="https://ss0.bdstatic.com/7Ls0a8Sm1A5BphGlnYG/sys/portrait/item/0e40e9bb8ee9809d3333240f"
+            role="presentation" src={userInfo.iconUri}
           />
         </div>
         <div className="recharge-info">
           <p className="recharge-info-title">您充值的会员卡号为：</p>
-          <p className="recharge-info-phone">
-            <span>132</span>
-            <span>8128</span>
-            <span>3611</span>
-          </p>
+          <div className="recharge-info-phone">
+          {
+            userInfo.mobile && (<div>
+              <span>{(userInfo.mobile).substring(0, 3)}</span>
+              <span>{(userInfo.mobile).substring(3, 7)}</span>
+              <span>{(userInfo.mobile).substring(7)}</span>
+            </div>
+            )
+          }
+          </div>
         </div>
       </div>
       <div className="recharge-content">
@@ -102,16 +175,17 @@ const MineRechargeApplication = React.createClass({
         <div className="recharge-operate">
           <a className="btn-recharge" onTouchTap={this.handleRecharge}>立即充值</a>
         </div>
-        <Dialog
-          title={'活动详情'}
-
-        >
-          {rechargeActiveItem}
-          <div>
-            <p>储值满</p>
-            <p>【活动时间】</p>
-          </div>
-        </Dialog>
+        {
+          isDialogShow && <Dialog
+            hasTopBtnClose={false}
+            title={'活动详情'}
+            onClose={this.handleClose}
+            buttons={buttons}
+            theme="sliver"
+          >
+            <div>{rechargeActiveItems}</div>
+          </Dialog>
+        }
       </div>
     </div>);
   },

@@ -5,6 +5,7 @@
 .recharge-ads {
   font-size: 14px;
   line-height: 44px;
+  overflow: hidden;
   height: 44px;
   padding: 0 15px;
   background-color: #fffbdf;
@@ -15,12 +16,8 @@
     content: "";
   }
 
-  div {
-    display: inline-block;
-    vertical-align: middle;
-  }
-
   &-img {
+    float: left;
     width: 22px;
     height: 100%;
     background: url("../../asset/images/ads.svg") no-repeat 0 center;
@@ -28,7 +25,10 @@
   }
 
   &-title {
+    position: relative;
+    float: left;
     width: calc(100% - 125px);
+    transition: 1s;
   }
 
   &-detail {
@@ -67,6 +67,10 @@
     font-size: 25px;
     line-height: 30px;
     height: 30px;
+
+    span {
+      margin-right: 4px;
+    }
   }
 }
 
@@ -140,4 +144,15 @@
   color: #fff;
   border-radius: 50px;
   background-color: #ff7e28;
+}
+
+.recharge-coupon {
+  font-size: 15px;
+  line-height: 30px;
+  margin-bottom: 10px;
+  color: #666;
+}
+
+.btn-recharge-active {
+  background-color: #ffc334 !important;
 }

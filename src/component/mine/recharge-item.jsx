@@ -6,6 +6,7 @@ const RechargeItem = React.createClass({
   propTypes: {
     rechargeInfo: React.PropTypes.object,
     onSetChoseValue: React.PropTypes.func,
+    realAmount: React.PropTypes.number,
   },
 
   getInitialState() {
@@ -14,20 +15,25 @@ const RechargeItem = React.createClass({
     };
   },
 
+  componentWillReceiveProps(nextProps) {
+    if (this.state.isChose) {
+      this.setState({ isChose: false });
+    }
+  },
+
   handleChoseValue() {
-    const { rechargeInfo, onSetChoseValue } = this.props;
+    const { realAmount, onSetChoseValue } = this.props;
     this.setState({ isChose: true });
-    onSetChoseValue(rechargeInfo.fullValue);
+    onSetChoseValue(realAmount);
   },
 
   render() {
-    const { rechargeInfo } = this.props;
+    const { rechargeInfo, realAmount } = this.props;
     const { isChose } = this.state;
-
     return (
       <div className={classnames('recharge-item', { 'recharge-item-orange': isChose })} onTouchTap={this.handleChoseValue}>
-        <p className="recharge-item-real ellipsis"><span>{rechargeInfo.fullValue}</span>元</p>
-        <p className="recharge-item-sale ellipsis">售价<span>10</span></p>
+        <p className="recharge-item-real ellipsis"><span>{realAmount}</span>元</p>
+        <p className="recharge-item-sale ellipsis">售价<span>{rechargeInfo.fullValue}</span></p>
       </div>
     );
   },

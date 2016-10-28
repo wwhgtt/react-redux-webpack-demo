@@ -7,12 +7,17 @@ module.exports = {
       baidu:0,
       alipay:-1,
       ruleInfo:{
-        isFullSend:1,
+        isFullSend:0,
+        sendType: 2,
         ruleList:[
           {
+            sendValue: 11,
+            rate: 11,
             fullValue:100,
           },
           {
+            sendValue: 61,
+            rate: 13,
             fullValue:500,
           },
         ],

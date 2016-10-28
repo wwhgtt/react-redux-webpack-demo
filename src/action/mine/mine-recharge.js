@@ -3,6 +3,7 @@ const commonHelper = require('../../helper/common-helper');
 
 const createAction = require('redux-actions').createAction;
 const setRechargeInfo = createAction('SET_RECHARGE_INFO', rechargeInfo => rechargeInfo);
+const setUserInfo = createAction('SET_USER_INFO', userInfo => userInfo);
 require('es6-promise');
 require('isomorphic-fetch');
 
@@ -38,10 +39,24 @@ exports.addRecharge = price => (dispatch, getStates) => {
   then(res => {
     if (res.code === '200') {
       const orderId = res.data.id;
-      console.log(location.host);
-      location.href = `http://${location.host}/shop/payDetail?shopId=${shopId}&orderType=""&orderId=${orderId}`;
-    } else {
-      alert(1);
+      location.href = `http://${location.host}/shop/payDetail?shopId=${shopId}&orderId=${orderId}`;
+    }
+  });
+};
+
+// 获取用户信息
+exports.getUserInfo = () => (dispatch, getStates) => {
+  const getUserInfo = `${config.individualAPI}?shopId=${shopId}`;
+  fetch(getUserInfo, config.requestOptions).
+  then(res => {
+    if (!res.ok) {
+      return false;
+    }
+    return res.json();
+  }).
+  then(res => {
+    if (res.code === '200') {
+      dispatch(setUserInfo(res.data));
     }
   });
 };
