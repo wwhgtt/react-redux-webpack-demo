@@ -94,7 +94,7 @@ module.exports = React.createClass({
           dish={dish}
           serviceProps={serviceProps}
         />);
-      } else if (dish.isMember && dish.key.split('-')[1] === `'${dish.orderLength - 1}'`) {
+      } else if (dish.isMember && Number(dish.key.split('-')[1]) === Number(`${dish.orderLength - 1}`)) {
         return (<BenefitOptions
           benefitProps={[]}
           onSelectBenefit={onSelectBenefit}
