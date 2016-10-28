@@ -57,7 +57,8 @@ module.exports = {
   getOtherTableIdAPI: `${apiBase}/orderall/getTableId.json`, // 获取用户是否在其他桌台下单
   getOrderTableTypeAPI: `${apiBase}/orderall/orderTableType.json`, // 获取tableInfo
   callServiceAPI: `${apiBase}/orderall/callService.json`, // 获取tableId
-
+  memberIndexAPI: `${apiBase}/member/index.json`, // 获取会员基本信息
+  grownLevelxAPI:`${apiBase}/member/grownLevel.json`, // 会员页面
   // 跳转URL
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
@@ -74,6 +75,7 @@ module.exports = {
   integralURL: `${apiBase}/member/integral`, // 我的积分
   valueCardURL:`${apiBase}/member/valueCard`, // 我的余额
   memberIndexURL:`${apiBase}/member/index`, // 会员页面
+  grownLevelxURL:`${apiBase}/member/grownLevel`, // 会员页面
   rechargeURL:`${apiBase}/shop/recharge`, // 充值页面
   orderallListURL:`${apiBase}/order/orderallList`, // 订单列表
   getCouponListURL:`${apiBase}/coupon/getCouponList`, // 优惠券
@@ -111,9 +113,12 @@ module.exports = {
   getMainOrderAPI: `${apiBase}/orderall/getMainOrder.json`,
   validBindMobileAPI: `${apiBase}/user/validBindMobile.json`, // 绑定手机验证码校验：是否会员/是否和其他微信绑定
   validBindMobileActiveAPI: `${apiBase}/user/validBindMobileActive.json`, // 绑定手机验证码校验(会员卡激活)：是否会员/是否和其他微信绑定
+
   getBalanceInfoAPI: `${apiBase}/member/valueCard.json`, // 会员卡余额信息
   getIntegralAPI: `${apiBase}/member/integral.json`, //
   getGrowthValueAPI: `${apiBase}/member/growthValue.json`, //
   getGrownLevelsAPI: `${apiBase}/member/grownLevel.json`, //
+  getRechargeInfoAPI: `${apiBase}/shop/recharge.json`, // 会员卡充值信息
+  addRechargeAPI: `${apiBase}/member/addRecharge.json`, // 会员卡充值
   requestOptions,
 };

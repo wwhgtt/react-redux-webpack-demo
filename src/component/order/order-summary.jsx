@@ -1,4 +1,5 @@
 const React = require('react');
+const _find = require('lodash.find');
 const ActiveSelect = require('../mui/select/active-select.jsx');
 const OrderPropOption = require('./order-prop-option.jsx');
 const helper = require('../../helper/order-helper.js');
@@ -37,7 +38,8 @@ module.exports = React.createClass({
           return dish.order.map((dishOrder, idx) =>
             Object.assign({}, dish,
               { key:`${dish.id}-${idx}` },
-              { order:[Object.assign({}, dishOrder)] }
+              { order:[Object.assign({}, dishOrder)] },
+              { orderLength:dish.order.length }
             )
           );
         })
@@ -80,6 +82,16 @@ module.exports = React.createClass({
             <p className="option clearfix">
               <span className="option-title">餐盒费:</span>
               <span className="order-discount price">{helper.getDishBoxPrice()}</span>
+            </p>
+            :
+            false
+          }
+          {serviceProps.benefitProps && serviceProps.benefitProps.extraPrivilege && serviceProps.benefitProps.extraPrivilege.length ?
+            <p className="option clearfix">
+              <span className="option-title">附加费:</span>
+              <span className="order-discount price">
+                {formatPrice(helper.countExtraPrivilege(serviceProps.benefitProps.extraPrivilege))}
+              </span>
             </p>
             :
             false
@@ -194,6 +206,51 @@ module.exports = React.createClass({
               :
               false
             }
+            {serviceProps.benefitProps && _find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 6) ?
+              <p className="order-summary-entry clearfix">
+                <span className="option-title option-title--icon order-summary-icon1">会员优惠:</span>
+                <span className="order-discount discount">
+                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 6).privilegeAmount}
+                </span>
+              </p>
+              :
+              false
+            }
+            {serviceProps.benefitProps && _find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 4) ?
+              <p className="order-summary-entry clearfix">
+                <span className="option-title option-title--icon order-summary-icon3">
+                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 4).privilegeName}:
+                </span>
+                <span className="order-discount discount">
+                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 4).privilegeAmount}
+                </span>
+              </p>
+              :
+              false
+            }
+            {serviceProps.benefitProps && _find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 5) ?
+              <p className="order-summary-entry clearfix">
+                <span className="option-title option-title--icon order-summary-icon4">积分抵扣:</span>
+                <span className="order-discount discount">
+                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 5).privilegeAmount}
+                </span>
+                <span className="order-integral">
+                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 5).privilegeValue}
+                </span>
+              </p>
+              :
+              false
+            }
+            {serviceProps.benefitProps && _find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === -100) ?
+              <p className="order-summary-entry clearfix">
+                <span className="option-title option-title--icon order-summary-icon7">其他优惠:</span>
+                <span className="order-discount discount">
+                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === -100).privilegeAmount}
+                </span>
+              </p>
+              :
+              false
+            }
             {commercialProps.carryRuleVO && helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).smallChange > 0 ?
               <p className="order-summary-entry clearfix">
                 <span className="option-title option-title--icon order-summary-icon5">自动抹零:</span>
@@ -208,7 +265,10 @@ module.exports = React.createClass({
           <div className="option order-total clearfix">
             <div className="order-total-left">
               <span className="text-dove-grey">总计: </span>
-              <span className="price">{
+              <span className="price">{serviceProps.benefitProps && serviceProps.benefitProps.isPriviledge ?
+                serviceProps.benefitProps.extraPrice
+                  + helper.countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
+                :
                 helper.countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
               }</span>
             </div>
@@ -217,7 +277,9 @@ module.exports = React.createClass({
                 <div className="order-total-left">
                   <span className="text-dove-grey">优惠: </span>
                   <span className="price">
-                    {
+                    {serviceProps.benefitProps && serviceProps.benefitProps.isPriviledge ?
+                      serviceProps.benefitProps.priviledgeAmount
+                      :
                       helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)
                     }
                   </span>
@@ -225,8 +287,16 @@ module.exports = React.createClass({
                 <div className="order-total-right">
                   <span className="text-dove-grey">实付: </span>
                   <span className="price">
-                    {
-                      helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
+                    {serviceProps.benefitProps && serviceProps.benefitProps.isPriviledge ?
+                      formatPrice(
+                        serviceProps.benefitProps.extraPrice
+                          + helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
+                          - serviceProps.benefitProps.priviledgeAmount
+                      )
+                      :
+                      formatPrice(
+                        helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
+                      )
                     }
                   </span>
                 </div>

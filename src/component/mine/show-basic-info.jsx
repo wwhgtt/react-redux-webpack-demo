@@ -5,7 +5,7 @@ const defaultPic = require('../../asset/images/head-default.png');
 require('./show-basic-info.scss');
 
 module.exports = React.createClass({ // ShowBasicInfo
-  displayName: 'BrandBg',
+  displayName: 'ShowBasicInfo',
   propTypes:{
     info:React.PropTypes.object.isRequired,
   },
@@ -47,11 +47,15 @@ module.exports = React.createClass({ // ShowBasicInfo
     const { realImage, realSex } = this.state;
     return (
       <div className="basicInfoBg">
-        <img className="basicInfoBg-img" src={realImage} alt="用户头像" title={info.name || ''} ref="logo" onError={() => this.imgError(info.sex)} />
+        <div className="basicInfoBg-imgouter">
+          <img className="basicInfoBg-img" src={realImage} alt="用户头像" title={info.name || ''} ref="logo" onError={() => this.imgError(info.sex)} />
+          {
+            info.isMember && <div className="basicInfoBg-vip">VIP</div>
+          }
+        </div>
         <p className="basicInfoBg-name ellipsis">
           {info.name || '不愿透露姓名的用户'} {info.mobile && info.name ? realSex : ''}
         </p>
-        <div className="basicInfoBg-wave"></div>
       </div>
     );
   },
