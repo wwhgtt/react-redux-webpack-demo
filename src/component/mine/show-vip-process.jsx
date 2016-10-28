@@ -83,6 +83,7 @@ module.exports = React.createClass({
         <div className="vip-process">
           {vipFormat}
         </div>
+        <div className="triangle triangle-up triangle-absolute"></div>
       </div>
     );
   },

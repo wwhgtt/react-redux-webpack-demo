@@ -1,0 +1,35 @@
+/* create an arrow that points up */
+.triangle {
+  font-size: 0;
+  line-height: 0;
+  width: 0;
+  height: 0;
+}
+
+
+.triangle-up {
+  border-right: 5px solid transparent; /* right arrow slant */
+  border-bottom: 5px solid #2f2f2f; /* bottom, add background color here */
+  border-left: 5px solid transparent; /* left arrow slant */
+}
+
+/* create an arrow that points down */
+.triangle-down {
+  border-top: 5px solid #2f2f2f;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+}
+
+/* create an arrow that points left */
+.triangle-left {
+  border-top: 5px solid transparent; /* right arrow slant */
+  border-right: 5px solid #2f2f2f; /* bottom, add background color here */
+  border-bottom: 5px solid transparent; /* left arrow slant */
+}
+
+/* create an arrow that points right */
+.triangle-right {
+  border-top: 5px solid transparent; /* right arrow slant */
+  border-bottom: 5px solid transparent; /* left arrow slant */
+  border-left: 5px solid #2f2f2f; /* bottom, add background color here */
+}
