@@ -14,6 +14,8 @@ const MineRechargeApplication = React.createClass({
     addRecharge: React.PropTypes.func,
     getUserInfo: React.PropTypes.func,
     userInfo: React.PropTypes.object,
+    setCardStatus: React.PropTypes.func,
+    cardStatus: React.PropTypes.bool,
   },
 
   getInitialState() {
@@ -56,11 +58,14 @@ const MineRechargeApplication = React.createClass({
   },
 
   // 选择的充值金额
-  setChoseValue(value) {
+  setChooseValue(value) {
     this.setState({ rechargeValue: value });
   },
 
   handleRecharge() {
+    if (!this.state.rechargeValue) {
+      return;
+    }
     this.props.addRecharge(this.state.rechargeValue);
   },
 
@@ -75,7 +80,7 @@ const MineRechargeApplication = React.createClass({
   },
 
   render() {
-    const { rechargeInfo, userInfo } = this.props;
+    const { rechargeInfo, userInfo, setCardStatus, cardStatus } = this.props;
     const { isDialogShow, testStyle } = this.state;
     let rechargeActiveItems = [];
     let rechargeActiveAds = [];
@@ -94,16 +99,19 @@ const MineRechargeApplication = React.createClass({
         if (rechargeInfo.ruleInfo.isFullSend === 0) {
           if (rechargeInfo.ruleInfo.sendType === 1) {
             realAmount = item.fullValue + item.sendValue;
-            console.log(realAmount);
           } else if (rechargeInfo.ruleInfo.sendType === 2) {
             realAmount = item.fullValue + (item.rate * item.fullValue / 100);
           }
         }
+
         return (<RechargeItem
           rechargeInfo={item}
           realAmount={realAmount}
           key={index}
-          onSetChoseValue={this.setChoseValue}
+          onSetChooseValue={this.setChooseValue}
+          onSetCardStatus={setCardStatus}
+          cardStatus={cardStatus}
+          isChoose={this.state.rechargeValue === realAmount}
         />);
       });
     }
