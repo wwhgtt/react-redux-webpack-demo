@@ -19,19 +19,23 @@ const MineVipLevelApplication = React.createClass({
     userInfo:React.PropTypes.object.isRequired,
   },
   getInitialState() {
-    return {};
+    return { switchIndex:-1 };
   },
   componentWillMount() {},
   componentDidMount() {
     const { getInfo } = this.props;
     getInfo();
   },
+  getIndex(index) {
+    this.setState({ switchIndex:index });
+  },
   render() {
     const { errorMessage, clearErrorMsg, load, grownLevelInfo } = this.props;
+    const { switchIndex } = this.state;
     return (
       <div className="application">
-        <ShowVipProcess grownLevelInfo={grownLevelInfo} />
-        <VipCurrentLevel grownLevelInfo={grownLevelInfo} />
+        <ShowVipProcess grownLevelInfo={grownLevelInfo} getIndex={this.getIndex} />
+        <VipCurrentLevel grownLevelInfo={grownLevelInfo} switchIndex={switchIndex} />
         {
           load.status ?
             <Loading word={load.word} />

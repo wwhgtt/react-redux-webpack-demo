@@ -2,6 +2,7 @@ const React = require('react');
 
 require('./get-vip-current-rights.scss');
 const ListItem = require('../mui/list-item.jsx');
+const shallowCompare = require('react-addons-shallow-compare');
 
 module.exports = React.createClass({
   displayName: 'GetVipCurrentRights',
@@ -14,6 +15,9 @@ module.exports = React.createClass({
   },
   componentWillMount() {},
   componentDidMount() {},
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  },
   grownPart(grownCfg) {
     if (!grownCfg) { return false; }
     const content = `每消费${grownCfg.grownConsumeGainValue || '0'}个积分可以获得${grownCfg.grownConsumeValue || '0'}点成长值`;
@@ -67,9 +71,16 @@ module.exports = React.createClass({
     // return
     return (
       <div className="tq-detail">
-        {scorePart}
-        {scoreExchange}
-        {grownPart}
+        {
+          grownPart || scorePart || scoreExchange ?
+            <div>
+              {scorePart}
+              {scoreExchange}
+              {grownPart}
+            </div>
+          :
+            <div className="noInfo">暂无</div>
+        }
       </div>
     );
   },

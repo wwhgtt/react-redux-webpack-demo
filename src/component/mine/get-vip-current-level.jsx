@@ -6,6 +6,7 @@ module.exports = React.createClass({
   displayName: 'GetVipCurrentLevel',
   propTypes:{
     grownLevelInfo:React.PropTypes.object.isRequired,
+    switchIndex:React.PropTypes.number.isRequired,
   },
   getInitialState() {
     return {};
@@ -13,14 +14,22 @@ module.exports = React.createClass({
   componentWillMount() {},
   componentDidMount() {},
   listContent() {
-    const { grownLevelInfo } = this.props;
+    const { grownLevelInfo, switchIndex } = this.props;
     let rights = {};
     let rightsCfg = {};
     if (grownLevelInfo.levelList && grownLevelInfo.levelList.length !== 0) {
       grownLevelInfo.levelList.forEach((item, index) => {
-        if (item.needGrownValue <= grownLevelInfo.grounValue) {
+        if (switchIndex !== -1 && index === switchIndex) {
           rights = grownLevelInfo.levelRightsMap[item.id];
           rightsCfg = grownLevelInfo.grownCfgMap[item.id];
+          this.name = item.name;
+        }
+        if (switchIndex === -1) {
+          if (item.needGrownValue <= grownLevelInfo.grounValue) {
+            rights = grownLevelInfo.levelRightsMap[item.id];
+            rightsCfg = grownLevelInfo.grownCfgMap[item.id];
+            this.name = item.name;
+          }
         }
       });
     }
@@ -29,12 +38,11 @@ module.exports = React.createClass({
     );
   },
   render() {
-    const { grownLevelInfo } = this.props;
     const listContent = this.listContent();
     // return
     return (
       <div className="vip-level">
-        <p className="vip-level-name">{grownLevelInfo.nowLevelName}特权</p>
+        <p className="vip-level-name">{this.name}特权</p>
         {listContent}
       </div>
     );
