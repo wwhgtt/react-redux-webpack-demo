@@ -295,7 +295,6 @@ exports.fetchActivityBenefit = () => (dispatch, getState) => {
     };
     return dishInfo.push(dishDetailObject);
   });
-  console.log(JSON.stringify(dishInfo));
   const requestOptions = Object.assign({}, config.requestOptions, { method: 'POST' });
   let fetchOptions = {
     shopId,

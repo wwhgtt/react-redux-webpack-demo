@@ -16,11 +16,20 @@ module.exports = React.createClass({
     onSelectBenefit(dish.id);
     evt.preventDefault();
   },
+  buildDiscountName(number) {
+    if (number === 1) {
+      return '';
+    }
+    return `满${number}份`;
+  },
   buildBenefitName(benefit) {
     const { dish } = this.props;
     // const isDiscountDish = _find(serviceProps.discountProps.discountList, discount => discount.dishId === dish.id);
     if (benefit) {
-      return benefit.priName;
+      if (benefit.priType === 1) {
+        return benefit.type === 1 ? benefit.priName : `${this.buildDiscountName(benefit.dishNum)}可享${benefit.discount}折`;
+      }
+      return `礼品券(${benefit.priName})`;
     }
     if (dish.isMember) {
       return dish.noUseDiscount ? '不享受优惠' : '会员价';
