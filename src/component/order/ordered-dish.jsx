@@ -87,14 +87,14 @@ module.exports = React.createClass({
     if (serviceProps.diningForm === 0) { return false; }
     // const discountDish = _find(serviceProps.discountProps.discountList, discount => discount.dishId === dish.id);
     if (dish.order instanceof Array) {
-      if (dish.order[0].benefitOptions) {
+      if (dish.order[dish.order.length - 1].benefitOptions) {
         return (<BenefitOptions
-          benefitProps={dish.order[0].benefitOptions}
+          benefitProps={dish.order[dish.order.length - 1].benefitOptions}
           onSelectBenefit={onSelectBenefit}
           dish={dish}
           serviceProps={serviceProps}
         />);
-      } else if (dish.isMember && dish.key.split('-')[1] === '0') {
+      } else if (dish.isMember && dish.key.split('-')[1] === `'${dish.orderLength - 1}'`) {
         return (<BenefitOptions
           benefitProps={[]}
           onSelectBenefit={onSelectBenefit}
@@ -123,8 +123,8 @@ module.exports = React.createClass({
     let dishBenefitPrice = 0;
     if (dish.activityBenefit) {
       dishBenefitPrice = dish.activityBenefit;
-    } else if (dish.order[0] && dish.order[0].activityBenefit) {
-      dishBenefitPrice = dish.order[0].activityBenefit;
+    } else if (dish.order[0] && dish.order[dish.order.length - 1].activityBenefit) {
+      dishBenefitPrice = dish.order[dish.order.length - 1].activityBenefit;
     } else if (serviceProps.diningForm !== 0) {
       dishBenefitPrice =
         countMemberPrice(

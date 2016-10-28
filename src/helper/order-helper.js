@@ -651,7 +651,7 @@ const getSubmitDishData = exports.getSubmitDishData = (dishesData, shopId) => {
   const result = { singleDishInfos: [], multiDishInfos: [] };
   const getSingleDishInfo = (dishes, func) => [].concat.apply([], (dishes || []).map(dish => {
     let orderDishes = [];
-    const benefitDish = dish.benefitOptions || (dish.order[0] && dish.order[0].benefitOptions) || [];
+    const benefitDish = dish.benefitOptions || (dish.order[0] && dish.order[dish.order.length - 1].benefitOptions) || [];
     const beSelectedBenefit = _find(benefitDish, benefit => benefit.isChecked);
     let priId = dish.isMember ? 0 : null;
     let priType = dish.isMember ? 3 : null;// 会员价的情况
@@ -670,16 +670,28 @@ const getSubmitDishData = exports.getSubmitDishData = (dishesData, shopId) => {
       propertyIds: [],
       dishId: dish.id,
       shopId,
-      priId,
-      priType,
     };
     if (func) {
       func(dishInfo);
     }
     if (typeof order === 'number' && order > 0) {
       dishInfo.num = order;
+      dishInfo.priId = priId;
+      dishInfo.priType = priType;
       orderDishes.push(dishInfo);
     } else if (Array.isArray(order) && order.length) {
+      let orderPrices = [];
+      let orderNum = [];
+      order.map(item => { orderPrices.push(getOrderPrice(dish, item)); orderNum.push(item.count); return true; });
+      let maxOrderPrice = orderPrices[0];
+      for (let i = 1; i < orderPrices.length; i++) {
+        if (maxOrderPrice < orderPrices[i])maxOrderPrice = orderPrices[i];
+      }
+      let maxCount = orderNum[0];
+      for (let i = 1; i < orderNum.length; i++) {
+        if (maxCount < orderNum[i])maxCount = orderNum[i];
+      }
+      let orderIndex = 1;
       orderDishes = order.map(orderDish => {
         const duplicateDishInfo = Object.assign({}, dishInfo);
         duplicateDishInfo.num = orderDish.count;
@@ -688,6 +700,16 @@ const getSubmitDishData = exports.getSubmitDishData = (dishesData, shopId) => {
         (orderDish.dishPropertyTypeInfos || []).forEach(item => {
           [].push.apply(duplicateDishInfo.propertyIds, (item.properties || []).filter(subItem => subItem.isChecked).map(subItem => subItem.id));
         });
+        if (orderIndex === 1 && beSelectedBenefit && beSelectedBenefit.type === 1 && getOrderPrice(dish, orderDish) === maxOrderPrice) {
+          duplicateDishInfo.priId = priId;
+          duplicateDishInfo.priType = priType;
+          orderIndex += 1;
+        }
+        if (orderIndex === 1 && beSelectedBenefit && beSelectedBenefit.type === 2 && orderDish.count === maxCount) {
+          duplicateDishInfo.priId = priId;
+          duplicateDishInfo.priType = priType;
+          orderIndex += 1;
+        }
         return duplicateDishInfo;
       });
     }
@@ -851,26 +873,33 @@ const filterChosenDish = exports.filterChosenDish = (dishes, benefitProp) => {
   newDishes.filter(function (dish) {
     if (dish.benefitOptions) {
       return dish;
-    } else if (dish.order[0] && dish.order[0].benefitOptions) {
+    } else if (dish.order[0] && dish.order[dish.order.length - 1].benefitOptions) {
       return dish;
     }
     return false;
   }).map(dish => {
-    (dish.benefitOptions || dish.order[0].benefitOptions).forEach(benefit => {
+    (dish.benefitOptions || dish.order[dish.order.length - 1].benefitOptions).forEach(benefit => {
       if (benefitProp.dishId === dish.brandDishId && benefit.priId === benefitProp.priId) {
         benefit.isChecked = true;
         dish.noUseDiscount = true;
         dish.noBenefit = false;
-        const reduce = benefitProp.reduce ? benefitProp.reduce : ((1 - benefitProp.discount / 10) * dish.marketPrice) * benefitProp.dishNum;
-        console.log(reduce);
+        let reduce = benefitProp.reduce ? benefitProp.reduce : ((1 - benefitProp.discount / 10) * dish.marketPrice) * benefitProp.dishNum;
         if (benefitProp.priType === 1) {
           if (dish.benefitOptions) {
             dish.activityBenefit = getDishPrice(dish) >= reduce ? reduce : getDishPrice(dish);
           } else {
             //  我们把优惠分配到每个OrderedDish上   因为orderedDish会把dish按照order拆开
-            dish.activityBenefit = parseFloat((reduce / dish.order.length).toFixed(2));
+            // dish.activityBenefit = parseFloat((reduce / dish.order.length).toFixed(2));
             dish.order.forEach(item => {
               item.activityBenefit = 0;
+              let eachOrderPrice = getOrderPrice(dish, item);
+              if (eachOrderPrice >= reduce) {
+                item.activityBenefit = reduce;
+                reduce = 0;
+              } else {
+                item.activityBenefit = eachOrderPrice;
+                reduce = reduce - eachOrderPrice;
+              }
             });
           }
         } else {
@@ -883,11 +912,7 @@ const filterChosenDish = exports.filterChosenDish = (dishes, benefitProp) => {
             let benefitNumber = benefitProp.dishNum || 1;
             for (let i = 0; i <= benefitNumber; i++) {
               const eachOrderPrice = getOrderPrice(dish, dish.order[i]) / dish.order[i].count;
-              if (dish.order[i].count < benefitNumber) {
-                dish.order[i].activityBenefit = eachOrderPrice >= dish.marketPrice ?
-                  dish.marketPrice * dish.order[i].count : eachOrderPrice * dish.order[i].count;
-                benefitNumber = benefitNumber - dish.order[i].count;
-              } else {
+              if (dish.order[i].count >= benefitNumber) {
                 dish.order[i].activityBenefit = eachOrderPrice >= dish.marketPrice ?
                   dish.marketPrice * benefitNumber : eachOrderPrice * benefitNumber;
                 benefitNumber = 0;
@@ -922,7 +947,7 @@ exports.setDishBenefitInfo = (chosenDish, dish, benefitType) => {
   let newDish = dish.asMutable({ deep: true });
   newDish.noUseDiscount = benefitType !== 'discount';
   newDish.noBenefit = benefitType !== 'discount';
-  if (newDish.benefitOptions || (newDish.order[0] && newDish.order[0].benefitOptions)) {
+  if (newDish.benefitOptions || (newDish.order[0] && newDish.order[newDish.order.length - 1].benefitOptions)) {
     if (isSingleDishWithoutProps(newDish)) {
       newDish.activityBenefit = 0; // 活动优惠和礼品券全部归0
       newDish.benefitOptions.forEach(benefit => benefit.isChecked = false);
@@ -931,14 +956,14 @@ exports.setDishBenefitInfo = (chosenDish, dish, benefitType) => {
       newDish.order.forEach(order => {
         order.activityBenefit = 0;
       });
-      newDish.order[0].benefitOptions.forEach(benefit => benefit.isChecked = false);
+      newDish.order[newDish.order.length - 1].benefitOptions.forEach(benefit => benefit.isChecked = false);
     }
   }
   return newDish;
 };
 const countAcvitityMoney = exports.countAcvitityMoney = (dishes) => {
   let acvitityCollection = [];
-  dishes.filter(dish => dish.benefitOptions || (dish.order[0] && dish.order[0].benefitOptions)).map(dish => {
+  dishes.filter(dish => dish.benefitOptions || (dish.order[0] && dish.order[dish.order.length - 1].benefitOptions)).map(dish => {
     let dishAcvitityCollection = [];
     if (isSingleDishWithoutProps(dish)) {
       dishAcvitityCollection.push(dish.activityBenefit ? dish.activityBenefit : 0);
@@ -962,19 +987,41 @@ const countAcvitityMoney = exports.countAcvitityMoney = (dishes) => {
   return acvitityCollection.length ? parseFloat((acvitityCollection.reduce((c, p) => c + p)).toFixed(2)) : 0;
 };
 // 为已点菜品添加对应的优惠选项
-const addBenefitTodish = exports.addBenefitTodish = (benefitProps, dish) => {
+const addBenefitTodish = exports.addBenefitTodish = (benefitProps, dish, dishes) => {
   let orderedDish = dish.asMutable({ deep: true });
   benefitProps.dishPriList.map(benefit => {
     if (benefit.dishId === orderedDish.brandDishId) {
       benefit.dishPriInfo.forEach(info => { info.id = info.priId; info.dishId = orderedDish.brandDishId; });
       if (orderedDish.order instanceof Array) {
-        orderedDish.order[0].benefitOptions = benefit.dishPriInfo;
+        const hasGiftCoupon = _find(benefit.dishPriInfo, info => info.priType === 2);
+        if (hasGiftCoupon) {
+          const hasMoreCountDish = getDishesPrice(dishes) >= hasGiftCoupon.fullValue;
+          // 表面有复合礼品券优惠的菜品
+          if (hasMoreCountDish) {
+            orderedDish.order[orderedDish.order.length - 1].benefitOptions = benefit.dishPriInfo;
+          } else {
+            orderedDish.order[orderedDish.order.length - 1].benefitOptions = benefit.dishPriInfo.filter(info => info.priType !== 2);
+          }
+        } else {
+          orderedDish.order[orderedDish.order.length - 1].benefitOptions = benefit.dishPriInfo;
+        }
+
         if (!orderedDish.isMember) {
-          orderedDish.order[0].benefitOptions[0].isChecked = true;
-          orderedDish = filterChosenDish(Immutable.from([orderedDish]), orderedDish.order[0].benefitOptions[0]);
+          orderedDish.order[orderedDish.order.length - 1].benefitOptions[0].isChecked = true;
+          orderedDish = filterChosenDish(Immutable.from([orderedDish]), orderedDish.order[orderedDish.order.length - 1].benefitOptions[0]);
         }
       } else {
-        orderedDish.benefitOptions = benefit.dishPriInfo;
+        const hasGiftCoupon = _find(benefit.dishPriInfo, info => info.priType === 2);
+        if (hasGiftCoupon) {
+          if (getDishesPrice(dishes) >= hasGiftCoupon.fullValue) {
+            orderedDish.benefitOptions = benefit.dishPriInfo;
+          } else {
+            orderedDish.benefitOptions = benefit.dishPriInfo.filter(info => info.priType !== 2);
+          }
+        } else {
+          orderedDish.benefitOptions = benefit.dishPriInfo;
+        }
+
         if (!orderedDish.isMember) {
           orderedDish.benefitOptions[0].isChecked = true;
           orderedDish = filterChosenDish(Immutable.from([orderedDish]), orderedDish.benefitOptions[0]);
@@ -989,7 +1036,7 @@ exports.countInitializeBenefit = (benefitProps, dishes) => {
   let newOrderedDishes = dishes.asMutable({ deep: true });
   let dishCollection = [];
   for (let i = 0; i < newOrderedDishes.length; i++) {
-    let dish = addBenefitTodish(benefitProps, Immutable.from(newOrderedDishes[i]));
+    let dish = addBenefitTodish(benefitProps, Immutable.from(newOrderedDishes[i]), dishes);
     dishCollection.push(dish);
   }
   return countAcvitityMoney(dishCollection);

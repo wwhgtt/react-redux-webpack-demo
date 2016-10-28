@@ -387,16 +387,18 @@ const OrderTSCartApplication = React.createClass({
           </div>
           {!(mainOrderId !== -1 && addItemStatus === 1) &&
             <div className="options-group">
-              <div className="option">
-                <span className="option-tile">就餐人数：</span>
-                <ImportableCounter
-                  setErrorMsg={this.setErrorMsg}
-                  onCountChange={(count) => this.onValueChange({ target: { name: 'peopleCount', value: count } })}
-                  count={peopleCount}
-                  maximum={99}
-                  minimum={1}
-                />
-              </div>
+              {orderTSCart.enableInputDinnerTableCount &&
+                <div className="option">
+                  <span className="option-title">就餐人数：</span>
+                  <ImportableCounter
+                    setErrorMsg={this.setErrorMsg}
+                    onCountChange={(count) => this.onValueChange({ target: { name: 'peopleCount', value: count } })}
+                    count={peopleCount}
+                    maximum={99}
+                    minimum={1}
+                  />
+                </div>
+              }
               <label className="option">
                 <span className="option-title">备注: </span>
                 <input
