@@ -84,6 +84,11 @@ module.exports = {
     'activate-validate-entry': [
       './src/activate-validate.jsx',
     ],
+
+    'mine-balance-entry': [
+      './src/mine-balance.jsx',
+    ],
+
     'mine-recharge-entry': [
       './src/mine-recharge.jsx',
     ],
@@ -328,6 +333,14 @@ module.exports = {
         title: 'ActivateValidateApplication',
         filename: 'activate-validate.html',
         chunks: ['common', 'activate-validate-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineBalanceApplication',
+        filename: 'mine-balance.html',
+        chunks: ['common', 'mine-balance-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
