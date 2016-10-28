@@ -111,7 +111,7 @@ const MineRechargeApplication = React.createClass({
           onSetChooseValue={this.setChooseValue}
           onSetCardStatus={setCardStatus}
           cardStatus={cardStatus}
-          isChoose={this.state.rechargeValue === realAmount}
+          isChoose={this.state.rechargeValue === item.fullValue}
         />);
       });
     }
