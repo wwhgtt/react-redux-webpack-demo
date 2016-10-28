@@ -128,7 +128,7 @@ const OrderDinnerStateMentApplication = React.createClass({
                 className="option-input"
                 name="receipt"
                 maxLength="35"
-                disabled={commercialProps.receipt}
+                disabled={commercialProps.receipt || serviceProps.benefitProps.isPriviledge}
                 placeholder={commercialProps.receipt || '如需发票请填写'}
                 onChange={this.noteOrReceiptChange}
               />
