@@ -1,7 +1,7 @@
 const React = require('react');
 const connect = require('react-redux').connect;
 const actions = require('../../action/order-in-line/order-in-line.js');
-const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
+const ListCustomerInfoEditor = require('../../component/order/list-customer-info-editor.jsx');
 const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
@@ -98,82 +98,88 @@ const OrderInlineApplication = React.createClass({
     const { clearErrorMsg, submitOrder, setErrorMsg, setCustomerProps } = this.props;// actions
     return (
       <div className="application">
-        <div className="options-group">
-          <a className="option option-shop">
-            <img className="option-shop-icon" src={commercialProps.shopLogo || defaultShopLogo} alt="" />
-            <p className="option-shop-desc ellipsis">{commercialProps.shopName}</p>
-          </a>
-        </div>
-
-        {commercialProps.openStatus === '营业中' ?
-          <div className="queue-form">
-            <CustomerInfoEditor
-              customerProps={customerProps}
-              onCustomerPropsChange={setCustomerProps}
-              isMobileDisabled={customerProps.mobile === null}
-            />
-
-            <div className="options-group">
-              <div className="option">
-                <span className="option-tile">就餐人数：</span>
-                <ImportableCounter
-                  setErrorMsg={setErrorMsg}
-                  onCountChange={this.onCountChange}
-                  maximum={commercialProps.maxPersonNum}
-                  minimum={1}
-                  count={
-                    commercialProps.maxPersonNum && +dinePersonCount < +commercialProps.maxPersonNum ?
-                    dinePersonCount : commercialProps.maxPersonNum
-                  }
-                />
-              </div>
-              <div className="option">
-                <button onTouchTap={submitOrder} className="queue-btn btn--yellow">立即取号</button>
-              </div>
-            </div>
-
-            {queueList && queueList.length ?
-              <div className="options-group">
-                <ul className="queue-list">
-                  <li className="queue-title">
-                    <span>队列名称</span>
-                    <span>就餐人数</span>
-                    <span>等待桌数</span>
-                  </li>
-                  {this.buildLinePropsElement()}
-                </ul>
-              </div>
-              :
-              false
-            }
-
-            {errorMessage ?
-              <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
-              :
-              false
-            }
-
-            {shuoldPhoneValidateShow ?
-              this.buildPhoneValidateElement()
-              :
-              false
-            }
+        <div className="content">
+          <div className="content-shop">
+            <img className="content-shop-icon" src={commercialProps.shopLogo || defaultShopLogo} alt="" />
+            <p className="content-shop-desc ellipsis">{commercialProps.shopName}</p>
           </div>
-          :
-          <div className="error-situation">
-            {commercialProps.openStatus === '已打烊' ?
-              <img src={yidayangImg} className="center-image" alt="已打烊" />
-              :
-              <div>
-                {commercialProps.openStatus === '商家设备未联网' ?
-                  <img src={weilianwangImg} className="center-image" alt="商家设备未联网" />
+          {/*
+            <div className="content-cut-line">
+              <span className="left"></span>
+              <span className="middle">排队信息</span>
+              <span className="right"></span>
+            </div>
+            */}
+          <div className="options-group" style={{ borderBottom:'none', marginTop:'20px' }}>
+            <div className="option">
+              <span className="option-tile">就餐人数：</span>
+              <ImportableCounter
+                setErrorMsg={setErrorMsg}
+                onCountChange={this.onCountChange}
+                maximum={commercialProps.maxPersonNum}
+                minimum={1}
+                count={
+                  commercialProps.maxPersonNum && +dinePersonCount < +commercialProps.maxPersonNum ?
+                  dinePersonCount : commercialProps.maxPersonNum
+                }
+              />
+            </div>
+            {commercialProps.openStatus === '营业中' ?
+              <div className="queue-form">
+                <ListCustomerInfoEditor
+                  customerProps={customerProps}
+                  onCustomerPropsChange={setCustomerProps}
+                  isMobileDisabled={customerProps.mobile === null}
+                />
+
+                <div className="option">
+                  <button onTouchTap={submitOrder} className="queue-btn btn--yellow">立即取号</button>
+                </div>
+
+                {errorMessage ?
+                  <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
+                  :
+                  false
+                }
+
+                {shuoldPhoneValidateShow ?
+                  this.buildPhoneValidateElement()
                   :
                   false
                 }
               </div>
+              :
+              <div className="error-situation">
+                {commercialProps.openStatus === '已打烊' ?
+                  <img src={yidayangImg} className="center-image" alt="已打烊" />
+                  :
+                  <div>
+                    {commercialProps.openStatus === '商家设备未联网' ?
+                      <img src={weilianwangImg} className="center-image" alt="商家设备未联网" />
+                      :
+                      false
+                    }
+                  </div>
+                }
+              </div>
             }
           </div>
-        }
+          <div className="options-group" style={{ height:'30px', backgroundColor:'#fd894d' }}></div>
+          <div className="options-group">
+            {queueList && queueList.length ?
+              <ul className="queue-list">
+                <li className="queue-title">
+                  <span>队列名称</span>
+                  <span>就餐人数</span>
+                  <span>等待桌数</span>
+                </li>
+                {this.buildLinePropsElement()}
+              </ul>
+              :
+              false
+            }
+          </div>
+        </div>
       </div>
     );
   },
