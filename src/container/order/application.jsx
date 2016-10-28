@@ -1,5 +1,6 @@
 const React = require('react');
 const _find = require('lodash.find');
+const classnames = require('classnames');
 const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const connect = require('react-redux').connect;
 const actions = require('../../action/order/order');
@@ -430,10 +431,20 @@ const OrderApplication = React.createClass({
             :
             <div className="options-group">
               {serviceProps.isPickupFromFrontDesk ?
-                <ActiveSelect
-                  optionsData={[serviceProps.isPickupFromFrontDesk]} onSelectOption={setOrderProps}
-                  optionComponent={OrderPropOption}
-                />
+                <div style={{ position:'relative', 'border-bottom':'0.5px solid #e1e1e1' }}>
+                  <div
+                    className={classnames('option', 'for-pickup',
+                      {
+                        'only-pickup':serviceProps.serviceApproach.indexOf('pickup') !== -1 && serviceProps.serviceApproach.indexOf('totable') === -1,
+                      }
+                    )}
+                  >
+                  </div>
+                  <ActiveSelect
+                    optionsData={[serviceProps.isPickupFromFrontDesk]} onSelectOption={setOrderProps}
+                    optionComponent={OrderPropOption}
+                  />
+                </div>
                 : false
               }
               {this.buildSelectedTableElement(serviceProps, tableProps)}
