@@ -232,10 +232,10 @@ module.exports = React.createClass({
               <p className="order-summary-entry clearfix">
                 <span className="option-title option-title--icon order-summary-icon4">积分抵扣:</span>
                 <span className="order-discount discount">
-                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 5).privilegeValue}
+                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 5).privilegeAmount}
                 </span>
                 <span className="order-integral">
-                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 5).privilegeAmount}
+                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 5).privilegeValue}
                 </span>
               </p>
               :
