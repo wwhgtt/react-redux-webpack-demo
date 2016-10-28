@@ -57,7 +57,8 @@ module.exports = {
   getOtherTableIdAPI: `${apiBase}/orderall/getTableId.json`, // 获取用户是否在其他桌台下单
   getOrderTableTypeAPI: `${apiBase}/orderall/orderTableType.json`, // 获取tableInfo
   callServiceAPI: `${apiBase}/orderall/callService.json`, // 获取tableId
-
+  memberIndexAPI: `${apiBase}/member/index.json`, // 获取会员基本信息
+  grownLevelxAPI:`${apiBase}/member/grownLevel.json`, // 会员页面
   // 跳转URL
   getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
   getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
@@ -74,6 +75,7 @@ module.exports = {
   integralURL: `${apiBase}/member/integral`, // 我的积分
   valueCardURL:`${apiBase}/member/valueCard`, // 我的余额
   memberIndexURL:`${apiBase}/member/index`, // 会员页面
+  grownLevelxURL:`${apiBase}/member/grownLevel`, // 会员页面
   rechargeURL:`${apiBase}/shop/recharge`, // 充值页面
   orderallListURL:`${apiBase}/order/orderallList`, // 订单列表
   getCouponListURL:`${apiBase}/coupon/getCouponList`, // 优惠券

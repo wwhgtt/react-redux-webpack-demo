@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="30px" height="39px" viewBox="0 0 30 39" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
+    <title>地址管理</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="个人中心" transform="translate(-37.000000, -1279.000000)">
+            <g id="地址管理" transform="translate(30.000000, 1276.000000)">
+                <rect id="Rectangle-8-Copy-4" x="0" y="0" width="44" height="44"></rect>
+                <path d="M22,3 C13.7157057,3 7,9.8424146 7,18.2830133 C7,26.723831 18.7550859,39.6414565 18.7550859,39.6414565 C20.5471875,41.7728505 23.4801551,41.7841516 25.2547592,39.6301116 C25.2547592,39.6301116 37,26.7237873 37,18.2830133 C37,9.84241464 30.2844663,3 22,3 L22,3 L22,3 L22,3 Z M22,24.8646707 C18.1671338,24.8646707 15.0609534,21.6995337 15.0609534,17.7947012 C15.0609534,13.8899124 18.1671768,10.7247317 22,10.7247317 C25.8325222,10.7247317 28.9388746,13.8899124 28.9388746,17.7947012 C28.9388746,21.6995338 25.8325222,24.8646707 22,24.8646707 L22,24.8646707 L22,24.8646707 L22,24.8646707 Z" id="Shape" fill="#42A7F5"></path>
+            </g>
+        </g>
+    </g>
+</svg>
