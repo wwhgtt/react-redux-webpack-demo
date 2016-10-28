@@ -27,7 +27,7 @@ const MineBalanceApplication = React.createClass({
             <div className="balance-outline-total">{balanceInfo.valueCard}</div>
             <div className="balance-outline-title">我的余额(元)</div>
             <div className="balance-outline-operate">
-              <a className="btn-balance-charge" href={`${location.host}/shop/recharge?shopId=${shopId}`}>立即充值</a>
+              <a className="btn-balance-charge" href={`http://${location.host}/shop/recharge?shopId=${shopId}`}>立即充值</a>
             </div>
           </div>
           <div className="balance-detail">

@@ -17,8 +17,8 @@ const RechargeItem = React.createClass({
   },
 
   handleChoseValue() {
-    const { realAmount, onSetChooseValue } = this.props;
-    onSetChooseValue(realAmount);
+    const { rechargeInfo, onSetChooseValue } = this.props;
+    onSetChooseValue(rechargeInfo.fullValue);
   },
 
   render() {
