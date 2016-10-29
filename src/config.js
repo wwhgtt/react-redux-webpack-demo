@@ -121,5 +121,6 @@ module.exports = {
   getGrownLevelsAPI: `${apiBase}/member/grownLevel.json`, //
   getRechargeInfoAPI: `${apiBase}/shop/recharge.json`, // 会员卡充值信息
   addRechargeAPI: `${apiBase}/member/addRecharge.json`, // 会员卡充值
+  indexAPI: `${apiBase}/brand/index.json`,
   requestOptions,
 };
