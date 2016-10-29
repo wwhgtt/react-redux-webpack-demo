@@ -12,9 +12,8 @@
 
   &-badge {
     font-size: 13px;
-    line-height: 18px;
+    line-height: 19px;
     display: inline-block;
-    height: 18px;
     margin-right: 4px;
     padding: 0 2px;
     color: $color-white;
@@ -24,10 +23,12 @@
 
   &-text {
     font-size: 14px;
+    vertical-align: middle;
     color: $color-dove-grey;
   }
 
   &-btn {
+    line-height: 27px;
     color: $color-neon-carrot;
     border-color: #e8e8e8;
   }
