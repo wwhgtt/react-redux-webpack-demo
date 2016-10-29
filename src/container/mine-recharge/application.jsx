@@ -11,8 +11,10 @@ const MineRechargeApplication = React.createClass({
   propTypes: {
     getRechargeInfo: React.PropTypes.func,
     rechargeInfo: React.PropTypes.object,
+    brandInfo: React.PropTypes.object,
     addRecharge: React.PropTypes.func,
     getUserInfo: React.PropTypes.func,
+    getBrandInfo: React.PropTypes.func,
     userInfo: React.PropTypes.object,
   },
 
@@ -26,9 +28,10 @@ const MineRechargeApplication = React.createClass({
   },
 
   componentWillMount() {
-    const { getUserInfo, getRechargeInfo } = this.props;
+    const { getUserInfo, getRechargeInfo, getBrandInfo } = this.props;
     getRechargeInfo();
     getUserInfo();
+    getBrandInfo();
   },
 
   componentDidMount() {
@@ -83,7 +86,7 @@ const MineRechargeApplication = React.createClass({
   },
 
   render() {
-    const { rechargeInfo, userInfo } = this.props;
+    const { rechargeInfo, userInfo, brandInfo } = this.props;
     const { isDialogShow, rechargeAdStyle, rechargeValue } = this.state;
     let rechargeActiveItems = [];
     let rechargeActiveAds = [];
@@ -167,10 +170,12 @@ const MineRechargeApplication = React.createClass({
       }
       <div className="recharge-banner flex-none">
         <div className="recharge-logo">
+        {brandInfo.brand &&
           <img
             className="recharge-logo-img"
-            role="presentation" src={userInfo.iconUri}
+            role="presentation" src={brandInfo.brand.logo}
           />
+        }
         </div>
         <div className="recharge-info">
           <p className="recharge-info-title">您充值的会员卡号为：</p>

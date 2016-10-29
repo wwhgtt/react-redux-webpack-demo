@@ -4,6 +4,7 @@ const commonHelper = require('../../helper/common-helper');
 const createAction = require('redux-actions').createAction;
 const setRechargeInfo = createAction('SET_RECHARGE_INFO', rechargeInfo => rechargeInfo);
 const setUserInfo = createAction('SET_USER_INFO', userInfo => userInfo);
+const setBrandInfo = createAction('SET_BRAND_INFO', brandInfo => brandInfo);
 require('es6-promise');
 require('isomorphic-fetch');
 
@@ -59,6 +60,23 @@ exports.getUserInfo = () => (dispatch, getStates) => {
   then(res => {
     if (res.code === '200') {
       dispatch(setUserInfo(res.data));
+    }
+  });
+};
+
+// 获取门店信息
+exports.getBrandInfo = () => (dispatch, getStates) => {
+  const getBrandInfoURL = `${config.indexAPI}?shopId=${shopId}`;
+  fetch(getBrandInfoURL, config.requestOptions).
+  then(res => {
+    if (!res.ok) {
+      return false;
+    }
+    return res.json();
+  }).
+  then(res => {
+    if (res.code === '200') {
+      dispatch(setBrandInfo(res.data));
     }
   });
 };
