@@ -41,7 +41,7 @@ exports.addRecharge = price => (dispatch, getStates) => {
       const orderId = res.data.id;
       const returnUrl = encodeURIComponent(`http://${location.host}/member/valueCard?shopId=${shopId}`);
       sessionStorage.setItem('rurl_payDetaill', JSON.stringify(returnUrl));
-      location.href = `http://${location.host}/shop/payDetail?shopId=${shopId}&orderId=${orderId}`;
+      location.href = `http://${location.host}/shop/payDetail?shopId=${shopId}&orderId=${orderId}&orderType=recharge`;
     }
   });
 };
