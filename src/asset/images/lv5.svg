@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="228px" height="322px" viewBox="0 0 228 322" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
+    <title>lv5</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M66,106.99223 C66,103.682813 68.6855758,101 71.9986181,101 L156.186353,101 C159.499298,101 162.184971,103.685836 162.184971,106.99223 L162.184971,166.00777 C162.184971,169.317187 159.499395,172 156.186353,172 L71.9986181,172 C68.6856728,172 66,169.314164 66,166.00777 L66,106.99223 Z" id="path-1"></path>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="96.1849711" height="71" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <rect id="path-3" x="78" y="0" width="72.1387283" height="113.860294"></rect>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-5">
+            <stop stop-color="#CE9C25" offset="0%"></stop>
+            <stop stop-color="#BF8C13" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-6">
+            <stop stop-color="#FFE198" offset="0%"></stop>
+            <stop stop-color="#FFCB4C" offset="100%"></stop>
+        </linearGradient>
+        <path d="M166.586523,0.280324263 C169.904356,0.242967259 173.912185,2.55694386 175.53313,5.43961619 L226.359236,95.8282277 C227.982478,98.714983 227.93473,103.375105 226.261808,106.221219 L176.041233,191.660614 C174.364184,194.513749 170.315381,196.857214 167.008441,196.89477 L63.3165538,198.072377 C60.0049297,198.109986 55.9379665,195.834865 54.234475,192.993649 L1.85867435,105.637207 C0.154404805,102.794694 0.114922748,98.1657936 1.77430314,95.2916625 L52.9081714,6.72520469 C54.565844,3.8540315 58.5940267,1.49626116 61.9171221,1.45884491 L166.586523,0.280324263 L166.586523,0.280324263 Z" id="path-7"></path>
+        <mask id="mask-8" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="226.99249" height="197.792958" fill="white">
+            <use xlink:href="#path-7"></use>
+        </mask>
+        <linearGradient x1="68.7303297%" y1="3.64080727%" x2="31.2696703%" y2="96.3591927%" id="linearGradient-9">
+            <stop stop-color="#FFE198" offset="0%"></stop>
+            <stop stop-color="#FFCB4C" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="个人中心_会员卡_会员等级2" transform="translate(-52.000000, -128.000000)">
+            <g id="lv5" transform="translate(52.000000, 128.000000)">
+                <use id="Rectangle-2-Copy" stroke="#FFCB50" mask="url(#mask-2)" stroke-width="24" xlink:href="#path-1"></use>
+                <mask id="mask-4" fill="white">
+                    <use xlink:href="#path-3"></use>
+                </mask>
+                <use id="Mask" fill="#A77FFF" xlink:href="#path-3"></use>
+                <rect id="Rectangle" fill="#FFFFFF" mask="url(#mask-4)" x="103.248555" y="-44.3455882" width="21.6416185" height="158.205882"></rect>
+                <g id="Group" transform="translate(0.000000, 123.000000)">
+                    <use id="Polygon-Copy" stroke="url(#linearGradient-6)" mask="url(#mask-8)" stroke-width="50" fill="url(#linearGradient-5)" xlink:href="#path-7"></use>
+                    <path d="M100.594598,131.168329 L76.5491787,139.66474 C73.352858,140.794155 71.6787676,139.114444 72.8067149,135.922277 L81.3031268,111.876858 L58.2925774,100.882049 C55.2338204,99.4205262 55.2377953,97.0490299 58.2925774,95.5894061 L81.3031268,84.5945977 L72.8067149,60.5491787 C71.6772999,57.352858 73.3570117,55.6787676 76.5491787,56.8067149 L100.594598,65.3031268 L111.589406,42.2925774 C113.050929,39.2338204 115.422425,39.2377953 116.882049,42.2925774 L127.876858,65.3031268 L151.922277,56.8067149 C155.118597,55.6772999 156.792688,57.3570117 155.66474,60.5491787 L147.168329,84.5945977 L170.178878,95.5894061 C173.237635,97.0509292 173.23366,99.4224254 170.178878,100.882049 L147.168329,111.876858 L155.66474,135.922277 C156.794155,139.118597 155.114444,140.792688 151.922277,139.66474 L127.876858,131.168329 L116.882049,154.178878 C115.420526,157.237635 113.04903,157.23366 111.589406,154.178878 L100.594598,131.168329" id="Star-3" fill="url(#linearGradient-9)"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

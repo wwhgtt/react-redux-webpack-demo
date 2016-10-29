@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="690px" height="435px" viewBox="0 0 690 435" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
+    <title>会员卡1</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="36.3719877%" y1="-12.6727346%" x2="81.354386%" y2="106.234489%" id="linearGradient-1">
+            <stop stop-color="#FFF29B" offset="0%"></stop>
+            <stop stop-color="#FFC64E" offset="100%"></stop>
+        </linearGradient>
+        <rect id="path-2" x="0" y="0" width="690" height="434.629898" rx="24"></rect>
+        <linearGradient x1="0%" y1="42.7288919%" x2="100%" y2="42.728892%" id="linearGradient-4">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0.4" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="个人中心_会员卡" transform="translate(-30.000000, -158.000000)">
+            <g id="会员卡1" transform="translate(30.000000, 158.000000)">
+                <mask id="mask-3" fill="white">
+                    <use xlink:href="#path-2"></use>
+                </mask>
+                <use id="Mask" fill="url(#linearGradient-1)" xlink:href="#path-2"></use>
+                <polyline id="Rectangle-11" fill="url(#linearGradient-4)" opacity="0.197936101" mask="url(#mask-3)" points="0 258 0 0 690 0"></polyline>
+                <text id="VIP" mask="url(#mask-3)" font-family="BanglaMN, Bangla MN" font-size="90" font-weight="normal" letter-spacing="-1.79999995" fill="#5B4520">
+                    <tspan x="265.375" y="197">VIP</tspan>
+                </text>
+                <path d="M22.5,30.5 L315.501706,30.5" id="Line" stroke="#5B4520" stroke-linecap="square" opacity="0.3" mask="url(#mask-3)"></path>
+                <path d="M376.5,30.5 L669.501706,30.5" id="Line-Copy-2" stroke="#5B4520" stroke-linecap="square" opacity="0.3" mask="url(#mask-3)"></path>
+                <path d="M22.5,404.5 L675.501706,404.5" id="Line-Copy-3" stroke="#5B4520" stroke-linecap="square" opacity="0.3" mask="url(#mask-3)"></path>
+                <path d="M344.600005,19 C343.639588,19 342.866125,19.7711125 342.866125,20.7294264 C342.866125,21.5239597 343.405174,22.1781333 344.131507,22.3885492 L339.913293,29.7731857 L335.20312,25.6601594 C335.624982,25.4031494 335.905949,24.9588556 335.905949,24.4450418 C335.905949,23.650261 335.249961,23.0195082 334.453119,23.0195082 C333.656277,23.0195082 333,23.6502198 333,24.4450418 C333,25.2395751 333.656277,25.8702867 334.453119,25.8702867 C334.664071,25.8702867 334.851561,25.8236925 335.039051,25.7535951 L337.419269,36.3384651 L351.780988,36.3384651 L354.465883,25.8702454 L349.802592,29.8431594 L344.928102,22.4117226 C345.724986,22.2481895 346.334379,21.5705538 346.334379,20.7294264 C346.334379,19.7711126 345.560958,19 344.600005,19 Z M354.747386,23.0195494 C353.950544,23.0195494 353.294267,23.650261 353.294267,24.445083 C353.294267,25.2396163 353.950544,25.8703279 354.747386,25.8703279 C355.543981,25.8703279 356.20001,25.2393277 356.20001,24.445083 C356.199969,23.650261 355.543981,23.0195494 354.747386,23.0195494 L354.747386,23.0195494 Z" id="Shape" fill="#5B4520" opacity="0.356576493" mask="url(#mask-3)"></path>
+            </g>
+        </g>
+    </g>
+</svg>

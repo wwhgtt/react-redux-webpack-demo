@@ -30,6 +30,12 @@ module.exports = {
     'mine-setting-entry': [
       './src/mine-setting.jsx',
     ],
+    'mine-vip-card-entry': [
+      './src/mine-vip-card.jsx',
+    ],
+    'mine-vip-level-entry': [
+      './src/mine-vip-level.jsx',
+    ],
     'address-list-entry': [
       './src/address-list.jsx',
     ],
@@ -77,6 +83,18 @@ module.exports = {
     ],
     'activate-validate-entry': [
       './src/activate-validate.jsx',
+    ],
+    'mine-balance-entry': [
+      './src/mine-balance.jsx',
+    ],
+    'mine-accumulation-entry': [
+      './src/mine-accumulation.jsx',
+    ],
+    'mine-growup-entry': [
+      './src/mine-growup.jsx',
+    ],
+    'mine-recharge-entry': [
+      './src/mine-recharge.jsx',
     ],
   },
   resolve: {
@@ -167,6 +185,22 @@ module.exports = {
         title: 'MineIndexApplication',
         filename: 'mineIndex.html',
         chunks: ['common', 'mine-index-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineVipCardApplication',
+        filename: 'mineVipCard.html',
+        chunks: ['common', 'mine-vip-card-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineVipLevelApplication',
+        filename: 'mineVipLevel.html',
+        chunks: ['common', 'mine-vip-level-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
@@ -303,6 +337,38 @@ module.exports = {
         title: 'ActivateValidateApplication',
         filename: 'activate-validate.html',
         chunks: ['common', 'activate-validate-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineBalanceApplication',
+        filename: 'mine-balance.html',
+        chunks: ['common', 'mine-balance-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineBalanceApplication',
+        filename: 'mine-accumulation.html',
+        chunks: ['common', 'mine-accumulation-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineGrowupApplication',
+        filename: 'mine-growup.html',
+        chunks: ['common', 'mine-growup-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineRechargeApplication',
+        filename: 'mine-recharge.html',
+        chunks: ['common', 'mine-recharge-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

@@ -1,0 +1,42 @@
+.list-box {
+  position: relative;
+  height: 70px;
+  padding: 16px 15px;
+  border-bottom: 1px solid #e3e3e3;
+  background-color: #fff;
+}
+
+.list-title {
+  color: #474747;
+}
+
+.list-detail {
+  font-size: 14px;
+  margin-top: 5px;
+  color: #999;
+
+  &-item {
+    height: 15px;
+    vertical-align: middle;
+  }
+
+  &-item:first-child {
+    margin-right: 5px;
+  }
+
+  &-name {
+    display: inline-block;
+    width: calc(100% - 160px);
+  }
+}
+
+.list-amount {
+  font-size: 23px;
+  line-height: 70px;
+  position: absolute;
+  top: 0;
+  right: 15px;
+  max-width: 80px;
+  height: 70px;
+  color: #666;
+}

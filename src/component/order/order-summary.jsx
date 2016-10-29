@@ -38,7 +38,8 @@ module.exports = React.createClass({
           return dish.order.map((dishOrder, idx) =>
             Object.assign({}, dish,
               { key:`${dish.id}-${idx}` },
-              { order:[Object.assign({}, dishOrder)] }
+              { order:[Object.assign({}, dishOrder)] },
+              { orderLength:dish.order.length }
             )
           );
         })
@@ -217,7 +218,9 @@ module.exports = React.createClass({
             }
             {serviceProps.benefitProps && _find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 4) ?
               <p className="order-summary-entry clearfix">
-                <span className="option-title option-title--icon order-summary-icon3">优惠券优惠:</span>
+                <span className="option-title option-title--icon order-summary-icon3">
+                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 4).privilegeName}:
+                </span>
                 <span className="order-discount discount">
                   {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 4).privilegeAmount}
                 </span>
@@ -229,10 +232,10 @@ module.exports = React.createClass({
               <p className="order-summary-entry clearfix">
                 <span className="option-title option-title--icon order-summary-icon4">积分抵扣:</span>
                 <span className="order-discount discount">
-                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 5).privilegeValue}
+                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 5).privilegeAmount}
                 </span>
                 <span className="order-integral">
-                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 5).privilegeAmount}
+                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 5).privilegeValue}
                 </span>
               </p>
               :
@@ -240,9 +243,9 @@ module.exports = React.createClass({
             }
             {serviceProps.benefitProps && _find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === -100) ?
               <p className="order-summary-entry clearfix">
-                <span className="option-title option-title--icon order-summary-icon4">其他优惠:</span>
+                <span className="option-title option-title--icon order-summary-icon7">其他优惠:</span>
                 <span className="order-discount discount">
-                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === -100).privilegeValue}
+                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === -100).privilegeAmount}
                 </span>
               </p>
               :
@@ -285,11 +288,15 @@ module.exports = React.createClass({
                   <span className="text-dove-grey">实付: </span>
                   <span className="price">
                     {serviceProps.benefitProps && serviceProps.benefitProps.isPriviledge ?
-                      serviceProps.benefitProps.extraPrice
-                        + helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
-                        - serviceProps.benefitProps.priviledgeAmount
+                      formatPrice(
+                        serviceProps.benefitProps.extraPrice
+                          + helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
+                          - serviceProps.benefitProps.priviledgeAmount
+                      )
                       :
-                      helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
+                      formatPrice(
+                        helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
+                      )
                     }
                   </span>
                 </div>

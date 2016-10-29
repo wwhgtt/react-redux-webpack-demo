@@ -134,3 +134,15 @@
 .weixin-login {
   margin-bottom: 10px;
 }
+
+.for-pickup {
+  position: absolute;
+  z-index: 100;
+  display: none;
+  width: 100%;
+  height: 48px;
+}
+
+.only-pickup {
+  display: block;
+}

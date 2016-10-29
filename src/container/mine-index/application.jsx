@@ -1,13 +1,12 @@
 const React = require('react');
 const connect = require('react-redux').connect;
 const actions = require('../../action/mine/mine-index.js');
-const ShowBasicInfo = require('../../component/mine/show-basic-info.jsx');
-const ShowMenuList = require('../../component/mine/show-menu-list.jsx');
-const Loading = require('../../component/mui/loading.jsx');
-const Toast = require('../../component/mui/toast.jsx');
-
 require('../../asset/style/style.scss');
 require('./application.scss');
+const Loading = require('../../component/mui/loading.jsx');
+const Toast = require('../../component/mui/toast.jsx');
+const ShowBasicInfo = require('../../component/mine/show-basic-info.jsx');
+const ShowMenuList = require('../../component/mine/show-menu-list.jsx');
 
 const MineIndexApplication = React.createClass({
   displayName: 'MineIndexApplication',

@@ -22,6 +22,7 @@ module.exports = function (
       shopName:null,
       isSupportReceipt:true,
       carryRuleVO:null,
+      receipt:null,
     },
     serviceProps:{
       diningForm:0,
@@ -65,6 +66,7 @@ module.exports = function (
       .setIn(['commercialProps', 'shopLogo'], payload.shopLogo)
       .setIn(['commercialProps', 'shopName'], payload.shopName)
       .setIn(['commercialProps', 'isSupportReceipt'], payload.isInvoice)
+      .setIn(['commercialProps', 'receipt'], payload.invoice)
       .setIn(['commercialProps', 'carryRuleVO'], payload.carryRuleVO && payload.carryRuleVO.transferType ?
         payload.carryRuleVO : { transferType: 1, scale: 2 })
       .setIn(

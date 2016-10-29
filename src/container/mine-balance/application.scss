@@ -1,0 +1,61 @@
+a {
+  text-decoration: none;
+}
+
+.balance-page {
+  height: 100%;
+  background-color: #f1f1f1;
+}
+
+.balance-outline {
+  height: 173px;
+  padding-top: 30px;
+  text-align: center;
+  color: #fff;
+  background-color: #ff8738;
+
+  &-total {
+    font-size: 45px;
+  }
+
+  &-title {
+    font-size: 14px;
+    margin-top: 2px;
+  }
+
+  &-operate {
+    margin-top: 15px;
+  }
+}
+
+.btn-balance-charge {
+  line-height: 33px;
+  display: inline-block;
+  width: 115px;
+  height: 33px;
+  border: 1px solid #ffb98b;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, .2);
+}
+
+.balance-detail {
+  &-title {
+    font-size: 14px;
+    line-height: 35px;
+    height: 35px;
+    padding: 0 15px;
+    color: #666;
+  }
+}
+
+.balance-footer {
+  font-size: 12px;
+  line-height: 25px;
+  height: 25px;
+  text-align: center;
+  color: #ccc;
+}
+
+.balance-amount-orange {
+  color: #ff7417 !important;
+}
