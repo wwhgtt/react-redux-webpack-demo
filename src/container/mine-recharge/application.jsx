@@ -5,6 +5,7 @@ require('./application.scss');
 const mineRechargeAction = require('../../action/mine/mine-recharge.js');
 const Dialog = require('../../component/mui/dialog/dialog.jsx');
 const RechargeItem = require('../../component/mine/recharge-item.jsx');
+const shopIcon = require('../../asset/images/default.png');
 
 const MineRechargeApplication = React.createClass({
   displayName: 'MineRechargeApplication',
@@ -35,6 +36,7 @@ const MineRechargeApplication = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     const { ruleInfo } = nextProps.rechargeInfo || {};
+
     if (!this.state.rechargeValue) {
       if (ruleInfo.ruleList && ruleInfo.ruleList.length) {
         this.setState({ rechargeValue: ruleInfo.ruleList[0].fullValue });
@@ -105,7 +107,7 @@ const MineRechargeApplication = React.createClass({
         // 是否有优惠
         if (isFullSend === 0) {
           // 赠送固定金额
-          if (isFullSend === 1) {
+          if (rechargeInfo.ruleInfo.sendType === 1) {
             realAmount = item.fullValue + item.sendValue;
           } else if (rechargeInfo.ruleInfo.sendType === 2) {
             // 赠送百分比
@@ -171,7 +173,7 @@ const MineRechargeApplication = React.createClass({
         {brandInfo.brand &&
           <img
             className="recharge-logo-img"
-            role="presentation" src={brandInfo.brand.logo}
+            role="presentation" src={brandInfo.brand.logo || shopIcon}
           />
         }
         </div>
