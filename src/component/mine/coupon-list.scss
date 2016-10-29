@@ -2,6 +2,21 @@
 @import "tools.functions";
 @import "tools.mixins";
 
+.coupon-outer{
+ margin-bottom: 0.938em;
+}
+
+.no-coupon-outer {
+  padding-top: 5em;
+  color: #999;
+  text-align: center;
+  .noCouponLogo {
+    display: block;
+    margin: 1em auto;
+    width: 14em;
+  }
+}
+
 .coupon-list-outer {
   padding: 0.938em 0.938em 0;
   
@@ -31,6 +46,10 @@
 
     &-leftpart.lipin {
       background: #ffc334;
+    }
+    
+    &-leftpart.shixiao {
+      background: #ccc;
     }
 
     &-rightpart {
@@ -85,16 +104,32 @@
       font-size: 22px;
       display: block;
       width: 200%;
-      white-space: nowrap;
       transform: scale(.5, .5);
-      transform-origin: left center; 
+      transform-origin: left center;
+      word-break: break-all;
     }
 
     .detail-click {
       position: absolute;
-      bottom: 0;
+      bottom: .5em;
       width: 100%;
       font-size: 12px;
+    }
+
+    .detail-click .arrowdown {
+      display:inline-block;
+      margin-left: .5em;
+      width: 1em;
+      height: .5em;
+      background: url("../../asset/images/arrow-down-white.svg") center center/1em auto no-repeat;
+    }
+
+    .detail-click .arrowup {
+      display:inline-block;
+      margin-left: .5em;
+      width: 1em;
+      height: .5em;
+      background: url("../../asset/images/arrow-up-white.svg") center center/1em auto no-repeat;
     }
   }
 }
@@ -119,6 +154,12 @@
 }
 
 .downrow {
+  display: none;
+  
+  &.show {
+    display:block;
+  }
+
   &-no {
     font-size: 14px;
     line-height: 2em;

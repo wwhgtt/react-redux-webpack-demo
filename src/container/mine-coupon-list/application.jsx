@@ -14,7 +14,7 @@ const MineVipLevelApplication = React.createClass({
     clearErrorMsg:React.PropTypes.func,
     errorMessage:React.PropTypes.string,
     load:React.PropTypes.object,
-    couponList:React.PropTypes.object.isRequired,
+    couponList:React.PropTypes.array.isRequired,
     getCouponList:React.PropTypes.func.isRequired,
   },
   getInitialState() {
@@ -41,6 +41,18 @@ const MineVipLevelApplication = React.createClass({
       <div className="application">
         <SwitchNavi navis={navis} getCouponStatus={this.getCouponStatus} />
         <CouponList couponList={couponList} couponStatus={couponStatus} />
+        {
+          load.status ?
+            <Loading word={load.word} />
+          :
+            false
+        }
+        {
+        errorMessage ?
+          <Toast clearErrorMsg={clearErrorMsg} errorMessage={errorMessage} />
+        :
+          false
+        }
       </div>
     );
   },

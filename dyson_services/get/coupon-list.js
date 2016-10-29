@@ -81,7 +81,7 @@ module.exports = {
                     810007171
                 ],
                 "usableCommercialDesc": "全部门店可用",
-                "week": "1111111",
+                "week": "0101010",
                 "ruleValue": 0
             },
             {
@@ -239,7 +239,7 @@ module.exports = {
                     810007171
                 ],
                 "usableCommercialDesc": "全部门店可用",
-                "week": "1111111",
+                "week": "1010111",
                 "ruleValue": 0
             },
             {
@@ -4740,7 +4740,7 @@ module.exports = {
                 "codeNumber": "727402680091137",
                 "couponId": 4119,
                 "brandId": 7274,
-                "couponStatus": 2,
+                "couponStatus": 1,
                 "planId": 7747,
                 "validStartDate": "2016-09-08",
                 "validEndDate": "2017-01-08",
