@@ -76,6 +76,7 @@ module.exports = {
   valueCardURL:`${apiBase}/member/valueCard`, // 我的余额
   memberIndexURL:`${apiBase}/member/index`, // 会员页面
   grownLevelxURL:`${apiBase}/member/grownLevel`, // 会员页面
+  growthValueURL:`${apiBase}/member/growthValue`, // 成长明细页面
   rechargeURL:`${apiBase}/shop/recharge`, // 充值页面
   orderallListURL:`${apiBase}/order/orderallList`, // 订单列表
   getCouponListURL:`${apiBase}/coupon/getCouponList`, // 优惠券
