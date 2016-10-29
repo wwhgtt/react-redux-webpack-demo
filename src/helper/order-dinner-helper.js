@@ -70,7 +70,10 @@ exports.reconstructDishes = (dishes) => {
         if (dishes[i].order instanceof Array) {
           dishes[i].order.push(withSameIdDishes[j].order[0]);
         } else {
-          dishes[i].order += withSameIdDishes[j].order;
+          // 2016-10-29 15:28:18 对应bug#22044
+          const order = withSameIdDishes[j].order;
+          const count = Array.isArray(order) && order.length ? order[0].count : order;
+          dishes[i].order += count;
         }
         for (let k in dishes) {
           if (withSameIdDishes[j].id === dishes[k].id && k > i) {
