@@ -151,6 +151,12 @@ const OrderTSCartApplication = React.createClass({
     this.setState({ loadingInfo: info || { ing: false } });
   },
   selectTable() {
+    const { tableList } = this.props.orderTSCart.tableProps;
+    if (!tableList || !tableList.length) {
+      this.setErrorMsg('非常抱歉，店里当前爆满，无可用桌台');
+      return;
+    }
+
     const validateResult = this.validateMoblieUserInfo();
     if (validateResult) {
       this.setState({ tableVisible: true });

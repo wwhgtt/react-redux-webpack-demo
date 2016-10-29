@@ -48,6 +48,11 @@
     &:empty {
       padding: 10px 0 0;
     }
+
+    &-btn {
+      color: #fff;
+      background: $color-sliver;
+    }
   }
 
   .dialog-btn-close {
@@ -120,14 +125,12 @@
   .dialog-footer {
     height: 40px;
     padding: 0;
-  }
 
-  button {
-    font-size: 16px;
-    height: 40px;
-    color: #fff;
-    border-radius: 0;
-    background: $color-sliver;
+    &-btn {
+      font-size: 16px;
+      height: 40px;
+      border-radius: 0;
+    }
   }
 
   .btn-confirm {
