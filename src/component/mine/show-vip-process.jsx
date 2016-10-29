@@ -4,7 +4,7 @@ const config = require('../../config');
 const commonHelper = require('../../helper/common-helper');
 const shallowCompare = require('react-addons-shallow-compare');
 const shopId = commonHelper.getUrlParam('shopId');
-const integralURL = `${config.integralURL}?shopId=${shopId}`;
+const growthValueURL = `${config.growthValueURL}?shopId=${shopId}`;
 require('./show-vip-process.scss');
 
 module.exports = React.createClass({
@@ -82,7 +82,7 @@ module.exports = React.createClass({
         <h3 className="vip-name">{name}</h3>
         <p className="vip-value">
           成长值：{grownLevelInfo.grounValue}
-          <a href={integralURL} className="vip-value-link">查看明细></a>
+          <a href={growthValueURL} className="vip-value-link">查看明细></a>
         </p>
       </div>
     );

@@ -1,0 +1,146 @@
+@import "settings.colors";
+@import "tools.functions";
+@import "tools.mixins";
+
+.coupon-list-outer {
+  padding: 0.938em 0.938em 0;
+  
+  .uprow {
+    position: relative;
+    height: 8.875em;
+
+    &-leftpart {
+      float: left;
+      width: 64%;
+      height: 100%;
+      padding: 1em 1.5em;
+      background: #ccc;
+    }
+    
+    &-leftpart.zhekou {
+      background: #24ced4;
+    }
+
+    &-leftpart.manjian {
+      background: #56a5ff;
+    }
+
+    &-leftpart.xianjin {
+      background: #ff9049;
+    }
+
+    &-leftpart.lipin {
+      background: #ffc334;
+    }
+
+    &-rightpart {
+      height: 100%;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    &:before {
+      position: absolute;
+      z-index: 2;
+      top: 1px;
+      bottom: 4px;
+      left: -7px;
+      width: 12px;
+      content: "";
+      background: radial-gradient(circle, #f1f1f1 6px, transparent 0px);
+      background-size: 12px 20px;
+    }
+
+    &:after {
+      position: absolute;
+      z-index: 2;
+      top: 1px;
+      bottom: 4px;
+      right: -7px;
+      width: 12px;
+      content: "";
+      background: radial-gradient(circle, #f1f1f1 6px, transparent 0px);
+      background-size: 12px 20px;
+    }
+  }
+
+  .downrow {
+    padding: 1em;
+    background: #fff;
+  }
+}
+
+.uprow-leftpart {
+  color: #fff;
+
+  &-value {
+    position: relative;
+    height: 100%;
+
+    .discount-num {
+      font-size: 2.5em;
+    }
+
+    .expense-condition {
+      font-size: 22px;
+      display: block;
+      width: 200%;
+      white-space: nowrap;
+      transform: scale(.5, .5);
+      transform-origin: left center; 
+    }
+
+    .detail-click {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      font-size: 12px;
+    }
+  }
+}
+
+.uprow-rightpart {
+  padding: 2em 0;
+  border-bottom: 1px solid #e3e3e3;
+  color: #474747;
+
+  .validity {
+    text-align: center;
+    line-height: 2em;
+
+    &-date {
+      font-size: 14px;
+      line-height: 1.4em;
+      text-align: center;
+      display: block;
+      color: #999;
+    }
+  }
+}
+
+.downrow {
+  &-no {
+    font-size: 14px;
+    line-height: 2em;
+    color: #666;
+  }
+
+  &-item {
+    position: relative;
+    font-size: 13px;
+    line-height: 1.4em;
+    padding-left: 1em;
+    color: #666;
+
+    &:before {
+      position: absolute;
+      left: .3em;
+      top: .4em;
+      width: .313em;
+      height: .313em;
+      content: "";
+      border-radius: 1em;
+      background: #666; 
+    }
+  }
+}
