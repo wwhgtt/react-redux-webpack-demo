@@ -20,10 +20,9 @@ const MineRechargeApplication = React.createClass({
 
   getInitialState() {
     return {
-      rechargeValue: 0,
+      rechargeValue: '',
       isDialogShow: false,
       rechargeAdStyle: {},
-      adNum: 0,
     };
   },
 
@@ -34,29 +33,29 @@ const MineRechargeApplication = React.createClass({
     getBrandInfo();
   },
 
-  componentDidMount() {
-    this._otherSet = setInterval(() => {
-      if (this._adNo > 0 || this._defaultFullValue) {
-        clearInterval(this._otherSet);
+  componentWillReceiveProps(nextProps) {
+    const { ruleInfo } = nextProps.rechargeInfo || {};
+    if (!this.state.rechargeValue) {
+      if (ruleInfo.ruleList && ruleInfo.ruleList.length) {
+        this.setState({ rechargeValue: ruleInfo.ruleList[0].fullValue });
       }
+    }
+  },
 
-      if (this._adNo > 0) {
-        let num = this._adNo;
-        let i = 0;
-        this._setInterval = setInterval(() => {
-          if (i === num) {
-            i = 0;
-          }
-          this.setState({ rechargeAdStyle: {
-            top: -44 * i,
-          } });
-          i ++;
-        }, 3000);
-      }
-      if (this._defaultFullValue) {
-        this.setState({ rechargeValue: this._defaultFullValue });
-      }
-    }, 500);
+  componentDidUpdate(prevProps, prevState) {
+    if (!this._setInterval && this._adNo > 0) {
+      let num = this._adNo;
+      let i = 0;
+      this._setInterval = setInterval(() => {
+        if (i === num) {
+          i = 0;
+        }
+        this.setState({ rechargeAdStyle: {
+          top: -44 * i,
+        } });
+        i ++;
+      }, 3000);
+    }
   },
 
   componentWillUnmount() {
@@ -100,7 +99,6 @@ const MineRechargeApplication = React.createClass({
     // 充值卡
     if (rechargeInfo.ruleInfo && rechargeInfo.ruleInfo.ruleList) {
       let realAmount = 0;
-      this._defaultFullValue = rechargeInfo.ruleInfo.ruleList[0].fullValue;
       const isFullSend = rechargeInfo.ruleInfo.isFullSend;
       rechargeItem = rechargeInfo.ruleInfo.ruleList.map((item, index) => {
         realAmount = item.fullValue;
