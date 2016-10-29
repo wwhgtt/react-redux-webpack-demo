@@ -75,11 +75,6 @@
 }
 
 .recharge-content {
-  position: absolute;
-  top: 144px;
-  right: 0;
-  bottom: 0;
-  left: 0;
   padding: 15px;
   background-color: #fff;
 }
@@ -155,4 +150,8 @@
 
 .btn-recharge-active {
   background-color: #ffc334 !important;
+}
+
+.recharge-item-single {
+  margin: 22px 0;
 }

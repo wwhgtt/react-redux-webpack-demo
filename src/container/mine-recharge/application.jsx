@@ -14,16 +14,13 @@ const MineRechargeApplication = React.createClass({
     addRecharge: React.PropTypes.func,
     getUserInfo: React.PropTypes.func,
     userInfo: React.PropTypes.object,
-    setCardStatus: React.PropTypes.func,
-    cardStatus: React.PropTypes.bool,
   },
 
   getInitialState() {
     return {
       rechargeValue: 0,
-      isChose: false,
       isDialogShow: false,
-      testStyle: {},
+      rechargeAdStyle: {},
       adNum: 0,
     };
   },
@@ -36,21 +33,27 @@ const MineRechargeApplication = React.createClass({
 
   componentDidMount() {
     this._otherSet = setInterval(() => {
-      if (this.adNo > 0) {
+      if (this._adNo > 0 || this._defaultFullValue) {
         clearInterval(this._otherSet);
-        let num = this.adNo;
+      }
+
+      if (this._adNo > 0) {
+        let num = this._adNo;
         let i = 0;
         this._setInterval = setInterval(() => {
           if (i === num) {
             i = 0;
           }
-          this.setState({ testStyle: {
+          this.setState({ rechargeAdStyle: {
             top: -44 * i,
           } });
           i ++;
         }, 3000);
       }
-    }, 1000);
+      if (this._defaultFullValue) {
+        this.setState({ rechargeValue: this._defaultFullValue });
+      }
+    }, 500);
   },
 
   componentWillUnmount() {
@@ -80,8 +83,8 @@ const MineRechargeApplication = React.createClass({
   },
 
   render() {
-    const { rechargeInfo, userInfo, setCardStatus, cardStatus } = this.props;
-    const { isDialogShow, testStyle } = this.state;
+    const { rechargeInfo, userInfo } = this.props;
+    const { isDialogShow, rechargeAdStyle, rechargeValue } = this.state;
     let rechargeActiveItems = [];
     let rechargeActiveAds = [];
     let rechargeItem = '';
@@ -94,12 +97,17 @@ const MineRechargeApplication = React.createClass({
     // 充值卡
     if (rechargeInfo.ruleInfo && rechargeInfo.ruleInfo.ruleList) {
       let realAmount = 0;
+      this._defaultFullValue = rechargeInfo.ruleInfo.ruleList[0].fullValue;
+      const isFullSend = rechargeInfo.ruleInfo.isFullSend;
       rechargeItem = rechargeInfo.ruleInfo.ruleList.map((item, index) => {
         realAmount = item.fullValue;
-        if (rechargeInfo.ruleInfo.isFullSend === 0) {
-          if (rechargeInfo.ruleInfo.sendType === 1) {
+        // 是否有优惠
+        if (isFullSend === 0) {
+          // 赠送固定金额
+          if (isFullSend === 1) {
             realAmount = item.fullValue + item.sendValue;
           } else if (rechargeInfo.ruleInfo.sendType === 2) {
+            // 赠送百分比
             realAmount = item.fullValue + (item.rate * item.fullValue / 100);
           }
         }
@@ -109,9 +117,8 @@ const MineRechargeApplication = React.createClass({
           realAmount={realAmount}
           key={index}
           onSetChooseValue={this.setChooseValue}
-          onSetCardStatus={setCardStatus}
-          cardStatus={cardStatus}
-          isChoose={this.state.rechargeValue === item.fullValue}
+          isFullSend={isFullSend}
+          isChoosed={rechargeValue === item.fullValue}
         />);
       });
     }
@@ -143,19 +150,22 @@ const MineRechargeApplication = React.createClass({
       );
     }
 
-    this.adNo = rechargeActiveAds.length;
+    this._adNo = rechargeActiveAds.length;
 
-    return (<div className="recharge-page">
-      <div className="recharge-ads">
-        <div className="recharge-ads-img"></div>
-        {
-          <div className="recharge-ads-title ellipsis" ref="rechargeAds" style={testStyle}>
-            {rechargeActiveAds}
-          </div>
-        }
-        <a className="recharge-ads-detail" onTouchTap={this.handleShowDialog}>活动详情></a>
-      </div>
-      <div className="recharge-banner">
+    return (<div className="recharge-page flex-columns">
+      {Boolean(rechargeActiveAds.length) && (
+        <div className="recharge-ads flex-none">
+          <div className="recharge-ads-img"></div>
+          {
+            <div className="recharge-ads-title ellipsis" ref="rechargeAds" style={rechargeAdStyle}>
+              {rechargeActiveAds}
+            </div>
+          }
+          <a className="recharge-ads-detail" onTouchTap={this.handleShowDialog}>活动详情></a>
+        </div>
+        )
+      }
+      <div className="recharge-banner flex-none">
         <div className="recharge-logo">
           <img
             className="recharge-logo-img"
@@ -176,7 +186,7 @@ const MineRechargeApplication = React.createClass({
           </div>
         </div>
       </div>
-      <div className="recharge-content">
+      <div className="recharge-content flex-columns">
         <div className="recharge-block">
           {rechargeItem}
         </div>

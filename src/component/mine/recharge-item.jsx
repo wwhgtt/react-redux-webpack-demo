@@ -7,7 +7,8 @@ const RechargeItem = React.createClass({
     rechargeInfo: React.PropTypes.object,
     onSetChooseValue: React.PropTypes.func,
     realAmount: React.PropTypes.number,
-    isChoose: React.PropTypes.bool,
+    isChoosed: React.PropTypes.bool,
+    isFullSend: React.PropTypes.number,
   },
 
   getInitialState() {
@@ -22,12 +23,18 @@ const RechargeItem = React.createClass({
   },
 
   render() {
-    const { rechargeInfo, realAmount, isChoose } = this.props;
+    const { rechargeInfo, realAmount, isChoosed, isFullSend } = this.props;
+    let itemClass = '';
+    if (isFullSend !== 0) {
+      itemClass = 'recharge-item-single';
+    }
 
     return (
-      <div className={classnames('recharge-item', { 'recharge-item-orange': isChoose })} onTouchTap={this.handleChoseValue}>
-        <p className="recharge-item-real ellipsis"><span>{realAmount}</span>元</p>
-        <p className="recharge-item-sale ellipsis">售价<span>{rechargeInfo.fullValue}</span></p>
+      <div className={classnames('recharge-item', { 'recharge-item-orange': isChoosed })} onTouchTap={this.handleChoseValue}>
+        <p className={`recharge-item-real ellipsis ${itemClass}`}><span>{realAmount}</span>元</p>
+        {isFullSend === 0 &&
+          <p className="recharge-item-sale ellipsis">售价<span>{rechargeInfo.fullValue}元</span></p>
+        }
       </div>
     );
   },
