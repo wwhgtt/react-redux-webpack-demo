@@ -502,7 +502,6 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
   const { transferType, scale } = carryRuleVO;
   const priceWithBenefit = countPriceWithBenefit(dishesPrice, serviceProps);
   if (_has(carryRuleVO, 'isEnjoyRule') && !carryRuleVO.isEnjoyRule) {
-    console.log(1234);
     return {
       smallChange:0,
       priceWithClearSmallChange:priceWithBenefit,
