@@ -222,7 +222,7 @@ const PlaceOrderApplication = React.createClass({
               onCustomerPropsChange={setCustomerProps}
               isMobileDisabled={customerProps.mobile === null}
             />
-            <div className="divider" style={{ marginTop:'0px', paddingBottom:'30px;' }}>
+            <div className="divider" style={{ marginTop:'0px', paddingBottom:'30px' }}>
               <span className="divider-title">备注</span>
             </div>
             <div className="option-groups">
