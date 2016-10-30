@@ -106,20 +106,25 @@ const OrderInlineApplication = React.createClass({
           <div className="divider">
             <span className="divider-title">预订信息</span>
           </div>
-          <div className="options-group" style={{ borderBottom:'none', marginTop:'20px' }}>
-            <div className="option">
-              <span className="option-tile">就餐人数：</span>
-              <ImportableCounter
-                setErrorMsg={setErrorMsg}
-                onCountChange={this.onCountChange}
-                maximum={commercialProps.maxPersonNum}
-                minimum={1}
-                count={
-                  commercialProps.maxPersonNum && +dinePersonCount < +commercialProps.maxPersonNum ?
-                  dinePersonCount : commercialProps.maxPersonNum
-                }
-              />
+          {commercialProps.openStatus === '营业中' ?
+            <div className="options-group" style={{ borderBottom:'none', marginTop:'20px' }}>
+              <div className="option">
+                <span className="option-tile">就餐人数：</span>
+                <ImportableCounter
+                  setErrorMsg={setErrorMsg}
+                  onCountChange={this.onCountChange}
+                  maximum={commercialProps.maxPersonNum}
+                  minimum={1}
+                  count={
+                    commercialProps.maxPersonNum && +dinePersonCount < +commercialProps.maxPersonNum ?
+                    dinePersonCount : commercialProps.maxPersonNum
+                  }
+                />
+              </div>
             </div>
+            :
+            false
+          }
             {commercialProps.openStatus === '营业中' ?
               <div className="queue-form">
                 <ListCustomerInfoEditor
@@ -128,7 +133,7 @@ const OrderInlineApplication = React.createClass({
                   isMobileDisabled={customerProps.mobile === null}
                 />
 
-                <div className="option">
+                <div className="option" style={{ width:'94%', marginLeft:'3%' }}>
                   <button onTouchTap={submitOrder} className="queue-btn btn--yellow">立即取号</button>
                 </div>
 
@@ -147,11 +152,17 @@ const OrderInlineApplication = React.createClass({
               :
               <div className="error-situation">
                 {commercialProps.openStatus === '已打烊' ?
-                  <img src={yidayangImg} className="center-image" alt="已打烊" />
+                  <div>
+                    <img src={yidayangImg} className="center-image" alt="已打烊" />
+                    <p className="errorMessage">诶呀，没有开门</p>
+                  </div>
                   :
                   <div>
                     {commercialProps.openStatus === '商家设备未联网' ?
-                      <img src={weilianwangImg} className="center-image" alt="商家设备未联网" />
+                      <div>
+                        <img src={weilianwangImg} className="center-image" alt="商家设备未联网" />
+                        <p className="errorMessage">设备未接入网络</p>
+                      </div>
                       :
                       false
                     }
@@ -159,7 +170,7 @@ const OrderInlineApplication = React.createClass({
                 }
               </div>
             }
-          </div>
+
           <div className="options-group" style={{ height:'30px', backgroundColor:'#fd894d' }}></div>
           <div className="options-group">
             {queueList && queueList.length ?

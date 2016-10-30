@@ -32,14 +32,6 @@ module.exports = {
           minPersonCount:5,
           maxPersonCount:10,
         },
-        {
-          queueName:'队列c',
-          count:0,
-          maxNum:null,
-          queueLineId:10898,
-          minPersonCount:5,
-          maxPersonCount:10,
-        },
       ],
       maxPersonNum:null, // 最大人数限制
       hasQLine:true, // 是否配置队列

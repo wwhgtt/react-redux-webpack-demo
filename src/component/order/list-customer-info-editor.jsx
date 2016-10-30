@@ -32,7 +32,7 @@ module.exports = React.createClass({
     const { isMobileDisabled } = this.props;
     return (
       <div>
-        <div className="option">
+        <div className="option" style={{ padding:'4px 15px 15px 15px', border:'none' }}>
           <span className="option-tile">姓名：</span>
           <input
             className="editor-input flex-rest"
@@ -43,7 +43,7 @@ module.exports = React.createClass({
             maxLength="60"
           />
         </div>
-        <div className="option" style={{ height:'55px', lineHeight:'45px', padding:'4px 15px 0px 15px' }}>
+        <div className="option" style={{ height:'55px', lineHeight:'45px', padding:'4px 15px 4px 15px', border:'none' }}>
           <span className="option-tile">性别：</span>
           <div className="editor-gender-group flex-none">
             <label className="half">
@@ -62,7 +62,7 @@ module.exports = React.createClass({
             </label>
           </div>
         </div>
-        <div className="option">
+        <div className="option" style={{ padding:'15px 15px 15px 15px', border:'none' }}>
           <span className="option-tile">联系电话：</span>
           <input
             name="mobile"
