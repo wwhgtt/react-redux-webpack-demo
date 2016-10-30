@@ -16,7 +16,8 @@ exports.initializeDishes = (dishes) => {
     } else if (isGroupDish(dish)) {
       dish.order = [{ count:dish.num, groups:[] }];
       dish.groups = [];
-      dish.subDishItems.map(item => {
+      let subDishItems = dish.subDishItems || [];
+      subDishItems.map(item => {
         item.id = item.groupId;
         item.childInfos = [];
         if (item.propertyTypeList.length) {
