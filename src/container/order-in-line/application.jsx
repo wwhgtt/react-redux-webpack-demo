@@ -103,13 +103,9 @@ const OrderInlineApplication = React.createClass({
             <img className="content-shop-icon" src={commercialProps.shopLogo || defaultShopLogo} alt="" />
             <p className="content-shop-desc ellipsis">{commercialProps.shopName}</p>
           </div>
-          {/*
-            <div className="content-cut-line">
-              <span className="left"></span>
-              <span className="middle">排队信息</span>
-              <span className="right"></span>
-            </div>
-            */}
+          <div className="divider">
+            <span className="divider-title">预订信息</span>
+          </div>
           <div className="options-group" style={{ borderBottom:'none', marginTop:'20px' }}>
             <div className="option">
               <span className="option-tile">就餐人数：</span>

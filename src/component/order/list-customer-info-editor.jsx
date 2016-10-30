@@ -43,7 +43,7 @@ module.exports = React.createClass({
             maxLength="60"
           />
         </div>
-        <div className="option" style={{ height:'55px', lineHeight:'45px', padding:'0px 15px 0px 15px' }}>
+        <div className="option" style={{ height:'55px', lineHeight:'45px', padding:'4px 15px 0px 15px' }}>
           <span className="option-tile">性别：</span>
           <div className="editor-gender-group flex-none">
             <label className="half">

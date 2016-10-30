@@ -39,7 +39,7 @@
     padding: 0 .4em;
     text-align: center;
     text-decoration: none;
-    color: $color-dusty-grey;
+    color: #ff7e28;
     border-width: 1px;
     border-style: solid;
     border-radius: 20px;
@@ -49,6 +49,6 @@
 
 .option-radio:checked + .editor-gender {
   color: $color-white;
-  border-color: $color-jaffa;
-  background: $color-jaffa;
+  border-color: #ff7e28;
+  background: #ff7e28;
 }
