@@ -68,7 +68,10 @@ module.exports = function (
       .setIn(['commercialProps', 'isSupportReceipt'], payload.isInvoice)
       .setIn(['commercialProps', 'receipt'], payload.invoice)
       .setIn(['commercialProps', 'carryRuleVO'], payload.carryRuleVO && payload.carryRuleVO.transferType ?
-        payload.carryRuleVO : { transferType: 1, scale: 2 })
+        Object.assign({}, payload.carryRuleVO, { isEnjoyRule:!payload.hasPriviledge })
+        :
+        Object.assign({}, { transferType: 1, scale: 2 }, { isEnjoyRule:!payload.hasPriviledge })
+      )
       .setIn(
        ['serviceProps', 'integralsInfo'],
        payload.isMember && payload.integral && payload.integral.isExchangeCash === 0 && payload.integral.integral !== 0 ?
