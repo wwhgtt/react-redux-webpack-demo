@@ -104,7 +104,7 @@ const OrderInlineApplication = React.createClass({
             <p className="content-shop-desc ellipsis">{commercialProps.shopName}</p>
           </div>
           <div className="divider">
-            <span className="divider-title">预订信息</span>
+            <span className="divider-title">排队信息</span>
           </div>
           {commercialProps.openStatus === '营业中' ?
             <div className="options-group" style={{ borderBottom:'none', marginTop:'20px' }}>
