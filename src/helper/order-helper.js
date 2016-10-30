@@ -285,7 +285,7 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, discountL
                 orderedDish.order.map(order => {
                   let orderPrice = getOrderPrice(orderedDish, order);
                   let discountPrice = parseFloat(
-                    ((orderedDish.marketPrice - dishcount.value) * order.count * orderedDish.marketPrice).toFixed(2)
+                    ((orderedDish.marketPrice - dishcount.value) * order.count).toFixed(2)
                   );
                   if (orderPrice > discountPrice) {
                     disCountPriceList.push(discountPrice);
