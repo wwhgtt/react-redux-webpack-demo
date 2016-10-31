@@ -8,23 +8,23 @@
   &-item {
     font-size: 15px;
     line-height: 1.4em;
-    text-align: center;
     padding: 1em 0;
+    text-align: center;
     color: #474747;
-    
+
     &.active {
       position: relative;
       color: #ff7417;
     }
 
     .line {
-      display: none;
       position: absolute;
       bottom: 0;
       left: 50%;
-      content: "";
+      display: none;
       width: 50%;
       margin-left: -25%;
+      content: "";
       border-bottom: 2px solid #ff7417;
     }
 
@@ -32,5 +32,4 @@
       display: block;
     }
   }
-
 }

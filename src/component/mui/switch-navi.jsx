@@ -6,7 +6,7 @@ const SwitchNavi = React.createClass({
   displayName: 'SwitchNavi',
   propTypes:{
     navis:React.PropTypes.array.isRequired,
-    getCouponStatus:React.PropTypes.func.isRequired,
+    getIndex:React.PropTypes.func.isRequired,
   },
   getInitialState() {
     return { activeNum:0 };
@@ -14,9 +14,9 @@ const SwitchNavi = React.createClass({
   componentWillMount() {},
   componentDidMount() {},
   switchTo(index) {
-    const { getCouponStatus } = this.props;
+    const { getIndex } = this.props;
     this.setState({ activeNum:index });
-    getCouponStatus(index);
+    getIndex(index);
   },
   render() {
     const { navis } = this.props;

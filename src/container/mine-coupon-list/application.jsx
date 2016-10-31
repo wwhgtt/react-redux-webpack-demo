@@ -39,7 +39,7 @@ const MineVipLevelApplication = React.createClass({
     const navis = ['未使用', '已过期', '已使用'];
     return (
       <div className="application">
-        <SwitchNavi navis={navis} getCouponStatus={this.getCouponStatus} />
+        <SwitchNavi navis={navis} getIndex={this.getCouponStatus} />
         <CouponList couponList={couponList} couponStatus={couponStatus} />
         {
           load.status ?
