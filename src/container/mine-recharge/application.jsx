@@ -131,14 +131,16 @@ const MineRechargeApplication = React.createClass({
       rechargeInfo.planRuleList.forEach((items) =>
         items.rules.forEach((item, index) => {
           let couponType = '';
-          if (item.couponType === 1) {
+          if (item.couponType === '1') {
             couponType = '满减券';
-          } else if (item.couponType === 2) {
+          } else if (item.couponType === '2') {
             couponType = '折扣券';
-          } else if (item.couponType === 3) {
+          } else if (item.couponType === '3') {
             couponType = '礼品券';
-          } else if (item.couponType === 4) {
+          } else if (item.couponType === '4') {
             couponType = '代金券';
+          } else {
+            couponType = '优惠券';
           }
 
           const rechargeActiveItem = (<div key={Math.random() + index} className="recharge-coupon">
