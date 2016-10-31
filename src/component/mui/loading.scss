@@ -7,21 +7,17 @@
   right: 0;
   bottom: 0;
   left: 0;
+  display: flex;
   text-align: center;
   background: rgba(0, 0, 0, .1);
-}
-
-.span-null {
-  display: inline-block;
-  height: 100%;
-  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
 }
 
 .load {
   &-div {
     display: inline-block;
     max-width: 8em;
-    vertical-align: middle;
   }
 
   &-img {
@@ -31,6 +27,7 @@
   &-word {
     font-size: 14px;
     font-weight: bold;
+    line-height: 1.4em;
     margin: .2em 0;
     color: #999;
   }

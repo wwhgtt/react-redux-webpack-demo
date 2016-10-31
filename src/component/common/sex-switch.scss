@@ -1,9 +1,8 @@
 @import "settings.colors";
 
 .sex-switch {
-  height: 100%;
-
   &-label {
+    display: inline-block;
     margin-right: 1em;
   }
 
