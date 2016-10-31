@@ -1,44 +1,3 @@
-// listul
-.list-ul {
-  position: relative;
-  margin-bottom: .4em;
-  background: $color-white;
-
-  &::before {
-    @include border-thin(top);
-
-    z-index: 1;
-    top: 0;
-    border-top: bordersolid(1, $color-athens-grey);
-  }
-
-  &::after {
-    @include border-thin(bottom);
-
-    z-index: 1;
-    bottom: 0;
-    border-bottom: bordersolid(1, $color-athens-grey);
-  }
-
-  &-li {
-    height: 50px;
-    padding: 0 1.187em;
-
-    &:active {
-      background: #eaeaea;
-    }
-
-    &.spe:active {
-      background: none;
-    }
-  }
-
-  &-mt {
-    margin: .4em 0 0;
-  }
-}
-
-
 // list-group
 
 .list-group {
@@ -79,11 +38,20 @@
   display: block;
   height: 100%;
   padding: 1em;
+  text-decoration: none;
+
+  .icon {
+    font-size: 1.2em;
+    display: inline-block;
+    width: 1.188em;
+    height: 1.188em;
+    margin-right: .5em;
+    vertical-align: middle;
+  }
 
   .name {
     font-size: 1em;
     display: inline-block;
-    margin-left: .5em;
     vertical-align: middle;
     text-decoration: none;
     color: #474747;
@@ -100,6 +68,15 @@
       border: bordersolid(1, #ff5d2e);
       border-radius: .5em;
     }
+  }
+
+  .brief {
+    font-size: 13px;
+    line-height: 1.5em;
+    position: absolute;
+    top: 1.45em;
+    right: 2.5em;
+    color: #bcbcbc;
   }
 
   .arrow {
@@ -123,23 +100,6 @@
     background: url("../../asset/images/arrow-up.svg") right center/auto .5em no-repeat;
   }
 
-  .brief {
-    font-size: 13px;
-    line-height: 1.5em;
-    position: absolute;
-    top: 1.45em;
-    right: 2.5em;
-    color: #bcbcbc;
-  }
-
-  .icon {
-    font-size: 1.2em;
-    display: inline-block;
-    width: 1.188em;
-    height: 1.188em;
-    vertical-align: middle;
-  }
-
   &::after {
     @include border-thin(bottom);
 
@@ -152,5 +112,45 @@
 
   &:active {
     background: #eaeaea;
+  }
+
+  &.disable:active {
+    background: none;
+  }
+
+
+  // 嵌套 list-input
+
+  .list-content {
+    font-size: 1em;
+    display: inline-block;
+    height: 100%;
+    margin-left: 1em;
+    padding-right: 1em;
+
+    .input-content {
+      width: 100%;
+      height: 100%;
+      text-align: left;
+      color: #666;
+      border: none;
+      outline: none;
+    }
+
+    .input-content::placeholder {
+      line-height: 1.4em;
+    }
+
+    &-logo {
+      width: 2.125em;
+      height: 2.125em;
+      margin: .5em 0;
+      border-radius: 2em;
+    }
+
+    &-info {
+      line-height: 55px;
+      color: #999;
+    }
   }
 }

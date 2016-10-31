@@ -22,6 +22,12 @@ module.exports = React.createClass({
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
   },
+  needGrownValueFontSize(length) {
+    if (length > 4) {
+      return { fontSize:`${4 / length * 2}em` };
+    }
+    return { fontSize:'2em' };
+  },
   switchLevel(index) {
     const { getIndex } = this.props;
     // 箭头位置
@@ -41,6 +47,11 @@ module.exports = React.createClass({
             grownLevelInfo.levelList.map((item, index) => {
               const name = item.name;
               const needGrownValue = item.needGrownValue;
+              const needGrownValueFontSize =
+                item.needGrownValue ?
+                  this.needGrownValueFontSize(item.needGrownValue.toString().length)
+                :
+                  { fontSize:'2em' };
               let active = false;
               let fakeActive = false;
               if (grounValue >= needGrownValue) {
@@ -52,7 +63,7 @@ module.exports = React.createClass({
               }
               return (
                 <li className={classnames('process-li flex-rest', { active, fakeActive })} key={index} onTouchTap={() => this.switchLevel(index)}>
-                  <div className="process-num">{needGrownValue}</div>
+                  <div className="process-num"><span className="process-num-value" style={needGrownValueFontSize}>{needGrownValue}</span></div>
                   {name}
                 </li>
               );

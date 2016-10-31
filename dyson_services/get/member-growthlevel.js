@@ -1,5 +1,5 @@
 module.exports = {
-  path:'/member/grownLevel.json',
+  path:'/member/grownLevel1.json',
   template: {
     data: {
       name: '过滤',
