@@ -148,6 +148,7 @@ module.exports = function (
                   .set('memberPrice', false)
                   .set('discountType', false)
                   .set('discountLevel', false)
+                  .set('loginType', payload.loginType || 0)
                   .set('isUserMember', isUserMember);
               }
               return dishData
@@ -162,6 +163,7 @@ module.exports = function (
                   )
                   .set('discountType', haveDiscountPropsData.type)
                   .set('discountLevel', haveDiscountPropsData.levelName)
+                  .set('loginType', haveDiscountPropsData.loginType || 0)
                   .set('isUserMember', isUserMember);
             }
           )
