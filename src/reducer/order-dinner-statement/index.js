@@ -50,6 +50,7 @@ module.exports = function (
         extraPrivilege:null,
         extraPrice:0,
         benefitList:[],
+        totalAmount:0,
       },
     },
     childView:null,
@@ -90,7 +91,8 @@ module.exports = function (
        .setIn(['serviceProps', 'benefitProps', 'priviledgeAmount'], payload.priviledgeAmount)
        .setIn(['serviceProps', 'benefitProps', 'extraPrivilege'], payload.addPrivilege)
        .setIn(['serviceProps', 'benefitProps', 'extraPrice'], helper.countExtraPrivilege(payload.addPrivilege))
-       .setIn(['serviceProps', 'benefitProps', 'benefitList'], payload.privileges);
+       .setIn(['serviceProps', 'benefitProps', 'benefitList'], payload.privileges)
+       .setIn(['serviceProps', 'benefitProps', 'totalAmount'], payload.totalAmount);
     }
     case 'SET_COUPONS_TO_ORDER':
       return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], payload);
