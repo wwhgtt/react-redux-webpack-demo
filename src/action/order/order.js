@@ -93,7 +93,7 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
     catch(err => {
       console.log(err);
     });
-exports.fetchOrderCoupons = () => (dispatch, getState) => {
+const fetchOrderCoupons = exports.fetchOrderCoupons = () => (dispatch, getState) => {
   let brandDishidsCollection = [];
   getState().orderedDishesProps.dishes.filter(
     dish => !isGroupDish(dish)
@@ -279,6 +279,7 @@ exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
       };
       dispatch(setDeliveryPrice(deliveryProps));
       dispatch(setOrderTimeProps(data.timeJson));
+      fetchOrderCoupons()(dispatch, getState);
     }).
     catch(err => {
       console.log(err);
