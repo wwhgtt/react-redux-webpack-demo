@@ -124,5 +124,6 @@ module.exports = {
   addRechargeAPI: `${apiBase}/member/addRecharge.json`, // 会员卡充值
   indexAPI: `${apiBase}/brand/index.json`,
   modifyPwd: `${apiBase}/member/modifyPwd.json`, // 修改密码
+  resetPassword: `${apiBase}/member/resetPassword.json`, // 重置密码
   requestOptions,
 };

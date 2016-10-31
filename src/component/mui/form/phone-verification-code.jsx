@@ -51,6 +51,9 @@ module.exports = React.createClass({
       this.handleCompleteInput();
     }
   },
+  componentWillUnmount() {
+    this.clearWaiting();
+  },
   getDefaultVerificationCode(currentNation) {
     const nation = getNationInfo(currentNation);
     return nation && nation.defaultCode || '';
