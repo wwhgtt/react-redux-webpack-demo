@@ -288,11 +288,7 @@ module.exports = React.createClass({
                   <span className="text-dove-grey">实付: </span>
                   <span className="price">
                     {serviceProps.benefitProps && serviceProps.benefitProps.isPriviledge ?
-                      formatPrice(
-                        serviceProps.benefitProps.extraPrice
-                          + helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
-                          - serviceProps.benefitProps.priviledgeAmount
-                      )
+                      serviceProps.benefitProps.totalAmount
                       :
                       formatPrice(
                         helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)

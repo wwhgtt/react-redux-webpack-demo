@@ -20,6 +20,76 @@ module.exports = {
             rate: 13,
             fullValue:500,
           },
+          {
+            sendValue: 11,
+            rate: 11,
+            fullValue:100,
+          },
+          {
+            sendValue: 61,
+            rate: 13,
+            fullValue:500,
+          },
+          {
+            sendValue: 11,
+            rate: 11,
+            fullValue:100,
+          },
+          {
+            sendValue: 61,
+            rate: 13,
+            fullValue:500,
+          },
+          {
+            sendValue: 11,
+            rate: 11,
+            fullValue:100,
+          },
+          {
+            sendValue: 61,
+            rate: 13,
+            fullValue:500,
+          },
+          {
+            sendValue: 11,
+            rate: 11,
+            fullValue:100,
+          },
+          {
+            sendValue: 61,
+            rate: 13,
+            fullValue:500,
+          },
+          {
+            sendValue: 11,
+            rate: 11,
+            fullValue:100,
+          },
+          {
+            sendValue: 61,
+            rate: 13,
+            fullValue:500,
+          },
+          {
+            sendValue: 11,
+            rate: 11,
+            fullValue:100,
+          },
+          {
+            sendValue: 61,
+            rate: 13,
+            fullValue:500,
+          },
+          {
+            sendValue: 11,
+            rate: 11,
+            fullValue:100,
+          },
+          {
+            sendValue: 61,
+            rate: 13,
+            fullValue:500,
+          },
         ],
       },
       planRuleList:[

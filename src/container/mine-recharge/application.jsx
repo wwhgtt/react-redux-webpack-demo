@@ -155,9 +155,9 @@ const MineRechargeApplication = React.createClass({
 
     this._adNo = rechargeActiveAds.length;
 
-    return (<div className="recharge-page flex-columns">
+    return (<div className="recharge-page application">
       {Boolean(rechargeActiveAds.length) && (
-        <div className="recharge-ads flex-none">
+        <div className="recharge-ads">
           <div className="recharge-ads-img"></div>
           {
             <div className="recharge-ads-title ellipsis" ref="rechargeAds" style={rechargeAdStyle}>
@@ -168,7 +168,7 @@ const MineRechargeApplication = React.createClass({
         </div>
         )
       }
-      <div className="recharge-banner flex-none">
+      <div className="recharge-banner">
         <div className="recharge-logo">
         {brandInfo.brand &&
           <img
@@ -191,7 +191,7 @@ const MineRechargeApplication = React.createClass({
           </div>
         </div>
       </div>
-      <div className="recharge-content flex-columns">
+      <div className="recharge-content">
         <div className="recharge-block">
           {rechargeItem}
         </div>

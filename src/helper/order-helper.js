@@ -1,4 +1,5 @@
 const _find = require('lodash.find');
+const _has = require('lodash.has');
 const Immutable = require('seamless-immutable');
 const getDishesPrice = require('../helper/dish-hepler.js').getDishesPrice;
 const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
@@ -285,7 +286,7 @@ exports.countMemberPrice = function (isDiscountChecked, orderedDishes, discountL
                 orderedDish.order.map(order => {
                   let orderPrice = getOrderPrice(orderedDish, order);
                   let discountPrice = parseFloat(
-                    ((orderedDish.marketPrice - dishcount.value) * order.count * orderedDish.marketPrice).toFixed(2)
+                    ((orderedDish.marketPrice - dishcount.value) * order.count).toFixed(2)
                   );
                   if (orderPrice > discountPrice) {
                     disCountPriceList.push(discountPrice);
@@ -500,6 +501,12 @@ const clearSmallChange = exports.clearSmallChange = function (carryRuleVO, dishe
   // serviceProps.integralsDetail  前提条件
   const { transferType, scale } = carryRuleVO;
   const priceWithBenefit = countPriceWithBenefit(dishesPrice, serviceProps);
+  if (_has(carryRuleVO, 'isEnjoyRule') && !carryRuleVO.isEnjoyRule) {
+    return {
+      smallChange:0,
+      priceWithClearSmallChange:priceWithBenefit,
+    };
+  }
   if (transferType === 1) {
     // 四舍五入
     return {

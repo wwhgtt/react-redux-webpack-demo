@@ -50,6 +50,7 @@ module.exports = function (
         extraPrivilege:null,
         extraPrice:0,
         benefitList:[],
+        totalAmount:0,
       },
     },
     childView:null,
@@ -68,7 +69,10 @@ module.exports = function (
       .setIn(['commercialProps', 'isSupportReceipt'], payload.isInvoice)
       .setIn(['commercialProps', 'receipt'], payload.invoice)
       .setIn(['commercialProps', 'carryRuleVO'], payload.carryRuleVO && payload.carryRuleVO.transferType ?
-        payload.carryRuleVO : { transferType: 1, scale: 2 })
+        Object.assign({}, payload.carryRuleVO, { isEnjoyRule:!payload.hasPriviledge })
+        :
+        Object.assign({}, { transferType: 1, scale: 2 }, { isEnjoyRule:!payload.hasPriviledge })
+      )
       .setIn(
        ['serviceProps', 'integralsInfo'],
        payload.isMember && payload.integral && payload.integral.isExchangeCash === 0 && payload.integral.integral !== 0 ?
@@ -87,7 +91,8 @@ module.exports = function (
        .setIn(['serviceProps', 'benefitProps', 'priviledgeAmount'], payload.priviledgeAmount)
        .setIn(['serviceProps', 'benefitProps', 'extraPrivilege'], payload.addPrivilege)
        .setIn(['serviceProps', 'benefitProps', 'extraPrice'], helper.countExtraPrivilege(payload.addPrivilege))
-       .setIn(['serviceProps', 'benefitProps', 'benefitList'], payload.privileges);
+       .setIn(['serviceProps', 'benefitProps', 'benefitList'], payload.privileges)
+       .setIn(['serviceProps', 'benefitProps', 'totalAmount'], payload.totalAmount);
     }
     case 'SET_COUPONS_TO_ORDER':
       return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], payload);
