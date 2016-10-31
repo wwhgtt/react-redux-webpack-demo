@@ -11,6 +11,7 @@ module.exports = {
       isMember:true, // 是否会员
       hasPriviledge:true,
       priviledgeAmount:4604.29,
+      totalAmount:46.29,
       diningForm:0, // 0-正餐，1-快餐
       isInvoice:1, // 是否发票
       invoice:'2321321',

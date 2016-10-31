@@ -164,11 +164,7 @@ const OrderDinnerStateMentApplication = React.createClass({
                       <span className="text-dove-grey">待支付: </span>
                       <span className="order-cart-price price">
                         {serviceProps.benefitProps.isPriviledge ?
-                          formatPrice(
-                            serviceProps.benefitProps.extraPrice
-                            + helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
-                            - serviceProps.benefitProps.priviledgeAmount
-                          )
+                          serviceProps.benefitProps.totalAmount
                           :
                           formatPrice(
                             helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
