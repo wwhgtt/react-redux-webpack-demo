@@ -68,7 +68,7 @@ const AddressListApplication = React.createClass({
       elems.push(
         <ActiveSelect
           key="inSelect"
-          className="address-group"
+          className="address-group flex-rest"
           optionsData={addressListToOptionsData(allAddressList)}
           optionComponent={CustomerAddressOption}
           onSelectOption={this.onAddressSelect}
@@ -77,18 +77,18 @@ const AddressListApplication = React.createClass({
     }
     if (allAddressList.length < 10) {
       elems.push(
-        <a key="add" className="address-add-more" onTouchTap={this.onAddressSelect} data-editor="">新增地址</a>
+        <a key="add" className="address-add-more btn--yellow flex-none" onTouchTap={this.onAddressSelect} data-editor="">新增地址</a>
       );
     }
     return elems;
   },
   render() {
     return (
-      <div className="address">
-        {this.buildAddressElement()}
-        <div className="address-comments">
-          最多为您保存10个常用地址<br />还需要新增，请删除或修改以上地址
+      <div className="address flex-columns">
+        <div className="address-comments ellipsis flex-none">
+          最多可保存10个常用地址，还需新增，请删除或修改已有地址
         </div>
+        {this.buildAddressElement()}
       </div>
     );
   },
