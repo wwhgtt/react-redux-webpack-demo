@@ -30,6 +30,7 @@
   }
 
   &-body {
+    overflow: auto;
     padding: 10px 15px;
   }
 
@@ -41,6 +42,7 @@
     padding: 10px 15px;
 
     button {
+      display: block;
       flex: 1;
       border-radius: 4px;
     }
@@ -49,7 +51,7 @@
       padding: 10px 0 0;
     }
 
-    &-btn {
+    &-btn-default {
       color: #fff;
       background: $color-sliver;
     }
@@ -93,6 +95,7 @@
 
   &-btn-confirm {
     color: #fff;
+    background: $color-sunglow;
   }
 
   &-btn-cancel {
@@ -126,14 +129,11 @@
     height: 40px;
     padding: 0;
 
-    &-btn {
+    button {
       font-size: 16px;
       height: 40px;
+      color: #fff;
       border-radius: 0;
     }
-  }
-
-  .btn-confirm {
-    background: $color-sunglow;
   }
 }

@@ -34,7 +34,7 @@ module.exports = React.createClass({
     const { title, confirmBtnText, onClose, ...other } = this.props;
     const buttons = [{
       text: confirmBtnText,
-      className: 'dialog-btn-confirm btn--yellow',
+      className: 'dialog-btn-confirm',
       onClick: this.onConfirm,
     }];
     return (

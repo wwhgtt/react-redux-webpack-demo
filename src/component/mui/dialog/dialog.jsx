@@ -28,15 +28,20 @@ module.exports = React.createClass({
   },
   render() {
     const { title, buttons, hasTopBtnClose, theme } = this.props;
-    const buttonElems = (buttons || []).map((button, index) => (
-      <button
-        key={index}
-        className={`dialog-footer-btn ${button.className}`}
-        onTouchTap={button.onClick}
-      >
-        {button.text}
-      </button>
-    ));
+    const buttonElems = (buttons || []).map((button, index) => {
+      const className = button.className || 'dialog-footer-btn-default';
+      return (
+        <button
+          key={index}
+          className={className}
+          onTouchTap={button.onClick}
+        >
+          {button.text}
+        </button>
+      );
+    });
+
+    const bodyMaxHeight = window.innerHeight - 120;
     return (
       <div className="modal">
         <div className="mask" onTouchTap={this.onClose}></div>
@@ -45,7 +50,7 @@ module.exports = React.createClass({
             <p className="dialog-title">{title}</p>
             {hasTopBtnClose && <button className="btn dialog-btn-close" onTouchTap={this.onClose}></button>}
           </div>
-          <div className="dialog-body">
+          <div className="dialog-body" style={{ maxHeight: bodyMaxHeight }}>
             {this.props.children}
           </div>
           <div className="dialog-footer">
