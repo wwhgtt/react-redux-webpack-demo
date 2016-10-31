@@ -3,3 +3,22 @@
 .application {
   background: $color-gallery;
 }
+
+.address-no {
+  margin-top: calc(100% - 215px);
+  text-align: center;
+
+  &-img {
+    width: 110px;
+    height: 151px;
+    margin: 0 auto;
+    background-image: url("../../asset/images/mark_grey.svg");
+    background-size: 110px;
+  }
+
+  &-title {
+    line-height: 22px;
+    margin-top: 18px;
+    color: #999;
+  }
+}
