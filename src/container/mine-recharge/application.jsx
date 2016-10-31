@@ -24,6 +24,11 @@ const MineRechargeApplication = React.createClass({
       rechargeValue: '',
       isDialogShow: false,
       rechargeAdStyle: {},
+      isShowLastAd: false,
+      isShowAds: true,
+      lastRechargeAdStyle: {
+        top: -44,
+      },
     };
   },
 
@@ -50,7 +55,18 @@ const MineRechargeApplication = React.createClass({
       let i = 0;
       this._setInterval = setInterval(() => {
         if (i === num) {
-          i = 0;
+          this.setState({ isShowAds: false });
+          i = -1;
+          this.setState({ lastRechargeAdStyle: {
+            top: 0,
+          } });
+          this.setState({ isShowLastAd: true });
+          setTimeout(() => {
+            this.setState({ isShowLastAd: false });
+          }, 3000);
+          setTimeout(() => {
+            this.setState({ isShowAds: true });
+          }, 3000);
         }
         this.setState({ rechargeAdStyle: {
           top: -44 * i,
@@ -88,10 +104,17 @@ const MineRechargeApplication = React.createClass({
 
   render() {
     const { rechargeInfo, userInfo, brandInfo } = this.props;
-    const { isDialogShow, rechargeAdStyle, rechargeValue } = this.state;
+    const { isDialogShow,
+      rechargeAdStyle,
+      rechargeValue,
+      isShowLastAd,
+      isShowAds,
+      lastRechargeAdStyle,
+    } = this.state;
     let rechargeActiveItems = [];
     let rechargeActiveAds = [];
     let rechargeItem = '';
+    let lastRechargeAd = '';
     const buttons = [{
       text: '确定',
       className: 'btn-recharge-active',
@@ -155,16 +178,21 @@ const MineRechargeApplication = React.createClass({
 
       );
     }
-
+    lastRechargeAd = rechargeActiveAds.pop();
     this._adNo = rechargeActiveAds.length;
 
     return (<div className="recharge-page application">
       {Boolean(rechargeActiveAds.length) && (
         <div className="recharge-ads">
           <div className="recharge-ads-img"></div>
-          {
-            <div className="recharge-ads-title ellipsis" ref="rechargeAds" style={rechargeAdStyle}>
+          {isShowAds &&
+            <div className="recharge-ads-title ellipsis" style={rechargeAdStyle}>
               {rechargeActiveAds}
+            </div>
+          }
+          {isShowLastAd &&
+            <div className="recharge-ads-title ellipsis" style={lastRechargeAdStyle}>
+              <div>{lastRechargeAd}</div>
             </div>
           }
           <a className="recharge-ads-detail" onTouchTap={this.handleShowDialog}>活动详情></a>
