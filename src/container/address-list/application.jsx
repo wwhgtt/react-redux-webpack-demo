@@ -21,6 +21,7 @@ const AddressListApplication = React.createClass({
   getInitialState() {
     return {
       allAddressList: [],
+      isShowTip: false,
     };
   },
   componentDidMount() {
@@ -32,9 +33,19 @@ const AddressListApplication = React.createClass({
   },
   onAddressSelect(evt, option) {
     const dataset = evt.target.dataset;
+    const { allAddressList } = this.state;
     const { setSessionAndForwardEditUserAddress } = this.props;
     if (!dataset.hasOwnProperty('editor')) {
       return;
+    }
+    if (!dataset.editor) {
+      if (allAddressList.length >= 10) {
+        this.setState({ isShowTip: true });
+        setTimeout(() => {
+          this.setState({ isShowTip: false });
+        }, 5000);
+        return;
+      }
     }
 
     setSessionAndForwardEditUserAddress(shopId, dataset.editor);
@@ -68,27 +79,33 @@ const AddressListApplication = React.createClass({
       elems.push(
         <ActiveSelect
           key="inSelect"
-          className="address-group"
+          className="address-group flex-rest"
           optionsData={addressListToOptionsData(allAddressList)}
           optionComponent={CustomerAddressOption}
           onSelectOption={this.onAddressSelect}
         />
       );
-    }
-    if (allAddressList.length < 10) {
+    } else {
       elems.push(
-        <a key="add" className="address-add-more" onTouchTap={this.onAddressSelect} data-editor="">新增地址</a>
+        <div className="address-no flex-rest" key="noAddress">
+          <div className="address-no-img"></div>
+          <p className="address-no-title">主人还没有收货地址 <br />快来添加一个吧～</p>
+        </div>
       );
     }
     return elems;
   },
   render() {
+    const { isShowTip } = this.state;
     return (
-      <div className="address">
-        {this.buildAddressElement()}
-        <div className="address-comments">
-          最多为您保存10个常用地址<br />还需要新增，请删除或修改以上地址
+      <div className="address flex-columns">
+      {isShowTip &&
+        <div className="address-comments ellipsis flex-none">
+          最多可保存10个常用地址，还需新增，请删除或修改已有地址
         </div>
+      }
+        {this.buildAddressElement()}
+        <a key="add" className="address-add-more btn--yellow flex-none" onTouchTap={this.onAddressSelect} data-editor="">新增地址</a>
       </div>
     );
   },
