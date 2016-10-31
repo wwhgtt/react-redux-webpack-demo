@@ -241,6 +241,16 @@ module.exports = React.createClass({
               :
               false
             }
+            {serviceProps.benefitProps && _find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === -101) ?
+              <p className="order-summary-entry clearfix">
+                <span className="option-title option-title--icon order-summary-icon7">礼品券优惠:</span>
+                <span className="order-discount discount">
+                  {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === -101).privilegeAmount}
+                </span>
+              </p>
+              :
+              false
+            }
             {serviceProps.benefitProps && _find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === -100) ?
               <p className="order-summary-entry clearfix">
                 <span className="option-title option-title--icon order-summary-icon7">其他优惠:</span>
