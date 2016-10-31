@@ -38,13 +38,14 @@ const AddressListApplication = React.createClass({
     if (!dataset.hasOwnProperty('editor')) {
       return;
     }
-
-    if (allAddressList.length >= 10) {
-      this.setState({ isShowTip: true });
-      setTimeout(() => {
-        this.setState({ isShowTip: false });
-      }, 5000);
-      return;
+    if (!dataset.editor) {
+      if (allAddressList.length >= 10) {
+        this.setState({ isShowTip: true });
+        setTimeout(() => {
+          this.setState({ isShowTip: false });
+        }, 5000);
+        return;
+      }
     }
 
     setSessionAndForwardEditUserAddress(shopId, dataset.editor);
