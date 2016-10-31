@@ -14,17 +14,15 @@
   }
 
   .name {
-    line-height: 1.4em;
+    line-height: 1.375em;
     margin-left: 1em;
 
     &-holder {
+      display: flex;
       width: 5em;
       height: 100%;
+      align-items: center;
     }
   }
 }
 
-// 性别选项组件位置
-.sex-switch {
-  line-height: 52px;
-}

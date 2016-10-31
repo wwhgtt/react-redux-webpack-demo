@@ -123,10 +123,11 @@
 
   .list-content {
     font-size: 1em;
-    display: inline-block;
+    display: flex;
     height: 100%;
     margin-left: 1em;
     padding-right: 1em;
+    align-items: center;
 
     .input-content {
       width: 100%;
@@ -144,12 +145,10 @@
     &-logo {
       width: 2.125em;
       height: 2.125em;
-      margin: .5em 0;
       border-radius: 2em;
     }
 
     &-info {
-      line-height: 55px;
       color: #999;
     }
   }

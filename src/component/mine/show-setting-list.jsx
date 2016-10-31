@@ -84,7 +84,6 @@ module.exports = React.createClass({
           <li className="list-group-item">
             <a className="list-group-link disable flex-row" href=" javascript:void(0)">
               <div className="name-holder flex-none">
-                <span className="middle"></span>
                 <span className="name">姓名</span>
               </div>
               <div className="list-content flex-rest">
@@ -103,7 +102,6 @@ module.exports = React.createClass({
           <li className="list-group-item">
             <a className="list-group-link disable flex-row" href=" javascript:void(0)">
               <div className="name-holder flex-none">
-                <span className="middle"></span>
                 <span className="name">性别</span>
               </div>
               <div className="list-content flex-rest">
@@ -117,7 +115,6 @@ module.exports = React.createClass({
                 <li className="list-group-item">
                   <a className="list-group-link disable flex-row" href=" javascript:void(0)">
                     <div className="name-holder flex-none">
-                      <span className="middle"></span>
                       <span className="name">生日</span>
                     </div>
                     <div className="list-content flex-rest">
@@ -128,7 +125,6 @@ module.exports = React.createClass({
                 <li className="list-group-item">
                   <a className="list-group-link flex-row" href={modifypwdUrl}>
                     <div className="name-holder flex-none">
-                      <span className="middle"></span>
                       <span className="name">修改密码</span>
                     </div>
                     <span className="arrow arrow-right"></span>
@@ -151,7 +147,6 @@ module.exports = React.createClass({
                   <li className="list-group-item">
                     <a className="list-group-link flex-row" href={bindWXUrl}>
                       <div className="name-holder flex-none">
-                        <span className="middle"></span>
                         <span className="name">微信号</span>
                       </div>
                       <span className="brief">未绑定</span>
@@ -162,7 +157,6 @@ module.exports = React.createClass({
                   <li className="list-group-item">
                     <a className="list-group-link disable flex-row" href=" javascript:void(0)">
                       <div className="name-holder flex-none">
-                        <span className="middle"></span>
                         <span className="name">微信号</span>
                       </div>
                       <div className="list-content flex-rest">
@@ -180,7 +174,6 @@ module.exports = React.createClass({
             <li className="list-group-item">
               <a className="list-group-link flex-row" href={bindMobileUrl}>
                 <div className="name-holder flex-none">
-                  <span className="middle"></span>
                   <span className="name">手机号</span>
                 </div>
                 <span className="brief">未绑定</span>
@@ -191,7 +184,6 @@ module.exports = React.createClass({
             <li className="list-group-item">
               <a className="list-group-link disable flex-row" href=" javascript:void(0)">
                 <div className="name-holder flex-none">
-                  <span className="middle"></span>
                   <span className="name">手机号</span>
                 </div>
                 <div className="list-content flex-rest">
@@ -205,7 +197,6 @@ module.exports = React.createClass({
             <li className="list-group-item">
               <a className="list-group-link flex-row" href={registerUrl}>
                 <div className="name-holder flex-none">
-                  <span className="middle"></span>
                   <span className="name">会员注册</span>
                 </div>
                 <span className="brief">注册会员享受更多福利</span>

@@ -21,7 +21,7 @@ module.exports = React.createClass({ // SexSwitch
     // this.setState({value: Info.name});
     const { sex } = this.props;
     return (
-      <div className="sex-switch fl">
+      <div className="sex-switch">
         <label onTouchTap={() => this.sexSwitch('0')} className="sex-switch-label">
           <span className={classnames('sex-switch-round', { active:sex === '0' })}></span>
           <i className="sex-switch-name">女士</i>
