@@ -24,15 +24,9 @@ module.exports = React.createClass({
   },
   needGrownValueFontSize(length) {
     if (length > 4) {
-      return {
-        display:'inline-block',
-        width:'200%',
-        transform:'scale(.5, .5)',
-        transformOrigin:'left center',
-        fontSize:`${4 / length * 12 * 2}px`,
-      };
+      return { fontSize:`${4 / length * 2}em` };
     }
-    return { fontSize:'12px' };
+    return { fontSize:'2em' };
   },
   switchLevel(index) {
     const { getIndex } = this.props;
@@ -57,7 +51,7 @@ module.exports = React.createClass({
                 item.needGrownValue ?
                   this.needGrownValueFontSize(item.needGrownValue.toString().length)
                 :
-                  { fontSize:'12px' };
+                  { fontSize:'2em' };
               let active = false;
               let fakeActive = false;
               if (grounValue >= needGrownValue) {
@@ -69,7 +63,7 @@ module.exports = React.createClass({
               }
               return (
                 <li className={classnames('process-li flex-rest', { active, fakeActive })} key={index} onTouchTap={() => this.switchLevel(index)}>
-                  <div className="process-num"><span style={needGrownValueFontSize}>{needGrownValue}</span></div>
+                  <div className="process-num"><span className="process-num-value" style={needGrownValueFontSize}>{needGrownValue}</span></div>
                   {name}
                 </li>
               );

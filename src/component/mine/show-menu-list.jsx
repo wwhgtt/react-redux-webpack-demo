@@ -27,9 +27,9 @@ module.exports = React.createClass({
   componentDidMount() {},
   getFontSize(length) {
     if (length > 8) {
-      return `${8 / length * 1.563}em`;
+      return { fontSize:`${8 / length * 1.563}em` };
     }
-    return '1.563em';
+    return { fontSize:'1.563em' };
   },
   jumpToCredit() {
     window.location.href = creditUrl;
@@ -45,8 +45,8 @@ module.exports = React.createClass({
     let partFour = '';
     const isWeiXinBroswer = commonHelper.getWeixinVersionInfo().weixin;
     const { info } = this.props;
-    const scoreFontSize = info.score ? this.getFontSize(info.score.toString().length) : '1.563em';
-    const balanceFontSize = info.balance ? this.getFontSize(info.balance.toString().length) : '1.563em';
+    const scoreFontSize = info.score ? this.getFontSize(info.score.toString().length) : { fontSize:'1.563em' };
+    const balanceFontSize = info.balance ? this.getFontSize(info.balance.toString().length) : { fontSize:'1.563em' };
     // 几种状态的判断
     if (info.loginType === 1 && !info.bindMobile) {
       condition = 1;
@@ -73,11 +73,11 @@ module.exports = React.createClass({
         <div>
           <div className="menuLink mt of">
             <div className="menuLink-holder fl" onTouchTap={this.jumpToCredit}>
-              <p className="menuLink-holder-p scorenum" style={{ fontSize:scoreFontSize }}>{info.score}<span className="unit">分</span></p>
+              <p className="menuLink-holder-p scorenum" style={scoreFontSize}>{info.score}<span className="unit">分</span></p>
               <p className="menuLink-holder-p title">我的积分</p>
             </div>
             <div className="menuLink-holder fl" onTouchTap={this.jumpToRemain}>
-              <p className="menuLink-holder-p balancenum" style={{ fontSize:balanceFontSize }}>{info.balance}<span className="unit">元</span></p>
+              <p className="menuLink-holder-p balancenum" style={balanceFontSize}>{info.balance}<span className="unit">元</span></p>
               <p className="menuLink-holder-p title">我的余额</p>
             </div>
           </div>

@@ -131,6 +131,14 @@
       border-radius: 2em;
       background: #5b5b5b;
     }
+
+    .process-num-value {
+      font-size: 2em;
+      display: inline-block;
+      width: 200%;
+      transform: scale(.5, .5);
+      transform-origin: left center;
+    }
   }
 }
 
