@@ -45,7 +45,8 @@ exports.resetPassword = (data, setLoadding, showErrorMessage) => (dispatch, getS
     .then(res => {
       setLoadding(false);
       if (res.code === '200') {
-        location.href = config.mineSettingURL;
+        const returnUrl = getUrlParam('returnUrl');
+        location.href = returnUrl ? decodeURIComponent(returnUrl) : `${config.mineSettingURL}${location.search}`;
         return;
       }
 
