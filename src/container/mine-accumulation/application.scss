@@ -60,6 +60,9 @@ body {
 }
 
 .list-amount {
+  overflow: hidden;
+  white-space: nowrap;
+
   .symbol {
     position: relative;
     display: inline-block;
@@ -85,6 +88,10 @@ body {
       height: 2px;
     }
   }
+}
+
+.list-content {
+  overflow: hidden;
 }
 
 .positivenum {
