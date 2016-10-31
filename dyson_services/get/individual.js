@@ -6,7 +6,7 @@ module.exports = {
       'name': '安迪',
       'sex': '0',
       'balance': 78.51,
-      'score': 466,
+      'score': 466555558,
       'isMember': true,
       'loginType': 0,
       'iconUri': 'http://img5.imgtn.bdimg.com/it/u=422274042,2838853949&fm=21&gp=0.jpg',
