@@ -25,9 +25,9 @@ module.exports = React.createClass({
     } else if (dish.isMember && dish.discountType === 2) {
       memberPrice = dish.memberPrice;
     }
-
+    const loginTypeStr = dish.loginType.toString();
     let registerUrl = `http://${location.host}/member/register?shopId=${shopId}&returnUrl=${encodeURIComponent(location.href)}`;
-    if (dish.loginType === 1) {
+    if (loginTypeStr === '1') {
       // 微信登录
       registerUrl = `http://${location.host}/user/validBindMobile?shopId=${shopId}&returnUrl=${encodeURIComponent(location.href)}`;
     }
