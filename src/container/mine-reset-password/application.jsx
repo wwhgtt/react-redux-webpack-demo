@@ -62,7 +62,11 @@ const MineModifyPasswordApplication = React.createClass({
     return true;
   },
   showErrorMessage(error) {
-    this.setState({ error });
+    let errorInfo = error;
+    if (typeof error === 'string') {
+      errorInfo = { msg: error, names: [] };
+    }
+    this.setState({ error: errorInfo });
   },
   resetPassword() {
     if (!this.validateResetPassword()) {

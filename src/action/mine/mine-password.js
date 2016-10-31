@@ -14,6 +14,7 @@ exports.modifyPassword = (data, setLoadding, showErrorMessage) => (dispatch, get
       if (!res.ok) {
         return false;
       }
+
       return res.json();
     })
     .then(res => {
@@ -22,6 +23,7 @@ exports.modifyPassword = (data, setLoadding, showErrorMessage) => (dispatch, get
         location.href = config.mineSettingURL;
         return;
       }
+
       showErrorMessage({ msg: res.msg });
     })
     .catch(err => {
@@ -37,6 +39,7 @@ exports.resetPassword = (data, setLoadding, showErrorMessage) => (dispatch, getS
       if (!res.ok) {
         return false;
       }
+
       return res.json();
     })
     .then(res => {
@@ -45,6 +48,7 @@ exports.resetPassword = (data, setLoadding, showErrorMessage) => (dispatch, getS
         location.href = config.mineSettingURL;
         return;
       }
+
       showErrorMessage({ msg: res.msg });
     })
     .catch(err => {
