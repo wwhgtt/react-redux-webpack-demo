@@ -60,6 +60,9 @@ body {
 }
 
 .list-amount {
+  overflow: hidden;
+  white-space: nowrap;
+
   .symbol {
     position: relative;
     display: inline-block;

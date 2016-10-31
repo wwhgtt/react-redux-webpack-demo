@@ -168,3 +168,53 @@ exports.renderTime = (startTime, endTime) => {
   return '';
 };
 
+// 优惠券可用day展示
+exports.renderDay = (week) => {
+  const regDay = /1{1,}/g; // 匹配一个1或多个1
+  let periDay = '';
+  let strDay = '';
+  let dayIndex = '';
+  let days = '';
+  // 数据重组
+  const str1 = week.substring(0, 1);
+  const str2 = week.substr(1, 6);
+  const weekFormat = str2 + str1;
+
+  const formateDay = (day) => {
+    switch (day) {
+      case 1:
+        return '一';
+      case 2:
+        return '二';
+      case 3:
+        return '三';
+      case 4:
+        return '四';
+      case 5:
+        return '五';
+      case 6:
+        return '六';
+      case 7:
+        return '日';
+      default:
+        return '';
+    }
+  };
+  if (weekFormat === '1111111') {
+    return '';
+  }
+  while (periDay != null) {
+    periDay = regDay.exec(weekFormat);
+    if (periDay) {
+      dayIndex = periDay.index;
+      days = periDay[0];
+
+      if (days.length > 1) {
+        strDay += `周${formateDay((dayIndex + 1))}到周${formateDay((dayIndex + days.length))}，`;
+      } else {
+        strDay += `周${formateDay((dayIndex + 1))}，`;
+      }
+    }
+  }
+  return strDay;
+};

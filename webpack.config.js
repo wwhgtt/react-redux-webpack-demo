@@ -36,6 +36,9 @@ module.exports = {
     'mine-vip-level-entry': [
       './src/mine-vip-level.jsx',
     ],
+    'mine-coupon-list-entry': [
+      './src/mine-coupon-list.jsx',
+    ],
     'address-list-entry': [
       './src/address-list.jsx',
     ],
@@ -212,6 +215,14 @@ module.exports = {
         title: 'MineSettingApplication',
         filename: 'mineSetting.html',
         chunks: ['common', 'mine-setting-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineCouponListApplication',
+        filename: 'mineCouponList.html',
+        chunks: ['common', 'mine-coupon-list-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

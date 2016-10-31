@@ -151,7 +151,7 @@
 // 2016-08-28增加 btn样式
 
 .btn-row {
-  font-size: 14px;
+  font-size: 1em;
   position: relative;
   display: block;
   padding: 1em 0;
@@ -179,7 +179,9 @@
 }
 
 .btn-row-mt {
-  margin-top: 1em;
+  margin: 1em 1em 0;
+  color: #ef4646;
+  border-radius: .5em;
 }
 
 .btn-row-sure {

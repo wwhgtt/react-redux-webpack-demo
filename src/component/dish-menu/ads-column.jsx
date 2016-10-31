@@ -57,7 +57,7 @@ const AdsColumn = React.createClass({
       } else {
         vip = '';
       }
-      const openDay = helper.renderDay(item.rule.weekdays);
+      const openDay = commonHelper.renderDay(item.rule.weekdays);
       return (
         <p className={classnames('shopdiscount-item', { jian: item.rule.type === 1, zhe: item.rule.type === 2 })} key={index}>
           <span className="spanitem">
