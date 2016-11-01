@@ -9,7 +9,7 @@ const compose = require('redux').compose;
 const Provider = require('react-redux').Provider;
 const thunkMiddleware = require('redux-thunk').default;
 const reducer = require('./reducer/mine-password/index.js');
-const MineModifyPasswordApplication = require('./container/mine-modify-password/application.jsx');
+const MineResetPasswordApplication = require('./container/mine-reset-password/application.jsx');
 const injectTapEventPlugin = require('react-tap-event-plugin'); injectTapEventPlugin();
 const logger = require('./helper/logger.js');
 let storeCreator;
@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'production') {
 const store = storeCreator(reducer);
 ReactDOM.render(
   <Provider store={store}>
-    <MineModifyPasswordApplication />
+    <MineResetPasswordApplication />
   </Provider>,
   document.getElementById('app-placeholder')
 );

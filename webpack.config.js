@@ -102,6 +102,9 @@ module.exports = {
     'mine-modify-password-entry': [
       './src/mine-modify-password.jsx',
     ],
+    'mine-reset-password-entry': [
+      './src/mine-reset-password.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -391,6 +394,14 @@ module.exports = {
         title: 'MineRechargeApplication',
         filename: 'mine-modify-password.html',
         chunks: ['common', 'mine-modify-password-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineResetPasswordApplication',
+        filename: 'mine-reset-password.html',
+        chunks: ['common', 'mine-reset-password-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

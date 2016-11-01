@@ -51,6 +51,9 @@ module.exports = React.createClass({
       this.handleCompleteInput();
     }
   },
+  componentWillUnmount() {
+    this.clearWaiting();
+  },
   getDefaultVerificationCode(currentNation) {
     const nation = getNationInfo(currentNation);
     return nation && nation.defaultCode || '';
@@ -204,11 +207,11 @@ module.exports = React.createClass({
     });
     return (
       <div className={className}>
+        <button className="btn btn--yellow" disabled={btnInfo.disabled} onTouchTap={this.handleFetchCodeBtnTouchTap}>
+          {btnInfo.text}
+        </button>
         <div className="form-group phone">
           {nationsSelect}
-          <button className="btn btn--yellow" disabled={btnInfo.disabled} onTouchTap={this.handleFetchCodeBtnTouchTap}>
-            {btnInfo.text}
-          </button>
           <input
             type="tel"
             disabled={phoneNumDisabled}

@@ -12,7 +12,6 @@ const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const SexSwitch = require('../../component/common/sex-switch.jsx');
 
 const mobile = helper.getUrlParam('mobile');
-const activation = helper.getUrlParam('activation');
 
 require('../../asset/style/style.scss');
 require('./application.scss');
@@ -42,9 +41,7 @@ const RegisterMemberApplication = React.createClass({
 
   componentWillMount() {
     const { getUserInfo } = this.props;
-    if (activation !== 'memberCardActivate') {
-      getUserInfo();
-    }
+    getUserInfo();
   },
 
   componentWillReceiveProps(nextProps) {

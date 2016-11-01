@@ -6,7 +6,8 @@ module.exports = {
       type: 2,
       levelId:9992836,
       levelName:'黄金会员',
-      isMember: true,
+      loginType:0,
+      isMember: false,
       dishList:[
         {
           dishId:56,

@@ -18,6 +18,7 @@ module.exports = React.createClass({
     return {
       addressListInfo: { inList: [], outList: [], toShopInfo:{ toShopFlag:true } },
       addressCount: 0,
+      isShowTip: false,
     };
   },
   componentDidMount() {
@@ -62,6 +63,16 @@ module.exports = React.createClass({
       }
     });
   },
+  handleAddAddress() {
+    if (this.state.addressCount >= 10) {
+      this.setState({ isShowTip: true });
+      setTimeout(() => {
+        this.setState({ isShowTip: false });
+      }, 5000);
+      return;
+    }
+    this.props.onAddressEditor();
+  },
   initStateByProps(props) {
     const { customerAddressListInfo, customerProps } = props;
     if (!customerAddressListInfo || !customerProps) {
@@ -95,7 +106,6 @@ module.exports = React.createClass({
     });
   },
   buildAddressElement() {
-    const { onAddressEditor } = this.props;
     const { inList, outList } = this.state.addressListInfo;
     const elems = [];
     const addressListToOptionsData = addressList => addressList.map(item => {
@@ -139,9 +149,6 @@ module.exports = React.createClass({
         />
       );
     }
-    if (this.state.addressCount < 10) {
-      elems.push(<a key="add" className="address-add-more" onTouchTap={onAddressEditor}>新增地址</a>);
-    }
     return elems;
   },
   completeSelect(evt, selectedAddress) {
@@ -153,12 +160,18 @@ module.exports = React.createClass({
     if (onCustomerAddressPropsChange(evt, info)) onDone(evt, '');
   },
   render() {
+    const { isShowTip } = this.state;
     return (
-      <div className="address subpage">
-        {this.buildAddressElement()}
-        <div className="address-comments">
-          最多为您保存10个常用地址<br />还需要新增，请删除或修改以上地址
+      <div className="address subpage flex-columns">
+      {isShowTip &&
+        <div className="address-comments ellipsis flex-none">
+          只能保存10个地址，如需新增，请删除或修改
         </div>
+      }
+        <div className="flex-rest">
+          {this.buildAddressElement()}
+        </div>
+        <a key="add" className="address-add-more btn--yellow flex-none" onTouchTap={this.handleAddAddress}>新增地址</a>
       </div>
     );
   },

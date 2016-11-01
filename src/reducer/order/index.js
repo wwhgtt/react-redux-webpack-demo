@@ -222,7 +222,15 @@ module.exports = function (
       } else if (payload.id === 'customer-count') {
         return state.setIn(['customerProps', 'customerCount'], payload.newCount);
       } else if (payload.id === 'customer-info-selected-address') {
-        return state.setIn(['customerProps', 'addresses'], payload.addresses);
+        return state
+          .setIn(['customerProps', 'addresses'], payload.addresses)
+          .updateIn(
+            ['serviceProps', 'couponsProps', 'couponsList'],
+            couponList => couponList.flatMap(
+              coupon => coupon.set('isChecked', false)
+            )
+          )
+          .setIn(['serviceProps', 'couponsProps', 'inUseCoupon'], false);
       } else if (payload.id === 'customer-info-with-address') {
         return state.setIn(
           ['customerProps', 'name'], payload.name
