@@ -50,6 +50,10 @@ module.exports = React.createClass({
     if (nextProps.completeFlag !== this.props.completeFlag) {
       this.handleCompleteInput();
     }
+
+    if (nextProps.phoneNum !== this.state.phoneNum) {
+      this.setState({ phoneNum: nextProps.phoneNum });
+    }
   },
   componentWillUnmount() {
     this.clearWaiting();

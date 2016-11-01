@@ -17,6 +17,7 @@ const MineModifyPasswordApplication = React.createClass({
     resetPassword: React.PropTypes.func.isRequired,
     login: React.PropTypes.func.isRequired,
     fetchVericationCode: React.PropTypes.func.isRequired,
+    fetchUserInfo: React.PropTypes.func.isRequired,
   },
   getInitialState() {
     return {
@@ -26,9 +27,18 @@ const MineModifyPasswordApplication = React.createClass({
       newPassword: '',
       confirmedPassword: '',
       childView: '',
+      phoneNum: '',
     };
   },
   componentWillMount() {
+    this.props.fetchUserInfo({
+      setLoadding: this.setLoadingInfo,
+      showErrorMessage: this.showErrorMessage,
+      callback: (ret) => {
+        this.setState({ phoneNum: ret.mobile });
+      },
+    });
+
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
     window.addEventListener('load', this.setChildViewAccordingToHash);
   },
@@ -127,7 +137,7 @@ const MineModifyPasswordApplication = React.createClass({
     });
   },
   render() {
-    const { loadingInfo, error, childView, newPassword, confirmedPassword } = this.state;
+    const { loadingInfo, error, childView, newPassword, confirmedPassword, phoneNum } = this.state;
     const getOptionClass = (name) => classnames('option', { error: error && error.names.indexOf(name) !== -1 });
 
     return (
@@ -138,6 +148,8 @@ const MineModifyPasswordApplication = React.createClass({
             <PhoneVerificationCode
               onGetVerificationCode={this.fetchVericationCode}
               fetchCodeBtnText="点击获取"
+              phoneNum={phoneNum}
+              phoneNumDisabled
               ref="verificationCode"
             />
             <div className="btn-group">
