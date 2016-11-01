@@ -120,3 +120,25 @@ exports.fetchVericationCode = (phoneNum, args) => (dispatch, getState) => {
       throw new Error(err);
     });
 };
+
+exports.fetchUserInfo = (args) => (dispatch, getState) => {
+  const { setLoadding, callback } = args;
+  const url = `${config.getResetPasswordUserInfoAPI}?shopId=${shopId}`;
+  setLoadding({ ing: true, text: '系统处理中...' });
+  return fetch(url, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        setLoadding(false);
+      }
+      return res.json();
+    }).
+    then(result => {
+      setLoadding(false);
+      if (result.code === '200') {
+        callback(result.data);
+      }
+    }).
+    catch(err => {
+      throw new Error(err);
+    });
+};
