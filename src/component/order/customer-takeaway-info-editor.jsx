@@ -108,6 +108,7 @@ module.exports = React.createClass({
   buildAddressElement() {
     const { inList, outList } = this.state.addressListInfo;
     const elems = [];
+    const totalAddressCount = inList.length + outList.length;
     const addressListToOptionsData = addressList => addressList.map(item => {
       const { address, name, sex, mobile } = item;
       return {
@@ -149,8 +150,7 @@ module.exports = React.createClass({
         />
       );
     }
-
-    if (this.state.addressCount < 1) {
+    if (totalAddressCount < 1) {
       elems.push(
         <div className="address-no flex-rest" key="noAddress">
           <div className="address-no-img"></div>
