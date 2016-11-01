@@ -133,6 +133,7 @@ const MineModifyPasswordApplication = React.createClass({
           <div>
             <PhoneVerificationCode
               onGetVerificationCode={this.fetchVericationCode}
+              fetchCodeBtnText="点击获取"
               ref="verificationCode"
             />
             <div className="btn-group">
