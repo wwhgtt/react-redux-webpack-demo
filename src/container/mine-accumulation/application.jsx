@@ -127,7 +127,7 @@ const MineAccumulationApplication = React.createClass({
             {this.buildListElement()}
           </div>
         </div>
-        <div className="footer">客如云提供技术支持</div>
+        <div className="copyright"></div>
       </div>
     );
   },

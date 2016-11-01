@@ -20,7 +20,7 @@ exports.modifyPassword = (data, setLoadding, showErrorMessage) => (dispatch, get
     .then(res => {
       setLoadding(false);
       if (res.code === '200') {
-        location.href = config.mineSettingURL;
+        location.href = `${config.mineSettingURL}${location.search}`;
         return;
       }
 
