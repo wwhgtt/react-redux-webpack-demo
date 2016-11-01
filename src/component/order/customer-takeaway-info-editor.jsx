@@ -149,6 +149,15 @@ module.exports = React.createClass({
         />
       );
     }
+
+    if (this.state.addressCount < 1) {
+      elems.push(
+        <div className="address-no flex-rest" key="noAddress">
+          <div className="address-no-img"></div>
+          <p className="address-no-title">主人还没有收货地址 <br />快来添加一个吧～</p>
+        </div>
+      );
+    }
     return elems;
   },
   completeSelect(evt, selectedAddress) {
@@ -165,7 +174,7 @@ module.exports = React.createClass({
       <div className="address subpage flex-columns">
       {isShowTip &&
         <div className="address-comments ellipsis flex-none">
-          只能保存10个地址，如需新增，请删除或修改
+          如需新增，请删除或修改已有地址
         </div>
       }
         <div className="flex-rest">
