@@ -112,24 +112,22 @@ const MineAccumulationApplication = React.createClass({
   render() {
     const { accumulationInfo } = this.props;
     return (
-      <div className="accumulation flex-columns">
-        <div className="flex-rest">
-          <div className="masthead">
-            <ReactCSSTransitionGroup transitionName="slidedown" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
-              {this.state.descriptionContentVisible && this.buildDescriptContentElement()}
-            </ReactCSSTransitionGroup>
-            <a className="masthead-discription-title" onTouchTap={this.toggleDescriptContent}>积分说明</a>
-            <p className="masthead-total">{accumulationInfo.integral}</p>
-            <p className="masthead-title">我的积分</p>
-          </div>
-          <div className="detail">
-            <div className="detail-title">积分使用记录</div>
-            <div className="section">
-              {this.buildListElement()}
-            </div>
+      <div className="accumulation">
+        <div className="masthead">
+          <ReactCSSTransitionGroup transitionName="slidedown" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
+            {this.state.descriptionContentVisible && this.buildDescriptContentElement()}
+          </ReactCSSTransitionGroup>
+          <a className="masthead-discription-title" onTouchTap={this.toggleDescriptContent}>积分说明</a>
+          <p className="masthead-total">{accumulationInfo.integral}</p>
+          <p className="masthead-title">我的积分</p>
+        </div>
+        <div className="detail">
+          <div className="detail-title">积分使用记录</div>
+          <div className="section">
+            {this.buildListElement()}
           </div>
         </div>
-        <div className="footer flex-none">客如云提供技术支持</div>
+        <div className="footer">客如云提供技术支持</div>
       </div>
     );
   },

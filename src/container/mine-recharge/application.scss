@@ -22,9 +22,10 @@
 
   &-title {
     position: relative;
+    top: 0;
     float: left;
     width: calc(100% - 125px);
-    transition: 1s;
+    transition: .2s;
   }
 
   &-detail {
