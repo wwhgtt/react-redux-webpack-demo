@@ -1,6 +1,7 @@
 const React = require('react');
 require('./switch-navi.scss');
 const classnames = require('classnames');
+const shallowCompare = require('react-addons-shallow-compare');
 
 const SwitchNavi = React.createClass({
   displayName: 'SwitchNavi',
@@ -13,6 +14,9 @@ const SwitchNavi = React.createClass({
   },
   componentWillMount() {},
   componentDidMount() {},
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  },
   switchTo(index) {
     const { getIndex } = this.props;
     this.setState({ activeNum:index });

@@ -3,6 +3,7 @@ const couponHelper = require('../../helper/coupon-helper');
 const commonHelper = require('../../helper/common-helper');
 const noCouponLogo = require('../../asset/images/nocoupon.svg');
 const shallowCompare = require('react-addons-shallow-compare');
+const ItemSpand = require('../common/item-spand.jsx');
 const classnames = require('classnames');
 require('./coupon-list.scss');
 
@@ -72,7 +73,7 @@ module.exports = React.createClass({
 
     return validTime;
   },
-  showDetail(code) {
+  getShowDetail(code) {
     if (this.state.showCode === code) {
       this.setState({ showCode:0 });
     } else {
@@ -117,16 +118,23 @@ module.exports = React.createClass({
                   const hideRule = this.getHideRule(showCode, item.codeNumber);
                   const validTime = this.getValidTime(item.couponStatus, item.validStartDate, item.validEndDate, item.checkTime);
                   const renderWeek = commonHelper.renderDay(item.week);
+                  let instructions = [couponHelper.formateInstruction(item.instructions)];
+                  if (renderWeek) {
+                    instructions.push(`${renderWeek.substring(0, renderWeek.length - 1)}可用`);
+                  } else {
+                    instructions.push('整周可用');
+                  }
+                  instructions.push(item.usableCommercialDesc);
 
                   item.coupRuleBeanList.forEach((itemInner, indexInner) => {
                     const vale = this.getRuleVale(item.couponType, itemInner);
                     if (vale) { ruleVale = vale; }
                   });
                   switch (item.couponType) {
-                    case 1: typeClass = 'manjian'; typeUnit = '元 满减券'; break;
-                    case 2: typeClass = 'zhekou'; typeUnit = '折 折扣券'; break;
-                    case 3: typeClass = 'lipin'; giftTypeUnit = '送'; giftFontSize = '1.4em'; break;
-                    case 4: typeClass = 'xianjin'; typeUnit = '元 现金券'; break;
+                    case 1: typeClass = 'manjian'; typeUnit = ' 元 满减券'; break;
+                    case 2: typeClass = 'zhekou'; typeUnit = ' 折 折扣券'; break;
+                    case 3: typeClass = 'lipin'; giftTypeUnit = '送 '; giftFontSize = '1.4em'; break;
+                    case 4: typeClass = 'xianjin'; typeUnit = ' 元 现金券'; break;
                     default: break;
                   }
                   if (item.couponStatus !== 1) {
@@ -137,39 +145,22 @@ module.exports = React.createClass({
                   }
                   return (
                     <div className="coupon-list-outer" key={index}>
-                      <div className="uprow of" onTouchTap={() => this.showDetail(item.codeNumber)}>
-                        <div className={typeClass ? `uprow-leftpart ${typeClass}` : 'uprow-leftpart'}>
-                          <div className="uprow-leftpart-value">
-                            {giftTypeUnit}<span className="discount-num" style={{ fontSize:giftFontSize }}>{ruleVale}</span>{typeUnit}
-                            <br />
-                            <span className="expense-condition">消费满{item.fullValue || '任意'}元可用
-                            ({item.periodStart ? item.periodStart.substring(0, 5) || '00:00' : '00:00'}
-                             ~
-                             {item.periodEnd ? item.periodEnd.substring(0, 5) || '00:00' : '00:00'})
-                            </span>
-                            <p className="detail-click">
-                              代金券使用规则<span className={classnames({ arrowup:!hideRule, arrowdown:hideRule })}></span>
-                            </p>
-                          </div>
-                        </div>
-                        <div className="uprow-rightpart">
-                          <p className="validity">{statusWord}</p>
-                          {validTime}
-                        </div>
-                      </div>
-                      <div className={classnames('downrow of', { show:!hideRule })} data-code={item.codeNumber}>
-                        <p className="downrow-no">NO.{item.codeNumber || '000000000000000'}</p>
-                        <p className="downrow-item">{couponHelper.formateInstruction(item.instructions)}</p>
-                        <p className="downrow-item">
-                          {
-                            renderWeek ?
-                              <span>仅限{renderWeek.substring(0, renderWeek.length - 1)}</span>
-                            :
-                              <span>整周</span>
-                          }可用
-                        </p>
-                        <p className="downrow-item">{item.usableCommercialDesc}</p>
-                      </div>
+                      <ItemSpand
+                        typeClass={typeClass}
+                        giftUnitBefore={giftTypeUnit}
+                        giftFontSize={giftFontSize}
+                        typeUnit={typeUnit}
+                        ruleVale={ruleVale}
+                        fullValue={item.fullValue}
+                        periodStart={item.periodStart ? item.periodStart.substring(0, 5) || '00:00' : '00:00'}
+                        periodEnd={item.periodEnd ? item.periodEnd.substring(0, 5) || '00:00' : '00:00'}
+                        hideRule={hideRule}
+                        statusWord={statusWord}
+                        validTime={validTime}
+                        codeNumber={item.codeNumber}
+                        instructions={instructions}
+                        getShowDetail={this.getShowDetail}
+                      />
                     </div>
                   );
                 })
