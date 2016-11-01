@@ -50,6 +50,10 @@ module.exports = React.createClass({
     if (nextProps.completeFlag !== this.props.completeFlag) {
       this.handleCompleteInput();
     }
+
+    if (nextProps.phoneNum !== this.state.phoneNum) {
+      this.setState({ phoneNum: nextProps.phoneNum });
+    }
   },
   componentWillUnmount() {
     this.clearWaiting();
@@ -148,6 +152,7 @@ module.exports = React.createClass({
       return;
     }
 
+    this._touchTabed = true;
     this.sendFetchVerificationCodeRequest();
     this.waitOneMinute();
   },
@@ -198,7 +203,8 @@ module.exports = React.createClass({
     if (seconds > 0) {
       btnInfo = { text: `${seconds}s`, disabled: true };
     } else {
-      btnInfo = { text: fetchCodeBtnText, disabled: !this.isAllowSendCode(phoneNum, currentNation) };
+      const text = this._touchTabed ? '重新获取' : fetchCodeBtnText;
+      btnInfo = { text, disabled: !this.isAllowSendCode(phoneNum, currentNation) };
     }
 
     const className = classnames('phone-verification-code', {

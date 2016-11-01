@@ -21,10 +21,18 @@
     background: $color-sunset-orange;
   }
 
+  &-grey {
+    background: $color-sliver;
+  }
+
   &-text {
     font-size: 14px;
     vertical-align: middle;
     color: $color-dove-grey;
+  }
+
+  &-grey-text {
+    color: $color-sliver;
   }
 
   &-btn {
