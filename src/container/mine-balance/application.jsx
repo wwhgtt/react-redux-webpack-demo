@@ -55,7 +55,7 @@ const MineBalanceApplication = React.createClass({
             }
           </div>
         </div>
-        <div className="balance-footer">客如云提供技术支持</div>
+        <div className="balance-footer copyright"></div>
       </div>
     );
   },

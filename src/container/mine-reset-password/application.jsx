@@ -179,6 +179,7 @@ const MineModifyPasswordApplication = React.createClass({
             </div>
           </div>
         }
+        <div className="copyright"></div>
         {loadingInfo && loadingInfo.ing && <Loading word={loadingInfo.text} />}
       </div>
     );

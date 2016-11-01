@@ -135,6 +135,7 @@ const MineModifyPasswordApplication = React.createClass({
         <div className="btn-group">
           <button className="btn--yellow btn-lg btn-radius-sm" onTouchTap={this.submit}>确定</button>
         </div>
+        <div className="copyright"></div>
         {loadingInfo && loadingInfo.ing && <Loading word={loadingInfo.text} />}
       </div>
     );
