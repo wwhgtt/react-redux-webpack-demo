@@ -75,12 +75,16 @@ const MineModifyPasswordApplication = React.createClass({
 
     this.showErrorMessage(null);
     const { newPassword, confirmedPassword } = this.state;
-
+    this.setState({ error:null });
     this.props.resetPassword(
       { newPassword, confirmedPassword },
       this.setLoadingInfo,
       (error) => {
-        this.showErrorMessage(Object.assign(error, { names: ['newPassword'] }));
+        if (error.names && error.names.length) {
+          this.showErrorMessage(error);
+        } else {
+          this.showErrorMessage(Object.assign(error, { names: ['newPassword'] }));
+        }
       });
   },
   handleStepOne() {
@@ -154,7 +158,7 @@ const MineModifyPasswordApplication = React.createClass({
                     name="newPassword"
                     onChange={this.handlePasswordChange}
                     maxLength="6"
-                    placeholder="请输入6位数字密码"
+                    placeholder="请输入6位数字新密码"
                     value={newPassword || ''}
                   />
                 </div>
@@ -168,7 +172,7 @@ const MineModifyPasswordApplication = React.createClass({
                     name="confirmedPassword"
                     onChange={this.handlePasswordChange}
                     maxLength="6"
-                    placeholder="请输入6位数字密码"
+                    placeholder="请再次输入新密码"
                     value={confirmedPassword || ''}
                   />
                 </div>

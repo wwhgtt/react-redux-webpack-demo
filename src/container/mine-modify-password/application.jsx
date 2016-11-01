@@ -84,58 +84,60 @@ const MineModifyPasswordApplication = React.createClass({
     const { password, newPassword, confirmedPassword, loadingInfo, error } = this.state;
     const getOptionClass = (name) => classnames('option', { error: error && error.names.indexOf(name) !== -1 });
     return (
-      <div className="flex-rest">
+      <div className="flex-columns">
         {error && <div className="alert alert-error">{error.msg}</div>}
-        <div className="options-group">
-          <label className={getOptionClass('password')}>
-            <span className="option-title">当前密码</span>
-            <div className="option-content">
-              <input
-                type="password"
-                className="option-input"
-                name="password"
-                onChange={this.handlePasswordChange}
-                maxLength="6"
-                placeholder="请输入6位数字密码"
-                value={password || ''}
-              />
-            </div>
-          </label>
+        <div className="flex-rest">
+          <div className="options-group">
+            <label className={getOptionClass('password')}>
+              <span className="option-title">当前密码</span>
+              <div className="option-content">
+                <input
+                  type="password"
+                  className="option-input"
+                  name="password"
+                  onChange={this.handlePasswordChange}
+                  maxLength="6"
+                  placeholder="请输入6位数字密码"
+                  value={password || ''}
+                />
+              </div>
+            </label>
+          </div>
+          <div className="options-group">
+            <label className={getOptionClass('newPassword')}>
+              <span className="option-title">重置密码</span>
+              <div className="option-content">
+                <input
+                  type="password"
+                  className="option-input"
+                  name="newPassword"
+                  onChange={this.handlePasswordChange}
+                  maxLength="6"
+                  placeholder="请输入6位数字密码"
+                  value={newPassword || ''}
+                />
+              </div>
+            </label>
+            <label className={getOptionClass('confirmedPassword')}>
+              <span className="option-title">确认密码</span>
+              <div className="option-content">
+                <input
+                  type="password"
+                  className="option-input"
+                  name="confirmedPassword"
+                  onChange={this.handlePasswordChange}
+                  maxLength="6"
+                  placeholder="请输入6位数字密码"
+                  value={confirmedPassword || ''}
+                />
+              </div>
+            </label>
+          </div>
+          <div className="btn-group">
+            <button className="btn--yellow btn-lg btn-radius-sm" onTouchTap={this.submit}>确定</button>
+          </div>
         </div>
-        <div className="options-group">
-          <label className={getOptionClass('newPassword')}>
-            <span className="option-title">重置密码</span>
-            <div className="option-content">
-              <input
-                type="password"
-                className="option-input"
-                name="newPassword"
-                onChange={this.handlePasswordChange}
-                maxLength="6"
-                placeholder="请输入6位数字密码"
-                value={newPassword || ''}
-              />
-            </div>
-          </label>
-          <label className={getOptionClass('confirmedPassword')}>
-            <span className="option-title">确认密码</span>
-            <div className="option-content">
-              <input
-                type="password"
-                className="option-input"
-                name="confirmedPassword"
-                onChange={this.handlePasswordChange}
-                maxLength="6"
-                placeholder="请输入6位数字密码"
-                value={confirmedPassword || ''}
-              />
-            </div>
-          </label>
-        </div>
-        <div className="btn-group">
-          <button className="btn--yellow btn-lg btn-radius-sm" onTouchTap={this.submit}>确定</button>
-        </div>
-        <div className="copyright"></div>
+        <div className="copyright flex-none"></div>
         {loadingInfo && loadingInfo.ing && <Loading word={loadingInfo.text} />}
       </div>
     );

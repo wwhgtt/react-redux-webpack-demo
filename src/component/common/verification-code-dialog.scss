@@ -11,10 +11,12 @@
     &::before {
       display: none;
     }
+  }
 
+  .phone-verification-code {
     .btn {
       position: absolute;
-      top: -1px;
+      top: 0;
       right: -1px;
       height: 42px;
       padding: 0 8px;
