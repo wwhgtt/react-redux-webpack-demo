@@ -196,7 +196,7 @@ module.exports = React.createClass({
     const { seconds, phoneNum, code, currentNation } = this.state;
     let btnInfo = null;
     if (seconds > 0) {
-      btnInfo = { text: `${seconds}s后获取`, disabled: true };
+      btnInfo = { text: `${seconds}s`, disabled: true };
     } else {
       btnInfo = { text: fetchCodeBtnText, disabled: !this.isAllowSendCode(phoneNum, currentNation) };
     }
