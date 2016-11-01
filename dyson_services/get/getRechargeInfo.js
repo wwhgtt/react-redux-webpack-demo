@@ -122,21 +122,21 @@ module.exports = {
           planStartDay:'2016-08-18',
           planEndDay:'2016-12-31',
           rules:[
-            {
-              storeAmount:4.0,
-              couponType:3,
-              couponName:'红烧排骨1礼品券',
-            },
-            {
-              storeAmount:5.0,
-              couponType:1,
-              couponName:'测试券哟',
-            },
-            {
-              storeAmount:6.0,
-              couponType:1,
-              couponName:'测试券哟',
-            },
+            // {
+            //   storeAmount:4.0,
+            //   couponType:3,
+            //   couponName:'红烧排骨1礼品券',
+            // },
+            // {
+            //   storeAmount:5.0,
+            //   couponType:1,
+            //   couponName:'测试券哟',
+            // },
+            // {
+            //   storeAmount:6.0,
+            //   couponType:1,
+            //   couponName:'测试券哟',
+            // },
           ],
         },
       ],

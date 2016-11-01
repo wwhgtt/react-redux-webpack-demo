@@ -27,7 +27,7 @@ const MineRechargeApplication = React.createClass({
       isShowLastAd: false,
       isShowAds: true,
       lastRechargeAdStyle: {
-        top: -44,
+        top: 44,
       },
     };
   },
@@ -50,23 +50,29 @@ const MineRechargeApplication = React.createClass({
   },
 
   componentDidUpdate(prevProps, prevState) {
-    if (!this._setInterval && this._adNo > 0) {
+    if (!this._setInterval && this._adNo > 1) {
       let num = this._adNo;
       let i = 0;
       this._setInterval = setInterval(() => {
-        if (i === num) {
-          this.setState({ isShowAds: false });
+        if (i === num - 1) {
           i = -1;
-          this.setState({ lastRechargeAdStyle: {
-            top: 0,
+          this.setState({ isShowAds: false });
+          this.setState({ rechargeAdStyle: {
+            top: 44,
           } });
+          setTimeout(() => {
+            this.setState({ lastRechargeAdStyle: {
+              top: 0,
+            } });
+          }, 1);
           this.setState({ isShowLastAd: true });
           setTimeout(() => {
             this.setState({ isShowLastAd: false });
-          }, 3000);
-          setTimeout(() => {
+            this.setState({ lastRechargeAdStyle: {
+              top: 44,
+            } });
             this.setState({ isShowAds: true });
-          }, 3000);
+          }, 2920);
         }
         this.setState({ rechargeAdStyle: {
           top: -44 * i,
@@ -178,7 +184,7 @@ const MineRechargeApplication = React.createClass({
 
       );
     }
-    lastRechargeAd = rechargeActiveAds.pop();
+    lastRechargeAd = rechargeActiveAds[rechargeActiveAds.length - 1];
     this._adNo = rechargeActiveAds.length;
 
     return (<div className="recharge-page application">
