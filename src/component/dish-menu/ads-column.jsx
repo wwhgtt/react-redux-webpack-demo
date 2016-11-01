@@ -71,7 +71,7 @@ const AdsColumn = React.createClass({
             {formatDishesData[item.dishId].name}
             {item.rule.dishNum > 1 ? `满${item.rule.dishNum}份${item.rule.ruleName}` : item.rule.ruleName}
             （{condition}
-            每单仅限{item.rule.dishNum}份）
+            每单限{item.rule.dishNum}份）
           </span>
         </p>
       );
