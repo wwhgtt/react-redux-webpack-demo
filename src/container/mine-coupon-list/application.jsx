@@ -28,15 +28,15 @@ const MineVipLevelApplication = React.createClass({
   getCouponStatus(num) {
     switch (num) {
       case 0: this.setState({ couponStatus:1 }); break;
-      case 1: this.setState({ couponStatus:3 }); break;
-      case 2: this.setState({ couponStatus:2 }); break;
+      case 1: this.setState({ couponStatus:2 }); break;
+      case 2: this.setState({ couponStatus:3 }); break;
       default: break;
     }
   },
   render() {
     const { errorMessage, clearErrorMsg, load, couponList } = this.props;
     const { couponStatus } = this.state;
-    const navis = ['未使用', '已过期', '已使用'];
+    const navis = ['未使用', '已使用', '已过期'];
     return (
       <div className="application">
         <SwitchNavi navis={navis} getIndex={this.getCouponStatus} />

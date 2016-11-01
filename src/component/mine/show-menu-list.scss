@@ -51,8 +51,7 @@
   }
 
   &-holder-p {
-    line-height: 35px;
-    height: 35px;
+    
     color: #444a59;
 
     &.title {
@@ -62,12 +61,16 @@
 
     &.scorenum {
       font-size: 1.563em;
+      line-height: 35px;
+      height: 35px;
       font-weight: bold;
       color: #429bff;
     }
 
     &.balancenum {
       font-size: 1.563em;
+      line-height: 35px;
+      height: 35px;
       font-weight: bold;
       color: #ff8738;
     }
