@@ -1,3 +1,6 @@
+require('core-js/fn/object/assign');
+require('core-js/fn/array/');
+
 const React = require('react');
 const ReactDOM = require('react-dom');
 const createStore = require('redux').createStore;
