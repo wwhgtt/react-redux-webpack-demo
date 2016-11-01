@@ -20,7 +20,10 @@ exports.modifyPassword = (data, setLoadding, showErrorMessage) => (dispatch, get
     .then(res => {
       setLoadding(false);
       if (res.code === '200') {
-        location.href = `${config.mineSettingURL}${location.search}`;
+        showErrorMessage({ msg: '修改成功', names:['success'] });
+        setTimeout(function () {
+          location.href = `${config.mineSettingURL}${location.search}`;
+        }, 2000);
         return;
       }
 
@@ -45,8 +48,11 @@ exports.resetPassword = (data, setLoadding, showErrorMessage) => (dispatch, getS
     .then(res => {
       setLoadding(false);
       if (res.code === '200') {
-        const returnUrl = getUrlParam('returnUrl');
-        location.href = returnUrl ? decodeURIComponent(returnUrl) : `${config.mineSettingURL}${location.search}`;
+        showErrorMessage({ msg: '修改成功', names:['success'] });
+        setTimeout(function () {
+          const returnUrl = getUrlParam('returnUrl');
+          location.href = returnUrl ? decodeURIComponent(returnUrl) : `${config.mineSettingURL}${location.search}`;
+        }, 2000);
         return;
       }
 
