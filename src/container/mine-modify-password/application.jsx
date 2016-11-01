@@ -65,7 +65,7 @@ const MineModifyPasswordApplication = React.createClass({
       { password, newPassword, confirmedPassword },
       this.setLoadingInfo,
       (error) => {
-        this.showErrorMessage(Object.assign(error, { names: ['password'] }));
+        this.showErrorMessage(Object.assign({ names: ['password'] }, error));
       },
       { password, newPassword, confirmedPassword });
   },
