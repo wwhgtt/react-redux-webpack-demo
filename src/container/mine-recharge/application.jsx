@@ -43,7 +43,7 @@ const MineRechargeApplication = React.createClass({
     const { ruleInfo } = nextProps.rechargeInfo || {};
 
     if (!this.state.rechargeValue) {
-      if (ruleInfo.ruleList && ruleInfo.ruleList.length) {
+      if (ruleInfo && ruleInfo.ruleList && ruleInfo.ruleList.length) {
         this.setState({ rechargeValue: ruleInfo.ruleList[0].fullValue });
       }
     }
@@ -72,7 +72,7 @@ const MineRechargeApplication = React.createClass({
               top: 44,
             } });
             this.setState({ isShowAds: true });
-          }, 2920);
+          }, 2800);
         }
         this.setState({ rechargeAdStyle: {
           top: -44 * i,
@@ -189,7 +189,7 @@ const MineRechargeApplication = React.createClass({
 
     return (<div className="recharge-page application">
       {Boolean(rechargeActiveAds.length) && (
-        <div className="recharge-ads">
+        <div className="recharge-ads" onTouchTap={this.handleShowDialog}>
           <div className="recharge-ads-img"></div>
           {isShowAds &&
             <div className="recharge-ads-title ellipsis" style={rechargeAdStyle}>
@@ -201,7 +201,7 @@ const MineRechargeApplication = React.createClass({
               <div>{lastRechargeAd}</div>
             </div>
           }
-          <a className="recharge-ads-detail" onTouchTap={this.handleShowDialog}>活动详情></a>
+          <a className="recharge-ads-detail">活动详情></a>
         </div>
         )
       }
