@@ -101,7 +101,7 @@ const AddressListApplication = React.createClass({
       <div className="address flex-columns">
       {isShowTip &&
         <div className="address-comments ellipsis flex-none">
-          只能保存10个地址，如需新增，请删除或修改
+          如需新增，请删除或修改已有地址
         </div>
       }
         {this.buildAddressElement()}

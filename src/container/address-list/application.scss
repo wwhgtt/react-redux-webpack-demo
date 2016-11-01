@@ -1,7 +1,11 @@
 @import "settings.colors";
 
-.application {
-  background: $color-gallery;
+.address {
+  background-color: #f1f1f1;
+
+  &-group {
+    background-color: #f1f1f1;
+  }
 }
 
 .address-no {
@@ -21,4 +25,8 @@
     margin-top: 18px;
     color: #999;
   }
+}
+
+.optionsData-wrapper {
+  background-color: #fff;
 }
