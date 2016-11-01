@@ -10,3 +10,17 @@
   -webkit-overflow-scrolling: touch;
   height: 100%;
 }
+
+.copyright {
+  font-size: 12px;
+  line-height: 15px;
+  height: 15px;
+  margin: 15px 0;
+  text-align: center;
+  color: $color-sliver;
+
+  &::before {
+    display: block;
+    content: "客如云提供技术支持";
+  }
+}

@@ -42,6 +42,8 @@ body {
 }
 
 .detail {
+  min-height: calc(100% - 120px - 45px);
+
   &-title {
     font-size: 14px;
     line-height: 35px;
@@ -49,14 +51,6 @@ body {
     padding: 0 15px;
     color: $color-dove-grey;
   }
-}
-
-.footer {
-  font-size: 12px;
-  line-height: 25px;
-  height: 25px;
-  text-align: center;
-  color: #ccc;
 }
 
 .list-amount {

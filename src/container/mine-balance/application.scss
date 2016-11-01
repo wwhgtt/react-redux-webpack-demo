@@ -39,6 +39,8 @@ a {
 }
 
 .balance-detail {
+  min-height: calc(100% - 173px - 45px);
+
   &-title {
     font-size: 14px;
     line-height: 35px;
@@ -50,8 +52,9 @@ a {
 
 .balance-footer {
   font-size: 12px;
-  line-height: 25px;
-  height: 25px;
+  line-height: 15px;
+  height: 15px;
+  margin: 15px 0;
   text-align: center;
   color: #ccc;
 }

@@ -4,7 +4,7 @@ module.exports = {
     data: {
     },
     time: 1472458598918,
-    code: '2001',
+    code: '200',
     msg: '老密码有误',
   },
 };
