@@ -98,6 +98,16 @@ const MineRechargeApplication = React.createClass({
     this.props.addRecharge(this.state.rechargeValue);
   },
 
+  // 比较
+  rechargeCompare(firstNum, nextNum) {
+    if (nextNum > firstNum) {
+      return 1;
+    } else if (firstNum === nextNum) {
+      return 0;
+    }
+    return -1;
+  },
+
   // 关闭活动详情
   handleClose() {
     this.setState({ isDialogShow: false });
@@ -178,12 +188,25 @@ const MineRechargeApplication = React.createClass({
             <p className="ellipsis">【活动时间】{items.planStartDay}~{items.planEndDay}</p>
           </div>);
           const rechargeActiveAd = <div key={Math.random() + index}>储值满{item.storeAmount}送{couponType}</div>;
+
           rechargeActiveAds.push(rechargeActiveAd);
           rechargeActiveItems.push(rechargeActiveItem);
         })
 
       );
     }
+    rechargeActiveAds = rechargeActiveAds.sort((firstValue, nextValue) => {
+      const firstNum = firstValue.props.children[1];
+      const nextNum = nextValue.props.children[1];
+      return this.rechargeCompare(firstNum, nextNum);
+    });
+
+    rechargeActiveItems = rechargeActiveItems.sort((firstValue, nextValue) => {
+      const firstNum = firstValue.props.children[0].props.children[1];
+      const nextNum = nextValue.props.children[0].props.children[1];
+      return this.rechargeCompare(firstNum, nextNum);
+    });
+
     lastRechargeAd = rechargeActiveAds[rechargeActiveAds.length - 1];
     this._adNo = rechargeActiveAds.length;
 
