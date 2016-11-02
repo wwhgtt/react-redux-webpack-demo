@@ -122,7 +122,7 @@ const MineAccumulationApplication = React.createClass({
         <div className="detail">
           <div className="detail-title">积分使用记录</div>
           <div className="section records">
-            {false && this.buildListElement()}
+            {this.buildListElement()}
           </div>
         </div>
         <div className="copyright"></div>
