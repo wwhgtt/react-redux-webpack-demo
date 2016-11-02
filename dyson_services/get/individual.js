@@ -13,7 +13,7 @@ module.exports = {
       'birthday': '1970-01-01',
       'mobile': '15196696240',
       'isDisable': false,
-      'bindWx': false,
+      'bindWx': true,
       'bindMobile': false,
     },
     'time': 1472436273622,
