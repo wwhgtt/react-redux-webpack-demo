@@ -37,35 +37,35 @@ module.exports = React.createClass({
     return (
       <div className="list-group-outer">
         <div className="list-group">
-          <div className="list-group-item" name="我的余额">
-            <a className="list-group-link" href={valueCardURL}>
-              <i className="icon" name="WDYE"></i>
-              <span className="name">我的余额</span>
-              <span className="brief">￥{userInfo.balance}</span>
-              <span className="arrow arrow-right"></span>
+          <div className="list-item" name="我的余额">
+            <a className="list-link" href={valueCardURL}>
+              <i className="list-icon" name="WDYE"></i>
+              <span className="list-name">我的余额</span>
+              <span className="list-brief">￥{userInfo.balance}</span>
+              <span className="list-arrow list-arrow-right"></span>
             </a>
           </div>
-          <div className="list-group-item" name="我的等级">
-            <a className="list-group-link" href={grownLevelxURL}>
-              <i className="icon" name="WDDJ"></i>
-              <span className="name">我的等级</span>
-              <span className="brief">{memberInfo.nowLevelName}</span>
-              <span className="arrow arrow-right"></span>
+          <div className="list-item" name="我的等级">
+            <a className="list-link" href={grownLevelxURL}>
+              <i className="list-icon" name="WDDJ"></i>
+              <span className="list-name">我的等级</span>
+              <span className="list-brief">{memberInfo.nowLevelName}</span>
+              <span className="list-arrow list-arrow-right"></span>
             </a>
           </div>
-          <div className="list-group-item" name="我的积分">
-            <a className="list-group-link" href={integralURL}>
-              <i className="icon" name="WDJF"></i>
-              <span className="name">我的积分</span>
-              <span className="brief">{userInfo.score}分</span>
-              <span className="arrow arrow-right"></span>
+          <div className="list-item" name="我的积分">
+            <a className="list-link" href={integralURL}>
+              <i className="list-icon" name="WDJF"></i>
+              <span className="list-name">我的积分</span>
+              <span className="list-brief">{userInfo.score}分</span>
+              <span className="list-arrow list-arrow-right"></span>
             </a>
           </div>
-          <div className="list-group-item" name="我的特权">
-            <a className="list-group-link" href=" javascript:void(0)" onTouchTap={this.slideDown}>
-              <i className="icon" name="WDTQ"></i>
-              <span className="name">我的特权</span>
-              <span className={classnames('arrow', { 'arrow-up':!arrowUp, 'arrow-down':arrowUp })}></span>
+          <div className="list-item" name="我的特权">
+            <a className="list-link" href=" javascript:void(0)" onTouchTap={this.slideDown}>
+              <i className="list-icon" name="WDTQ"></i>
+              <span className="list-name">我的特权</span>
+              <span className={classnames('list-arrow', { 'list-arrow-up':!arrowUp, 'list-arrow-down':arrowUp })}></span>
             </a>
           </div>
         </div>

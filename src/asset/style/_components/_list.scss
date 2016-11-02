@@ -23,7 +23,7 @@
   }
 }
 
-.list-group-item {
+.list-item {
   font-size: 1em;
   line-height: 1.375em;
   display: block;
@@ -33,14 +33,14 @@
   border: none;
 }
 
-.list-group-link {
+.list-link {
   position: relative;
   display: block;
   height: 100%;
   padding: 1em;
   text-decoration: none;
 
-  .icon {
+  .list-icon {
     font-size: 1.2em;
     display: inline-block;
     width: 1.188em;
@@ -49,7 +49,7 @@
     vertical-align: middle;
   }
 
-  .name {
+  .list-name {
     font-size: 1em;
     display: inline-block;
     vertical-align: middle;
@@ -58,7 +58,7 @@
 
     &-detail {
       font-size: 12px;
-      font-weight: lighter;
+      font-weight: 400;
       line-height: 1em;
       display: inline-block;
       margin-left: .5em;
@@ -70,16 +70,16 @@
     }
   }
 
-  .brief {
-    font-size: 13px;
+  .list-brief {
+    font-size: 15px;
     line-height: 1.5em;
     position: absolute;
-    top: 1.45em;
-    right: 2.5em;
+    top: 1.18em;
+    right: 2em;
     color: #bcbcbc;
   }
 
-  .arrow {
+  .list-arrow {
     position: absolute;
     top: 50%;
     right: 1em;
@@ -88,16 +88,18 @@
     margin-top: -.5em;
   }
 
-  .arrow-right {
+  .list-arrow-right {
     background: url("../../asset/images/arrow-right.svg") right center/.5em auto no-repeat;
   }
 
-  .arrow-down {
-    background: url("../../asset/images/arrow-down.svg") right center/auto .5em no-repeat;
+  .list-arrow-down {
+    background: url("../../asset/images/arrow-right.svg") center center/.5em auto no-repeat;
+    transform: rotate(90deg);
   }
 
-  .arrow-up {
-    background: url("../../asset/images/arrow-up.svg") right center/auto .5em no-repeat;
+  .list-arrow-up {
+    background: url("../../asset/images/arrow-right.svg") center center/.5em auto no-repeat;
+    transform: rotate(270deg);
   }
 
   &::after {

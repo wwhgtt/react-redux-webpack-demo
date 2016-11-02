@@ -542,7 +542,7 @@ const OrderApplication = React.createClass({
           <Dialog
             title="该商品可参加以下优惠"
             theme="sliver"
-            hasTopBtnClose={false}
+            onClose={() => { this.props.onSelectBenefit(); }}
           >
             <BenefitSelect
               setActivityBenefit={setActivityBenefit}

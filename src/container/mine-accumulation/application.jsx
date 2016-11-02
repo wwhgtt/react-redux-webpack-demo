@@ -1,9 +1,10 @@
 require('../../asset/style/style.scss');
 require('../../component/mine/income-expenses-list.scss');
 require('./application.scss');
+require('../../component/mine/common.scss');
 
 const React = require('react');
-const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
+const Dialog = require('../../component/mui/dialog/dialog.jsx');
 const connect = require('react-redux').connect;
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
 const mineAccumulationAction = require('../../action/mine/mine-accumulation.js');
@@ -64,7 +65,7 @@ const MineAccumulationApplication = React.createClass({
     const { levelRights, dishNames } = this.props.accumulationInfo;
     if (!levelRights) {
       return (
-        <ul className="masthead-discription-content" onTouchTap={this.toggleDescriptContent}>
+        <ul className="masthead-discription-content" >
           <li>积分规则: </li>
           <li>积分抵现: </li>
         </ul>
@@ -103,9 +104,9 @@ const MineAccumulationApplication = React.createClass({
     }
 
     return (
-      <ul className="masthead-discription-content" onTouchTap={this.toggleDescriptContent}>
-        <li>积分规则: {rules.join(' ')}</li>
-        <li>积分抵现: {cash.join(' ')}</li>
+      <ul className="masthead-discription-content">
+        <li><label>积分规则: </label><p>{rules.join('\n')}</p></li>
+        <li><label>积分抵现: </label><p>{cash.join('\n')}</p></li>
       </ul>
     );
   },
@@ -114,20 +115,26 @@ const MineAccumulationApplication = React.createClass({
     return (
       <div className="accumulation">
         <div className="masthead">
-          <ReactCSSTransitionGroup transitionName="slidedown" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
-            {this.state.descriptionContentVisible && this.buildDescriptContentElement()}
-          </ReactCSSTransitionGroup>
           <a className="masthead-discription-title" onTouchTap={this.toggleDescriptContent}>积分说明</a>
           <p className="masthead-total">{accumulationInfo.integral}</p>
           <p className="masthead-title">我的积分</p>
         </div>
         <div className="detail">
           <div className="detail-title">积分使用记录</div>
-          <div className="section">
+          <div className="section records">
             {this.buildListElement()}
           </div>
         </div>
         <div className="copyright"></div>
+        {this.state.descriptionContentVisible &&
+          <Dialog
+            title="积分说明"
+            theme="sliver"
+            onClose={this.toggleDescriptContent}
+          >
+            {this.buildDescriptContentElement()}
+          </Dialog>
+        }
       </div>
     );
   },
