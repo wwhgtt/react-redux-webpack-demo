@@ -64,8 +64,8 @@ module.exports = {
           'isEnable': 0,
         },
       ],
-      'nowLevelName': '钻石会员',
-      'grounValue': 801,
+      'nowLevelName': '黄铜会员',
+      'grounValue': 100,
       'levelRightsMap': {
         '5369': {
           'id': 830,

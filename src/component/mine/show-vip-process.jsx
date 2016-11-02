@@ -45,6 +45,7 @@ module.exports = React.createClass({
         <ul className="process-ul flex-row">
           {
             grownLevelInfo.levelList.map((item, index) => {
+              let lineWidth = '0%';
               const name = item.name;
               const needGrownValue = item.needGrownValue;
               const needGrownValueFontSize =
@@ -56,14 +57,25 @@ module.exports = React.createClass({
               let fakeActive = false;
               if (grounValue >= needGrownValue) {
                 active = true;
+                lineWidth = '100%';
                 if (index === this.lastnum) {
                   fakeActive = true;
-                  this.curPosition = this.perWidth * (index + 1) - this.perWidth / 2 + '%';
+                  this.curPosition = `${this.perWidth * (index + 1) - this.perWidth / 2}%`;
+                  if (grownLevelInfo.levelList[index + 1]) {
+                    lineWidth =
+                      `${(grounValue - needGrownValue) /
+                      (grownLevelInfo.levelList[index + 1].needGrownValue - needGrownValue) * 100}%`;
+                  } else {
+                    lineWidth = '100%';
+                  }
                 }
               }
               return (
                 <li className={classnames('process-li flex-rest', { active, fakeActive })} key={index} onTouchTap={() => this.switchLevel(index)}>
                   <div className="process-num"><span className="process-num-value" style={needGrownValueFontSize}>{needGrownValue}</span></div>
+                  <div className="process-li-line">
+                    <div className={classnames('active', { hide:lineWidth === '0%' })} style={{ width:lineWidth }}></div>
+                  </div>
                   {name}
                 </li>
               );
