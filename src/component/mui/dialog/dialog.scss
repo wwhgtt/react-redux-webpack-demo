@@ -30,6 +30,7 @@
   }
 
   &-body {
+    overflow: auto;
     padding: 10px 15px;
   }
 
@@ -47,7 +48,7 @@
     }
 
     &:empty {
-      padding: 10px 0 0;
+      display: none;
     }
 
     &-btn-default {
@@ -115,17 +116,21 @@
 .sliver {
   overflow: hidden;
 
+  &.dialog {
+    border-radius: 10px;
+  }
+
   .dialog-header {
-    font-size: 14px;
-    line-height: 40px;
-    height: 40px;
+    font-size: 16px;
+    line-height: 44px;
+    height: 44px;
     padding: 0;
     background: $color-gallery;
   }
 
 
   .dialog-footer {
-    height: 40px;
+    height: 49px;
     padding: 0;
 
     button {
@@ -133,6 +138,22 @@
       height: 40px;
       color: #fff;
       border-radius: 0;
+    }
+  }
+
+  .dialog-btn-close {
+    top: 4px;
+    right: 5px;
+    width: 36px;
+    height: 36px;
+    background: none;
+
+    &::before {
+      width: 22px;
+    }
+
+    &::after {
+      height: 22px;
     }
   }
 }

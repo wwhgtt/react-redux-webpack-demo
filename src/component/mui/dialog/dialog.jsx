@@ -7,7 +7,6 @@ module.exports = React.createClass({
   propTypes:{
     title: React.PropTypes.string,
     theme: React.PropTypes.string,
-    hasTopBtnClose: React.PropTypes.bool,
     children: React.PropTypes.object,
     buttons: React.PropTypes.array,
     onClose: React.PropTypes.func,
@@ -15,7 +14,6 @@ module.exports = React.createClass({
   getDefaultProps() {
     return {
       theme: 'default',
-      hasTopBtnClose: true,
     };
   },
   onClose(evt) {
@@ -27,7 +25,7 @@ module.exports = React.createClass({
     }
   },
   render() {
-    const { title, buttons, hasTopBtnClose, theme } = this.props;
+    const { title, buttons, theme } = this.props;
     const buttonElems = (buttons || []).map((button, index) => {
       const className = button.className || 'dialog-footer-btn-default';
       return (
@@ -42,18 +40,15 @@ module.exports = React.createClass({
     });
 
     const style = {
-      maxHeight: window.innerHeight - 120,
+      maxHeight: window.innerHeight - 44 - (buttonElems.length ? 49 : 0) - 40,
     };
-    if (buttons && buttons.length) {
-      style.overflow = 'auto';
-    }
     return (
       <div className="modal">
         <div className="mask" onTouchTap={this.onClose}></div>
         <div className={`dialog ${theme}`}>
           <div className="dialog-header">
             <p className="dialog-title">{title}</p>
-            {hasTopBtnClose && <button className="btn dialog-btn-close" onTouchTap={this.onClose}></button>}
+            <button className="btn dialog-btn-close" onTouchTap={this.onClose}></button>
           </div>
           <div className="dialog-body" style={style}>
             {this.props.children}
