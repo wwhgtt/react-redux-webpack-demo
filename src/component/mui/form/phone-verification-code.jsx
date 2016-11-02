@@ -44,6 +44,7 @@ module.exports = React.createClass({
       phoneNum: phoneNum || '',
       code: '',
       seconds: 0,
+      canReceivePhoneNum: true,
     };
   },
   componentWillReceiveProps(nextProps) {
@@ -51,7 +52,8 @@ module.exports = React.createClass({
       this.handleCompleteInput();
     }
 
-    if (nextProps.phoneNum !== this.state.phoneNum) {
+    const { phoneNum, canReceivePhoneNum } = this.state;
+    if (canReceivePhoneNum && nextProps.phoneNum !== phoneNum) {
       this.setState({ phoneNum: nextProps.phoneNum });
     }
   },
@@ -130,7 +132,7 @@ module.exports = React.createClass({
       return;
     }
 
-    this.setState({ phoneNum: value });
+    this.setState({ phoneNum: value, canReceivePhoneNum: false });
   },
   handleCompleteInput() {
     const info = this.getInputInfo();
