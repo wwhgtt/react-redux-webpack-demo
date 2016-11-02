@@ -25,7 +25,7 @@ exports.modifyPassword = (data, setLoadding, showErrorMessage) => (dispatch, get
     })
     .then(res => {
       setLoadding(false);
-      if (res.code === '200') {
+      if (parseInt(res.data.status, 10) === 0) {
         showErrorMessage({ msg: '修改成功', names:['success'] });
         setTimeout(() => {
           location.href = getSessionStorageValueOnce('rurl_modifyPwd', `${config.mineSettingURL}${location.search}`);
@@ -33,7 +33,7 @@ exports.modifyPassword = (data, setLoadding, showErrorMessage) => (dispatch, get
         return;
       }
 
-      showErrorMessage({ msg: res.msg });
+      showErrorMessage({ msg: res.data.message, names:[''] });
     })
     .catch(err => {
       setLoadding(false);
@@ -53,7 +53,7 @@ exports.resetPassword = (data, setLoadding, showErrorMessage) => (dispatch, getS
     })
     .then(res => {
       setLoadding(false);
-      if (res.code === '200') {
+      if (parseInt(res.data.status, 10) === 0) {
         showErrorMessage({ msg: '修改成功', names:['success'] });
         setTimeout(() => {
           const returnUrl = getUrlParam('url');
@@ -62,7 +62,7 @@ exports.resetPassword = (data, setLoadding, showErrorMessage) => (dispatch, getS
         return;
       }
 
-      showErrorMessage({ msg: res.msg });
+      showErrorMessage({ msg: res.data.message, names:[''] });
     })
     .catch(err => {
       setLoadding(false);
