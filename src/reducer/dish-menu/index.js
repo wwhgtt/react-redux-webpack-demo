@@ -45,8 +45,18 @@ module.exports = function (
   switch (type) {
     case 'SET_MENU_DATA': {
       const formatDishesData = helper.formatDishesData(helper.setDishPropertyTypeInfos(payload.dishList));
-      return state.setIn(['dishTypesData'], payload.dishTypeList)
-      .setIn(['dishesData'], helper.setDishPropertyTypeInfos(payload.dishList))
+      return state.setIn(
+        ['dishTypesData'],
+          helper.reorganizeDishes(
+            helper.setDishPropertyTypeInfos(payload.dishList), payload.dishTypeList
+          ).dishTypeList
+        )
+      .setIn(
+        ['dishesData'],
+          helper.reorganizeDishes(
+            helper.setDishPropertyTypeInfos(payload.dishList), payload.dishTypeList
+          ).dishesList
+        )
       .setIn(['activeDishTypeId'], getFirstValidDishTypeId(payload))
       .set('dishBoxChargeInfo', helper.getUrlParam('type') === 'WM' && payload.extraCharge ? payload.extraCharge : null)
       .set('shopInfo', {

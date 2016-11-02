@@ -483,3 +483,20 @@ exports.matchDishesData = (marketListUpdate, formatDishesData) => {
   });
   return marketMatchDishes;
 };
+const selectDishesListWithSameName = (dishesList) => {
+  let newDishesList = [];
+  console.log(newDishesList);
+};
+exports.reorganizeDishes = (dishesList, dishTypeList) => {
+  console.log('dishesList:', dishesList);
+  console.log('dishTypeList:', dishTypeList);
+  // 先筛选出名称一致的菜品
+  const withSameNameDishesList = selectDishesListWithSameName(dishesList);
+  console.log('withSameNameDishesList:', withSameNameDishesList);
+  // 检查名称一致的菜品是否销售单位，商品参与的规格分组完全一致
+  // 检查商品中类完全一致
+  return {
+    dishesList,
+    dishTypeList,
+  };
+};
