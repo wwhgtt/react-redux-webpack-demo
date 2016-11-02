@@ -20,25 +20,6 @@ body {
     font-size: 14px;
     margin-top: 5px;
   }
-
-  &-discription {
-    &-title {
-      font-size: 12px;
-      float: right;
-      margin: 10px 15px 0;
-      padding: 1px 0 0 18px;
-      background: url("../../asset/images/info.svg") 1px 0 no-repeat;
-      background-size: contain;
-    }
-
-    &-content {
-      font-size: 12px;
-      line-height: 20px;
-      padding: 5px 15px;
-      text-align: left;
-      background: $dark-background;
-    }
-  }
 }
 
 .detail {
@@ -104,4 +85,34 @@ body {
 
 .btn--azure {
   background: $color-azure;
+}
+
+
+.masthead-discription {
+  &-title {
+    font-size: 12px;
+    float: right;
+    margin: 10px 15px 0;
+    padding: 1px 0 0 18px;
+    background: url("../../asset/images/info.svg") 1px 0 no-repeat;
+    background-size: contain;
+  }
+
+  &-content {
+    font-size: 15px;
+    line-height: 25px;
+    padding: 5px 0;
+    text-align: left;
+
+    label {
+      font-weight: 400;
+      float: left;
+      margin-right: 10px;
+    }
+
+    p {
+      overflow: hidden;
+      white-space: pre-wrap;
+    }
+  }
 }
