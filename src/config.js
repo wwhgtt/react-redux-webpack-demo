@@ -126,5 +126,6 @@ module.exports = {
   modifyPwd: `${apiBase}/member/modifyPwd.json`, // 修改密码
   resetPassword: `${apiBase}/member/resetPassword.json`, // 重置密码
   getResetPasswordUserInfoAPI: `${apiBase}/member/resetPwd.json`, // 取密码重置用户信息
+  getQueueInfoAPI: `${apiBase}/queue/success.json`, // 排队详情
   requestOptions,
 };

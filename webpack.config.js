@@ -105,6 +105,9 @@ module.exports = {
     'mine-reset-password-entry': [
       './src/mine-reset-password.jsx',
     ],
+    'queue-detail-entry': [
+      './src/queue-detail.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -402,6 +405,14 @@ module.exports = {
         title: 'MineResetPasswordApplication',
         filename: 'mine-reset-password.html',
         chunks: ['common', 'mine-reset-password-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'QueueDetailApplication',
+        filename: 'queue-detail.html',
+        chunks: ['common', 'queue-detail-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
