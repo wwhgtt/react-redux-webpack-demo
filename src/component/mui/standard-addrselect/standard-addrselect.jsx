@@ -54,6 +54,11 @@ module.exports = React.createClass({
       window.clearTimeout(this.timer);
     }
 
+    if (!searchKey) {
+      this.setState({ suggest: [], suggestVisible: false });
+      return;
+    }
+
     this.timer = window.setTimeout(x => {
       if (this._mapLocal) {
         this._mapLocal.search(searchKey, { forceLocal: true });
@@ -114,7 +119,11 @@ module.exports = React.createClass({
           onSelectComplete={this.handleSelectComplete}
           list={this.state.list}
         />
-        <div className="addrselect-mask" style={{ display: this.state.suggestVisible ? 'block' : '' }}></div>
+        <div
+          className="addrselect-mask"
+          style={{ display: this.state.suggestVisible ? 'block' : '' }}
+          onTouchTap={() => { this.handleSuggestVisible(false); }}
+        />
       </div>
     );
   },
