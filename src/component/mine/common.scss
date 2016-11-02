@@ -1,0 +1,24 @@
+@import "settings.colors";
+
+.records:empty {
+  border-top: 1px solid $color-mercury;
+
+  &::before {
+    display: block;
+    width: 130px;
+    height: 150px;
+    margin: 25% auto 0;
+    content: "";
+    background: url("../../asset/images/norecord.svg") 0 0 no-repeat;
+    background-size: contain;
+  }
+
+  &::after {
+    font-size: 16px;
+    display: block;
+    margin: 10px 0 0;
+    content: "无找到记录";
+    text-align: center;
+    color: $color-dusty-grey;
+  }
+}
