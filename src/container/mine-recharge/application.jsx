@@ -131,11 +131,6 @@ const MineRechargeApplication = React.createClass({
     let rechargeActiveAds = [];
     let rechargeItem = '';
     let lastRechargeAd = '';
-    const buttons = [{
-      text: '确定',
-      className: 'btn-recharge-active',
-      onClick: this.handleClose,
-    }];
 
     // 充值卡
     if (rechargeInfo.ruleInfo && rechargeInfo.ruleInfo.ruleList) {
@@ -184,8 +179,9 @@ const MineRechargeApplication = React.createClass({
           }
 
           const rechargeActiveItem = (<div key={Math.random() + index} className="recharge-coupon">
-            <p className="ellipsis">储值满{item.storeAmount}送{couponType}({item.couponName}）</p>
-            <p className="ellipsis">【活动时间】{items.planStartDay}~{items.planEndDay}</p>
+            <p className="ellipsis">储值满{item.storeAmount}</p>
+            <p className="ellipsis">送{couponType}({item.couponName}）</p>
+            <p className="ellipsis">{items.planStartDay.replace(/-/g, '/')} ~ {items.planEndDay.replace(/-/g, '/')}</p>
           </div>);
           const rechargeActiveAd = <div key={Math.random() + index}>储值满{item.storeAmount}送{couponType}</div>;
 
@@ -196,14 +192,14 @@ const MineRechargeApplication = React.createClass({
       );
     }
     rechargeActiveAds = rechargeActiveAds.sort((firstValue, nextValue) => {
-      const firstNum = firstValue.props.children[1];
-      const nextNum = nextValue.props.children[1];
+      const firstNum = parseFloat(firstValue.props.children[1]);
+      const nextNum = parseFloat(nextValue.props.children[1]);
       return this.rechargeCompare(firstNum, nextNum);
     });
 
     rechargeActiveItems = rechargeActiveItems.sort((firstValue, nextValue) => {
-      const firstNum = firstValue.props.children[0].props.children[1];
-      const nextNum = nextValue.props.children[0].props.children[1];
+      const firstNum = parseFloat(firstValue.props.children[0].props.children[1]);
+      const nextNum = parseFloat(nextValue.props.children[0].props.children[1]);
       return this.rechargeCompare(firstNum, nextNum);
     });
 
@@ -263,13 +259,13 @@ const MineRechargeApplication = React.createClass({
             hasTopBtnClose={false}
             title={'活动详情'}
             onClose={this.handleClose}
-            buttons={buttons}
             theme="sliver"
           >
             <div>{rechargeActiveItems}</div>
           </Dialog>
         }
       </div>
+      <div className="recharge-footer">客如云提供技术支持</div>
     </div>);
   },
 });

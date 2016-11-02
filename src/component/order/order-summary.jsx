@@ -280,10 +280,14 @@ module.exports = React.createClass({
             <div className="order-total-left">
               <span className="text-dove-grey">总计: </span>
               <span className="price">{serviceProps.benefitProps && serviceProps.benefitProps.isPriviledge ?
-                serviceProps.benefitProps.extraPrice
-                  + helper.countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
+                formatPrice(
+                  serviceProps.benefitProps.extraPrice
+                    + helper.countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
+                )
                 :
-                helper.countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
+                formatPrice(
+                  helper.countTotalPriceWithoutBenefit(dishesPrice, serviceProps.deliveryProps)
+                )
               }</span>
             </div>
             {commercialProps.carryRuleVO ?
@@ -294,7 +298,9 @@ module.exports = React.createClass({
                     {serviceProps.benefitProps && serviceProps.benefitProps.isPriviledge ?
                       serviceProps.benefitProps.priviledgeAmount
                       :
-                      helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)
+                      formatPrice(
+                        helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)
+                      )
                     }
                   </span>
                 </div>

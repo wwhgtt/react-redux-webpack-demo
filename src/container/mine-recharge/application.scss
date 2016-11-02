@@ -73,6 +73,7 @@
 }
 
 .recharge-content {
+  min-height: calc(100% - 174px);
   padding: 15px;
   background-color: #fff;
 }
@@ -140,10 +141,16 @@
 }
 
 .recharge-coupon {
-  font-size: 15px;
-  line-height: 30px;
-  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 24px;
+  margin-bottom: 15px;
   color: #666;
+
+  p:first-child {
+    font-size: 15px;
+    font-weight: bold;
+    color: #474747;
+  }
 }
 
 .btn-recharge-active {
@@ -152,4 +159,11 @@
 
 .recharge-item-single {
   margin: 22px 0;
+}
+
+.recharge-footer {
+  font-size: 12px;
+  height: 30px;
+  text-align: center;
+  color: #ccc;
 }

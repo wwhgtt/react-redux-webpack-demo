@@ -20,6 +20,7 @@ const setAddressListInfoToOrder = createAction('SET_ADDRESS_LIST_INFO_TO_ORDER',
 const setDeliveryPrice = createAction('SET_DELIVERY_PRICE', freeDeliveryPrice => freeDeliveryPrice);
 const setSendAreaId = createAction('SET_SEND_AREA_ID', areaId => areaId);
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
+const setLoadInfo = exports.setErrorMsg = createAction('SET_LOAD_INFO', info => info);
 const setCustomToShopAddress = createAction('SET_ADDRESS_TOSHOP_TO_ORDER', option => option);
 const setOrderTimeProps = createAction('SET_ORDER_TIME_PROPS', timeJson => timeJson);
 const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
@@ -359,16 +360,18 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
     }
   };
 
+  dispatch(setLoadInfo({ ing: true, word: '系统处理中' }));
   requestOptions.body = JSON.stringify(data);
-
   fetch(url, requestOptions)
     .then(res => {
+      dispatch(setLoadInfo(null));
       if (!res.ok) {
         dispatch(setErrorMsg('提交订单信息失败'));
       }
       return res.json();
     })
     .then(result => {
+      dispatch(setLoadInfo(null));
       complete(result);
     })
     .catch(err => {
@@ -379,14 +382,18 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
   const obj = Object.assign({}, { shopId, mobile: phoneNum, timestamp: new Date().getTime() });
   const paramStr = getSendCodeParamStr(obj);
   const url = `${config.sendCodeAPI}?${paramStr}`;
+
+  dispatch(setLoadInfo({ ing: true, word: '系统处理中' }));
   return fetch(url, config.requestOptions).
     then(res => {
+      dispatch(setLoadInfo(null));
       if (!res.ok) {
         dispatch(setErrorMsg('验证码获取失败'));
       }
       return res.json();
     }).
     then(result => {
+      dispatch(setLoadInfo(null));
       if (result.code !== '200') {
         dispatch(setErrorMsg(result.msg));
         return;

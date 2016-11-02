@@ -38,7 +38,7 @@ const MineModifyPasswordApplication = React.createClass({
       const cur = passwordFields[i];
       const value = this.state[cur.name];
       if (!value || value.length !== 6) {
-        this.showErrorMessage({ msg: `请输入${value ? '6位' : ''}${cur.text}`, names: [cur.name] });
+        this.showErrorMessage({ msg: `请输入${value ? '6位数' : ''}${cur.text}`, names: [cur.name] });
         return false;
       }
     }
@@ -127,7 +127,7 @@ const MineModifyPasswordApplication = React.createClass({
                   name="confirmedPassword"
                   onChange={this.handlePasswordChange}
                   maxLength="6"
-                  placeholder="请输入6位数字密码"
+                  placeholder="请再次输入密码"
                   value={confirmedPassword || ''}
                 />
               </div>
