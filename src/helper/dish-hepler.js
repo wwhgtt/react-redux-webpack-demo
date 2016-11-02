@@ -1,4 +1,5 @@
 const _findIndex = require('lodash.findindex');
+const _find = require('lodash.find');
 const getUrlParam = exports.getUrlParam = function (param) {
   const reg = new RegExp(`(^|&)${param}=([^&]*)(&|$)`, 'i');
   const r = window.location.search.replace(/\?/g, '&').substr(1).match(reg);
@@ -560,26 +561,38 @@ const selectDishesListWithSameName = (dishesList) => {
     sameNameDishes:newDishesList.filter(dishes => dishes.length > 1),
   };
 };
-const createNewDishes = (withSameNameDishesProp) => {
+const createNewDishes = (withSameNameDishesProp, dishTypeList) => {
   let initialDishes = withSameNameDishesProp.dishesList.filter(dish => !dish.shuoldDelete);
-  console.log(initialDishes);
   let changedDishes = [];
   withSameNameDishesProp.sameNameDishes.forEach(disesCollection => {
     let maternalDish = disesCollection[0];
-    maternalDish.childrenDish = [];
-    for (let i = 1; i <= disesCollection.length; i++) {
-      maternalDish.childrenDish.push(disesCollection[i]);
+    maternalDish.sameRuleDishes = [];
+    for (let i = 1; i < disesCollection.length; i++) {
+      maternalDish.sameRuleDishes.push(disesCollection[i]);
+      // dish所在的dishType
+      let dishType = _find(dishTypeList, dishesType => dishesType.dishIds && dishesType.dishIds.indexOf(maternalDish.id) !== -1);
+      if (dishType) {
+        let dishIndex = _findIndex(dishType.dishIds, dishId => dishId === disesCollection[i].id);
+        dishType.dishIds.splice(dishIndex, 1);
+      }
     }
     return changedDishes.push(maternalDish);
   });
+  // console.log(dishTypeList);
   let finalDishes = [].concat.apply(initialDishes, changedDishes);
-  return finalDishes;
+  return {
+    finalDishes,
+    dishTypeList,
+  };
 };
-exports.reorganizeDishes = (dishesList) => {
+exports.reorganizeDishes = (dishesList, dishTypeList) => {
   // 先筛选出名称,销售单位,商品中类一致,商品参与的规格分组完全一致的菜品
   const withSameNameDishesProp = selectDishesListWithSameName(dishesList);
   // console.log('withSameNameDishesProp:', withSameNameDishesProp);
-  const finalDishes = createNewDishes(withSameNameDishesProp);
-  console.log(finalDishes);
-  return finalDishes;
+  const finalDishes = createNewDishes(withSameNameDishesProp, dishTypeList).finalDishes;
+  const dishesTypeList = createNewDishes(withSameNameDishesProp, dishTypeList).dishTypeList;
+  return {
+    dishesList:finalDishes,
+    dishesTypeList,
+  };
 };
