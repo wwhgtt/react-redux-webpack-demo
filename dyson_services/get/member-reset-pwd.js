@@ -1,10 +1,11 @@
 module.exports = {
-  path:'/member/modifyPwd.json',
+  path:'/member/resetPwd.json',
   template: {
     data: {
+      mobile: '13688888888',
     },
     time: 1472458598918,
     code: '200',
-    msg: '老密码有误',
+    msg: '',
   },
 };

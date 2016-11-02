@@ -17,6 +17,7 @@ const MineModifyPasswordApplication = React.createClass({
     resetPassword: React.PropTypes.func.isRequired,
     login: React.PropTypes.func.isRequired,
     fetchVericationCode: React.PropTypes.func.isRequired,
+    fetchUserInfo: React.PropTypes.func.isRequired,
   },
   getInitialState() {
     return {
@@ -26,9 +27,18 @@ const MineModifyPasswordApplication = React.createClass({
       newPassword: '',
       confirmedPassword: '',
       childView: '',
+      phoneNum: '',
     };
   },
   componentWillMount() {
+    this.props.fetchUserInfo({
+      setLoadding: this.setLoadingInfo,
+      showErrorMessage: this.showErrorMessage,
+      callback: (ret) => {
+        this.setState({ phoneNum: ret.mobile });
+      },
+    });
+
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
     window.addEventListener('load', this.setChildViewAccordingToHash);
   },
@@ -49,7 +59,7 @@ const MineModifyPasswordApplication = React.createClass({
       const cur = passwordFields[i];
       const value = this.state[cur.name];
       if (!value || value.length !== 6) {
-        this.showErrorMessage({ msg: `请输入${value ? '6位' : ''}${cur.text}`, names: [cur.name] });
+        this.showErrorMessage({ msg: `请输入${value ? '6位数' : ''}${cur.text}`, names: [cur.name] });
         return false;
       }
     }
@@ -75,12 +85,16 @@ const MineModifyPasswordApplication = React.createClass({
 
     this.showErrorMessage(null);
     const { newPassword, confirmedPassword } = this.state;
-
+    this.setState({ error:null });
     this.props.resetPassword(
       { newPassword, confirmedPassword },
       this.setLoadingInfo,
       (error) => {
-        this.showErrorMessage(Object.assign(error, { names: ['newPassword'] }));
+        if (error.names && error.names.length) {
+          this.showErrorMessage(error);
+        } else {
+          this.showErrorMessage(Object.assign(error, { names: ['newPassword'] }));
+        }
       });
   },
   handleStepOne() {
@@ -123,7 +137,7 @@ const MineModifyPasswordApplication = React.createClass({
     });
   },
   render() {
-    const { loadingInfo, error, childView, newPassword, confirmedPassword } = this.state;
+    const { loadingInfo, error, childView, newPassword, confirmedPassword, phoneNum } = this.state;
     const getOptionClass = (name) => classnames('option', { error: error && error.names.indexOf(name) !== -1 });
 
     return (
@@ -134,6 +148,8 @@ const MineModifyPasswordApplication = React.createClass({
             <PhoneVerificationCode
               onGetVerificationCode={this.fetchVericationCode}
               fetchCodeBtnText="点击获取"
+              phoneNum={phoneNum}
+              phoneNumDisabled
               ref="verificationCode"
             />
             <div className="btn-group">
@@ -154,7 +170,7 @@ const MineModifyPasswordApplication = React.createClass({
                     name="newPassword"
                     onChange={this.handlePasswordChange}
                     maxLength="6"
-                    placeholder="请输入6位数字密码"
+                    placeholder="请输入6位数字新密码"
                     value={newPassword || ''}
                   />
                 </div>
@@ -168,7 +184,7 @@ const MineModifyPasswordApplication = React.createClass({
                     name="confirmedPassword"
                     onChange={this.handlePasswordChange}
                     maxLength="6"
-                    placeholder="请输入6位数字密码"
+                    placeholder="请再次输入新密码"
                     value={confirmedPassword || ''}
                   />
                 </div>
@@ -179,6 +195,7 @@ const MineModifyPasswordApplication = React.createClass({
             </div>
           </div>
         }
+        <div className="copyright"></div>
         {loadingInfo && loadingInfo.ing && <Loading word={loadingInfo.text} />}
       </div>
     );

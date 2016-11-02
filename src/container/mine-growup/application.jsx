@@ -106,7 +106,7 @@ const MineGrowupApplication = React.createClass({
             {this.buildListElement()}
           </div>
         </div>
-        <div className="footer">客如云提供技术支持</div>
+        <div className="footer copyright"></div>
       </div>
     );
   },

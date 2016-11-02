@@ -52,6 +52,7 @@ module.exports = function (
         benefitList:[],
         totalAmount:0,
       },
+      allowCheck:true,
     },
     childView:null,
     errorMessage:null,
@@ -86,6 +87,7 @@ module.exports = function (
            false
        )
        .setIn(['serviceProps', 'integralsDetail'], payload.integral)
+       .setIn(['serviceProps', 'allowCheck'], payload.allowCheck)
        .setIn(['orderedDishesProps', 'dishes'], reconstructDishes(initializeDishes(payload.dishItems)))
        .setIn(['serviceProps', 'benefitProps', 'isPriviledge'], payload.hasPriviledge)
        .setIn(['serviceProps', 'benefitProps', 'priviledgeAmount'], payload.priviledgeAmount)

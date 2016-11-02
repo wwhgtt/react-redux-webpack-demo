@@ -41,7 +41,12 @@ module.exports = React.createClass({
       );
     });
 
-    const bodyMaxHeight = window.innerHeight - 120;
+    const style = {
+      maxHeight: window.innerHeight - 120,
+    };
+    if (buttons && buttons.length) {
+      style.overflow = 'auto';
+    }
     return (
       <div className="modal">
         <div className="mask" onTouchTap={this.onClose}></div>
@@ -50,7 +55,7 @@ module.exports = React.createClass({
             <p className="dialog-title">{title}</p>
             {hasTopBtnClose && <button className="btn dialog-btn-close" onTouchTap={this.onClose}></button>}
           </div>
-          <div className="dialog-body" style={{ maxHeight: bodyMaxHeight }}>
+          <div className="dialog-body" style={style}>
             {this.props.children}
           </div>
           <div className="dialog-footer">
