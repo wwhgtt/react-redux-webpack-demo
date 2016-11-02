@@ -14,45 +14,37 @@
 // }
 
 .address {
-  padding-top: 10px;
-
   &-group {
     display: block;
-    margin-bottom: 10px;
     text-decoration: none;
-    border-top: 1px solid $color-mercury;
-    border-bottom: 1px solid $color-mercury;
     background: $color-white;
 
     &-divider {
       font-size: 14px;
-      margin-bottom: 10px;
+      margin: 10px 0;
       padding: 0 15px;
-      color: $color-dove-grey;
+      color: #666;
     }
-
     // disabled address title color
     &-disabled {
       .address-title {
-        color: $color-sliver;
+        color: #999;
+      }
+
+      .address-meta {
+        color: #999;
       }
     }
   }
 
   &-option {
-    font-size: 14px;
     line-height: 20px;
     position: relative;
     display: block;
     overflow: hidden;
-    padding: 13px 70px 11px 15px;
+    padding: 15px 65px 14px 15px;
     text-decoration: none;
-    color: $color-mine-shaft;
-    border-bottom: 1px solid $color-mercury;
-
-    &:last-child {
-      border-bottom: 0;
-    }
+    border-bottom: 1px solid #e3e3e3;
 
     &.is-checked {
       &::before {
@@ -83,60 +75,55 @@
       }
     }
   }
-
   // address edit button
   &-edit {
     position: absolute;
     z-index: 10;
     top: 50%;
     right: 0;
-    width: 70px;
+    width: 55px;
     height: 50px;
     margin-top: -25px;
-    background-image: url("../../asset/images/edit-blue.png");
+    background-image: url("../../asset/images/edit_grey.svg");
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: 18px 18px;
+    background-size: 24px;
   }
 
   &-title {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: normal;
-    margin-bottom: 5px;
-    color: $color-dove-grey;
+    margin-top: 10px;
+    color: #666;
   }
 
   &-meta {
-    font-size: 13px;
-    color: $color-sliver;
+    color: #474747;
 
     &-phone {
+      text-align: right;
       text-decoration: none;
       pointer-events: none;
     }
   }
   // end address entry
-
   // add more address button
   &-add-more {
     font-size: 16px;
+    line-height: 49px;
     display: block;
-    margin-bottom: 15px;
-    padding: 15px 0;
+    height: 49px;
     text-align: center;
     text-decoration: none;
-    color: $color-neon-carrot;
-    border-top: 1px solid $color-mercury;
-    border-bottom: 1px solid $color-mercury;
-    background: $color-white;
+    color: #fff;
   }
-
   // address page bottom comments
   &-comments {
-    font-size: 14px;
-    line-height: 1.5;
-    margin-bottom: 15px;
+    font-size: 12px;
+    line-height: 30px;
+    height: 30px;
     text-align: center;
-    color: $color-sliver;
+    color: #fff;
+    background-color: #ef4646;
   }
 }

@@ -12,19 +12,25 @@ const rechargeUrl = `${config.rechargeURL}?shopId=${shopId}`;
 const orderallListUrl = `${config.orderallListURL}?shopId=${shopId}`;
 const getCouponListUrl = ` ${config.getCouponListURL}?shopId=${shopId}`;
 const addressListUrl = `${config.addressListURL}?shopId=${shopId}`;
-const registerUrl = ` ${config.registerMemberURL}?shopId=${shopId}`;
+let registerUrl = `${config.registerMemberURL}?shopId=${shopId}`;
 const bindMobileUrl = ` ${config.bindMobileURL}?shopId=${shopId}`;
 const bindWXUrl = ` ${config.bindWXURL}?shopId=${shopId}`;
 
 require('./show-menu-list.scss');
 
 module.exports = React.createClass({
-  displayName: 'Name',
+  displayName: 'ShowMenuList',
   propTypes:{
     info:React.PropTypes.object.isRequired,
   },
   componentWillMount() {},
   componentDidMount() {},
+  getFontSize(length) {
+    if (length > 8) {
+      return { fontSize:`${8 / length * 1.563}em` };
+    }
+    return { fontSize:'1.563em' };
+  },
   jumpToCredit() {
     window.location.href = creditUrl;
   },
@@ -39,6 +45,8 @@ module.exports = React.createClass({
     let partFour = '';
     const isWeiXinBroswer = commonHelper.getWeixinVersionInfo().weixin;
     const { info } = this.props;
+    const scoreFontSize = info.score ? this.getFontSize(info.score.toString().length) : { fontSize:'1.563em' };
+    const balanceFontSize = info.balance ? this.getFontSize(info.balance.toString().length) : { fontSize:'1.563em' };
     // 几种状态的判断
     if (info.loginType === 1 && !info.bindMobile) {
       condition = 1;
@@ -51,138 +59,145 @@ module.exports = React.createClass({
     } else if (info.bindWx && info.bindMobile) {
       condition = 4;
     }
-    // 几种状态的判断
 
+    // 用户注册地址判断
+    if (info.loginType === 1) {
+      registerUrl = `http://${location.host}/user/validBindMobile?shopId=${shopId}`;
+    } else if (info.loginType === 0) {
+      registerUrl = `${registerUrl}&mobile=${info.mobile}`;
+    }
+
+    // 几种状态的判断
     if (condition === 3 || condition === 4 && info.isMember) {
       partOne = (
         <div>
           <div className="menuLink mt of">
             <div className="menuLink-holder fl" onTouchTap={this.jumpToCredit}>
+              <p className="menuLink-holder-p scorenum" style={scoreFontSize}>{info.score}<span className="unit">分</span></p>
               <p className="menuLink-holder-p title">我的积分</p>
-              <p className="menuLink-holder-p num">{info.score}</p>
             </div>
             <div className="menuLink-holder fl" onTouchTap={this.jumpToRemain}>
+              <p className="menuLink-holder-p balancenum" style={balanceFontSize}>{info.balance}<span className="unit">元</span></p>
               <p className="menuLink-holder-p title">我的余额</p>
-              <p className="menuLink-holder-p num">{info.balance}</p>
             </div>
           </div>
-          <ul className="list-ul">
-            <li className="list-ul-li" name="会员卡">
-              <a className="menuLink" href={mainIndexUrl}>
-                <i className="icon" name="HYK"></i>
-                <span className="name">会员卡</span>
-                <span className="arrow"></span>
+          <div className="list-group">
+            <div className="list-item" name="会员卡">
+              <a className="list-link" href={mainIndexUrl}>
+                <i className="list-icon" name="HYK"></i>
+                <span className="list-name">会员卡</span>
+                <span className="list-arrow list-arrow-right"></span>
               </a>
-            </li>
-            <li className="list-ul-li" name="会员充值">
-              <a className="menuLink" href={rechargeUrl}>
-                <i className="icon" name="HYCZ"></i>
-                <span className="name">会员充值</span>
-                <span className="arrow"></span>
+            </div>
+            <div className="list-item" name="会员充值">
+              <a className="list-link" href={rechargeUrl}>
+                <i className="list-icon" name="HYCZ"></i>
+                <span className="list-name">会员充值<b className="list-name-detail">充值+</b></span>
+                <span className="list-arrow list-arrow-right"></span>
               </a>
-            </li>
-          </ul>
+            </div>
+          </div>
         </div>
       );
     }
     if (condition === 3 && isWeiXinBroswer) { // 同时要是微信浏览器
       partTwo = (
-        <li className="list-ul-li" name="绑定微信号">
-          <a className="menuLink" href={bindWXUrl}>
-            <i className="icon" name="BDWX"></i>
-            <span className="name">绑定微信号</span>
-            <span className="arrow"></span>
+        <div className="list-item" name="绑定微信号">
+          <a className="list-link" href={bindWXUrl}>
+            <i className="list-icon" name="BDWX"></i>
+            <span className="list-name">绑定微信号</span>
+            <span className="list-arrow list-arrow-right"></span>
           </a>
-        </li>
+        </div>
       );
     }
 
     if (!info.isMember || (condition === 1 && !info.bindMobile) || (condition === 2 && !info.bindWx)) {
       partThree = (
-        <ul className="list-ul">
+        <div className="list-group">
           {
             !info.isMember ?
-              <li className="list-ul-li" name="会员注册">
-                <a className="menuLink" href={registerUrl}>
-                  <i className="icon" name="HYZC"></i>
-                  <span className="name">会员注册</span>
-                  <span className="brief">注册会员享受更多福利</span>
-                  <span className="arrow"></span>
+              <div className="list-item" name="会员注册">
+                <a className="list-link" href={registerUrl}>
+                  <i className="list-icon" name="HYZC"></i>
+                  <span className="list-name">会员注册</span>
+                  <span className="list-brief">注册会员享受更多福利</span>
+                  <span className="list-arrow list-arrow-right"></span>
                 </a>
-              </li>
+              </div>
             :
             false
           }
           {
             condition === 1 && !info.bindMobile ?
-              <li className="list-ul-li" name="绑定手机号">
-                <a className="menuLink" href={bindMobileUrl}>
-                  <i className="icon" name="BDSJ"></i>
-                  <span className="name">绑定手机号</span>
-                  <span className="arrow"></span>
+              <div className="list-item" name="绑定手机号">
+                <a className="list-link" href={bindMobileUrl}>
+                  <i className="list-icon" name="BDSJ"></i>
+                  <span className="list-name">绑定手机号</span>
+                  <span className="list-arrow list-arrow-right"></span>
                 </a>
-              </li>
+              </div>
             :
             false
           }
           {
             condition === 2 && !info.bindWx && isWeiXinBroswer ? // 同时要是微信浏览器
-              <li className="list-ul-li" name="绑定微信号">
-                <a className="menuLink" href={bindWXUrl}>
-                  <i className="icon" name="BDWX"></i>
-                  <span className="name">绑定微信号</span>
-                  <span className="arrow"></span>
+              <div className="list-item" name="绑定微信号">
+                <a className="list-link" href={bindWXUrl}>
+                  <i className="list-icon" name="BDWX"></i>
+                  <span className="list-name">绑定微信号</span>
+                  <span className="list-arrow list-arrow-right"></span>
                 </a>
-              </li>
+              </div>
             :
             false
           }
-        </ul>
+        </div>
       );
     }
     if (info.bindMobile) {
       partFour = (
-        <li className="list-ul-li" name="优惠券">
-          <a className="menuLink" href={getCouponListUrl}>
-            <i className="icon" name="YH"></i>
-            <span className="name">优惠券</span>
-            <span className="arrow"></span>
+        <div className="list-item" name="优惠券">
+          <a className="list-link" href={getCouponListUrl}>
+            <i className="list-icon" name="YH"></i>
+            <span className="list-name">优惠券</span>
+            <span className="list-arrow list-arrow-right"></span>
           </a>
-        </li>
+        </div>
       );
     }
     // return
     return (
       <div className="list-outer">
         {partOne}
-        <ul className="list-ul">
-          <li className="list-ul-li" name="订单中心">
-            <a className="menuLink" href={orderallListUrl}>
-              <i className="icon" name="DD"></i>
-              <span className="name">订单中心</span>
-              <span className="arrow"></span>
+        <div className="list-group">
+          <div className="list-item" name="订单中心">
+            <a className="list-link" href={orderallListUrl}>
+              <i className="list-icon" name="DD"></i>
+              <span className="list-name">订单中心</span>
+              <span className="list-arrow list-arrow-right"></span>
             </a>
-          </li>
+          </div>
           {partFour}
-          <li className="list-ul-li" name="地址管理">
-            <a className="menuLink" href={addressListUrl}>
-              <i className="icon" name="DZ"></i>
-              <span className="name">地址管理</span>
-              <span className="arrow"></span>
+          <div className="list-item" name="地址管理">
+            <a className="list-link" href={addressListUrl}>
+              <i className="list-icon" name="DZ"></i>
+              <span className="list-name">地址管理</span>
+              <span className="list-arrow list-arrow-right"></span>
             </a>
-          </li>
+          </div>
           {partTwo}
-        </ul>
+        </div>
         {partThree}
-        <ul className="list-ul">
-          <li className="list-ul-li" name="设置">
-            <a className="menuLink" href={settingUrl}>
-              <i className="icon" name="SZ"></i>
-              <span className="name">设置</span>
-              <span className="arrow"></span>
+        <div className="list-group">
+          <div className="list-item" name="设置">
+            <a className="list-link" href={settingUrl}>
+              <i className="list-icon" name="SZ"></i>
+              <span className="list-name">设置</span>
+              <span className="list-arrow list-arrow-right"></span>
             </a>
-          </li>
-        </ul>
+          </div>
+        </div>
       </div>
     );
   },

@@ -1,6 +1,8 @@
 @import "settings.colors";
 
 .phone-verification-code {
+  position: relative;
+
   .form-group {
     font-size: 14px;
     line-height: 24px;
@@ -28,18 +30,6 @@
       background: none;
     }
 
-    .btn {
-      font-size: 12px;
-      float: right;
-      height: 24px;
-      padding: 0 8px;
-      border-radius: 3px;
-    }
-
-    .btn:disabled {
-      background: $color-sliver;
-    }
-
     &.phone {
       &::before {
         background-image: url("../../../asset/images/phone.png");
@@ -55,6 +45,22 @@
         background-size: 20px 20px;
       }
     }
+  }
+
+  .btn {
+    font-size: 12px;
+    position: absolute;
+    z-index: 1;
+    top: 15px;
+    right: 15px;
+    min-width: 88px;
+    height: 24px;
+    padding: 0 8px;
+    border-radius: 3px;
+  }
+
+  .btn:disabled {
+    background: $color-sliver;
   }
 }
 

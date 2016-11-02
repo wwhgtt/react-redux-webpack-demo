@@ -96,7 +96,7 @@ module.exports = {
         'aliasName': '',
         'unitId': null,
         'unitName': '碗',
-        'marketPrice': 0.0,
+        'marketPrice': 3.45,
         'dishDesc': '',
         'videoUrl': '',
         'dishIncreaseUnit': 2,
@@ -394,10 +394,10 @@ module.exports = {
         'aliasName': '',
         'unitId': null,
         'unitName': '份',
-        'marketPrice': 25.0,
+        'marketPrice': 20.4,
         'dishDesc': '',
         'videoUrl': '',
-        'dishIncreaseUnit': 2,
+        'dishIncreaseUnit': 1,
         'stepNum': 1,
         'currRemainTotal': null,
         'dishQty':2,
@@ -412,7 +412,7 @@ module.exports = {
           'properties': [{
             'id': 37,
             'name': '多糖',
-            'reprice': -100,
+            'reprice': 10,
             'isChecked': false,
           }, {
             'id': 39,
@@ -437,7 +437,7 @@ module.exports = {
           'properties': [{
             'id': 67,
             'name': '做法类别1做法名称5',
-            'reprice': 6.0,
+            'reprice': 10.0,
             'isChecked': false,
           }, {
             'id': 64,

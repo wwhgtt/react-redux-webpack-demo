@@ -1,7 +1,13 @@
 @import "settings.colors";
 
+.options-group {
+  border-top: 0 none;
+  border-bottom-color: #e3e3e3;
+}
+
 // reset option layout
 .option {
+  padding: 19px 15px 18px;
   $option-left-width: 90px;
 
   &-title {
@@ -12,11 +18,15 @@
     width: calc(100% - #{$option-left-width});
   }
 
+  &-input {
+    color: #666;
+  }
+
   &.error {
     color: #f00;
 
     .customer-address-placeholder {
-      color: #f00;
+      color: #999;
     }
   }
 }
@@ -24,8 +34,6 @@
 // page styles
 .customer-address-page {
   min-height: 100%;
-  border-top: 10px solid $color-gallery;
-  border-bottom: 50px solid $color-gallery;
   background: $color-gallery;
 }
 
@@ -36,34 +44,29 @@
   }
 
   &-gender {
-    float: right;
-    width: 60%;
+    display: inline-block;
+    width: calc(100% - 90px);
+
+    label {
+      display: inline-block;
+      margin-right: 20px;
+    }
+
+    .option-desc {
+      color: #666;
+    }
   }
 
   &-address {
     position: relative;
     display: block;
     height: 22px;
-    padding-left: 30px;
     text-decoration: none;
-
-    &::before {
-      position: absolute;
-      z-index: 1;
-      top: 0;
-      left: 0;
-      width: 30px;
-      height: 22px;
-      content: "";
-      background-image: url("../../asset/images/location-grey.png");
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: 15px 18px;
-    }
 
     &-text {
       float: left;
       width: calc(100% - 20px);
+      color: #666;
 
       &:not(:empty) + .customer-address-placeholder {
         display: none;
@@ -71,13 +74,26 @@
     }
 
     &-placeholder {
-      color: $color-sliver;
+      color: #666;
     }
   }
 
-
   &-address-delete {
-    width: 100%;
-    color: $color-radical-red;
+    line-height: 44px;
+    display: block;
+    height: 44px;
+    margin: 10px 15px 0;
+    text-align: center;
+    color: #ef4646;
+    border-radius: 4px;
+    background-color: #fff;
   }
+}
+
+.btn-address {
+  line-height: 44px;
+  display: block;
+  height: 44px;
+  margin: 15px 15px 0;
+  border-radius: 4px;
 }

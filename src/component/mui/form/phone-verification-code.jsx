@@ -44,12 +44,21 @@ module.exports = React.createClass({
       phoneNum: phoneNum || '',
       code: '',
       seconds: 0,
+      canReceivePhoneNum: true,
     };
   },
   componentWillReceiveProps(nextProps) {
     if (nextProps.completeFlag !== this.props.completeFlag) {
       this.handleCompleteInput();
     }
+
+    const { phoneNum, canReceivePhoneNum } = this.state;
+    if (canReceivePhoneNum && nextProps.phoneNum !== phoneNum) {
+      this.setState({ phoneNum: nextProps.phoneNum });
+    }
+  },
+  componentWillUnmount() {
+    this.clearWaiting();
   },
   getDefaultVerificationCode(currentNation) {
     const nation = getNationInfo(currentNation);
@@ -123,7 +132,7 @@ module.exports = React.createClass({
       return;
     }
 
-    this.setState({ phoneNum: value });
+    this.setState({ phoneNum: value, canReceivePhoneNum: false });
   },
   handleCompleteInput() {
     const info = this.getInputInfo();
@@ -145,6 +154,7 @@ module.exports = React.createClass({
       return;
     }
 
+    this._touchTabed = true;
     this.sendFetchVerificationCodeRequest();
     this.waitOneMinute();
   },
@@ -193,9 +203,10 @@ module.exports = React.createClass({
     const { seconds, phoneNum, code, currentNation } = this.state;
     let btnInfo = null;
     if (seconds > 0) {
-      btnInfo = { text: `${seconds}s后获取`, disabled: true };
+      btnInfo = { text: `${seconds}s`, disabled: true };
     } else {
-      btnInfo = { text: fetchCodeBtnText, disabled: !this.isAllowSendCode(phoneNum, currentNation) };
+      const text = this._touchTabed ? '重新获取' : fetchCodeBtnText;
+      btnInfo = { text, disabled: !this.isAllowSendCode(phoneNum, currentNation) };
     }
 
     const className = classnames('phone-verification-code', {
@@ -204,11 +215,11 @@ module.exports = React.createClass({
     });
     return (
       <div className={className}>
+        <button className="btn btn--yellow" disabled={btnInfo.disabled} onTouchTap={this.handleFetchCodeBtnTouchTap}>
+          {btnInfo.text}
+        </button>
         <div className="form-group phone">
           {nationsSelect}
-          <button className="btn btn--yellow" disabled={btnInfo.disabled} onTouchTap={this.handleFetchCodeBtnTouchTap}>
-            {btnInfo.text}
-          </button>
           <input
             type="tel"
             disabled={phoneNumDisabled}

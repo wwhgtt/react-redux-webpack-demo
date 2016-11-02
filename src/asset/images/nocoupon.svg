@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="445px" height="225px" viewBox="0 0 445 225" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
+    <title>暂无优惠券</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M155.603368,45 L385.001508,45 C397.703224,45 408,55.3034831 408,68.0012709 L408,205.998729 C408,218.70198 397.710176,229 385.001508,229 L155.603368,229 C155.343249,217.551158 145.590628,208.346939 133.597826,208.346939 C121.605024,208.346939 111.852403,217.551158 111.592284,229 L70.9984922,229 C58.2967757,229 48,218.696517 48,205.998729 L48,68.0012709 C48,55.2980197 58.2898242,45 70.9984922,45 L111.592284,45 C111.852403,56.4488417 121.605024,65.6530612 133.597826,65.6530612 C145.590628,65.6530612 155.343249,56.4488417 155.603368,45 Z" id="path-1"></path>
+        <mask id="mask-3" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-5" y="-5" width="370" height="194">
+            <rect x="43" y="40" width="370" height="194" fill="white"></rect>
+            <use xlink:href="#path-1" fill="black"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="个人中心_优惠券_暂无优惠券" transform="translate(-153.000000, -509.000000)">
+            <g id="暂无优惠券" transform="translate(148.000000, 500.000000)">
+                <g id="Oval-3-Copy-+-Oval-3-Copy-2-Mask">
+                    <rect id="Rectangle-2" x="0" y="0" width="458" height="246"></rect>
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <g id="Combined-Shape">
+                        <use fill="#F1F1F1" fill-rule="evenodd" xlink:href="#path-1"></use>
+                        <use stroke="#D6D6D6" mask="url(#mask-3)" stroke-width="10" xlink:href="#path-1"></use>
+                    </g>
+                    <rect id="Rectangle" fill="#E8E8E8" mask="url(#mask-2)" x="34.3043478" y="33.7346939" width="99.7826087" height="212.163265"></rect>
+                </g>
+                <path d="M134.086957,67.0612245 L134.086957,208.82876" id="Line" stroke="#D6D6D6" stroke-width="4" stroke-linecap="round" stroke-dasharray="6,12"></path>
+                <g id="Group-4" transform="translate(206.000000, 70.000000)">
+                    <ellipse id="Oval-Copy-7" fill="#E8E8E8" cx="69.4565217" cy="66.6530612" rx="69.4565217" ry="66.6530612"></ellipse>
+                    <text id="%" font-family="ChalkboardSE-Regular, Chalkboard SE" font-size="80" font-weight="normal" fill="#CCCCCC">
+                        <tspan x="36.5145328" y="96">%</tspan>
+                    </text>
+                </g>
+                <g id="Group-4" transform="translate(7.000000, 11.000000)" stroke="#D6D6D6" stroke-width="4">
+                    <g id="Group-3" transform="translate(35.000000, 0.000000)" stroke-linecap="round">
+                        <path d="M5.11111111,0.289473684 L5.11111111,10.7105263" id="Line"></path>
+                        <path d="M10,5.15789474 L0,5.15789474" id="Line-Copy"></path>
+                    </g>
+                    <g id="Group-3-Copy-2" transform="translate(426.000000, 115.000000)" stroke-linecap="round">
+                        <path d="M5,0.289473684 L5,10.7105263" id="Line"></path>
+                        <path d="M10,5.21052632 L0,5.21052632" id="Line-Copy"></path>
+                    </g>
+                    <g id="Group-3-Copy" transform="translate(402.000000, 7.000000)" stroke-linecap="round">
+                        <path d="M7,0.394736842 L7,14.6052632" id="Line"></path>
+                        <path d="M14,7.10526316 L0,7.10526316" id="Line-Copy"></path>
+                    </g>
+                    <circle id="Oval-Copy" cx="6" cy="77" r="6"></circle>
+                    <circle id="Oval-Copy-2" cx="435" cy="55" r="6"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

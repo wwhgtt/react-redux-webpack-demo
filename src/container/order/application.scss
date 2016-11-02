@@ -83,7 +83,6 @@
   }
 }
 
-
 .order-add-text {
   font-size: 17px;
   color: $color-neon-carrot;
@@ -91,11 +90,10 @@
 
 // ORDER CART STYLS
 .order-cart {
-  $order-right-width: 120px;
-
   height: 50px;
   background: $color-white;
   box-shadow: 0 -1px 0 $color-mercury;
+  $order-right-width: 120px;
 
   &-left {
     position: relative;
@@ -134,3 +132,35 @@
 .weixin-login {
   margin-bottom: 10px;
 }
+
+.for-pickup {
+  position: absolute;
+  z-index: 100;
+  display: none;
+  width: 100%;
+  height: 48px;
+}
+
+.only-pickup {
+  display: block;
+}
+
+.address-no {
+  margin-top: 30px;
+  text-align: center;
+
+  &-img {
+    width: 110px;
+    height: 151px;
+    margin: 0 auto;
+    background-image: url("../../asset/images/mark_grey.svg");
+    background-size: 110px;
+  }
+
+  &-title {
+    line-height: 22px;
+    margin-top: 18px;
+    color: #999;
+  }
+}
+

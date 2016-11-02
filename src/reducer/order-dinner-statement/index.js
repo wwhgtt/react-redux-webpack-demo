@@ -17,12 +17,15 @@ module.exports = function (
       dishes:[],
     },
     commercialProps:{
+      diningForm:0,
       shopLogo:null,
       shopName:null,
       isSupportReceipt:true,
       carryRuleVO:null,
+      receipt:null,
     },
     serviceProps:{
+      diningForm:0,
       integralsInfo:null,
       integralsDetail:null,
       couponsProps:{
@@ -37,6 +40,19 @@ module.exports = function (
         inUseDiscount:null,
         isMember:false,
       },
+      activityBenefit:{
+        relatedDish:null,
+        benefitMoney:0,
+      },
+      benefitProps:{
+        isPriviledge:false,
+        priviledgeAmount:0,
+        extraPrivilege:null,
+        extraPrice:0,
+        benefitList:[],
+        totalAmount:0,
+      },
+      allowCheck:true,
     },
     childView:null,
     errorMessage:null,
@@ -52,8 +68,12 @@ module.exports = function (
       .setIn(['commercialProps', 'shopLogo'], payload.shopLogo)
       .setIn(['commercialProps', 'shopName'], payload.shopName)
       .setIn(['commercialProps', 'isSupportReceipt'], payload.isInvoice)
+      .setIn(['commercialProps', 'receipt'], payload.invoice)
       .setIn(['commercialProps', 'carryRuleVO'], payload.carryRuleVO && payload.carryRuleVO.transferType ?
-        payload.carryRuleVO : { transferType: 1, scale: 2 })
+        Object.assign({}, payload.carryRuleVO, { isEnjoyRule:!payload.hasPriviledge })
+        :
+        Object.assign({}, { transferType: 1, scale: 2 }, { isEnjoyRule:!payload.hasPriviledge })
+      )
       .setIn(
        ['serviceProps', 'integralsInfo'],
        payload.isMember && payload.integral && payload.integral.isExchangeCash === 0 && payload.integral.integral !== 0 ?
@@ -67,12 +87,19 @@ module.exports = function (
            false
        )
        .setIn(['serviceProps', 'integralsDetail'], payload.integral)
-       .setIn(['orderedDishesProps', 'dishes'], reconstructDishes(initializeDishes(payload.dishItems)));
+       .setIn(['serviceProps', 'allowCheck'], payload.allowCheck)
+       .setIn(['orderedDishesProps', 'dishes'], reconstructDishes(initializeDishes(payload.dishItems)))
+       .setIn(['serviceProps', 'benefitProps', 'isPriviledge'], payload.hasPriviledge)
+       .setIn(['serviceProps', 'benefitProps', 'priviledgeAmount'], payload.priviledgeAmount)
+       .setIn(['serviceProps', 'benefitProps', 'extraPrivilege'], payload.addPrivilege)
+       .setIn(['serviceProps', 'benefitProps', 'extraPrice'], helper.countExtraPrivilege(payload.addPrivilege))
+       .setIn(['serviceProps', 'benefitProps', 'benefitList'], payload.privileges)
+       .setIn(['serviceProps', 'benefitProps', 'totalAmount'], payload.totalAmount);
     }
     case 'SET_COUPONS_TO_ORDER':
       return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], payload);
     case 'SET_DISCOUNT_TO_ORDER':
-      if (payload.isDiscount && payload.isMember) {
+      if (payload.isDiscount && payload.isMember && !state.serviceProps.benefitProps.isPriviledge) {
         return state.setIn(
           ['serviceProps', 'discountProps', 'discountInfo'],
           Immutable.from({ name:'享受会员价', isChecked:true, id:'discount' })

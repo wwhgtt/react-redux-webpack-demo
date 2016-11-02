@@ -1,0 +1,31 @@
+@import "settings.colors";
+
+.application {
+  background: #fafafa;
+}
+
+.vip-card {
+  padding: 1em;
+  background: #434343;
+
+  &-inner {
+    position: relative;
+    width: 100%;
+  }
+
+  &-img {
+    width: 100%;
+  }
+
+  &-number {
+    font-size: 14px;
+    font-weight: bold;
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    bottom: 2em;
+    left: 0;
+    text-align: center;
+    color: #5b4520;
+  }
+}

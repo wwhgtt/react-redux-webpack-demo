@@ -1,5 +1,6 @@
 const React = require('react');
 require('./sex-switch.scss');
+const classnames = require('classnames');
 
 module.exports = React.createClass({ // SexSwitch
   displayName: 'SexSwitch',
@@ -20,9 +21,15 @@ module.exports = React.createClass({ // SexSwitch
     // this.setState({value: Info.name});
     const { sex } = this.props;
     return (
-      <div className="sex-switch fr">
-        <i className={sex === '0' ? 'active item' : 'item'} onTouchTap={() => this.sexSwitch('0')} ref="female">女士</i>
-        <i className={sex === '1' ? 'active item' : 'item'} onTouchTap={() => this.sexSwitch('1')} ref="male">先生</i>
+      <div className="sex-switch">
+        <label onTouchTap={() => this.sexSwitch('0')} className="sex-switch-label">
+          <span className={classnames('sex-switch-round', { active:sex === '0' })}></span>
+          <i className="sex-switch-name">女士</i>
+        </label>
+        <label onTouchTap={() => this.sexSwitch('1')} className="sex-switch-label">
+          <span className={classnames('sex-switch-round', { active:sex === '1' })}></span>
+          <i className="sex-switch-name">先生</i>
+        </label>
       </div>
     );
   },

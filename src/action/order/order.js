@@ -4,6 +4,7 @@ const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
 const isGroupDish = require('../../helper/dish-hepler.js').isGroupDish;
+const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 const helper = require('../../helper/order-helper.js');
 require('es6-promise');
 require('isomorphic-fetch');
@@ -19,10 +20,14 @@ const setAddressListInfoToOrder = createAction('SET_ADDRESS_LIST_INFO_TO_ORDER',
 const setDeliveryPrice = createAction('SET_DELIVERY_PRICE', freeDeliveryPrice => freeDeliveryPrice);
 const setSendAreaId = createAction('SET_SEND_AREA_ID', areaId => areaId);
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
+const setLoadInfo = exports.setErrorMsg = createAction('SET_LOAD_INFO', info => info);
 const setCustomToShopAddress = createAction('SET_ADDRESS_TOSHOP_TO_ORDER', option => option);
 const setOrderTimeProps = createAction('SET_ORDER_TIME_PROPS', timeJson => timeJson);
 const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
 const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
+const setBenefitOptions = createAction('SET_BENEFIT_OPTIONS', options => options);
+exports.onSelectBenefit = createAction('ON_SELECT_BENEFIT', option => option);
+const setActivityBenefit = createAction('SET_ACTIVITY_BENEFIT', prop => prop);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 
@@ -89,7 +94,7 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
     catch(err => {
       console.log(err);
     });
-exports.fetchOrderCoupons = () => (dispatch, getState) => {
+const fetchOrderCoupons = exports.fetchOrderCoupons = () => (dispatch, getState) => {
   let brandDishidsCollection = [];
   getState().orderedDishesProps.dishes.filter(
     dish => !isGroupDish(dish)
@@ -275,9 +280,46 @@ exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
       };
       dispatch(setDeliveryPrice(deliveryProps));
       dispatch(setOrderTimeProps(data.timeJson));
+      fetchOrderCoupons()(dispatch, getState);
     }).
     catch(err => {
       console.log(err);
+    });
+};
+
+exports.fetchActivityBenefit = () => (dispatch, getState) => {
+  const lastOrderedDishes = getState().orderedDishesProps;
+  let dishInfo = [];
+  lastOrderedDishes.dishes.map(dish => {
+    let dishDetailObject = {
+      dishId:dish.brandDishId,
+      dishNum:getDishesCount([dish]),
+    };
+    return dishInfo.push(dishDetailObject);
+  });
+  const requestOptions = Object.assign({}, config.requestOptions, { method: 'POST' });
+  let fetchOptions = {
+    shopId,
+    orderAmount:getDishesPrice(lastOrderedDishes.dishes),
+    dishInfo,
+  };
+  requestOptions.body = JSON.stringify(fetchOptions);
+  fetch(`${config.orderedDishBenefitAPI}?shopId=${shopId}`, requestOptions)
+    .then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('提交订单信息失败'));
+      }
+      return res.json();
+    })
+    .then(result => {
+      if (result.code.toString() === '200') {
+        dispatch(setBenefitOptions(result.data));
+      } else {
+        dispatch(setErrorMsg(result.msg));
+      }
+    })
+    .catch(err => {
+      throw new Error(err);
     });
 };
 
@@ -318,16 +360,18 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
     }
   };
 
+  dispatch(setLoadInfo({ ing: true, word: '系统处理中' }));
   requestOptions.body = JSON.stringify(data);
-
   fetch(url, requestOptions)
     .then(res => {
+      dispatch(setLoadInfo(null));
       if (!res.ok) {
         dispatch(setErrorMsg('提交订单信息失败'));
       }
       return res.json();
     })
     .then(result => {
+      dispatch(setLoadInfo(null));
       complete(result);
     })
     .catch(err => {
@@ -338,14 +382,18 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
   const obj = Object.assign({}, { shopId, mobile: phoneNum, timestamp: new Date().getTime() });
   const paramStr = getSendCodeParamStr(obj);
   const url = `${config.sendCodeAPI}?${paramStr}`;
+
+  dispatch(setLoadInfo({ ing: true, word: '系统处理中' }));
   return fetch(url, config.requestOptions).
     then(res => {
+      dispatch(setLoadInfo(null));
       if (!res.ok) {
         dispatch(setErrorMsg('验证码获取失败'));
       }
       return res.json();
     }).
     then(result => {
+      dispatch(setLoadInfo(null));
       if (result.code !== '200') {
         dispatch(setErrorMsg(result.msg));
         return;
@@ -378,4 +426,7 @@ exports.checkCodeAvaliable = (data, note, receipt) => (dispatch, getState) => {
   .catch(err => {
     console.log(err);
   });
+};
+exports.setActivityBenefit = (evt, option) => (dispatch, getState) => {
+  dispatch(setActivityBenefit(option));
 };

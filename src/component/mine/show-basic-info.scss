@@ -5,31 +5,41 @@
   $none: none;
 
   position: relative;
-  height: 9.688em;
-  padding: 1.4em;
-  background: #fed17e;
+  padding: 2em;
+  background: #ffd463;
+
+  &-imgouter {
+    position: relative;
+    display: block;
+    width: 4.938em;
+    height: 4.938em;
+    margin: 0 auto 1em;
+  }
 
   &-img {
-    display: block;
-    width: 4.25em;
-    height: 4.25em;
-    margin: 0 auto .312em;
-    border: 2px solid rgba(255, 255, 255, .5);
+    width: 100%;
+    height: 100%;
+    border: 3px solid #ffbd5a;
     border-radius: 3em;
   }
 
-  &-name {
+  &-vip {
+    font-size: 13px;
+    line-height: 1.5em;
+    position: absolute;
+    right: 0;
+    bottom: -.6em;
+    left: 0;
+    height: 2em;
     text-align: center;
-    color: #795021;
+    color: $color-white;
+    background: url("../../asset/images/vip-banner.svg") center center/6em auto no-repeat;
   }
 
-  &-wave {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: $width;
-    height: 1.75em;
-    background: url("../../asset/images/wave.png") center center repeat;
-    background-size: auto 1.75em;
+  &-name {
+    font-size: 1.5em;
+    line-height: 1.4em;
+    text-align: center;
+    color: #5b4520;
   }
 }

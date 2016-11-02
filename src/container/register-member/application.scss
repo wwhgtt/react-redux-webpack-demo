@@ -46,11 +46,17 @@
     }
 
     &-input {
-      width: 130px;
+      width: 100px;
     }
 
     .sex-switch {
       display: inline-block;
+      float: right;
+
+      &-label {
+        margin-right: 0;
+        margin-left: 5px;
+      }
     }
   }
 

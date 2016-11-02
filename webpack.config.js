@@ -30,6 +30,15 @@ module.exports = {
     'mine-setting-entry': [
       './src/mine-setting.jsx',
     ],
+    'mine-vip-card-entry': [
+      './src/mine-vip-card.jsx',
+    ],
+    'mine-vip-level-entry': [
+      './src/mine-vip-level.jsx',
+    ],
+    'mine-coupon-list-entry': [
+      './src/mine-coupon-list.jsx',
+    ],
     'address-list-entry': [
       './src/address-list.jsx',
     ],
@@ -69,6 +78,33 @@ module.exports = {
     'order-dinner-cart-entry': [
       './src/order-dinner-cart.jsx',
     ],
+    'register-validate-entry': [
+      './src/register-validate.jsx',
+    ],
+    'activate-card-entry': [
+      './src/activate-card.jsx',
+    ],
+    'activate-validate-entry': [
+      './src/activate-validate.jsx',
+    ],
+    'mine-balance-entry': [
+      './src/mine-balance.jsx',
+    ],
+    'mine-accumulation-entry': [
+      './src/mine-accumulation.jsx',
+    ],
+    'mine-growup-entry': [
+      './src/mine-growup.jsx',
+    ],
+    'mine-recharge-entry': [
+      './src/mine-recharge.jsx',
+    ],
+    'mine-modify-password-entry': [
+      './src/mine-modify-password.jsx',
+    ],
+    'mine-reset-password-entry': [
+      './src/mine-reset-password.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -91,7 +127,7 @@ module.exports = {
         loaders: ['style', 'css?sourceMap', 'postcss', 'sass?&sourceMap&includePaths[]=./src/asset/style'],
       },
       {
-        test: /\.(gif|png)$/,
+        test: /\.(gif|png|svg|jpg)$/,
         loaders: ['url?limit=8192&name=asset/img/[hash].[ext]'],
       },
       {
@@ -163,9 +199,33 @@ module.exports = {
     ),
     new HtmlWebpackPlugin(
       {
+        title: 'MineVipCardApplication',
+        filename: 'mineVipCard.html',
+        chunks: ['common', 'mine-vip-card-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineVipLevelApplication',
+        filename: 'mineVipLevel.html',
+        chunks: ['common', 'mine-vip-level-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
         title: 'MineSettingApplication',
         filename: 'mineSetting.html',
         chunks: ['common', 'mine-setting-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineCouponListApplication',
+        filename: 'mineCouponList.html',
+        chunks: ['common', 'mine-coupon-list-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
@@ -270,6 +330,78 @@ module.exports = {
         title: 'OrderTSCartApplication',
         filename: 'order-dinner-cart.html',
         chunks: ['common', 'order-dinner-cart-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'RegisterValidateApplication',
+        filename: 'register-validate.html',
+        chunks: ['common', 'register-validate-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'ActivateCardApplication',
+        filename: 'activate-card.html',
+        chunks: ['common', 'activate-card-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'ActivateValidateApplication',
+        filename: 'activate-validate.html',
+        chunks: ['common', 'activate-validate-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineBalanceApplication',
+        filename: 'mine-balance.html',
+        chunks: ['common', 'mine-balance-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineBalanceApplication',
+        filename: 'mine-accumulation.html',
+        chunks: ['common', 'mine-accumulation-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineGrowupApplication',
+        filename: 'mine-growup.html',
+        chunks: ['common', 'mine-growup-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineRechargeApplication',
+        filename: 'mine-recharge.html',
+        chunks: ['common', 'mine-recharge-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineRechargeApplication',
+        filename: 'mine-modify-password.html',
+        chunks: ['common', 'mine-modify-password-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'MineResetPasswordApplication',
+        filename: 'mine-reset-password.html',
+        chunks: ['common', 'mine-reset-password-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

@@ -3,17 +3,18 @@ module.exports = {
   template:{
     data: {
       isDiscount: true,
-      type: 1,
+      type: 2,
       levelId:9992836,
       levelName:'黄金会员',
-      isMember:true,
+      loginType:0,
+      isMember: false,
       dishList:[
         {
-          dishId:599385,
-          value:8,
+          dishId:56,
+          value:3.99,
         },
         {
-          dishId:61,
+          dishId:57470,
           value:9,
         },
       ],

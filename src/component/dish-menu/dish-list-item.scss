@@ -5,7 +5,15 @@
 .dish-list-item {
   @include clearfix;
 
+  height: 88px;
   padding: 10px 0;
+}
+
+.dish-list-word {
+  @include clearfix;
+
+  font-size: 14px;
+  text-align: left;
 }
 
 .dish-item {
@@ -32,8 +40,14 @@
     line-height: $dish-item-name-line-height;
     display: block;
     clear: both;
-    margin-bottom: .5em;
     padding: #{($counter-size - $dish-item-name-line-height) / 2} 0;
+  }
+
+  &-discount {
+    font-size: 12px;
+    display: block;
+    height: 1em;
+    color: $color-neon-carrot;
   }
 
   &-price {

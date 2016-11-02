@@ -14,13 +14,14 @@
   top: 50%;
   left: 50%;
   width: 85%;
-  text-align: center;
   border-radius: 4px;
   background-color: #fff;
   transform: translate(-50%, -50%);
 
   &-header {
+    overflow: hidden;
     padding: 1.2em 20px .5em;
+    text-align: center;
   }
 
   &-title {
@@ -29,6 +30,7 @@
   }
 
   &-body {
+    overflow: auto;
     padding: 10px 15px;
   }
 
@@ -40,8 +42,18 @@
     padding: 10px 15px;
 
     button {
+      display: block;
       flex: 1;
       border-radius: 4px;
+    }
+
+    &:empty {
+      display: none;
+    }
+
+    &-btn-default {
+      color: #fff;
+      background: $color-sliver;
     }
   }
 
@@ -83,6 +95,7 @@
 
   &-btn-confirm {
     color: #fff;
+    background: $color-sunglow;
   }
 
   &-btn-cancel {
@@ -98,4 +111,49 @@
   left: 0;
   opacity: .4;
   background: #000;
+}
+
+.sliver {
+  overflow: hidden;
+
+  &.dialog {
+    border-radius: 10px;
+  }
+
+  .dialog-header {
+    font-size: 16px;
+    line-height: 44px;
+    height: 44px;
+    padding: 0;
+    background: $color-gallery;
+  }
+
+
+  .dialog-footer {
+    height: 49px;
+    padding: 0;
+
+    button {
+      font-size: 16px;
+      height: 40px;
+      color: #fff;
+      border-radius: 0;
+    }
+  }
+
+  .dialog-btn-close {
+    top: 4px;
+    right: 5px;
+    width: 36px;
+    height: 36px;
+    background: none;
+
+    &::before {
+      width: 22px;
+    }
+
+    &::after {
+      height: 22px;
+    }
+  }
 }

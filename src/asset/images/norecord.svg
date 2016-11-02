@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="246px" height="281px" viewBox="0 0 246 281" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
+    <title>无记录</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="个人中心_会员卡_我的余额1_无记录" transform="translate(-252.000000, -628.000000)">
+            <g id="无记录" transform="translate(246.000000, 617.000000)">
+                <rect id="Rectangle" x="0" y="0" width="258" height="307"></rect>
+                <ellipse id="Oval-4" fill="#E3E3E3" cx="130" cy="282" rx="90" ry="10"></ellipse>
+                <circle id="Oval-3" stroke="#D6D6D6" stroke-width="6" cx="129" cy="134" r="120"></circle>
+                <circle id="Oval-3" fill="#E8E8E8" cx="129" cy="134" r="100"></circle>
+                <path d="M136.057929,136.555556 L136.057929,136.555556 C135.305525,133.370333 132.444055,131 129.028965,131 C125.613874,131 122.752404,133.370333 122,136.555556" id="Combined-Shape" stroke="#D6D6D6" stroke-width="4" stroke-linecap="round" transform="translate(129.028965, 133.777778) scale(1, -1) translate(-129.028965, -133.777778) "></path>
+                <circle id="Oval-7-Copy-4" fill="#CCCCCC" cx="94" cy="126" r="9"></circle>
+                <circle id="Oval-7-Copy-5" fill="#CCCCCC" cx="164" cy="126" r="9"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

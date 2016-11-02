@@ -5,6 +5,7 @@ const helper = require('../../helper/order-helper');
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const Toast = require('../../component/mui/toast.jsx');
 const DiningOptions = require('../../component/order/dining-options.jsx');
+const formatPrice = require('../../helper/common-helper.js').formatPrice;
 /*
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
@@ -38,7 +39,7 @@ const OrderDinnerStateMentApplication = React.createClass({
   },
   getInitialState() {
     return {
-      receipt:'',
+      receipt:null,
     };
   },
   componentWillMount() {
@@ -66,10 +67,19 @@ const OrderDinnerStateMentApplication = React.createClass({
       receipt:value,
     });
   },
-  submitDinnerOrder() {
-    const { submitDinnerOrder } = this.props;
-    const receipt = this.state.receipt;
-    submitDinnerOrder(receipt);
+  submitDinnerOrder(orderedDishesProps, serviceProps, commercialProps) {
+    const { submitDinnerOrder, setErrorMsg } = this.props;
+    if (!serviceProps.allowCheck) { setErrorMsg('请联系服务员结账'); return false; }
+    let needPayMoney = 0;
+    if (serviceProps.benefitProps.isPriviledge) {
+      needPayMoney = serviceProps.benefitProps.extraPrice
+      + helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
+      - serviceProps.benefitProps.priviledgeAmount;
+    } else {
+      needPayMoney = helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps);
+    }
+    const receipt = this.state.receipt || this.props.commercialProps.receipt;
+    return submitDinnerOrder(needPayMoney, receipt);
   },
   render() {
     const { commercialProps, customerProps, serviceProps, orderedDishesProps, childView, errorMessage } = this.props; // state
@@ -90,7 +100,7 @@ const OrderDinnerStateMentApplication = React.createClass({
           </div>
         </div>
         <div className="options-group">
-          {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length
+          {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length && !serviceProps.benefitProps.isPriviledge
             && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 && serviceProps.discountProps.isMember ?
             <a className="option" href="#coupon-select">
               <span className="option-title">使用优惠券</span>
@@ -116,7 +126,14 @@ const OrderDinnerStateMentApplication = React.createClass({
           {commercialProps && commercialProps.isSupportReceipt === 1 ?
             <label className="option">
               <span className="option-title">发票抬头: </span>
-              <input className="option-input" name="receipt" maxLength="35" placeholder="如需发票请填写" onChange={this.noteOrReceiptChange} />
+              <input
+                className="option-input"
+                name="receipt"
+                maxLength="35"
+                disabled={commercialProps.receipt || serviceProps.benefitProps.isPriviledge}
+                placeholder={commercialProps.receipt || '如需发票请填写'}
+                onChange={this.noteOrReceiptChange}
+              />
             </label>
             :
             false
@@ -137,14 +154,22 @@ const OrderDinnerStateMentApplication = React.createClass({
                   <div>
                     <div className="order-cart-entry text-dove-grey">已优惠:&nbsp;
                       <span className="price">
-                        {helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)}
+                        {serviceProps.benefitProps.isPriviledge ?
+                          serviceProps.benefitProps.priviledgeAmount
+                          :
+                          helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)
+                        }
                       </span>
                     </div>
                     <div className="order-cart-entry">
                       <span className="text-dove-grey">待支付: </span>
                       <span className="order-cart-price price">
-                        {
-                          helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
+                        {serviceProps.benefitProps.isPriviledge ?
+                          serviceProps.benefitProps.totalAmount
+                          :
+                          formatPrice(
+                            helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
+                          )
                         }
                       </span>
                     </div>
@@ -155,7 +180,10 @@ const OrderDinnerStateMentApplication = React.createClass({
               </div>
             </div>
             <div className="order-cart-right">
-              <a className="order-cart-btn btn--orange" onTouchTap={evt => this.submitDinnerOrder()}>结账</a>
+              <a
+                className="order-cart-btn btn--orange"
+                onTouchTap={evt => this.submitDinnerOrder(orderedDishesProps, serviceProps, commercialProps)}
+              >结账</a>
             </div>
           </div>
           :

@@ -389,3 +389,97 @@ exports.generateDishNameWithUnit = (dishData) => {
   }
   return `${dishData.name}/${dishData.unitName}`;
 };
+
+exports.formatOpenTime = (openTimeList, isWeekend) => {
+  let restore1 = '';
+  let restore2 = '';
+  let restoreAll = '';
+  if (!openTimeList || openTimeList.length === 0 && !isWeekend) {
+    return '全天候';
+  }
+  openTimeList.map((item, index) => {
+    const startTime = item.startTime.substring(0, 5);
+    const endTime = item.endTime.substring(0, 5);
+    const allTime = `${startTime}-${endTime}`;
+
+    if (item.type === 0 && item.week === 7) {
+      if (!isWeekend) {
+        restoreAll = `${allTime}`;
+      } else {
+        restoreAll = '';
+      }
+    } else if (item.type === 1) {
+      if (item.week === 0 && !isWeekend) {
+        restore1 = `工作日 ${allTime}`;
+      } else if (item.week === 1 && isWeekend) {
+        restore2 = `周末 ${allTime}`;
+      }
+      restoreAll = `${isWeekend ? restore2 : restore1}`;
+    } else if (item.type === 3 && item.week === 7) { // 分餐
+      if (!isWeekend) {
+        if (index === 0) {
+          restore1 = `${allTime}`;
+        }
+        restore2 = `${allTime}`;
+        restoreAll = `${restore1} ${restore2}`;
+      } else {
+        restoreAll = '';
+      }
+    } else if (item.type === 2) {
+      if (index === 0 && item.week === 0) {
+        restore1 = `${allTime}`;
+      } else if (index === 1 && item.week === 0) {
+        restore2 = `${allTime}`;
+      } else if (index === 2 && item.week === 1 && isWeekend) {
+        restore1 = `${allTime}`;
+      } else if (index === 3 && item.week === 1 && isWeekend) {
+        restore2 = `${allTime}`;
+      }
+      restoreAll = `${isWeekend ? '周末' : '工作日'} ${restore1} ${restore2}`;
+    }
+    return false;
+  });
+  return restoreAll;
+};
+
+exports.formatMarket = (marketList, formatDishesData) => {
+  const formatMarket = {};
+  marketList.forEach((item, index) => {
+    const dishId = item.dishId;
+    if (item.rules && item.rules.length !== 0 && formatDishesData[dishId]) {
+      Object.assign(formatMarket, JSON.parse('{ "' + dishId + '" : ' + JSON.stringify(item.rules) + '}'));
+    }
+  });
+  return formatMarket;
+};
+
+exports.formatMarketUpdate = (marketList, formatDishesData) => {
+  let formatMarketUpdate = [];
+  marketList.forEach((item, index) => {
+    const dishId = item.dishId;
+    if (item.rules && item.rules.length !== 0 && formatDishesData[dishId]) {
+      item.rules.forEach((itemt, indext) => {
+        formatMarketUpdate = formatMarketUpdate.concat({ dishId, rule:itemt });
+      });
+    }
+  });
+  return formatMarketUpdate.sort((a, b) => b.rule.updateTime > a.rule.updateTime);
+};
+
+exports.formatDishesData = (dishesData) => {
+  const formatDishesData = {};
+  dishesData.forEach((item, index) => {
+    Object.assign(formatDishesData, JSON.parse('{ "' + item.brandDishId + '" : ' + JSON.stringify(item) + '}'));
+  });
+  return formatDishesData;
+};
+
+exports.matchDishesData = (marketListUpdate, formatDishesData) => {
+  let marketMatchDishes = false;
+  marketListUpdate.forEach((item, index) => {
+    if (formatDishesData[item.dishId]) {
+      marketMatchDishes = true;
+    }
+  });
+  return marketMatchDishes;
+};

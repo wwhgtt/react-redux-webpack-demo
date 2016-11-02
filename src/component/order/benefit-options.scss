@@ -1,0 +1,44 @@
+@import "settings.colors";
+@import "settings.sizes";
+
+.benefit {
+  $height: $counter-size;
+
+  &-banner {
+    line-height: $height;
+    height: $height;
+    margin-bottom: 8px;
+  }
+
+  &-badge {
+    font-size: 13px;
+    line-height: 19px;
+    display: inline-block;
+    margin-right: 4px;
+    padding: 0 2px;
+    vertical-align: middle;
+    color: $color-white;
+    border-radius: 3px;
+    background: $color-sunset-orange;
+  }
+
+  &-grey {
+    background: $color-sliver;
+  }
+
+  &-text {
+    font-size: 14px;
+    vertical-align: middle;
+    color: $color-dove-grey;
+  }
+
+  &-grey-text {
+    color: $color-sliver;
+  }
+
+  &-btn {
+    line-height: 27px;
+    color: $color-neon-carrot;
+    border-color: #e8e8e8;
+  }
+}

@@ -14,6 +14,8 @@ module.exports = React.createClass({
     onOrderBtnTap: React.PropTypes.func.isRequired,
     onPropsBtnTap: React.PropTypes.func.isRequired,
     onImageBtnTap: React.PropTypes.func.isRequired,
+    diningForm: React.PropTypes.bool,
+    marketList: React.PropTypes.object,
   },
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
@@ -58,9 +60,39 @@ module.exports = React.createClass({
     }
     return dishData.name;
   },
+  disCountInfo(diningForm, marketList, dishId) {
+    let discountRestore = <span className="dish-item-discount ellipsis"></span>;
+    if (diningForm && marketList[dishId] && marketList[dishId].length !== 0) {
+      let discountFirst = true;
+      marketList[dishId].forEach((item, index) => {
+        if (item.isAble && discountFirst) {
+          discountFirst = false;
+          let vip = '';
+          switch (item.customerType) {
+            case 1 : vip = '(会员 '; break;
+            case 2 : vip = '(非会员 '; break;
+            default: vip = '('; break;
+          }
+          discountRestore = (
+            <span className="dish-item-discount ellipsis">
+              {
+                item.dishNum > 1 ?
+                  `满${item.dishNum}份${item.ruleName}`
+                :
+                  item.ruleName
+              }
+              {vip}每单限{item.dishNum}份)
+            </span>
+          );
+        }
+      });
+    }
+    return discountRestore;
+  },
   render() {
-    const { dishData } = this.props;
+    const { dishData, marketList, diningForm } = this.props;
     const orderBtn = this.buildOrderBtn(dishData);
+    const discountPart = this.disCountInfo(diningForm, marketList, dishData.brandDishId);
     return (
       <div className="dish-on-selling">
         {dishData.currRemainTotal !== 0 ?
@@ -73,6 +105,7 @@ module.exports = React.createClass({
 
             <div className="dish-item-content">
               <span className="dish-item-name ellipsis">{helper.generateDishNameWithUnit(dishData)}</span>
+              {discountPart}
               <span className="dish-item-price price">{dishData.marketPrice}</span>
               {orderBtn}
             </div>

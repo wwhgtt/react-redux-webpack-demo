@@ -7,8 +7,6 @@ const defaultState = Immutable.from({
     status: false,
     word: '',
   },
-  phoneCode: '',
-  timestamp: '',
 });
 
 module.exports = (state = defaultState, action) => {
@@ -23,10 +21,6 @@ module.exports = (state = defaultState, action) => {
       return state.set('errorMessage', payload);
     case 'SET_LOAD_MSG':
       return state.set('loadInfo', payload);
-    case 'SET_PHONE_CODE':
-      return state.set('phoneCode', payload);
-    case 'SET_TIMESTAMP':
-      return state.set('timestamp', payload);
     default:
       return state;
   }

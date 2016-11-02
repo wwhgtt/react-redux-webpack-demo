@@ -7,7 +7,7 @@ const setCommercialProps = createAction('SET_COMMERCIAL_PROPS', props => props);
 const setTableProps = createAction('SET_TABLE_PROPS', props => props);
 const setTableAvaliable = createAction('SET_TABLE_AVALIABLE', props => props);
 exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
-exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
+const setOrderProps = exports.setOrderProps = createAction('SET_ORDER_PROPS', (evt, option) => option);
 exports.setCustomerProps = createAction('SET_CUSTOMER_PROPS', option => option);
 const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
 const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
@@ -32,8 +32,8 @@ exports.fetchCommercialProps = () => (dispatch, getState) =>
     .catch(err => {
       console.log(err);
     });
-exports.fetchTables = () => (dispatch, getState) => {
-  let orderTime = getState().timeProps.selectedDateTime;
+const fetchTables = exports.fetchTables = (selectTime) => (dispatch, getState) => {
+  let orderTime = selectTime || getState().timeProps.selectedDateTime;
   if (!orderTime.time) {
     orderTime = { date:new Date().toISOString().substr(0, 10), time:new Date().toTimeString().substr(0, 5) };
   }
@@ -164,4 +164,12 @@ exports.checkCodeAvaliable = (data, note) => (dispatch, getState) => {
     .catch(err => {
       console.log(err);
     });
+};
+exports.onDateTimeSelect = (evt, option) => (dispatch, getState) => {
+  let orderTime = {
+    date:option.dateTime.id,
+    time:option.dateTime.times.filter(time => time.isChecked)[0].id + ':00',
+  };
+  fetchTables(orderTime)(dispatch, getState);
+  dispatch(setOrderProps(evt, option));
 };

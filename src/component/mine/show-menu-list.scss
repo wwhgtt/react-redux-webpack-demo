@@ -5,7 +5,6 @@
 .menuLink {
   $width: 100%;
   $none: none;
-  $background: url("../../asset/images/mine-spirit.png") left top/6.25em auto no-repeat;
 
   position: relative;
   display: block;
@@ -16,85 +15,13 @@
     @include border-thin(bottom);
 
     bottom: 0;
-    border-bottom: bordersolid(1, $color-athens-grey);
+    border-bottom: bordersolid(1, #e3e3e3);
   }
 
   &.mt {
-    margin-bottom: .4em;
+    margin-bottom: 1em;
     padding: 0;
     background: $color-white;
-  }
-
-  .name {
-    font-size: 14px;
-    display: inline-block;
-    margin-left: 1em;
-    vertical-align: baseline;
-    text-decoration: $none;
-  }
-
-  .arrow {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    width: .438em;
-    height: .688em;
-    margin-top: -.344em;
-    background: $background;
-    background-position: -5.7em -1.5em;
-  }
-
-  .brief {
-    font-size: 13px;
-    line-height: 1;
-    position: absolute;
-    top: 1.45em;
-    right: 1em;
-    color: #bcbcbc;
-  }
-
-  .icon {
-    display: inline-block;
-    width: 1.188em;
-    height: 1.188em;
-    vertical-align: middle;
-    background: $background;
-
-    &[name="DD"] {
-      background-position: .1em .05em;
-    }
-
-    &[name="YH"] {
-      background-position: -1.3em .1em;
-    }
-
-    &[name="DZ"] {
-      background-position: -2.65em top;
-    }
-
-    &[name="HYZC"] {
-      background-position: -4em top;
-    }
-
-    &[name="BDSJ"] {
-      background-position: -5.35em top;
-    }
-
-    &[name="BDWX"] {
-      background-position: -4em -1.2em;
-    }
-
-    &[name="SZ"] {
-      background-position: .1em -1.3em;
-    }
-
-    &[name="HYK"] {
-      background-position: -1.25em -1.25em;
-    }
-
-    &[name="HYCZ"] {
-      background-position: -2.6em -1.3em;
-    }
   }
 
   &-holder {
@@ -109,11 +36,11 @@
 
     &::after {
       position: absolute;
-      top: 25%;
+      top: 12%;
       right: 0;
-      height: 100%;
+      height: 150%;
       content: "";
-      border-right: bordersolid(1, $color-athens-grey);
+      border-right: bordersolid(1, #e3e3e3);
       transform: scale(.5, .5);
       transform-origin: 0 0;
     }
@@ -128,12 +55,65 @@
 
     &.title {
       font-size: 14px;
-      line-height: 1.5em;
+      line-height: 1.429em;
     }
 
-    &.num {
-      font-size: 1em;
-      font-weight: bold;
+    &.scorenum {
+      font-size: 1.563em;
+      font-weight: 600;
+      line-height: 35px;
+      height: 35px;
+      color: #429bff;
     }
+
+    &.balancenum {
+      font-size: 1.563em;
+      font-weight: 600;
+      line-height: 35px;
+      height: 35px;
+      color: #ff8738;
+    }
+
+    .unit {
+      font-size: .8rem;
+    }
+  }
+}
+
+.list-icon {
+  &[name="DD"] {
+    background: url("../../asset/images/DDZX.svg") center center/.8em auto no-repeat;
+  }
+
+  &[name="YH"] {
+    background: url("../../asset/images/YH.svg") center center/1em auto no-repeat;
+  }
+
+  &[name="DZ"] {
+    background: url("../../asset/images/DZGL.svg") center center/.8em auto no-repeat;
+  }
+
+  &[name="HYZC"] {
+    background: url("../../asset/images/HYZC.svg") center center/1em auto no-repeat;
+  }
+
+  &[name="BDSJ"] {
+    background: url("../../asset/images/BDSJ.svg") center center/1em auto no-repeat;
+  }
+
+  &[name="BDWX"] {
+    background: url("../../asset/images/BDWX.svg") center center/1em auto no-repeat;
+  }
+
+  &[name="SZ"] {
+    background: url("../../asset/images/SZ.svg") center center/1em auto no-repeat;
+  }
+
+  &[name="HYK"] {
+    background: url("../../asset/images/HYK.svg") center center/1em auto no-repeat;
+  }
+
+  &[name="HYCZ"] {
+    background: url("../../asset/images/HYCZ.svg") center center/1em auto no-repeat;
   }
 }

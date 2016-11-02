@@ -66,6 +66,9 @@ module.exports = React.createClass({
   },
   handleBtnClose() {
     this.refs.input.value = '';
+    if (this.props.onUserInput) {
+      this.props.onUserInput('');
+    }
     this.props.onSetSuggestVisible(false);
   },
   render() {

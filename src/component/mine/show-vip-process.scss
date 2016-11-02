@@ -1,0 +1,150 @@
+@import "settings.colors";
+@import "tools.functions";
+@import "tools.mixins";
+
+.vip-process-outer {
+  position: relative;
+  background: #434343;
+
+  .vip-name {
+    font-size: 1.438em;
+    font-weight: 400;
+    line-height: 1.4em;
+    margin-bottom: .5em;
+    text-align: center;
+    color: #fff;
+  }
+
+  .vip-value {
+    font-size: 1em;
+    line-height: 1.375em;
+    text-align: center;
+    color: #fff;
+
+    &-link {
+      font-size: 14px;
+      margin-left: 1em;
+      text-decoration: none;
+      color: #ffd463;
+    }
+  }
+
+  .line {
+    margin: 1em 1em 2em;
+    opacity: .15;
+    border-top: 1px solid #fff;
+  }
+
+  .vip-process {
+    margin-bottom: 2em;
+    padding: 0 1em;
+  }
+}
+
+.process {
+  &-icon {
+    width: 6.5em;
+    height: 10.188em;
+    margin: 0 auto 1em;
+
+    &.lv1 {
+      background: url("../../asset/images/lv1.svg") center center/100% auto no-repeat;
+    }
+
+    &.lv2 {
+      background: url("../../asset/images/lv2.svg") center center/100% auto no-repeat;
+    }
+
+    &.lv3 {
+      background: url("../../asset/images/lv3.svg") center center/100% auto no-repeat;
+    }
+
+    &.lv4 {
+      background: url("../../asset/images/lv4.svg") center center/100% auto no-repeat;
+    }
+
+    &.lv5 {
+      background: url("../../asset/images/lv5.svg") center center/100% auto no-repeat;
+    }
+  }
+
+  &-li {
+    font-size: 12px;
+    position: relative;
+    overflow: visible;
+    text-align: center;
+    color: #999;
+
+    &.fakeActive {
+      color: #ffc334;
+    }
+
+    &.active .process-num {
+      color: #434343;
+      background: #ffc334;
+    }
+
+    &-line {
+      position: absolute;
+      top: 1.3em;
+      left: calc(50% + 1.25em);
+      width: calc(100% - 2.4em);
+      content: "";
+      opacity: .84;
+      border: 1px solid #5b5b5b;
+    }
+
+    &-line .active {
+      position: absolute;
+      top: -1px;
+      left: 0;
+      width: 100%;
+      opacity: .6;
+      border: 1px solid #ffc334;
+    }
+
+    &-line .active.hide {
+      display: none;
+    }
+
+    &:last-child &-line {
+      display: none;
+    }
+
+    .process-num {
+      line-height: 2.5em;
+      position: relative;
+      z-index: 1;
+      width: 2.5em;
+      height: 2.5em;
+      margin: 0 auto 1em;
+      text-align: center;
+      border-radius: 2em;
+      background: #5b5b5b;
+    }
+
+    .process-num-value {
+      font-size: 2em;
+      display: inline-block;
+      width: 200%;
+      transform: scale(.5, .5);
+      transform-origin: left center;
+    }
+  }
+}
+
+.triangle-outer {
+  position: absolute;
+  right: 1em;
+  bottom: 0;
+  left: 1em;
+  height: 10px;
+}
+
+.triangle-absolute {
+  position: absolute;
+  margin-left: -8px;
+  border-width: 0 8px 10px;
+  border-bottom-color: #fff;
+  transition: all .4s ease-in-out;
+}

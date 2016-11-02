@@ -20,6 +20,17 @@ exports.getUrlParam = param => {
   }
   return null;
 };
+
+// 将多个url参数组成字符串
+exports.getUrlParams = paramObj => {
+  let paramStr = '';
+  for (let i in paramObj) {
+    paramStr += `${i}=${paramObj[i]}&`;
+  }
+  paramStr = paramStr.substring(0, paramStr.length - 1);
+  return paramStr;
+};
+
 // 设置cookie
 exports.setCookie = (name, value) => {
   const Days = 30;
@@ -134,4 +145,79 @@ exports.dateUtility = {
     return isNaN(+result) ? null : result;
   },
 };
+exports.formatPrice = (price) => {
+  if (price.toString().indexOf('.') < 0) {
+    return price;
+  }
+  if (price.toString().split('.')[1].length > 2) {
+    return parseFloat(price.toFixed(2));
+  }
+  return price;
+};
 
+// 判断时间是否满一天
+exports.renderTime = (startTime, endTime) => {
+  const formatStartTime = startTime.substring(0, 5);
+  const formatEndTime = endTime.substring(0, 5);
+  const period =
+    (Number(formatEndTime.substring(0, 2) * 60) + Number(formatEndTime.substring(3, 5))) -
+    (Number(formatStartTime.substring(0, 2) * 60) + Number(formatStartTime.substring(3, 5))) + 1;
+  if (period / 60 < 24) {
+    return `${formatStartTime}-${formatEndTime}，`;
+  }
+  return '';
+};
+
+// 优惠券可用day展示
+exports.renderDay = (week) => {
+  const regDay = /1{1,}/g; // 匹配一个1或多个1
+  let periDay = '';
+  let strDay = '';
+  let dayIndex = '';
+  let days = '';
+  // 数据重组
+  const str1 = week.substring(0, 1);
+  const str2 = week.substr(1, 6);
+  const weekFormat = str2 + str1;
+
+  const formateDay = (day) => {
+    switch (day) {
+      case 1:
+        return '一';
+      case 2:
+        return '二';
+      case 3:
+        return '三';
+      case 4:
+        return '四';
+      case 5:
+        return '五';
+      case 6:
+        return '六';
+      case 7:
+        return '日';
+      default:
+        return '';
+    }
+  };
+  if (weekFormat === '1111111') {
+    return '';
+  }
+  while (periDay != null) {
+    periDay = regDay.exec(weekFormat);
+    if (periDay) {
+      dayIndex = periDay.index;
+      days = periDay[0];
+
+      if (days.length > 1) {
+        strDay += `周${formateDay((dayIndex + 1))}到周${formateDay((dayIndex + days.length))}，`;
+      } else {
+        strDay += `周${formateDay((dayIndex + 1))}，`;
+      }
+    }
+  }
+  if (strDay === '周六到周日') {
+    return '周末';
+  }
+  return strDay;
+};

@@ -4,6 +4,13 @@
   padding: 5px 10px 4px;
   border-bottom: 1px solid $color-alto;
 
+  // order-summary icons
+  @for $i from 1 through 7 {
+    &-icon#{$i}::before {
+      background-image: url("../../asset/images/summary-#{$i}.png");
+    }
+  }
+
   &:empty {
     padding: 0;
     border-style: none;
@@ -13,11 +20,8 @@
     line-height: 32px;
   }
 
-  // order-summary icons
-  @for $i from 1 through 5 {
-    &-icon#{$i}::before {
-      background-image: url("../../asset/images/summary-#{$i}.png");
-    }
+  &-cart .dish-name {
+    width: calc(100% - 190px) !important;
   }
 }
 

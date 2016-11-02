@@ -1,0 +1,59 @@
+@import "settings.colors";
+
+.phone-verification-code {
+  margin: 15px 0 0;
+  padding: 0 15px;
+  border: 1px solid #e3e3e3;
+  border-width: 1px 0;
+  background: #fff;
+
+  input {
+    font-size: 16px;
+  }
+
+  .btn {
+    font-size: 14px;
+    top: 75px;
+    right: 15px;
+    height: 30px;
+    padding: 0 15px;
+    color: $color-crusta;
+    border: 1px solid $color-crusta;
+    border-radius: 15px;
+    background: #fff;
+  }
+
+  .btn:disabled {
+    color: $color-dusty-grey;
+    border-color: $color-sliver;
+    background: $color-gallery;
+  }
+
+  .form-group {
+    padding: 18px 0 17px 95px;
+
+    &:last-child {
+      border-color: transparent;
+    }
+  }
+
+  .form-group.phone::before,
+  .form-group.verification-code::before {
+    font-size: 16px;
+    top: 18px;
+    left: 0;
+    width: 64px;
+    opacity: 1;
+    color: $color-abbey;
+  }
+
+  .form-group.phone::before {
+    content: "当前帐号";
+    background-image: none;
+  }
+
+  .form-group.verification-code::before {
+    content: "验证码";
+    background-image: none;
+  }
+}

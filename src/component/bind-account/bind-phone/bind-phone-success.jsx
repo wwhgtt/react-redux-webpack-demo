@@ -1,6 +1,7 @@
 const React = require('react');
 const config = require('../../../config');
-const returnUrl = require('../../../helper/common-helper.js').getUrlParam('returnUrl');
+const getUrlParam = require('../../../helper/common-helper.js').getUrlParam;
+const returnUrl = getUrlParam('returnUrl') || '';
 
 const BindPhoneSuccess = React.createClass({
   displayName:'BindPhoneSucess',

@@ -1,0 +1,35 @@
+@import "settings.colors";
+@import "tools.functions";
+@import "tools.mixins";
+
+.navi-switch {
+  background: #fff;
+
+  &-item {
+    font-size: 15px;
+    line-height: 1.4em;
+    padding: 1em 0;
+    text-align: center;
+    color: #474747;
+
+    &.active {
+      position: relative;
+      color: #ff7417;
+    }
+
+    .line {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      display: none;
+      width: 50%;
+      margin-left: -25%;
+      content: "";
+      border-bottom: 2px solid #ff7417;
+    }
+
+    &.active .line {
+      display: block;
+    }
+  }
+}

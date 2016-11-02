@@ -1,6 +1,7 @@
 const React = require('react');
 const imagePlaceholder = require('../../../asset/images/dish-placeholder-large.png');
 const helper = require('../../../helper/dish-hepler');
+const shopId = helper.getUrlParam('shopId');
 require('./dish-detail-container.scss');
 require('./dish-desc-popup.scss');
 
@@ -23,6 +24,12 @@ module.exports = React.createClass({
       memberPrice = dish.marketPrice * dish.memberPrice * 0.1;
     } else if (dish.isMember && dish.discountType === 2) {
       memberPrice = dish.memberPrice;
+    }
+    const loginTypeStr = dish.loginType.toString();
+    let registerUrl = `http://${location.host}/member/register?shopId=${shopId}&returnUrl=${encodeURIComponent(location.href)}`;
+    if (loginTypeStr === '1') {
+      // 微信登录
+      registerUrl = `http://${location.host}/user/validBindMobile?shopId=${shopId}&returnUrl=${encodeURIComponent(location.href)}`;
     }
 
     return (
@@ -54,8 +61,7 @@ module.exports = React.createClass({
                 onTouchTap={
                   (evt) => {
                     evt.preventDefault();
-                    location.href =
-                    `http://${location.host}/member/register?shopId=${helper.getUrlParam('shopId')}&returnUrl=${encodeURIComponent(location.href)}`;
+                    location.href = registerUrl;
                   }
                 }
               >注册会员</button>

@@ -7,6 +7,15 @@ module.exports = function (
     activeDishTypeId:-1,
     dishTypesData:[],
     dishesData:[],
+    shopInfo:{
+      commercialName:'',
+      openTimeList:[],
+      diningForm:undefined,
+      formatDishesData:{},
+      marketList:{},
+      marketListUpdate:[],
+      marketMatchDishes:false,
+    },
     dishDetailData: undefined,
     takeawayServiceProps:undefined,
     dishBoxChargeInfo:null,
@@ -34,15 +43,38 @@ module.exports = function (
   };
 
   switch (type) {
-    case 'SET_MENU_DATA':
+    case 'SET_MENU_DATA': {
+      const formatDishesData = helper.formatDishesData(helper.setDishPropertyTypeInfos(payload.dishList));
       return state.setIn(['dishTypesData'], payload.dishTypeList)
       .setIn(['dishesData'], helper.setDishPropertyTypeInfos(payload.dishList))
       .setIn(['activeDishTypeId'], getFirstValidDishTypeId(payload))
       .set('dishBoxChargeInfo', helper.getUrlParam('type') === 'WM' && payload.extraCharge ? payload.extraCharge : null)
+      .set('shopInfo', {
+        commercialName:payload.commercialName,
+        openTimeList:payload.openTimeList,
+        diningForm:payload.diningForm !== 0,
+        formatDishesData:helper.formatDishesData(helper.setDishPropertyTypeInfos(payload.dishList)),
+        marketList:helper.formatMarket(
+          payload.marketing || [],
+          formatDishesData
+        ),
+        marketListUpdate:helper.formatMarketUpdate(
+          payload.marketing || [],
+          formatDishesData
+        ),
+        marketMatchDishes:helper.matchDishesData(
+          helper.formatMarketUpdate(
+            payload.marketing || [],
+            formatDishesData
+          ),
+          formatDishesData
+        ),
+      })
       .setIn(['openTimeList'], payload.openTimeList)
       // equal to 0, means accepting takeaway 24 hours, 2016-07-30 16:46:31 后端调整为bool型
       .setIn(['isAcceptTakeaway'], payload.isAcceptTakeaway === true)
       .set('normalDiscountProps', payload.discountInfo);
+    }
     case 'ACTIVE_DISH_TYPE':
       return state.setIn(['activeDishTypeId'], payload);
     case 'SHOW_DISH_DETAIL':
@@ -104,10 +136,9 @@ module.exports = function (
           'dishesData', dishesData => dishesData.flatMap(
             dishData => {
               let haveDiscountPropsData = null;
-              let isUserMember = true;
+              let isUserMember = _has(payload, 'isMember') ? payload.isMember : true;
               if (payload && _has(payload, 'dishList')) {
                 haveDiscountPropsData = payload;
-                isUserMember = _has(payload, 'isMember') ? payload.isMember : true;
               } else if (state.normalDiscountProps && state.normalDiscountProps.dishList
                 && state.normalDiscountProps.dishList.length && state.normalDiscountProps.type) {
                 haveDiscountPropsData = state.normalDiscountProps;
@@ -116,7 +147,9 @@ module.exports = function (
                   .set('isMember', false)
                   .set('memberPrice', false)
                   .set('discountType', false)
-                  .set('discountLevel', false);
+                  .set('discountLevel', false)
+                  .set('loginType', payload.loginType || 0)
+                  .set('isUserMember', isUserMember);
               }
               return dishData
                   .set(
@@ -130,6 +163,7 @@ module.exports = function (
                   )
                   .set('discountType', haveDiscountPropsData.type)
                   .set('discountLevel', haveDiscountPropsData.levelName)
+                  .set('loginType', haveDiscountPropsData.loginType || 0)
                   .set('isUserMember', isUserMember);
             }
           )

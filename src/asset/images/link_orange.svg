@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="301px" height="253px" viewBox="0 0 301 253" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M9.23705556e-14,61.2384459 C9.23705556e-14,32.9402336 22.9392229,10 51.2359948,10 L51.2359948,10 L51.2359948,10 C79.5328534,10 102.47199,32.9339124 102.47199,61.2384459 L102.47199,117.209759 C102.47199,145.507972 79.5390751,168.448205 51.2359948,168.448205 L51.2359948,168.448205 C22.9391362,168.448205 9.23705556e-14,145.514293 9.23705556e-14,117.209759 L9.23705556e-14,61.2384459 Z" id="path-1"></path>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="102.47199" height="158.448205" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <rect id="path-3" x="9.23705556e-14" y="9" width="102.47199" height="158.448205" rx="51.2359948"></rect>
+        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="102.47199" height="158.448205" fill="white">
+            <use xlink:href="#path-3"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="页2" transform="translate(-227.000000, -310.000000)">
+            <g id="Group" transform="translate(206.000000, 291.000000)">
+                <g id="Group-3" transform="translate(96.500000, 197.166522) rotate(-315.000000) translate(-96.500000, -197.166522) translate(45.000000, 112.666522)">
+                    <use id="Rectangle-Copy" stroke="#FFC334" mask="url(#mask-2)" stroke-width="16" xlink:href="#path-1"></use>
+                    <path d="M51.2218254,1.44206748 L51.2218254,56.7712015" id="Line" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round"></path>
+                    <path d="M51.2218254,0.682720164 L51.2218254,60.6827202" id="Line" stroke="#FFC334" stroke-width="8" stroke-linecap="round"></path>
+                </g>
+                <g id="Group-3-Copy" transform="translate(241.829612, 86.600308) rotate(-120.000000) translate(-241.829612, -86.600308) translate(190.329612, 2.600308)">
+                    <use id="Rectangle-Copy" stroke="#FFC334" mask="url(#mask-4)" stroke-width="16" xlink:href="#path-3"></use>
+                    <path d="M52.185927,1.11534025 L52.185927,56.4444742" id="Line" stroke="#FFFFFF" stroke-width="20" stroke-linecap="round"></path>
+                    <path d="M52.2840032,0.714814031 L52.2840032,60.714814" id="Line" stroke="#FFC334" stroke-width="8" stroke-linecap="round"></path>
+                </g>
+                <path d="M142.333478,127 L148.333478,127" id="Line" stroke="#FFC334" stroke-width="5" stroke-linecap="round"></path>
+                <path d="M149.333478,115 L153.017121,119.736113" id="Line-Copy-2" stroke="#FFC334" stroke-width="5" stroke-linecap="round"></path>
+                <path d="M162.319872,114 L161.333478,119.918364" id="Line-Copy" stroke="#FFC334" stroke-width="5" stroke-linecap="round"></path>
+            </g>
+        </g>
+    </g>
+</svg>

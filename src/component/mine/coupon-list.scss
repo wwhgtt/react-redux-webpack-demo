@@ -1,0 +1,55 @@
+@import "settings.colors";
+@import "tools.functions";
+@import "tools.mixins";
+
+.coupon-outer {
+  display: none;
+  margin-bottom: .938em;
+
+  &.show {
+    display: block;
+  }
+}
+
+.no-coupon-outer {
+  display: none;
+  padding-top: 5em;
+  text-align: center;
+  color: $color-dusty-grey;
+
+  &.show {
+    display: block;
+  }
+
+  .noCouponLogo {
+    display: block;
+    width: 14em;
+    margin: 1em auto;
+  }
+}
+
+.coupon-list-outer {
+  padding: .938em .938em 0;
+
+  .uprow {
+    &-leftpart.zhekou {
+      background: $color-cyan;
+    }
+
+    &-leftpart.manjian {
+      background: #56a5ff;
+    }
+
+    &-leftpart.xianjin {
+      background: #ff9049;
+    }
+
+    &-leftpart.lipin {
+      background: #ffc334;
+    }
+
+    &-leftpart.shixiao {
+      background: #ccc;
+    }
+  }
+}
