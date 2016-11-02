@@ -21,7 +21,8 @@ module.exports = {
                       periodEnd : "23:58:59",
                       weekdays : "1110011",
                       customerType : 5,
-                      updateTime: "2016-05-01"
+                      updateTime: "2016-05-01",
+                      isAble:false,
                   }, {
                       dishId : 2,
                       planId : 22,
@@ -35,7 +36,8 @@ module.exports = {
                       periodEnd : "23:59:59",
                       weekdays : "1111110",
                       customerType : 2,
-                      updateTime: "2016-05-09"
+                      updateTime: "2016-05-09",
+                      isAble:true,
                   }
               ]
             },
@@ -54,7 +56,8 @@ module.exports = {
                       periodEnd : "23:58:59",
                       weekdays : "1111111",
                       customerType : 3,
-                      updateTime: "2016-05-20"
+                      updateTime: "2016-05-20",
+                      isAble:false,
                   }, {
                       dishId : 2,
                       planId : 22,
@@ -68,7 +71,8 @@ module.exports = {
                       periodEnd : "23:59:59",
                       weekdays : "1001111",
                       customerType : 2,
-                      updateTime: "2016-05-08"
+                      updateTime: "2016-05-08",
+                      isAble:true,
                   }
               ]
             }
