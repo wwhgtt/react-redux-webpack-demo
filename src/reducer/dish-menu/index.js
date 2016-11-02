@@ -46,16 +46,12 @@ module.exports = function (
     case 'SET_MENU_DATA': {
       const formatDishesData = helper.formatDishesData(helper.setDishPropertyTypeInfos(payload.dishList));
       return state.setIn(
-        ['dishTypesData'],
-          helper.reorganizeDishes(
-            helper.setDishPropertyTypeInfos(payload.dishList), payload.dishTypeList
-          ).dishTypeList
-        )
+        ['dishTypesData'], payload.dishTypeList)
       .setIn(
         ['dishesData'],
           helper.reorganizeDishes(
-            helper.setDishPropertyTypeInfos(payload.dishList), payload.dishTypeList
-          ).dishesList
+            helper.setDishPropertyTypeInfos(payload.dishList)
+          )
         )
       .setIn(['activeDishTypeId'], getFirstValidDishTypeId(payload))
       .set('dishBoxChargeInfo', helper.getUrlParam('type') === 'WM' && payload.extraCharge ? payload.extraCharge : null)

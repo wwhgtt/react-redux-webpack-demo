@@ -1005,7 +1005,7 @@ module.exports = {
         'type': 0,
         'aliasName': '商品大類1中類1001',
         'unitId': null,
-        'unitName': '斤',
+        'unitName': '杯',
         'marketPrice': 0.04,
         'dishDesc': '',
         'videoUrl': '',
@@ -1105,7 +1105,7 @@ module.exports = {
         'type': 0,
         'aliasName': '商品大類1中類1001',
         'unitId': null,
-        'unitName': '份',
+        'unitName': '杯',
         'marketPrice': 0.06,
         'dishDesc': '',
         'videoUrl': '',
@@ -1155,7 +1155,7 @@ module.exports = {
         'type': 0,
         'aliasName': '商品大類1中類1001',
         'unitId': null,
-        'unitName': '斤',
+        'unitName': '杯',
         'marketPrice': 43,
         'dishDesc': '',
         'videoUrl': '',
@@ -1180,7 +1180,7 @@ module.exports = {
         }, {
           'id': 7,
           'name': '规格类别1',
-          'type':1,
+          'type':4,
           'properties': [{
             'id': 59,
             'name': '红色包装',
@@ -1190,7 +1190,7 @@ module.exports = {
         }, {
           'id': 9,
           'name': '规格类别2',
-          'type': 1,
+          'type': 4,
           'properties': [{
             'id': 3598,
             'name': '规格类别2名称3',
@@ -1299,36 +1299,6 @@ module.exports = {
           'properties': [{
             'id': 3596,
             'name': '规格类别2名称1',
-            'reprice': 0.0,
-            'isChecked': false,
-          }],
-        }, {
-          'id': 14,
-          'name': '做法类别1',
-          'type': 1,
-          'properties': [{
-            'id': 63,
-            'name': ' 做法类别1做法名称1',
-            'reprice': 0.01,
-            'isChecked': false,
-          }],
-        }, {
-          'id': 15,
-          'name': '做法类别2',
-          'type': 1,
-          'properties': [{
-            'id': 1832,
-            'name': '做法2做法名称1',
-            'reprice': 0.01,
-            'isChecked': false,
-          }],
-        }, {
-          'id': 63,
-          'name': '做法类别3',
-          'type': 1,
-          'properties': [{
-            'id': 1835,
-            'name': '做法3做法名称1',
             'reprice': 0.0,
             'isChecked': false,
           }],

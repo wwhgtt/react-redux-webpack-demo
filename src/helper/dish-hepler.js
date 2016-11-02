@@ -1,3 +1,4 @@
+const _findIndex = require('lodash.findindex');
 const getUrlParam = exports.getUrlParam = function (param) {
   const reg = new RegExp(`(^|&)${param}=([^&]*)(&|$)`, 'i');
   const r = window.location.search.replace(/\?/g, '&').substr(1).match(reg);
@@ -483,20 +484,102 @@ exports.matchDishesData = (marketListUpdate, formatDishesData) => {
   });
   return marketMatchDishes;
 };
+const judgeStandardsSame = (dish, sample) => {
+  if (dish.dishPropertyTypeInfos && dish.dishPropertyTypeInfos.length
+    && sample.dishPropertyTypeInfos && sample.dishPropertyTypeInfos.length) {
+    let dishPropertyTypeInfos = dish.dishPropertyTypeInfos;
+    let dishStandardCollection = [];
+    let samplePropertyTypeInfos = sample.dishPropertyTypeInfos;
+    let sampleStandardCollection = [];
+    let boolCollection = [];
+    dishPropertyTypeInfos.filter(property => property.type === 4).map(
+      property => dishStandardCollection.push(property.id)
+    );
+    samplePropertyTypeInfos.filter(property => property.type === 4).map(
+      property => sampleStandardCollection.push(property.id)
+    );
+    dishStandardCollection.map(propertyId => {
+      let index = _findIndex(sampleStandardCollection, id => id === propertyId);
+      return boolCollection.push(
+        index >= 0 && sampleStandardCollection.length === dishStandardCollection.length ?
+        '1' : '0'
+      );
+    });
+    // console.log(872432786423104623942386940230846329050123089);
+    // console.log(dishStandardCollection);
+    // console.log(sampleStandardCollection);
+    // console.log(boolCollection);
+    // console.log(872432786423104623942386940230846329050123089);
+    // console.log(_findIndex(boolCollection, bool => bool === '0'));
+    if (_findIndex(boolCollection, bool => bool === '0') === -1) {
+      return true;
+    }
+    return false;
+  }
+  return false;
+};
 const selectDishesListWithSameName = (dishesList) => {
   let newDishesList = [];
-  console.log(newDishesList);
-};
-exports.reorganizeDishes = (dishesList, dishTypeList) => {
-  console.log('dishesList:', dishesList);
-  console.log('dishTypeList:', dishTypeList);
-  // 先筛选出名称一致的菜品
-  const withSameNameDishesList = selectDishesListWithSameName(dishesList);
-  console.log('withSameNameDishesList:', withSameNameDishesList);
-  // 检查名称一致的菜品是否销售单位，商品参与的规格分组完全一致
-  // 检查商品中类完全一致
+  for (let i = 0; i < dishesList.length; i++) {
+    let sameNameDish = [dishesList[i]];
+    let dishesCollection = [];
+    for (let index = 0; index < newDishesList.length; index++) {
+      newDishesList[index].map(dish => dishesCollection.push(dish));
+    }
+    if (i === 0) {
+      dishesList.filter(dish => dish.id !== sameNameDish[0].id).map(dish => {
+        if (dish.name === sameNameDish[0].name && dish.unitName === sameNameDish[0].unitName
+          && dish.dishTypeId === sameNameDish[0].dishTypeId && judgeStandardsSame(dish, sameNameDish[0])
+        ) {
+          sameNameDish.push(dish);
+        }
+        return sameNameDish;
+      });
+    } else if (i > 0 && dishesCollection.every(dish => dish.name !== sameNameDish[0].name)) {
+      dishesList.filter(dish => dish.id !== sameNameDish[0].id).map(dish => {
+        if (dish.name === sameNameDish[0].name && dish.unitName === sameNameDish[0].unitName
+          && dish.dishTypeId === sameNameDish[0].dishTypeId && judgeStandardsSame(dish, sameNameDish[0])
+        ) {
+          sameNameDish.push(dish);
+        }
+        return sameNameDish;
+      });
+    }
+    newDishesList.push(sameNameDish);
+  }
+  newDishesList.filter(dishes => dishes.length > 1).map(dishes => {
+    dishes.map(dish => {
+      let index = _findIndex(dishesList, dishProp => dishProp.id === dish.id);
+      if (index >= 0) { dishesList[index].shuoldDelete = true; }
+      return true;
+    });
+    return true;
+  });
   return {
     dishesList,
-    dishTypeList,
+    sameNameDishes:newDishesList.filter(dishes => dishes.length > 1),
   };
+};
+const createNewDishes = (withSameNameDishesProp) => {
+  let initialDishes = withSameNameDishesProp.dishesList.filter(dish => !dish.shuoldDelete);
+  console.log(initialDishes);
+  let changedDishes = [];
+  withSameNameDishesProp.sameNameDishes.forEach(disesCollection => {
+    let maternalDish = disesCollection[0];
+    maternalDish.childrenDish = [];
+    for (let i = 1; i <= disesCollection.length; i++) {
+      maternalDish.childrenDish.push(disesCollection[i]);
+    }
+    return changedDishes.push(maternalDish);
+  });
+  let finalDishes = [].concat.apply(initialDishes, changedDishes);
+  return finalDishes;
+};
+exports.reorganizeDishes = (dishesList) => {
+  // 先筛选出名称,销售单位,商品中类一致,商品参与的规格分组完全一致的菜品
+  const withSameNameDishesProp = selectDishesListWithSameName(dishesList);
+  // console.log('withSameNameDishesProp:', withSameNameDishesProp);
+  const finalDishes = createNewDishes(withSameNameDishesProp);
+  console.log(finalDishes);
+  return finalDishes;
 };

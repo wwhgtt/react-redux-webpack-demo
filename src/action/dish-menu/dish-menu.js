@@ -40,7 +40,8 @@ exports.fetchMenuData = () => (dispatch, getStates) =>
       dispatch(setMenuData(helper.restoreDishesLocalStorage(menuData.data)));
     }).
     catch(err => {
-      dispatch(setErrorMsg('加载订单信息失败...'));
+      console.log(err);
+      // dispatch(setErrorMsg('加载订单信息失败...'));
     });
 
 exports.fetchSendArea = () => (dispatch, getState) => {
