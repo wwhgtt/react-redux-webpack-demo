@@ -110,6 +110,7 @@ module.exports = React.createClass({
   },
   buildDishElements(activeDishTypeId, dishTypesData, dishesData, onDishBtnTap) {
     this._counter = 1;
+    console.log(dishesData);
     function getDishById(dishId) {
       const dish = _find(dishesData, { id:dishId });
       if (!dish) {

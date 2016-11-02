@@ -572,10 +572,15 @@ const createNewDishes = (withSameNameDishesProp, dishTypeList) => {
       // dish所在的dishType
       let dishType = _find(dishTypeList, dishesType => dishesType.dishIds && dishesType.dishIds.indexOf(maternalDish.id) !== -1);
       if (dishType) {
+        console.log(dishType.dishIds);
+        console.log(disesCollection[i].id);
         let dishIndex = _findIndex(dishType.dishIds, dishId => dishId === disesCollection[i].id);
-        dishType.dishIds.splice(dishIndex, 1);
+        if (dishIndex >= 0) {
+          dishType.dishIds.splice(dishIndex, 1);
+        }
       }
     }
+    // console.log(dishTypeList);
     return changedDishes.push(maternalDish);
   });
   // console.log(dishTypeList);
