@@ -2,6 +2,9 @@
 @import "tools.functions";
 @import "tools.mixins";
 
+.list-group {
+  margin-bottom: 0;
+}
 
 .list-icon {
   &[name="WDYE"] {
@@ -22,10 +25,12 @@
 }
 
 .tq-outer {
-  padding: 0 1em;
+  padding: 1em;
+  background: #fafafa;
 
   &-hide {
     height: 0;
+    padding: 0 1em;
   }
 
   &-show {

@@ -62,6 +62,7 @@ const MineSettingApplication = React.createClass({
         :
           false
         }
+        <div className="copyright"></div>
       </div>
     );
   },

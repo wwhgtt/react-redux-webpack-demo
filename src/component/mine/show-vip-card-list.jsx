@@ -18,7 +18,8 @@ module.exports = React.createClass({
   },
   componentWillMount() {},
   componentDidMount() {},
-  slideDown() {
+  slideDown(e) {
+    e.preventDefault();
     const arrowCondition = this.state.arrowUp;
     if (arrowCondition) {
       this.setState({ arrowUp:false });

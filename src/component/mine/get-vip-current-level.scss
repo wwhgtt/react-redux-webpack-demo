@@ -3,7 +3,9 @@
 @import "tools.mixins";
 
 .vip-level {
+  min-height: calc(100% - 380px - 45px);
   padding: 2em 1em;
+  background: #fafafa;
 
   &-name {
     font-size: 1.125em;
