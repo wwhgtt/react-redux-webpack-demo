@@ -506,12 +506,12 @@ const judgeStandardsSame = (dish, sample) => {
         '1' : '0'
       );
     });
-    // console.log(872432786423104623942386940230846329050123089);
-    // console.log(dishStandardCollection);
-    // console.log(sampleStandardCollection);
-    // console.log(boolCollection);
-    // console.log(872432786423104623942386940230846329050123089);
-    // console.log(_findIndex(boolCollection, bool => bool === '0'));
+    console.log(872432786423104623942386940230846329050123089);
+    console.log(dishStandardCollection);
+    console.log(sampleStandardCollection);
+    console.log(boolCollection);
+    console.log(872432786423104623942386940230846329050123089);
+    console.log(_findIndex(boolCollection, bool => bool === '0'));
     if (_findIndex(boolCollection, bool => bool === '0') === -1) {
       return true;
     }
@@ -572,18 +572,14 @@ const createNewDishes = (withSameNameDishesProp, dishTypeList) => {
       // dish所在的dishType
       let dishType = _find(dishTypeList, dishesType => dishesType.dishIds && dishesType.dishIds.indexOf(maternalDish.id) !== -1);
       if (dishType) {
-        console.log(dishType.dishIds);
-        console.log(disesCollection[i].id);
         let dishIndex = _findIndex(dishType.dishIds, dishId => dishId === disesCollection[i].id);
         if (dishIndex >= 0) {
           dishType.dishIds.splice(dishIndex, 1);
         }
       }
     }
-    // console.log(dishTypeList);
     return changedDishes.push(maternalDish);
   });
-  // console.log(dishTypeList);
   let finalDishes = [].concat.apply(initialDishes, changedDishes);
   return {
     finalDishes,
