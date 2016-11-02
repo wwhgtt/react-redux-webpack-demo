@@ -6,6 +6,10 @@ const connect = require('react-redux').connect;
 const actions = require('../../action/order/order');
 const helper = require('../../helper/order-helper');
 const validateAddressInfo = require('../../helper/order-helper').validateAddressInfo;
+const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
+const dateUtility = require('../../helper/common-helper.js').dateUtility;
+
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
 const CustomerTakeawayInfoEditor = require('../../component/order/customer-takeaway-info-editor.jsx');
@@ -19,10 +23,8 @@ const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
 const BenefitSelect = require('../../component/order/benefit-select.jsx');
-const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
-const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
-const dateUtility = require('../../helper/common-helper.js').dateUtility;
 const Dialog = require('../../component/mui/dialog/dialog.jsx');
+const Loading = require('../../component/mui/loading.jsx');
 
 require('../../asset/style/style.scss');
 require('./application.scss');
@@ -67,6 +69,7 @@ const OrderApplication = React.createClass({
     childView: React.PropTypes.string,
     errorMessage: React.PropTypes.string,
     isBenefitSelectWindowShow:React.PropTypes.bool.isRequired,
+    loadInfo: React.PropTypes.object,
   },
   getInitialState() {
     return {
@@ -345,6 +348,7 @@ const OrderApplication = React.createClass({
       shuoldPhoneValidateShow,
       isBenefitSelectWindowShow,
       setActivityBenefit,
+      loadInfo,
     } = this.props; // state
     const { setOrderProps, fetchUserAddressListInfo, setChildView } = this.props;// actions
     const type = getUrlParam('type');
@@ -611,6 +615,7 @@ const OrderApplication = React.createClass({
           :
           false
         }
+        {loadInfo && loadInfo.ing && <Loading word={loadInfo.word} />}
       </div>
     );
   },
