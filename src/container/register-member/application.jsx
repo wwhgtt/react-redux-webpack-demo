@@ -176,18 +176,6 @@ const RegisterMemberApplication = React.createClass({
                 <div className="option">
                   <span className="option-title">生日</span>
                   <span className="btn-arrow-right"></span>
-                  <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
-                    {this.state.isShow ?
-                      <InputDate
-                        startYear={currentY - 120}
-                        endYear={currentY}
-                        date={birthDay || '2012-08-15'}
-                        isAllowExceedNow={false}
-                        onCancelDateSelect={this.handleCancelDate}
-                        onCompleteDateSelect={this.handleCompleteDate}
-                      /> : false
-                    }
-                  </ReactCSSTransitionGroup>
                   <input
                     type="text"
                     className="option-input register-input"
@@ -232,6 +220,19 @@ const RegisterMemberApplication = React.createClass({
         {
           loadInfo.status && <Loading word={loadInfo.word} />
         }
+
+        <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
+          {this.state.isShow ?
+            <InputDate
+              startYear={currentY - 120}
+              endYear={currentY}
+              date={birthDay || '2012-08-15'}
+              isAllowExceedNow={false}
+              onCancelDateSelect={this.handleCancelDate}
+              onCompleteDateSelect={this.handleCompleteDate}
+            /> : false
+          }
+        </ReactCSSTransitionGroup>
       </div>
     );
   },

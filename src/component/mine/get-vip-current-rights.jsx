@@ -20,14 +20,14 @@ module.exports = React.createClass({
   },
   grownPart(grownCfg) {
     if (!grownCfg) { return false; }
-    const content = `每消费${grownCfg.grownConsumeGainValue || '0'}元可以获得${grownCfg.grownConsumeValue || '0'}点成长值`;
+    const content = `每消费${grownCfg.grownConsumeGainValue || '0'}元可获得${grownCfg.grownConsumeValue || '0'}点成长值`;
     return (
       <ListItem listContent={content} />
     );
   },
   scorePart(levelRights) {
     if (levelRights && levelRights.consumeValue && levelRights.consumeGainValue) {
-      let content = `每消费${levelRights.consumeValue}元获得${levelRights.consumeGainValue}个积分，`;
+      let content = `每消费${levelRights.consumeValue}e${levelRights.consumeGainValue}个积分，`;
       if (levelRights.isGainAll === 0) {
         content += '全部商品可积分';
       } else {
@@ -55,7 +55,7 @@ module.exports = React.createClass({
       if (levelRights.isExchangeCash === 0) {
         content = `每${levelRights.exchangeIntegralValue}个积分可抵扣${levelRights.exchangeCashValue}元，${limitWord}`;
       } else {
-        content = '不可低现';
+        content = '不可抵现';
       }
       return (
         <ListItem listContent={content} />
