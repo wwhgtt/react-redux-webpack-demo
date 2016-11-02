@@ -10,7 +10,6 @@ const ActivateFaild = require('../../component/activate-card/activate-faild.jsx'
 
 require('../../asset/style/style.scss');
 require('./application.scss');
-const kryPic = require('../../asset/images/kry_logo.png');
 
 const ActivateCardApplication = React.createClass({
   displayName: 'ActivateCardApplication',
@@ -57,9 +56,7 @@ const ActivateCardApplication = React.createClass({
     return (
       <div className="activate-card flex-columns">
         {showSection}
-        <div className="copyright-footer flex-none">
-          <span>powered by </span>
-          <img src={kryPic} role="presentation" />
+        <div className="copyright flex-none">
         </div>
         {
           errorMessage && <Toast errorMessage={errorMessage} clearErrorMsg={this.handleClearErrorMsg} />
