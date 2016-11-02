@@ -128,7 +128,7 @@ module.exports = React.createClass({
         <DishDetailHead dish={dish} onCountChange={this.onDishItemCountChange} />
         <DishPropsSelect
           props={dish.order[0].dishPropertyTypeInfos} ingredients={dish.order[0].dishIngredientInfos}
-          onSelectPropsOption={this.onSelectPropsOption}
+          onSelectPropsOption={this.onSelectPropsOption} dish={dish}
         />
         <button className="dish-detail-addtocart btn--yellow flex-none" onTouchTap={this.onAddToCarBtnTap}>加入购物车</button>{
           this.state.toast === 1 ?

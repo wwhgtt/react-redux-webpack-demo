@@ -8,6 +8,7 @@ require('./dish-props-select.scss');
 module.exports = React.createClass({
   displayName: 'DishPropsSelect',
   propTypes: {
+    dish:React.PropTypes.object.isRequired,
     props: React.PropTypes.array,
     ingredients: React.PropTypes.array,
     onSelectPropsOption: React.PropTypes.func,
@@ -20,6 +21,21 @@ module.exports = React.createClass({
   },
   onSelectPropsOption(recipeData, optionData) {
     this.props.onSelectPropsOption(recipeData, optionData);
+  },
+  buildRule(dish) {
+    if (!dish.sameRuleDishes) {
+      return false;
+    }
+    return dish.sameRuleDishes.map(ruleDish =>
+      ruleDish.dishPropertyTypeInfos.filter(property => property.type === 4).map(
+        property =>
+          (
+          <div className="recipe-group" key={property.id}>
+            <button className="rule-desc">{property.name}</button>
+          </div>
+          )
+      )
+    );
   },
   buildRecipe(props) {
     const recipesData = props.filter((propData => propData.type === 1));
@@ -67,12 +83,14 @@ module.exports = React.createClass({
     ));
   },
   render() {
-    const { props, ingredients } = this.props;
+    const { props, ingredients, dish } = this.props;
+    const ruleElement = this.buildRule(dish);
     const recipeElement = this.buildRecipe(props);
     const noteElement = this.buildNote(props);
     const buildIngredientElement = this.buildIngredient(ingredients);
     return (
       <div className="dish-props-select flex-rest">
+        {ruleElement}
         {recipeElement}
         {buildIngredientElement}
         {noteElement}
