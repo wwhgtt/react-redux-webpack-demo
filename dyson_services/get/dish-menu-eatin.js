@@ -10722,10 +10722,16 @@ module.exports = {
         ],
         "openTimeList": [
             {
-                "week": 7,
-                "type": 0,
+                "week": 0,
+                "type": 1,
                 "startTime": "00:01:00",
                 "endTime": "00:02:00"
+            },
+            {
+                "week": 1,
+                "type": 1,
+                "startTime": "00:03:00",
+                "endTime": "00:04:00"
             }
         ],
         "sendTimeList": [
