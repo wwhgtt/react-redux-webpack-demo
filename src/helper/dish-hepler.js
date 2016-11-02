@@ -410,9 +410,9 @@ exports.formatOpenTime = (openTimeList, isWeekend) => {
       }
     } else if (item.type === 1) {
       if (item.week === 0 && !isWeekend) {
-        restore1 = `工作日：${allTime}`;
-      } else if (item.week === 1 && !isWeekend) {
-        restore1 = `休息日：${allTime}`;
+        restore1 = `工作日 ${allTime}`;
+      } else if (item.week === 1 && isWeekend) {
+        restore2 = `周末 ${allTime}`;
       }
       restoreAll = `${isWeekend ? restore2 : restore1}`;
     } else if (item.type === 3 && item.week === 7) { // 分餐
@@ -435,7 +435,7 @@ exports.formatOpenTime = (openTimeList, isWeekend) => {
       } else if (index === 3 && item.week === 1 && isWeekend) {
         restore2 = `${allTime}`;
       }
-      restoreAll = `${isWeekend ? '休息日' : '工作日'}：${restore1} ${restore2}`;
+      restoreAll = `${isWeekend ? '周末' : '工作日'} ${restore1} ${restore2}`;
     }
     return false;
   });

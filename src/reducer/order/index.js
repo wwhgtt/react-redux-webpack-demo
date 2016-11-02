@@ -544,6 +544,8 @@ module.exports = function (
       return state.set('shuoldPhoneValidateShow', payload);
     case 'SET_TIMESTAMP':
       return state.set('timeStamp', payload);
+    case 'SET_LOAD_INFO':
+      return state.set('loadInfo', payload);
     default:
   }
   return state;
