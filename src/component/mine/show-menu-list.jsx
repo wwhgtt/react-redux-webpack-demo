@@ -82,18 +82,18 @@ module.exports = React.createClass({
             </div>
           </div>
           <div className="list-group">
-            <div className="list-group-item" name="会员卡">
-              <a className="list-group-link" href={mainIndexUrl}>
-                <i className="icon" name="HYK"></i>
-                <span className="name">会员卡</span>
-                <span className="arrow arrow-right"></span>
+            <div className="list-item" name="会员卡">
+              <a className="list-link" href={mainIndexUrl}>
+                <i className="list-icon" name="HYK"></i>
+                <span className="list-name">会员卡</span>
+                <span className="list-arrow list-arrow-right"></span>
               </a>
             </div>
-            <div className="list-group-item" name="会员充值">
-              <a className="list-group-link" href={rechargeUrl}>
-                <i className="icon" name="HYCZ"></i>
-                <span className="name">会员充值<b className="name-detail">充值+</b></span>
-                <span className="arrow arrow-right"></span>
+            <div className="list-item" name="会员充值">
+              <a className="list-link" href={rechargeUrl}>
+                <i className="list-icon" name="HYCZ"></i>
+                <span className="list-name">会员充值<b className="list-name-detail">充值+</b></span>
+                <span className="list-arrow list-arrow-right"></span>
               </a>
             </div>
           </div>
@@ -102,11 +102,11 @@ module.exports = React.createClass({
     }
     if (condition === 3 && isWeiXinBroswer) { // 同时要是微信浏览器
       partTwo = (
-        <div className="list-group-item" name="绑定微信号">
-          <a className="list-group-link" href={bindWXUrl}>
-            <i className="icon" name="BDWX"></i>
-            <span className="name">绑定微信号</span>
-            <span className="arrow arrow-right"></span>
+        <div className="list-item" name="绑定微信号">
+          <a className="list-link" href={bindWXUrl}>
+            <i className="list-icon" name="BDWX"></i>
+            <span className="list-name">绑定微信号</span>
+            <span className="list-arrow list-arrow-right"></span>
           </a>
         </div>
       );
@@ -117,12 +117,12 @@ module.exports = React.createClass({
         <div className="list-group">
           {
             !info.isMember ?
-              <div className="list-group-item" name="会员注册">
-                <a className="list-group-link" href={registerUrl}>
-                  <i className="icon" name="HYZC"></i>
-                  <span className="name">会员注册</span>
-                  <span className="brief">注册会员享受更多福利</span>
-                  <span className="arrow arrow-right"></span>
+              <div className="list-item" name="会员注册">
+                <a className="list-link" href={registerUrl}>
+                  <i className="list-icon" name="HYZC"></i>
+                  <span className="list-name">会员注册</span>
+                  <span className="list-brief">注册会员享受更多福利</span>
+                  <span className="list-arrow list-arrow-right"></span>
                 </a>
               </div>
             :
@@ -130,11 +130,11 @@ module.exports = React.createClass({
           }
           {
             condition === 1 && !info.bindMobile ?
-              <div className="list-group-item" name="绑定手机号">
-                <a className="list-group-link" href={bindMobileUrl}>
-                  <i className="icon" name="BDSJ"></i>
-                  <span className="name">绑定手机号</span>
-                  <span className="arrow arrow-right"></span>
+              <div className="list-item" name="绑定手机号">
+                <a className="list-link" href={bindMobileUrl}>
+                  <i className="list-icon" name="BDSJ"></i>
+                  <span className="list-name">绑定手机号</span>
+                  <span className="list-arrow list-arrow-right"></span>
                 </a>
               </div>
             :
@@ -142,11 +142,11 @@ module.exports = React.createClass({
           }
           {
             condition === 2 && !info.bindWx && isWeiXinBroswer ? // 同时要是微信浏览器
-              <div className="list-group-item" name="绑定微信号">
-                <a className="list-group-link" href={bindWXUrl}>
-                  <i className="icon" name="BDWX"></i>
-                  <span className="name">绑定微信号</span>
-                  <span className="arrow arrow-right"></span>
+              <div className="list-item" name="绑定微信号">
+                <a className="list-link" href={bindWXUrl}>
+                  <i className="list-icon" name="BDWX"></i>
+                  <span className="list-name">绑定微信号</span>
+                  <span className="list-arrow list-arrow-right"></span>
                 </a>
               </div>
             :
@@ -157,11 +157,11 @@ module.exports = React.createClass({
     }
     if (info.bindMobile) {
       partFour = (
-        <div className="list-group-item" name="优惠券">
-          <a className="list-group-link" href={getCouponListUrl}>
-            <i className="icon" name="YH"></i>
-            <span className="name">优惠券</span>
-            <span className="arrow arrow-right"></span>
+        <div className="list-item" name="优惠券">
+          <a className="list-link" href={getCouponListUrl}>
+            <i className="list-icon" name="YH"></i>
+            <span className="list-name">优惠券</span>
+            <span className="list-arrow list-arrow-right"></span>
           </a>
         </div>
       );
@@ -171,30 +171,30 @@ module.exports = React.createClass({
       <div className="list-outer">
         {partOne}
         <div className="list-group">
-          <div className="list-group-item" name="订单中心">
-            <a className="list-group-link" href={orderallListUrl}>
-              <i className="icon" name="DD"></i>
-              <span className="name">订单中心</span>
-              <span className="arrow arrow-right"></span>
+          <div className="list-item" name="订单中心">
+            <a className="list-link" href={orderallListUrl}>
+              <i className="list-icon" name="DD"></i>
+              <span className="list-name">订单中心</span>
+              <span className="list-arrow list-arrow-right"></span>
             </a>
           </div>
           {partFour}
-          <div className="list-group-item" name="地址管理">
-            <a className="list-group-link" href={addressListUrl}>
-              <i className="icon" name="DZ"></i>
-              <span className="name">地址管理</span>
-              <span className="arrow arrow-right"></span>
+          <div className="list-item" name="地址管理">
+            <a className="list-link" href={addressListUrl}>
+              <i className="list-icon" name="DZ"></i>
+              <span className="list-name">地址管理</span>
+              <span className="list-arrow list-arrow-right"></span>
             </a>
           </div>
           {partTwo}
         </div>
         {partThree}
         <div className="list-group">
-          <div className="list-group-item" name="设置">
-            <a className="list-group-link" href={settingUrl}>
-              <i className="icon" name="SZ"></i>
-              <span className="name">设置</span>
-              <span className="arrow arrow-right"></span>
+          <div className="list-item" name="设置">
+            <a className="list-link" href={settingUrl}>
+              <i className="list-icon" name="SZ"></i>
+              <span className="list-name">设置</span>
+              <span className="list-arrow list-arrow-right"></span>
             </a>
           </div>
         </div>

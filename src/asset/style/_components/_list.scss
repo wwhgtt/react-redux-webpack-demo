@@ -23,7 +23,7 @@
   }
 }
 
-.list-group-item {
+.list-item {
   font-size: 1em;
   line-height: 1.375em;
   display: block;
@@ -33,14 +33,14 @@
   border: none;
 }
 
-.list-group-link {
+.list-link {
   position: relative;
   display: block;
   height: 100%;
   padding: 1em;
   text-decoration: none;
 
-  .icon {
+  .list-icon {
     font-size: 1.2em;
     display: inline-block;
     width: 1.188em;
@@ -49,7 +49,7 @@
     vertical-align: middle;
   }
 
-  .name {
+  .list-name {
     font-size: 1em;
     display: inline-block;
     vertical-align: middle;
@@ -70,7 +70,7 @@
     }
   }
 
-  .brief {
+  .list-brief {
     font-size: 15px;
     line-height: 1.5em;
     position: absolute;
@@ -79,7 +79,7 @@
     color: #bcbcbc;
   }
 
-  .arrow {
+  .list-arrow {
     position: absolute;
     top: 50%;
     right: 1em;
@@ -88,16 +88,16 @@
     margin-top: -.5em;
   }
 
-  .arrow-right {
+  .list-arrow-right {
     background: url("../../asset/images/arrow-right.svg") right center/.5em auto no-repeat;
   }
 
-  .arrow-down {
+  .list-arrow-down {
     background: url("../../asset/images/arrow-right.svg") center center/.5em auto no-repeat;
     transform: rotate(90deg);
   }
 
-  .arrow-up {
+  .list-arrow-up {
     background: url("../../asset/images/arrow-right.svg") center center/.5em auto no-repeat;
     transform: rotate(270deg);
   }

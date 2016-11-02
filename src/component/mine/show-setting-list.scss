@@ -2,18 +2,18 @@
 @import "tools.functions";
 @import "tools.mixins";
 
-// 覆盖 list-group-link
-.list-outer .list-group-link {
+// 覆盖 list--link
+.list-outer .list-link {
   display: flex;
   height: 55px;
   padding: 0;
 
-  .brief {
+  .list-brief {
     font-size: 15px;
     top: 1.15em;
   }
 
-  .name {
+  .list-name {
     line-height: 1.375em;
     margin-left: 1em;
 
