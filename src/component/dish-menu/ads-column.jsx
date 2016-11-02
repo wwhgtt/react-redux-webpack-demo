@@ -51,21 +51,27 @@ const AdsColumn = React.createClass({
       if (!formatDishesData[item.dishId]) { return false; }
       let vip = '';
       if (item.rule.customerType === 1) {
-        vip = '仅限会员';
+        vip = '仅限会员，';
       } else if (item.rule.customerType === 2) {
-        vip = '仅限非会员';
+        vip = '仅限非会员，';
       } else {
         vip = '';
       }
       const openDay = commonHelper.renderDay(item.rule.weekdays);
+      const period = commonHelper.renderTime(item.rule.periodStart, item.rule.periodEnd);
+      let condition = '';
+      if (vip || openDay || period) {
+        condition = `${vip + openDay + period}`;
+        const length = condition.length;
+        condition = `${condition.substring(0, length - 1)}可用，`;
+      }
       return (
         <p className={classnames('shopdiscount-item', { jian: item.rule.type === 1, zhe: item.rule.type === 2 })} key={index}>
           <span className="spanitem">
             {formatDishesData[item.dishId].name}
             {item.rule.dishNum > 1 ? `满${item.rule.dishNum}份${item.rule.ruleName}` : item.rule.ruleName}
-            （{vip}{openDay}
-            {commonHelper.renderTime(item.rule.periodStart, item.rule.periodEnd)}
-            每单仅限{item.rule.dishNum}份）
+            （{condition}
+            每单限{item.rule.dishNum}份）
           </span>
         </p>
       );

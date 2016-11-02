@@ -6,6 +6,12 @@ const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCo
 const getUrlParam = require('../../helper/common-helper').getUrlParam;
 const shopId = getUrlParam('shopId');
 
+const getSessionStorageValueOnce = (key, defaultValue) => {
+  const value = sessionStorage.getItem(key);
+  sessionStorage.removeItem(key);
+  return value ? JSON.parse(value) : defaultValue;
+};
+
 // 修改密码
 exports.modifyPassword = (data, setLoadding, showErrorMessage) => (dispatch, getStates) => {
   setLoadding({ ing: true, text: '系统处理中...' });
@@ -21,8 +27,8 @@ exports.modifyPassword = (data, setLoadding, showErrorMessage) => (dispatch, get
       setLoadding(false);
       if (res.code === '200') {
         showErrorMessage({ msg: '修改成功', names:['success'] });
-        setTimeout(function () {
-          location.href = `${config.mineSettingURL}${location.search}`;
+        setTimeout(() => {
+          location.href = getSessionStorageValueOnce('rurl_modifyPwd', `${config.mineSettingURL}${location.search}`);
         }, 2000);
         return;
       }
@@ -49,8 +55,8 @@ exports.resetPassword = (data, setLoadding, showErrorMessage) => (dispatch, getS
       setLoadding(false);
       if (res.code === '200') {
         showErrorMessage({ msg: '修改成功', names:['success'] });
-        setTimeout(function () {
-          const returnUrl = getUrlParam('returnUrl');
+        setTimeout(() => {
+          const returnUrl = getUrlParam('url');
           location.href = returnUrl ? decodeURIComponent(returnUrl) : `${config.mineSettingURL}${location.search}`;
         }, 2000);
         return;
