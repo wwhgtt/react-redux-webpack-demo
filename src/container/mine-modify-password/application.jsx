@@ -127,7 +127,7 @@ const MineModifyPasswordApplication = React.createClass({
                   name="confirmedPassword"
                   onChange={this.handlePasswordChange}
                   maxLength="6"
-                  placeholder="请输入6位数字密码"
+                  placeholder="请再次输入密码"
                   value={confirmedPassword || ''}
                 />
               </div>
