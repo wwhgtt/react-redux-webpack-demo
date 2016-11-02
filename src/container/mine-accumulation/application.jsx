@@ -66,8 +66,8 @@ const MineAccumulationApplication = React.createClass({
     if (!levelRights) {
       return (
         <ul className="masthead-discription-content" >
-          <li>积分规则: </li>
-          <li>积分抵现: </li>
+          <li><label>积分规则: </label><p>无</p></li>
+          <li><label>积分抵现: </label><p>无</p></li>
         </ul>
       );
     }
@@ -120,9 +120,9 @@ const MineAccumulationApplication = React.createClass({
           <p className="masthead-title">我的积分</p>
         </div>
         <div className="detail">
-          <div className="detail-title">积分使用记录</div>
+          <div className="detail-title">积分记录</div>
           <div className="section records">
-            {this.buildListElement()}
+            {false && this.buildListElement()}
           </div>
         </div>
         <div className="copyright"></div>
