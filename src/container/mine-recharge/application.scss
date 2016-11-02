@@ -73,6 +73,7 @@
 }
 
 .recharge-content {
+  min-height: calc(100% - 174px);
   padding: 15px;
   background-color: #fff;
 }
@@ -158,4 +159,11 @@
 
 .recharge-item-single {
   margin: 22px 0;
+}
+
+.recharge-footer {
+  font-size: 12px;
+  height: 30px;
+  text-align: center;
+  color: #ccc;
 }

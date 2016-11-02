@@ -23,12 +23,16 @@
       font-size: 14px;
       margin: 10px 0;
       padding: 0 15px;
-      color: $color-dove-grey;
+      color: #666;
     }
     // disabled address title color
     &-disabled {
       .address-title {
-        color: $color-sliver;
+        color: #999;
+      }
+
+      .address-meta {
+        color: #999;
       }
     }
   }
