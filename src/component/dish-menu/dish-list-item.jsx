@@ -61,25 +61,33 @@ module.exports = React.createClass({
     return dishData.name;
   },
   disCountInfo(diningForm, marketList, dishId) {
-    if (diningForm && marketList[dishId] && marketList[dishId].length !== 0 && marketList[dishId][0].isAble) {
-      let vip = '';
-      switch (marketList[dishId][0].customerType) {
-        case 1 : vip = '(会员 '; break;
-        case 2 : vip = '(非会员 '; break;
-        default: vip = '('; break;
-      }
-      return (
-        <span className="dish-item-discount ellipsis">
-          {
-            marketList[dishId][0].dishNum > 1 ?
-              `满${marketList[dishId][0].dishNum}份${marketList[dishId][0].ruleName}`
-            :
-              marketList[dishId][0].ruleName
+    let discountRestore = <span className="dish-item-discount ellipsis"></span>;
+    if (diningForm && marketList[dishId] && marketList[dishId].length !== 0) {
+      let discountFirst = true;
+      marketList[dishId].forEach((item, index) => {
+        if (item.isAble && discountFirst) {
+          discountFirst = false;
+          let vip = '';
+          switch (item.customerType) {
+            case 1 : vip = '(会员 '; break;
+            case 2 : vip = '(非会员 '; break;
+            default: vip = '('; break;
           }
-          {vip}每单限{marketList[dishId][0].dishNum}份)
-        </span>);
+          discountRestore = (
+            <span className="dish-item-discount ellipsis">
+              {
+                item.dishNum > 1 ?
+                  `满${item.dishNum}份${item.ruleName}`
+                :
+                  item.ruleName
+              }
+              {vip}每单限{item.dishNum}份)
+            </span>
+          );
+        }
+      });
     }
-    return (<span className="dish-item-discount ellipsis"></span>);
+    return discountRestore;
   },
   render() {
     const { dishData, marketList, diningForm } = this.props;
