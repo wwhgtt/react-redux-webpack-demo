@@ -81,10 +81,10 @@ module.exports = React.createClass({
     if (condition === 2 || condition === 3 || condition === 4) {
       partOne = (
         <ul className="list-group">
-          <li className="list-group-item">
-            <a className="list-group-link disable flex-row" href=" javascript:void(0)">
-              <div className="name-holder flex-none">
-                <span className="name">姓名</span>
+          <li className="list-item">
+            <a className="list-link disable flex-row" href=" javascript:void(0)">
+              <div className="list-name-holder flex-none">
+                <span className="list-name">姓名</span>
               </div>
               <div className="list-content flex-rest">
                 <input
@@ -99,10 +99,10 @@ module.exports = React.createClass({
               </div>
             </a>
           </li>
-          <li className="list-group-item">
-            <a className="list-group-link disable flex-row" href=" javascript:void(0)">
-              <div className="name-holder flex-none">
-                <span className="name">性别</span>
+          <li className="list-item">
+            <a className="list-link disable flex-row" href=" javascript:void(0)">
+              <div className="list-name-holder flex-none">
+                <span className="list-name">性别</span>
               </div>
               <div className="list-content flex-rest">
                 <SexSwitch changeSex={this.getSex} sex={sex} />
@@ -112,22 +112,22 @@ module.exports = React.createClass({
           {
             condition !== 2 && info.isMember ?
               <div>
-                <li className="list-group-item">
-                  <a className="list-group-link disable flex-row" href=" javascript:void(0)">
-                    <div className="name-holder flex-none">
-                      <span className="name">生日</span>
+                <li className="list-item">
+                  <a className="list-link disable flex-row" href=" javascript:void(0)">
+                    <div className="list-name-holder flex-none">
+                      <span className="list-name">生日</span>
                     </div>
                     <div className="list-content flex-rest">
                       <span className="list-content-info">{info.birthday}</span>
                     </div>
                   </a>
                 </li>
-                <li className="list-group-item">
-                  <a className="list-group-link flex-row" href={modifypwdUrl}>
-                    <div className="name-holder flex-none">
-                      <span className="name">修改密码</span>
+                <li className="list-item">
+                  <a className="list-link flex-row" href={modifypwdUrl}>
+                    <div className="list-name-holder flex-none">
+                      <span className="list-name">修改密码</span>
                     </div>
-                    <span className="arrow arrow-right"></span>
+                    <span className="list-arrow list-arrow-right"></span>
                   </a>
                 </li>
               </div>
@@ -144,20 +144,20 @@ module.exports = React.createClass({
             <div>
               {
                 condition !== 1 && condition !== 4 ?
-                  <li className="list-group-item">
-                    <a className="list-group-link flex-row" href={bindWXUrl}>
-                      <div className="name-holder flex-none">
-                        <span className="name">微信号</span>
+                  <li className="list-item">
+                    <a className="list-link flex-row" href={bindWXUrl}>
+                      <div className="list-name-holder flex-none">
+                        <span className="list-name">微信号</span>
                       </div>
-                      <span className="brief">未绑定</span>
-                      <span className="arrow arrow-right"></span>
+                      <span className="list-brief">未绑定</span>
+                      <span className="list-arrow list-arrow-right"></span>
                     </a>
                   </li>
                 :
-                  <li className="list-group-item">
-                    <a className="list-group-link disable flex-row" href=" javascript:void(0)">
-                      <div className="name-holder flex-none">
-                        <span className="name">微信号</span>
+                  <li className="list-item">
+                    <a className="list-link disable flex-row" href=" javascript:void(0)">
+                      <div className="list-name-holder flex-none">
+                        <span className="list-name">微信号</span>
                       </div>
                       <div className="list-content flex-rest">
                         <img src={info.iconUri || defaultPic} alt="微信头像" title="微信头像" className="list-content-logo" />
@@ -171,20 +171,20 @@ module.exports = React.createClass({
         }
         {
           condition === 1 ?
-            <li className="list-group-item">
-              <a className="list-group-link flex-row" href={bindMobileUrl}>
-                <div className="name-holder flex-none">
-                  <span className="name">手机号</span>
+            <li className="list-item">
+              <a className="list-link flex-row" href={bindMobileUrl}>
+                <div className="list-name-holder flex-none">
+                  <span className="list-name">手机号</span>
                 </div>
-                <span className="brief">未绑定</span>
-                <span className="arrow arrow-right"></span>
+                <span className="list-brief">未绑定</span>
+                <span className="list-arrow list-arrow-right"></span>
               </a>
             </li>
           :
-            <li className="list-group-item">
-              <a className="list-group-link disable flex-row" href=" javascript:void(0)">
-                <div className="name-holder flex-none">
-                  <span className="name">手机号</span>
+            <li className="list-item">
+              <a className="list-link disable flex-row" href=" javascript:void(0)">
+                <div className="list-name-holder flex-none">
+                  <span className="list-name">手机号</span>
                 </div>
                 <div className="list-content flex-rest">
                   <span className="list-content-info">{info.mobile}</span>
@@ -194,13 +194,13 @@ module.exports = React.createClass({
         }
         {
           !info.isMember ?
-            <li className="list-group-item">
-              <a className="list-group-link flex-row" href={registerUrl}>
-                <div className="name-holder flex-none">
-                  <span className="name">会员注册</span>
+            <li className="list-item">
+              <a className="list-link flex-row" href={registerUrl}>
+                <div className="list-name-holder flex-none">
+                  <span className="list-name">会员注册</span>
                 </div>
-                <span className="brief">注册会员享受更多福利</span>
-                <span className="arrow arrow-right"></span>
+                <span className="list-brief">注册会员享受更多福利</span>
+                <span className="list-arrow list-arrow-right"></span>
               </a>
             </li>
           :
