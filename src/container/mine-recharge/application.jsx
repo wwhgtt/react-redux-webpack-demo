@@ -267,7 +267,7 @@ const MineRechargeApplication = React.createClass({
           </Dialog>
         }
       </div>
-      <div className="recharge-footer">客如云提供技术支持</div>
+      <div className="recharge-footer copyright"></div>
     </div>);
   },
 });
