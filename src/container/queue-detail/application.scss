@@ -1,3 +1,94 @@
-div {
-  background-color: #fff;
+@import "settings.colors";
+
+.queue-page {
+  padding: 70px 15px 25px;
+}
+
+.queue-info {
+  padding: 25px 0 34px;
+  text-align: center;
+
+  &-no {
+    font-size: 45px;
+    line-height: 63px;
+    height: 63px;
+    color: #474747;
+  }
+
+  &-table {
+    font-size: 18px;
+    color: #666;
+  }
+}
+
+.queue-user {
+  font-size: 15px;
+  padding: 22px 15px;
+  color: #666;
+
+  span {
+    display: inline-block;
+  }
+
+  &-name {
+    width: calc((100% - 106px) / 2);
+  }
+
+  &-num {
+    width: calc((100% - 106px) / 2);
+    text-align: center;
+  }
+
+  &-phone {
+    width: 106px;
+    text-align: right;
+  }
+}
+
+.queue-waite {
+  margin: 0 15px;
+  padding: 28px 0 43px;
+  text-align: center;
+  border-top: 1px dashed #ccc;
+
+  p:first-child {
+    line-height: 33px;
+    height: 33px;
+    color: #666;
+  }
+
+  &-num {
+    font-size: 26px;
+    margin: 0 5px;
+    color: #ff7417;
+  }
+
+  &-tip {
+    font-size: 14px;
+    line-height: 20px;
+    height: 20px;
+    color: $color-dusty-grey;
+  }
+}
+
+.divide-line-waite {
+  font-size: 14px;
+  left: calc((100% - 58px) / 2);
+  width: 58px;
+}
+
+.queue-operate {
+  padding: 30px 0 35px;
+  text-align: center;
+}
+
+.btn-queue-cancel {
+  line-height: 44px;
+  display: inline-block;
+  width: 135px;
+  height: 44px;
+  text-align: center;
+  color: #ffc334;
+  border: 1px solid #ffc334;
+  border-radius: 50px;
 }
