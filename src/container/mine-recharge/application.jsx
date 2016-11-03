@@ -6,6 +6,7 @@ const mineRechargeAction = require('../../action/mine/mine-recharge.js');
 const Dialog = require('../../component/mui/dialog/dialog.jsx');
 const RechargeItem = require('../../component/mine/recharge-item.jsx');
 const shopIcon = require('../../asset/images/default.png');
+const classnames = require('classnames');
 
 const MineRechargeApplication = React.createClass({
   displayName: 'MineRechargeApplication',
@@ -206,8 +207,9 @@ const MineRechargeApplication = React.createClass({
     lastRechargeAd = rechargeActiveAds[rechargeActiveAds.length - 1];
     this._adNo = rechargeActiveAds.length;
 
-    return (<div className="recharge-page application">
-      {Boolean(rechargeActiveAds.length) && (
+    const hasAds = !!rechargeActiveAds.length;
+    return (<div className={classnames('recharge-page application', { 'ads-emtpy': !hasAds })}>
+      {hasAds && (
         <div className="recharge-ads" onTouchTap={this.handleShowDialog}>
           <div className="recharge-ads-img"></div>
           {isShowAds &&

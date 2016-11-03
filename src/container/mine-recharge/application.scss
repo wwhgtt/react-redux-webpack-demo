@@ -72,6 +72,12 @@
   }
 }
 
+.ads-emtpy {
+  .recharge-content {
+    min-height: calc(100% - 130px);
+  }
+}
+
 .recharge-content {
   min-height: calc(100% - 190px);
   padding: 15px;

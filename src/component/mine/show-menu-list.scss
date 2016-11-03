@@ -2,6 +2,10 @@
 @import "tools.functions";
 @import "tools.mixins";
 
+.list-outer {
+  min-height: calc(100% - 192px - 61px);
+}
+
 .menuLink {
   $width: 100%;
   $none: none;
@@ -80,7 +84,7 @@
   }
 }
 
-.icon {
+.list-icon {
   &[name="DD"] {
     background: url("../../asset/images/DDZX.svg") center center/.8em auto no-repeat;
   }

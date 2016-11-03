@@ -1,13 +1,12 @@
 const React = require('react');
 const connect = require('react-redux').connect;
 const actions = require('../../action/mine/mine-vip-card.js');
+require('../../asset/style/style.scss');
+require('./application.scss');
 const Loading = require('../../component/mui/loading.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const ShowVipCardList = require('../../component/mine/show-vip-card-list.jsx');
 const VipCard = require('../../asset/images/vip-card.svg');
-
-require('../../asset/style/style.scss');
-require('./application.scss');
 
 const MineVipCardApplication = React.createClass({
   displayName: 'MineVipCardApplication',
@@ -50,6 +49,7 @@ const MineVipCardApplication = React.createClass({
         :
           false
         }
+        <div className="copyright"></div>
       </div>
     );
   },

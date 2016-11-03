@@ -4,6 +4,8 @@ const Loading = require('../../component/mui/loading.jsx');
 const classnames = require('classnames');
 const connect = require('react-redux').connect;
 const mineModifyPasswordAction = require('../../action/mine/mine-password.js');
+const getUrlParam = require('../../helper/common-helper.js').getUrlParam;
+const shopId = getUrlParam('shopId');
 
 require('../../asset/style/style.scss');
 require('../../component/mine/mine-password.scss');
@@ -83,6 +85,8 @@ const MineModifyPasswordApplication = React.createClass({
   render() {
     const { password, newPassword, confirmedPassword, loadingInfo, error } = this.state;
     const getOptionClass = (name) => classnames('option', { error: error && error.names.indexOf(name) !== -1 });
+    const resetPwdUrl = `/member/resetPwd?shopId=${shopId}&url=${encodeURIComponent(location.href)}`;
+
     return (
       <div className="flex-columns">
         {error && <div className="alert alert-error">{error.msg}</div>}
@@ -136,6 +140,7 @@ const MineModifyPasswordApplication = React.createClass({
           <div className="btn-group">
             <button className="btn--yellow btn-lg btn-radius-sm" onTouchTap={this.submit}>确定</button>
           </div>
+          <a href={resetPwdUrl} className="forget-password">忘记密码？</a>
         </div>
         <div className="copyright flex-none"></div>
         {loadingInfo && loadingInfo.ing && <Loading word={loadingInfo.text} />}

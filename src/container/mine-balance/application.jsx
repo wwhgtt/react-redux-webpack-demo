@@ -31,7 +31,7 @@ const MineBalanceApplication = React.createClass({
           </div>
         </div>
         <div className="balance-detail">
-          <div className="balance-detail-title">余额储值消费记录</div>
+          <div className="balance-detail-title">余额记录</div>
           <div className="balance-section records">
             {
               balanceInfo.vhList && balanceInfo.vhList.map((item, index) => {
