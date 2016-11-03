@@ -140,3 +140,55 @@ exports.logout = (successCallBack, faildCallBack) => (dispatch, getStates) => {
     }
   });
 };
+
+// 用户退出
+exports.logout = (successCallBack, faildCallBack) => (dispatch, getStates) => {
+  const logoutURL = `${config.logoutAPI}?shopId=${shopId}`;
+  fetch(logoutURL, config.requestOptions).
+  then(res => {
+    if (!res.ok) {
+      faildCallBack();
+    }
+    return res.json();
+  }).
+  then(res => {
+    if (res.code === '200') {
+      successCallBack();
+    } else {
+      faildCallBack();
+    }
+  });
+};
+
+// 2016年11月3日03:20:07 获取状态 已经登录的情况
+
+exports.getBindPhoneOrWxStatus = () => (dispatch, getStates) => {
+  dispatch(setLoadMsg({ status:true, word:'加载中' }));
+  if (!shopId) {
+    dispatch(setErrorMsg('找不到门店号'));
+    return;
+  }
+  fetch(`${config.individualAPI}?shopId=${shopId}`, config.requestOptions).
+  then(res => {
+    if (!res.ok) {
+      dispatch(setErrorMsg('请求数据失败'));
+    }
+    return res.json();
+  }).
+  then(basicData => {
+    dispatch(setLoadMsg({ status:false, word:'' }));
+    if (basicData.code === '200') {
+      const { data } = basicData;
+      if (data.loginType === 1 && data.bindMobile) {
+        // 保存电话号码到sessionStorage
+        sessionStorage.mobile = data.mobile;
+        location.hash = '#phone-success';
+      } else if (data.loginType === 0 && data.bindWx) {
+        location.hash = '#wx-success';
+      }
+    }
+  }).
+  catch(err => {
+    console.info(err);
+  });
+};

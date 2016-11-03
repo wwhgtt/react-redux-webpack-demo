@@ -3,6 +3,7 @@ const connect = require('react-redux').connect;
 const Toast = require('../../component/mui/toast.jsx');
 const Loading = require('../../component/mui/loading.jsx');
 const commonAction = require('../../action/common-action/common-action.js');
+const commonHelper = require('../../helper/common-helper');
 
 require('../../asset/style/style.scss');
 require('./application.scss');
@@ -10,7 +11,7 @@ require('./application.scss');
 const BindPhoneIndex = require('../../component/bind-account/bind-phone/bind-phone-index.jsx');
 const BindPhoneValidate = require('../../component/bind-account/bind-phone/bind-phone-validate.jsx');
 const BindPhoneSuccess = require('../../component/bind-account/bind-phone/bind-phone-success.jsx');
-
+const shopId = commonHelper.getUrlParam('shopId');
 
 const BindPhoneApplication = React.createClass({
   displayName: 'BindPhoneApplication',
@@ -23,6 +24,7 @@ const BindPhoneApplication = React.createClass({
     loadInfo: React.PropTypes.object,
     setLoadMsg: React.PropTypes.func,
     checkBindCode: React.PropTypes.func,
+    getBindPhoneOrWxStatus: React.PropTypes.func,
     // MapedStatesToProps
     childView: React.PropTypes.string,
     errorMessage: React.PropTypes.string,
@@ -34,7 +36,10 @@ const BindPhoneApplication = React.createClass({
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
     window.addEventListener('load', this.setChildViewAccordingToHash);
   },
-
+  componentDidMount() {
+    const { getBindPhoneOrWxStatus } = this.props;
+    getBindPhoneOrWxStatus();
+  },
   // 获得页面hash并发送action
   setChildViewAccordingToHash() {
     const { setChildView } = this.props;
@@ -48,7 +53,8 @@ const BindPhoneApplication = React.createClass({
 
   render() {
     const { childView, errorMessage, setErrorMsg, sendCode, loadInfo, checkBindCode, bindPhone } = this.props;
-    const phoneInfo = JSON.parse(sessionStorage.getItem('phoneInfo'));
+    const phoneNum = sessionStorage.mobile || '';
+    const phoneInfo = JSON.parse(sessionStorage.getItem('phoneInfo')) || { phoneNum, shopId };
     let bindSection;
 
     if (childView === '#phone-validate') {

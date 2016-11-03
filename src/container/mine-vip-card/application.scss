@@ -2,6 +2,14 @@
 
 .application {
   background: #fafafa;
+  text-size-adjust: none;
+}
+
+.copyright {
+  height: 45px;
+  margin: 0;
+  padding: 15px 0;
+  background: #fafafa;
 }
 
 .vip-card {
@@ -23,9 +31,10 @@
     position: absolute;
     z-index: 1;
     right: 0;
-    bottom: 2em;
+    bottom: 10%;
     left: 0;
     text-align: center;
     color: #5b4520;
   }
 }
+

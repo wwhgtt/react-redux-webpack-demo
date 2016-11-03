@@ -42,6 +42,7 @@ const MineIndexApplication = React.createClass({
           :
             false
         }
+        <div className="copyright"></div>
       </div>
     );
   },

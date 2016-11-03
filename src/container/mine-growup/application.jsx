@@ -83,7 +83,7 @@ const MineGrowupApplication = React.createClass({
               return false;
             }
 
-            const text = `每消费${grownCfg.grownConsumeValue}元可获得${grownCfg.grownConsumeGainValue}个成长值`;
+            const text = `每消费${grownCfg.grownConsumeValue}元可获得${grownCfg.grownConsumeGainValue}点成长值`;
             return (<li key={index} style={{ textAlign: 'center' }}>{text}</li>);
           })
         }
@@ -100,7 +100,7 @@ const MineGrowupApplication = React.createClass({
           <p className="masthead-title">我的成长值</p>
         </div>
         <div className="detail">
-          <div className="detail-title">我的成长记录</div>
+          <div className="detail-title">成长值记录</div>
           <div className="section records">
             {this.buildListElement()}
           </div>
