@@ -20,7 +20,7 @@ exports.formateOriginDate = (date) => {
   if (date) {
     const time = new Date(date);
     const getFullYear = time.getFullYear();
-    const getMonth = time.getMonth();
+    const getMonth = time.getMonth() + 1;
     const getDate = time.getDate();
 
     return `${getFullYear}/${appendZero(getMonth)}/${appendZero(getDate)}`;

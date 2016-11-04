@@ -58,7 +58,12 @@ module.exports = React.createClass({
     let validTime = '';
     if (couponStatus !== 1) {
       if (couponStatus === 3) {
-        validTime = <span className="validity-date">{couponHelper.formateDate(endDate)}</span>;
+        validTime = (
+          <div>
+            <span className="validity-date">{couponHelper.formateDate(startDate)}</span>
+            <span className="validity-date">{couponHelper.formateDate(endDate)}</span>
+          </div>
+        );
       } else {
         validTime = <span className="validity-date">{couponHelper.formateOriginDate(checkTime)}</span>;
       }
