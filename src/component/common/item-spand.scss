@@ -107,7 +107,7 @@
 
 .downrow {
   display: none;
-  padding: 1em;
+  padding: .8em 1em;
   background: $color-white;
 
   &.show {
@@ -122,7 +122,7 @@
 
   &-item {
     font-size: 13px;
-    line-height: 1.4em;
+    line-height: 1.6em;
     position: relative;
     padding-left: 1em;
     color: #666;
