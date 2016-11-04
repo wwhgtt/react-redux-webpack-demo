@@ -739,7 +739,7 @@ const getSubmitDishData = exports.getSubmitDishData = (dishesData, shopId) => {
     const beSelectedBenefit = _find(benefitDish, benefit => benefit.isChecked);
     let priId = beSelectedBenefit ? beSelectedBenefit.priId : null;
     let priType = beSelectedBenefit ? beSelectedBenefit.priType : null;
-    if (!beSelectedBenefit && !dish.noBenefit) {
+    if (!beSelectedBenefit && !dish.noBenefit && dish.isMember) {
       priId = 0;
       priType = 3;
     }

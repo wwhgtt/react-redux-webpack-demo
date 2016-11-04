@@ -27,7 +27,7 @@ module.exports = React.createClass({
   },
   scorePart(levelRights) {
     if (levelRights && levelRights.consumeValue && levelRights.consumeGainValue) {
-      let content = `每消费${levelRights.consumeValue}e${levelRights.consumeGainValue}个积分，`;
+      let content = `每消费${levelRights.consumeValue}元可获得${levelRights.consumeGainValue}个积分，`;
       if (levelRights.isGainAll === 0) {
         content += '全部商品可积分';
       } else {
