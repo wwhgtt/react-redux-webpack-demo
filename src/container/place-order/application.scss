@@ -1,7 +1,7 @@
 @import "settings.colors";
 
 .application {
-  background: $color-gallery;
+  background: #fd894d;
 }
 
 // override options group margin
@@ -9,8 +9,18 @@
   margin-bottom: -1px;
 }
 
+.options-group {
+  border: none;
+}
 // override option styles
 .option {
+  padding: 15px;
+  border-bottom: none;
+
+  &-tile {
+    font-size: 20px;
+  }
+
   &-title--icon {
     width: auto;
 
@@ -41,14 +51,26 @@
   }
 
   &-input {
-    width: 150px;
+    font-size: 14px;
+    float: left;
+    width: 94%;
+    height: 60px;
+    margin-left: 3%;
+    text-align: left;
+    border: 1px solid #e1e1e1;
   }
+}
+
+.options-title {
+  font-size: 20px;
+}
+
+.btn-arrow-right {
+  font-size: 16px;
 }
 
 .place-order {
   font-size: 16px;
-  position: fixed;
-  bottom: 0;
   display: block;
   width: 100%;
   padding: 15px 0;
@@ -57,5 +79,99 @@
   color: $color-white;
   border-top: 1px solid $color-mercury;
   border-bottom: 1px solid $color-mercury;
+  border-radius: 27px;
   background: #ffc333;
+}
+
+.content {
+  position: relative;
+  top: 79px;
+  left: 5%;
+  width: 90%;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-radius: 3px;
+  background-color: #fff;
+
+
+  &-shop {
+    width: 100%;
+    // margin-top: -79px / 2;
+    text-align: center;
+
+    &-icon {
+      position: relative;
+      top: (-79px / 2);
+      width: 79px;
+      height: 79px;
+      border: 3px solid rgba(255, 148, 77, .3);
+      border-radius: 50%;
+    }
+
+    &-desc {
+      font-size: 24px;
+      margin-top: (-39px / 2);
+    }
+  }
+
+  &-content-cut-line {
+    line-height: 20px;
+    width: 100%;
+    height: 20px;
+
+    span {
+      display: inline-block;
+
+      &-middle {
+        width: 22%;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.divider {
+  line-height: 20px;
+  position: relative;
+  height: 20px;
+  margin-top: 30px;
+  text-align: center;
+  background: #fff;
+  box-shadow:
+    inset (20px / 2 + 10px) 0 0 0 #fff,
+    inset -1 * (20px / 2 + 10px) 0 0 0 #fff,
+    inset 0 (20px / 2 - .5px) 0 0 #fff,
+    inset 0 (20px / 2 + .5px) 0 0 #e3e3e3;
+
+  &::before,
+  &::after {
+    width: 20px;
+    height: 20px;
+    content: "";
+    border-radius: 50%;
+    background: #fd894d;
+  }
+
+  &::before {
+    float: left;
+    margin-left: (-20px / 2);
+  }
+
+  &::after {
+    float: right;
+    margin-right: (-20px / 2);
+  }
+
+  &-title {
+    font-size: 13px;
+    padding: 0 8px;
+    color: #999;
+    background: #fff;
+  }
+}
+
+.errorMessage {
+  padding-bottom: 30px;
+  text-align: center;
+  color: #999;
 }
