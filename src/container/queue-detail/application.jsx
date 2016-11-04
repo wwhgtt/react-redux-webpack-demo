@@ -119,7 +119,7 @@ const QueueDetailApplication = React.createClass({
           </div>
           <div className="queue-info">
             <p className="queue-info-no">{queueInfo.ql && queueInfo.ql.queueChar}{queueInfo.queueNumber}</p>
-            <p className="queue-info-table">{'未知'} {this.getTableType(queueInfo)}人</p>
+            <p className="queue-info-table">{queueInfo.ql && queueInfo.ql.queueName} {this.getTableType(queueInfo)}人桌</p>
           </div>
           {queueInfo.queue && String(queueInfo.queue.queueStatus) === '0' &&
             <div className="queue-detail">
