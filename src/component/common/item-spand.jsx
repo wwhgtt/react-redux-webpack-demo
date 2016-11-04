@@ -19,6 +19,7 @@ module.exports = React.createClass({ // SexSwitch
     codeNumber:React.PropTypes.string,
     instructions:React.PropTypes.array,
     getShowDetail:React.PropTypes.func,
+    couponName:React.PropTypes.string,
   },
   getInitialState() {
     return {};
@@ -30,7 +31,7 @@ module.exports = React.createClass({ // SexSwitch
     getShowDetail(num);
   },
   render() {
-    const { typeClass, giftUnitBefore, giftFontSize, typeUnit, ruleVale, fullValue,
+    const { typeClass, giftUnitBefore, giftFontSize, typeUnit, ruleVale, fullValue, couponName,
       periodStart, periodEnd, hideRule, statusWord, validTime, codeNumber, instructions } = this.props;
     return (
       <div>
@@ -45,7 +46,7 @@ module.exports = React.createClass({ // SexSwitch
               }
               </span>
               <p className="detail-click">
-                代金券使用规则<span className={classnames({ arrowup:!hideRule, arrowdown:hideRule })}></span>
+                {couponName}使用规则<span className={classnames({ arrowup:!hideRule, arrowdown:hideRule })}></span>
               </p>
             </div>
           </div>

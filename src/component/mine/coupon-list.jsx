@@ -124,6 +124,7 @@ module.exports = React.createClass({
                   let giftTypeUnit = '';
                   let giftFontSize = '';
                   let statusWord = '';
+                  let couponName = '';
                   const hideRule = this.getHideRule(showCode, item.codeNumber);
                   const validTime = this.getValidTime(item.couponStatus, item.validStartDate, item.validEndDate, item.checkTime);
                   const renderWeek = commonHelper.renderDay(item.week);
@@ -140,10 +141,10 @@ module.exports = React.createClass({
                     if (vale) { ruleVale = vale; }
                   });
                   switch (item.couponType) {
-                    case 1: typeClass = 'manjian'; typeUnit = ' 元 满减券'; break;
-                    case 2: typeClass = 'zhekou'; typeUnit = ' 折 折扣券'; break;
-                    case 3: typeClass = 'lipin'; giftTypeUnit = '送 '; giftFontSize = '1.4em'; break;
-                    case 4: typeClass = 'xianjin'; typeUnit = ' 元 现金券'; break;
+                    case 1: typeClass = 'manjian'; typeUnit = ' 元 满减券'; couponName = '满减劵'; break;
+                    case 2: typeClass = 'zhekou'; typeUnit = ' 折 折扣券'; couponName = '折扣券'; break;
+                    case 3: typeClass = 'lipin'; giftTypeUnit = '送 '; couponName = '礼品券'; giftFontSize = '1.4em'; break;
+                    case 4: typeClass = 'xianjin'; typeUnit = ' 元 现金券'; couponName = '现金券'; break;
                     default: break;
                   }
                   if (item.couponStatus !== 1) {
@@ -169,6 +170,7 @@ module.exports = React.createClass({
                         codeNumber={item.codeNumber}
                         instructions={instructions}
                         getShowDetail={this.getShowDetail}
+                        couponName={couponName}
                       />
                     </div>
                   );
