@@ -2,7 +2,7 @@
 
 .uprow {
   position: relative;
-  height: 8em;
+  height: 7.5em;
 
   &::before {
     position: absolute;
@@ -93,6 +93,7 @@
 
   .validity {
     line-height: 1.4em;
+    margin-bottom: 1em;
     text-align: center;
 
     &-date {
