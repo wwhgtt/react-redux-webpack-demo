@@ -26,16 +26,51 @@ module.exports = React.createClass({
     if (!dish.sameRuleDishes) {
       return false;
     }
-    return dish.sameRuleDishes.map(ruleDish =>
-      ruleDish.dishPropertyTypeInfos.filter(property => property.type === 4).map(
-        property =>
-          (
-          <div className="recipe-group" key={property.id}>
-            <button className="rule-desc">{property.name}</button>
-          </div>
-          )
-      )
-    );
+    let ruleElements = [];
+    let ruleCollection = dish.dishPropertyTypeInfos.filter(property => property.type === 4);
+    // console.log(ruleCollection);
+    for (let i = 0; i < ruleCollection.length; i++) {
+      let elementCollection = [];
+      // 规格内容
+      let ruleTitle = ruleCollection[i].id;
+      dish.sameRuleDishes.map(ruleDish =>
+        ruleDish.dishPropertyTypeInfos.filter(property => property.type === 4).map(
+          property => {
+            if (property.id === ruleTitle) {
+              property.properties.map(prop =>
+                elementCollection.push(
+                  <button className="dish-porps-option" key={prop.id}>
+                    <span className="extra">{prop.reprice ? `+${prop.reprice}元` : false}</span>
+                    <span className="name ellipsis">{prop.name}</span>
+                  </button>
+                )
+              );
+            }
+            return false;
+          }
+        )
+      );
+      ruleElements.push(
+        <div className="recipe-group clearfix" key={ruleCollection[i].id}>
+          <span className="recipe-title">{ruleCollection[i].name}</span>
+          <button className="dish-porps-option" key={ruleCollection[i].properties[0].id}>
+            <span className="extra">{
+              ruleCollection[i].properties[0].reprice ?
+                `+${ruleCollection[i].properties[0].reprice}元`
+                :
+                false
+            }</span>
+            <span className="name ellipsis">{ruleCollection[i].properties[0].name}</span>
+          </button>
+          {elementCollection.length ?
+            elementCollection.map(element => element)
+            :
+            false
+          }
+        </div>
+      );
+    }
+    return ruleElements;
   },
   buildRecipe(props) {
     const recipesData = props.filter((propData => propData.type === 1));
@@ -90,7 +125,8 @@ module.exports = React.createClass({
     const buildIngredientElement = this.buildIngredient(ingredients);
     return (
       <div className="dish-props-select flex-rest">
-        {ruleElement}
+        {ruleElement ? ruleElement.map(ele => ele) : false}
+        <div className="clearfix"></div>
         {recipeElement}
         {buildIngredientElement}
         {noteElement}
