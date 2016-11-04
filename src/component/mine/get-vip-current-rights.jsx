@@ -20,7 +20,7 @@ module.exports = React.createClass({
   },
   grownPart(grownCfg) {
     if (!grownCfg) { return false; }
-    const content = `每消费${grownCfg.grownConsumeGainValue || '0'}元可获得${grownCfg.grownConsumeValue || '0'}点成长值`;
+    const content = `每消费${grownCfg.grownConsumeValue || '0'}元可获得${grownCfg.grownConsumeGainValue || '0'}点成长值`;
     return (
       <ListItem listContent={content} />
     );
