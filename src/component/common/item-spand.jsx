@@ -40,7 +40,9 @@ module.exports = React.createClass({ // SexSwitch
               {giftUnitBefore}<span className="discount-num" style={{ fontSize:giftFontSize }}>{ruleVale}</span>{typeUnit}
               <br />
               <span className="expense-condition">消费满{fullValue || '0'}元可用
-              ({periodStart}~{periodEnd})
+              {
+                periodStart !== periodEnd && <span>({periodStart}~{periodEnd})</span>
+              }
               </span>
               <p className="detail-click">
                 代金券使用规则<span className={classnames({ arrowup:!hideRule, arrowdown:hideRule })}></span>
