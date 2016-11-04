@@ -597,3 +597,45 @@ exports.reorganizeDishes = (dishesList, dishTypeList) => {
     dishesTypeList,
   };
 };
+
+exports.setRulePropsToDishes = (dishesData, dishTypesData, payload) => {
+  let dishes = dishesData.asMutable({ deep:true });
+  let dishesTypes = dishTypesData.asMutable({ deep:true });
+  let newDishDetail = null;
+  let selectedDish = _find(dishes, dish => dish.id === payload[1].id);
+  let selectedDishIndex = _findIndex(dishes, dish => dish.id === payload[1].id);
+  selectedDish.dishPropertyTypeInfos.map(property => property.properties.map(prop => {
+    if (prop.id === payload[0]) {
+      prop.isChecked = true;
+      newDishDetail = selectedDish;
+    }
+    return true;
+  }));
+  selectedDish.sameRuleDishes.map(ruleDish => ruleDish.dishPropertyTypeInfos.map(property => property.properties.map(prop => {
+    if (prop.id === payload[0]) {
+      prop.isChecked = true;
+      const dishIndex = _findIndex(selectedDish.sameRuleDishes, dish => dish.id === ruleDish.id);
+      if (dishIndex >= 0) {
+        selectedDish.sameRuleDishes.splice(dishIndex, 1);
+        ruleDish.sameRuleDishes = selectedDish.sameRuleDishes;
+        delete selectedDish.sameRuleDishes;
+        ruleDish.sameRuleDishes.push(selectedDish);
+        newDishDetail = ruleDish;
+        // 处理dishesTypes
+        const dishTypeId = selectedDish.dishTypeId;
+        let selectedDishType = _find(dishesTypes, type => type.id === dishTypeId);
+        let typeIndex = _findIndex(selectedDishType.dishIds, id => id === selectedDish.id);
+        selectedDishType.dishIds.splice(typeIndex, 1);
+        selectedDishType.dishIds.push(ruleDish.id);
+      }
+    }
+    return true;
+  })));
+  dishes[selectedDishIndex] = newDishDetail;
+  // dishes.push(newDishDetail);
+  return {
+    dishes,
+    dishDetailData:newDishDetail,
+    dishTypesData: dishesTypes,
+  };
+};
