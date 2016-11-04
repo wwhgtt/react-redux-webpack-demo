@@ -7,7 +7,7 @@ module.exports = React.createClass({ // SexSwitch
   propTypes:{
     typeClass:React.PropTypes.string,
     giftUnitBefore:React.PropTypes.string,
-    giftFontSize:React.PropTypes.string,
+    giftFontStyle:React.PropTypes.object,
     typeUnit:React.PropTypes.string,
     ruleVale:React.PropTypes.string,
     fullValue:React.PropTypes.number,
@@ -31,14 +31,14 @@ module.exports = React.createClass({ // SexSwitch
     getShowDetail(num);
   },
   render() {
-    const { typeClass, giftUnitBefore, giftFontSize, typeUnit, ruleVale, fullValue, couponName,
+    const { typeClass, giftUnitBefore, giftFontStyle, typeUnit, ruleVale, fullValue, couponName,
       periodStart, periodEnd, hideRule, statusWord, validTime, codeNumber, instructions } = this.props;
     return (
       <div>
         <div className="uprow of" onTouchTap={() => this.showDetail(codeNumber)}>
           <div className={typeClass ? `uprow-leftpart ${typeClass}` : 'uprow-leftpart'}>
             <div className="uprow-leftpart-value">
-              {giftUnitBefore}<span className="discount-num" style={{ fontSize:giftFontSize }}>{ruleVale}</span>{typeUnit}
+              {giftUnitBefore}<span className="discount-num" style={giftFontStyle}>{ruleVale}</span>{typeUnit}
               <br />
               <span className="expense-condition">消费满{fullValue || '0'}元可用
               {

@@ -123,6 +123,7 @@ module.exports = React.createClass({
                   let typeUnit = '';
                   let giftTypeUnit = '';
                   let giftFontSize = '';
+                  let giftVerticalAlign = '';
                   let statusWord = '';
                   let couponName = '';
                   const hideRule = this.getHideRule(showCode, item.codeNumber);
@@ -141,10 +142,10 @@ module.exports = React.createClass({
                     if (vale) { ruleVale = vale; }
                   });
                   switch (item.couponType) {
-                    case 1: typeClass = 'manjian'; typeUnit = ' 元 满减券'; couponName = '满减劵'; break;
-                    case 2: typeClass = 'zhekou'; typeUnit = ' 折 折扣券'; couponName = '折扣券'; break;
-                    case 3: typeClass = 'lipin'; giftTypeUnit = '送 '; couponName = '礼品券'; giftFontSize = '1.4em'; break;
-                    case 4: typeClass = 'xianjin'; typeUnit = ' 元 现金券'; couponName = '现金券'; break;
+                    case 1: typeClass = 'manjian'; typeUnit = ' 元  满减券'; couponName = '满减劵'; break;
+                    case 2: typeClass = 'zhekou'; typeUnit = ' 折  折扣券'; couponName = '折扣券'; break;
+                    case 3: typeClass = 'lipin'; giftTypeUnit = '送 '; couponName = '礼品券'; giftFontSize = '1.4em'; giftVerticalAlign = '0px'; break;
+                    case 4: typeClass = 'xianjin'; typeUnit = ' 元  现金券'; couponName = '现金券'; break;
                     default: break;
                   }
                   if (item.couponStatus !== 1) {
@@ -158,7 +159,7 @@ module.exports = React.createClass({
                       <ItemSpand
                         typeClass={typeClass}
                         giftUnitBefore={giftTypeUnit}
-                        giftFontSize={giftFontSize}
+                        giftFontStyle={{ fontSize:giftFontSize, verticalAlign:giftVerticalAlign }}
                         typeUnit={typeUnit}
                         ruleVale={ruleVale}
                         fullValue={item.fullValue}
