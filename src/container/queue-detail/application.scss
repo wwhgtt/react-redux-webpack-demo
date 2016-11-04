@@ -4,6 +4,10 @@
   padding: 70px 15px 25px;
 }
 
+.queue-content {
+  position: relative;
+}
+
 .queue-info {
   padding: 25px 0 34px;
   text-align: center;
@@ -25,18 +29,20 @@
   font-size: 15px;
   padding: 22px 15px;
   color: #666;
+  border-top: 1px dashed #ccc;
 
   span {
     display: inline-block;
   }
 
   &-name {
-    width: calc((100% - 106px) / 2);
+    max-width: calc(100% - 152px);
   }
 
   &-num {
-    width: calc((100% - 106px) / 2);
-    text-align: center;
+    float: right;
+    width: 46px;
+    text-align: right;
   }
 
   &-phone {
@@ -69,17 +75,69 @@
     height: 20px;
     color: $color-dusty-grey;
   }
+
+  &-refresh {
+    display: inline-block;
+    padding: 9px 14px;
+    background-image: url("../../asset/images/refresh_blue.svg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 22px;
+  }
 }
 
-.divide-line-waite {
-  font-size: 14px;
-  left: calc((100% - 58px) / 2);
-  width: 58px;
+.divide-line {
+  &-waite {
+    font-size: 14px;
+    left: calc((100% - 58px) / 2);
+    width: 58px;
+  }
+
+  &-time {
+    left: calc((100% - 162px) / 2);
+    width: 162px;
+  }
+}
+
+.queue-status {
+  position: absolute;
+  top: 137px;
+  right: 0;
+  width: 119px;
+  height: 142px;
+  background-repeat: no-repeat;
+  background-size: 119px;
+
+  &-timeOut {
+    background-image: url("../../asset/images/out_of_use_grey.svg");
+  }
+
+  &-in {
+    background-image: url("../../asset/images/already_in_grey.svg");
+  }
+
+  &-cancel {
+    background-image: url("../../asset/images/canceled_grey.svg");
+  }
+}
+
+.refresh-animation {
+  animation: refreshRotate 2s linear infinite;
 }
 
 .queue-operate {
-  padding: 30px 0 35px;
+  padding: 30px 0;
   text-align: center;
+}
+
+@keyframes refreshRotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .btn-queue-cancel {

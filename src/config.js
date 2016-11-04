@@ -127,5 +127,7 @@ module.exports = {
   resetPassword: `${apiBase}/member/resetPassword.json`, // 重置密码
   getResetPasswordUserInfoAPI: `${apiBase}/member/resetPwd.json`, // 取密码重置用户信息
   getQueueInfoAPI: `${apiBase}/queue/success.json`, // 排队详情
+  cancelQueueAPI: `${apiBase}/queue/cancel.json`, // 取消排队
+
   requestOptions,
 };
