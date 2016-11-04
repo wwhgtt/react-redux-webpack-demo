@@ -12,6 +12,7 @@ module.exports = React.createClass({
     props: React.PropTypes.array,
     ingredients: React.PropTypes.array,
     onSelectPropsOption: React.PropTypes.func,
+    onDishRuleChecked:React.PropTypes.func.isRequired,
   },
   getDefaultProps() {
     return {
@@ -28,7 +29,6 @@ module.exports = React.createClass({
     }
     let ruleElements = [];
     let ruleCollection = dish.dishPropertyTypeInfos.filter(property => property.type === 4);
-    // console.log(ruleCollection);
     for (let i = 0; i < ruleCollection.length; i++) {
       let elementCollection = [];
       // 规格内容
@@ -39,7 +39,7 @@ module.exports = React.createClass({
             if (property.id === ruleTitle) {
               property.properties.map(prop =>
                 elementCollection.push(
-                  <button className="dish-porps-option" key={prop.id}>
+                  <button className="dish-porps-option" onTouchTap={evt => this.props.onDishRuleChecked(prop.id, dish)} key={prop.id}>
                     <span className="extra">{prop.reprice ? `+${prop.reprice}元` : false}</span>
                     <span className="name ellipsis">{prop.name}</span>
                   </button>
@@ -53,7 +53,11 @@ module.exports = React.createClass({
       ruleElements.push(
         <div className="recipe-group clearfix" key={ruleCollection[i].id}>
           <span className="recipe-title">{ruleCollection[i].name}</span>
-          <button className="dish-porps-option" key={ruleCollection[i].properties[0].id}>
+          <button
+            className="dish-porps-option"
+            onTouchTap={evt => this.props.onDishRuleChecked(ruleCollection[i].properties[0].id, dish)}
+            key={ruleCollection[i].properties[0].id}
+          >
             <span className="extra">{
               ruleCollection[i].properties[0].reprice ?
                 `+${ruleCollection[i].properties[0].reprice}元`

@@ -182,6 +182,16 @@ module.exports = function (
       return state.set(
         'errorMessage', payload
       );
+    case 'SET_DISH_RULE_PROPS':
+      // dishIdx = _findIndex(state.dishesData, { id: payload[1].id });
+      // state.dishesData[dishIdx].sameRuleDishes.map(dish => {
+      //   dish.dishPropertyTypeInfos.map(property => property.properties.map(prop => {
+      //     if (prop.id === payload[0]) {
+      //       return state.set('dishDetailData', dish);
+      //     }
+      //   }));
+      // });
+      return state;
     default:
       return state;
   }
