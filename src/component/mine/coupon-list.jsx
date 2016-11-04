@@ -61,7 +61,9 @@ module.exports = React.createClass({
         validTime = (
           <div>
             <span className="validity-date">{couponHelper.formateDate(startDate)}</span>
-            <span className="validity-date">{couponHelper.formateDate(endDate)}</span>
+            {
+              startDate !== endDate && <span className="validity-date">{couponHelper.formateDate(endDate)}</span>
+            }
           </div>
         );
       } else {
@@ -71,7 +73,9 @@ module.exports = React.createClass({
       validTime = (
         <div>
           <span className="validity-date">{couponHelper.formateDate(startDate)}</span>
-          <span className="validity-date">{couponHelper.formateDate(endDate)}</span>
+          {
+            startDate !== endDate && <span className="validity-date">{couponHelper.formateDate(endDate)}</span>
+          }
         </div>
       );
     }
