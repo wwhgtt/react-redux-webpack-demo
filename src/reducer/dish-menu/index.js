@@ -7,6 +7,7 @@ module.exports = function (
     activeDishTypeId:-1,
     dishTypesData:[],
     dishesData:[],
+    dishPageTpl: 'default',
     shopInfo:{
       commercialName:'',
       openTimeList:[],
@@ -73,7 +74,9 @@ module.exports = function (
       .setIn(['openTimeList'], payload.openTimeList)
       // equal to 0, means accepting takeaway 24 hours, 2016-07-30 16:46:31 后端调整为bool型
       .setIn(['isAcceptTakeaway'], payload.isAcceptTakeaway === true)
-      .set('normalDiscountProps', payload.discountInfo);
+      .set('normalDiscountProps', payload.discountInfo)
+      .set('dishPageTpl', payload.dishPageTpl)
+      .set('shopLogo', payload.shopLogo);
     }
     case 'ACTIVE_DISH_TYPE':
       return state.setIn(['activeDishTypeId'], payload);

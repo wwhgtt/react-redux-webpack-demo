@@ -9,8 +9,7 @@ const CartContainer = require('../../component/dish-menu/cart/cart-container.jsx
 const DishDetailContainer = require('../../component/dish-menu/detail/dish-detail-container.jsx');
 const DishDescPopup = require('../../component/dish-menu/detail/dish-desc-popup.jsx');
 const Toast = require('../../component/mui/toast.jsx');
-const AdsColumn = require('../../component/dish-menu/ads-column.jsx');
-const classnames = require('classnames');
+const DishMesthead = require('../../component/dish-menu/dish-mesthead.jsx');
 
 const DishMenuApplication = React.createClass({
   displayName: 'DishMenuApplication',
@@ -36,6 +35,9 @@ const DishMenuApplication = React.createClass({
     takeawayServiceProps: React.PropTypes.object,
     openTimeList: React.PropTypes.array,
     isAcceptTakeaway: React.PropTypes.bool,
+    normalDiscountProps: React.PropTypes.object,
+    dishPageTpl: React.PropTypes.string,
+    shopLogo: React.PropTypes.string,
     errorMessage: React.PropTypes.string,
   },
   componentDidMount() {
@@ -55,36 +57,31 @@ const DishMenuApplication = React.createClass({
   render() {
     // states
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, confirmOrder, takeawayServiceProps,
-            openTimeList, isAcceptTakeaway, errorMessage, shopInfo } = this.props;
+            openTimeList, isAcceptTakeaway, errorMessage, shopInfo, normalDiscountProps, dishPageTpl, shopLogo } = this.props;
     // actions
     const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders, clearErrorMsg } = this.props;
     const marketList = shopInfo.marketList;
     const marketListUpdate = shopInfo.marketListUpdate;
+    const isMember = normalDiscountProps && normalDiscountProps.isMember || false;
+
     return (
       <div className="application">
-        {
-          marketListUpdate.length !== 0 && (
-            <AdsColumn
-              dishesData={dishesData} shopInfo={shopInfo} marketList={marketList}
-              marketListUpdate={marketListUpdate}
-            />
-          )
-        }
-        <div
-          className={
-            classnames(
-              {
-                dishScrollerOuter: marketListUpdate.length !== 0 && shopInfo.marketMatchDishes,
-                dishScrollerOutermarketMatchDishes: marketListUpdate.length === 0 || !shopInfo.marketMatchDishes,
-              }
-            )
-          }
-        >
+        <DishMesthead
+          registered={isMember}
+          dishesData={dishesData}
+          shopInfo={shopInfo}
+          shopLogo={shopLogo}
+          marketList={marketList}
+          marketListUpdate={marketListUpdate}
+        />
+        <div className={`${dishPageTpl} scroller-wrap`}>
           <DishTypeScroller
+            theme={dishPageTpl}
             dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeId={activeDishTypeId}
             onDishTypeElementTap={activeDishType}
           />
           <DishScroller
+            theme={dishPageTpl}
             dishTypesData={dishTypesData} dishesData={dishesData} diningForm={shopInfo.diningForm}
             activeDishTypeId={activeDishTypeId} onScroll={activeDishType} marketList={marketList}
             onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail} onImageBtnTap={showDishDesc}

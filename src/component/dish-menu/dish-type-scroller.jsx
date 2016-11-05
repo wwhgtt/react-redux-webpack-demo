@@ -14,13 +14,18 @@ module.exports = React.createClass({
     dishTypesData: React.PropTypes.array.isRequired,
     dishesData: React.PropTypes.array.isRequired,
     onDishTypeElementTap: React.PropTypes.func.isRequired,
+    theme: React.PropTypes.string,
   },
   componentDidMount() {
+    const iScrollOptions = this.getIScrollOptionsInDiffTheme();
+
     this._cache = {};
-    this._cache.iScroll = new IScroll(findDOMNode(this), {
-      click: true,
-      tap: true,
-    });
+    this._cache.iScroll = new IScroll(findDOMNode(this), iScrollOptions);
+  },
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.theme === this.props.theme) {
+      return;
+    }
   },
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
@@ -32,6 +37,7 @@ module.exports = React.createClass({
     if (activeDishType) {
       iScroll.scrollToElement(activeDishType, 300);
     }
+    this.initWrapSize();
   },
   componentWillUnmount() {
     this._cache.iScroll.destroy();
@@ -41,6 +47,48 @@ module.exports = React.createClass({
     const { onDishTypeElementTap } = this.props;
     const dishTypeId = parseInt(evt.target.getAttribute('data-id'), 10);
     onDishTypeElementTap(evt, dishTypeId);
+  },
+  getIScrollOptionsInDiffTheme() {
+    const defaultOptions = {
+      click: true,
+      tap: true,
+      scrollX: true,
+    };
+
+    const getOptions = ({
+      big() {
+        return { scrollX: true, scrollY: false };
+      },
+      huge() {
+        return { scrollX: true, scrollY: false };
+      },
+    })[this.props.theme];
+
+    const options = getOptions && getOptions.call(this);
+    return Object.assign({}, defaultOptions, options);
+  },
+  initWrapSize() {
+    const { dishTypesData } = this.props;
+    if (!dishTypesData.length || this._initWrapSized) {
+      return;
+    }
+
+    const wrapEl = findDOMNode(this).querySelector('.scroll-wrapper');
+    const listEl = wrapEl.querySelector('.dish-type-list');
+    const rect = listEl.getBoundingClientRect();
+    const _init = ({
+      big() {
+        wrapEl.style.width = `${rect.width + 10}px`;
+      },
+      huge() {
+        wrapEl.style.width = `${rect.width + 10}px`;
+      },
+    })[this.props.theme];
+
+    if (_init) {
+      _init();
+    }
+    this._initWrapSized = true;
   },
   buildDishTypeElements(activeDishTypeId, dishTypesData, dishesData) {
     const getOrderedCountByType = (dishes, dishIds) => {
@@ -79,7 +127,6 @@ module.exports = React.createClass({
   },
   render() {
     const { activeDishTypeId, dishTypesData, dishesData } = this.props;
-
     const dishTypeElements = this.buildDishTypeElements(activeDishTypeId, dishTypesData, dishesData);
 
     return (

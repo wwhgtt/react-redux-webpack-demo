@@ -105,6 +105,7 @@ module.exports = React.createClass({
               </div>
             );
           }
+
           return (
             <div className={classnames('coupon-outer', { show: itemOuter.couponStatus === couponStatus })} key={indexOuter}>
               {
