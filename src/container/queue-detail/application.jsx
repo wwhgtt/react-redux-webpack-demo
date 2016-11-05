@@ -1,8 +1,9 @@
 const React = require('react');
 const connect = require('react-redux').connect;
-const queueDetailAction = require('../../action/queue-detail/queue-detail.js');
+const queueDetailAction = require('../../action/order-detail/queue-detail.js');
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
 const Toast = require('../../component/mui/toast.jsx');
+const confirmDialog = require('../../component/mui/dialog/confirm-dialog.jsx');
 
 require('../../asset/style/style.scss');
 require('../../component/order-detail/common.scss');
@@ -22,7 +23,7 @@ const QueueDetailApplication = React.createClass({
 
   getInitialState() {
     return ({
-      // isDialogShow: false,
+      isDialogShow: true,
     });
   },
 
@@ -103,7 +104,7 @@ const QueueDetailApplication = React.createClass({
 
   render() {
     const { queueInfo, errorMsg, isRefresh } = this.props;
-    // const { isDialogShow } = this.state;
+    const { isDialogShow } = this.state;
 
     return (
       <div className="queue-page bg-orange application">
@@ -142,7 +143,7 @@ const QueueDetailApplication = React.createClass({
           {queueInfo.queue && String(queueInfo.queue.queueStatus) === '0' &&
             <div>
               <div className="divide-line">
-                <div className="divide-line-title divide-line-waite">您可以</div>
+                <div className="divide-line-title divide-line-three">您可以</div>
               </div>
               <div className="queue-operate">
                 <a className="btn-queue-cancel" onTouchTap={this.handleCancelQueue}>取消排队</a>
@@ -153,14 +154,14 @@ const QueueDetailApplication = React.createClass({
         </div>
         {errorMsg && <Toast errorMessage={errorMsg} clearErrorMsg={this.handleClearErrorMsg} />}
         {
-        //   isDialogShow && <Dialog
-        //   hasTopBtnClose={false}
-        //   title={'活动详情'}
-        //   onClose={this.handleClose}
-        //   theme="sliver"
-        // >
-        //   <p>是否取消排队？</p>
-        // </Dialog>
+          isDialogShow && <confirmDialog
+            onCancel={this.handleCancelQueue}
+            onConfirm={this.handleCancelQueue}
+            cancelText={'asdf'}
+            confirmText={'654'}
+          >
+            <p>是否取消排队？</p>
+          </confirmDialog>
         }
       </div>
     );

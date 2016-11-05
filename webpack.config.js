@@ -108,6 +108,9 @@ module.exports = {
     'queue-detail-entry': [
       './src/queue-detail.jsx',
     ],
+    'book-detail-entry': [
+      './src/book-detail.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -413,6 +416,14 @@ module.exports = {
         title: 'QueueDetailApplication',
         filename: 'queue-detail.html',
         chunks: ['common', 'queue-detail-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'BookDetailApplication',
+        filename: 'book-detail.html',
+        chunks: ['common', 'book-detail-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
