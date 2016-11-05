@@ -227,7 +227,7 @@ const PlaceOrderApplication = React.createClass({
             </div>
             <div className="option-groups">
               <div className="option">
-                <textarea className="option-input clearfix" name="note" placeholder="输入备注" maxLength="500" onChange={this.noteChange} />
+                <textarea className="option-input clearfix text-area" name="note" placeholder="请输入备注" maxLength="500" onChange={this.noteChange} />
               </div>
             </div>
             <div className="option-groups">
