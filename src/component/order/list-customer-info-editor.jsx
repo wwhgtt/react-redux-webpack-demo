@@ -63,12 +63,12 @@ module.exports = React.createClass({
           </div>
         </div>
         <div className="option" style={{ padding:'15px 15px 15px 15px', border:'none' }}>
-          <span className="option-tile">联系电话：</span>
+          <span className="option-tile">联系电话</span>
           <input
             name="mobile"
             className="editor-input flex-rest"
             value={customerProps.mobile ? customerProps.mobile : ''}
-            placeholder={customerProps.mobile || '请输入手机号'}
+            placeholder={customerProps.mobile || '请输入手机号码'}
             maxLength={11}
             onChange={this.handleBasicInfoChange}
             disabled={isMobileDisabled}
