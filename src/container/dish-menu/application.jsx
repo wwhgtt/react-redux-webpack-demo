@@ -27,6 +27,7 @@ const DishMenuApplication = React.createClass({
     fetchOrderDiscountInfo:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
     shopInfo:React.PropTypes.object.isRequired,
+    setDishRuleProps: React.PropTypes.func.isRequired,
     // MapedStatesToProps
     activeDishTypeId: React.PropTypes.number.isRequired,
     dishTypesData: React.PropTypes.array,
@@ -57,7 +58,7 @@ const DishMenuApplication = React.createClass({
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, confirmOrder, takeawayServiceProps,
             openTimeList, isAcceptTakeaway, errorMessage, shopInfo } = this.props;
     // actions
-    const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders, clearErrorMsg } = this.props;
+    const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders, clearErrorMsg, setDishRuleProps } = this.props;
     const marketList = shopInfo.marketList;
     const marketListUpdate = shopInfo.marketListUpdate;
     return (
@@ -100,6 +101,7 @@ const DishMenuApplication = React.createClass({
           <DishDetailContainer
             dish={dishDetailData}
             onCloseBtnTap={showDishDetail}
+            setDishRuleProps={setDishRuleProps}
             onAddToCarBtnTap={this.onDishDetailAddBtnTap}
           />
           : false

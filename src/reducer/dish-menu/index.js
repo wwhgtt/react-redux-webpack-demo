@@ -182,6 +182,9 @@ module.exports = function (
       return state.set(
         'errorMessage', payload
       );
+    case 'SET_DISH_RULE_PROPS':
+      return state
+        .setIn(['dishesData'], helper.updateDishesWithRule(state.dishesData, payload));
     default:
       return state;
   }

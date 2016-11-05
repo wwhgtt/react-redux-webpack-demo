@@ -8,6 +8,7 @@ module.exports = React.createClass({
   displayName: 'SingleDishDetail',
   propTypes:{
     dish: React.PropTypes.object.isRequired,
+    setDishRuleProps: React.PropTypes.func.isRequired,
     onAddToCarBtnTap: React.PropTypes.func.isRequired,
   },
   getInitialState() {
@@ -115,11 +116,13 @@ module.exports = React.createClass({
       default:
     }
   },
-  setDishRuleProps(id) {
+  setDishRuleProps(id, dishOptions, immutableDish) {
+    const { setDishRuleProps } = this.props;
     const { dish } = this.state;
     this.setState({
       dish:Immutable.from(helper.setRulePropsToDishes(id, dish)),
     });
+    setDishRuleProps(id, dishOptions, immutableDish);
   },
   showToast() {
     this.setState({ toast:1 });

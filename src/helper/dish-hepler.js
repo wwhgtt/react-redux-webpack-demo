@@ -620,6 +620,9 @@ exports.setRulePropsToDishes = (selectedId, dish) => {
               attribute => attribute.properties.map(
                 option => option.isChecked = false
         )));
+        ruleDish.dishPropertyTypeInfos.filter(attr => attr.type === 4).map(attribute => attribute.properties.map(
+          value => value.isChecked = true
+        ));
         newDishDetail = ruleDish;
         newDishDetail.order = [{
           count:newDishDetail.stepNum,
@@ -632,4 +635,29 @@ exports.setRulePropsToDishes = (selectedId, dish) => {
   })));
   console.log(newDishDetail);
   return newDishDetail;
+};
+exports.updateDishesWithRule = (dishes, payload) => {
+  let dishesData = dishes.asMutable({ deep:true });
+  dishesData.map(dishData => {
+  // payload[1]是被选中dish，payload[2]是母系dish,payload[0]是被选中属性ID
+    if (dishData.id === payload[2].id) {
+      if (dishData.id === payload[1].id) {
+      // 被选中的是母系dish
+        dishData.dishPropertyTypeInfos.filter(property => property.type === 4).forEach(
+        prop => prop.properties.forEach(attr => attr.isChecked = true)
+      ); }
+      dishData.sameRuleDishes.forEach(sameRuleDish => {
+        if (sameRuleDish.id === payload[1].id) {
+          sameRuleDish.dishPropertyTypeInfos.filter(property => property.type === 4).forEach(
+          prop => prop.properties.forEach(attr => attr.isChecked = true)
+        );
+          dishData.dishPropertyTypeInfos.filter(property => property.type === 4).forEach(
+          prop => prop.properties.forEach(attr => attr.isChecked = false)
+        ); }
+      });
+    }
+    dishData.hasChanged = true;
+    return dishData;
+  });
+  return dishesData;
 };

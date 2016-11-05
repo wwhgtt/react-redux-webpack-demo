@@ -14,18 +14,15 @@ module.exports = React.createClass({
     onSelectPropsOption: React.PropTypes.func,
     onDishRuleChecked:React.PropTypes.func.isRequired,
   },
-  getDefaultProps() {
-    return {
-      props: [],
-      ingredients: [],
-    };
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
   },
   onSelectPropsOption(recipeData, optionData) {
     this.props.onSelectPropsOption(recipeData, optionData);
   },
-  onDishRuleChecked(id) {
+  onDishRuleChecked(id, dishOptions, immutableDish) {
     const { onDishRuleChecked } = this.props;
-    onDishRuleChecked(id);
+    onDishRuleChecked(id, dishOptions, immutableDish);
   },
   buildRule(dish) {
     if (!dish.sameRuleDishes) {
@@ -45,7 +42,7 @@ module.exports = React.createClass({
                 elementCollection.push(
                   <button
                     className={classnames('dish-porps-option', { 'is-checked':prop.isChecked })}
-                    onTouchTap={evt => this.onDishRuleChecked(prop.id)}
+                    onTouchTap={evt => this.onDishRuleChecked(prop.id, ruleDish, dish)}
                     key={prop.id}
                   >
                     <span className="extra">{prop.reprice ? `+${prop.reprice}元` : false}</span>
@@ -63,7 +60,7 @@ module.exports = React.createClass({
           <span className="recipe-title">{ruleCollection[i].name}</span>
           <button
             className={classnames('dish-porps-option', { 'is-checked':ruleCollection[i].properties[0].isChecked })}
-            onTouchTap={evt => this.onDishRuleChecked(ruleCollection[i].properties[0].id, dish)}
+            onTouchTap={evt => this.onDishRuleChecked(ruleCollection[i].properties[0].id, dish, dish)}
             key={ruleCollection[i].properties[0].id}
           >
             <span className="extra">{
