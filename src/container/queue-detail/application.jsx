@@ -1,6 +1,6 @@
 const React = require('react');
 const connect = require('react-redux').connect;
-const queueDetailAction = require('../../action/queue-detail/queue-detail.js');
+const queueDetailAction = require('../../action/order-detail/queue-detail.js');
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
 const Toast = require('../../component/mui/toast.jsx');
 
@@ -142,7 +142,7 @@ const QueueDetailApplication = React.createClass({
           {queueInfo.queue && String(queueInfo.queue.queueStatus) === '0' &&
             <div>
               <div className="divide-line">
-                <div className="divide-line-title divide-line-waite">您可以</div>
+                <div className="divide-line-title divide-line-three">您可以</div>
               </div>
               <div className="queue-operate">
                 <a className="btn-queue-cancel" onTouchTap={this.handleCancelQueue}>取消排队</a>

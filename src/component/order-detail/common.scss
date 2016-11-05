@@ -67,4 +67,31 @@
     color: $color-dusty-grey;
     background-color: $color-white;
   }
+
+  &-four {
+    left: calc((100% - 68px) / 2);
+    width: 68px;
+  }
+
+  &-three {
+    left: calc((100% - 56px) / 2);
+    width: 56px;
+  }
+}
+
+.list-default {
+  .list-item {
+    margin-bottom: 20px;
+
+    &-title {
+      display: inline-block;
+      width: 68px;
+      margin-right: 22px;
+      color: #474747;
+    }
+
+    &-content {
+      color: #666;
+    }
+  }
 }

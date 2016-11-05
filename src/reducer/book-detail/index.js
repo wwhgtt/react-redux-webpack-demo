@@ -1,14 +1,14 @@
 const Immutable = require('seamless-immutable');
 
 const defaultState = Immutable.from({
-  bookInfo: {},
+  bookDetail: {},
 });
 
 module.exports = (state = defaultState, action) => {
   const { type, payload } = action;
   switch (type) {
-    case 'SET_BOOK_INFO':
-      return state.set('bookInfo': payload);
+    case 'SET_BOOK_DETAIL':
+      return state.set('bookDetail', payload);
     default:
       return state;
   }
