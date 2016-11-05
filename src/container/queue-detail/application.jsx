@@ -5,6 +5,8 @@ const dateUtility = require('../../helper/common-helper.js').dateUtility;
 const Toast = require('../../component/mui/toast.jsx');
 const ConfirmDialog = require('../../component/mui/dialog/confirm-dialog.jsx');
 
+const shopLogoDefault = require('../../asset/images/default.png');
+
 require('../../asset/style/style.scss');
 require('../../component/order-detail/common.scss');
 require('./application.scss');
@@ -114,7 +116,7 @@ const QueueDetailApplication = React.createClass({
       <div className="queue-page bg-orange application">
         <div className="queue-content content-fillet">
           <div className="box-head">
-            <img className="box-head-logo" src={queueInfo.shopLogo} role="presentation" />
+            <img className="box-head-logo" src={queueInfo.shopLogo || shopLogoDefault} role="presentation" />
             <div className="ellipsis box-head-title">{queueInfo.shopName}</div>
           </div>
           <div className="divide-line">
