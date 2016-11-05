@@ -33,7 +33,7 @@ module.exports = React.createClass({
     return (
       <div>
         <div className="option" style={{ padding:'4px 15px 15px 15px', border:'none' }}>
-          <span className="option-tile">姓名：</span>
+          <span className="option-tile">姓名</span>
           <input
             className="editor-input flex-rest"
             name="name"
@@ -44,7 +44,7 @@ module.exports = React.createClass({
           />
         </div>
         <div className="option" style={{ height:'55px', lineHeight:'45px', padding:'4px 15px 4px 15px', border:'none' }}>
-          <span className="option-tile">性别：</span>
+          <span className="option-tile">性别</span>
           <div className="editor-gender-group flex-none">
             <label className="half">
               <input
