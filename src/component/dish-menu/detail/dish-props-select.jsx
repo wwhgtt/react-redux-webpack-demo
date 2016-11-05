@@ -14,9 +14,6 @@ module.exports = React.createClass({
     onSelectPropsOption: React.PropTypes.func,
     onDishRuleChecked:React.PropTypes.func.isRequired,
   },
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-  },
   onSelectPropsOption(recipeData, optionData) {
     this.props.onSelectPropsOption(recipeData, optionData);
   },

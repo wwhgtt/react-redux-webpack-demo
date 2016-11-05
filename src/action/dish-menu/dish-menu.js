@@ -12,7 +12,6 @@ const setDiscountToOrder = createAction('SET_DISCOUNT_TO_ORDER', discount => dis
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 exports.showDishDetail = createAction('SHOW_DISH_DETAIL', dishData => dishData);
 exports.showDishDesc = createAction('SHOW_DISH_DESC', dishData => dishData);
-exports.setDishRuleProps = createAction('SET_DISH_RULE_PROPS', (id, dishData, immutableDish) => [id, dishData, immutableDish]);
 exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => {
   if (evt && /dish-type-item/.test(evt.target.className)) {
     window.__activeTypeByTap__ = true;

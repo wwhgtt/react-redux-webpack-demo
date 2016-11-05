@@ -633,31 +633,36 @@ exports.setRulePropsToDishes = (selectedId, dish) => {
     }
     return true;
   })));
-  console.log(newDishDetail);
   return newDishDetail;
 };
-exports.updateDishesWithRule = (dishes, payload) => {
-  let dishesData = dishes.asMutable({ deep:true });
-  dishesData.map(dishData => {
+exports.updateDishesWithRule = (id, dishOptions, immutableDish) => {
+  let dishData = immutableDish.asMutable({ deep:true });
   // payload[1]是被选中dish，payload[2]是母系dish,payload[0]是被选中属性ID
-    if (dishData.id === payload[2].id) {
-      if (dishData.id === payload[1].id) {
+  if (dishOptions.id === dishData.id) {
       // 被选中的是母系dish
-        dishData.dishPropertyTypeInfos.filter(property => property.type === 4).forEach(
-        prop => prop.properties.forEach(attr => attr.isChecked = true)
-      ); }
-      dishData.sameRuleDishes.forEach(sameRuleDish => {
-        if (sameRuleDish.id === payload[1].id) {
-          sameRuleDish.dishPropertyTypeInfos.filter(property => property.type === 4).forEach(
+    dishData.dishPropertyTypeInfos.filter(property => property.type === 4).forEach(
+      prop => prop.properties.forEach(attr => attr.isChecked = true)
+    );
+    dishData.sameRuleDishes.forEach(sameRuleDish => {
+      sameRuleDish.dishPropertyTypeInfos.filter(property => property.type === 4).forEach(
+        prop => prop.properties.forEach(attr => attr.isChecked = false)
+      );
+    });
+  } else {
+    dishData.sameRuleDishes.forEach(sameRuleDish => {
+      if (sameRuleDish.id === dishOptions.id) {
+        sameRuleDish.dishPropertyTypeInfos.filter(property => property.type === 4).forEach(
           prop => prop.properties.forEach(attr => attr.isChecked = true)
         );
-          dishData.dishPropertyTypeInfos.filter(property => property.type === 4).forEach(
+        dishData.dishPropertyTypeInfos.filter(property => property.type === 4).forEach(
           prop => prop.properties.forEach(attr => attr.isChecked = false)
-        ); }
-      });
-    }
-    dishData.hasChanged = true;
-    return dishData;
-  });
-  return dishesData;
+        );
+      } else {
+        sameRuleDish.dishPropertyTypeInfos.filter(property => property.type === 4).forEach(
+          prop => prop.properties.forEach(attr => attr.isChecked = false)
+        );
+      }
+    });
+  }
+  return dishData;
 };

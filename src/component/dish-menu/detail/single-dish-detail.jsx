@@ -8,7 +8,6 @@ module.exports = React.createClass({
   displayName: 'SingleDishDetail',
   propTypes:{
     dish: React.PropTypes.object.isRequired,
-    setDishRuleProps: React.PropTypes.func.isRequired,
     onAddToCarBtnTap: React.PropTypes.func.isRequired,
   },
   getInitialState() {
@@ -24,6 +23,7 @@ module.exports = React.createClass({
     return {
       dish: dishForDeital,
       toast: 0,
+      ruleDish: null,
     };
   },
   componentDidUpdate() {
@@ -117,12 +117,14 @@ module.exports = React.createClass({
     }
   },
   setDishRuleProps(id, dishOptions, immutableDish) {
-    const { setDishRuleProps } = this.props;
+    // const { setDishRuleProps } = this.props;
     const { dish } = this.state;
     this.setState({
       dish:Immutable.from(helper.setRulePropsToDishes(id, dish)),
     });
-    setDishRuleProps(id, dishOptions, immutableDish);
+    this.setState({
+      ruleDish: Immutable.from(helper.updateDishesWithRule(id, dishOptions, immutableDish)),
+    });
   },
   showToast() {
     this.setState({ toast:1 });
@@ -131,12 +133,12 @@ module.exports = React.createClass({
     }, 3000);
   },
   render() {
-    const { dish } = this.state;
+    const { dish, ruleDish } = this.state;
     return (
       <div className="single-dish-detail flex-columns">
         <DishDetailHead dish={dish} onCountChange={this.onDishItemCountChange} />
         <DishPropsSelect
-          onSelectPropsOption={this.onSelectPropsOption} dish={dish} dishData={this.props.dish} onDishRuleChecked={this.setDishRuleProps}
+          onSelectPropsOption={this.onSelectPropsOption} dish={dish} dishData={ruleDish || this.props.dish} onDishRuleChecked={this.setDishRuleProps}
         />
         <button className="dish-detail-addtocart btn--yellow flex-none" onTouchTap={this.onAddToCarBtnTap}>加入购物车</button>{
           this.state.toast === 1 ?
