@@ -19,7 +19,6 @@
   margin-right: -10px;
   margin-left: -10px;
   padding: 6px 10px 4px;
-  background: $color-porcelain;
 
   // overwride border-top of the first .dish-item-dish from each type
   + .dish-item-dish {
@@ -80,15 +79,71 @@
     height: 260px;
     border-radius: 0;
   }
+
+  .counter-add,
+  .counter-minus {
+    width: 34px;
+    height: 34px;
+
+    &::before {
+      width: 18px;
+    }
+
+    &::after {
+      height: 18px;
+    }
+  }
+
+  .counter-num {
+    line-height: 34px;
+  }
+}
+
+.big {
+  .counter-add,
+  .counter-minus {
+    width: 24px;
+    height: 24px;
+
+    &::before {
+      width: 12px;
+    }
+
+    &::after {
+      height: 12px;
+    }
+  }
+
+  .counter-num {
+    line-height: 24px;
+  }
 }
 
 .counter-add,
 .counter-minus {
   width: 29px;
   height: 29px;
+
+  &::before {
+    width: 14px;
+  }
+
+  &::after {
+    height: 14px;
+  }
 }
 
 .counter-num {
   line-height: 29px;
+}
+
+.counter-add {
+  border-color: #fdc245;
+  background: #fdc245;
+
+  &::before,
+  &::after {
+    background: #fff;
+  }
 }
 

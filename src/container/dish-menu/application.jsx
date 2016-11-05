@@ -40,6 +40,11 @@ const DishMenuApplication = React.createClass({
     shopLogo: React.PropTypes.string,
     errorMessage: React.PropTypes.string,
   },
+  getDefaultProps() {
+    return {
+      dishPageTpl: 'default',
+    };
+  },
   componentDidMount() {
     const { fetchMenuData, fetchSendArea, fetchOrderDiscountInfo } = this.props;
     fetchMenuData().then(

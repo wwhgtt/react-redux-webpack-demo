@@ -51,15 +51,16 @@
   }
 
   &-price {
-    font-size: 17px;
+    font-size: 24px;
     font-weight: bold;
     line-height: $counter-size;
     float: left;
     color: $color-neon-carrot;
 
     &::before {
-      font-size: 12px;
+      font-size: 14px;
       line-height: 1;
+      margin-right: 2px;
       vertical-align: 1px;
     }
   }
@@ -86,5 +87,47 @@
     content: "";
     background-image: url("../../asset/images/member-badge.png");
     background-size: cover;
+  }
+}
+
+.default {
+  .dish-scroll {
+    padding: 0 10px;
+  }
+
+  .dish-item-type {
+    background: none;
+  }
+
+  .dish-item-price {
+    display: block;
+    float: none;
+    text-align: right;
+  }
+
+  .dish-item-img {
+    width: 90px;
+    height: 90px;
+    border-radius: 0;
+  }
+
+  .dish-list-item {
+    height: 120px;
+  }
+
+  .dish-item-content {
+    width: calc(100% - 95px);
+  }
+
+  .dish-item-name {
+    font-size: 18px;
+    line-height: 25px;
+    height: 25px;
+    padding: 0;
+  }
+
+  .dish-type-item.is-active {
+    border-bottom: 2px solid $color-neon-carrot;
+    box-shadow: none;
   }
 }
