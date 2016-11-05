@@ -47,18 +47,19 @@ const OrderInlineApplication = React.createClass({
     const { queueList } = this.props;
     let element = [];
     if (queueList && queueList.length) {
-      queueList.map(quene => element.push(<li className="queue-entry" key={quene.queueLineId}>
-        <span className="ellipsis">{quene.queueName}</span>
-        <span>
-          {quene.minPersonCount === quene.maxPersonCount ?
-            quene.minPersonCount + '人'
-            :
-            `${quene.minPersonCount}${quene.maxPersonCount === 0 ? '人以上' : `-${quene.maxPersonCount}人`}`
-          }
-        </span>
-        <span>{quene.count}桌</span>
-      </li>)
-      );
+      for (let i = 0; i < queueList.length; i++) {
+        element.push(<li className="queue-entry" key={queueList[i].queueLineId}>
+          <span className="ellipsis">{queueList[i].queueName}</span>
+          <span>
+            {queueList[i].minPersonCount === queueList[i].maxPersonCount ?
+              queueList[i].minPersonCount + '人'
+              :
+              `${queueList[i].minPersonCount}${queueList[i].maxPersonCount === 0 ? '人以上' : `～${queueList[i].maxPersonCount}人`}`
+            }
+          </span>
+          <span>{queueList[i].count}桌</span>
+        </li>);
+      }
     }
     return element;
   },
@@ -173,7 +174,7 @@ const OrderInlineApplication = React.createClass({
             }
           {commercialProps.openStatus === '营业中' ?
             <div>
-              <div className="options-group" style={{ height:'30px', backgroundColor:'#fd894d' }}></div>
+              <div className="options-group" style={{ height:'15px', backgroundColor:'#fd894d' }}></div>
               <div className="options-group">
                 {queueList && queueList.length ?
                   <ul className="queue-list">
