@@ -1,4 +1,5 @@
 const React = require('react');
+const classnames = require('classnames');
 const connect = require('react-redux').connect;
 const actions = require('../../action/order-in-line/order-in-line.js');
 const ListCustomerInfoEditor = require('../../component/order/list-customer-info-editor.jsx');
@@ -104,7 +105,7 @@ const OrderInlineApplication = React.createClass({
             <p className="content-shop-desc ellipsis">{commercialProps.shopName}</p>
           </div>
           <div className="divider">
-            <span className="divider-title">排队信息</span>
+            <span className={classnames('divider-title', { 'divider-hide':commercialProps.openStatus !== '营业中' })}>排队信息</span>
           </div>
           {commercialProps.openStatus === '营业中' ?
             <div className="options-group" style={{ borderBottom:'none', marginTop:'20px' }}>
@@ -170,22 +171,27 @@ const OrderInlineApplication = React.createClass({
                 }
               </div>
             }
-
-          <div className="options-group" style={{ height:'30px', backgroundColor:'#fd894d' }}></div>
-          <div className="options-group">
-            {queueList && queueList.length ?
-              <ul className="queue-list">
-                <li className="queue-title">
-                  <span>队列名称</span>
-                  <span>就餐人数</span>
-                  <span>等待桌数</span>
-                </li>
-                {this.buildLinePropsElement()}
-              </ul>
-              :
-              false
-            }
-          </div>
+          {commercialProps.openStatus === '营业中' ?
+            <div>
+              <div className="options-group" style={{ height:'30px', backgroundColor:'#fd894d' }}></div>
+              <div className="options-group">
+                {queueList && queueList.length ?
+                  <ul className="queue-list">
+                    <li className="queue-title">
+                      <span>队列名称</span>
+                      <span>就餐人数</span>
+                      <span>等待桌数</span>
+                    </li>
+                    {this.buildLinePropsElement()}
+                  </ul>
+                  :
+                  false
+                }
+              </div>
+            </div>
+            :
+            false
+          }
         </div>
       </div>
     );
