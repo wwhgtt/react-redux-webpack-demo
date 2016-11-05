@@ -3,7 +3,7 @@ const connect = require('react-redux').connect;
 const queueDetailAction = require('../../action/order-detail/queue-detail.js');
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
 const Toast = require('../../component/mui/toast.jsx');
-const confirmDialog = require('../../component/mui/dialog/confirm-dialog.jsx');
+const ConfirmDialog = require('../../component/mui/dialog/confirm-dialog.jsx');
 
 require('../../asset/style/style.scss');
 require('../../component/order-detail/common.scss');
@@ -23,7 +23,7 @@ const QueueDetailApplication = React.createClass({
 
   getInitialState() {
     return ({
-      isDialogShow: true,
+      isDialogShow: false,
     });
   },
 
@@ -98,8 +98,12 @@ const QueueDetailApplication = React.createClass({
 
   // 取消排队
   handleCancelQueue() {
-    this.setState({ isDialogShow: true });
+    this.setState({ isDialogShow: false });
     this.props.cancelQueue();
+  },
+
+  handleDialog() {
+    this.setState({ isDialogShow: !this.state.isDialogShow });
   },
 
   render() {
@@ -146,7 +150,7 @@ const QueueDetailApplication = React.createClass({
                 <div className="divide-line-title divide-line-three">您可以</div>
               </div>
               <div className="queue-operate">
-                <a className="btn-queue-cancel" onTouchTap={this.handleCancelQueue}>取消排队</a>
+                <a className="btn-queue-cancel" onTouchTap={this.handleDialog}>取消排队</a>
               </div>
             </div>
           }
@@ -154,14 +158,14 @@ const QueueDetailApplication = React.createClass({
         </div>
         {errorMsg && <Toast errorMessage={errorMsg} clearErrorMsg={this.handleClearErrorMsg} />}
         {
-          isDialogShow && <confirmDialog
-            onCancel={this.handleCancelQueue}
+          isDialogShow && <ConfirmDialog
+            onCancel={this.handleDialog}
             onConfirm={this.handleCancelQueue}
-            cancelText={'asdf'}
-            confirmText={'654'}
+            cancelText={'容我想想'}
+            confirmText={'去意已决'}
           >
             <p>是否取消排队？</p>
-          </confirmDialog>
+          </ConfirmDialog>
         }
       </div>
     );
