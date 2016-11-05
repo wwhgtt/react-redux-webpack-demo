@@ -6,7 +6,7 @@ const ListCustomerInfoEditor = require('../../component/order/list-customer-info
 const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
-const weilianwangImg = require('../../asset/images/weilianwang.png');
+const weilianwangImg = require('../../asset/images/weilianwang.svg');
 const yidayangImg = require('../../asset/images/yidayang.png');
 const defaultShopLogo = require('../../asset/images/default.png');
 require('../../asset/style/style.scss');
