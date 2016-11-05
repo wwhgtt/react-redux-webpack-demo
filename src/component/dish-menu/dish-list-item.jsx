@@ -4,13 +4,14 @@ const Counter = require('../mui/counter.jsx');
 const shallowCompare = require('react-addons-shallow-compare');
 const helper = require('../../helper/dish-hepler');
 const imagePlaceholder = require('../../asset/images/dish-placeholder.png');
-
+const _find = require('lodash.find');
 require('./dish-list-item.scss');
 
 module.exports = React.createClass({
   displayName:'DishListItem',
   propTypes:{
     dishData: React.PropTypes.object.isRequired,
+    dishesDataDuplicate: React.PropTypes.array.isRequired,
     onOrderBtnTap: React.PropTypes.func.isRequired,
     onPropsBtnTap: React.PropTypes.func.isRequired,
     onImageBtnTap: React.PropTypes.func.isRequired,
@@ -34,17 +35,21 @@ module.exports = React.createClass({
     const { dishData, onImageBtnTap } = this.props;
     onImageBtnTap(dishData);
   },
-  buildOrderBtn(dishData) {
+  buildOrderBtn(dishData, dishesDataDuplicate) {
     if (dishData.clearStatus !== 1) {
       // 表示没有被沽清
       return (<span className="dish-item-soldout">已售罄</span>);
     }
+    let dishCopy = _find(dishesDataDuplicate, dishDataCopy => dishDataCopy.id === dishData.id);
     if (helper.isSingleDishWithoutProps(dishData)) {
-      return (<Counter count={dishData.order} onCountChange={this.onBtnTap} step={dishData.stepNum} />);
+      return (<Counter count={dishCopy.order} onCountChange={this.onBtnTap} step={dishData.stepNum} />);
     }
 
     // 使用onClick时在手机端没能起作用  所以使用onTouchTap
-    const count = helper.getDishesCount([dishData]);
+    const count = dishData.sameRuleDishes && dishData.sameRuleDishes.length ?
+      helper.getDishesCount([dishCopy]) + helper.ruleDishesCount(dishData, dishesDataDuplicate)
+      :
+      helper.getDishesCount([dishCopy]);
     const title = Array.isArray(dishData.groups) ? '套餐选项' : '菜品选项';
     return (
       <div className="counter">
@@ -82,8 +87,8 @@ module.exports = React.createClass({
     return (<span className="dish-item-discount ellipsis"></span>);
   },
   render() {
-    const { dishData, marketList, diningForm } = this.props;
-    const orderBtn = this.buildOrderBtn(dishData);
+    const { dishData, marketList, diningForm, dishesDataDuplicate } = this.props;
+    const orderBtn = this.buildOrderBtn(dishData, dishesDataDuplicate);
     const discountPart = this.disCountInfo(diningForm, marketList, dishData.brandDishId);
     return (
       <div className="dish-on-selling">

@@ -89,7 +89,7 @@ const DishMenuApplication = React.createClass({
             dishTypesData={dishTypesData} dishesData={dishesData} diningForm={shopInfo.diningForm}
             activeDishTypeId={activeDishTypeId} onScroll={activeDishType} marketList={marketList}
             onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail} onImageBtnTap={showDishDesc}
-            marketListUpdate={marketListUpdate}
+            marketListUpdate={marketListUpdate} dishesDataDuplicate={dishesDataDuplicate}
           />
         </div>
         <CartContainer

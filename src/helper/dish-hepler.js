@@ -89,6 +89,22 @@ const getDishesCount = exports.getDishesCount = function (dishes) {
     }).
     reduce((p, c) => p + c, 0);
 };
+exports.ruleDishesCount = (dish, dishesDataDuplicate) => {
+  if (!dish.sameRuleDishes) {
+    return 0;
+  }
+  const sameRuleDishes = dish.sameRuleDishes;
+  let countCollection = [];
+  sameRuleDishes.map(ruleDish => {
+    let dishCopy = _find(dishesDataDuplicate, dishData => dishData.id === ruleDish.id);
+    if (dishCopy && dishCopy.order) {
+      let orderCount = getDishesCount([dishCopy]);
+      countCollection.push(orderCount);
+    }
+    return true;
+  });
+  return countCollection.length ? countCollection.reduce((c, p) => c + p, 0) : 0;
+};
 const getOrderPrice = exports.getOrderPrice = function (dish, orderData) {
   if (isGroupDish(dish)) {
     const orderedChildDishPrices = [].concat.apply([], orderData.groups.map(
