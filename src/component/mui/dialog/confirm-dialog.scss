@@ -1,0 +1,51 @@
+@import "settings.colors";
+
+.confirm-dialog.sliver {
+  .dialog-header {
+    display: none;
+  }
+
+  .dialog-body {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+
+  .dialog-btn-cancel {
+    color: $color-dusty-grey;
+  }
+
+  .dialog-btn-confirm {
+    color: $color-crusta;
+    background: none;
+  }
+
+  .dialog-footer {
+    position: relative;
+
+    &::before,
+    &::after {
+      position: absolute;
+      top: 0;
+      content: "";
+      background: $color-gallery;
+    }
+
+    &::before {
+      left: 0;
+      width: 100%;
+      height: 1px;
+    }
+
+    &::after {
+      left: 50%;
+      width: 1px;
+      height: 49px;
+      background: $color-gallery;
+    }
+  }
+}
+
+.dialog-body {
+  font-size: 16px;
+  text-align: center;
+}
