@@ -12,9 +12,6 @@ module.exports = React.createClass({
     onCloseBtnTap: React.PropTypes.func.isRequired,
     onAddToCarBtnTap: React.PropTypes.func.isRequired,
   },
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-  },
   onCloseBtnTap(evt) {
     evt.preventDefault();
     this.props.onCloseBtnTap();
