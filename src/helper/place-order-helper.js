@@ -9,7 +9,7 @@ exports.initializeTableProps = function (tableProps) {
     tableProp => tableProp.tableInfoList.forEach(
       table => {
         table.areaId = parseInt(tableProp.areaId, 10);
-        table.tableName = `${table.pNum}人桌`;
+        table.tableName = `${table.pNum}人桌(余下${table.count}桌)`;
         table.id = tableProp.areaId + Math.random();
         tables.push(table);
       }

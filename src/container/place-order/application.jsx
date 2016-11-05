@@ -242,6 +242,7 @@ const PlaceOrderApplication = React.createClass({
             <TableSelect
               areas={tableProps.areas} tables={tableProps.tables}
               onTableSelect={setTableProps} onDone={this.resetChildView}
+              title={'选择桌台类型'}
             />
             : false
           }
