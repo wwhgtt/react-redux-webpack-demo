@@ -31,6 +31,7 @@ const DishMenuApplication = React.createClass({
     activeDishTypeId: React.PropTypes.number.isRequired,
     dishTypesData: React.PropTypes.array,
     dishesData: React.PropTypes.array,
+    dishesDataDuplicate:  React.PropTypes.array,
     dishDetailData: React.PropTypes.object,
     dishDescData: React.PropTypes.object,
     takeawayServiceProps: React.PropTypes.object,
@@ -55,7 +56,7 @@ const DishMenuApplication = React.createClass({
   render() {
     // states
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, confirmOrder, takeawayServiceProps,
-            openTimeList, isAcceptTakeaway, errorMessage, shopInfo } = this.props;
+            openTimeList, isAcceptTakeaway, errorMessage, shopInfo, dishesDataDuplicate } = this.props;
     // actions
     const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders, clearErrorMsg } = this.props;
     const marketList = shopInfo.marketList;
@@ -82,7 +83,7 @@ const DishMenuApplication = React.createClass({
         >
           <DishTypeScroller
             dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeId={activeDishTypeId}
-            onDishTypeElementTap={activeDishType}
+            onDishTypeElementTap={activeDishType} dishesDataDuplicate={dishesDataDuplicate}
           />
           <DishScroller
             dishTypesData={dishTypesData} dishesData={dishesData} diningForm={shopInfo.diningForm}
@@ -92,7 +93,7 @@ const DishMenuApplication = React.createClass({
           />
         </div>
         <CartContainer
-          dishes={dishesData} takeawayServiceProps={takeawayServiceProps}
+          dishes={dishesDataDuplicate} takeawayServiceProps={takeawayServiceProps}
           openTimeList={openTimeList} isAcceptTakeaway={isAcceptTakeaway}
           onOrderBtnTap={orderDish} onBillBtnTap={confirmOrder} onClearBtnTap={removeAllOrders}
         />
