@@ -3,7 +3,7 @@ const connect = require('react-redux').connect;
 const bookDetailAction = require('../../action/order-detail/book-detail.js');
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
 
-const shopLogoDefault = require('../../asset/images/default.png');
+const shopLogoDefault = require('../../asset/images/logo_default.svg');
 
 require('../../asset/style/style.scss');
 require('../../component/order-detail/common.scss');

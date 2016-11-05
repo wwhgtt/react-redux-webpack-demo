@@ -5,7 +5,7 @@ const dateUtility = require('../../helper/common-helper.js').dateUtility;
 const Toast = require('../../component/mui/toast.jsx');
 const ConfirmDialog = require('../../component/mui/dialog/confirm-dialog.jsx');
 
-const shopLogoDefault = require('../../asset/images/default.png');
+const shopLogoDefault = require('../../asset/images/logo_default.svg');
 
 require('../../asset/style/style.scss');
 require('../../component/order-detail/common.scss');
