@@ -251,6 +251,7 @@ const PlaceOrderApplication = React.createClass({
               isSelfFetch={false}
               selectedDateTime={timeProps.selectedDateTime} timeTable={timeProps.timeTable}
               onDateTimeSelect={onDateTimeSelect} onDone={this.resetChildView}
+              title={'预定'}
             />
             : false
           }
