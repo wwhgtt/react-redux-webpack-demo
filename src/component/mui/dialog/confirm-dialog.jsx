@@ -3,7 +3,7 @@ const Dialog = require('./dialog.jsx');
 require('./confirm-dialog.scss');
 
 module.exports = React.createClass({
-  displayName: 'PhoneVerificaitonCodeDialog',
+  displayName: 'ConfirmDialog',
   propTypes: {
     cancelText: React.PropTypes.string,
     confirmText: React.PropTypes.string,
