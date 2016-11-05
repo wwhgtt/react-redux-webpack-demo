@@ -182,10 +182,6 @@ module.exports = function (
       return state.set(
         'errorMessage', payload
       );
-    case 'SET_DISH_RULE_PROPS':
-      return state.set('dishesData', helper.setRulePropsToDishes(state.dishesData, state.dishTypesData, payload).dishes)
-        .set('dishDetailData', helper.setRulePropsToDishes(state.dishesData, state.dishTypesData, payload).dishDetailData)
-        .set('dishTypesData', helper.setRulePropsToDishes(state.dishesData, state.dishTypesData, payload).dishTypesData);
     default:
       return state;
   }

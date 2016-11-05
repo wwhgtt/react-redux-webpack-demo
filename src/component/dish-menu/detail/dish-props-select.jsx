@@ -1,5 +1,6 @@
 const React = require('react');
 const Immutable = require('seamless-immutable');
+const classnames = require('classnames');
 const ActiveSelect = require('../../mui/select/active-select.jsx');
 const DishPropsOption = require('./dish-props-option.jsx');
 
@@ -9,8 +10,7 @@ module.exports = React.createClass({
   displayName: 'DishPropsSelect',
   propTypes: {
     dish:React.PropTypes.object.isRequired,
-    props: React.PropTypes.array,
-    ingredients: React.PropTypes.array,
+    dishData:React.PropTypes.object.isRequired,
     onSelectPropsOption: React.PropTypes.func,
     onDishRuleChecked:React.PropTypes.func.isRequired,
   },
@@ -22,6 +22,10 @@ module.exports = React.createClass({
   },
   onSelectPropsOption(recipeData, optionData) {
     this.props.onSelectPropsOption(recipeData, optionData);
+  },
+  onDishRuleChecked(id) {
+    const { onDishRuleChecked } = this.props;
+    onDishRuleChecked(id);
   },
   buildRule(dish) {
     if (!dish.sameRuleDishes) {
@@ -39,7 +43,11 @@ module.exports = React.createClass({
             if (property.id === ruleTitle) {
               property.properties.map(prop =>
                 elementCollection.push(
-                  <button className="dish-porps-option" onTouchTap={evt => this.props.onDishRuleChecked(prop.id, dish)} key={prop.id}>
+                  <button
+                    className={classnames('dish-porps-option', { 'is-checked':prop.isChecked })}
+                    onTouchTap={evt => this.onDishRuleChecked(prop.id)}
+                    key={prop.id}
+                  >
                     <span className="extra">{prop.reprice ? `+${prop.reprice}元` : false}</span>
                     <span className="name ellipsis">{prop.name}</span>
                   </button>
@@ -54,8 +62,8 @@ module.exports = React.createClass({
         <div className="recipe-group clearfix" key={ruleCollection[i].id}>
           <span className="recipe-title">{ruleCollection[i].name}</span>
           <button
-            className="dish-porps-option"
-            onTouchTap={evt => this.props.onDishRuleChecked(ruleCollection[i].properties[0].id, dish)}
+            className={classnames('dish-porps-option', { 'is-checked':ruleCollection[i].properties[0].isChecked })}
+            onTouchTap={evt => this.onDishRuleChecked(ruleCollection[i].properties[0].id, dish)}
             key={ruleCollection[i].properties[0].id}
           >
             <span className="extra">{
@@ -122,11 +130,11 @@ module.exports = React.createClass({
     ));
   },
   render() {
-    const { props, ingredients, dish } = this.props;
-    const ruleElement = this.buildRule(dish);
-    const recipeElement = this.buildRecipe(props);
-    const noteElement = this.buildNote(props);
-    const buildIngredientElement = this.buildIngredient(ingredients);
+    const { dish, dishData } = this.props;
+    const ruleElement = this.buildRule(dishData);
+    const recipeElement = this.buildRecipe(dish.order[0].dishPropertyTypeInfos || []);
+    const noteElement = this.buildNote(dish.order[0].dishPropertyTypeInfos || []);
+    const buildIngredientElement = this.buildIngredient(dish.order[0].dishIngredientInfos || []);
     return (
       <div className="dish-props-select flex-rest">
         {ruleElement ? ruleElement.map(ele => ele) : false}

@@ -506,12 +506,6 @@ const judgeStandardsSame = (dish, sample) => {
         '1' : '0'
       );
     });
-    console.log(872432786423104623942386940230846329050123089);
-    console.log(dishStandardCollection);
-    console.log(sampleStandardCollection);
-    console.log(boolCollection);
-    console.log(872432786423104623942386940230846329050123089);
-    console.log(_findIndex(boolCollection, bool => bool === '0'));
     if (_findIndex(boolCollection, bool => bool === '0') === -1) {
       return true;
     }
@@ -568,6 +562,9 @@ const createNewDishes = (withSameNameDishesProp, dishTypeList) => {
     let maternalDish = disesCollection[0];
     maternalDish.sameRuleDishes = [];
     for (let i = 1; i < disesCollection.length; i++) {
+      disesCollection[i].dishPropertyTypeInfos.filter(property => property.type === 4).map(property =>
+        property.properties.map(prop => prop.isChecked = false)
+      );
       maternalDish.sameRuleDishes.push(disesCollection[i]);
       // dish所在的dishType
       let dishType = _find(dishTypeList, dishesType => dishesType.dishIds && dishesType.dishIds.indexOf(maternalDish.id) !== -1);
@@ -598,44 +595,41 @@ exports.reorganizeDishes = (dishesList, dishTypeList) => {
   };
 };
 
-exports.setRulePropsToDishes = (dishesData, dishTypesData, payload) => {
-  let dishes = dishesData.asMutable({ deep:true });
-  let dishesTypes = dishTypesData.asMutable({ deep:true });
+exports.setRulePropsToDishes = (selectedId, dish) => {
+  let dishData = dish.asMutable({ deep:true });
   let newDishDetail = null;
-  let selectedDish = _find(dishes, dish => dish.id === payload[1].id);
-  let selectedDishIndex = _findIndex(dishes, dish => dish.id === payload[1].id);
-  selectedDish.dishPropertyTypeInfos.map(property => property.properties.map(prop => {
-    if (prop.id === payload[0]) {
+  dishData.dishPropertyTypeInfos.map(property => property.properties.map(prop => {
+    if (prop.id === selectedId) {
       prop.isChecked = true;
-      newDishDetail = selectedDish;
+      newDishDetail = dishData;
     }
     return true;
   }));
-  selectedDish.sameRuleDishes.map(ruleDish => ruleDish.dishPropertyTypeInfos.map(property => property.properties.map(prop => {
-    if (prop.id === payload[0]) {
+  dishData.sameRuleDishes.map(ruleDish => ruleDish.dishPropertyTypeInfos.map(property => property.properties.map(prop => {
+    if (prop.id === selectedId) {
       prop.isChecked = true;
-      const dishIndex = _findIndex(selectedDish.sameRuleDishes, dish => dish.id === ruleDish.id);
+      const dishIndex = _findIndex(dishData.sameRuleDishes, data => data.id === ruleDish.id);
       if (dishIndex >= 0) {
-        selectedDish.sameRuleDishes.splice(dishIndex, 1);
-        ruleDish.sameRuleDishes = selectedDish.sameRuleDishes;
-        delete selectedDish.sameRuleDishes;
-        ruleDish.sameRuleDishes.push(selectedDish);
+        dishData.sameRuleDishes.splice(dishIndex, 1);
+        ruleDish.sameRuleDishes = dishData.sameRuleDishes;
+        delete dishData.sameRuleDishes;
+        ruleDish.sameRuleDishes.push(dishData);
+        ruleDish.sameRuleDishes.map(
+          data => data.dishPropertyTypeInfos.filter(
+            dishProp => dishProp.type === 4).map(
+              attribute => attribute.properties.map(
+                option => option.isChecked = false
+        )));
         newDishDetail = ruleDish;
-        // 处理dishesTypes
-        const dishTypeId = selectedDish.dishTypeId;
-        let selectedDishType = _find(dishesTypes, type => type.id === dishTypeId);
-        let typeIndex = _findIndex(selectedDishType.dishIds, id => id === selectedDish.id);
-        selectedDishType.dishIds.splice(typeIndex, 1);
-        selectedDishType.dishIds.push(ruleDish.id);
+        newDishDetail.order = [{
+          count:newDishDetail.stepNum,
+          dishPropertyTypeInfos:newDishDetail.dishPropertyTypeInfos,
+          dishIngredientInfos:newDishDetail.dishIngredientInfos,
+        }];
       }
     }
     return true;
   })));
-  dishes[selectedDishIndex] = newDishDetail;
-  // dishes.push(newDishDetail);
-  return {
-    dishes,
-    dishDetailData:newDishDetail,
-    dishTypesData: dishesTypes,
-  };
+  console.log(newDishDetail);
+  return newDishDetail;
 };

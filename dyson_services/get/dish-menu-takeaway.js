@@ -1082,7 +1082,7 @@ module.exports = {
           'name': '规格类别1',
           'type': 4,
           'properties': [{
-            'id': 60,
+            'id': 6032423423,
             'name': '蓝色包装',
             'reprice': 0.0,
             'isChecked': false,
@@ -1132,7 +1132,7 @@ module.exports = {
           'name': '规格类别1',
           'type': 4,
           'properties': [{
-            'id': 600,
+            'id': 60014324234,
             'name': '粉色包装',
             'reprice': 0.0,
             'isChecked': false,
@@ -1182,7 +1182,7 @@ module.exports = {
           'name': '规格类别1',
           'type':4,
           'properties': [{
-            'id': 59,
+            'id': 59424234235,
             'name': '红色包装',
             'reprice': 3,
             'isChecked': false,
@@ -1232,7 +1232,7 @@ module.exports = {
           'name': '规格类别1',
           'type': 4,
           'properties': [{
-            'id': 61,
+            'id': 61543645745,
             'name': '绿色包装',
             'reprice': 0.0,
             'isChecked': false,
@@ -1287,7 +1287,7 @@ module.exports = {
           'name': '规格类别1',
           'type': 4,
           'properties': [{
-            'id': 59,
+            'id': 5953464654,
             'name': '红色包装',
             'reprice': 0.0,
             'isChecked': false,
@@ -1477,7 +1477,7 @@ module.exports = {
           'name': '规格类别1',
           'type': 4,
           'properties': [{
-            'id': 62999,
+            'id': 629996546456,
             'name': '粉色包装',
             'reprice': 0.0,
             'isChecked': false,
