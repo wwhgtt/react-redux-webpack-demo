@@ -95,7 +95,7 @@ exports.fetchSendArea = () => (dispatch, getState) => {
 
 exports.orderDish = (dishData, action) => (dispatch, getStates) => {
   dispatch(_orderDish(dishData, action));
-  helper.storeDishesLocalStorage(getStates().dishesData);
+  helper.storeDishesLocalStorage(getStates().dishesDataDuplicate);
 };
 
 exports.removeAllOrders = (orders) => (dispatch, getStates) => {
@@ -104,7 +104,7 @@ exports.removeAllOrders = (orders) => (dispatch, getStates) => {
 };
 
 exports.confirmOrder = () => (dispatch, getStates) => {
-  const dishesData = getStates().dishesData;
+  const dishesData = getStates().dishesDataDuplicate;
   const orderedData = helper.getOrderedDishes(dishesData);
   const dishBoxChargeInfo = getStates().dishBoxChargeInfo;
   helper.deleteOldDishCookie();
