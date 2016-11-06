@@ -6,7 +6,7 @@
   @include clearfix;
 
   height: 88px;
-  padding: 10px 0;
+  padding: 15px 0;
 }
 
 .dish-list-word {
@@ -53,7 +53,7 @@
   &-price {
     font-size: 24px;
     font-weight: bold;
-    line-height: $counter-size;
+    line-height: 24px;
     float: left;
     color: $color-neon-carrot;
 
@@ -85,7 +85,7 @@
     width: 34px;
     height: 34px;
     content: "";
-    background-image: url("../../asset/images/member-badge.png");
+    background-image: url("../../asset/images/member-badge.svg");
     background-size: cover;
   }
 }
@@ -116,7 +116,8 @@
   }
 
   .dish-item-content {
-    width: calc(100% - 95px);
+    width: calc(100% - 105px);
+    padding: 0 15px 0 0;
   }
 
   .dish-item-name {
@@ -124,6 +125,7 @@
     line-height: 25px;
     height: 25px;
     padding: 0;
+    text-align: right;
   }
 
   .dish-type-item.is-active {

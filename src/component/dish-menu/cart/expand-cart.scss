@@ -30,30 +30,32 @@
   }
 
   &-header {
-    height: 35px;
+    line-height: 39px;
+    height: 39px;
+    padding: 0 15px;
     background: $color-wild-sand;
+  }
+
+  &-title {
+    font-size: 15px;
+    font-weight: normal;
+    color: $color-dove-grey;
   }
 
   &-clear {
     font-size: 14px;
-    line-height: 35px;
     float: right;
-    padding-right: 10px;
     color: $color-dusty-grey;
 
     &::before {
       float: left;
       width: 15px;
       height: 16px;
-      margin: 8px 3px 0 0;
+      margin: 9px 3px 0 0;
       content: "";
       background-image: url("../../../asset/images/cart-clear.png"); // image size 30 * 32px
       background-size: cover;
     }
-  }
-
-  .tiny-cart-price {
-    left: 15px;
   }
 }
 

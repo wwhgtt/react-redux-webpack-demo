@@ -62,8 +62,11 @@ const DishMenuApplication = React.createClass({
   render() {
     // states
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, confirmOrder, takeawayServiceProps,
-            openTimeList, isAcceptTakeaway, errorMessage, shopInfo, normalDiscountProps, dishPageTpl, shopLogo } = this.props;
+            openTimeList, isAcceptTakeaway, errorMessage, shopInfo, normalDiscountProps, shopLogo } = this.props;
     // actions
+
+    let { dishPageTpl } = this.props;
+    dishPageTpl = 'big';
     const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders, clearErrorMsg } = this.props;
     const marketList = shopInfo.marketList;
     const marketListUpdate = shopInfo.marketListUpdate;
