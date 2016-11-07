@@ -4,14 +4,12 @@ const commonHelper = require('../../helper/common-helper');
 const noCouponLogo = require('../../asset/images/nocoupon.svg');
 const shallowCompare = require('react-addons-shallow-compare');
 const ItemSpand = require('../common/item-spand.jsx');
-const classnames = require('classnames');
 require('./coupon-list.scss');
 
 module.exports = React.createClass({
   displayName: 'CouponList',
   propTypes:{
     couponList:React.PropTypes.array.isRequired,
-    couponStatus:React.PropTypes.number.isRequired,
   },
   getInitialState() {
     return {
@@ -82,15 +80,7 @@ module.exports = React.createClass({
 
     return validTime;
   },
-  getShowDetail(code) {
-    if (this.state.showCode === code) {
-      this.setState({ showCode:0 });
-    } else {
-      this.setState({ showCode:code });
-    }
-  },
   render() {
-    const { couponStatus } = this.props;
     const { showCode,
       couponCanUseList,
       couponOutOfDateList,
@@ -106,16 +96,19 @@ module.exports = React.createClass({
       <div className="couponWidthData">
       {
         filterCouponList.map((itemOuter, indexOuter) => {
-          if (itemOuter.list.length === 0) {
+          if (itemOuter.list.length === 0 && couponLogo) {
             return (
-              <div className={classnames('no-coupon-outer', { show: itemOuter.couponStatus === couponStatus && couponLogo })} key={indexOuter}>
+              <div
+                className="coupon-outer no-coupon-outer"
+                key={indexOuter}
+              >
                 <img src={couponLogo} alt="暂无数据" className="noCouponLogo" />
                 暂无优惠券
               </div>
             );
           }
           return (
-            <div className={classnames('coupon-outer', { show: itemOuter.couponStatus === couponStatus })} key={indexOuter}>
+            <div className="coupon-outer" key={indexOuter}>
               {
                 itemOuter.list.map((item, index) => {
                   let ruleVale = '';
@@ -170,7 +163,6 @@ module.exports = React.createClass({
                         validTime={validTime}
                         codeNumber={item.codeNumber}
                         instructions={instructions}
-                        getShowDetail={this.getShowDetail}
                         couponName={couponName}
                       />
                     </div>
