@@ -25,7 +25,8 @@ module.exports = React.createClass({ // SexSwitch
   },
   componentWillMount() {},
   componentDidMount() {},
-  showDetail() {
+  showDetail(e) {
+    e.preventDefault();
     const { hideRule } = this.state;
     if (hideRule) {
       this.setState({ hideRule:false });
@@ -39,7 +40,7 @@ module.exports = React.createClass({ // SexSwitch
     const { hideRule } = this.state;
     return (
       <div>
-        <div className="uprow of" onTouchTap={() => this.showDetail()}>
+        <div className="uprow of" onTouchTap={this.showDetail}>
           <div className={typeClass ? `uprow-leftpart ${typeClass}` : 'uprow-leftpart'}>
             <div className="uprow-leftpart-value">
               {giftUnitBefore}<span className="discount-num" style={giftFontStyle}>{ruleVale}</span>{typeUnit}
