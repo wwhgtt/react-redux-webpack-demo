@@ -111,7 +111,7 @@ const OrderInlineApplication = React.createClass({
           {commercialProps.openStatus === '营业中' ?
             <div className="options-group" style={{ borderBottom:'none', marginTop:'20px' }}>
               <div className="option">
-                <span className="option-tile">就餐人数：</span>
+                <span className="option-tile">就餐人数</span>
                 <ImportableCounter
                   setErrorMsg={setErrorMsg}
                   onCountChange={this.onCountChange}
