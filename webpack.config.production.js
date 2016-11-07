@@ -111,6 +111,9 @@ module.exports = {
     'book-detail-entry': [
       './src/book-detail.jsx',
     ],
+    'order-list-entry': [
+      './src/order-list.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -424,6 +427,14 @@ module.exports = {
         title: 'BookDetailApplication',
         filename: 'book-detail.html',
         chunks: ['common', 'book-detail-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'OrderListApplication',
+        filename: 'order-list.html',
+        chunks: ['common', 'order-list-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),
