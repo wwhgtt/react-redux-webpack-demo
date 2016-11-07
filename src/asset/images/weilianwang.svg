@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="341px" height="259px" viewBox="0 0 341 259" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
+    <title>未联网</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="179" cy="138" r="118"></circle>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-6" y="-6" width="248" height="248">
+            <rect x="55" y="14" width="248" height="248" fill="white"></rect>
+            <use xlink:href="#path-1" fill="black"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.4">
+        <g id="排队_未联网" transform="translate(-205.000000, -632.000000)">
+            <g id="未联网" transform="translate(199.000000, 629.000000)">
+                <g id="Group-2-Copy-2">
+                    <g id="Group-4-Copy">
+                        <rect id="Rectangle" x="0" y="0" width="350" height="266"></rect>
+                        <g id="Group-3" transform="translate(28.000000, 70.000000)" stroke="#B0B0B0" stroke-width="4" stroke-linecap="round">
+                            <path d="M5,0.289473684 L5,10.7105263" id="Line"></path>
+                            <path d="M10,5.21052632 L0,5.21052632" id="Line-Copy"></path>
+                        </g>
+                        <g id="Group-3-Copy-2" transform="translate(75.000000, 5.000000)" stroke="#B0B0B0" stroke-width="4" stroke-linecap="round">
+                            <path d="M5,0.289473684 L5,10.7105263" id="Line"></path>
+                            <path d="M10,5.21052632 L0,5.21052632" id="Line-Copy"></path>
+                        </g>
+                        <g id="Group-3-Copy" transform="translate(310.000000, 224.000000)" stroke="#B0B0B0" stroke-width="4" stroke-linecap="round">
+                            <path d="M6.55555556,0.394736842 L6.55555556,14.6052632" id="Line"></path>
+                            <path d="M14,7.57894737 L0,7.57894737" id="Line-Copy"></path>
+                        </g>
+                        <circle id="Oval-Copy" stroke="#B0B0B0" stroke-width="4" fill="#FFFFFF" cx="14" cy="100" r="6"></circle>
+                        <circle id="Oval-Copy-2" stroke="#B0B0B0" stroke-width="4" fill="#FFFFFF" cx="339" cy="174" r="6"></circle>
+                    </g>
+                </g>
+                <use id="Oval-5" stroke="#B1B1B1" mask="url(#mask-2)" stroke-width="12" xlink:href="#path-1"></use>
+                <path d="M251.840789,45.1592107 C279.337915,66.7629107 297,100.318855 297,138 C297,203.1696 244.1696,256 179,256 C141.318855,256 107.762911,238.337915 86.1592107,210.840789 C106.218408,226.600723 131.511545,236 159,236 C224.1696,236 277,183.1696 277,118 C277,90.5115446 267.600723,65.218408 251.840789,45.1592107 Z" id="Combined-Shape" fill="#CFCFCF"></path>
+                <circle id="Oval-5" fill="#DADADA" cx="216" cy="85" r="40"></circle>
+                <path d="M301.217257,138.824248 C301.219363,139.120448 301.220417,139.416897 301.220417,139.713593 M72.1760789,200.209489 C48.3342704,198.059065 32.5155637,191.294659 29.5134652,180.090675 C26.5199897,168.918872 36.769407,155.198257 56.2325392,141.454742 C56.2244669,140.875323 56.2204175,140.294931 56.2204175,139.713593 M285.70611,80 C309.382998,82.1795593 325.08339,88.9342663 328.073061,100.091872 C331.073539,111.289807 320.769098,125.048492 301.217257,138.824248 L301.217257,138.824248 L301.217257,138.824248 L301.217257,138.824248 M72.1760789,200.209489 C102.252641,202.922243 145.097136,198.292315 191.086311,185.969552 C237.095169,173.641516 276.528612,156.219272 301.217257,138.824248 L301.217257,138.824248" id="Combined-Shape" stroke="#B0B0B0" stroke-width="4"></path>
+                <circle id="Oval-5-Copy-2" stroke="#B0B0B0" stroke-width="4" fill="#FFFFFF" cx="249.5" cy="166.5" r="13.5"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -18,6 +18,7 @@ module.exports = React.createClass({
     dishTypesData: React.PropTypes.array.isRequired,
     dishesData: React.PropTypes.array.isRequired,
     onScrolling: React.PropTypes.func,
+    dishesDataDuplicate: React.PropTypes.array.isRequired,
     onScroll: React.PropTypes.func.isRequired,
     onOrderBtnTap: React.PropTypes.func.isRequired,
     onPropsBtnTap: React.PropTypes.func.isRequired,
@@ -124,7 +125,7 @@ module.exports = React.createClass({
     }
     return false;
   },
-  buildDishElements(activeDishTypeId, dishTypesData, dishesData, onDishBtnTap) {
+  buildDishElements(activeDishTypeId, dishTypesData, dishesData, onDishBtnTap, dishesDataDuplicate) {
     this._counter = 1;
     function getDishById(dishId) {
       const dish = _find(dishesData, { id:dishId });
@@ -172,6 +173,7 @@ module.exports = React.createClass({
                     {
                       this._counter - 1 <= ((distance - (Number(this.showingDishLength) || 1) * 30) / 88).toFixed(0) ?
                         <DishListItem
+                          dishesDataDuplicate={dishesDataDuplicate}
                           dishData={dishData}
                           onOrderBtnTap={onDishBtnTap}
                           onPropsBtnTap={onDishBtnTap}
@@ -203,8 +205,10 @@ module.exports = React.createClass({
     );
   },
   render() {
-    const { activeDishTypeId, dishTypesData, dishesData } = this.props;
-    const dishElements = this.buildDishElements(activeDishTypeId, dishTypesData, dishesData, this.onDishBtnTap);
+    const { activeDishTypeId, dishTypesData, dishesData, dishesDataDuplicate } = this.props;
+    const dishElements = this.buildDishElements(
+      activeDishTypeId, dishTypesData, dishesData, this.onDishBtnTap, dishesDataDuplicate
+    );
     return (
       <div className="dish-scroller">
         {/* <div className="scroll-wrapper">*/}

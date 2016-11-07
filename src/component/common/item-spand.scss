@@ -2,7 +2,7 @@
 
 .uprow {
   position: relative;
-  height: 8em;
+  height: 7.5em;
 
   &::before {
     position: absolute;
@@ -40,9 +40,11 @@
   &-value {
     position: relative;
     height: 100%;
+    white-space: pre-wrap;
 
     .discount-num {
       font-size: 2.5em;
+      vertical-align: -2px;
     }
 
     .expense-condition {
@@ -91,6 +93,7 @@
 
   .validity {
     line-height: 1.4em;
+    margin-bottom: 1em;
     text-align: center;
 
     &-date {
@@ -105,7 +108,7 @@
 
 .downrow {
   display: none;
-  padding: 1em;
+  padding: .8em 1em;
   background: $color-white;
 
   &.show {
@@ -120,7 +123,7 @@
 
   &-item {
     font-size: 13px;
-    line-height: 1.4em;
+    line-height: 1.6em;
     position: relative;
     padding-left: 1em;
     color: #666;

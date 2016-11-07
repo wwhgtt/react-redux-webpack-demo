@@ -33,6 +33,7 @@ const DishMenuApplication = React.createClass({
     activeDishTypeId: React.PropTypes.number.isRequired,
     dishTypesData: React.PropTypes.array,
     dishesData: React.PropTypes.array,
+    dishesDataDuplicate:  React.PropTypes.array,
     dishDetailData: React.PropTypes.object,
     dishDescData: React.PropTypes.object,
     takeawayServiceProps: React.PropTypes.object,
@@ -70,15 +71,13 @@ const DishMenuApplication = React.createClass({
   render() {
     // states
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, confirmOrder, takeawayServiceProps,
-            openTimeList, isAcceptTakeaway, errorMessage, shopInfo, normalDiscountProps, shopLogo } = this.props;
+            openTimeList, isAcceptTakeaway, errorMessage, shopInfo, normalDiscountProps, shopLogo, dishesDataDuplicate, dishPageTpl } = this.props;
     // actions
     const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders, clearErrorMsg } = this.props;
     const marketList = shopInfo.marketList;
     const marketListUpdate = shopInfo.marketListUpdate;
     const isMember = normalDiscountProps && normalDiscountProps.isMember || false;
 
-    let { dishPageTpl } = this.props;
-    dishPageTpl = 'default';
     return (
       <div className={classnames('application', { 'mesthead-min': this.state.isMinMesthead })}>
         <DishMesthead
@@ -93,7 +92,7 @@ const DishMenuApplication = React.createClass({
           <DishTypeScroller
             theme={dishPageTpl}
             dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeId={activeDishTypeId}
-            onDishTypeElementTap={activeDishType}
+            onDishTypeElementTap={activeDishType} dishesDataDuplicate={dishesDataDuplicate}
           />
           <DishScroller
             theme={dishPageTpl}
@@ -102,18 +101,22 @@ const DishMenuApplication = React.createClass({
             onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail} onImageBtnTap={showDishDesc}
             marketListUpdate={marketListUpdate}
             onScrolling={(direction) => {
-              console.dir(direction);
               this.setState({ isMinMesthead: direction.y === 1 });
             }}
+            dishesDataDuplicate={dishesDataDuplicate}
           />
         </div>
         <CartContainer
-          dishes={dishesData} takeawayServiceProps={takeawayServiceProps}
+          dishes={dishesDataDuplicate} takeawayServiceProps={takeawayServiceProps}
           openTimeList={openTimeList} isAcceptTakeaway={isAcceptTakeaway}
           onOrderBtnTap={orderDish} onBillBtnTap={confirmOrder} onClearBtnTap={removeAllOrders}
         />
         {dishDetailData !== undefined ?
-          <DishDetailContainer dish={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />
+          <DishDetailContainer
+            dish={dishDetailData}
+            onCloseBtnTap={showDishDetail}
+            onAddToCarBtnTap={this.onDishDetailAddBtnTap}
+          />
           : false
         }
         {dishDescData !== undefined ?

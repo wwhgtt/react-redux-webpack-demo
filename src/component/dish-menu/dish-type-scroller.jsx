@@ -15,6 +15,7 @@ module.exports = React.createClass({
     dishesData: React.PropTypes.array.isRequired,
     onDishTypeElementTap: React.PropTypes.func.isRequired,
     theme: React.PropTypes.string,
+    dishesDataDuplicate: React.PropTypes.array.isRequired,
   },
   componentDidMount() {
     const iScrollOptions = this.getIScrollOptionsInDiffTheme();
@@ -90,12 +91,11 @@ module.exports = React.createClass({
     }
     this._initWrapSized = true;
   },
-  buildDishTypeElements(activeDishTypeId, dishTypesData, dishesData) {
-    const getOrderedCountByType = (dishes, dishIds) => {
+  buildDishTypeElements(activeDishTypeId, dishTypesData, dishesData, dishesDataDuplicate) {
+    const getOrderedCountByType = (dishes, typeId) => {
       const orderedDishesByType = helper.getOrderedDishes(dishes).filter(dish =>
-        dishIds.indexOf(dish.id) > -1
+        dish.dishTypeId === typeId
       );
-
       return helper.getDishesCount(orderedDishesByType) || null;
     };
 
@@ -113,7 +113,7 @@ module.exports = React.createClass({
             <DynamicClassLI
               key={idx}
               data-id={dishTypeData.id}
-              data-count={getOrderedCountByType(dishesData, dishTypeData.dishIds)}
+              data-count={getOrderedCountByType(dishesDataDuplicate, dishTypeData.id)}
               isActive={activeDishTypeId === dishTypeData.id}
               className="dish-type-item"
               onTouchTap={this.onDishTypeElementTap}
@@ -126,8 +126,8 @@ module.exports = React.createClass({
     );
   },
   render() {
-    const { activeDishTypeId, dishTypesData, dishesData } = this.props;
-    const dishTypeElements = this.buildDishTypeElements(activeDishTypeId, dishTypesData, dishesData);
+    const { activeDishTypeId, dishTypesData, dishesData, dishesDataDuplicate } = this.props;
+    const dishTypeElements = this.buildDishTypeElements(activeDishTypeId, dishTypesData, dishesData, dishesDataDuplicate);
 
     return (
       <div className="dish-type-scroller">

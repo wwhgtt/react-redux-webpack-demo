@@ -8,6 +8,7 @@ module.exports = function (
     dishTypesData:[],
     dishesData:[],
     dishPageTpl: 'default',
+    dishesDataDuplicate:[],
     shopInfo:{
       commercialName:'',
       openTimeList:[],
@@ -46,8 +47,19 @@ module.exports = function (
   switch (type) {
     case 'SET_MENU_DATA': {
       const formatDishesData = helper.formatDishesData(helper.setDishPropertyTypeInfos(payload.dishList));
-      return state.setIn(['dishTypesData'], payload.dishTypeList)
-      .setIn(['dishesData'], helper.setDishPropertyTypeInfos(payload.dishList))
+      return state.setIn(['dishesDataDuplicate'], payload.dishList)
+      .setIn(
+        ['dishTypesData'],
+        helper.reorganizeDishes(
+          helper.setDishPropertyTypeInfos(payload.dishList), payload.dishTypeList
+        ).dishesTypeList
+      )
+      .setIn(
+        ['dishesData'],
+          helper.reorganizeDishes(
+            helper.setDishPropertyTypeInfos(payload.dishList), payload.dishTypeList
+          ).dishesList
+        )
       .setIn(['activeDishTypeId'], getFirstValidDishTypeId(payload))
       .set('dishBoxChargeInfo', helper.getUrlParam('type') === 'WM' && payload.extraCharge ? payload.extraCharge : null)
       .set('shopInfo', {
@@ -86,7 +98,7 @@ module.exports = function (
       return state.setIn(['dishDescData'], payload);
     case 'REMOVE_ALL_ORDERS':
       return state.update(
-        'dishesData',
+        'dishesDataDuplicate',
         dishes => dishes.flatMap(
           dish => dish.set('order', undefined)
         )
@@ -94,20 +106,20 @@ module.exports = function (
     case 'SET_TAKEAWAY_SERVICE_PROPS':
       return state.set('takeawayServiceProps', payload);
     case 'ORDER_DISH':
-      dishIdx = _findIndex(state.dishesData, { id: payload[0].id });
-      if (helper.isSingleDishWithoutProps(state.dishesData[dishIdx])) {
+      dishIdx = _findIndex(state.dishesDataDuplicate, { id: payload[0].id });
+      if (helper.isSingleDishWithoutProps(state.dishesDataDuplicate[dishIdx])) {
         // for single dish without props;
-        newState = state.setIn(['dishesData', dishIdx, 'order'], helper.getNewCountOfDish(state.dishesData[dishIdx], payload[1]));
+        newState = state.setIn(['dishesDataDuplicate', dishIdx, 'order'], helper.getNewCountOfDish(state.dishesDataDuplicate[dishIdx], payload[1]));
       } else {
         // for single dish with props
-        if (helper.isGroupDish(state.dishesData[dishIdx])) {
+        if (helper.isGroupDish(state.dishesDataDuplicate[dishIdx])) {
           orderIdx = _findIndex(
-            state.dishesData[dishIdx].order === undefined ? [] : state.dishesData[dishIdx].order,
+            state.dishesDataDuplicate[dishIdx].order === undefined ? [] : state.dishesDataDuplicate[dishIdx].order,
             { groups:payload[0].order[0].groups }
           );
         } else {
           orderIdx = _findIndex(
-            state.dishesData[dishIdx].order === undefined ? [] : state.dishesData[dishIdx].order,
+            state.dishesDataDuplicate[dishIdx].order === undefined ? [] : state.dishesDataDuplicate[dishIdx].order,
             // { dishPropertyTypeInfos:payload[0].order[0].dishPropertyTypeInfos }
             { dishIngredientInfos:payload[0].order[0].dishIngredientInfos, dishPropertyTypeInfos:payload[0].order[0].dishPropertyTypeInfos }
           );
@@ -115,20 +127,20 @@ module.exports = function (
         if (orderIdx !== -1) {
           // if find the order with same props, just add the count of the exsited order;
           newState = state.setIn(
-            ['dishesData', dishIdx, 'order', orderIdx, 'count'],
-            state.dishesData[dishIdx].order[orderIdx].count + payload[0].order[0].count
+            ['dishesDataDuplicate', dishIdx, 'order', orderIdx, 'count'],
+            state.dishesDataDuplicate[dishIdx].order[orderIdx].count + payload[0].order[0].count
           );
-          if (newState.dishesData[dishIdx].order[orderIdx].count === 0) {
+          if (newState.dishesDataDuplicate[dishIdx].order[orderIdx].count === 0) {
             // if order's count is 0, remove it.
             newState = newState.updateIn(
-              ['dishesData', dishIdx, 'order'],
+              ['dishesDataDuplicate', dishIdx, 'order'],
               order => order.flatMap((eachOrder, idx) => orderIdx === idx ? [] : eachOrder)
             );
           }
         } else {
           // if cannot find the order with same props,add it as new order;
           newState = state.updateIn(
-            ['dishesData', dishIdx, 'order'],
+            ['dishesDataDuplicate', dishIdx, 'order'],
             order => order === undefined ? payload[0].order : order.concat(payload[0].order)
           );
         }
