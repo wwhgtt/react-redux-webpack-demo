@@ -95,9 +95,19 @@
 }
 
 .huge {
+  .dish-list-item {
+    border: none;
+  }
+
   .dish-item-dish {
     width: 100%;
     margin: 0;
+    border-top: none;
+    border-bottom: 1px solid $color-mercury;
+
+    &:last-child {
+      border: none;
+    }
   }
 
   .dish-item-img {
@@ -114,11 +124,11 @@
     height: 34px;
 
     &::before {
-      width: 18px;
+      width: 14px;
     }
 
     &::after {
-      height: 18px;
+      height: 14px;
     }
   }
 

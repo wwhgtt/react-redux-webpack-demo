@@ -127,7 +127,7 @@ module.exports = React.createClass({
     }
 
     return (
-      <ul className="dish-list">
+      <ul className="dish-list clearfix">
       {
         dishTypesData.map((dishTypeData, idx) => {
           if (!dishTypeData.dishIds) {
