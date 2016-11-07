@@ -3,6 +3,8 @@ module.exports = {
   path: '/takeaway/dishAll.json',
   template: {
     'data': {
+      'dishPageTpl': 'default',
+      'shopLogo': 'http://kry-test-2.qiniudn.com/980afeeec2004447a5e72d124ed2186a.jpg?imageView/2/w/512/h/512',
       'discountInfo': {
         'isDiscount': true,
         'type': 2,
