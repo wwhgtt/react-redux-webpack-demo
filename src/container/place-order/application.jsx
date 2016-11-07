@@ -227,7 +227,7 @@ const PlaceOrderApplication = React.createClass({
             </div>
             <div className="option-groups">
               <div className="option">
-                <textarea className="option-input clearfix" name="note" placeholder="输入备注" maxLength="500" onChange={this.noteChange} />
+                <textarea className="option-input clearfix text-area" name="note" placeholder="请输入备注" maxLength="500" onChange={this.noteChange} />
               </div>
             </div>
             <div className="option-groups">
@@ -242,6 +242,7 @@ const PlaceOrderApplication = React.createClass({
             <TableSelect
               areas={tableProps.areas} tables={tableProps.tables}
               onTableSelect={setTableProps} onDone={this.resetChildView}
+              title={'选择桌台类型'}
             />
             : false
           }
@@ -251,6 +252,7 @@ const PlaceOrderApplication = React.createClass({
               isSelfFetch={false}
               selectedDateTime={timeProps.selectedDateTime} timeTable={timeProps.timeTable}
               onDateTimeSelect={onDateTimeSelect} onDone={this.resetChildView}
+              title={'预定'}
             />
             : false
           }

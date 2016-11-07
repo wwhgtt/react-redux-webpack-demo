@@ -18,6 +18,9 @@ module.exports = React.createClass({
     this.props.onCountChange(increament);
   },
   splitPropsSpecifications(dish) {
+    if (dish.sameRuleDishes) {
+      return false;
+    }
     if (!helper.isSingleDishWithoutProps(dish) && dish.dishPropertyTypeInfos) {
       const specification = [];
       dish.dishPropertyTypeInfos.map(

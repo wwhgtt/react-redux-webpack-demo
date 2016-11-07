@@ -19,6 +19,7 @@
 
   &-tile {
     font-size: 20px;
+    font-weight: 800;
   }
 
   &-title--icon {
@@ -63,10 +64,17 @@
 
 .options-title {
   font-size: 20px;
+  font-weight: 800;
 }
 
 .btn-arrow-right {
   font-size: 16px;
+
+  &::after {
+    width: 14px;
+    height: 12px;
+    margin-top: 5px;
+  }
 }
 
 .place-order {
@@ -85,9 +93,9 @@
 
 .content {
   position: relative;
-  top: 79px;
-  left: 5%;
-  width: 90%;
+  top: 86px;
+  left: 3%;
+  width: 94%;
   margin-bottom: 30px;
   padding-bottom: 15px;
   border-radius: 3px;
@@ -96,14 +104,14 @@
 
   &-shop {
     width: 100%;
-    // margin-top: -79px / 2;
+    // margin-top: -86px / 2;
     text-align: center;
 
     &-icon {
       position: relative;
-      top: (-79px / 2);
-      width: 79px;
-      height: 79px;
+      top: (-86px / 2);
+      width: 86px;
+      height: 86px;
       border: 3px solid rgba(255, 148, 77, .3);
       border-radius: 50%;
     }
@@ -145,8 +153,8 @@
 
   &::before,
   &::after {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     content: "";
     border-radius: 50%;
     background: #fd894d;
@@ -154,12 +162,12 @@
 
   &::before {
     float: left;
-    margin-left: (-20px / 2);
+    margin-left: (-16px / 2);
   }
 
   &::after {
     float: right;
-    margin-right: (-20px / 2);
+    margin-right: (-16px / 2);
   }
 
   &-title {
@@ -174,4 +182,8 @@
   padding-bottom: 30px;
   text-align: center;
   color: #999;
+}
+
+.text-area {
+  padding: 5px;
 }
