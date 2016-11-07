@@ -47,6 +47,10 @@ const submitOrder = exports.submitOrder = () => (dispatch, getState) => {
   if (mobile.indexOf('4') === 0 && mobile.length === 9) {
     mobile = '0' + mobile;
   }
+  if (!(/^1(3|4|5|7|8)\d{9}$/.test(mobile))) {
+    dispatch(setErrorMsg('手机号码有误，请重填'));
+    return;
+  }
   const params = '?shopId=' + shopId
     + '&name=' + state.customerProps.name
     + '&sex=' + state.customerProps.sex
