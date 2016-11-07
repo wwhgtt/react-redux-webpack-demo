@@ -22,7 +22,7 @@ exports.getUrlParam = param => {
 };
 
 // 将多个url参数组成字符串
-exports.getUrlParams = paramObj => {
+exports.formateObjToParamStr = paramObj => {
   let paramStr = '';
   for (let i in paramObj) {
     paramStr += `${i}=${paramObj[i]}&`;
