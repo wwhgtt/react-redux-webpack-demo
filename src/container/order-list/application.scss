@@ -1,3 +1,44 @@
-div {
-  font-size: 16px;
+.order-page {
+  color: #474747;
+  background-color: #f1f1f1;
+}
+
+.list-head {
+  line-height: 34px;
+  display: block;
+  padding: 13px 15px;
+  border-bottom: 1px solid #e3e3e3;
+
+  &-href {
+    display: inline-block;
+    width: calc(100% - 50px);
+  }
+
+  &-img {
+    width: 34px;
+    height: 34px;
+    vertical-align: middle;
+    border-radius: 34px;
+  }
+
+  &-title {
+    font-weight: bold;
+    display: inline-block;
+    width: calc(100% - 45px);
+    height: 34px;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+
+  &-status {
+    font-size: 15px;
+    display: inline-block;
+    float: right;
+    height: 34px;
+  }
+}
+
+.order-list-group {
+  margin: 15px 0;
+  background-color: #fff;
 }

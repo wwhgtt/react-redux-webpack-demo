@@ -1,0 +1,52 @@
+@import "settings.colors";
+
+.list-content {
+  padding: 17px 15px;
+}
+
+.list-num {
+  float: left;
+  width: 70px;
+  text-align: center;
+  border-right: 1px dashed #e3e3e3;
+
+  &-name {
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  &-no {
+    font-size: 28px;
+    line-height: 39px;
+  }
+}
+
+.list-detail {
+  line-height: 23px;
+  margin-left: 85px;
+
+  p {
+    height: 23px;
+  }
+
+  p:first-child {
+    margin-bottom: 7px;
+  }
+
+  &-price {
+    float: right;
+    width: 60px;
+    text-align: right;
+  }
+
+  &-dish {
+    display: inline-block;
+    width: calc(100% - 70px);
+  }
+
+  &-time {
+    font-size: 14px;
+    text-align: right;
+    color: $color-dusty-grey;
+  }
+}
