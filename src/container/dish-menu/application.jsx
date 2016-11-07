@@ -1,8 +1,11 @@
 const React = require('react');
 const connect = require('react-redux').connect;
 const actions = require('../../action/dish-menu/dish-menu');
+const classnames = require('classnames');
+
 require('../../asset/style/style.scss');
 require('./application.scss');
+
 const DishTypeScroller = require('../../component/dish-menu/dish-type-scroller.jsx');
 const DishScroller = require('../../component/dish-menu/dish-scroller.jsx');
 const CartContainer = require('../../component/dish-menu/cart/cart-container.jsx');
@@ -45,6 +48,11 @@ const DishMenuApplication = React.createClass({
       dishPageTpl: 'default',
     };
   },
+  getInitialState() {
+    return {
+      isMinMesthead: false,
+    };
+  },
   componentDidMount() {
     const { fetchMenuData, fetchSendArea, fetchOrderDiscountInfo } = this.props;
     fetchMenuData().then(
@@ -70,8 +78,9 @@ const DishMenuApplication = React.createClass({
     const isMember = normalDiscountProps && normalDiscountProps.isMember || false;
 
     let { dishPageTpl } = this.props;
+    dishPageTpl = 'default';
     return (
-      <div className="application">
+      <div className={classnames('application', { 'mesthead-min': this.state.isMinMesthead })}>
         <DishMesthead
           registered={isMember}
           dishesData={dishesData}
@@ -92,6 +101,10 @@ const DishMenuApplication = React.createClass({
             activeDishTypeId={activeDishTypeId} onScroll={activeDishType} marketList={marketList}
             onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail} onImageBtnTap={showDishDesc}
             marketListUpdate={marketListUpdate}
+            onScrolling={(direction) => {
+              console.dir(direction);
+              this.setState({ isMinMesthead: direction.y === 1 });
+            }}
           />
         </div>
         <CartContainer

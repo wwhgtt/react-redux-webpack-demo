@@ -46,7 +46,7 @@ module.exports = React.createClass({
         }
         <div className="shop">
           <img alt="门店logo" src={shopLogo || defaultShopLogo} className="shop-logo" />
-          <a className="shop-title ellipsis">{shopInfo.commercialName || '加载中...'}</a>
+          <a className="shop-title ellipsis">{shopInfo.commercialName || ''}</a>
           {this.getShopTimeElement(shopInfo && shopInfo.openTimeList)}
         </div>
         {marketListUpdate && !!marketListUpdate.length &&

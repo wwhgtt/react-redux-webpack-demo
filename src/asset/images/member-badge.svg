@@ -5,7 +5,7 @@
     <desc>Created with Sketch.</desc>
     <defs>
         <rect id="path-1" x="0" y="0" width="103" height="103"></rect>
-        <rect id="path-3" x="-28.8074293" y="15.6694882" width="123.236344" height="30.2999992"></rect>
+        <polygon id="path-3" points="-21.4725521 63.6774475 65.6687023 -23.4638069 87.0940372 -2.03847195 -0.0472171646 85.1027825"></polygon>
         <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-4">
             <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
             <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
@@ -13,15 +13,15 @@
         </filter>
     </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="点餐页1" transform="translate(-236.000000, -543.000000)">
-            <g id="会员价" transform="translate(236.000000, 543.000000)">
+        <g id="点餐页1" transform="translate(-236.000000, -533.000000)">
+            <g id="会员价" transform="translate(236.000000, 533.000000)">
+                <rect id="Rectangle-9" x="0" y="0" width="85" height="85"></rect>
                 <mask id="mask-2" fill="white">
                     <use xlink:href="#path-1"></use>
                 </mask>
                 <g id="Mask"></g>
-                <rect id="Rectangle-3" fill="#AA5F2C" mask="url(#mask-2)" x="0" y="80" width="4" height="5"></rect>
-                <rect id="Rectangle-3-Copy" fill="#AA5F2C" mask="url(#mask-2)" x="80" y="0" width="5" height="4"></rect>
-                <g id="Rectangle-4" mask="url(#mask-2)" transform="translate(32.810743, 30.819488) rotate(-45.000000) translate(-32.810743, -30.819488) ">
+                <path d="M0,80 L4,80 L4,85 L0,85 L0,80 Z M80,0 L85,0 L85,4 L80,4 L80,0 Z" id="Combined-Shape" fill="#AA5F2C" mask="url(#mask-2)"></path>
+                <g id="Rectangle-4" mask="url(#mask-2)">
                     <use fill="#FFCF00" fill-rule="evenodd" xlink:href="#path-3"></use>
                     <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
                 </g>

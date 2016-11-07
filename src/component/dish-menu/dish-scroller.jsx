@@ -2,7 +2,7 @@ const React = require('react');
 const { findDOMNode } = require('react-dom');
 const shallowCompare = require('react-addons-shallow-compare');
 const _find = require('lodash.find');
-const IScroll = require('iscroll/build/iscroll-lite');
+const IScroll = require('iscroll/build/iscroll-probe');
 const classnames = require('classnames');
 const DishListItem = require('./dish-list-item.jsx');
 const setErrorMsg = require('../../action/dish-menu/dish-menu.js').setErrorMsg;
@@ -17,6 +17,7 @@ module.exports = React.createClass({
     activeDishTypeId: React.PropTypes.number.isRequired,
     dishTypesData: React.PropTypes.array.isRequired,
     dishesData: React.PropTypes.array.isRequired,
+    onScrolling: React.PropTypes.func,
     onScroll: React.PropTypes.func.isRequired,
     onOrderBtnTap: React.PropTypes.func.isRequired,
     onPropsBtnTap: React.PropTypes.func.isRequired,
@@ -33,11 +34,12 @@ module.exports = React.createClass({
     this._distance = 0;
   },
   componentDidMount() {
-    const { onScroll } = this.props;
+    const { onScroll, onScrolling } = this.props;
     const cache = this._cache = {};
     const iScroll = cache.iScroll = new IScroll(findDOMNode(this), {
       click: true,
       tap: true,
+      probeType: 1,
     });
     iScroll.on('scrollStart', () => {
       cache.isScrolling = true;
@@ -46,6 +48,14 @@ module.exports = React.createClass({
         cache.timer = null;
       }
     });
+
+    iScroll.on('scroll', () => {
+      if (onScrolling) {
+        const direction = { x: iScroll.directionX, y: iScroll.directionY };
+        onScrolling(direction);
+      }
+    });
+
     iScroll.on('scrollEnd', () => {
       const { diningForm, marketListUpdate } = this.props;
       let dishTypeId = '';
@@ -100,8 +110,14 @@ module.exports = React.createClass({
     }
   },
   findCurrentDishTypeId(posY) {
-    const dishTypes = findDOMNode(this).querySelectorAll('.dish-item-type');
-    const showingDishTypes = Array.prototype.slice.call(dishTypes).filter(dishType => dishType.offsetTop < -posY + 5);
+    const scroller = findDOMNode(this);
+    const dishTypes = scroller.querySelectorAll('.dish-item-type');
+    const scrollerRect = { height: scroller.clientHeight, top: scroller.offsetTop };
+    const showingDishTypes = Array.prototype.slice.call(dishTypes).filter(dishType => {
+      const height = scrollerRect.height;
+      return dishType.offsetTop - scrollerRect.top < -posY + height + 5;
+    });
+
     this.showingDishLength = showingDishTypes.length;
     if (showingDishTypes.length) {
       return parseInt(showingDishTypes.pop().getAttribute('data-id'), 10);

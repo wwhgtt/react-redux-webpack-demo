@@ -82,8 +82,8 @@
     z-index: 1;
     top: -2px;
     left: -2px;
-    width: 34px;
-    height: 34px;
+    width: 44px;
+    height: 44px;
     content: "";
     background-image: url("../../asset/images/member-badge.svg");
     background-size: cover;
@@ -131,5 +131,12 @@
   .dish-type-item.is-active {
     border-bottom: 2px solid $color-neon-carrot;
     box-shadow: none;
+  }
+}
+
+.huge {
+  .is-memberdish {
+    width: 44px;
+    height: 44px;
   }
 }
