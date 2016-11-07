@@ -73,7 +73,7 @@ const MineAccumulationApplication = React.createClass({
     }
 
     let rules = [];
-    rules.push(`每消费${levelRights.consumeValue}元获得${levelRights.consumeGainValue}积分`);
+    rules.push(`每消费${levelRights.consumeValue}元可获得${levelRights.consumeGainValue}个积分`);
     if (levelRights.isGainAll === 0) {
       rules.push('全部商品可积分');
     } else {

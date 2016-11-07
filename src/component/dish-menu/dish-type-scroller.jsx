@@ -14,6 +14,7 @@ module.exports = React.createClass({
     dishTypesData: React.PropTypes.array.isRequired,
     dishesData: React.PropTypes.array.isRequired,
     onDishTypeElementTap: React.PropTypes.func.isRequired,
+    dishesDataDuplicate: React.PropTypes.array.isRequired,
   },
   componentDidMount() {
     this._cache = {};
@@ -42,12 +43,11 @@ module.exports = React.createClass({
     const dishTypeId = parseInt(evt.target.getAttribute('data-id'), 10);
     onDishTypeElementTap(evt, dishTypeId);
   },
-  buildDishTypeElements(activeDishTypeId, dishTypesData, dishesData) {
-    const getOrderedCountByType = (dishes, dishIds) => {
+  buildDishTypeElements(activeDishTypeId, dishTypesData, dishesData, dishesDataDuplicate) {
+    const getOrderedCountByType = (dishes, typeId) => {
       const orderedDishesByType = helper.getOrderedDishes(dishes).filter(dish =>
-        dishIds.indexOf(dish.id) > -1
+        dish.dishTypeId === typeId
       );
-
       return helper.getDishesCount(orderedDishesByType) || null;
     };
 
@@ -65,7 +65,7 @@ module.exports = React.createClass({
             <DynamicClassLI
               key={idx}
               data-id={dishTypeData.id}
-              data-count={getOrderedCountByType(dishesData, dishTypeData.dishIds)}
+              data-count={getOrderedCountByType(dishesDataDuplicate, dishTypeData.id)}
               isActive={activeDishTypeId === dishTypeData.id}
               className="dish-type-item"
               onTouchTap={this.onDishTypeElementTap}
@@ -78,9 +78,9 @@ module.exports = React.createClass({
     );
   },
   render() {
-    const { activeDishTypeId, dishTypesData, dishesData } = this.props;
+    const { activeDishTypeId, dishTypesData, dishesData, dishesDataDuplicate } = this.props;
 
-    const dishTypeElements = this.buildDishTypeElements(activeDishTypeId, dishTypesData, dishesData);
+    const dishTypeElements = this.buildDishTypeElements(activeDishTypeId, dishTypesData, dishesData, dishesDataDuplicate);
 
     return (
       <div className="dish-type-scroller">

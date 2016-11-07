@@ -1,0 +1,56 @@
+.book-page {
+  padding: 70px 15px 25px;
+}
+
+.book-info {
+  position: relative;
+
+  .list-default {
+    padding: 33px 20px;
+  }
+}
+
+.list-memo {
+  .list-item-title {
+    float: left;
+  }
+
+  .list-item-content {
+    float: left;
+    width: calc(100% - 90px);
+  }
+}
+
+.book-status {
+  position: absolute;
+  top: 70px;
+  right: 0;
+  width: 119px;
+  height: 142px;
+  background-repeat: no-repeat;
+  background-size: 119px;
+}
+
+.book-not-arrival {
+  background-image: url("../../asset/images/book_not_arrival.svg");
+}
+
+.book-success {
+  background-image: url("../../asset/images/book_success.svg");
+}
+
+.book-faild {
+  background-image: url("../../asset/images/book_failed.svg");
+}
+
+.book-confirming {
+  background-image: url("../../asset/images/book_confirming.svg");
+}
+
+.book-arrivaled {
+  background-image: url("../../asset/images/book_arrivaled.svg");
+}
+
+.book-cancel {
+  background-image: url("../../asset/images/book_cancel.svg");
+}

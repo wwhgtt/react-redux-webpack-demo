@@ -737,8 +737,12 @@ const getSubmitDishData = exports.getSubmitDishData = (dishesData, shopId) => {
     const orderDishes = [];
     const benefitDish = dish.benefitOptions || (dish.order[0] && dish.order[0].benefitOptions) || [];
     const beSelectedBenefit = _find(benefitDish, benefit => benefit.isChecked);
-    const priId = beSelectedBenefit ? { priId:beSelectedBenefit.priId } : '';
-    const priType = beSelectedBenefit ? { priType:beSelectedBenefit.priType } : '';
+    let priId = beSelectedBenefit ? beSelectedBenefit.priId : null;
+    let priType = beSelectedBenefit ? beSelectedBenefit.priType : null;
+    if (!beSelectedBenefit && !dish.noBenefit && dish.isMember) {
+      priId = 0;
+      priType = 3;
+    }
     const dishInfo = { num: 0, price: dish.marketPrice, priId, priType, dishId: dish.id, subDish: [], shopId };
     (dish.order || []).forEach(orderDish => {
       if (!orderDish.count) {

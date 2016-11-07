@@ -5,7 +5,7 @@ require('./application.scss');
 const mineRechargeAction = require('../../action/mine/mine-recharge.js');
 const Dialog = require('../../component/mui/dialog/dialog.jsx');
 const RechargeItem = require('../../component/mine/recharge-item.jsx');
-const shopIcon = require('../../asset/images/default.png');
+const shopIcon = require('../../asset/images/logo_default.svg');
 const classnames = require('classnames');
 
 const MineRechargeApplication = React.createClass({

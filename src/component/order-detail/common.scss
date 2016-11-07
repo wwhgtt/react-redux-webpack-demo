@@ -1,0 +1,97 @@
+@import "settings.colors";
+
+.bg-orange {
+  background-color: #ff944d;
+}
+
+.content-fillet {
+  border-radius: 4px;
+  background-color: $color-white;
+}
+
+.box-head {
+  padding-bottom: 40px;
+  text-align: center;
+
+  &-logo {
+    width: 79px;
+    height: 79px;
+    margin-top: -40px;
+    border: 3px solid rgba(255, 148, 77, .3);
+    border-radius: 79px;
+  }
+
+  &-title {
+    font-size: 25px;
+    margin-top: 15px;
+    color: #474747;
+  }
+}
+
+.divide-line {
+  position: relative;
+  margin: 0 15px;
+  border-bottom: 1px solid #e3e3e3;
+
+  &::before {
+    position: absolute;
+    top: -8px;
+    left: -23px;
+    display: block;
+    width: 16px;
+    height: 16px;
+    content: "";
+    border-radius: 16px;
+    background-color: #ff944d;
+  }
+
+  &::after {
+    position: absolute;
+    top: -8px;
+    right: -23px;
+    display: block;
+    width: 16px;
+    height: 16px;
+    content: "";
+    border-radius: 16px;
+    background-color: #ff944d;
+  }
+
+  &-title {
+    font-size: 13px;
+    line-height: 20px;
+    position: absolute;
+    top: -10px;
+    height: 20px;
+    text-align: center;
+    color: $color-dusty-grey;
+    background-color: $color-white;
+  }
+
+  &-four {
+    left: calc((100% - 68px) / 2);
+    width: 68px;
+  }
+
+  &-three {
+    left: calc((100% - 56px) / 2);
+    width: 56px;
+  }
+}
+
+.list-default {
+  .list-item {
+    margin-bottom: 20px;
+
+    &-title {
+      display: inline-block;
+      width: 68px;
+      margin-right: 22px;
+      color: #474747;
+    }
+
+    &-content {
+      color: #666;
+    }
+  }
+}

@@ -54,7 +54,7 @@ module.exports = {
                       discount : null,
                       periodStart : "00:00:00",
                       periodEnd : "23:58:59",
-                      weekdays : "1111111",
+                      weekdays : "1000001",
                       customerType : 3,
                       updateTime: "2016-05-20",
                       isAble:false,

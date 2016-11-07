@@ -28,6 +28,9 @@ exports.getUserInfo = () => (dispatch, getStates) => {
   then(res => {
     if (res.code === '200') {
       dispatch(setUserInfo(res.data));
+      if ((activation !== 'memberCardActivate') && String(res.data.loginType) === '1') {
+        location.href = `http://${location.host}/user/validBindMobile?shopId=${shopId}`;
+      }
     } else {
       dispatch(setErrorMsg(res.msg));
     }

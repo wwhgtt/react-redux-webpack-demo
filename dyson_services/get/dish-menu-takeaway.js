@@ -937,7 +937,7 @@ module.exports = {
           'name': '规格类别2',
           'type': 4,
           'properties': [{
-            'id': 3596,
+            'id': 3596123123,
             'name': '规格类别2名称1',
             'reprice': 0.0,
             'isChecked': false,
@@ -992,7 +992,7 @@ module.exports = {
           'name': '规格类别2',
           'type': 4,
           'properties': [{
-            'id': 3596,
+            'id': 3596346436457,
             'name': '规格类别2名称1',
             'reprice': 0.0,
             'isChecked': false,
@@ -1005,7 +1005,7 @@ module.exports = {
         'type': 0,
         'aliasName': '商品大類1中類1001',
         'unitId': null,
-        'unitName': '斤',
+        'unitName': '杯',
         'marketPrice': 0.04,
         'dishDesc': '',
         'videoUrl': '',
@@ -1042,7 +1042,7 @@ module.exports = {
           'name': '规格类别2',
           'type': 4,
           'properties': [{
-            'id': 3596,
+            'id': 359623532543543,
             'name': '规格类别2名称1',
             'reprice': 0.0,
             'isChecked': false,
@@ -1082,7 +1082,7 @@ module.exports = {
           'name': '规格类别1',
           'type': 4,
           'properties': [{
-            'id': 60,
+            'id': 6032423423,
             'name': '蓝色包装',
             'reprice': 0.0,
             'isChecked': false,
@@ -1092,7 +1092,7 @@ module.exports = {
           'name': '规格类别2',
           'type': 4,
           'properties': [{
-            'id': 3597,
+            'id': 3597333,
             'name': '规格类别2名称2',
             'reprice': 0.0,
             'isChecked': false,
@@ -1105,7 +1105,7 @@ module.exports = {
         'type': 0,
         'aliasName': '商品大類1中類1001',
         'unitId': null,
-        'unitName': '份',
+        'unitName': '杯',
         'marketPrice': 0.06,
         'dishDesc': '',
         'videoUrl': '',
@@ -1132,7 +1132,7 @@ module.exports = {
           'name': '规格类别1',
           'type': 4,
           'properties': [{
-            'id': 62,
+            'id': 60014324234,
             'name': '粉色包装',
             'reprice': 0.0,
             'isChecked': false,
@@ -1142,7 +1142,7 @@ module.exports = {
           'name': '规格类别2',
           'type': 4,
           'properties': [{
-            'id': 3597,
+            'id': 3597456,
             'name': '规格类别2名称2',
             'reprice': 0.0,
             'isChecked': false,
@@ -1155,7 +1155,7 @@ module.exports = {
         'type': 0,
         'aliasName': '商品大類1中類1001',
         'unitId': null,
-        'unitName': '斤',
+        'unitName': '杯',
         'marketPrice': 43,
         'dishDesc': '',
         'videoUrl': '',
@@ -1180,9 +1180,9 @@ module.exports = {
         }, {
           'id': 7,
           'name': '规格类别1',
-          'type':1,
+          'type':4,
           'properties': [{
-            'id': 59,
+            'id': 59424234235,
             'name': '红色包装',
             'reprice': 3,
             'isChecked': false,
@@ -1190,9 +1190,9 @@ module.exports = {
         }, {
           'id': 9,
           'name': '规格类别2',
-          'type': 1,
+          'type': 4,
           'properties': [{
-            'id': 3598,
+            'id': 35983554,
             'name': '规格类别2名称3',
             'reprice': 1.02,
             'isChecked': false,
@@ -1232,7 +1232,7 @@ module.exports = {
           'name': '规格类别1',
           'type': 4,
           'properties': [{
-            'id': 61,
+            'id': 61543645745,
             'name': '绿色包装',
             'reprice': 0.0,
             'isChecked': false,
@@ -1242,7 +1242,7 @@ module.exports = {
           'name': '规格类别2',
           'type': 4,
           'properties': [{
-            'id': 3598,
+            'id': 359823423432,
             'name': '规格类别2名称3',
             'reprice': 0.0,
             'isChecked': false,
@@ -1287,7 +1287,7 @@ module.exports = {
           'name': '规格类别1',
           'type': 4,
           'properties': [{
-            'id': 59,
+            'id': 5953464654,
             'name': '红色包装',
             'reprice': 0.0,
             'isChecked': false,
@@ -1297,38 +1297,8 @@ module.exports = {
           'name': '规格类别2',
           'type': 4,
           'properties': [{
-            'id': 3596,
+            'id': 3596122131,
             'name': '规格类别2名称1',
-            'reprice': 0.0,
-            'isChecked': false,
-          }],
-        }, {
-          'id': 14,
-          'name': '做法类别1',
-          'type': 1,
-          'properties': [{
-            'id': 63,
-            'name': ' 做法类别1做法名称1',
-            'reprice': 0.01,
-            'isChecked': false,
-          }],
-        }, {
-          'id': 15,
-          'name': '做法类别2',
-          'type': 1,
-          'properties': [{
-            'id': 1832,
-            'name': '做法2做法名称1',
-            'reprice': 0.01,
-            'isChecked': false,
-          }],
-        }, {
-          'id': 63,
-          'name': '做法类别3',
-          'type': 1,
-          'properties': [{
-            'id': 1835,
-            'name': '做法3做法名称1',
             'reprice': 0.0,
             'isChecked': false,
           }],
@@ -1507,7 +1477,7 @@ module.exports = {
           'name': '规格类别1',
           'type': 4,
           'properties': [{
-            'id': 62,
+            'id': 629996546456,
             'name': '粉色包装',
             'reprice': 0.0,
             'isChecked': false,
@@ -1517,7 +1487,7 @@ module.exports = {
           'name': '规格类别2',
           'type': 4,
           'properties': [{
-            'id': 3598,
+            'id': 359898798,
             'name': '规格类别2名称3',
             'reprice': 0.0,
             'isChecked': false,
