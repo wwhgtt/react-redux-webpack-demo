@@ -181,7 +181,7 @@ module.exports = function (
       if (payload.id === 'way-of-get-diner') {
         return state.setIn(
           ['serviceProps', 'isPickupFromFrontDesk', 'isChecked'],
-          !state.serviceProps.isPickupFromFrontDesk.isChecked
+          true
         )
         .updateIn(
           ['serviceProps', 'payMethods'],
@@ -191,7 +191,7 @@ module.exports = function (
               helper.isPaymentAvaliable(
                 payMethod.id.split('-')[0],
                 state.commercialProps.diningForm,
-                !state.serviceProps.isPickupFromFrontDesk.isChecked,
+                true,
                 state.serviceProps.sendAreaId,
                 state.commercialProps.selfPayType,
                 state.commercialProps.sendPayType
@@ -207,7 +207,44 @@ module.exports = function (
               helper.shouldPaymentAutoChecked(
                 payMethod.id.split('-')[0],
                 state.commercialProps.diningForm,
-                !state.serviceProps.isPickupFromFrontDesk.isChecked,
+                true,
+                state.serviceProps.sendAreaId,
+                state.commercialProps.selfPayType,
+                state.commercialProps.sendPayType
+              ),
+            )
+          )
+        );
+      } else if (payload.id === 'totable') {
+        return state.setIn(
+          ['serviceProps', 'isPickupFromFrontDesk', 'isChecked'],
+          false
+        )
+        .updateIn(
+          ['serviceProps', 'payMethods'],
+          payMethods => payMethods.flatMap(
+            payMethod => payMethod.set(
+              'isAvaliable',
+              helper.isPaymentAvaliable(
+                payMethod.id.split('-')[0],
+                state.commercialProps.diningForm,
+                false,
+                state.serviceProps.sendAreaId,
+                state.commercialProps.selfPayType,
+                state.commercialProps.sendPayType
+              ),
+            )
+          )
+        )
+        .updateIn(
+          ['serviceProps', 'payMethods'],
+          payMethods => payMethods.flatMap(
+            payMethod => payMethod.set(
+              'isChecked',
+              helper.shouldPaymentAutoChecked(
+                payMethod.id.split('-')[0],
+                state.commercialProps.diningForm,
+                false,
                 state.serviceProps.sendAreaId,
                 state.commercialProps.selfPayType,
                 state.commercialProps.sendPayType

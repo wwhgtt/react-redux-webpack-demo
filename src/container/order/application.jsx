@@ -11,6 +11,7 @@ const dateUtility = require('../../helper/common-helper.js').dateUtility;
 
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
+const GetDishMethod = require('../../component/order/get-dish-method.jsx');
 const CustomerTakeawayInfoEditor = require('../../component/order/customer-takeaway-info-editor.jsx');
 const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
 const CustomerToShopInfoEditor = require('../../component/order/customer-toshop-info-editor.jsx');
@@ -199,7 +200,10 @@ const OrderApplication = React.createClass({
       });
     }
   },
-  checkAddressChildViewAvailable(tableProps) {
+  checkAddressChildViewAvailable(isPickupFromFrontDesk, tableProps) {
+    if (isPickupFromFrontDesk && isPickupFromFrontDesk.isChecked) {
+      return false;
+    }
     const { setChildView } = this.props;
     if (!tableProps.isEditable) {
       return false;
@@ -211,15 +215,13 @@ const OrderApplication = React.createClass({
       return false;
     }
     const selectedTable = helper.getSelectedTable(tableProps);
-    if (serviceProps.isPickupFromFrontDesk && serviceProps.isPickupFromFrontDesk.isChecked) {
-      return false;
-    } else if (
+    if (
       tableProps.areas && tableProps.areas.length &&
       tableProps.tables && tableProps.tables.length) {
       return (
         <a
-          className="option"
-          onTouchTap={evt => this.checkAddressChildViewAvailable(tableProps)}
+          className={classnames('option', { tableHide:serviceProps.isPickupFromFrontDesk && serviceProps.isPickupFromFrontDesk.isChecked })}
+          onTouchTap={evt => this.checkAddressChildViewAvailable(serviceProps.isPickupFromFrontDesk, tableProps)}
         >
           <span className="options-title">选择桌台</span>
           <span className="option-btn btn-arrow-right">
@@ -468,10 +470,7 @@ const OrderApplication = React.createClass({
                     )}
                   >
                   </div>
-                  <ActiveSelect
-                    optionsData={[serviceProps.isPickupFromFrontDesk]} onSelectOption={setOrderProps}
-                    optionComponent={OrderPropOption}
-                  />
+                  <GetDishMethod serviceProps={serviceProps} onSelectOption={setOrderProps} />
                 </div>
                 : false
               }
@@ -526,7 +525,7 @@ const OrderApplication = React.createClass({
                       </span>
                     </div>
                     <div className="order-cart-entry">
-                      <span className="text-dove-grey">待支付: </span>
+                      <span className="text-dove-grey">还需付: </span>
                       <span className="order-cart-price price">
                         {
                           helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
