@@ -170,7 +170,7 @@ module.exports = function (
                            name:'使用会员积分',
                            isChecked:false,
                            id:'integrals',
-                           subname:`我的积分${payload.integral.integral}`,
+                           subname:`我的积分:${payload.integral.integral}`,
                          })
                          :
                          false

@@ -17,7 +17,8 @@
   }
 
   &-entry {
-    line-height: 32px;
+    line-height: 45px;
+    height: 45px;
   }
 
   &-cart .dish-name {
@@ -45,10 +46,23 @@
   &-left {
     font-size: 15px;
     float: left;
-    margin-right: 15px;
+    margin-right: 20px;
   }
 
   &-right {
     float: right;
   }
+}
+
+.option {
+  background-color: #fff;
+}
+
+.division {
+  margin-top: 5px;
+}
+
+.division-group {
+  margin-bottom: 5px;
+  background-color: #f0f0f0;
 }

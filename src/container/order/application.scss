@@ -55,6 +55,8 @@
 
 // override option styles
 .option {
+  padding: 16px 10px;
+
   &-title--icon {
     width: auto;
 
@@ -172,6 +174,6 @@
 }
 
 .adjust-option {
-  line-height: 34px;
+  line-height: 27px;
   height: 60px;
 }
