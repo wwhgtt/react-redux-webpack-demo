@@ -6,8 +6,7 @@
   overflow: hidden;
   width: $dish-type-scroller-width;
   height: calc(100% - #{$cart-trigger-height});
-  background: $color-athens-grey;
-  box-shadow: inset -1px 0 0 $color-mystic;
+  background: $color-gallery;
 }
 
 .dish-type-item {
@@ -21,12 +20,11 @@
 
   &::before {
     font-size: 12px;
-    font-weight: bold;
     line-height: 16px;
     position: absolute;
     z-index: 1;
-    top: 0;
-    right: 0;
+    top: 2px;
+    right: 2px;
     padding: 0 .4em;
     content: attr(data-count);
     color: $color-white;
@@ -134,4 +132,3 @@
 .register-no + .scroller-wrap {
   height: calc(100% - 130px - 50px - 44px);
 }
-

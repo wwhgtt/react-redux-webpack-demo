@@ -4,7 +4,7 @@
   position: relative;
   min-height: 130px;
   padding: 0 15px 34px;
-  background: #e6894c;
+  background: $color-orange-red;
 
   &.register {
     padding-top: 44px;
@@ -33,7 +33,7 @@
     text-decoration: none;
     color: #fff;
     border-radius: 5px;
-    background: #ff7e28;
+    background: $color-crusta;
   }
 }
 
@@ -45,6 +45,7 @@
     width: 60px;
     height: 60px;
     margin: 0 10px 0 0;
+    border: 3px solid #e47743;
     border-radius: 50%;
   }
 
@@ -71,7 +72,7 @@
     background: $color-sunglow;
 
     &-close {
-      background: $color-sliver;
+      background: $color-silver;
     }
   }
 }
@@ -81,6 +82,6 @@
   line-height: 44px;
   height: 44px;
   padding: 0 0 0 32px;
-  background: #fffbdf  url("../../asset/images/ads.svg") no-repeat 10px 14px;
+  background: $color-light-sand url("../../asset/images/ads.svg") no-repeat 10px 14px;
   background-size: 16px 16px;
 }

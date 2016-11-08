@@ -38,7 +38,7 @@ module.exports = React.createClass({
         </div>
         <div className="dish-detail-content dish-detail-content--white flex-columns">
           <div className="dish-desc-content flex-rest">
-            <img className="dish-desc-image" src={dish.largeImgUrl || imagePlaceholder} alt="" />
+            <div className="dish-desc-image" style={{ backgroundImage: `url(${dish.largeImgUrl || imagePlaceholder})` }}></div>
             <div className="dish-desc-info">
               <h2 className="dish-desc-title">{helper.generateDishNameWithUnit(dish)}</h2>
               {dish.isMember ?

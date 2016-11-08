@@ -101,7 +101,7 @@ const DishMenuApplication = React.createClass({
             onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail} onImageBtnTap={showDishDesc}
             marketListUpdate={marketListUpdate}
             onScrolling={(direction) => {
-              this.setState({ isMinMesthead: direction.y === 1 });
+              this.setState({ isMinMesthead: direction.scrollY < 0 });
             }}
             dishesDataDuplicate={dishesDataDuplicate}
           />

@@ -26,6 +26,7 @@ module.exports = React.createClass({
     marketList: React.PropTypes.object,
     diningForm: React.PropTypes.bool,
     marketListUpdate:React.PropTypes.array,
+    theme: React.PropTypes.string,
   },
   getInitialState() {
     return { distance:window.innerHeight - 84 };
@@ -42,17 +43,23 @@ module.exports = React.createClass({
       tap: true,
       probeType: 1,
     });
+
     iScroll.on('scrollStart', () => {
       cache.isScrolling = true;
       if (cache.timer) {
         window.clearTimeout(cache.timer);
         cache.timer = null;
       }
+
+      if (onScrolling) {
+        const direction = { x: iScroll.directionX, y: iScroll.directionY, scrollY: iScroll.y };
+        onScrolling(direction);
+      }
     });
 
     iScroll.on('scroll', () => {
       if (onScrolling) {
-        const direction = { x: iScroll.directionX, y: iScroll.directionY };
+        const direction = { x: iScroll.directionX, y: iScroll.directionY, scrollY: iScroll.y };
         onScrolling(direction);
       }
     });
@@ -127,6 +134,7 @@ module.exports = React.createClass({
   },
   buildDishElements(activeDishTypeId, dishTypesData, dishesData, onDishBtnTap, dishesDataDuplicate) {
     this._counter = 1;
+    const { theme } = this.props;
     function getDishById(dishId) {
       const dish = _find(dishesData, { id:dishId });
       if (!dish) {
@@ -173,6 +181,7 @@ module.exports = React.createClass({
                     {
                       this._counter - 1 <= ((distance - (Number(this.showingDishLength) || 1) * 30) / 88).toFixed(0) ?
                         <DishListItem
+                          theme={theme}
                           dishesDataDuplicate={dishesDataDuplicate}
                           dishData={dishData}
                           onOrderBtnTap={onDishBtnTap}

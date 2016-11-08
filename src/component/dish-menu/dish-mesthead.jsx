@@ -40,7 +40,7 @@ module.exports = React.createClass({
       <div className={classnames('dish-mesthead', { 'register-no': !registered })}>
         {!registered &&
           <div className="register notice">
-            <a href={`member/register${location.search}`}>去注册</a>
+            <a href={`/member/register${location.search}`}>去注册</a>
             <p>注册会员享受更多福利哟～</p>
           </div>
         }

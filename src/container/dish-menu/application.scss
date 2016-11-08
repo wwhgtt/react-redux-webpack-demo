@@ -1,13 +1,12 @@
 // dish-menu styles
-
 .mesthead-min {
   .dish-mesthead {
+    overflow: hidden;
     height: 44px;
     min-height: 0;
-    transition: height, .1s ease-in;
+    transition: height, .2s ease-in-out .1s;
 
-    .ads-column,
-    .shop {
+    .ads-column {
       display: none;
     }
   }
