@@ -460,16 +460,8 @@ const OrderApplication = React.createClass({
             false
             :
             <div className="options-group">
-              {serviceProps.isPickupFromFrontDesk ?
-                <div style={{ position:'relative', 'border-bottom':'0.5px solid #e1e1e1' }}>
-                  <div
-                    className={classnames('option', 'for-pickup',
-                      {
-                        'only-pickup':serviceProps.serviceApproach.indexOf('pickup') !== -1 && serviceProps.serviceApproach.indexOf('totable') === -1,
-                      }
-                    )}
-                  >
-                  </div>
+              {serviceProps.serviceApproach ?
+                <div style={{ position:'relative', borderBottom:'0.5px solid #e1e1e1' }}>
                   <GetDishMethod serviceProps={serviceProps} onSelectOption={setOrderProps} />
                 </div>
                 : false
