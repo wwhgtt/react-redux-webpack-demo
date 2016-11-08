@@ -32,6 +32,7 @@ module.exports = {
         'transferType': 3,
         'scale': 0,
       },
+      'isInvoice': 1,
       'commercialName': '南粉北面王霞',
       'commercialLogo': null,
       diningForm: 1,

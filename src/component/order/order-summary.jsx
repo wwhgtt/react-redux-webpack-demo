@@ -6,7 +6,7 @@ const helper = require('../../helper/order-helper.js');
 const OrderedDish = require('./ordered-dish.jsx');
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
 const isSingleDishWithoutProps = require('../../helper/dish-hepler.js').isSingleDishWithoutProps;
-const defaultShopLogo = require('../../asset/images/default.png');
+const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 const formatPrice = require('../../helper/common-helper.js').formatPrice;
 
 require('./order-summary.scss');
@@ -58,12 +58,17 @@ module.exports = React.createClass({
     const orderedElements = this.buildOrderedElements(orderedDishesProps.dishes);
     return (
       <div className="order-summary-cart">
-        <div className="options-group">
+        <div className="options-group division-group">
           {isNeedShopMaterial ?
-            <a className="option option-shop">
-              <img className="option-shop-icon" src={commercialProps.commercialLogo || defaultShopLogo} alt="" />
+            <div className="option option-shop">
               <p className="option-shop-desc ellipsis">{commercialProps.name}</p>
-            </a>
+              <div className="clearfix" />
+              <p className="dish-detail">
+                <span className="dish-detail-left">已选菜品</span>
+                <span className="dish-detail-middle">共{getDishesCount(orderedDishesProps.dishes)}份</span>
+                <span className="dish-detail-right"><a href={helper.getMoreDishesUrl()}>继续点菜</a></span>
+              </p>
+            </div>
             :
             false
           }
@@ -71,7 +76,7 @@ module.exports = React.createClass({
           {orderedElements}
 
           {serviceProps.deliveryProps && serviceProps.deliveryProps.deliveryPrice ?
-            <p className="option clearfix">
+            <p className="option clearfix division">
               <span className="option-title">配送费:</span>
               <span className="order-discount price">{serviceProps.deliveryProps.deliveryPrice}</span>
             </p>
@@ -87,7 +92,7 @@ module.exports = React.createClass({
             false
           }
           {serviceProps.benefitProps && serviceProps.benefitProps.extraPrivilege && serviceProps.benefitProps.extraPrivilege.length ?
-            <p className="option clearfix">
+            <p className="option clearfix division">
               <span className="option-title">附加费:</span>
               <span className="order-discount price">
                 {formatPrice(helper.countExtraPrivilege(serviceProps.benefitProps.extraPrivilege))}
@@ -98,7 +103,7 @@ module.exports = React.createClass({
           }
           {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length
             && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 && commercialProps.diningForm !== 0 ?
-            <a className="option" href="#coupon-select">
+            <a className="option division" href="#coupon-select">
               <span className="option-title">使用优惠券</span>
               <span className="badge-coupon">
                 {serviceProps.couponsProps.inUseCoupon ?
@@ -278,7 +283,7 @@ module.exports = React.createClass({
           </div>
           <div className="option order-total clearfix">
             <div className="order-total-left">
-              <span className="text-dove-grey">总计: </span>
+              <span className="text-dove-grey">原价: </span>
               <span className="price">{serviceProps.benefitProps && serviceProps.benefitProps.isPriviledge ?
                 formatPrice(
                   serviceProps.benefitProps.extraPrice
@@ -293,7 +298,7 @@ module.exports = React.createClass({
             {commercialProps.carryRuleVO ?
               <div>
                 <div className="order-total-left">
-                  <span className="text-dove-grey">优惠: </span>
+                  <span className="text-dove-grey">共优惠: </span>
                   <span className="price">
                     {serviceProps.benefitProps && serviceProps.benefitProps.isPriviledge ?
                       serviceProps.benefitProps.priviledgeAmount
@@ -305,7 +310,7 @@ module.exports = React.createClass({
                   </span>
                 </div>
                 <div className="order-total-right">
-                  <span className="text-dove-grey">实付: </span>
+                  <span className="text-dove-grey">总计: </span>
                   <span className="price">
                     {serviceProps.benefitProps && serviceProps.benefitProps.isPriviledge ?
                       serviceProps.benefitProps.totalAmount
