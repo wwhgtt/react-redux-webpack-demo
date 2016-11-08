@@ -62,15 +62,16 @@ module.exports = {
       },
       'toHomePayType': 'online',
       'toShopPayType': 'online,offline',
-      'ma': {
-        memberAddressId:263099,
-        address:'天府软件园E1',
-        name:'我是谁',
-        sex:1,
-        mobile:'15102087655',
-      },
+      'ma': null,
       'toShopFlag': false,
       'disable': false,
     },
   },
 };
+// {
+//   memberAddressId:263099,
+//   address:'天府软件园E1',
+//   name:'我是谁',
+//   sex:1,
+//   mobile:'15102087655',
+// },

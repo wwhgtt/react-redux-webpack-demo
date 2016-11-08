@@ -25,7 +25,7 @@ const VerificationDialog = require('../../component/common/verification-code-dia
 const BenefitSelect = require('../../component/order/benefit-select.jsx');
 const Dialog = require('../../component/mui/dialog/dialog.jsx');
 const Loading = require('../../component/mui/loading.jsx');
-
+const addressLogo = require('../../asset/images/addressLogo.svg');
 require('../../asset/style/style.scss');
 require('./application.scss');
 
@@ -374,18 +374,32 @@ const OrderApplication = React.createClass({
           </div>
         );
         addressText = checkedAddressInfo.address;
-      }
-      elems.push(
-        <div className="clearfix" key="address">
-          <div className="option-desc">
-            {addressText || (isSelfFetch ? '到店取餐' : '请选择送餐地址')}
+        elems.push(
+          <div className="clearfix" key="address">
+            <div className="option-desc">
+              {addressText || (isSelfFetch ? '到店取餐' : '选择收货地址')}
+            </div>
           </div>
-        </div>
-      );
+        );
+      } else {
+        elems.push(
+          <div className="option-stripes-title" key="title">
+            {'选择收货地址'}
+          </div>
+        );
+        elems.push(
+          <div className="clearfix" key="address">
+            <div className="option-desc">
+              {'您还没有添加地址唷～'}
+            </div>
+          </div>
+        );
+      }
 
       const hash = `#customer-info${originMa.id === 0 ? '-toshop' : ''}`;
       return (
         <a className="options-group options-group--stripes" href={hash} >
+          <img src={addressLogo} alt="address-logo" className="address-logo" />
           {elems}
         </a>
       );
