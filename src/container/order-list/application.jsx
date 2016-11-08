@@ -27,6 +27,12 @@ const OrderListApplication = React.createClass({
     queueList: React.PropTypes.array,
   },
 
+  getInitialState() {
+    return {
+      activeNum: 0,
+    };
+  },
+
   componentWillMount() {
     const { getOrderList, getTakeOutList, getBookList, getQueueList } = this.props;
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
@@ -35,6 +41,19 @@ const OrderListApplication = React.createClass({
     getTakeOutList(1);
     getBookList(1);
     getQueueList(1);
+    if (!location.hash) {
+      location.hash = '#dinner';
+    }
+
+    // if (hash === '#dinner') {
+    //   getOrderList(1);
+    // } else if (hash === '#quick') {
+    //   getTakeOutList(1);
+    // } else if (hash === '#book') {
+    //   getBookList(1);
+    // } else if (hash === 'queue') {
+    //   getQueueList(1);
+    // }
   },
 
   // 获得页面hash并发送action
@@ -42,6 +61,16 @@ const OrderListApplication = React.createClass({
     const { setChildView } = this.props;
     const hash = location.hash;
     setChildView(hash);
+
+    if (hash === '#dinner') {
+      this.setState({ activeNum: 0 });
+    } else if (hash === '#quick') {
+      this.setState({ activeNum: 1 });
+    } else if (hash === '#book') {
+      this.setState({ activeNum: 2 });
+    } else if (hash === '#queue') {
+      this.setState({ activeNum: 3 });
+    }
   },
 
   // 堂食、外卖订单列表
@@ -87,16 +116,17 @@ const OrderListApplication = React.createClass({
   // tabs切换
   handleGetIndex(index) {
     const { setChildView } = this.props;
-    if (index === 0) {
+    const hash = location.hash;
+    if (index === 0 && hash !== '#dinner') {
       location.hash = '#dinner'; // 堂食
       setChildView('#dinner');
-    } else if (index === 1) {
+    } else if (index === 1 && hash !== '#quick') {
       location.hash = '#quick'; // 外卖
       setChildView('#quick');
-    } else if (index === 2) {
+    } else if (index === 2 && hash !== '#book') {
       location.hash = '#book';  // 预订
       setChildView('#book');
-    } else if (index === 3) {
+    } else if (index === 3 && hash !== '#queue') {
       location.hash = '#queue'; // 排队
       setChildView('#queue');
     }
@@ -107,8 +137,14 @@ const OrderListApplication = React.createClass({
 
     return (
       <div className="order-page application">
-        <SwitchNavi navis={['堂食', '外卖', '预订', '排队']} getIndex={this.handleGetIndex} />
-        {this.getListSection(childView)}
+        <SwitchNavi
+          navis={['堂食', '外卖', '预订', '排队']}
+          getIndex={this.handleGetIndex}
+          activeTab={this.state.activeNum}
+        />
+        <div className="order-conent">
+          {this.getListSection(childView)}
+        </div>
       </div>
     );
   },

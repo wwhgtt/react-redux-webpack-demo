@@ -3,6 +3,17 @@
 .order-page {
   color: #474747;
   background-color: #f1f1f1;
+
+  .navi-switch {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+  }
+}
+
+.order-conent {
+  margin-top: 65px;
 }
 
 .order-list-group {
@@ -19,7 +30,7 @@
 
   &-href {
     display: inline-block;
-    width: calc(100% - 50px);
+    width: calc(100% - 75px);
   }
 
   &-img {
