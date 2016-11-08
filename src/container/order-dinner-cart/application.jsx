@@ -9,8 +9,9 @@ const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const CartOrderedDish = require('../../component/dish-menu/cart/cart-ordered-dish.jsx');
 const wxClient = require('wechat-jssdk/client');
 const dishHelper = require('../../helper/dish-hepler');
+const commonHelper = require('../../helper/common-helper');
 const getSubmitDishData = require('../../helper/order-helper').getSubmitDishData;
-const defaultShopLogo = require('../../asset/images/default.png');
+const defaultPersonLogo = require('../../asset/images/logo_default.svg');
 const shopId = dishHelper.getUrlParam('shopId');
 
 require('../../asset/style/style.scss');
@@ -317,10 +318,47 @@ const OrderTSCartApplication = React.createClass({
     );
   },
   buildCustomerInfoElement(member) {
+    const isAlipayBroswer = commonHelper.isAlipayBroswer();
+    let sex = '';
+    if (member.sex === 1) {
+      sex = '先生';
+    } else if (member.sex === 0) {
+      sex = '女士';
+    } else {
+      sex = '';
+    }
+
+    let nameSex = '';
+    if (isAlipayBroswer) { // 支付宝内置浏览器
+      if (!member.sex || !member.name) {
+        nameSex = member.alipayNickName ? member.alipayNickName : member.mobile;
+      } else {
+        nameSex = `${member.name} ${sex}`;
+      }
+    } else { // 其他浏览器
+      if (!member.sex || !member.name) {
+        nameSex = member.wxNickName ? member.wxNickName : member.mobile;
+      } else {
+        nameSex = `${member.name} ${sex}`;
+      }
+    }
+
+    if (isAlipayBroswer) {
+      return (
+        <div className="alipay-login">
+          <a className="option option-user">
+            <img className="option-user-icon" src={member.alipayIconUri || defaultPersonLogo} alt="用户头像" />
+            <p className="option-user-name">{nameSex}</p>
+          </a>
+        </div>
+      );
+    }
     return (
-      <div className="weixin-login of">
-        <img className="option-user-icon" src={member.iconUri || defaultShopLogo} alt="用户头像" />
-        <p className="option-user-name">{member.name}</p>
+      <div className="weixin-login">
+        <a className="option option-user">
+          <img className="option-user-icon" src={member.wxIconUri || defaultPersonLogo} alt="用户头像" />
+          <p className="option-user-name">{nameSex}</p>
+        </a>
       </div>
     );
   },

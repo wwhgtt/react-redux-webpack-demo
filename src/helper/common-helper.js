@@ -91,6 +91,12 @@ exports.getWeixinVersionInfo = () => {
   return result;
 };
 
+exports.isAlipayBroswer = () => {
+  const ua = navigator.userAgent.toLowerCase();
+  const isAlipay = ua.indexOf('aliapp') !== -1;
+  return isAlipay;
+};
+
 exports.interValSetting = (num, timerEnd) => {
   let cnum = num;
   const timer = setInterval(() => {

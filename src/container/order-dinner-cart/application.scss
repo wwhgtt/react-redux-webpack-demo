@@ -34,38 +34,37 @@
   }
 
   &-clear-cart {
+    position: relative;
     float: left;
-    position:relative;
     padding-left: 1.4em;
     color: #999;
 
-    &:after{
-      position:absolute;
-      content:"";
-      top:0;
-      left:0;
-      width:1em;
-      height:1em;
-      background: url("../../asset/images/clear-cart.svg") center center/auto 100% no-repeat; 
-    };
-    
+    &::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1em;
+      height: 1em;
+      content: "";
+      background: url("../../asset/images/clear-cart.svg") center center/auto 100% no-repeat;
+    }
   }
 
   &-edit {
+    position: relative;
     float: right;
-    position:relative;
     padding-left: 1.4em;
     color: #ff7417;
 
-    &:after{
-      position:absolute;
-      content:"";
-      top:0;
-      left:0;
-      width:1em;
-      height:1em;
-      background: url("../../asset/images/edit.svg") center center/100% 100% no-repeat; 
-    };
+    &::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1em;
+      height: 1em;
+      content: "";
+      background: url("../../asset/images/edit.svg") center center/100% 100% no-repeat;
+    }
   }
 }
 
@@ -73,29 +72,30 @@
 .options-group {
   margin: 0;
   border-top: none;
-  
+
   &-mb {
     margin-bottom: 1em;
   }
 
   &-devide {
-    overflow:hidden;
+    display: flex;
+    overflow: hidden;
     border-bottom: none;
-    display:flex;
 
-    .option {
-    }
     .option-title {
       width: 40%;
     }
+
     .option-input {
       width: 60%;
     }
-    .order-dinner-buttons{
-      padding:0;
+
+    .order-dinner-buttons {
+      padding: 0;
     }
   }
 }
+
 .option {
   &-input {
     font-size: 14px;
@@ -139,13 +139,13 @@
   }
 
   .btn-order {
-    background: #ffc334;
     width: 80px;
+    background: #ffc334;
   }
 
   .btn-select-table {
-    background: #ff7e28;
     width: 80px;
+    background: #ff7e28;
   }
 }
 
@@ -165,29 +165,24 @@
   }
 }
 
-
-
 // override .cart-ordered-dish
-
-.cart-ordered-list{
-}
 
 .cart-ordered-dish .ordered-dish > .dish-name {
   font-size: 15px;
 }
 
 .cart-ordered-dish {
-  position:relative;
+  position: relative;
   border-bottom: none;
-  
+
   &:last-child::after {
-    display:none;
+    display: none;
   }
 
   &::after {
     @include border-thin(bottom);
 
-    right: 0em;
+    right: 0;
     bottom: 0;
     left: .8em;
     width: auto;
@@ -196,12 +191,12 @@
 }
 
 .counter-add {
-  background: #ffc334;
   border-color: #ffc334;
+  background: #ffc334;
 }
 
 .counter-minus::before,
-.counter-minus::after{
+.counter-minus::after {
   background: #ffc334;
 }
 
@@ -219,7 +214,7 @@
 }
 
 .child-dish-name {
-  max-width:60%;
+  max-width: 60%;
 }
 
 .badge-price {
