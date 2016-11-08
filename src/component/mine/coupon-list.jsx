@@ -99,7 +99,7 @@ module.exports = React.createClass({
           if (itemOuter.list.length === 0 && couponLogo) {
             return (
               <div
-                className="coupon-outer no-coupon-outer"
+                className={`coupon-outer no-coupon-outer coupon-list-${indexOuter}`}
                 key={indexOuter}
               >
                 <img src={couponLogo} alt="暂无数据" className="noCouponLogo" />
@@ -108,7 +108,7 @@ module.exports = React.createClass({
             );
           }
           return (
-            <div className="coupon-outer" key={indexOuter}>
+            <div className={`coupon-outer coupon-list-${indexOuter}`} key={indexOuter}>
               {
                 itemOuter.list.map((item, index) => {
                   let ruleVale = '';

@@ -1,0 +1,136 @@
+@import "settings.colors";
+
+.application {
+  background: #f1f1f1;
+}
+
+.order-outer {
+  margin-top: 1em;
+  background: #fff;
+}
+
+.order-list-outer {
+
+}
+
+.shop {
+  &-name {
+    font-size: 1.125em;
+    line-height: 1.389em;
+    font-weight: bold;
+    text-align: center;
+    padding: .75em 0;
+    color: #474747;
+  }
+
+  &-head {
+    font-size: 14px;
+    padding: 1em;
+    color: #666;
+    border-bottom: 1px solid #eaeaea;
+  }
+
+  &-chosen {
+    float: left;
+    width: calc(100% - 170px);
+  }
+
+  &-total {
+    float: left;
+    width: 70px;
+    text-align: center;
+  }
+
+  &-edit {
+    position: relative;
+    float: right;
+    padding-left: 1.2em;
+    color: #ff7417;
+    text-decoration: none;
+
+    &:before {
+      position: absolute;
+      content: "";
+      top: 0;
+      left: 0;
+      width: 1em;
+      height: 1em;
+      background: url("../../asset/images/BDSJ.svg") center center/100% auto no-repeat;
+    }
+  }
+}
+
+.dish-box {
+  font-size: 15px;
+  
+  .dish-main {
+    overflow: hidden;
+  }
+
+  .dish-name {
+    position: relative;
+    float: left;
+    width: calc(100% - 170px);
+    max-width: none;
+    color: #474747;
+    
+    &:after {
+      right: 0;
+    }
+  }
+
+  .dish-count {
+    float:left;
+    width: 70px;
+    text-align: center;
+  }
+  
+  .dish-sub-info {
+    margin: 1em 0;
+  }
+
+  .dish-memo {
+    font-size: 13px;
+    overflow: hidden;
+    width: 100%;
+    color: #999;
+  }
+
+  .badge-price{
+    display: none;
+  }
+
+  .dish-sub {
+    padding-left: 1em;
+
+    &.dish-name {
+      font-size: 14px;
+      color: #666;
+    }
+  }
+}
+
+.options-group {
+  margin: 1em 0 5em;
+}
+.option {
+  font-size: 15px;
+  padding: 1em;
+}
+
+.option-input {
+  font-size: 15px;
+  float: left;
+  width: 100%;
+}
+.totalPrice {
+  font-size: 15px;
+  text-align: right;
+  padding: 1em;
+  color: #999;
+
+  .num {
+    font-weight: bold;
+    color: #ff7417;
+  }
+}

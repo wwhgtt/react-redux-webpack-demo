@@ -4,19 +4,19 @@
   background: #f1f1f1;
 
   &.coupon-canUse {
-    .coupon-outer:nth-child(1) {
+    .coupon-list-0 {
       display: block;
     }
   }
 
   &.coupon-used {
-    .coupon-outer:nth-child(2) {
+    .coupon-list-1 {
       display: block;
     }
   }
 
   &.coupon-outOfDate {
-    .coupon-outer:nth-child(3) {
+    .coupon-list-2 {
       display: block;
     }
   }

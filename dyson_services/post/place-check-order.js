@@ -1,8 +1,8 @@
 module.exports = {
-  path:'/member/resetPwd.json',
+  path:'/place/placeCheckOrder.json',
   template: {
     data: {
-      status: true,
+      mobile: '13688888888',
     },
     time: 1472458598918,
     code: '200',

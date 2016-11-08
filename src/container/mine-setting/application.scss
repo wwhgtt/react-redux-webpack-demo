@@ -5,11 +5,9 @@
   text-size-adjust: none;
 }
 
-.scroll-part {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 2.625em;
-  left: 0;
-  overflow: auto;
+.copyright {
+  height: 45px;
+  margin: 0;
+  padding: 15px 0;
+  background: #f1f1f1;
 }
