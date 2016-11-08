@@ -17,7 +17,8 @@
   }
 
   &-entry {
-    line-height: 32px;
+    line-height: 45px;
+    height: 45px;
   }
 
   &-cart .dish-name {
@@ -45,10 +46,70 @@
   &-left {
     font-size: 15px;
     float: left;
-    margin-right: 15px;
+    margin-right: 20px;
   }
 
   &-right {
     float: right;
+  }
+}
+
+.option {
+  background-color: #fff;
+}
+
+.division {
+  margin-top: 5px;
+}
+
+.division-group {
+  margin-bottom: 5px;
+  background-color: #f0f0f0;
+}
+
+.option-shop-desc {
+  font-size: 18px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.dish-detail {
+  padding: 20px 0 5px;
+
+  span {
+    display: inline-block;
+    float: left;
+    width: 33.33%;
+    color: #666;
+  }
+
+  &-left {
+    text-align: left;
+  }
+
+  &-middle {
+    padding-right: 20px;
+    text-align: right;
+  }
+
+  &-right {
+    text-align: right;
+    color: #ff7417 !important;
+
+    &::before {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      margin-right: 5px;
+      content: "";
+      background-image: url("../../asset/images/edit.svg");
+      background-size: 100%;
+    }
+
+    a {
+      display: inline-block;
+      width: 4em;
+      text-decoration: none;
+    }
   }
 }

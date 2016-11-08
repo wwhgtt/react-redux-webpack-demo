@@ -7,11 +7,11 @@ const actions = require('../../action/order/order');
 const helper = require('../../helper/order-helper');
 const validateAddressInfo = require('../../helper/order-helper').validateAddressInfo;
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
-const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
 
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const OrderPropOption = require('../../component/order/order-prop-option.jsx');
+const GetDishMethod = require('../../component/order/get-dish-method.jsx');
 const CustomerTakeawayInfoEditor = require('../../component/order/customer-takeaway-info-editor.jsx');
 const CustomerInfoEditor = require('../../component/order/customer-info-editor.jsx');
 const CustomerToShopInfoEditor = require('../../component/order/customer-toshop-info-editor.jsx');
@@ -25,7 +25,7 @@ const VerificationDialog = require('../../component/common/verification-code-dia
 const BenefitSelect = require('../../component/order/benefit-select.jsx');
 const Dialog = require('../../component/mui/dialog/dialog.jsx');
 const Loading = require('../../component/mui/loading.jsx');
-
+const addressLogo = require('../../asset/images/addressLogo.svg');
 require('../../asset/style/style.scss');
 require('./application.scss');
 
@@ -200,7 +200,10 @@ const OrderApplication = React.createClass({
       });
     }
   },
-  checkAddressChildViewAvailable(tableProps) {
+  checkAddressChildViewAvailable(isPickupFromFrontDesk, tableProps) {
+    if (isPickupFromFrontDesk && isPickupFromFrontDesk.isChecked) {
+      return false;
+    }
     const { setChildView } = this.props;
     if (!tableProps.isEditable) {
       return false;
@@ -212,15 +215,13 @@ const OrderApplication = React.createClass({
       return false;
     }
     const selectedTable = helper.getSelectedTable(tableProps);
-    if (serviceProps.isPickupFromFrontDesk && serviceProps.isPickupFromFrontDesk.isChecked) {
-      return false;
-    } else if (
+    if (
       tableProps.areas && tableProps.areas.length &&
       tableProps.tables && tableProps.tables.length) {
       return (
         <a
-          className="option"
-          onTouchTap={evt => this.checkAddressChildViewAvailable(tableProps)}
+          className={classnames('option', { tableHide:serviceProps.isPickupFromFrontDesk && serviceProps.isPickupFromFrontDesk.isChecked })}
+          onTouchTap={evt => this.checkAddressChildViewAvailable(serviceProps.isPickupFromFrontDesk, tableProps)}
         >
           <span className="options-title">选择桌台</span>
           <span className="option-btn btn-arrow-right">
@@ -244,17 +245,20 @@ const OrderApplication = React.createClass({
   },
   buildTSCustomerPropsElement() {
     const { customerProps } = this.props;
-    const { setCustomerProps, setErrorMsg } = this.props;
+    const { setErrorMsg } = this.props;
     if (customerProps.loginType === 0) {
       // 表示手机号登陆
       return (
         <div>
           <div className="customerInfo">
-            <CustomerInfoEditor
-              customerProps={customerProps} onCustomerPropsChange={setCustomerProps} isMobileDisabled
-            />
+            <div className="editor options-group">
+              <a className="option option-user">
+                <img className="option-user-icon" src={customerProps.iconUri} alt="用户头像" />
+                <p className="option-user-name">{customerProps.mobile}</p>
+              </a>
+            </div>
           </div>
-          <div className="options-group">
+          <div className="options-group editor-group">
             <div className="option">
               <span className="option-tile">就餐人数：</span>
               <ImportableCounter
@@ -271,13 +275,13 @@ const OrderApplication = React.createClass({
     }
     return (
       <div>
-        <div className="weixin-login">
+        <div className="weixin-login editor">
           <a className="option option-user">
             <img className="option-user-icon" src={customerProps.iconUri} alt="用户头像" />
             <p className="option-user-name">{customerProps.name}</p>
           </a>
         </div>
-        <div className="options-group">
+        <div className="options-group editor-group">
           <div className="option">
             <span className="option-tile">就餐人数：</span>
             <ImportableCounter
@@ -374,18 +378,32 @@ const OrderApplication = React.createClass({
           </div>
         );
         addressText = checkedAddressInfo.address;
-      }
-      elems.push(
-        <div className="clearfix" key="address">
-          <div className="option-desc">
-            {addressText || (isSelfFetch ? '到店取餐' : '请选择送餐地址')}
+        elems.push(
+          <div className="clearfix" key="address">
+            <div className="option-desc">
+              {addressText || (isSelfFetch ? '到店取餐' : '选择收货地址')}
+            </div>
           </div>
-        </div>
-      );
+        );
+      } else {
+        elems.push(
+          <div className="option-stripes-title" key="title">
+            {'选择收货地址'}
+          </div>
+        );
+        elems.push(
+          <div className="clearfix" key="address">
+            <div className="option-desc">
+              {'您还没有添加地址唷～'}
+            </div>
+          </div>
+        );
+      }
 
       const hash = `#customer-info${originMa.id === 0 ? '-toshop' : ''}`;
       return (
         <a className="options-group options-group--stripes" href={hash} >
+          <img src={addressLogo} alt="address-logo" className="address-logo" />
           {elems}
         </a>
       );
@@ -430,6 +448,14 @@ const OrderApplication = React.createClass({
       <div className="application flex-columns">
         <div className="flex-rest">
           {type === 'WM' ? buildCustomerPropElement() : this.buildTSCustomerPropsElement()}
+          {getUrlParam('type') !== 'TS' ?
+            <div className="options-group">
+              {buildSelectTimeElemnet()}
+            </div>
+            :
+            false
+          }
+
           {type === 'WM' ?
             false
             :
@@ -444,17 +470,14 @@ const OrderApplication = React.createClass({
                     )}
                   >
                   </div>
-                  <ActiveSelect
-                    optionsData={[serviceProps.isPickupFromFrontDesk]} onSelectOption={setOrderProps}
-                    optionComponent={OrderPropOption}
-                  />
+                  <GetDishMethod serviceProps={serviceProps} onSelectOption={setOrderProps} />
                 </div>
                 : false
               }
               {this.buildSelectedTableElement(serviceProps, tableProps)}
             </div>
           }
-          <div className="options-group">
+          <div className="options-group editor">
             {serviceProps.payMethods.map(
               payMethod => {
                 if (payMethod.isAvaliable !== -1) {
@@ -468,41 +491,26 @@ const OrderApplication = React.createClass({
             )}
           </div>
 
-          <div className="options-group">
-            {buildSelectTimeElemnet()}
-            <label className="option">
-              <span className="option-title">备注: </span>
-              <input className="option-input" name="note" placeholder="输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />
-            </label>
-            {commercialProps && commercialProps.isSupportInvoice === 1 ?
-              <label className="option">
-                <span className="option-title">发票抬头: </span>
-                <input className="option-input" name="receipt" placeholder="输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
-              </label>
-              :
-              false
-            }
-          </div>
-
           <OrderSummary
             serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
             commercialProps={commercialProps} shopId={shopId} isNeedShopMaterial
             onSelectBenefit={this.props.onSelectBenefit} setOrderProps={setOrderProps}
           />
 
-          {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
-            <div className="options-group">
-              <a
-                className="option"
-                href={helper.getMoreDishesUrl()}
-              >
-                <span className="order-add-text">我要加菜</span>
-                <span className="option-btn btn-arrow-right">共{getDishesCount(orderedDishesProps.dishes)}份</span>
-              </a>
-            </div>
-            :
-            false
-          }
+          <div className="options-group">
+            <label className="option adjust-option">
+              <span className="option-title">备注: </span>
+              <input className="option-input" name="note" placeholder="请输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />
+            </label>
+            {commercialProps && commercialProps.isSupportInvoice === 1 ?
+              <label className="option adjust-option">
+                <span className="option-title">发票抬头: </span>
+                <input className="option-input" name="receipt" placeholder="请输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
+              </label>
+              :
+              false
+            }
+          </div>
         </div>
 
         {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
@@ -517,7 +525,7 @@ const OrderApplication = React.createClass({
                       </span>
                     </div>
                     <div className="order-cart-entry">
-                      <span className="text-dove-grey">待支付: </span>
+                      <span className="text-dove-grey">还需付: </span>
                       <span className="order-cart-price price">
                         {
                           helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)

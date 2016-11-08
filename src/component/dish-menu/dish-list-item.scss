@@ -6,7 +6,7 @@
   @include clearfix;
 
   height: 88px;
-  padding: 10px 0;
+  padding: 15px 0;
 }
 
 .dish-list-word {
@@ -51,15 +51,16 @@
   }
 
   &-price {
-    font-size: 17px;
+    font-size: 24px;
     font-weight: bold;
-    line-height: $counter-size;
+    line-height: 24px;
     float: left;
     color: $color-neon-carrot;
 
     &::before {
-      font-size: 12px;
+      font-size: 14px;
       line-height: 1;
+      margin-right: 2px;
       vertical-align: 1px;
     }
   }
@@ -81,10 +82,61 @@
     z-index: 1;
     top: -2px;
     left: -2px;
-    width: 34px;
-    height: 34px;
+    width: 44px;
+    height: 44px;
     content: "";
-    background-image: url("../../asset/images/member-badge.png");
+    background-image: url("../../asset/images/member-badge.svg");
     background-size: cover;
+  }
+}
+
+.default {
+  .dish-scroll {
+    padding: 0 10px;
+  }
+
+  .dish-item-type {
+    background: none;
+  }
+
+  .dish-item-price {
+    display: block;
+    float: none;
+    text-align: right;
+  }
+
+  .dish-item-img {
+    width: 90px;
+    height: 90px;
+    border-radius: 0;
+  }
+
+  .dish-list-item {
+    height: 120px;
+  }
+
+  .dish-item-content {
+    width: calc(100% - 105px);
+    padding: 0 15px 0 0;
+  }
+
+  .dish-item-name {
+    font-size: 18px;
+    line-height: 25px;
+    height: 25px;
+    padding: 0;
+    text-align: right;
+  }
+
+  .dish-type-item.is-active {
+    border-bottom: 2px solid $color-neon-carrot;
+    box-shadow: none;
+  }
+}
+
+.huge {
+  .is-memberdish {
+    width: 44px;
+    height: 44px;
   }
 }
