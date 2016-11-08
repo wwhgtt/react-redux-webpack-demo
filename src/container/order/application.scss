@@ -11,9 +11,11 @@
   position: relative;
   overflow: hidden;
   margin-top: 10px;
+  margin-bottom: 0;
   padding: 20px 30px 15px 10px;
   cursor: pointer;
   border-top: 0;
+  border-bottom: 0;
   background-image: url("../../asset/images/stripes.png");
   background-repeat: repeat-x;
   background-size: 320px 4px;
@@ -184,4 +186,14 @@
 
 .order-dish-count {
   padding-top: 10px;
+}
+
+.editor {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.editor-group {
+  margin-bottom: 0;
+  border-bottom: 0;
 }

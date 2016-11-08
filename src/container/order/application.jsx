@@ -7,7 +7,6 @@ const actions = require('../../action/order/order');
 const helper = require('../../helper/order-helper');
 const validateAddressInfo = require('../../helper/order-helper').validateAddressInfo;
 const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
-const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
 
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
@@ -244,17 +243,20 @@ const OrderApplication = React.createClass({
   },
   buildTSCustomerPropsElement() {
     const { customerProps } = this.props;
-    const { setCustomerProps, setErrorMsg } = this.props;
+    const { setErrorMsg } = this.props;
     if (customerProps.loginType === 0) {
       // 表示手机号登陆
       return (
         <div>
           <div className="customerInfo">
-            <CustomerInfoEditor
-              customerProps={customerProps} onCustomerPropsChange={setCustomerProps} isMobileDisabled
-            />
+            <div className="editor options-group">
+              <a className="option option-user">
+                <img className="option-user-icon" src={customerProps.iconUri} alt="用户头像" />
+                <p className="option-user-name">{customerProps.mobile}</p>
+              </a>
+            </div>
           </div>
-          <div className="options-group">
+          <div className="options-group editor-group">
             <div className="option">
               <span className="option-tile">就餐人数：</span>
               <ImportableCounter
@@ -271,13 +273,13 @@ const OrderApplication = React.createClass({
     }
     return (
       <div>
-        <div className="weixin-login">
+        <div className="weixin-login editor">
           <a className="option option-user">
             <img className="option-user-icon" src={customerProps.iconUri} alt="用户头像" />
             <p className="option-user-name">{customerProps.name}</p>
           </a>
         </div>
-        <div className="options-group">
+        <div className="options-group editor-group">
           <div className="option">
             <span className="option-tile">就餐人数：</span>
             <ImportableCounter
@@ -444,6 +446,14 @@ const OrderApplication = React.createClass({
       <div className="application flex-columns">
         <div className="flex-rest">
           {type === 'WM' ? buildCustomerPropElement() : this.buildTSCustomerPropsElement()}
+          {getUrlParam('type') !== 'TS' ?
+            <div className="options-group">
+              {buildSelectTimeElemnet()}
+            </div>
+            :
+            false
+          }
+
           {type === 'WM' ?
             false
             :
@@ -468,7 +478,7 @@ const OrderApplication = React.createClass({
               {this.buildSelectedTableElement(serviceProps, tableProps)}
             </div>
           }
-          <div className="options-group">
+          <div className="options-group editor">
             {serviceProps.payMethods.map(
               payMethod => {
                 if (payMethod.isAvaliable !== -1) {
@@ -482,29 +492,12 @@ const OrderApplication = React.createClass({
             )}
           </div>
 
-          <div className="options-group">
-            {buildSelectTimeElemnet()}
-          </div>
-
           <OrderSummary
             serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
             commercialProps={commercialProps} shopId={shopId} isNeedShopMaterial
             onSelectBenefit={this.props.onSelectBenefit} setOrderProps={setOrderProps}
           />
 
-          {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
-            <div className="options-group">
-              <a
-                className="option"
-                href={helper.getMoreDishesUrl()}
-              >
-                <span className="order-add-text">我要加菜</span>
-                <span className="option-btn btn-arrow-right">共{getDishesCount(orderedDishesProps.dishes)}份</span>
-              </a>
-            </div>
-            :
-            false
-          }
           <div className="options-group">
             <label className="option adjust-option">
               <span className="option-title">备注: </span>
