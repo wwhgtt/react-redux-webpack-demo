@@ -3,8 +3,12 @@
 .dish-mesthead {
   position: relative;
   min-height: 130px;
-  padding: 0 15px 34px;
+  padding: 0 15px;
   background: $color-orange-red;
+
+  &.ads-existed {
+    padding-bottom: 34px;
+  }
 
   &.register {
     padding-top: 44px;

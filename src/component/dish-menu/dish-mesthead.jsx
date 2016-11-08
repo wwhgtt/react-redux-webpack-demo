@@ -36,8 +36,10 @@ module.exports = React.createClass({
   render() {
     const { registered, shopInfo, shopLogo } = this.props;
     const { marketList, marketListUpdate } = shopInfo || {};
+    const adsExisted = marketListUpdate && !!marketListUpdate.length;
+
     return (
-      <div className={classnames('dish-mesthead', { 'register-no': !registered })}>
+      <div className={classnames('dish-mesthead', { 'register-no': !registered, 'ads-existed': adsExisted })}>
         {!registered &&
           <div className="register notice">
             <a href={`/member/register${location.search}`}>去注册</a>
@@ -49,7 +51,7 @@ module.exports = React.createClass({
           <a className="shop-title ellipsis">{shopInfo.commercialName || ''}</a>
           {this.getShopTimeElement(shopInfo && shopInfo.openTimeList)}
         </div>
-        {marketListUpdate && !!marketListUpdate.length &&
+        {adsExisted &&
           <AdsColumn
             shopInfo={shopInfo}
             marketList={marketList}

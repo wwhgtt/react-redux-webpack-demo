@@ -71,12 +71,13 @@ const DishMenuApplication = React.createClass({
   render() {
     // states
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, confirmOrder, takeawayServiceProps,
-            openTimeList, isAcceptTakeaway, errorMessage, shopInfo, normalDiscountProps, shopLogo, dishesDataDuplicate, dishPageTpl } = this.props;
+            openTimeList, isAcceptTakeaway, errorMessage, shopInfo, normalDiscountProps, shopLogo, dishesDataDuplicate } = this.props;
     // actions
     const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders, clearErrorMsg } = this.props;
     const marketList = shopInfo.marketList;
     const marketListUpdate = shopInfo.marketListUpdate;
     const isMember = normalDiscountProps && normalDiscountProps.isMember || false;
+    let { dishPageTpl } = this.props;
 
     return (
       <div className={classnames('application', { 'mesthead-min': this.state.isMinMesthead })}>
