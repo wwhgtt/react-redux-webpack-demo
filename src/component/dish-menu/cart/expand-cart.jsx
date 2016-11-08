@@ -1,5 +1,7 @@
 const React = require('react');
 const CartOrderedDish = require('./cart-ordered-dish.jsx');
+// const ConfirmDialog = require('../../mui/dialog/comfirm-dialog.jsx');
+
 const helper = require('../../../helper/dish-hepler');
 require('./expand-cart.scss');
 
@@ -15,6 +17,12 @@ module.exports = React.createClass({
     orderedDishes: React.PropTypes.array,
     takeawayServiceProps: React.PropTypes.object,
     isShopOpen: React.PropTypes.bool.isRequired,
+  },
+  getInitialState() {
+    return { confirmDialogVisible: false };
+  },
+  onClearBtnTap() {
+    return true;
   },
   buildOrderedElements(orderedDishes, onOrderBtnTap) {
     function divideDishes(dishes) {
@@ -67,7 +75,7 @@ module.exports = React.createClass({
   },
   render() {
     const { dishesCount, totalPrice, takeawayServiceProps,
-      onBillBtnTap, onOrderBtnTap, onCartIconTap, orderedDishes, onClearBtnTap, isShopOpen } = this.props;
+      onBillBtnTap, onOrderBtnTap, onCartIconTap, orderedDishes, isShopOpen } = this.props;
     const orderedElements = this.buildOrderedElements(orderedDishes, onOrderBtnTap);
     const takeawayServiceMinPriceElement = this.buildTakeawayServiceMinPriceElement(totalPrice, takeawayServiceProps, onBillBtnTap);
     const takeawayServiceShipPriceElement = this.buildTakeawayServiceShipPriceElement(totalPrice, takeawayServiceProps);
@@ -77,14 +85,15 @@ module.exports = React.createClass({
 
         <div className="expand-cart-main">
           <div className="expand-cart-header">
-            <button className="cart-icon cart-icon--expand" onTouchTap={evt => onCartIconTap(dishesCount)} data-count={dishesCount}></button>
-            <button className="expand-cart-clear" onTouchTap={onClearBtnTap}>清空购物车</button>
+            <strong className="expand-cart-title">购物车</strong>
+            <button className="expand-cart-clear" onTouchTap={this.onClearBtnTap}>清空购物车</button>
           </div>
 
           {orderedElements}
 
           <div className="tiny-cart">
             <div className="tiny-cart-left">
+              <button className="cart-icon cart-icon--expand" onTouchTap={evt => onCartIconTap(dishesCount)} data-count={dishesCount}></button>
               {
                 dishesCount === 0 ? <span className="tiny-cart-text">购物车是空的</span> :
                   <span className="tiny-cart-price price">

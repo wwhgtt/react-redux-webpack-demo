@@ -33,7 +33,9 @@ module.exports = React.createClass({
 
     return (
       <div className="dish-detail-container">
-        <a className="dish-detail-close" onTouchTap={this.onCloseBtnTap}></a>
+        <div className="dish-detail-close" onTouchTap={this.onCloseBtnTap}>
+          <a className="btn-close"></a>
+        </div>
         <div className="dish-detail-content dish-detail-content--white flex-columns">
           <div className="dish-desc-content flex-rest">
             <img className="dish-desc-image" src={dish.largeImgUrl || imagePlaceholder} alt="" />
@@ -41,10 +43,12 @@ module.exports = React.createClass({
               <h2 className="dish-desc-title">{helper.generateDishNameWithUnit(dish)}</h2>
               {dish.isMember ?
                 <p className="clearfix">
-                  <span className="dish-desc-price--del price">{dish.marketPrice}</span>
-                  <span className="dish-desc-price-title">会员价:</span>
                   <span className="dish-desc-price--bold price">{memberPrice.toFixed(2)}</span>
-                  <span className="dish-desc-price-badge">{dish.discountLevel}专享{dish.discountType === 1 ? `${dish.memberPrice}折优惠` : '价'}</span>
+                  <span className="price-badge-wrap">
+                    <span className="dish-desc-price-badge">{dish.discountLevel}专享{dish.discountType === 1 ? `${dish.memberPrice}折优惠` : '价'}</span>
+                    <br />
+                    <span className="dish-desc-price--del price">{dish.marketPrice}</span>
+                  </span>
                 </p>
                 : <p className="clearfix"><span className="dish-desc-price--bold price">{dish.marketPrice}</span></p>
               }
