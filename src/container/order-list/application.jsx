@@ -6,6 +6,8 @@ require('../../asset/style/style.scss');
 
 const SwitchNavi = require('../../component/mui/switch-navi.jsx');
 const OrderDinner = require('../../component/order-list/order-dinner.jsx');
+const OrderBook = require('../../component/order-list/order-book.jsx');
+const OrderQueue = require('../../component/order-list/order-queue.jsx');
 
 require('./application.scss');
 
@@ -13,16 +15,26 @@ const OrderListApplication = React.createClass({
   displayName: 'OrderListApplication',
   propTypes: {
     getOrderList: React.PropTypes.func,
-    orderList: React.PropTypes.array,
     setChildView: React.PropTypes.func,
+    getTakeOutList: React.PropTypes.func,
+    getBookList: React.PropTypes.func,
+    getQueueList: React.PropTypes.func,
+
     childView: React.PropTypes.string,
+    orderList: React.PropTypes.array,
+    takeOutList: React.PropTypes.array,
+    bookList: React.PropTypes.array,
+    queueList: React.PropTypes.array,
   },
 
   componentWillMount() {
-    const { getOrderList } = this.props;
+    const { getOrderList, getTakeOutList, getBookList, getQueueList } = this.props;
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
     window.addEventListener('load', this.setChildViewAccordingToHash);
     getOrderList(1);
+    getTakeOutList(1);
+    getBookList(1);
+    getQueueList(1);
   },
 
   // 获得页面hash并发送action
@@ -33,24 +45,40 @@ const OrderListApplication = React.createClass({
   },
 
   // 堂食、外卖订单列表
-  getOrderDinner(orderList) {
+  getOrderDinner(orderList, orderType) {
     return orderList && orderList.map((item, index) =>
-      <OrderDinner orderList={item} key={index} />
+      <OrderDinner orderList={item} key={index} orderType={orderType} />
+    );
+  },
+
+  // 预订订单列表
+  getOrderBook() {
+    const { bookList } = this.props;
+    return bookList && bookList.map((item, index) =>
+      <OrderBook bookList={item} key={index} />
+    );
+  },
+
+  // 排队订单列表
+  getOrderQueue() {
+    const { queueList } = this.props;
+    return queueList && queueList.map((item, index) =>
+      <OrderQueue queueList={item} key={index} />
     );
   },
 
   // 列表展示
   getListSection(childView) {
-    const { orderList } = this.props;
+    const { orderList, takeOutList } = this.props;
     let listSection = '';
     if (childView === '#dinner') {
-      listSection = this.getOrderDinner(orderList);
+      listSection = this.getOrderDinner(orderList, 'TS');
     } else if (childView === '#quick') {
-      listSection = this.getOrderDinner(orderList);
+      listSection = this.getOrderDinner(takeOutList, 'WM');
     } else if (childView === '#book') {
-      listSection = '预订';
+      listSection = this.getOrderBook();
     } else if (childView === '#queue') {
-      listSection = '排队';
+      listSection = this.getOrderQueue();
     }
 
     return listSection;
@@ -63,7 +91,7 @@ const OrderListApplication = React.createClass({
       location.hash = '#dinner'; // 堂食
       setChildView('#dinner');
     } else if (index === 1) {
-      location.hash = '#quick'; // 快餐
+      location.hash = '#quick'; // 外卖
       setChildView('#quick');
     } else if (index === 2) {
       location.hash = '#book';  // 预订
@@ -79,7 +107,7 @@ const OrderListApplication = React.createClass({
 
     return (
       <div className="order-page application">
-        <SwitchNavi navis={['堂食', '快餐', '预订', '排队']} getIndex={this.handleGetIndex} />
+        <SwitchNavi navis={['堂食', '外卖', '预订', '排队']} getIndex={this.handleGetIndex} />
         {this.getListSection(childView)}
       </div>
     );
@@ -90,6 +118,9 @@ const mapStateToProps = function (state) {
   return ({
     orderList: state.orderList,
     childView: state.childView,
+    takeOutList: state.takeOutList,
+    bookList: state.bookList,
+    queueList: state.queueList,
   });
 };
 
