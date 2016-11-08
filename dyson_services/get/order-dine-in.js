@@ -211,7 +211,7 @@ module.exports = {
         },
       ],
       pickupPayType: 'offline',
-      totablePayType: 'offline',
+      totablePayType: 'online,offline',
       disable: false,
     },
     time: 1471850589407,
