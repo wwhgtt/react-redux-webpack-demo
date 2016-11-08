@@ -237,7 +237,7 @@ const PlaceOrderApplication = React.createClass({
             </div>
           </div>
         </div>
-        <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
+        <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={400} transitionLeaveTimeout={400}>
           {childView === 'table-select' ?
             <TableSelect
               areas={tableProps.areas} tables={tableProps.tables}
