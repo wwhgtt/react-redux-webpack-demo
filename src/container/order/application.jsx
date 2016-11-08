@@ -484,18 +484,6 @@ const OrderApplication = React.createClass({
 
           <div className="options-group">
             {buildSelectTimeElemnet()}
-            <label className="option">
-              <span className="option-title">备注: </span>
-              <input className="option-input" name="note" placeholder="输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />
-            </label>
-            {commercialProps && commercialProps.isSupportInvoice === 1 ?
-              <label className="option">
-                <span className="option-title">发票抬头: </span>
-                <input className="option-input" name="receipt" placeholder="输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
-              </label>
-              :
-              false
-            }
           </div>
 
           <OrderSummary
@@ -517,6 +505,20 @@ const OrderApplication = React.createClass({
             :
             false
           }
+          <div className="options-group">
+            <label className="option adjust-option">
+              <span className="option-title">备注: </span>
+              <input className="option-input" name="note" placeholder="请输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />
+            </label>
+            {commercialProps && commercialProps.isSupportInvoice === 1 ?
+              <label className="option adjust-option">
+                <span className="option-title">发票抬头: </span>
+                <input className="option-input" name="receipt" placeholder="请输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
+              </label>
+              :
+              false
+            }
+          </div>
         </div>
 
         {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
