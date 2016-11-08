@@ -6,7 +6,7 @@ const helper = require('../../helper/order-helper.js');
 const OrderedDish = require('./ordered-dish.jsx');
 const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
 const isSingleDishWithoutProps = require('../../helper/dish-hepler.js').isSingleDishWithoutProps;
-const defaultShopLogo = require('../../asset/images/default.png');
+const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 const formatPrice = require('../../helper/common-helper.js').formatPrice;
 
 require('./order-summary.scss');
@@ -60,10 +60,15 @@ module.exports = React.createClass({
       <div className="order-summary-cart">
         <div className="options-group division-group">
           {isNeedShopMaterial ?
-            <a className="option option-shop">
-              <img className="option-shop-icon" src={commercialProps.commercialLogo || defaultShopLogo} alt="" />
+            <div className="option option-shop">
               <p className="option-shop-desc ellipsis">{commercialProps.name}</p>
-            </a>
+              <div className="clearfix" />
+              <p className="dish-detail">
+                <span className="dish-detail-left">已选菜品</span>
+                <span className="dish-detail-middle">共{getDishesCount(orderedDishesProps.dishes)}份</span>
+                <span className="dish-detail-right"><a href={helper.getMoreDishesUrl()}>继续点菜</a></span>
+              </p>
+            </div>
             :
             false
           }
