@@ -269,7 +269,6 @@ const OrderTSCartApplication = React.createClass({
     if (tableId || tableKey) {
       return (
         <div className="flex-row">
-          <button className="flex-rest btn-continue" onTouchTap={this.continueDishMenu}>继续点菜</button>
           <button className="flex-rest btn-select-table" onTouchTap={() => this.placeOrder(tableId, tableKey)}>下单</button>
         </div>
       );
@@ -278,7 +277,6 @@ const OrderTSCartApplication = React.createClass({
     const { wxAuthSuccess } = this.props.orderTSCart;
     return (
       <div className="flex-row">
-        <button className="flex-rest btn-continue" onTouchTap={this.continueDishMenu}>继续点菜</button>
         {shopSetting && shopSetting.enableSelectTable &&
           <button className="flex-rest btn-select-table" onTouchTap={this.selectTable}>选桌下单</button>
         }
@@ -319,50 +317,16 @@ const OrderTSCartApplication = React.createClass({
     );
   },
   buildCustomerInfoElement(member) {
-    const sex = this.getValidSexValue(member.sex);
-    if (+member.loginType === 1) {
-      return (
-        <div className="weixin-login">
-          <a className="option option-user">
-            <img className="option-user-icon" src={member.iconUri} alt="用户头像" />
-            <p className="option-user-name">{member.name}</p>
-          </a>
-        </div>
-      );
-    }
-
     return (
-      <div className="flex-row">
-        <input
-          className="editor-input flex-rest"
-          name="name"
-          id="editor-name"
-          placeholder={member.name || '请输入姓名'}
-          onChange={this.onValueChange}
-          maxLength="30"
-        />
-        <div className="editor-gender-group flex-none">
-          <label className="half">
-            <input
-              className="option-radio" type="radio" name="sex" defaultValue="0"
-              onChange={this.onValueChange} checked={sex === 0}
-            />
-            <span className="editor-gender">女士</span>
-          </label>
-          <label className="half">
-            <input
-              className="option-radio" type="radio" name="sex" defaultValue="1"
-              onChange={this.onValueChange} checked={sex === 1}
-            />
-            <span className="editor-gender">先生</span>
-          </label>
-        </div>
+      <div className="weixin-login of">
+        <img className="option-user-icon" src={member.iconUri || defaultShopLogo} alt="用户头像" />
+        <p className="option-user-name">{member.name}</p>
       </div>
     );
   },
   render() {
     const { dishMenu, orderTSCart } = this.props;
-    const { member, peopleCount, memo, commercialName, commercialLogo } = orderTSCart;
+    const { member, peopleCount, memo, commercialName } = orderTSCart;
     const { tableProps, mainOrderId, tableId, tableKey, shopSetting, addItemStatus } = orderTSCart;
     const { errorMessage, loadingInfo } = this.state;
     const dishesData = dishMenu.dishesData || [];
@@ -370,76 +334,74 @@ const OrderTSCartApplication = React.createClass({
     const totalPrice = dishHelper.getDishesPrice(dishesData);
     return (
       <div className="application flex-columns">
-        <div className="flex-rest">
-          <div className="options-group">
-            <a className="option">
-              <img className="option-shop-icon" src={commercialLogo || defaultShopLogo} alt="" />
-              <p className="option-shop-desc ellipsis">{commercialName}</p>
-            </a>
+        <div className="application-content">
+          <p className="shop-name ellipsis">{commercialName}</p>
+          <div className="shop-method of">
+            <span className="shop-table">{this.getAreaTableTitle()}</span>
+            <span className="shop-clear-cart" onTouchTap={this.onClearCart}>清空购物车</span>
+            <span className="shop-edit" onTouchTap={this.continueDishMenu}>继续点餐</span>
           </div>
           <div className="options-group">
-            <div className="option">
-              <div className="flex-row">
-                <div className="options-title flex-rest">{this.getAreaTableTitle()}</div>
-                <button className="cart-clear flex-none" onTouchTap={this.onClearCart}>清空购物车</button>
-              </div>
-            </div>
             <div className="option editor">
               {this.buildCustomerInfoElement(member)}
             </div>
-            <div className="option option--nopadding">
-              {this.buildOrderedElements(dishesData)}
-            </div>
           </div>
-          {!(mainOrderId !== -1 && addItemStatus === 1) &&
-            <div className="options-group">
-              {orderTSCart.enableInputDinnerTableCount &&
-                <div className="option">
-                  <span className="option-title">就餐人数：</span>
-                  <ImportableCounter
-                    setErrorMsg={this.setErrorMsg}
-                    onCountChange={(count) => this.onValueChange({ target: { name: 'peopleCount', value: count } })}
-                    count={peopleCount}
-                    maximum={99}
-                    minimum={1}
+          <div className="flex-rest">
+            <div className="options-group options-group-mb">
+              <div className="option option--nopadding">
+                {this.buildOrderedElements(dishesData)}
+              </div>
+            </div>
+            {!(mainOrderId !== -1 && addItemStatus === 1) &&
+              <div className="options-group options-group-mb">
+                {orderTSCart.enableInputDinnerTableCount &&
+                  <div className="option">
+                    <span className="option-title">就餐人数：</span>
+                    <ImportableCounter
+                      setErrorMsg={this.setErrorMsg}
+                      onCountChange={(count) => this.onValueChange({ target: { name: 'peopleCount', value: count } })}
+                      count={peopleCount}
+                      maximum={99}
+                      minimum={1}
+                    />
+                  </div>
+                }
+                <label className="option">
+                  <span className="option-title">备注: </span>
+                  <input
+                    className="option-input"
+                    name="memo"
+                    placeholder="输入备注"
+                    maxLength="35"
+                    onChange={this.onValueChange} value={memo}
                   />
-                </div>
-              }
-              <label className="option">
-                <span className="option-title">备注: </span>
-                <input
-                  className="option-input"
-                  name="memo"
-                  placeholder="输入备注"
-                  maxLength="35"
-                  onChange={this.onValueChange} value={memo}
-                />
+                </label>
+              </div>
+            }
+            <div className="options-group options-group-devide flex-row">
+              <label className="option flex-rest">
+                <span className="option-title">共{dishCount}份</span>
+                <span className="option-input totalprice" data-count={`￥${totalPrice}`}>总计:</span>
               </label>
+              <div className="option order-dinner-buttons flex-none">
+                {this.buildButtonGroupElement(tableId, tableKey, shopSetting)}
+              </div>
             </div>
-          }
-          <div className="options-group">
-            <label className="option">
-              <span className="option-title">共 {dishCount} 份商品</span>
-              <span className="option-input totalprice" data-count={`￥${totalPrice}`}>总计:</span>
-            </label>
           </div>
+          <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
+            {this.state.tableVisible &&
+              <DinnerTableSelect
+                title={'请选择桌台'}
+                areas={tableProps.areaList}
+                tables={tableProps.tableList}
+                onTableSelect={this.onCompleteSelectTable}
+                onDone={evt => this.setState({ tableVisible: false })}
+              />
+            }
+          </ReactCSSTransitionGroup>
+          {errorMessage && <Toast errorMessage={errorMessage} clearErrorMsg={() => { this.setErrorMsg(''); }} />}
+          {loadingInfo.ing && <Loading word={loadingInfo.text} />}
         </div>
-        <div className="flex-none order-dinner-buttons">
-          {this.buildButtonGroupElement(tableId, tableKey, shopSetting)}
-        </div>
-        <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
-          {this.state.tableVisible &&
-            <DinnerTableSelect
-              title={'请选择桌台'}
-              areas={tableProps.areaList}
-              tables={tableProps.tableList}
-              onTableSelect={this.onCompleteSelectTable}
-              onDone={evt => this.setState({ tableVisible: false })}
-            />
-          }
-        </ReactCSSTransitionGroup>
-        {errorMessage && <Toast errorMessage={errorMessage} clearErrorMsg={() => { this.setErrorMsg(''); }} />}
-        {loadingInfo.ing && <Loading word={loadingInfo.text} />}
       </div>
     );
   },
