@@ -160,7 +160,7 @@ module.exports = React.createClass({
                 {this.buildDishCounter({ dish, remainCount, count })}
               </div>
               <DishPropsSelect
-                props={dish.order[0].dishPropertyTypeInfos} ingredients={dish.order[0].dishIngredientInfos}
+                dish={dish}
                 onSelectPropsOption={this.onSelectPropsOption}
               />
               <button className="dish-dropdown-close" onTouchTap={this.onPropsBtnTap}><span></span></button>
