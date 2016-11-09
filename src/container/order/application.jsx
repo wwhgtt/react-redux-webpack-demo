@@ -404,6 +404,7 @@ const OrderApplication = React.createClass({
         <a className="options-group options-group--stripes" href={hash} >
           <img src={addressLogo} alt="address-logo" className="address-logo" />
           {elems}
+          <small className="stripes-content"></small>
         </a>
       );
     };
