@@ -41,12 +41,13 @@ const OrderBook = React.createClass({
       status: this.getBookInfo(bookList).status,
       shopLogo: bookList.shopLogo,
       shopName: bookList.shopName,
+      shopId: bookList.shopId,
     };
     const isOrange = this.getBookInfo(bookList).isOrange;
 
     return (
       <div className="order-list-group">
-        <ListHead headDetail={bookHead} isOrange={isOrange} />
+        <ListHead headDetail={bookHead} isOrange={isOrange} orderType="BK" />
         <div className="list-book clearfix">
           <div className="list-inline">{bookList.orderTime}</div>
           <div className="fr">

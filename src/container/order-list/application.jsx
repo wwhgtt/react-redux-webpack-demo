@@ -1,6 +1,8 @@
 const React = require('react');
 const orderListAction = require('../../action/order-list/order-list.js');
 const connect = require('react-redux').connect;
+const IScroll = require('iscroll/build/iscroll-probe');
+const shallowCompare = require('react-addons-shallow-compare');
 
 require('../../asset/style/style.scss');
 
@@ -30,30 +32,87 @@ const OrderListApplication = React.createClass({
   getInitialState() {
     return {
       activeNum: 0,
+      showSection: '',
+      dinnerListArr: [],
+      takeOutListArr: [],
+      bookListArr: [],
+      queueListArr: [],
     };
   },
 
   componentWillMount() {
     const { getOrderList, getTakeOutList, getBookList, getQueueList } = this.props;
+
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
     window.addEventListener('load', this.setChildViewAccordingToHash);
     getOrderList(1);
     getTakeOutList(1);
     getBookList(1);
     getQueueList(1);
+
     if (!location.hash) {
       location.hash = '#dinner';
     }
+  },
 
-    // if (hash === '#dinner') {
-    //   getOrderList(1);
-    // } else if (hash === '#quick') {
-    //   getTakeOutList(1);
-    // } else if (hash === '#book') {
-    //   getBookList(1);
-    // } else if (hash === 'queue') {
-    //   getQueueList(1);
-    // }
+  componentDidMount() {
+    const options = {
+      preventDefault: false,
+      click: true,
+      tap: true,
+    };
+    const wapper = document.getElementById('myScroll');
+    this.myScroll = new IScroll(wapper, options);
+    this.myScroll.on('scroll', this.onScroll);
+    this.myScroll.on('scrollEnd', this.onScrollEnd);
+  },
+
+  componentWillReceiveProps(nextProps) {
+    const { orderList, takeOutList, bookList, queueList } = nextProps;
+    const { dinnerListArr, takeOutListArr, bookListArr, queueListArr } = this.state;
+    this.setState({ dinnerListArr: orderList });
+    this.setState({ takeOutListArr: takeOutList });
+    this.setState({ bookListArr: bookList });
+    this.setState({ queueListArr: queueList });
+    if (!shallowCompare(this, dinnerListArr, orderList)) {
+      this.setState({ dinnerListArr: dinnerListArr.concat(orderList) });
+    }
+    if (!shallowCompare(this, takeOutListArr, takeOutList)) {
+      this.setState({ dinnerListArr: takeOutListArr.concat(takeOutList) });
+    }
+    if (!shallowCompare(this, bookListArr, bookList)) {
+      this.setState({ dinnerListArr: bookListArr.concat(bookList) });
+    }
+    if (!shallowCompare(this, queueListArr, queueList)) {
+      this.setState({ dinnerListArr: queueListArr.concat(queueList) });
+    }
+  },
+
+  componentDidUpdate(prevProps, prevState) {
+    this.myScroll.refresh();
+  },
+
+  onScroll() {
+  },
+
+  onScrollEnd() {
+    const { getOrderList, getTakeOutList, getBookList, getQueueList } = this.props;
+    const { dinnerListArr, takeOutListArr, bookListArr, queueListArr } = this.state;
+    if (this.myScroll.y === this.myScroll.maxScrollY) {
+      if (location.hash === '#dinner') {
+        getOrderList(Math.ceil(dinnerListArr.length / 20));
+      }
+      if (location.hash === '#quick') {
+        getTakeOutList(Math.ceil(takeOutListArr.length / 20));
+        // alert(Math.ceil(takeOutListArr.length / 20));
+      }
+      if (location.hash === '#book') {
+        getBookList(Math.ceil(bookListArr.length / 20));
+      }
+      if (location.hash === '#queue') {
+        getQueueList(Math.ceil(queueListArr.length / 20));
+      }
+    }
   },
 
   // 获得页面hash并发送action
@@ -64,53 +123,38 @@ const OrderListApplication = React.createClass({
 
     if (hash === '#dinner') {
       this.setState({ activeNum: 0 });
+      this.setState({ showSection: 'TS' });
     } else if (hash === '#quick') {
       this.setState({ activeNum: 1 });
+      this.setState({ showSection: 'WM' });
     } else if (hash === '#book') {
       this.setState({ activeNum: 2 });
+      this.setState({ showSection: 'BK' });
     } else if (hash === '#queue') {
       this.setState({ activeNum: 3 });
+      this.setState({ showSection: 'QE' });
     }
   },
 
   // 堂食、外卖订单列表
   getOrderDinner(orderList, orderType) {
     return orderList && orderList.map((item, index) =>
-      <OrderDinner orderList={item} key={index} orderType={orderType} />
+      <OrderDinner orderList={item} key={index} orderType={orderType} onLoad={this.handleOnLoad} />
     );
   },
 
   // 预订订单列表
-  getOrderBook() {
-    const { bookList } = this.props;
+  getOrderBook(bookList) {
     return bookList && bookList.map((item, index) =>
       <OrderBook bookList={item} key={index} />
     );
   },
 
   // 排队订单列表
-  getOrderQueue() {
-    const { queueList } = this.props;
+  getOrderQueue(queueList) {
     return queueList && queueList.map((item, index) =>
       <OrderQueue queueList={item} key={index} />
     );
-  },
-
-  // 列表展示
-  getListSection(childView) {
-    const { orderList, takeOutList } = this.props;
-    let listSection = '';
-    if (childView === '#dinner') {
-      listSection = this.getOrderDinner(orderList, 'TS');
-    } else if (childView === '#quick') {
-      listSection = this.getOrderDinner(takeOutList, 'WM');
-    } else if (childView === '#book') {
-      listSection = this.getOrderBook();
-    } else if (childView === '#queue') {
-      listSection = this.getOrderQueue();
-    }
-
-    return listSection;
   },
 
   // tabs切换
@@ -133,8 +177,7 @@ const OrderListApplication = React.createClass({
   },
 
   render() {
-    const { childView } = this.props;
-
+    const { showSection, dinnerListArr, takeOutListArr, bookListArr, queueListArr } = this.state;
     return (
       <div className="order-page application">
         <SwitchNavi
@@ -142,9 +185,15 @@ const OrderListApplication = React.createClass({
           getIndex={this.handleGetIndex}
           activeTab={this.state.activeNum}
         />
-        <div className="order-conent">
-          {this.getListSection(childView)}
+        <div id="myScroll" className="order-conent">
+          <div>
+            {showSection === 'TS' && this.getOrderDinner(dinnerListArr, 'TS')}
+            {showSection === 'WM' && this.getOrderDinner(takeOutListArr, 'WM')}
+            {showSection === 'BK' && this.getOrderBook(bookListArr)}
+            {showSection === 'QE' && this.getOrderQueue(queueListArr)}
+          </div>
         </div>
+        <div className="copyright"></div>
       </div>
     );
   },

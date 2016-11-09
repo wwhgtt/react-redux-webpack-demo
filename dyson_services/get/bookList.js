@@ -4,6 +4,7 @@ module.exports = {
     data: {
       list:[{
         orderId: 3522562,
+        shopId: 810006390,
         shopLogo: 'http://kry-test-2.qiniudn.com/57d4823cad4046eda519a16f5652de11.jpg?imageView/2/w/512/h/512',
         shopName: '小铠甲火锅(小铠甲火锅西门店)',
         tablePersonCount: 4,
@@ -15,6 +16,7 @@ module.exports = {
       },
       {
         orderId: 3522562,
+        shopId: 810006390,
         shopLogo: 'http://kry-test-2.qiniudn.com/57d4823cad4046eda519a16f5652de11.jpg?imageView/2/w/512/h/512',
         shopName: '小铠甲火锅(小铠甲火锅西门店)',
         tablePersonCount: 4,
@@ -26,6 +28,7 @@ module.exports = {
       },
       {
         orderId: 3522562,
+        shopId: 810006390,
         shopLogo: 'http://kry-test-2.qiniudn.com/57d4823cad4046eda519a16f5652de11.jpg?imageView/2/w/512/h/512',
         shopName: '小铠甲火锅(小铠甲火锅西门店)',
         tablePersonCount: 4,

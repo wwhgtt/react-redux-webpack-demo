@@ -6,6 +6,7 @@
 
   .navi-switch {
     position: fixed;
+    z-index: 100;
     top: 0;
     right: 0;
     left: 0;
@@ -13,11 +14,13 @@
 }
 
 .order-conent {
+  overflow: hidden;
+  height: calc(100% - 95px);
   margin-top: 65px;
 }
 
 .order-list-group {
-  margin: 15px 0;
+  margin-bottom: 15px;
   background-color: #fff;
 }
 
@@ -29,8 +32,20 @@
   border-bottom: 1px solid #e3e3e3;
 
   &-href {
+    position: relative;
     display: inline-block;
-    width: calc(100% - 75px);
+    max-width: calc(100% - 75px);
+
+    &::after {
+      position: absolute;
+      width: 22px;
+      height: 60px;
+      content: "";
+      background-image: url("../../asset/images/arrow_small.svg");
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 8px;
+    }
   }
 
   &-img {
@@ -43,7 +58,7 @@
   &-title {
     font-weight: bold;
     display: inline-block;
-    width: calc(100% - 45px);
+    max-width: calc(100% - 55px);
     margin-left: 10px;
     vertical-align: middle;
   }

@@ -24,7 +24,7 @@ const OrderDinner = React.createClass({
 
     return (
       <div className="order-list-group">
-        <ListHead headDetail={orderList} isOrange={isOrange} />
+        <ListHead headDetail={orderList} isOrange={isOrange} orderType={orderType} />
         <div className="list-content clearfix">
           <div className="list-num">
             <p className="list-num-name">流水号</p>

@@ -59,12 +59,13 @@ const OrderQueue = React.createClass({
       status: this.getQueueDetail().status,
       shopLogo: queueList.shopLogo,
       shopName: queueList.shopName,
+      shopId: queueList.shopId,
     };
     const isOrange = String(queueList.queueStatus) === '0' || false;
 
     return (
       <div className="order-list-group">
-        <ListHead headDetail={bookHead} isOrange={isOrange} />
+        <ListHead headDetail={bookHead} isOrange={isOrange} orderType="QE" />
         {this.getQueueDetail().queueSection}
       </div>
     );

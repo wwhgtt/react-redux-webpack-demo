@@ -8,13 +8,23 @@ const ListHead = React.createClass({
   propTypes: {
     headDetail: React.PropTypes.object,
     isOrange: React.PropTypes.bool,
+    orderType: React.PropTypes.string,
   },
 
   render() {
-    const { headDetail, isOrange } = this.props;
+    const { headDetail, isOrange, orderType } = this.props;
+    let dishLink = '';
+    if (orderType === 'TS') {
+      dishLink = `http://${location.host}/orderall/dishAll?shopId=${headDetail.shopId}`;
+    } else if (orderType === 'WM') {
+      dishLink = `http://${location.host}/takeaway/dishAll?shopId=${headDetail.shopId}`;
+    } else if (orderType === 'BK' || orderType === 'QE') {
+      dishLink = `http://${location.host}/shop/detail?shopId=${headDetail.shopId}`;
+    }
+
     return (
       <div className="list-head clearfix">
-        <a className="list-head-href">
+        <a className="list-head-href" href={dishLink}>
           <img src={headDetail.shopLogo || shopLogoDefault} role="presentation" className="list-head-img" />
           <span className="list-head-title ellipsis">{headDetail.shopName}</span>
         </a>
