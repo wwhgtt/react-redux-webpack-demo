@@ -10,9 +10,9 @@ module.exports = React.createClass({
   displayName: 'DishPropsSelect',
   propTypes: {
     dish:React.PropTypes.object.isRequired,
-    dishData:React.PropTypes.object.isRequired,
+    dishData:React.PropTypes.object,
     onSelectPropsOption: React.PropTypes.func,
-    onDishRuleChecked:React.PropTypes.func.isRequired,
+    onDishRuleChecked:React.PropTypes.func,
   },
   onSelectPropsOption(recipeData, optionData) {
     this.props.onSelectPropsOption(recipeData, optionData);
@@ -22,7 +22,7 @@ module.exports = React.createClass({
     onDishRuleChecked(id, dishOptions, immutableDish);
   },
   buildRule(dish) {
-    if (!dish.sameRuleDishes) {
+    if (!dish || !dish.sameRuleDishes) {
       return false;
     }
     let ruleElements = [];
