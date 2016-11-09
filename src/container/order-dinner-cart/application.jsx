@@ -11,7 +11,7 @@ const wxClient = require('wechat-jssdk/client');
 const dishHelper = require('../../helper/dish-hepler');
 const commonHelper = require('../../helper/common-helper');
 const getSubmitDishData = require('../../helper/order-helper').getSubmitDishData;
-const defaultPersonLogo = require('../../asset/images/logo_default.svg');
+const defaultPersonLogo = require('../../asset/images/person-default.svg');
 const shopId = dishHelper.getUrlParam('shopId');
 
 require('../../asset/style/style.scss');

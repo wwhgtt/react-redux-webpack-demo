@@ -81,52 +81,8 @@
 }
 
 .dish-box {
-  font-size: 15px;
-
-  .dish-main {
-    overflow: hidden;
-  }
-
-  .dish-name {
-    position: relative;
-    float: left;
-    width: calc(100% - 170px);
-    max-width: none;
-    color: #474747;
-
-    &::after {
-      right: 0;
-    }
-  }
-
-  .dish-count {
-    float: left;
-    width: 70px;
-    text-align: center;
-  }
-
-  .dish-sub-info {
-    margin: 1em 0;
-  }
-
-  .dish-memo {
-    font-size: 13px;
-    overflow: hidden;
-    width: 100%;
-    color: #999;
-  }
-
   .badge-price {
     display: none;
-  }
-
-  .dish-sub {
-    padding-left: 1em;
-
-    &.dish-name {
-      font-size: 14px;
-      color: #666;
-    }
   }
 }
 

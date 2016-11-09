@@ -12,8 +12,7 @@ module.exports = React.createClass({ // ShowBasicInfo
   componentWillMount() { },
   componentDidMount() { },
   render() {
-    const { orderInfo } = this.props;
-    console.log(orderInfo)
+    // const { orderInfo } = this.props;
     return (
       <div className="options-group">
         <div className="option">
