@@ -491,12 +491,12 @@ const OrderApplication = React.createClass({
 
           <div className="options-group">
             <label className="option adjust-option">
-              <span className="option-title">备注: </span>
+              <span className="option-title">备注 </span>
               <input className="option-input" name="note" placeholder="请输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />
             </label>
             {commercialProps && commercialProps.isSupportInvoice === 1 ?
               <label className="option adjust-option">
-                <span className="option-title">发票抬头: </span>
+                <span className="option-title">发票 </span>
                 <input className="option-input" name="receipt" placeholder="请输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
               </label>
               :
@@ -511,13 +511,13 @@ const OrderApplication = React.createClass({
               <div className="vertical-center clearfix">
                 {commercialProps.carryRuleVO ?
                   <div>
-                    <div className="order-cart-entry text-dove-grey">已优惠:&nbsp;
+                    <div className="order-cart-entry text-dove-grey">已优惠&nbsp;
                       <span className="price">
                         {helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)}
                       </span>
                     </div>
-                    <div className="order-cart-entry">
-                      <span className="text-dove-grey">还需付: </span>
+                    <div className="order-cart-entry" style={{ float:'right' }}>
+                      <span className="text-dove-grey">还需付 </span>
                       <span className="order-cart-price price">
                         {
                           helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps)
@@ -531,7 +531,7 @@ const OrderApplication = React.createClass({
               </div>
             </div>
             <div className="order-cart-right">
-              <a className="order-cart-btn btn--yellow" onTouchTap={this.submitOrder}>提交订单</a>
+              <a className="order-cart-btn btn--yellow" onTouchTap={this.submitOrder}>确认订单</a>
             </div>
           </div>
           :
