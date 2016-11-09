@@ -25,7 +25,7 @@
         display: inline-block;
         width: 16px;
         height: 16px;
-        margin-left: 16px;
+        margin-left: 10px;
         content: "";
         vertical-align: -3px;
         background-image: url("../../../asset/images/arrow-top-grey.svg"); // image size 20 * 12px
@@ -42,11 +42,12 @@
     }
 
     > .dish-price {
-      font-size: 16px;
+      font-size: 18px;
       float: left;
       overflow: hidden;
       width: $dish-price-width;
       padding: $item-padding 0;
+      text-align: right;
       color: $color-neon-carrot;
 
       &::before {
@@ -57,7 +58,7 @@
     }
 
     > .counter {
-      margin-top: 10px;
+      margin-top: 12px;
       padding: $item-padding 0;
     }
   }

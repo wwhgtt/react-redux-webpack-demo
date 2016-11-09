@@ -95,6 +95,8 @@
 }
 
 .huge {
+  $huge-btn-height: 34px;
+
   .dish-list-item {
     border: none;
   }
@@ -121,12 +123,19 @@
 
   .counter-add,
   .counter-minus {
-    width: 34px;
-    height: 34px;
+    width: $huge-btn-height;
+    height: $huge-btn-height;
   }
 
   .counter-num {
-    line-height: 34px;
+    line-height: $huge-btn-height;
+  }
+
+  .btn--ellips {
+    font-size: 15px;
+    line-height: $huge-btn-height;
+    height: $huge-btn-height;
+    border-radius: $huge-btn-height / 2;
   }
 }
 
@@ -160,6 +169,7 @@
     .btn--ellips {
       line-height: 24px;
       height: 24px;
+      border-radius: 12px;
     }
   }
 }
