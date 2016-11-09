@@ -44,7 +44,7 @@
 .order-dish-count {
   font-size: 14px;
   line-height: 40px;
-  float: right;
+  float: left;
   width: 42px;
   text-align: center;
   color: $color-dusty-grey;
@@ -60,4 +60,18 @@
     text-decoration: line-through;
     color: $color-dusty-grey;
   }
+}
+
+.detail-props-info {
+  padding: 0 15px 8px;
+}
+
+.child-dish-info {
+  padding-right: 15px;
+  padding-left: 15px;
+  border: 0;
+}
+
+.child-dish-head {
+  height: 20px;
 }
