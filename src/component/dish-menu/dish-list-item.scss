@@ -36,7 +36,7 @@
   &-name {
     $dish-item-name-line-height: 20px;
 
-    font-size: 16px;
+    font-size: 18px;
     line-height: $dish-item-name-line-height;
     display: block;
     clear: both;
@@ -48,13 +48,17 @@
     display: block;
     height: 1em;
     color: $color-neon-carrot;
+
+    &:empty {
+      display: none;
+    }
   }
 
   &-price {
     font-size: 24px;
-    font-weight: bold;
     line-height: 24px;
     float: left;
+    margin: 5px 0 7px;
     color: $color-neon-carrot;
 
     &::before {
@@ -68,6 +72,7 @@
   &-soldout {
     line-height: $counter-size;
     float: right;
+    margin-top: 5px;
     color: $color-dusty-grey;
   }
 }
@@ -102,7 +107,6 @@
   .dish-item-price {
     display: block;
     float: none;
-    text-align: right;
   }
 
   .dish-item-img {
@@ -112,12 +116,18 @@
   }
 
   .dish-list-item {
-    height: 120px;
+    height: auto;
+    min-height: 120px;
   }
 
   .dish-item-content {
     width: calc(100% - 105px);
     padding: 0 15px 0 0;
+    text-align: right;
+
+    > .counter {
+      margin-top: 5px;
+    }
   }
 
   .dish-item-name {
@@ -125,7 +135,6 @@
     line-height: 25px;
     height: 25px;
     padding: 0;
-    text-align: right;
   }
 
   .dish-type-item.is-active {
@@ -135,8 +144,16 @@
 }
 
 .huge {
-  .is-memberdish {
-    width: 44px;
-    height: 44px;
+  .dish-item-dish {
+    .is-memberdish {
+      &::before {
+        width: 56px;
+        height: 56px;
+      }
+    }
+
+    .counter {
+      margin-top: -5px;
+    }
   }
 }

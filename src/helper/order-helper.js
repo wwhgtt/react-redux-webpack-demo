@@ -764,11 +764,11 @@ const getSubmitDishData = exports.getSubmitDishData = (dishesData, shopId) => {
 };
 
 exports.getSubmitUrlParams = (state, note, receipt) => {
-  const name = state.customerProps.name;
+  // const name = state.customerProps.name || '';
   const type = getUrlParam('type');
-  if (!name && type === 'TS' && state.customerProps.loginType === 1) {
-    return { success:false, msg: '未填写姓名' };
-  }
+  // if (!name && type === 'TS' && state.customerProps.loginType === 1) {
+  //   return { success:false, msg: '未填写姓名' };
+  // }
 
   const dishes = state.orderedDishesProps.dishes;
   const dishesPrice = getDishesPrice(dishes);
@@ -869,14 +869,14 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
       }
     }
   } else {
-    const sex = +String(state.customerProps.sex);
+    const sex = +String(state.customerProps.sex) || '';
     // 仅手机号登陆登录校验性别
-    if (state.customerProps.loginType === 0 && (isNaN(sex) || sex === -1)) {
-      return { success: false, msg:'未选择性别' };
-    }
+    // if (state.customerProps.loginType === 0 && (isNaN(sex) || sex === -1)) {
+    //   return { success: false, msg:'未选择性别' };
+    // }
 
     Object.assign(params, {
-      name: state.customerProps.name,
+      name: state.customerProps.name || '',
       mobile: state.customerProps.mobile,
       sex,
       orderType: 'TS',

@@ -3,7 +3,7 @@
 
 .cart-ordered-dish {
   padding: 0 10px;
-  border-bottom: 1px solid $color-mercury;
+  border-bottom: 1px solid $color-mystic;
 
   .ordered-dish {
     $dish-price-width: 70px;
@@ -25,7 +25,7 @@
         display: inline-block;
         width: 16px;
         height: 16px;
-        margin-left: 16px;
+        margin-left: 10px;
         content: "";
         vertical-align: -3px;
         background-image: url("../../../asset/images/arrow-right.svg"); // image size 20 * 12px
@@ -42,11 +42,12 @@
     }
 
     > .dish-price {
-      font-size: 16px;
+      font-size: 18px;
       float: left;
       overflow: hidden;
       width: $dish-price-width;
       padding: $item-padding 0;
+      text-align: right;
       color: $color-neon-carrot;
 
       &::before {
@@ -57,7 +58,7 @@
     }
 
     > .counter {
-      margin-top: 10px;
+      margin-top: 12px;
       padding: $item-padding 0;
     }
   }
@@ -107,7 +108,7 @@
   font-size: 12px;
   line-height: 16px;
   clear: both;
-  padding-bottom: 5px;
+  padding-bottom: 8px;
   color: $color-dusty-grey;
 
   &:empty {

@@ -10,7 +10,9 @@
 
   &-image {
     display: block;
-    width: 100%;
+    height: 40vh;
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 
   &-content {
@@ -24,10 +26,10 @@
 
   &-title {
     font-size: 23px;
-    font-weight: normal;
+    font-weight: bold;
     line-height: 1;
     margin-bottom: 10px;
-    color: $color-mine-shaft;
+    color: $color-abbey;
   }
 
   &-price {
@@ -56,6 +58,7 @@
 
     &--bold {
       font-size: 45px;
+      font-weight: 200;
       float: left;
       margin-right: 10px;
       color: $color-neon-carrot;
@@ -85,8 +88,8 @@
     margin-top: 10px;
     margin-bottom: 10px;
     padding-top: 20px;
-    color: $color-mine-shaft;
-    border-top: 1px solid $color-mercury;
+    color: $color-abbey;
+    border-top: 1px solid $color-mystic;
   }
 
   &-desc {
