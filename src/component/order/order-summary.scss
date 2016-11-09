@@ -35,6 +35,7 @@
 .order-integral {
   font-size: 14px;
   float: right;
+  padding-right: 60px;
   color: $color-dusty-grey;
 
   &::before {
@@ -93,6 +94,7 @@
   }
 
   &-right {
+    font-size: 14px;
     text-align: right;
     color: #ff7417 !important;
 
@@ -112,4 +114,8 @@
       text-decoration: none;
     }
   }
+}
+
+.temporary-coupon {
+  width: 5.5em;
 }
