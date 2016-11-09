@@ -2,9 +2,9 @@
 
 .dish-mesthead {
   position: relative;
-  min-height: 130px;
   padding: 0 15px;
   background: $color-orange-red;
+  transition: top, .3s ease-out;
 
   &.ads-existed {
     padding-bottom: 34px;
@@ -25,13 +25,11 @@
 }
 
 .register {
-  margin: 0 -15px;
-
   a {
-    line-height: 30px;
+    line-height: 29px;
     float: right;
-    height: 30px;
-    margin: 7px 15px 0 0;
+    height: 29px;
+    margin: 7px 0 0;
     padding: 0 10px;
     text-align: center;
     text-decoration: none;
@@ -84,8 +82,10 @@
 .notice {
   font-size: 14px;
   line-height: 44px;
+  position: relative;
+  z-index: 1;
   height: 44px;
-  padding: 0 0 0 32px;
+  padding: 0 15px 0 32px;
   background: $color-light-sand url("../../asset/images/ads.svg") no-repeat 10px 14px;
   background-size: 16px 16px;
 }
