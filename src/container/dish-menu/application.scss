@@ -1,1 +1,22 @@
 // dish-menu styles
+
+.mesthead-min {
+  .dish-mesthead {
+    height: 44px;
+    min-height: 0;
+    transition: height, .1s ease-in;
+
+    .ads-column,
+    .shop {
+      display: none;
+    }
+  }
+
+  .scroller-wrap {
+    height: calc(100% - 50px);
+  }
+
+  .register-no + .scroller-wrap {
+    height: calc(100% - 44px - 50px);
+  }
+}

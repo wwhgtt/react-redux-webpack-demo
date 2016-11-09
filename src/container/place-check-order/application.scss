@@ -9,17 +9,13 @@
   background: #fff;
 }
 
-.order-list-outer {
-
-}
-
 .shop {
   &-name {
     font-size: 1.125em;
-    line-height: 1.389em;
     font-weight: bold;
-    text-align: center;
+    line-height: 1.389em;
     padding: .75em 0;
+    text-align: center;
     color: #474747;
   }
 
@@ -45,16 +41,16 @@
     position: relative;
     float: right;
     padding-left: 1.2em;
-    color: #ff7417;
     text-decoration: none;
+    color: #ff7417;
 
-    &:before {
+    &::before {
       position: absolute;
-      content: "";
       top: 0;
       left: 0;
       width: 1em;
       height: 1em;
+      content: "";
       background: url("../../asset/images/edit.svg") center center/auto 100% no-repeat;
     }
   }
@@ -62,7 +58,7 @@
 
 .dish-box {
   font-size: 15px;
-  
+
   .dish-main {
     overflow: hidden;
   }
@@ -73,18 +69,18 @@
     width: calc(100% - 170px);
     max-width: none;
     color: #474747;
-    
-    &:after {
+
+    &::after {
       right: 0;
     }
   }
 
   .dish-count {
-    float:left;
+    float: left;
     width: 70px;
     text-align: center;
   }
-  
+
   .dish-sub-info {
     margin: 1em 0;
   }
@@ -96,7 +92,7 @@
     color: #999;
   }
 
-  .badge-price{
+  .badge-price {
     display: none;
   }
 
@@ -113,6 +109,7 @@
 .options-group {
   margin: 1em 0 5em;
 }
+
 .option {
   font-size: 15px;
   padding: 1em;
@@ -123,10 +120,11 @@
   float: left;
   width: 100%;
 }
+
 .totalPrice {
   font-size: 15px;
-  text-align: right;
   padding: 1em;
+  text-align: right;
   color: #999;
 
   .num {

@@ -18,15 +18,14 @@ const PlaceOrderDetailApplication = React.createClass({
     errorMessage:React.PropTypes.string,
     orderDetail:React.PropTypes.object,
     orderInfo:React.PropTypes.object,
-    getPlaceCheckOrder:React.PropTypes.func,
     getPlaceOrderInfo:React.PropTypes.func,
   },
   getInitialState() {
     return { showBill:false };
   },
   componentDidMount() {
-    const { getPlaceCheckOrder, getPlaceOrderInfo } = this.props;
-    getPlaceOrderInfo(getPlaceCheckOrder);
+    const { getPlaceOrderInfo } = this.props;
+    getPlaceOrderInfo();
   },
   getHoverState() {
     this.setState({ showBill:false });
@@ -57,16 +56,10 @@ const PlaceOrderDetailApplication = React.createClass({
           </ReactCSSTransitionGroup>
         </div>
         {
-          load.status ?
-            <Loading word={load.word} />
-          :
-            false
+          load.status && <Loading word={load.word} />
         }
         {
-        errorMessage ?
-          <Toast clearErrorMsg={clearErrorMsg} errorMessage={errorMessage} />
-        :
-          false
+        errorMessage && <Toast clearErrorMsg={clearErrorMsg} errorMessage={errorMessage} />
         }
       </div>
     );

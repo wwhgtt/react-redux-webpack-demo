@@ -3,13 +3,12 @@
 // 浮层
 .float-layer {
   position: fixed;
-  z-index:10;
+  z-index: 10;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  
-  
+
   &-hover {
     position: absolute;
     top: 0;
@@ -18,25 +17,26 @@
     left: 0;
     background: rgba(0, 0, 0, .5);
   }
+
   &-content {
     position: absolute;
     right: 0;
     bottom: 0;
     left: 0;
-    background: #f1f1f1;
+    overflow: auto;
     max-height: 100%;
-    overflow:auto;
+    background: #f1f1f1;
   }
-  
+
   &-inner {
     background: #fff;
   }
 
   .bill-info {
-    position: relative;
     font-size: 1.125em;
     font-weight: bold;
     line-height: 1.385em;
+    position: relative;
     padding: 1em 0;
     text-align: center;
     color: #474747;
@@ -44,7 +44,7 @@
   }
 
   .bill-close {
-    position:absolute;
+    position: absolute;
     top: 50%;
     right: 1em;
     width: 1em;
@@ -66,8 +66,8 @@
 
 .totalPrice {
   font-size: 15px;
-  text-align: right;
   padding: 1em;
+  text-align: right;
   color: #999;
 
   .num {
@@ -82,7 +82,7 @@
 
 .dish-box {
   font-size: 15px;
-  
+
   .dish-main {
     overflow: hidden;
   }
@@ -93,18 +93,18 @@
     width: calc(100% - 170px);
     max-width: none;
     color: #474747;
-    
-    &:after {
+
+    &::after {
       right: 0;
     }
   }
 
   .dish-count {
-    float:left;
+    float: left;
     width: 70px;
     text-align: center;
   }
-  
+
   .dish-sub-info {
     margin: 1em 0;
   }
@@ -116,7 +116,7 @@
     color: #999;
   }
 
-  .badge-price{
+  .badge-price {
     display: none;
   }
 
@@ -130,12 +130,12 @@
   }
 }
 
-
 // 效果
 .slideup-enter {
   .float-layer-hover {
     opacity: 0;
   }
+
   .float-layer-content {
     transform: translate3d(0, 100%, 0);
   }
@@ -145,6 +145,7 @@
       transform: translate3d(0, 0, 0);
       transition: transform .3s ease-in-out;
     }
+
     .float-layer-hover {
       opacity: 1;
       transition: opacity .3s ease-in-out;
@@ -160,12 +161,13 @@
   .float-layer-content {
     transform: translate3d(0, 0, 0);
   }
-  
+
   &-active {
     .float-layer-content {
       transform: translate3d(0, 100%, 0);
       transition: transform .3s ease-in-out;
     }
+
     .float-layer-hover {
       opacity: 0;
       transition: opacity .3s ease-in-out;

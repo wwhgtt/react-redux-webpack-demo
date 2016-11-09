@@ -10,7 +10,7 @@ const setLoadMsg = createAction('SET_LOAD_MSG', loadInfo => loadInfo);
 const shopId = commonHelper.getUrlParam('shopId');
 const orderId = commonHelper.getUrlParam('orderId');
 
-exports.getPlaceCheckOrder = () => (dispatch, getState) => {
+const getPlaceCheckOrder = exports.getPlaceCheckOrder = () => (dispatch, getState) => {
   const getPlaceCheckOrderURL = `${config.tradeDetailUncheckAPI}?shopId=${shopId}&orderId=${orderId}`;
   const requestOptions = Object.assign({}, config.requestOptions);
   requestOptions.headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
@@ -35,7 +35,7 @@ exports.getPlaceCheckOrder = () => (dispatch, getState) => {
     }
   });
 };
-exports.getPlaceOrderInfo = (getPlaceCheckOrder) => (dispatch, getState) => {
+exports.getPlaceOrderInfo = () => (dispatch, getState) => {
   dispatch(setLoadMsg({ status:true, word:'加载中' }));
   if (!shopId) {
     dispatch(setErrorMsg('找不到门店号'));
@@ -51,7 +51,7 @@ exports.getPlaceOrderInfo = (getPlaceCheckOrder) => (dispatch, getState) => {
   then(res => {
     if (res.code === '200') {
       dispatch(setOrderInfo(res.data));
-      getPlaceCheckOrder();
+      getPlaceCheckOrder()(dispatch, getState);
     } else {
       dispatch(setErrorMsg(res.msg));
     }

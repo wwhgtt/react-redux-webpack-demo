@@ -41,18 +41,8 @@ const MineVipLevelApplication = React.createClass({
       <div className={`${couponStatus} application`}>
         <SwitchNavi navis={navis} getIndex={this.getCouponStatus} />
         <CouponList couponList={couponList} />
-        {
-          load.status ?
-            <Loading word={load.word} />
-          :
-            false
-        }
-        {
-        errorMessage ?
-          <Toast clearErrorMsg={clearErrorMsg} errorMessage={errorMessage} />
-        :
-          false
-        }
+        {load.status && <Loading word={load.word} />}
+        {errorMessage && <Toast clearErrorMsg={clearErrorMsg} errorMessage={errorMessage} />}
       </div>
     );
   },

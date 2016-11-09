@@ -107,6 +107,7 @@ module.exports = React.createClass({
               </div>
             );
           }
+
           return (
             <div className={`coupon-outer coupon-list-${indexOuter}`} key={indexOuter}>
               {
