@@ -36,7 +36,7 @@
   &-name {
     $dish-item-name-line-height: 20px;
 
-    font-size: 16px;
+    font-size: 18px;
     line-height: $dish-item-name-line-height;
     display: block;
     clear: both;
@@ -72,6 +72,7 @@
   &-soldout {
     line-height: $counter-size;
     float: right;
+    margin-top: 5px;
     color: $color-dusty-grey;
   }
 }
@@ -143,10 +144,16 @@
 }
 
 .huge {
-  .is-memberdish {
-    &::before {
-      width: 56px;
-      height: 56px;
+  .dish-item-dish {
+    .is-memberdish {
+      &::before {
+        width: 56px;
+        height: 56px;
+      }
+    }
+
+    .counter {
+      margin-top: -5px;
     }
   }
 }

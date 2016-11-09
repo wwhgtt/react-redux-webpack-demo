@@ -62,12 +62,13 @@
     transform: translateY(-50%);
 
     > strong {
-      font-size: 22px;
+      font-size: 18px;
       font-weight: normal;
       margin-right: 5px;
 
       &::before {
-        font-size: 12px;
+        font-size: 18px;
+        vertical-align: 1px;
       }
     }
 
