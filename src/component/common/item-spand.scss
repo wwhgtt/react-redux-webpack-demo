@@ -37,6 +37,13 @@
   color: #fff;
   background: #ccc;
 
+  &-inner {
+    display: box;
+    overflow: hidden;
+    max-height: 3em;
+    -webkit-line-clamp: 2;
+  }
+
   &-value {
     position: relative;
     height: 100%;
@@ -63,20 +70,22 @@
       width: 100%;
     }
 
-    .detail-click .arrowdown {
+    .detail-click .arrow {
       display: inline-block;
       width: 1em;
-      height: .5em;
+      height: 1em;
       margin-left: .5em;
-      background: url("../../asset/images/arrow-down-white.svg") center center/1em auto no-repeat;
+      vertical-align: middle;
+      background: url("../../asset/images/arrow-right-white.svg") center center/auto 100% no-repeat;
+      transition: transform .3s;
+    }
+
+    .detail-click .arrowdown {
+      transform: rotate(90deg);
     }
 
     .detail-click .arrowup {
-      display: inline-block;
-      width: 1em;
-      height: .5em;
-      margin-left: .5em;
-      background: url("../../asset/images/arrow-up-white.svg") center center/1em auto no-repeat;
+      transform: rotate(-90deg);
     }
   }
 }
@@ -108,7 +117,7 @@
 
 .downrow {
   display: none;
-  padding: .8em 1em;
+  padding: .5em 1em;
   background: $color-white;
 
   &.show {
