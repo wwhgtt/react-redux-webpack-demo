@@ -154,7 +154,7 @@ const OrderDetailInApplication = React.createClass({
                 className="btn-count flex-rest"
                 href={`http://${location.host}/orderall/settlement4Dinner?shopId=${shopId}&tradeId=${orderId}&type=TS`}
               >
-              结账
+              去结账
               </a>
             </div>
           </div>

@@ -79,7 +79,7 @@
 .btn-count {
   text-align: center;
   color: $color-white;
-  background-color: $color-neon-carrot;
+  background-color: #ffc43a;
 }
 
 .btn-count-dis {
@@ -141,7 +141,7 @@
 
   &-checked {
     // 已确认
-    background-image: url("../../asset/images/yiqueren.png");
+    background-image: url("../../asset/images/yiqueren.svg");
   }
 
   &-refused {
@@ -160,7 +160,7 @@
   margin-bottom: 0;
 
   &-mg {
-    margin: 1em 0;
+    margin: .2em 0;
   }
 }
 
