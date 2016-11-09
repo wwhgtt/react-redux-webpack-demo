@@ -373,8 +373,7 @@ const OrderApplication = React.createClass({
       if (checkedAddressInfo) {
         elems.push(
           <div className="option-stripes-title" key="title">
-            {checkedAddressInfo.name}{['女士', '先生'][checkedAddressInfo.sex] || ''}
-            {checkedAddressInfo.mobile}
+            {checkedAddressInfo.name} {['女士', '先生'][checkedAddressInfo.sex] || ''} {checkedAddressInfo.mobile}
           </div>
         );
         addressText = checkedAddressInfo.address;
@@ -433,7 +432,7 @@ const OrderApplication = React.createClass({
         return (
           <div className="option">
             <span className="options-title">{isSelfFetch ? '取餐时间' : '送达时间'}</span>
-            <button className="option-btn btn-arrow-right" onTouchTap={evt => setChildView('#time-select')}>
+            <button className="option-btn btn-arrow-right time-select" onTouchTap={evt => setChildView('#time-select')}>
               {getFetchTimeTitle()}
             </button>
           </div>
