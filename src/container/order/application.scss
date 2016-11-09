@@ -10,7 +10,7 @@
   line-height: 18px;
   position: relative;
   overflow: hidden;
-  margin-top: 10px;
+  margin-top: 15px;
   margin-bottom: 0;
   padding: 20px 30px 15px 10px;
   cursor: pointer;
@@ -26,10 +26,10 @@
     top: 50%;
     right: 10px;
     width: 10px;
-    height: 18px;
-    margin-top: -9px;
+    height: 16px;
+    margin-top: -6px;
     content: "";
-    background-image: url("../../asset/images/arrow-right-grey.png");
+    background-image: url("../../asset/images/arrow-right-grey.svg");
     // images size 20px 36px
     background-repeat: no-repeat;
     background-position: center right;
@@ -170,8 +170,8 @@
 
 .address-logo {
   float: left;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   margin: 8px 11px 8px 5px;
 }
 
@@ -200,4 +200,8 @@
 
 .tableHide {
   color: #a7a3a3 !important;
+}
+
+.time-select {
+  font-size: 14px;
 }
