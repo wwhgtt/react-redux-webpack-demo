@@ -1,21 +1,21 @@
 // dish-menu styles
-.mesthead-min {
-  .dish-mesthead {
-    overflow: hidden;
-    height: 44px;
-    min-height: 0;
-    transition: height, .2s ease-in-out .1s;
+.main {
+  position: relative;
+  height: calc(100% - 50px);
+}
 
-    .ads-column {
-      display: none;
-    }
-  }
+.register-no + .main {
+  height: calc(100% - 50px - 44px);
+}
 
-  .scroller-wrap {
-    height: calc(100% - 50px);
-  }
+.ads-existed + .scroller-wrap {
+  top: 130px;
+}
 
-  .register-no + .scroller-wrap {
-    height: calc(100% - 44px - 50px);
-  }
+.scroller-wrap {
+  position: absolute;
+  top: 96px;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
 }

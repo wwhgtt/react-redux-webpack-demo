@@ -6,13 +6,14 @@
   overflow: hidden;
   width: $dish-type-scroller-width;
   height: calc(100% - #{$cart-trigger-height});
+  color: $color-dove-grey;
   background: $color-gallery;
 }
 
 .dish-type-item {
-  line-height: 64px;
+  line-height: 60px;
   position: relative;
-  min-height: 64px;
+  min-height: 60px;
   cursor: pointer;
   text-align: center;
   border-bottom: 1px solid $color-mystic;
@@ -118,17 +119,3 @@
 }
 
 
-.scroller-wrap {
-  height: calc(100% - 130px - 50px);
-
-  &.huge,
-  &.big {
-    .dish-scroller {
-      height: calc(100% - 44px);
-    }
-  }
-}
-
-.register-no + .scroller-wrap {
-  height: calc(100% - 130px - 50px - 44px);
-}
