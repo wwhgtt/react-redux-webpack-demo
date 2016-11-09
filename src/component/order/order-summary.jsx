@@ -72,8 +72,9 @@ module.exports = React.createClass({
             :
             false
           }
-
-          {orderedElements}
+          <div className="ordered-dish-content">
+            {orderedElements}
+          </div>
 
           {serviceProps.deliveryProps && serviceProps.deliveryProps.deliveryPrice ?
             <p className="option clearfix division">
