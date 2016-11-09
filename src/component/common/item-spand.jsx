@@ -13,7 +13,6 @@ module.exports = React.createClass({ // SexSwitch
     fullValue:React.PropTypes.number,
     periodStart:React.PropTypes.string,
     periodEnd:React.PropTypes.string,
-    hideRule:React.PropTypes.bool,
     statusWord:React.PropTypes.string,
     validTime:React.PropTypes.object,
     codeNumber:React.PropTypes.string,
@@ -22,31 +21,41 @@ module.exports = React.createClass({ // SexSwitch
     couponName:React.PropTypes.string,
   },
   getInitialState() {
-    return {};
+    return { hideRule:true };
   },
   componentWillMount() {},
   componentDidMount() {},
-  showDetail(num) {
-    const { getShowDetail } = this.props;
-    getShowDetail(num);
+  showDetail(e) {
+    e.preventDefault();
+    const { hideRule } = this.state;
+    if (hideRule) {
+      this.setState({ hideRule:false });
+    } else {
+      this.setState({ hideRule:true });
+    }
   },
   render() {
     const { typeClass, giftUnitBefore, giftFontStyle, typeUnit, ruleVale, fullValue, couponName,
-      periodStart, periodEnd, hideRule, statusWord, validTime, codeNumber, instructions } = this.props;
+      periodStart, periodEnd, statusWord, validTime, codeNumber, instructions } = this.props;
+    const { hideRule } = this.state;
+    const UpRowLeftpartInnerStyle = {
+      '-webkit-box-orient': 'vertical',
+    };
     return (
       <div>
-        <div className="uprow of" onTouchTap={() => this.showDetail(codeNumber)}>
+        <div className="uprow of" onTouchTap={this.showDetail}>
           <div className={typeClass ? `uprow-leftpart ${typeClass}` : 'uprow-leftpart'}>
             <div className="uprow-leftpart-value">
-              {giftUnitBefore}<span className="discount-num" style={giftFontStyle}>{ruleVale}</span>{typeUnit}
-              <br />
+              <div className="uprow-leftpart-inner" style={UpRowLeftpartInnerStyle}>
+                {giftUnitBefore}<span className="discount-num" style={giftFontStyle}>{ruleVale}</span>{typeUnit}
+              </div>
               <span className="expense-condition">消费满{fullValue || '0'}元可用
               {
                 periodStart !== periodEnd && <span>({periodStart}~{periodEnd})</span>
               }
               </span>
               <p className="detail-click">
-                {couponName}使用规则<span className={classnames({ arrowup:!hideRule, arrowdown:hideRule })}></span>
+                {couponName}使用规则<span className={classnames('arrow', { arrowup:!hideRule, arrowdown:hideRule })}></span>
               </p>
             </div>
           </div>

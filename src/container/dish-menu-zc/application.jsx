@@ -4,11 +4,13 @@ const actions = require('../../action/dish-menu/dish-menu-zc');
 require('../../asset/style/style.scss');
 require('./application.scss');
 require('../../component/dish-menu/cart/cart.scss');
+const classnames = require('classnames');
 const DishTypeScroller = require('../../component/dish-menu/dish-type-scroller.jsx');
 const DishScroller = require('../../component/dish-menu/dish-scroller.jsx');
 const DishDetailContainer = require('../../component/dish-menu/detail/dish-detail-container.jsx');
 const DishDescPopup = require('../../component/dish-menu/detail/dish-desc-popup.jsx');
 const QuickMenu = require('../../component/dish-menu/cart/quick-menu.jsx');
+const DishMesthead = require('../../component/dish-menu/dish-mesthead.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const helper = require('../../helper/dish-hepler');
 const cartHelper = require('../../helper/order-dinner-cart-helper');
@@ -35,8 +37,23 @@ const DishMenuZcApplication = React.createClass({
     callBell: React.PropTypes.func.isRequired,
     clearBell: React.PropTypes.func.isRequired,
     fetchTableId: React.PropTypes.func.isRequired,
+    dishesDataDuplicate:  React.PropTypes.array,
+    dishDetailData: React.PropTypes.object,
+    openTimeList: React.PropTypes.array,
+    normalDiscountProps: React.PropTypes.object,
+    dishPageTpl: React.PropTypes.string,
     // saveTableParam
     saveTableParam: React.PropTypes.func.isRequired,
+  },
+  getDefaultProps() {
+    return {
+      dishPageTpl: 'default',
+    };
+  },
+  getInitialState() {
+    return {
+      isMinMesthead: false,
+    };
   },
   componentDidMount() {
     // tableId 或者 tableKey 存入localStorage
@@ -65,21 +82,43 @@ const DishMenuZcApplication = React.createClass({
     // states
     const { callMsg, callAble, timerStatus, serviceStatus, isShowButton } = this.props.dishMenuZcReducer;
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData,
-            errorMessage, openTimeList } = this.props.dishMenuReducer;
+            errorMessage, openTimeList, normalDiscountProps, shopInfo, shopLogo, dishPageTpl,
+            dishesDataDuplicate } = this.props.dishMenuReducer;
     // actions
     const { activeDishType, orderDish, showDishDetail, showDishDesc,
             clearErrorMsg, callBell, clearBell, showErrMsgFunc } = this.props;
+
+    const marketList = shopInfo.marketList;
+    const marketListUpdate = shopInfo.marketListUpdate;
+    const isMember = normalDiscountProps && normalDiscountProps.isMember || false;
     return (
-      <div className="application">
-        <DishTypeScroller
-          dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeId={activeDishTypeId}
-          onDishTypeElementTap={activeDishType}
+      <div className={classnames('application', { 'mesthead-min': this.state.isMinMesthead })}>
+        <DishMesthead
+          registered={isMember}
+          dishesData={dishesData}
+          shopInfo={shopInfo}
+          shopLogo={shopLogo}
+          marketList={marketList}
+          marketListUpdate={marketListUpdate}
         />
-        <DishScroller
-          dishTypesData={dishTypesData} dishesData={dishesData}
-          activeDishTypeId={activeDishTypeId} onScroll={activeDishType}
-          onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail} onImageBtnTap={showDishDesc}
-        />
+        <div className={`${dishPageTpl} scroller-wrap`}>
+          <DishTypeScroller
+            theme={dishPageTpl}
+            dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeId={activeDishTypeId}
+            onDishTypeElementTap={activeDishType} dishesDataDuplicate={dishesDataDuplicate}
+          />
+          <DishScroller
+            theme={dishPageTpl}
+            dishTypesData={dishTypesData} dishesData={dishesData} diningForm={shopInfo.diningForm}
+            activeDishTypeId={activeDishTypeId} onScroll={activeDishType} marketList={marketList}
+            onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail} onImageBtnTap={showDishDesc}
+            marketListUpdate={marketListUpdate}
+            onScrolling={(direction) => {
+              this.setState({ isMinMesthead: direction.y === 1 });
+            }}
+            dishesDataDuplicate={dishesDataDuplicate}
+          />
+        </div>
         {dishDetailData !== undefined ?
           <DishDetailContainer dish={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />
           : false
@@ -99,7 +138,7 @@ const DishMenuZcApplication = React.createClass({
           callMsg={callMsg}
           callAble={callAble}
           timerStatus={timerStatus}
-          dishes={dishesData}
+          dishes={dishesDataDuplicate}
           serviceStatus={serviceStatus}
           openTimeList={openTimeList}
           isShowButton={isShowButton}

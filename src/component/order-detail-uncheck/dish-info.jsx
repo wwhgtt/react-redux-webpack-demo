@@ -19,8 +19,8 @@ const DishInfo = React.createClass({
     return (
       <div className="options-group">
         <div className="option dish-head">
-          <span>{orderDetail.dishItems.length}份商品</span>
-          <span className="fr text-dusty-grey">下单时间 {orderDetail.dateTime}</span>
+          <span className="fl text-dusty-grey">下单时间 {orderDetail.dateTime}</span>
+          <span className="fr">{orderDetail.dishItems.length}份商品</span>
         </div>
         <OrderCustom customInfo={customInfo} />
         {

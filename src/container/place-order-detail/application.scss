@@ -1,0 +1,129 @@
+@import "settings.colors";
+
+.application {
+  background: #ff944d;
+}
+
+.btn-row-sure {
+  margin-bottom: 2.5em;
+  border-radius: 5em;
+}
+
+.content {
+  position: relative;
+  top: 75px;
+  left: 3%;
+  width: 94%;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-radius: 3px;
+  background-color: #fff;
+
+  &-logo {
+    position: absolute;
+    top: 50%;
+    right: -.7em;
+    width: 8.875em;
+    height: 8.875em;
+    margin-top: -4.4em;
+  }
+
+  &-logo-placesuccess {
+    background: url("../../asset/images/place-success.svg") center center/100% 100% no-repeat;
+  }
+
+  &-logo-placefail {
+    background: url("../../asset/images/place-failure.svg") center center/100% 100% no-repeat;
+  }
+
+  &-logo-placecancel {
+    background: url("../../asset/images/place-cancel.svg") center center/100% 100% no-repeat;
+  }
+
+  &-logo-reachshop {
+    background: url("../../asset/images/reach-shop.svg") center center/100% 100% no-repeat;
+  }
+
+  &-logo-notreachshop {
+    background: url("../../asset/images/not-reach-shop.svg") center center/100% 100% no-repeat;
+  }
+
+  &-logo-confirm {
+    background: url("../../asset/images/confirming.svg") center center/100% 100% no-repeat;
+  }
+
+  &-shop {
+    width: 100%;
+    text-align: center;
+
+    &-icon {
+      position: relative;
+      top: (-86px / 2);
+      width: 86px;
+      height: 86px;
+      border: 3px solid rgba(255, 150, 0, .4);
+      border-radius: 50%;
+    }
+
+    &-desc {
+      font-size: 24px;
+      margin-top: (-39px / 2);
+    }
+  }
+
+  &-content-cut-line {
+    line-height: 20px;
+    width: 100%;
+    height: 20px;
+
+    span {
+      display: inline-block;
+
+      &-middle {
+        width: 22%;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.divider {
+  line-height: 20px;
+  position: relative;
+  height: 20px;
+  margin-top: 30px;
+  text-align: center;
+  background: #fff;
+  box-shadow:
+    inset (20px / 2 + 10px) 0 0 0 #fff,
+    inset -1 * (20px / 2 + 10px) 0 0 0 #fff,
+    inset 0 (20px / 2 - .5px) 0 0 #fff,
+    inset 0 (20px / 2 + .5px) 0 0 #ece8e8;
+
+  &::before,
+  &::after {
+    width: 16px;
+    height: 16px;
+    content: "";
+    border-radius: 50%;
+    background: #fd894d;
+  }
+
+  &::before {
+    float: left;
+    margin-left: (-16px / 2);
+  }
+
+  &::after {
+    float: right;
+    margin-right: (-16px / 2);
+  }
+
+  &-title {
+    font-size: 13px;
+    padding: 0 8px;
+    color: #999;
+    background: #fff;
+  }
+}
+

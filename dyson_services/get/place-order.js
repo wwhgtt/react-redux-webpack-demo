@@ -1,7 +1,7 @@
 module.exports = {
   path:'/booking/book.json',
   template:{
-    code: 200,
+    code: '200',
     msg:'',
     data: {
       shopId: 810006463,

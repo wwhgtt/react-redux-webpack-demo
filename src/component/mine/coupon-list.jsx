@@ -4,14 +4,12 @@ const commonHelper = require('../../helper/common-helper');
 const noCouponLogo = require('../../asset/images/nocoupon.svg');
 const shallowCompare = require('react-addons-shallow-compare');
 const ItemSpand = require('../common/item-spand.jsx');
-const classnames = require('classnames');
 require('./coupon-list.scss');
 
 module.exports = React.createClass({
   displayName: 'CouponList',
   propTypes:{
     couponList:React.PropTypes.array.isRequired,
-    couponStatus:React.PropTypes.number.isRequired,
   },
   getInitialState() {
     return {
@@ -82,15 +80,7 @@ module.exports = React.createClass({
 
     return validTime;
   },
-  getShowDetail(code) {
-    if (this.state.showCode === code) {
-      this.setState({ showCode:0 });
-    } else {
-      this.setState({ showCode:code });
-    }
-  },
   render() {
-    const { couponStatus } = this.props;
     const { showCode,
       couponCanUseList,
       couponOutOfDateList,
@@ -106,9 +96,12 @@ module.exports = React.createClass({
       <div className="couponWidthData">
       {
         filterCouponList.map((itemOuter, indexOuter) => {
-          if (itemOuter.list.length === 0) {
+          if (itemOuter.list.length === 0 && couponLogo) {
             return (
-              <div className={classnames('no-coupon-outer', { show: itemOuter.couponStatus === couponStatus && couponLogo })} key={indexOuter}>
+              <div
+                className={`coupon-outer no-coupon-outer coupon-list-${indexOuter}`}
+                key={indexOuter}
+              >
                 <img src={couponLogo} alt="暂无数据" className="noCouponLogo" />
                 暂无优惠券
               </div>
@@ -116,7 +109,7 @@ module.exports = React.createClass({
           }
 
           return (
-            <div className={classnames('coupon-outer', { show: itemOuter.couponStatus === couponStatus })} key={indexOuter}>
+            <div className={`coupon-outer coupon-list-${indexOuter}`} key={indexOuter}>
               {
                 itemOuter.list.map((item, index) => {
                   let ruleVale = '';
@@ -125,6 +118,7 @@ module.exports = React.createClass({
                   let giftTypeUnit = '';
                   let giftFontSize = '';
                   let giftVerticalAlign = '';
+                  let giftLineHeight = '';
                   let statusWord = '';
                   let couponName = '';
                   const hideRule = this.getHideRule(showCode, item.codeNumber);
@@ -136,7 +130,7 @@ module.exports = React.createClass({
                   } else {
                     instructions.push('整周可用');
                   }
-                  instructions.push(item.usableCommercialDesc);
+                  instructions.push(`本券${item.usableCommercialDesc}`);
 
                   item.coupRuleBeanList.forEach((itemInner, indexInner) => {
                     const vale = this.getRuleVale(item.couponType, itemInner);
@@ -145,7 +139,14 @@ module.exports = React.createClass({
                   switch (item.couponType) {
                     case 1: typeClass = 'manjian'; typeUnit = ' 元  满减券'; couponName = '满减劵'; break;
                     case 2: typeClass = 'zhekou'; typeUnit = ' 折  折扣券'; couponName = '折扣券'; break;
-                    case 3: typeClass = 'lipin'; giftTypeUnit = '送 '; couponName = '礼品券'; giftFontSize = '1.4em'; giftVerticalAlign = '0px'; break;
+                    case 3:
+                      typeClass = 'lipin';
+                      giftTypeUnit = '送 ';
+                      couponName = '礼品券';
+                      giftFontSize = '1.4em';
+                      giftVerticalAlign = '0px';
+                      giftLineHeight = '1.1em';
+                      break;
                     case 4: typeClass = 'xianjin'; typeUnit = ' 元  现金券'; couponName = '现金券'; break;
                     default: break;
                   }
@@ -160,7 +161,7 @@ module.exports = React.createClass({
                       <ItemSpand
                         typeClass={typeClass}
                         giftUnitBefore={giftTypeUnit}
-                        giftFontStyle={{ fontSize:giftFontSize, verticalAlign:giftVerticalAlign }}
+                        giftFontStyle={{ fontSize:giftFontSize, verticalAlign:giftVerticalAlign, lineHeight:giftLineHeight }}
                         typeUnit={typeUnit}
                         ruleVale={ruleVale}
                         fullValue={item.fullValue}
@@ -171,7 +172,6 @@ module.exports = React.createClass({
                         validTime={validTime}
                         codeNumber={item.codeNumber}
                         instructions={instructions}
-                        getShowDetail={this.getShowDetail}
                         couponName={couponName}
                       />
                     </div>

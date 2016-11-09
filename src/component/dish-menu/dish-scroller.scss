@@ -47,14 +47,14 @@
   .dish-list-item {
     height: auto;
     padding: 0;
-    border: 1px solid $color-mercury;
+    border: 1px solid $color-mystic;
   }
 
   .dish-item-img {
     display: block;
     float: none;
     width: 100%;
-    height: 120px;
+    height: 125px;
     border-radius: 0;
   }
 
@@ -62,8 +62,8 @@
     float: none;
     overflow: hidden;
     width: 100%;
-    min-height: 78px;
-    padding: 5px 7px;
+    min-height: 65px;
+    padding: 5px 7px 0;
   }
 
   .dish-item-type {
@@ -86,7 +86,7 @@
 
   .dish-item-dish {
     border-top: none;
-    border-bottom: 1px solid $color-mercury;
+    border-bottom: 1px solid $color-mystic;
 
     &:last-child {
       border: none;
@@ -95,6 +95,8 @@
 }
 
 .huge {
+  $huge-btn-height: 34px;
+
   .dish-list-item {
     border: none;
   }
@@ -102,8 +104,9 @@
   .dish-item-dish {
     width: 100%;
     margin: 0;
+    padding-top: 15px;
     border-top: none;
-    border-bottom: 1px solid $color-mercury;
+    border-bottom: 1px solid $color-mystic;
 
     &:last-child {
       border: none;
@@ -120,20 +123,19 @@
 
   .counter-add,
   .counter-minus {
-    width: 34px;
-    height: 34px;
-
-    &::before {
-      width: 14px;
-    }
-
-    &::after {
-      height: 14px;
-    }
+    width: $huge-btn-height;
+    height: $huge-btn-height;
   }
 
   .counter-num {
-    line-height: 34px;
+    line-height: $huge-btn-height;
+  }
+
+  .btn--ellips {
+    font-size: 15px;
+    line-height: $huge-btn-height;
+    height: $huge-btn-height;
+    border-radius: $huge-btn-height / 2;
   }
 }
 
@@ -158,39 +160,16 @@
   }
 }
 
-.counter-add,
-.counter-minus {
-  &::before {
-    width: 14px;
-  }
+.big {
+  .dish-item-content {
+    .counter {
+      margin-top: 5px;
+    }
 
-  &::after {
-    height: 14px;
-  }
-}
-
-.counter-num {
-  line-height: 29px;
-}
-
-.counter-add {
-  border-color: #fdc245;
-  background: #fdc245;
-
-  &::before,
-  &::after {
-    background: #fff;
-  }
-}
-
-.counter-min--nonum {
-  .counter-add {
-    border-color: lighten($color-mischka, 5%);
-    background: #fff;
-
-    &::before,
-    &::after {
-      background: $color-neon-carrot;
+    .btn--ellips {
+      line-height: 24px;
+      height: 24px;
+      border-radius: 12px;
     }
   }
 }

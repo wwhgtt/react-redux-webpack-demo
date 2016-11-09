@@ -1,9 +1,8 @@
 @import "settings.colors";
 
 .order-summary {
-  padding: 5px 10px 4px;
-  border-bottom: 1px solid $color-alto;
-
+  padding: 5px 0 4px 10px;
+  // border-bottom: 1px solid $color-alto;
   // order-summary icons
   @for $i from 1 through 7 {
     &-icon#{$i}::before {
@@ -19,6 +18,14 @@
   &-entry {
     line-height: 45px;
     height: 45px;
+
+    &::after {
+      display: inherit;
+      width: auto;
+      height: 2px;
+      content: "";
+      border-bottom: 1px solid #e3e3e3;
+    }
   }
 
   &-cart .dish-name {
@@ -29,12 +36,14 @@
 .order-discount {
   float: right;
   width: 80px;
+  padding-right: 10px;
   text-align: right;
 }
 
 .order-integral {
   font-size: 14px;
   float: right;
+  padding-right: 60px;
   color: $color-dusty-grey;
 
   &::before {
@@ -93,6 +102,7 @@
   }
 
   &-right {
+    font-size: 14px;
     text-align: right;
     color: #ff7417 !important;
 
@@ -112,4 +122,8 @@
       text-decoration: none;
     }
   }
+}
+
+.temporary-coupon {
+  width: 5.5em;
 }

@@ -11,7 +11,6 @@ require('./dish-mesthead.scss');
 module.exports = React.createClass({
   displayName:'DishMesthead',
   propTypes:{
-    registered: React.PropTypes.bool,
     ads: React.PropTypes.array,
     shopInfo: React.PropTypes.object,
     shopLogo: React.PropTypes.string,
@@ -34,22 +33,18 @@ module.exports = React.createClass({
     );
   },
   render() {
-    const { registered, shopInfo, shopLogo } = this.props;
+    const { shopInfo, shopLogo } = this.props;
     const { marketList, marketListUpdate } = shopInfo || {};
+    const adsExisted = marketListUpdate && !!marketListUpdate.length;
+
     return (
-      <div className={classnames('dish-mesthead', { 'register-no': !registered })}>
-        {!registered &&
-          <div className="register notice">
-            <a href={`member/register${location.search}`}>去注册</a>
-            <p>注册会员享受更多福利哟～</p>
-          </div>
-        }
+      <div className={classnames('dish-mesthead', { 'ads-existed': adsExisted })}>
         <div className="shop">
           <img alt="门店logo" src={shopLogo || defaultShopLogo} className="shop-logo" />
           <a className="shop-title ellipsis">{shopInfo.commercialName || ''}</a>
           {this.getShopTimeElement(shopInfo && shopInfo.openTimeList)}
         </div>
-        {marketListUpdate && !!marketListUpdate.length &&
+        {adsExisted &&
           <AdsColumn
             shopInfo={shopInfo}
             marketList={marketList}

@@ -3,8 +3,19 @@
 // Override styles in cart-ordered-dish.scss
 
 .cart-ordered-dish {
-  padding: 0 10px !important;
-  background-color: #fff;
+  // margin-left: 12px;
+  padding: 0 0 0 10px !important;
+  border: none !important;
+  background-color: #fff !important;
+
+
+  &::after {
+    display: inherit;
+    width: auto;
+    height: 2px;
+    content: "";
+    border-bottom: 1px solid #e3e3e3;
+  }
 }
 
 .dish-name {
@@ -44,7 +55,7 @@
 .order-dish-count {
   font-size: 14px;
   line-height: 40px;
-  float: right;
+  float: left;
   width: 42px;
   text-align: center;
   color: $color-dusty-grey;
@@ -54,10 +65,25 @@
   line-height: 40px;
   float: right;
   width: 70px;
+  padding-right: 10px;
   text-align: right;
 
   &--deleted {
     text-decoration: line-through;
     color: $color-dusty-grey;
   }
+}
+
+.detail-props-info {
+  padding: 0 15px 8px;
+}
+
+.child-dish-info {
+  padding-right: 15px;
+  padding-left: 15px;
+  border: 0;
+}
+
+.child-dish-head {
+  height: 20px;
 }

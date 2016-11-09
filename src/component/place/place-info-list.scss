@@ -1,0 +1,23 @@
+@import "settings.colors";
+
+.options-group {
+  margin: 1em 0;
+  padding: 0 .8125em;
+  background: none;
+
+  &::after {
+    display: none;
+  }
+
+  &::before {
+    display: none;
+  }
+
+  .option {
+    padding: .5em .625em;
+
+    &::after {
+      display: none;
+    }
+  }
+}

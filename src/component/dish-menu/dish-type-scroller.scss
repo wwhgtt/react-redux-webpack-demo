@@ -6,14 +6,14 @@
   overflow: hidden;
   width: $dish-type-scroller-width;
   height: calc(100% - #{$cart-trigger-height});
-  background: $color-athens-grey;
-  box-shadow: inset -1px 0 0 $color-mystic;
+  color: $color-dove-grey;
+  background: $color-gallery;
 }
 
 .dish-type-item {
-  line-height: 64px;
+  line-height: 60px;
   position: relative;
-  min-height: 64px;
+  min-height: 60px;
   cursor: pointer;
   text-align: center;
   border-bottom: 1px solid $color-mystic;
@@ -21,12 +21,11 @@
 
   &::before {
     font-size: 12px;
-    font-weight: bold;
     line-height: 16px;
     position: absolute;
     z-index: 1;
-    top: 0;
-    right: 0;
+    top: 2px;
+    right: 2px;
     padding: 0 .4em;
     content: attr(data-count);
     color: $color-white;
@@ -119,19 +118,4 @@
   }
 }
 
-
-.scroller-wrap {
-  height: calc(100% - 130px - 50px);
-
-  &.huge,
-  &.big {
-    .dish-scroller {
-      height: calc(100% - 44px);
-    }
-  }
-}
-
-.register-no + .scroller-wrap {
-  height: calc(100% - 130px - 50px - 44px);
-}
 

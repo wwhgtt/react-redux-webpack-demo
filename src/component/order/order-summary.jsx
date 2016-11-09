@@ -72,12 +72,13 @@ module.exports = React.createClass({
             :
             false
           }
-
-          {orderedElements}
+          <div className="ordered-dish-content">
+            {orderedElements}
+          </div>
 
           {serviceProps.deliveryProps && serviceProps.deliveryProps.deliveryPrice ?
             <p className="option clearfix division">
-              <span className="option-title">配送费:</span>
+              <span className="option-title">配送费</span>
               <span className="order-discount price">{serviceProps.deliveryProps.deliveryPrice}</span>
             </p>
             :
@@ -85,7 +86,7 @@ module.exports = React.createClass({
           }
           {helper.getDishBoxPrice() ?
             <p className="option clearfix">
-              <span className="option-title">餐盒费:</span>
+              <span className="option-title">餐盒费</span>
               <span className="order-discount price">{helper.getDishBoxPrice()}</span>
             </p>
             :
@@ -93,7 +94,7 @@ module.exports = React.createClass({
           }
           {serviceProps.benefitProps && serviceProps.benefitProps.extraPrivilege && serviceProps.benefitProps.extraPrivilege.length ?
             <p className="option clearfix division">
-              <span className="option-title">附加费:</span>
+              <span className="option-title">附加费</span>
               <span className="order-discount price">
                 {formatPrice(helper.countExtraPrivilege(serviceProps.benefitProps.extraPrivilege))}
               </span>
@@ -104,7 +105,7 @@ module.exports = React.createClass({
           {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length
             && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 && commercialProps.diningForm !== 0 ?
             <a className="option division" href="#coupon-select">
-              <span className="option-title">使用优惠券</span>
+              <span className="option-title temporary-coupon">使用优惠券</span>
               <span className="badge-coupon">
                 {serviceProps.couponsProps.inUseCoupon ?
                   '已使用一张优惠券'
@@ -123,7 +124,7 @@ module.exports = React.createClass({
           : false}
           {commercialProps.carryRuleVO && helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).smallChange < 0 ?
             <p className="option clearfix">
-              <span className="option-title">尾数调整:</span>
+              <span className="option-title">尾数调整</span>
               <span className="order-discount price">
                 {Math.abs(helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).smallChange)}
               </span>
@@ -136,7 +137,7 @@ module.exports = React.createClass({
           <div className="order-summary">
             {serviceProps.discountProps.inUseDiscount ?
               <p className="order-summary-entry clearfix">
-                <span className="option-title option-title--icon order-summary-icon1">会员优惠:</span>
+                <span className="option-title option-title--icon order-summary-icon1">会员优惠</span>
                 <span className="order-discount discount">
                   {serviceProps.discountProps.inUseDiscount}
                 </span>
@@ -146,7 +147,7 @@ module.exports = React.createClass({
             }
             {serviceProps.activityBenefit.benefitMoney > 0 ?
               <p className="order-summary-entry clearfix">
-                <span className="option-title option-title--icon order-summary-icon6">活动优惠:</span>
+                <span className="option-title option-title--icon order-summary-icon6">活动优惠</span>
                 <span className="order-discount discount">
                   {serviceProps.activityBenefit.benefitMoney}
                 </span>
@@ -167,7 +168,7 @@ module.exports = React.createClass({
             }
             {serviceProps.couponsProps.inUseCoupon ?
               <p className="order-summary-entry clearfix">
-                <span className="option-title option-title--icon order-summary-icon3">优惠券优惠:</span>
+                <span className="option-title option-title--icon order-summary-icon3">优惠券优惠</span>
                 <span className="order-discount discount">
                   {serviceProps.discountProps.discountInfo && serviceProps.discountProps.discountInfo.isChecked ?
                     formatPrice(
@@ -194,7 +195,7 @@ module.exports = React.createClass({
 
             {serviceProps.integralsInfo && serviceProps.integralsInfo.isChecked && commercialProps.carryRuleVO ?
               <p className="order-summary-entry clearfix">
-                <span className="option-title option-title--icon order-summary-icon4">积分抵扣:</span>
+                <span className="option-title option-title--icon order-summary-icon4">积分抵扣</span>
                 <span className="order-discount discount">
                   {helper.countIntegralsToCash(
                     Number(helper.countPriceWithCouponAndDiscount(dishesPrice, serviceProps)),
@@ -213,7 +214,7 @@ module.exports = React.createClass({
             }
             {serviceProps.benefitProps && _find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 6) ?
               <p className="order-summary-entry clearfix">
-                <span className="option-title option-title--icon order-summary-icon1">会员优惠:</span>
+                <span className="option-title option-title--icon order-summary-icon1">会员优惠</span>
                 <span className="order-discount discount">
                   {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 6).privilegeAmount}
                 </span>
@@ -235,7 +236,7 @@ module.exports = React.createClass({
             }
             {serviceProps.benefitProps && _find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 5) ?
               <p className="order-summary-entry clearfix">
-                <span className="option-title option-title--icon order-summary-icon4">积分抵扣:</span>
+                <span className="option-title option-title--icon order-summary-icon4">积分抵扣</span>
                 <span className="order-discount discount">
                   {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 5).privilegeAmount}
                 </span>
@@ -262,7 +263,7 @@ module.exports = React.createClass({
             }
             {serviceProps.benefitProps && _find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === -100) ?
               <p className="order-summary-entry clearfix">
-                <span className="option-title option-title--icon order-summary-icon7">其他优惠:</span>
+                <span className="option-title option-title--icon order-summary-icon7">其他优惠</span>
                 <span className="order-discount discount">
                   {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === -100).privilegeAmount}
                 </span>
@@ -272,7 +273,7 @@ module.exports = React.createClass({
             }
             {commercialProps.carryRuleVO && helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).smallChange > 0 ?
               <p className="order-summary-entry clearfix">
-                <span className="option-title option-title--icon order-summary-icon5">自动抹零:</span>
+                <span className="option-title option-title--icon order-summary-icon5">自动抹零</span>
                 <span className="order-discount discount">
                   {Math.abs(helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).smallChange)}
                 </span>
@@ -283,7 +284,7 @@ module.exports = React.createClass({
           </div>
           <div className="option order-total clearfix">
             <div className="order-total-left">
-              <span className="text-dove-grey">原价: </span>
+              <span className="text-dove-grey">原价 </span>
               <span className="price">{serviceProps.benefitProps && serviceProps.benefitProps.isPriviledge ?
                 formatPrice(
                   serviceProps.benefitProps.extraPrice
@@ -298,7 +299,7 @@ module.exports = React.createClass({
             {commercialProps.carryRuleVO ?
               <div>
                 <div className="order-total-left">
-                  <span className="text-dove-grey">共优惠: </span>
+                  <span className="text-dove-grey">优惠 </span>
                   <span className="price">
                     {serviceProps.benefitProps && serviceProps.benefitProps.isPriviledge ?
                       serviceProps.benefitProps.priviledgeAmount
@@ -310,7 +311,7 @@ module.exports = React.createClass({
                   </span>
                 </div>
                 <div className="order-total-right">
-                  <span className="text-dove-grey">总计: </span>
+                  <span className="text-dove-grey">总计 </span>
                   <span className="price">
                     {serviceProps.benefitProps && serviceProps.benefitProps.isPriviledge ?
                       serviceProps.benefitProps.totalAmount

@@ -48,6 +48,12 @@ module.exports = {
     'place-order-entry': [
       './src/place-order.jsx',
     ],
+    'place-check-order-entry': [
+      './src/place-check-order.jsx',
+    ],
+    'place-order-detail-entry': [
+      './src/place-order-detail.jsx',
+    ],
     'bind-phone-entry': [
       './src/bind-phone.jsx',
     ],
@@ -267,6 +273,22 @@ module.exports = {
         title: 'PlaceOrderApplication',
         filename: 'place-order.html',
         chunks: ['common', 'place-order-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'PlaceCheckOrderApplication',
+        filename: 'place-check-order.html',
+        chunks: ['common', 'place-check-order-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'PlaceOrderDetailApplication',
+        filename: 'place-order-detail.html',
+        chunks: ['common', 'place-order-detail-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

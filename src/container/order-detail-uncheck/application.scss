@@ -2,7 +2,69 @@
 
 .application {
   background: $color-gallery;
+
+  &-content {
+    margin: 1em 0 0;
+  }
 }
+
+.shop {
+  &-name {
+    font-size: 1.125em;
+    line-height: 1.389em;
+    padding: 1em 0;
+    text-align: center;
+    background: #fff;
+  }
+
+  &-method {
+    font-size: 14px;
+    padding: .5em 1em;
+    background: #fff;
+  }
+
+  &-table {
+    float: left;
+    width: 100px;
+    height: 14px;
+    color: #474747;
+  }
+
+  &-orderNo {
+    position: relative;
+    float: left;
+    width: calc(100% - 205px);
+    color: #474747;
+  }
+
+  &-edit {
+    position: relative;
+    float: right;
+    padding-left: 1.4em;
+    color: #ff7417;
+
+    &::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1em;
+      height: 1em;
+      content: "";
+      background: url("../../asset/images/edit.svg") center center/100% 100% no-repeat;
+    }
+  }
+}
+
+.dish-box {
+  .dish-name {
+    width: calc(100% - 200px);
+  }
+
+  .dish-count {
+    margin-left: 60px;
+  }
+}
+
 
 .dish-head {
   font-size: 14px;
@@ -11,15 +73,13 @@
 .btn-dish,
 .btn-count {
   line-height: 50px;
-  display: inline-block;
-  width: 50%;
   text-decoration: none;
 }
 
 .btn-count {
   text-align: center;
   color: $color-white;
-  background-color: $color-neon-carrot;
+  background-color: #ffc43a;
 }
 
 .btn-count-dis {
@@ -57,7 +117,14 @@
 }
 
 .dish-box .badge-price {
+  float: left;
   margin-left: 3px;
+  padding: 0 3px;
+  border-radius: 3px;
+}
+
+.dish-box .dish-sub .dish-count {
+  margin: 0 70px 0 0;
 }
 
 // status
@@ -84,6 +151,20 @@
 }
 
 .order-block-title {
-  font-size: 14px;
-  margin-bottom: 10px;
+  font-size: 13px;
+  padding: 1em;
+  color: #666;
 }
+
+.options-group {
+  margin-bottom: 0;
+
+  &-mg {
+    margin: .2em 0;
+  }
+}
+
+.option {
+  padding: 12px 1em;
+}
+

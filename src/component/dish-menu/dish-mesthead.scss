@@ -2,9 +2,13 @@
 
 .dish-mesthead {
   position: relative;
-  min-height: 130px;
-  padding: 0 15px 34px;
-  background: #e6894c;
+  padding: 0 15px;
+  background: $color-orange-red;
+  transition: top, .3s ease-out;
+
+  &.ads-existed {
+    padding-bottom: 34px;
+  }
 
   &.register {
     padding-top: 44px;
@@ -21,19 +25,17 @@
 }
 
 .register {
-  margin: 0 -15px;
-
   a {
-    line-height: 30px;
+    line-height: 29px;
     float: right;
-    height: 30px;
-    margin: 7px 15px 0 0;
+    height: 29px;
+    margin: 7px 0 0;
     padding: 0 10px;
     text-align: center;
     text-decoration: none;
     color: #fff;
     border-radius: 5px;
-    background: #ff7e28;
+    background: $color-crusta;
   }
 }
 
@@ -45,6 +47,7 @@
     width: 60px;
     height: 60px;
     margin: 0 10px 0 0;
+    border: 3px solid #e47743;
     border-radius: 50%;
   }
 
@@ -71,7 +74,7 @@
     background: $color-sunglow;
 
     &-close {
-      background: $color-sliver;
+      background: $color-silver;
     }
   }
 }
@@ -79,8 +82,10 @@
 .notice {
   font-size: 14px;
   line-height: 44px;
+  position: relative;
+  z-index: 1;
   height: 44px;
-  padding: 0 0 0 32px;
-  background: #fffbdf  url("../../asset/images/ads.svg") no-repeat 10px 14px;
+  padding: 0 15px 0 32px;
+  background: $color-light-sand url("../../asset/images/ads.svg") no-repeat 10px 14px;
   background-size: 16px 16px;
 }

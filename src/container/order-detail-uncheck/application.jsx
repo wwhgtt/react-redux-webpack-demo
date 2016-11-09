@@ -1,7 +1,6 @@
 const React = require('react');
 const actions = require('../../action/order-detail-uncheck/order-detail-uncheck.js');
 const connect = require('react-redux').connect;
-const OrderInfo = require('../../component/order-detail-uncheck/order-info.jsx');
 const DishInfo = require('../../component/order-detail-uncheck/dish-info.jsx');
 const DishDetail = require('../../component/order-detail-uncheck/dish-detail.jsx');
 const shopIcon = require('../../asset/images/default.png');
@@ -14,7 +13,7 @@ require('../../asset/style/style.scss');
 require('./application.scss');
 
 const OrderDetailInApplication = React.createClass({
-  displayName: 'OrderDetailIn',
+  displayName: 'OrderDetailInApplication',
   propTypes: {
     orderDetail: React.PropTypes.object,
     getOrderDetailUncheck: React.PropTypes.func,
@@ -63,10 +62,10 @@ const OrderDetailInApplication = React.createClass({
     const { errorMsg } = this.state;
     const orderInfo = {
       shopIcon: orderDetail.shopLogo ? orderDetail.shopLogo : shopIcon,
-      shopName: orderDetail.shopName,
+      shopName: orderDetail.shopName || '',
       orderNo: orderDetail.serialNo || '',
       customNum: orderDetail.peopleCount || 0,
-      deskNo: { area: orderDetail.tableArea, table: orderDetail.tableNo },
+      deskNo: { area: orderDetail.tableArea || '', table: orderDetail.tableNo || '' },
     };
     let dishTotal = {};
     if (orderDetail.dishTotal) {
@@ -80,77 +79,90 @@ const OrderDetailInApplication = React.createClass({
     const statusType = this.handleStatus(dishTotal.status);
     return (
       <div className="application flex-columns">
-        <div className="flex-rest">
-          <OrderInfo orderInfo={orderInfo} />
-          {orderDetail.orderMetas && orderDetail.orderMetas.length > 0 && <p className="order-block-title">加菜订单</p>}
-          {
-            orderDetail.orderMetas &&
-            orderDetail.orderMetas.map((item, index) =>
-              <DishInfo orderDetail={item} key={index} />
-            )
-          }
-          <p className="order-block-title">客看单</p>
-          <div className="options-group">
-            <div className="option order-status">
-              <span>订单状态</span>
-              <div className={`order-status-symbal status-square ${statusType}`}></div>
-            </div>
+        <div className="application-content">
+          <p className="shop-name ellipsis">{orderInfo.shopName}</p>
+          <div className="shop-method of">
+            <span className="shop-orderNo">流水号{orderInfo.orderNo}</span>
+            <span className="shop-table">{orderInfo.deskNo.area + orderInfo.deskNo.table}</span>
+            <span className="shop-edit" onTouchTap={this.handleDishMenu}>继续点餐</span>
+          </div>
+          <div className="flex-rest">
+            {orderDetail.orderMetas && orderDetail.orderMetas.length > 0 && <p className="order-block-title">加菜订单</p>}
             {
-              dishTotal.dishItems &&
-                dishTotal.dishItems.map((item, index) =>
-                  <DishDetail mainDish={item} key={index} />
-                )
-            }
-            {
-              Boolean(orderDetail.addPrivilege) && (
-                <div className="option">
-                  <span>附加费总计</span>
-                  <span className="price fr">{orderDetail.addPrivilege}</span>
-                </div>
+              orderDetail.orderMetas &&
+              orderDetail.orderMetas.map((item, index) =>
+                <DishInfo orderDetail={item} key={index} />
               )
             }
-
-            {
-              Boolean(dishTotal.priviledgeAmount) && (
-                <div className="option">
-                  <span>优惠总计</span>
-                  <span className="discount fr">{dishTotal.priviledgeAmount}</span>
-                </div>
-              )
-            }
-
-            <div className="option">
+            <p className="order-block-title">客看单</p>
+            <div className="options-group">
+              <div className="option order-status">
+                <span>订单状态</span>
+                <div className={`order-status-symbal status-square ${statusType}`}></div>
+              </div>
               {
-                dishTotal.dishItems && <span>共 {dishTotal.dishItems.length} 份商品</span>
+                dishTotal.dishItems &&
+                  dishTotal.dishItems.map((item, index) =>
+                    <DishDetail mainDish={item} key={index} />
+                  )
               }
-              <div className="fr">
-                <span>总计：</span>
-                <span className="text-neon-carrot price">{orderDetail.tradeAmount}</span>
+            </div>
+            <div className="options-group options-group-mg">
+              {
+                Boolean(orderDetail.addPrivilege) && (
+                  <div className="option">
+                    <span>附加费总计</span>
+                    <span className="price fr">{orderDetail.addPrivilege}</span>
+                  </div>
+                )
+              }
+
+              {
+                Boolean(dishTotal.priviledgeAmount) && (
+                  <div className="option">
+                    <span>优惠总计</span>
+                    <span className="discount fr">{dishTotal.priviledgeAmount}</span>
+                  </div>
+                )
+              }
+
+              <div className="option">
+                {
+                  dishTotal.dishItems && <span>共 {dishTotal.dishItems.length} 份商品</span>
+                }
+                <div className="fr">
+                  <span>总计：</span>
+                  <span className="text-neon-carrot price">{orderDetail.tradeAmount}</span>
+                </div>
               </div>
+            </div>
+            {
+              dishTotal.memo && (
+                <div className="options-group options-group-mg">
+                  <div className="option">
+                    <span className="order-demo-title fl">整单备注</span>
+                    <p className="order-demo-info fl">{dishTotal.memo}</p>
+                  </div>
+                </div>
+             )
+            }
+
+          </div>
+          <div className="order-operate flex-none">
+            <div className={`${btnDis} flex-row`}>
+              <a
+                className="btn-count flex-rest"
+                href={`http://${location.host}/orderall/settlement4Dinner?shopId=${shopId}&tradeId=${orderId}&type=TS`}
+              >
+              去结账
+              </a>
             </div>
           </div>
           {
-            dishTotal.memo && (
-              <div className="options-group">
-                <div className="option">
-                  <span className="order-demo-title fl">整单备注</span>
-                  <p className="order-demo-info fl">{dishTotal.memo}</p>
-                </div>
-              </div>
-           )
+            errorMsg &&
+              <Toast errorMessage={errorMsg} clearErrorMsg={this.handleClearErrorMsg} />
           }
-
         </div>
-        <div className="order-operate flex-none">
-          <div className={btnDis}>
-            <a className="btn--yellow btn-dish" onTouchTap={this.handleDishMenu}>继续点菜</a>
-            <a className="btn-count" href={`http://${location.host}/orderall/settlement4Dinner?shopId=${shopId}&tradeId=${orderId}&type=TS`}>结账</a>
-          </div>
-        </div>
-        {
-          errorMsg &&
-            <Toast errorMessage={errorMsg} clearErrorMsg={this.handleClearErrorMsg} />
-        }
       </div>
     );
   },
