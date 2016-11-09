@@ -1,4 +1,6 @@
 .dish-box {
+  font-size: 15px;
+
   .dish-main {
     position: relative;
   }
@@ -6,21 +8,37 @@
   .dish-sub {
     position: relative;
     margin-top: 15px;
-    padding-left: 30px;
+    padding-left: 16px;
 
     .dish-name {
       font-size: 14px;
+      width: auto;
+      max-width: calc(100% - 195px);
+      padding-right: 0;
+      color: #666;
+    }
+
+    &-info {
+      margin: 14px 0;
     }
 
     .dish-count {
-      margin-right: 70px;
+      font-size: 13px;
+      float: right;
+      margin: 0 90px 0 0;
     }
   }
 
   .dish-name {
-    display: inline-block;
-    max-width: calc(100% - 180px);
-    vertical-align: middle;
+    position: relative;
+    float: left;
+    width: calc(100% - 160px);
+    padding-right: 20px;
+    color: #474747;
+
+    &::after {
+      right: 0;
+    }
   }
 
   .dish-price {
@@ -31,23 +49,26 @@
   }
 
   .dish-count {
-    font-size: 14px;
-    display: block;
-    float: right;
-    width: 42px;
+    float: left;
+    width: 70px;
+    margin-left: 0;
+    text-align: center;
     color: #999;
   }
 
   .dish-memo {
-    font-size: 12px;
+    font-size: 13px;
     line-height: 15px;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 5px;
     color: #999;
   }
 
   .dish-status {
     position: absolute;
     top: -5px;
-    right: 120px;
+    right: 148px;
   }
 }
 
@@ -59,14 +80,14 @@
   width: 20px;
   height: 22px;
   content: "";
-  background-image: url("../../asset/images/arrow-top-grey.png");
+  background-image: url("../../asset/images/arrow-right.svg");
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: 10px 6px;
-  transform: rotate(180deg);
+  background-size: auto 12px;
+  transform: rotate(90deg);
   transition: transform .15s;
 }
 
 .dish-name--trigger.is-open::after {
-  transform: rotate(0);
+  transform: rotate(-90deg);
 }

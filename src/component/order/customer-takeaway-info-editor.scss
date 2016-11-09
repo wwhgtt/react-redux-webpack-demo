@@ -1,4 +1,6 @@
 @import "settings.colors";
+@import "tools.functions";
+@import "tools.mixins";
 
 // .order-subpage {
 //   // override nested subpage
@@ -44,7 +46,13 @@
     overflow: hidden;
     padding: 15px 65px 14px 15px;
     text-decoration: none;
-    border-bottom: 1px solid #e3e3e3;
+
+    &::after {
+      @include border-thin(bottom);
+
+      bottom: 0;
+      border-bottom: bordersolid(1, #e3e3e3);
+    }
 
     &.is-checked {
       &::before {

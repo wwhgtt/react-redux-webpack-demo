@@ -105,7 +105,7 @@
   &::after {
     @include border-thin(bottom);
 
-    right: 1em;
+    right: 0;
     bottom: 0;
     left: 1em;
     width: auto;

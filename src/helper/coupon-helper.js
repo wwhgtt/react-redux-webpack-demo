@@ -29,6 +29,9 @@ exports.formateOriginDate = (date) => {
 
 exports.formateInstruction = (information) => {
   const reg = new RegExp('<[^<]*>', 'gi');    // 标签的正则表达式
-  return information.replace(reg, '');          // 替换所有标签为空
+  if (information.replace(reg, '')) {
+    return information.replace(/<p>/ig, '').replace(/<\/p>/ig, '\n');
+  }
+  return information.replace(reg, '');
 };
 

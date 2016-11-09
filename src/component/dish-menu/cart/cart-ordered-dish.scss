@@ -28,16 +28,16 @@
         margin-left: 10px;
         content: "";
         vertical-align: -3px;
-        background-image: url("../../../asset/images/arrow-top-grey.svg"); // image size 20 * 12px
+        background-image: url("../../../asset/images/arrow-right.svg"); // image size 20 * 12px
         background-repeat: no-repeat;
         background-position: center center;
         background-size: 16px 16px;
-        transform: rotate(0);
+        transform: rotate(90deg);
         transition: transform .15s;
       }
 
       &--trigger.is-open::after {
-        transform: rotate(180deg);
+        transform: rotate(-90deg);
       }
     }
 

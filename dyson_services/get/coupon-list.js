@@ -103,7 +103,7 @@ module.exports = {
                 "createTime": 1477620032000,
                 "creatorId": 88888931366,
                 "isDelete": 0,
-                "instructions": "<p></p>",
+                "instructions": "<p>gfgdf</p><p>ytyt</p>",
                 "coupRuleBeanList": [
                     {
                         "id": 18283,
@@ -261,7 +261,7 @@ module.exports = {
                 "createTime": 1477620032000,
                 "creatorId": 88888931366,
                 "isDelete": 0,
-                "instructions": "<p></p>",
+                "instructions": "<p>嘘嘘嘘</p>讲讲讲",
                 "coupRuleBeanList": [
                     {
                         "id": 18283,

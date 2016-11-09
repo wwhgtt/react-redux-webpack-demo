@@ -20,6 +20,7 @@ module.exports = React.createClass({
     }).isRequired,
     getInfo:React.PropTypes.func,
     logOff:React.PropTypes.func,
+    onSave:React.PropTypes.func,
   },
   getInitialState() {
     return { name : '', sex : '' }; // 两个参数姓名和性别
@@ -214,6 +215,7 @@ module.exports = React.createClass({
       <div className="list-outer of">
         {partOne}
         {partTwo}
+        <a href=" javascript:;" className="btn-row btn-row-sure btn-row-mt" onTouchTap={this.props.onSave}>保存</a>
         <a href=" javascript:;" className="btn-row btn-row-mt" onTouchTap={this.onLogOff}>注销</a>
       </div>
     );

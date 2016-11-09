@@ -53,9 +53,8 @@ const MineSettingApplication = React.createClass({
             false
         }
         <div className="scroll-part">
-          <ShowSettingList info={info} getInfo={this.getInfo} logOff={logOff} />
+          <ShowSettingList info={info} getInfo={this.getInfo} logOff={logOff} onSave={() => this.onSave(condition)} />
         </div>
-        <a href=" javascript:void(0);" className="btn-row btn-row-sure btn-ab" onTouchTap={() => this.onSave(condition)}>保存</a>
         {
         errorMessage ?
           <Toast clearErrorMsg={clearErrorMsg} errorMessage={errorMessage} />

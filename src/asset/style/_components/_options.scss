@@ -1,10 +1,23 @@
 .options-group {
+  position: relative;
   display: block;
   margin-bottom: 10px;
   text-decoration: none;
-  border-top: 1px solid $color-mercury;
-  border-bottom: 1px solid $color-mercury;
   background: $color-white;
+
+  &::before {
+    @include border-thin(top);
+
+    top: 0;
+    border-top: bordersolid(1, #e3e3e3);
+  }
+
+  &::after {
+    @include border-thin(bottom);
+
+    bottom: 0;
+    border-bottom: bordersolid(1, #e3e3e3);
+  }
 
   &:empty {
     border-style: none;
@@ -16,12 +29,22 @@
 
   font-size: 16px;
   line-height: 22px;
+  position: relative;
   display: block;
   overflow: hidden;
   padding: 12px 10px;
   text-decoration: none;
   color: $color-mine-shaft;
-  border-bottom: 1px solid $color-mercury;
+
+  &::after {
+    @include border-thin(bottom);
+
+    right: 0;
+    bottom: 0;
+    left: 1em;
+    width: auto;
+    border-bottom: bordersolid(1, #e3e3e3);
+  }
 
   &:last-child {
     border-bottom: 0;

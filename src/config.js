@@ -46,6 +46,7 @@ module.exports = {
   deleteAddressAPI: `${apiBase}/user/delAddress.json`,
   getOrderAddressInfoAPI: `${apiBase}/user/getAddressInfo.json`,
   submitTSOrderCartAPI: `${apiBase}/orderall/subOrderDinner.json`,
+  placeCheckOrderAPI: `${apiBase}/place/placeCheckOrder.json`,
 
   userLoginAPI: `${apiBase}/user/login.json`,
   userLoginWXURL: `${apiBase}/user/login4WX`,

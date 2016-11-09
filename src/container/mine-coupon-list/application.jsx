@@ -18,7 +18,7 @@ const MineVipLevelApplication = React.createClass({
     getCouponList:React.PropTypes.func.isRequired,
   },
   getInitialState() {
-    return { couponStatus:1 };
+    return { couponStatus:'coupon-canUse' };
   },
   componentWillMount() {},
   componentDidMount() {
@@ -27,9 +27,9 @@ const MineVipLevelApplication = React.createClass({
   },
   getCouponStatus(num) {
     switch (num) {
-      case 0: this.setState({ couponStatus:1 }); break;
-      case 1: this.setState({ couponStatus:2 }); break;
-      case 2: this.setState({ couponStatus:3 }); break;
+      case 0: this.setState({ couponStatus:'coupon-canUse' }); break;
+      case 1: this.setState({ couponStatus:'coupon-used' }); break;
+      case 2: this.setState({ couponStatus:'coupon-outOfDate' }); break;
       default: break;
     }
   },
@@ -38,9 +38,9 @@ const MineVipLevelApplication = React.createClass({
     const { couponStatus } = this.state;
     const navis = ['未使用', '已使用', '已过期'];
     return (
-      <div className="application">
+      <div className={`${couponStatus} application`}>
         <SwitchNavi navis={navis} getIndex={this.getCouponStatus} />
-        <CouponList couponList={couponList} couponStatus={couponStatus} />
+        <CouponList couponList={couponList} />
         {load.status && <Loading word={load.word} />}
         {errorMessage && <Toast clearErrorMsg={clearErrorMsg} errorMessage={errorMessage} />}
       </div>
