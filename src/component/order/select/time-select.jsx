@@ -98,7 +98,7 @@ module.exports = React.createClass({
           const checked = time === selectedDateTime.time || (idx === 0 && selectedMark && selectedDateTime.time === '');
           let resetedTime = { id:time, label:time, isChecked: checked };
           if (isToday && !time) {
-            resetedTime.label = `立即${this.props.isSelfFetch ? '取餐' : '送达'}`;
+            resetedTime.label = `${this.props.isSelfFetch ? '立即取餐' : '尽快送达'}`;
           }
           return resetedTime;
         });
