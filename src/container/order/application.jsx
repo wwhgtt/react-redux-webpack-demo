@@ -510,12 +510,12 @@ const OrderApplication = React.createClass({
               <div className="vertical-center clearfix">
                 {commercialProps.carryRuleVO ?
                   <div>
-                    <div className="order-cart-entry text-dove-grey">已优惠&nbsp;
+                    <div className="order-cart-entry text-dove-grey" style={{ width: '110px' }}>已优惠&nbsp;
                       <span className="price">
                         {helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)}
                       </span>
                     </div>
-                    <div className="order-cart-entry" style={{ float:'right' }}>
+                    <div className="order-cart-entry" style={{ float:'left' }}>
                       <span className="text-dove-grey">还需付 </span>
                       <span className="order-cart-price price">
                         {
@@ -530,7 +530,7 @@ const OrderApplication = React.createClass({
               </div>
             </div>
             <div className="order-cart-right">
-              <a className="order-cart-btn btn--yellow" onTouchTap={this.submitOrder}>确认订单</a>
+              <a className="order-cart-btn btn--yellow" onTouchTap={this.submitOrder}>确认下单</a>
             </div>
           </div>
           :
