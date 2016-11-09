@@ -15,7 +15,7 @@
 .btn--yellow {
   text-align: center;
   color: $color-white;
-  background: $color-sunglow;
+  background: $color-texas-rose;
 
   &.btn-disabled {
     background: darken($color-alto, 15%);
@@ -34,11 +34,9 @@
 
 // BUTTON ELEMENTS
 .btn-choose-property {
-  $border-color: lighten($color-mischka, 5%);
-
   float: right;
-  color: $color-neon-carrot;
-  border-color: $border-color;
+  color: $color-texas-rose;
+  border-color: $color-mystic;
 }
 
 
@@ -216,7 +214,7 @@
 
   &:active {
     opacity: .8;
-    background: #ccc;
+    background: $color-silver;
   }
 }
 

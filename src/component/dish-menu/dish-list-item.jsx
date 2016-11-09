@@ -17,6 +17,7 @@ module.exports = React.createClass({
     onImageBtnTap: React.PropTypes.func.isRequired,
     diningForm: React.PropTypes.bool,
     marketList: React.PropTypes.object,
+    theme: React.PropTypes.string,
   },
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
@@ -95,9 +96,11 @@ module.exports = React.createClass({
     return discountRestore;
   },
   render() {
-    const { dishData, marketList, diningForm, dishesDataDuplicate } = this.props;
+    const { dishData, marketList, diningForm, dishesDataDuplicate, theme } = this.props;
     const orderBtn = this.buildOrderBtn(dishData, dishesDataDuplicate);
     const discountPart = this.disCountInfo(diningForm, marketList, dishData.brandDishId);
+    const imgUrl = (theme === 'huge' ? dishData.largeImgUrl : dishData.smallImgUrl) || imagePlaceholder;
+
     return (
       <div className="dish-on-selling">
         {dishData.currRemainTotal !== 0 ?
@@ -105,7 +108,7 @@ module.exports = React.createClass({
             <button
               className={classnames('dish-item-img', { 'is-memberdish': dishData.isMember })}
               onTouchTap={this.onDishImageTap}
-              style={{ backgroundImage: `url(${dishData.smallImgUrl || imagePlaceholder})` }}
+              style={{ backgroundImage: `url(${imgUrl})` }}
             ></button>
 
             <div className="dish-item-content">
