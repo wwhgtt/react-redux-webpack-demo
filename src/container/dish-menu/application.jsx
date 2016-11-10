@@ -111,7 +111,6 @@ const DishMenuApplication = React.createClass({
     const isMember = normalDiscountProps && normalDiscountProps.isMember || false;
     let { dishPageTpl } = this.props;
 
-
     return (
       <div className="application">
         {!isMember &&
