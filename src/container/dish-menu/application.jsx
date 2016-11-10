@@ -114,7 +114,7 @@ const DishMenuApplication = React.createClass({
 
     return (
       <div className="application">
-        {(!isMember && false) &&
+        {!isMember &&
           <div className="register notice">
             <a href={`/member/register${location.search}`}>去注册</a>
             <p>注册会员享受更多福利哟～</p>
