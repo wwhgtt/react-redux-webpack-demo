@@ -2,7 +2,7 @@ const Immutable = require('seamless-immutable');
 
 module.exports = function (
   state = Immutable.from({
-    couponList:[],
+    loyaltyCouponList:[],
     errorMessage:'',
     load:{
       status:true,
@@ -21,7 +21,7 @@ module.exports = function (
       return state.set('load', payload);
     }
     case 'SET_COUPON_LIST': {
-      return state.set('couponList', payload.coupList || []);
+      return state.set('loyaltyCouponList', payload.coupList || []);
     }
     default:
   }

@@ -55,7 +55,7 @@ module.exports = React.createClass({ // ShowBasicInfo
             </div>
             <div className="totalPrice">
               <span className="part">共{total.totalPart}份</span>
-              总计：<span className="num">￥{total.totalPrice}</span>
+              总计：<span className="num price">{total.totalPrice}</span>
             </div>
           </div>
           <div className="options-group options-group-spe">

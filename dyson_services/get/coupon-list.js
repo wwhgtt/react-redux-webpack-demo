@@ -10,7 +10,7 @@ module.exports = {
                 "codeNumber": "727405600082337",
                 "couponId": 5605,
                 "brandId": 7274,
-                "couponStatus": 1,
+                "couponStatus": 2,
                 "planId": 9636,
                 "validStartDate": "2016-10-28",
                 "validEndDate": "2016-11-06",
