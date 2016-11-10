@@ -38,10 +38,7 @@
   background: #ccc;
 
   &-inner {
-    display: box;
     overflow: hidden;
-    max-height: 3em;
-    -webkit-line-clamp: 2;
   }
 
   &-value {

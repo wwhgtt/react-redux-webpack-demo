@@ -22,7 +22,6 @@ fetch(`${config.getOrderInLineAPI}?shopId=${shopId}`, config.requestOptions).
   }).
   then(result => {
     if (result.data.orderId) {
-      dispatch(setErrorMsg('已成功排队，无需再次排队...'));
       location.href = `/queue/success?shopId=${shopId}&orderId=${result.data.orderId}`;
     } else {
       dispatch(setOrderInLineProps(result.data));

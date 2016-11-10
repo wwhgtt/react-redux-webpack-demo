@@ -1,0 +1,81 @@
+@import "settings.colors";
+
+.options-head {
+  margin-top: 15px;
+  margin-bottom: 0;
+}
+
+.option-shop {
+  padding: 15px 10px 22px;
+
+  &-desc {
+    font-size: 18px !important;
+    line-height: 25px;
+    width: 100% !important;
+    height: 25px;
+    padding-left: 0 !important;
+    text-align: center;
+  }
+
+  &::after {
+    border-bottom: 0;
+  }
+}
+
+.dining-options {
+  height: 36px;
+  padding: 0 10px 8px;
+
+  .middle {
+    width: 40%;
+    text-align: center;
+  }
+
+  .right {
+    float: right;
+    text-align: right;
+  }
+}
+
+.dining-option {
+  font-size: 14px;
+  line-height: 20px;
+  height: 20px;
+
+  span {
+    color: #666;
+  }
+
+  &:first-child {
+    font-weight: 600;
+    color: #474747;
+  }
+
+  &:last-child {
+    width: auto;
+  }
+}
+
+.extra-supplement {
+  height: 44px;
+  padding: 11px;
+  border-bottom: 1px solid #f1f1f1;
+  background-color: #fff;
+
+  span {
+    font-size: 14px;
+    line-height: 20px;
+    display: inline-block;
+    float: left;
+    width: 50%;
+    height: 20px;
+  }
+}
+
+.btn--orange {
+  background: #ffc334;
+}
+
+.margin-cart-bottom {
+  margin-bottom: 60px;
+}

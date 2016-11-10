@@ -23,11 +23,7 @@ exports.fetchCommercialProps = () => (dispatch, getState) =>
       return res.json();
     })
     .then(commercial => {
-      // if (!commercial.data.m.mobile) {
-      //   location.href = `http://${location.host}/user/bindMobile?shopId=${shopId}&returnUrl=${encodeURIComponent(location.href)}`;
-      // } else {
       dispatch(setCommercialProps(commercial.data));
-      // }
     })
     .catch(err => {
       console.log(err);
@@ -83,7 +79,7 @@ const placeOrder = exports.placeOrder = (note) => (dispatch, getState) => {
   const state = getState();
   const orderTime = `${state.timeProps.selectedDateTime.date} ${state.timeProps.selectedDateTime.time}:00`;
   if (!state.customerProps.name || !state.customerProps.mobile || !state.tableProps.selectedTableId
-  || !orderTime || state.customerProps.sex === null) {
+  || !orderTime || state.customerProps.sex === null || +state.customerProps.sex < 0) {
     dispatch(setErrorMsg('请先完善预订信息...'));
     return;
   }
@@ -108,7 +104,6 @@ const placeOrder = exports.placeOrder = (note) => (dispatch, getState) => {
     })
     .then(result => {
       if (result.code.toString() === '200') {
-        dispatch(setErrorMsg('提交预订信息成功...'));
         location.href = `/booking/bookingDetail?shopId=${shopId}&orderId=${result.data.bookingId}`;
       } else if (result.code.toString() === '20013') {
         dispatch(setPhoneValidateProps(true));

@@ -10,7 +10,7 @@ exports.initializeTableProps = function (tableProps) {
       table => {
         table.areaId = parseInt(tableProp.areaId, 10);
         table.tableName = `${table.pNum}人桌(余下${table.count}桌)`;
-        table.id = tableProp.areaId + Math.random();
+        table.id = tableProp.areaId + Math.floor(Math.random() * 100000 + 1);
         tables.push(table);
       }
     )

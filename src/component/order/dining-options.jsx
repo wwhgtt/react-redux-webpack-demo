@@ -15,14 +15,14 @@ module.exports = React.createClass({
     const { dineSerialNumber, dineCount, dineTableProp } = this.props;
     return (
       <div className="dining-options">
-        <div className="dining-option ellipsis">
+        <div className="dining-option ellipsis left">
           <span className="text-dusty-grey">流水号</span>{dineSerialNumber}
         </div>
-        <div className="dining-option ellipsis">
-          <span className="text-dusty-grey">人数</span>{dineCount}人
+        <div className="dining-option ellipsis middle">
+          {dineTableProp.area}{dineTableProp.table}
         </div>
-        <div className="dining-option ellipsis">
-          <span className="text-dusty-grey">桌号</span>{dineTableProp.area}{dineTableProp.table}
+        <div className="dining-option ellipsis right">
+          <span className="text-dusty-grey">人数</span>{dineCount}
         </div>
       </div>
     );

@@ -42,7 +42,7 @@ module.exports = React.createClass({
             <a className="list-link" href={valueCardURL}>
               <i className="list-icon" name="WDYE"></i>
               <span className="list-name">我的余额</span>
-              <span className="list-brief">￥{userInfo.balance}</span>
+              <span className="list-brief price">{userInfo.balance}</span>
               <span className="list-arrow list-arrow-right"></span>
             </a>
           </div>

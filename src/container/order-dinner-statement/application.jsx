@@ -6,16 +6,13 @@ const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
 const Toast = require('../../component/mui/toast.jsx');
 const DiningOptions = require('../../component/order/dining-options.jsx');
 const formatPrice = require('../../helper/common-helper.js').formatPrice;
-/*
-const OrderPropOption = require('../../component/order/order-prop-option.jsx');
-const ActiveSelect = require('../../component/mui/select/active-select.jsx');
-*/
+const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 const OrderSummary = require('../../component/order/order-summary.jsx');
 const CouponSelect = require('../../component/order/coupon-select.jsx');
-const defaultShopLogo = require('../../asset/images/default.png');
 require('../../component/order/order-summary.scss'); // import option-shop styles
 require('../../asset/style/style.scss');
 require('../order/application.scss');
+require('./application.scss');
 
 const OrderDinnerStateMentApplication = React.createClass({
   displayName: 'OrderDinnerStateMentApplication',
@@ -86,43 +83,27 @@ const OrderDinnerStateMentApplication = React.createClass({
     const { setOrderProps, clearErrorMsg } = this.props;// actions
     return (
       <div className="application">
-        <div className="options-group">
+        <div className="options-group options-head">
           <a className="option option-shop">
-            <img className="option-shop-icon" src={commercialProps.shopLogo || defaultShopLogo} alt="" />
             <p className="option-shop-desc ellipsis">{commercialProps.shopName}</p>
           </a>
-          <div className="option">
-            <DiningOptions
-              dineSerialNumber={customerProps.dineSerialNumber || 110}
-              dineCount={customerProps.dineCount || 1}
-              dineTableProp={{ area:customerProps.dineTableProp.area, table:customerProps.dineTableProp.table }}
-            />
-          </div>
+          <DiningOptions
+            dineSerialNumber={customerProps.dineSerialNumber || 110}
+            dineCount={customerProps.dineCount || 1}
+            dineTableProp={{ area:customerProps.dineTableProp.area, table:customerProps.dineTableProp.table }}
+          />
         </div>
-        <div className="options-group">
-          {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length && !serviceProps.benefitProps.isPriviledge
-            && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 && serviceProps.discountProps.isMember ?
-            <a className="option" href="#coupon-select">
-              <span className="option-title">使用优惠券</span>
-              <span className="badge-coupon">
-                {serviceProps.couponsProps.inUseCoupon ?
-                  '已使用一张优惠券'
-                  :
-                  `${helper.getCouponsLength(serviceProps.couponsProps.couponsList)}张可用`
-                }
-              </span>
-              <span className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
-            </a>
-          : false}
-          {/* serviceProps.integralsInfo ?
-            <ActiveSelect
-              optionsData={[serviceProps.integralsInfo]} onSelectOption={setOrderProps}
-              optionComponent={OrderPropOption}
-            />
-          : false */}
+        <div className="extra-supplement">
+          <span className="left">已选菜品</span>
+          <span className="right">共{getDishesCount(orderedDishesProps.dishes)}份</span>
         </div>
 
-        <div className="options-group">
+        <OrderSummary
+          serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
+          commercialProps={commercialProps} shopId={getUrlParam('shopId')}
+          isNeedShopMaterial={false} setOrderProps={setOrderProps}
+        />
+        <div className="options-group margin-cart-bottom">
           {commercialProps && commercialProps.isSupportReceipt === 1 ?
             <label className="option">
               <span className="option-title">发票抬头: </span>
@@ -139,13 +120,6 @@ const OrderDinnerStateMentApplication = React.createClass({
             false
           }
         </div>
-
-        <OrderSummary
-          serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
-          commercialProps={commercialProps} shopId={getUrlParam('shopId')}
-          isNeedShopMaterial={false}
-        />
-
         {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
           <div className="order-cart flex-none" style={{ position:'fixed', bottom: '0px', width:'100%' }}>
             <div className="order-cart-left">
@@ -162,7 +136,7 @@ const OrderDinnerStateMentApplication = React.createClass({
                       </span>
                     </div>
                     <div className="order-cart-entry">
-                      <span className="text-dove-grey">待支付: </span>
+                      <span className="text-dove-grey">还需付: </span>
                       <span className="order-cart-price price">
                         {serviceProps.benefitProps.isPriviledge ?
                           serviceProps.benefitProps.totalAmount

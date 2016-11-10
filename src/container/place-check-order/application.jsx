@@ -61,7 +61,7 @@ const PlaceCheckOrderApplication = React.createClass({
             }
           </div>
           <div className="totalPrice">
-            总计：<span className="num">￥{totalPrice}</span>
+            总计：<span className="num price">{totalPrice}</span>
           </div>
         </div>
         <div className="options-group">
