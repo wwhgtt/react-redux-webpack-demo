@@ -1,29 +1,9 @@
 // dish-menu-zc styles
-
-.application {
-  .register-no + .scroller-wrap {
-    height: calc(100% - 130px - 44px);
-  }
+.main {
+  position: relative;
+  height: 100%;
 }
 
-.mesthead-min {
-  .dish-mesthead {
-    overflow: hidden;
-    height: 44px;
-    min-height: 0;
-    transition: height, .2s ease-in-out .1s;
-
-    .ads-column {
-      display: none;
-    }
-  }
-
-  .scroller-wrap {
-    height: calc(100% - 50px);
-  }
-
-  .register-no + .scroller-wrap {
-    height: calc(100% - 44px);
-  }
+.register + .main {
+  height: calc(100% - 44px);
 }
-

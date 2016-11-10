@@ -1,10 +1,13 @@
 const React = require('react');
 const connect = require('react-redux').connect;
 const actions = require('../../action/dish-menu/dish-menu-zc');
+const findDOMNode = require('react-dom').findDOMNode;
+
 require('../../asset/style/style.scss');
+require('../dish-menu/application.scss');
 require('./application.scss');
 require('../../component/dish-menu/cart/cart.scss');
-const classnames = require('classnames');
+
 const DishTypeScroller = require('../../component/dish-menu/dish-type-scroller.jsx');
 const DishScroller = require('../../component/dish-menu/dish-scroller.jsx');
 const DishDetailContainer = require('../../component/dish-menu/detail/dish-detail-container.jsx');
@@ -28,6 +31,7 @@ const DishMenuZcApplication = React.createClass({
     showDishDetail: React.PropTypes.func.isRequired,
     showDishDesc: React.PropTypes.func.isRequired,
     fetchOrderDiscountInfo:React.PropTypes.func.isRequired,
+    fetchDishMarketInfos: React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
     showErrMsgFunc:React.PropTypes.func.isRequired,
     // MapedStatesToProps
@@ -47,7 +51,9 @@ const DishMenuZcApplication = React.createClass({
   },
   getDefaultProps() {
     return {
-      dishPageTpl: 'default',
+      dishMenuReducer: {
+        dishPageTpl: 'default',
+      },
     };
   },
   getInitialState() {
@@ -57,7 +63,7 @@ const DishMenuZcApplication = React.createClass({
   },
   componentDidMount() {
     // tableId 或者 tableKey 存入localStorage
-    const { fetchMenuData, fetchOrderDiscountInfo, fetchTableId, saveTableParam } = this.props;
+    const { fetchMenuData, fetchOrderDiscountInfo, fetchTableId, saveTableParam, fetchDishMarketInfos } = this.props;
     if (tableKey || tableId) {
       saveTableParam({ tableKey, tableId });
     }
@@ -65,11 +71,17 @@ const DishMenuZcApplication = React.createClass({
     const localTableKey = (cartHelper.getTableInfoInSessionStorage(shopId) || {}).tableKey || '';
     const localTableId = (cartHelper.getTableInfoInSessionStorage(shopId) || {}).tableId || '';
 
-    fetchMenuData().then(
-      fetchOrderDiscountInfo
-    );
+    fetchMenuData()
+      .then(fetchDishMarketInfos)
+      .then(fetchOrderDiscountInfo);
 
     fetchTableId(localTableKey, localTableId);
+
+    const el = findDOMNode(this);
+    this._cache = {
+      mesthead: el.querySelector('.dish-mesthead'),
+      scrollerWrap: el.querySelector('.scroller-wrap'),
+    };
   },
   componentDidUpdate() {
   },
@@ -78,60 +90,97 @@ const DishMenuZcApplication = React.createClass({
     showDishDetail();
     orderDish(dishData);
   },
+  getWrapRect() {
+    const { shopInfo } = this.props.dishMenuReducer;
+    const marketListUpdate = shopInfo.marketListUpdate;
+    let height = 96;
+    if (marketListUpdate && marketListUpdate.length) {
+      height += 34;
+    }
+    return { height, minTop: 0 };
+  },
+  setScrollTop(direction) {
+    const rect = this.getWrapRect();
+    const { scrollerWrap, mesthead } = this._cache;
+    let _top = 0;
+
+    if (direction.y === 1 && direction.scrollY < 0) {
+      _top = Math.max(rect.height - Math.abs(direction.scrollY), rect.minTop);
+    } else if (direction.y === -1 && direction.scrollY > 0) {
+      _top = Math.min((scrollerWrap._top || 0) + direction.scrollY, rect.height);
+    } else {
+      return;
+    }
+
+    scrollerWrap._top = _top;
+    scrollerWrap.style.top = `${_top}px`;
+    mesthead.style.top = `${-(rect.height - _top)}px`;
+  },
   render() {
     // states
     const { callMsg, callAble, timerStatus, serviceStatus, isShowButton } = this.props.dishMenuZcReducer;
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData,
-            errorMessage, openTimeList, normalDiscountProps, shopInfo, shopLogo, dishPageTpl,
+            errorMessage, openTimeList, shopInfo, shopLogo,
             dishesDataDuplicate } = this.props.dishMenuReducer;
+
     // actions
     const { activeDishType, orderDish, showDishDetail, showDishDesc,
             clearErrorMsg, callBell, clearBell, showErrMsgFunc } = this.props;
 
     const marketList = shopInfo.marketList;
     const marketListUpdate = shopInfo.marketListUpdate;
-    const isMember = normalDiscountProps && normalDiscountProps.isMember || false;
+    const { dishPageTpl, enableMemberRegistry, discountProps } = this.props.dishMenuReducer;
+    const isMember = discountProps && discountProps.isMember;
+
     return (
-      <div className={classnames('application', { 'mesthead-min': this.state.isMinMesthead })}>
-        <DishMesthead
-          registered={isMember}
-          dishesData={dishesData}
-          shopInfo={shopInfo}
-          shopLogo={shopLogo}
-          marketList={marketList}
-          marketListUpdate={marketListUpdate}
-        />
-        <div className={`${dishPageTpl} scroller-wrap`}>
-          <DishTypeScroller
-            theme={dishPageTpl}
-            dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeId={activeDishTypeId}
-            onDishTypeElementTap={activeDishType} dishesDataDuplicate={dishesDataDuplicate}
-          />
-          <DishScroller
-            theme={dishPageTpl}
-            dishTypesData={dishTypesData} dishesData={dishesData} diningForm={shopInfo.diningForm}
-            activeDishTypeId={activeDishTypeId} onScroll={activeDishType} marketList={marketList}
-            onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail} onImageBtnTap={showDishDesc}
+      <div className="application">
+        {(enableMemberRegistry && isMember === false) &&
+          <div className="register notice">
+            <a href={`/member/register${location.search}&returnUrl=${encodeURIComponent(location.href)}`}>去注册</a>
+            <p>注册会员享受更多福利哟～</p>
+          </div>
+        }
+        <div className="main">
+          <DishMesthead
+            registered={isMember}
+            dishesData={dishesData}
+            shopInfo={shopInfo}
+            shopLogo={shopLogo}
+            marketList={marketList}
             marketListUpdate={marketListUpdate}
-            onScrolling={(direction) => {
-              this.setState({ isMinMesthead: direction.y === 1 });
-            }}
-            dishesDataDuplicate={dishesDataDuplicate}
           />
+          <div ref="scrollWrap" className={`${dishPageTpl} scroller-wrap`}>
+            <DishTypeScroller
+              theme={dishPageTpl}
+              dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeId={activeDishTypeId}
+              onDishTypeElementTap={activeDishType} dishesDataDuplicate={dishesDataDuplicate}
+            />
+            <DishScroller
+              theme={dishPageTpl}
+              dishTypesData={dishTypesData} dishesData={dishesData} diningForm={shopInfo.diningForm}
+              activeDishTypeId={activeDishTypeId} onScroll={activeDishType} marketList={marketList}
+              onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail} onImageBtnTap={showDishDesc}
+              marketListUpdate={marketListUpdate}
+              onScrolling={(direction) => {
+                this.setScrollTop(direction);
+              }}
+              dishesDataDuplicate={dishesDataDuplicate}
+            />
+          </div>
+          {dishDetailData !== undefined ?
+            <DishDetailContainer dish={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />
+            : false
+          }
+          {dishDescData !== undefined ?
+            <DishDescPopup dish={dishDescData} onCloseBtnTap={showDishDesc} />
+            : false
+          }
+          {errorMessage ?
+            <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
+            :
+            false
+          }
         </div>
-        {dishDetailData !== undefined ?
-          <DishDetailContainer dish={dishDetailData} onCloseBtnTap={showDishDetail} onAddToCarBtnTap={this.onDishDetailAddBtnTap} />
-          : false
-        }
-        {dishDescData !== undefined ?
-          <DishDescPopup dish={dishDescData} onCloseBtnTap={showDishDesc} />
-          : false
-        }
-        {errorMessage ?
-          <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
-          :
-          false
-        }
         <QuickMenu
           callBell={callBell}
           clearBell={clearBell}
