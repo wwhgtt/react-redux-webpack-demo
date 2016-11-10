@@ -546,11 +546,12 @@ const selectDishesListWithSameName = (dishesList) => {
         }
         return sameNameDish;
       });
-    } else if (i > 0 && dishesCollection.every(dish => dish.name !== sameNameDish[0].name)) {
+    } else if (i > 0 && dishesCollection.every(dish => dish.id !== sameNameDish[0].id)) {
       dishesList.filter(dish => dish.id !== sameNameDish[0].id).map(dish => {
         if (dish.name === sameNameDish[0].name && dish.unitName === sameNameDish[0].unitName
           && dish.dishTypeId === sameNameDish[0].dishTypeId && judgeStandardsSame(dish, sameNameDish[0])
         ) {
+          console.log(21334435665);
           sameNameDish.push(dish);
         }
         return sameNameDish;
