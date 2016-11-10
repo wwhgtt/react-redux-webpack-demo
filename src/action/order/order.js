@@ -337,7 +337,7 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
   const requestOptions = Object.assign({}, config.requestOptions, { method: 'POST' });
   const complete = result => {
     if (result.code === '200') {
-      localStorage.removeItem('lastOrderedDishes');
+      // localStorage.removeItem('lastOrderedDishes');
       sessionStorage.removeItem('receiveOrderCustomerInfo');
       sessionStorage.removeItem(`${shopId}_sendArea_id`);
       sessionStorage.removeItem(`${shopId}_customer_toshopinfo`);
@@ -352,7 +352,7 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
         jumpToUrl = type === 'WM' ? '/order/takeOutDetail?' : '/order/orderallDetail?';
         jumpToUrl += paramStr;
       }
-      location.href = jumpToUrl;
+      // location.href = jumpToUrl;
     } else if (result.code.toString() === '20013') {
       dispatch(setPhoneValidateProps(true));
     } else {

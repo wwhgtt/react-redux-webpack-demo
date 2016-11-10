@@ -19,6 +19,11 @@
   background-image: url("../../asset/images/stripes.png");
   background-repeat: repeat-x;
   background-size: 320px 4px;
+
+  &::after {
+    left: 1em;
+    width: calc(100% - 1em);
+  }
 }
 
 .stripes-content {
@@ -191,6 +196,10 @@
 .editor {
   margin-top: 15px;
   margin-bottom: 15px;
+
+  .active-select:last-child::after {
+    border-bottom: 0 !important;
+  }
 }
 
 .editor-group {

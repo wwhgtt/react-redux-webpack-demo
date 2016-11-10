@@ -29,6 +29,8 @@ const DishMenuApplication = React.createClass({
     fetchOrderDiscountInfo:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
     shopInfo:React.PropTypes.object.isRequired,
+    fetchDishMarketInfos: React.PropTypes.func.isRequired,
+
     // MapedStatesToProps
     activeDishTypeId: React.PropTypes.number.isRequired,
     dishTypesData: React.PropTypes.array,
@@ -40,6 +42,8 @@ const DishMenuApplication = React.createClass({
     openTimeList: React.PropTypes.array,
     isAcceptTakeaway: React.PropTypes.bool,
     normalDiscountProps: React.PropTypes.object,
+    discountProps: React.PropTypes.object,
+    enableMemberRegistry: React.PropTypes.bool,
     dishPageTpl: React.PropTypes.string,
     shopLogo: React.PropTypes.string,
     errorMessage: React.PropTypes.string,
@@ -55,10 +59,10 @@ const DishMenuApplication = React.createClass({
     };
   },
   componentDidMount() {
-    const { fetchMenuData, fetchSendArea, fetchOrderDiscountInfo } = this.props;
-    fetchMenuData().then(
-      fetchOrderDiscountInfo
-    );
+    const { fetchMenuData, fetchSendArea, fetchOrderDiscountInfo, fetchDishMarketInfos } = this.props;
+    fetchMenuData()
+      .then(fetchDishMarketInfos)
+      .then(fetchOrderDiscountInfo);
     fetchSendArea();
 
     const el = findDOMNode(this);
@@ -103,20 +107,19 @@ const DishMenuApplication = React.createClass({
   render() {
     // states
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, confirmOrder, takeawayServiceProps,
-            openTimeList, isAcceptTakeaway, errorMessage, shopInfo, normalDiscountProps, shopLogo, dishesDataDuplicate } = this.props;
+            openTimeList, isAcceptTakeaway, errorMessage, shopInfo, shopLogo, dishesDataDuplicate } = this.props;
     // actions
     const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders, clearErrorMsg } = this.props;
     const marketList = shopInfo.marketList;
     const marketListUpdate = shopInfo.marketListUpdate;
-    const isMember = normalDiscountProps && normalDiscountProps.isMember || false;
-    let { dishPageTpl } = this.props;
-
+    const { dishPageTpl, enableMemberRegistry, discountProps } = this.props;
+    const isMember = discountProps && discountProps.isMember || false;
 
     return (
       <div className="application">
-        {!isMember &&
+        {(enableMemberRegistry && isMember === false) &&
           <div className="register notice">
-            <a href={`/member/register${location.search}`}>去注册</a>
+            <a href={`/member/register${location.search}&returnUrl=${encodeURIComponent(location.href)}`}>去注册</a>
             <p>注册会员享受更多福利哟～</p>
           </div>
         }

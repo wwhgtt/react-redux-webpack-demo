@@ -9,6 +9,7 @@ module.exports = function (
     dishesData:[],
     dishPageTpl: 'default',
     dishesDataDuplicate:[],
+    enableMemberRegistry: false,
     shopInfo:{
       commercialName:'',
       openTimeList:[],
@@ -22,6 +23,7 @@ module.exports = function (
     takeawayServiceProps:undefined,
     dishBoxChargeInfo:null,
     normalDiscountProps:null,
+    discountProps: null,
     errorMessage:null,
   }),
   action
@@ -46,7 +48,6 @@ module.exports = function (
 
   switch (type) {
     case 'SET_MENU_DATA': {
-      const formatDishesData = helper.formatDishesData(helper.setDishPropertyTypeInfos(payload.dishList));
       return state.setIn(['dishesDataDuplicate'], payload.dishList)
       .setIn(
         ['dishTypesData'],
@@ -67,28 +68,17 @@ module.exports = function (
         openTimeList:payload.openTimeList,
         diningForm:payload.diningForm !== 0,
         formatDishesData:helper.formatDishesData(helper.setDishPropertyTypeInfos(payload.dishList)),
-        marketList:helper.formatMarket(
-          payload.marketing || [],
-          formatDishesData
-        ),
-        marketListUpdate:helper.formatMarketUpdate(
-          payload.marketing || [],
-          formatDishesData
-        ),
-        marketMatchDishes:helper.matchDishesData(
-          helper.formatMarketUpdate(
-            payload.marketing || [],
-            formatDishesData
-          ),
-          formatDishesData
-        ),
+        marketList: {},
+        marketListUpdate: [],
+        marketMatchDishes: false,
       })
       .setIn(['openTimeList'], payload.openTimeList)
       // equal to 0, means accepting takeaway 24 hours, 2016-07-30 16:46:31 后端调整为bool型
       .setIn(['isAcceptTakeaway'], payload.isAcceptTakeaway === true)
       .set('normalDiscountProps', payload.discountInfo)
       .set('dishPageTpl', payload.dishPageTpl)
-      .set('shopLogo', payload.shopLogo);
+      .set('shopLogo', payload.shopLogo)
+      .set('enableMemberRegistry', payload.enableMemberRegistry);
     }
     case 'ACTIVE_DISH_TYPE':
       return state.setIn(['activeDishTypeId'], payload);
@@ -147,42 +137,60 @@ module.exports = function (
       }
       return newState;
     case 'SET_DISCOUNT_TO_ORDER':
-      return state.update(
-          'dishesData', dishesData => dishesData.flatMap(
-            dishData => {
-              let haveDiscountPropsData = null;
-              let isUserMember = _has(payload, 'isMember') ? payload.isMember : true;
-              if (payload && _has(payload, 'dishList')) {
-                haveDiscountPropsData = payload;
-              } else if (state.normalDiscountProps && state.normalDiscountProps.dishList
-                && state.normalDiscountProps.dishList.length && state.normalDiscountProps.type) {
-                haveDiscountPropsData = state.normalDiscountProps;
-              } else {
+      return state.set('discountProps', payload)
+        .update(
+            'dishesData', dishesData => dishesData.flatMap(
+              dishData => {
+                let haveDiscountPropsData = null;
+                let isUserMember = _has(payload, 'isMember') ? payload.isMember : true;
+                if (payload && _has(payload, 'dishList')) {
+                  haveDiscountPropsData = payload;
+                } else if (state.normalDiscountProps && state.normalDiscountProps.dishList
+                  && state.normalDiscountProps.dishList.length && state.normalDiscountProps.type) {
+                  haveDiscountPropsData = state.normalDiscountProps;
+                } else {
+                  return dishData
+                    .set('isMember', false)
+                    .set('memberPrice', false)
+                    .set('discountType', false)
+                    .set('discountLevel', false)
+                    .set('loginType', payload.loginType || 0)
+                    .set('isUserMember', isUserMember);
+                }
                 return dishData
-                  .set('isMember', false)
-                  .set('memberPrice', false)
-                  .set('discountType', false)
-                  .set('discountLevel', false)
-                  .set('loginType', payload.loginType || 0)
-                  .set('isUserMember', isUserMember);
+                    .set(
+                      'isMember', _findIndex(haveDiscountPropsData.dishList, { dishId:dishData.id }) !== -1
+                    )
+                    .set(
+                      'memberPrice', _findIndex(haveDiscountPropsData.dishList, { dishId:dishData.id }) !== -1 ?
+                        haveDiscountPropsData.dishList[_findIndex(haveDiscountPropsData.dishList, { dishId:dishData.id })].value
+                        :
+                        false
+                    )
+                    .set('discountType', haveDiscountPropsData.type)
+                    .set('discountLevel', haveDiscountPropsData.levelName)
+                    .set('loginType', haveDiscountPropsData.loginType || 0)
+                    .set('isUserMember', isUserMember);
               }
-              return dishData
-                  .set(
-                    'isMember', _findIndex(haveDiscountPropsData.dishList, { dishId:dishData.id }) !== -1
-                  )
-                  .set(
-                    'memberPrice', _findIndex(haveDiscountPropsData.dishList, { dishId:dishData.id }) !== -1 ?
-                      haveDiscountPropsData.dishList[_findIndex(haveDiscountPropsData.dishList, { dishId:dishData.id })].value
-                      :
-                      false
-                  )
-                  .set('discountType', haveDiscountPropsData.type)
-                  .set('discountLevel', haveDiscountPropsData.levelName)
-                  .set('loginType', haveDiscountPropsData.loginType || 0)
-                  .set('isUserMember', isUserMember);
-            }
-          )
-      );
+            )
+        );
+    case 'SET_NORMAL_DISCOUNT':
+      return state.set('normalDiscountProps', payload.discountInfo)
+          .setIn(['shopInfo', 'marketList'], helper.formatMarket(
+              payload.marketing || [],
+              state.shopInfo.formatDishesData
+            ))
+          .setIn(['shopInfo', 'marketListUpdate'], helper.formatMarketUpdate(
+              payload.marketing || [],
+              state.shopInfo.formatDishesData
+            ))
+          .setIn(['shopInfo', 'marketMatchDishes'], helper.matchDishesData(
+              helper.formatMarketUpdate(
+                payload.marketing || [],
+                state.shopInfo.formatDishesData
+              ),
+              state.shopInfo.formatDishesData
+            ));
     case 'SET_ERROR_MSG':
       return state.set(
         'errorMessage', payload

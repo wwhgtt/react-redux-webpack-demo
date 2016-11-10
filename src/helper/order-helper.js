@@ -685,6 +685,12 @@ const getSubmitDishData = exports.getSubmitDishData = (dishesData, shopId) => {
       dishInfo.num = order;
       dishInfo.priId = priId;
       dishInfo.priType = priType;
+      if (dish.dishPropertyTypeInfos && dish.dishPropertyTypeInfos.length) {
+        (dish.dishPropertyTypeInfos || []).forEach(item => {
+          [].push.apply(dishInfo.propertyIds, (item.properties || []).filter(subItem => subItem.isChecked).map(subItem => subItem.id));
+        });
+      }
+
       orderDishes.push(dishInfo);
     } else if (Array.isArray(order) && order.length) {
       let orderPrices = [];

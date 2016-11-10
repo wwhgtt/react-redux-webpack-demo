@@ -24,7 +24,6 @@
       width: auto;
       height: 2px;
       content: "";
-      border-bottom: 1px solid #e3e3e3;
     }
   }
 
@@ -52,6 +51,8 @@
 }
 
 .order-total {
+  border-top: 1px solid #e8e8e8;
+
   &-left {
     font-size: 15px;
     float: left;
@@ -67,13 +68,37 @@
   background-color: #fff;
 }
 
-.division {
-  margin-top: 5px;
+.extraPrice {
+  .option {
+    &::after {
+      display: inline-block;
+      width: calc(100% - 1em);
+      height: 1px;
+      content: "";
+      border-bottom: 1px solid #f1f1f1;
+    }
+  }
+
+  .option:last-child::after {
+    border-bottom: 0;
+  }
+
+  &::after {
+    display: inline-block;
+    width: 100%;
+    height: 5px;
+    content: "";
+    background-color: #f1f1f1;
+  }
 }
 
 .division-group {
   margin-bottom: 5px;
   background-color: #f0f0f0;
+
+  &::after {
+    border-bottom: 0 !important;
+  }
 }
 
 .option-shop-desc {
@@ -126,4 +151,22 @@
 
 .temporary-coupon {
   width: 5.5em;
+}
+
+.ordered-dish-content {
+  position: relative;
+
+  &::after {
+    position: absolute;
+    bottom: 0;
+    display: inline-block;
+    width: 100%;
+    height: 5px;
+    content: "";
+    background-color: #f1f1f1;
+  }
+}
+
+.extra-bottom {
+  border-bottom: 0;
 }

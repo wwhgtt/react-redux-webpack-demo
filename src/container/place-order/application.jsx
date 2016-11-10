@@ -64,8 +64,11 @@ const PlaceOrderApplication = React.createClass({
     setChildView(hash);
   },
   getFetchTimeTitle(timeProps) {
-    const selectedDateTime = timeProps.selectedDateTime || {};
-    const dateStr = selectedDateTime.date;
+    const selectedDateTime = timeProps.selectedDateTime;
+    if (!selectedDateTime) {
+      return null;
+    }
+    const dateStr = selectedDateTime.date.replace(/-/g, '/');
     const timeStr = selectedDateTime.time;
     return `${dateStr} ${timeStr}`;
   },
@@ -100,11 +103,11 @@ const PlaceOrderApplication = React.createClass({
       const selectedTable = getSelectedTable(tableProps);
       return (
         <a
-          className="option"
+          className="option" style={{ position:'relative' }}
           onTouchTap={evt => setChildView('#table-select')}
         >
           <span className="options-title">桌台类型</span>
-          <span className="option-btn btn-arrow-right">
+          <span className="option-btn btn-arrow-right ellipsis">
             {selectedTable.area && selectedTable.table ?
               `${selectedTable.area.areaName} ${selectedTable.table.tableName}`
               :
@@ -177,7 +180,7 @@ const PlaceOrderApplication = React.createClass({
               <div className="options-group place-order-options">
                 <div className="option">
                   <span className="options-title">预订时间</span>
-                  <button className="option-btn btn-arrow-right" onTouchTap={evt => setChildView('#time-select')}>
+                  <button className="option-btn btn-arrow-right ellipsis" onTouchTap={evt => setChildView('#time-select')}>
                     {this.getFetchTimeTitle(timeProps) || '选择预订时间'}
                   </button>
                 </div>
@@ -203,7 +206,7 @@ const PlaceOrderApplication = React.createClass({
             }
             <div className="options-group">
               <div className="option">
-                <span className="option-tile">就餐人数：</span>
+                <span className="option-tile">预订人数：</span>
                 <ImportableCounter
                   setErrorMsg={setErrorMsg}
                   onCountChange={this.setOrderProps}
@@ -226,7 +229,7 @@ const PlaceOrderApplication = React.createClass({
               <span className="divider-title">备注</span>
             </div>
             <div className="option-groups">
-              <div className="option">
+              <div className="option" style={{ paddingTop:'10px' }}>
                 <textarea className="option-input clearfix text-area" name="note" placeholder="请输入备注" maxLength="500" onChange={this.noteChange} />
               </div>
             </div>
@@ -252,7 +255,7 @@ const PlaceOrderApplication = React.createClass({
               isSelfFetch={false}
               selectedDateTime={timeProps.selectedDateTime} timeTable={timeProps.timeTable}
               onDateTimeSelect={onDateTimeSelect} onDone={this.resetChildView}
-              title={'预定'}
+              title={'预订'}
             />
             : false
           }
