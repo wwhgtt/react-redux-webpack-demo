@@ -17,11 +17,23 @@ $color-text: #666;
 .options-group {
   margin-bottom: 0;
   border: none;
+
+  &::after {
+    border-bottom: 0 !important;
+  }
+
+  &::before {
+    border-top: 0 !important;
+  }
 }
 // override option styles
 .option {
   padding: 15px;
   border-bottom: none;
+
+  &::after {
+    border-bottom: 0 !important;
+  }
 
   &-tile {
     font-size: 20px;
@@ -85,7 +97,6 @@ $color-text: #666;
     right: 0;
     width: 14px;
     height: 14px;
-    margin-top: 5px;
     background: url("../../asset/images/rectangle.png") no-repeat center center;
     background-size: contain;
   }
