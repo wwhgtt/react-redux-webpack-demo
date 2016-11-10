@@ -1,22 +1,9 @@
 // dish-menu-zc styles
-
 .main {
   position: relative;
-  height: calc(100% - 50px);
+  height: 100%;
 }
 
-.register-no + .main {
-  height: calc(100% - 50px - 44px);
-}
-
-.ads-existed + .scroller-wrap {
-  top: 130px;
-}
-
-.scroller-wrap {
-  position: absolute;
-  top: 96px;
-  bottom: 0;
-  width: 100%;
-  background: #fff;
+.register + .main {
+  height: calc(100% - 44px);
 }

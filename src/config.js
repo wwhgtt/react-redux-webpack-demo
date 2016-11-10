@@ -130,6 +130,7 @@ module.exports = {
   getQueueInfoAPI: `${apiBase}/queue/success.json`, // 排队详情
   cancelQueueAPI: `${apiBase}/queue/cancel.json`, // 取消排队
   getBookDetailAPI: `${apiBase}/booking/bookingDetail.json`, // 预订详情
+  getDishMarketInfosAPI: `${apiBase}/orderall/dishMarketInfos.json`, //
 
   requestOptions,
 };

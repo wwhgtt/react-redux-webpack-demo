@@ -9,6 +9,7 @@ const _orderDish = createAction('ORDER_DISH', (dishData, action) => [dishData, a
 const _removeAllOrders = createAction('REMOVE_ALL_ORDERS', orders => orders);
 const _setTakeawayServiceProps = createAction('SET_TAKEAWAY_SERVICE_PROPS', props => props);
 const setDiscountToOrder = createAction('SET_DISCOUNT_TO_ORDER', discount => discount);
+const setNormalDiscount = createAction('SET_NORMAL_DISCOUNT', discount => discount);
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 exports.showDishDetail = createAction('SHOW_DISH_DETAIL', dishData => dishData);
 exports.showDishDesc = createAction('SHOW_DISH_DESC', dishData => dishData);
@@ -139,6 +140,26 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
         }
       }
       dispatch(setDiscountToOrder(discount.data));
+    }).
+    catch(err => {
+      console.log(err);
+    });
+
+exports.fetchDishMarketInfos = () => (dispatch, getState) =>
+  fetch(`${config.getDishMarketInfosAPI}?shopId=${helper.getUrlParam('shopId')}`, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('获取信息失败...'));
+      }
+      return res.json();
+    }).
+    then(discount => {
+      if (discount.code !== '200') {
+        if (discount.msg !== '未登录') {
+          dispatch(setErrorMsg(discount.msg));
+        }
+      }
+      dispatch(setNormalDiscount(discount.data));
     }).
     catch(err => {
       console.log(err);
