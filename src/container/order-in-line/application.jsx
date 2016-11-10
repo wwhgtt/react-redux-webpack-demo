@@ -10,6 +10,7 @@ const weilianwangImg = require('../../asset/images/weilianwang.svg');
 const yidayangImg = require('../../asset/images/yidayang.png');
 const defaultShopLogo = require('../../asset/images/default.png');
 require('../../asset/style/style.scss');
+require('../place-order/application.scss');
 require('./application.scss');
 require('../../component/order/order-summary.scss'); // import option-shop styles
 
@@ -109,7 +110,7 @@ const OrderInlineApplication = React.createClass({
             <span className={classnames('divider-title', { 'divider-hide':commercialProps.openStatus !== '营业中' })}>排队信息</span>
           </div>
           {commercialProps.openStatus === '营业中' ?
-            <div className="options-group" style={{ borderBottom:'none', marginTop:'20px' }}>
+            <div className="options-group" style={{ borderBottom:'none' }}>
               <div className="option">
                 <span className="option-tile">就餐人数</span>
                 <ImportableCounter
@@ -138,12 +139,6 @@ const OrderInlineApplication = React.createClass({
                 <div className="option" style={{ width:'94%', marginLeft:'3%' }}>
                   <button onTouchTap={submitOrder} className="queue-btn btn--yellow">立即取号</button>
                 </div>
-
-                {errorMessage ?
-                  <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
-                  :
-                  false
-                }
 
                 {shuoldPhoneValidateShow ?
                   this.buildPhoneValidateElement()
@@ -174,7 +169,7 @@ const OrderInlineApplication = React.createClass({
             }
           {commercialProps.openStatus === '营业中' ?
             <div>
-              <div className="options-group" style={{ height:'15px', backgroundColor:'#fd894d' }}></div>
+              <div className="options-group" style={{ height:'15px', backgroundColor:'#ff944d' }}></div>
               <div className="options-group">
                 {queueList && queueList.length ?
                   <ul className="queue-list">
@@ -194,6 +189,11 @@ const OrderInlineApplication = React.createClass({
             false
           }
         </div>
+        {errorMessage ?
+          <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
+          :
+          false
+        }
       </div>
     );
   },
