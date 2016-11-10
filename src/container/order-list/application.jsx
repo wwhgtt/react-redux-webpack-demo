@@ -2,7 +2,6 @@ const React = require('react');
 const orderListAction = require('../../action/order-list/order-list.js');
 const connect = require('react-redux').connect;
 const IScroll = require('iscroll/build/iscroll-probe');
-const shallowCompare = require('react-addons-shallow-compare');
 
 require('../../asset/style/style.scss');
 
@@ -70,21 +69,18 @@ const OrderListApplication = React.createClass({
   componentWillReceiveProps(nextProps) {
     const { orderList, takeOutList, bookList, queueList } = nextProps;
     const { dinnerListArr, takeOutListArr, bookListArr, queueListArr } = this.state;
-    this.setState({ dinnerListArr: orderList });
-    this.setState({ takeOutListArr: takeOutList });
-    this.setState({ bookListArr: bookList });
-    this.setState({ queueListArr: queueList });
-    if (!shallowCompare(this, dinnerListArr, orderList)) {
+
+    if (JSON.stringify(this.props.orderList) !== JSON.stringify(orderList)) {
       this.setState({ dinnerListArr: dinnerListArr.concat(orderList) });
     }
-    if (!shallowCompare(this, takeOutListArr, takeOutList)) {
-      this.setState({ dinnerListArr: takeOutListArr.concat(takeOutList) });
+    if (JSON.stringify(this.props.takeOutList) !== JSON.stringify(takeOutList)) {
+      this.setState({ takeOutListArr: takeOutListArr.concat(takeOutList) });
     }
-    if (!shallowCompare(this, bookListArr, bookList)) {
-      this.setState({ dinnerListArr: bookListArr.concat(bookList) });
+    if (JSON.stringify(this.props.bookList) !== JSON.stringify(bookList)) {
+      this.setState({ bookListArr: bookListArr.concat(bookList) });
     }
-    if (!shallowCompare(this, queueListArr, queueList)) {
-      this.setState({ dinnerListArr: queueListArr.concat(queueList) });
+    if (JSON.stringify(this.props.queueList) !== JSON.stringify(queueList)) {
+      this.setState({ queueListArr: queueListArr.concat(queueList) });
     }
   },
 
