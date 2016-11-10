@@ -14,7 +14,9 @@ const MineVipLevelApplication = React.createClass({
     clearErrorMsg:React.PropTypes.func,
     errorMessage:React.PropTypes.string,
     load:React.PropTypes.object,
-    couponList:React.PropTypes.array.isRequired,
+    // couponList:React.PropTypes.array.isRequired,
+    weixinCouponList:React.PropTypes.array,
+    loyaltyCouponList:React.PropTypes.array,
     getCouponList:React.PropTypes.func.isRequired,
   },
   getInitialState() {
@@ -34,13 +36,13 @@ const MineVipLevelApplication = React.createClass({
     }
   },
   render() {
-    const { errorMessage, clearErrorMsg, load, couponList } = this.props;
+    const { errorMessage, clearErrorMsg, load, weixinCouponList, loyaltyCouponList } = this.props;
     const { couponStatus } = this.state;
     const navis = ['未使用', '已使用', '已过期'];
     return (
       <div className={`${couponStatus} application`}>
         <SwitchNavi navis={navis} getIndex={this.getCouponStatus} />
-        <CouponList couponList={couponList} />
+        <CouponList weixinCouponList={weixinCouponList} loyaltyCouponList={loyaltyCouponList} />
         {load.status && <Loading word={load.word} />}
         {errorMessage && <Toast clearErrorMsg={clearErrorMsg} errorMessage={errorMessage} />}
       </div>

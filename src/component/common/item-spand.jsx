@@ -39,7 +39,9 @@ module.exports = React.createClass({ // SexSwitch
       periodStart, periodEnd, statusWord, validTime, codeNumber, instructions } = this.props;
     const { hideRule } = this.state;
     const UpRowLeftpartInnerStyle = {
-      '-webkit-box-orient': 'vertical',
+      display: '-webkit-box',
+      WebkitBoxOrient: 'vertical',
+      WebkitLineClamp: 2,
     };
     return (
       <div>

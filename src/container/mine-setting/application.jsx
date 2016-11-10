@@ -38,7 +38,7 @@ const MineSettingApplication = React.createClass({
     this.setState({ name:obj.name, sex:obj.sex });
   },
   render() {
-    let condition = '';// 1 微信号(未绑定手机)  2手机号非会员（未绑定微信）3手机号会员（未绑定微信） 4绑定成功
+    let condition = ''; // 1 微信号(未绑定手机)  2手机号非会员（未绑定微信）3手机号会员（未绑定微信） 4绑定成功
     const { info, logOff, clearErrorMsg, errorMessage, load } = this.props;
     // 几种状态的判断
     if (info.loginType === 1 && !info.bindMobile) {
