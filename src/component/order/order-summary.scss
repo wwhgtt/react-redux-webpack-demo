@@ -96,6 +96,10 @@
 .division-group {
   margin-bottom: 5px;
   background-color: #f0f0f0;
+
+  &::after {
+    border-bottom: 0 !important;
+  }
 }
 
 .option-shop-desc {
@@ -162,4 +166,8 @@
     content: "";
     background-color: #f1f1f1;
   }
+}
+
+.extra-bottom {
+  border-bottom: 0;
 }

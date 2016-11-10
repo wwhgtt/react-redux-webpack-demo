@@ -101,9 +101,9 @@ const OrderDinnerStateMentApplication = React.createClass({
         <OrderSummary
           serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
           commercialProps={commercialProps} shopId={getUrlParam('shopId')}
-          isNeedShopMaterial={false}
+          isNeedShopMaterial={false} setOrderProps={setOrderProps}
         />
-        <div className="options-group">
+        <div className="options-group margin-cart-bottom">
           {commercialProps && commercialProps.isSupportReceipt === 1 ?
             <label className="option">
               <span className="option-title">发票抬头: </span>
@@ -119,28 +119,6 @@ const OrderDinnerStateMentApplication = React.createClass({
             :
             false
           }
-        </div>
-        <div className="options-group">
-          {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length && !serviceProps.benefitProps.isPriviledge
-            && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 && serviceProps.discountProps.isMember ?
-            <a className="option" href="#coupon-select">
-              <span className="option-title">使用优惠券</span>
-              <span className="badge-coupon">
-                {serviceProps.couponsProps.inUseCoupon ?
-                  '已使用一张优惠券'
-                  :
-                  `${helper.getCouponsLength(serviceProps.couponsProps.couponsList)}张可用`
-                }
-              </span>
-              <span className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
-            </a>
-          : false}
-          {/* serviceProps.integralsInfo ?
-            <ActiveSelect
-              optionsData={[serviceProps.integralsInfo]} onSelectOption={setOrderProps}
-              optionComponent={OrderPropOption}
-            />
-          : false */}
         </div>
         {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
           <div className="order-cart flex-none" style={{ position:'fixed', bottom: '0px', width:'100%' }}>

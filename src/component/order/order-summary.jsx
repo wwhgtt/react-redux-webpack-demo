@@ -103,7 +103,7 @@ module.exports = React.createClass({
               false
             }
             {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length
-              && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 && commercialProps.diningForm !== 0 ?
+              && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 ?
               <a className="option division" href="#coupon-select">
                 <span className="option-title temporary-coupon">使用优惠券</span>
                 <span className="badge-coupon">
@@ -116,7 +116,7 @@ module.exports = React.createClass({
                 <span className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
               </a>
             : false}
-            {serviceProps.integralsInfo && commercialProps.diningForm !== 0 ?
+            {serviceProps.integralsInfo ?
               <ActiveSelect
                 optionsData={[serviceProps.integralsInfo]} onSelectOption={setOrderProps}
                 optionComponent={OrderPropOption}
@@ -133,7 +133,7 @@ module.exports = React.createClass({
               false
             }
           </div>
-          <div className="options-group">
+          <div className="options-group extra-bottom">
             <div className="order-summary">
               {serviceProps.discountProps.inUseDiscount ?
                 <p className="order-summary-entry clearfix">
