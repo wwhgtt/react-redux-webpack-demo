@@ -134,6 +134,7 @@ module.exports = {
   takeOutListAPI: `${apiBase}/order/takeOutList.json`, // 外卖列表
   bookListAPI: `${apiBase}/order/bookingList.json`, // 预订列表
   queueListAPI: `${apiBase}/queue/queueList.json`, // 排队列表
+  getDinnerDetailAPI: `${apiBase}/order/orderallDetail.json`, // 堂食结算后订单详情
 
   requestOptions,
 };
