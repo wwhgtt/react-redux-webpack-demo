@@ -1,7 +1,6 @@
 const React = require('react');
 const connect = require('react-redux').connect;
 const actions = require('../../action/dish-menu/dish-menu');
-const classnames = require('classnames');
 const findDOMNode = require('react-dom').findDOMNode;
 
 require('../../asset/style/style.scss');
@@ -111,8 +110,9 @@ const DishMenuApplication = React.createClass({
     const marketListUpdate = shopInfo.marketListUpdate;
     const isMember = normalDiscountProps && normalDiscountProps.isMember || false;
     let { dishPageTpl } = this.props;
+
     return (
-      <div className={classnames('application', { 'register-no': !isMember })}>
+      <div className="application">
         {!isMember &&
           <div className="register notice">
             <a href={`/member/register${location.search}`}>去注册</a>
