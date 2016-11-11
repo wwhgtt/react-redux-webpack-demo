@@ -58,6 +58,8 @@ const BookDetailApplication = React.createClass({
       orderStatusStyle = 'book-success'; // 预订成功
     } else if (orderStatus === '9') {
       orderStatusStyle = 'book-cancel'; // 取消预订
+    } else if (orderStatus === '1') {
+      orderStatusStyle = 'book-success'; // 已到店
     }
 
     orderInfoFormat.sex = sexStr;
