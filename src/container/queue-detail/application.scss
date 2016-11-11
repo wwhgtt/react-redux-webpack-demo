@@ -27,9 +27,10 @@
 
 .queue-user {
   font-size: 15px;
-  padding: 22px 15px;
+  margin: 0 15px;
+  padding: 22px 0;
   color: #666;
-  border-top: 1px dashed #ccc;
+  border-top: 1px dashed #e3e3e3;
 
   span {
     display: inline-block;
@@ -55,7 +56,7 @@
   margin: 0 15px;
   padding: 28px 0 43px;
   text-align: center;
-  border-top: 1px dashed #ccc;
+  border-top: 1px dashed #e3e3e3;
 
   p:first-child {
     line-height: 33px;

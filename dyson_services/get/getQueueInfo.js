@@ -1,38 +1,52 @@
 module.exports = {
   path: '/queue/success.json',
   template: {
+    data: {
+      shopId: 810003798,
+      orderDish: 1,
+      oldVersion: 0,
+      hasOrder: 0,
+      queue: {
+        queueID: 1002843039,
+        commercialID: 810003798,
+        queueStatus: 0,
+        createDateTime: 1478850574000,
+        modifyDateTime: 1478850808000,
+        queueNumber: '3',
+        status: 0,
+        name: '默默',
+        sex: 0,
+        mobile: '13980691506',
+        queueSource: '26',
+        queueProof: '0',
+        isZeroOped: '0',
+        synFlag: '880ff0f4168a43639d0824c036df411d',
+        repastPersonCount: '4',
+        memberID: 1008480416,
+        isOfficial: 1,
+        queueLineId: 14511,
+      },
+      queueNumber: 'N003',
+      ql: {
+        id: 14511,
+        brandId: 5481,
+        commercialId: 810003798,
+        queueChar: 'B',
+        queueName: '2121',
+        minPersonCount: 1,
+        maxPersonCount: 4,
+        memo: '',
+        createTime: 1464804563000,
+        updateTime: 1464804563000,
+        isDelete: 0,
+      },
+      count: 0,
+      shopName: '尚制胜餐饮连锁尚制胜餐饮连锁天华二',
+      shopLogo: 'http://kry-official.qiniudn.com/o_1b0no3tj91fn61tffd5vn911nuk7.jpg',
+      taiWan: false,
+    },
+    time: 1478850894361,
     code: '200',
     msg: '',
-    data: {
-      queue: {
-        queueID: 1002040711, // 排队Id
-        commercialID: 247900002, // 门店Id
-        queueStatus: 0,          // 排队状态0:排队中;1:入场;-1作废;-2取消
-        mobile: 15928868725,  // 电话号码
-        isZeroOped: 0, // 是否清零 和queueStatus一起判断是否取消 -1表示清零
-        repastPersonCount:3, // 就餐人数
-        sex: 1,
-        name: '美女',
-        localCreateDateTime: 1478156015000,
-      },
-      count: 1,         // 等位数
-      queueNumber: 'N006', // 排队编号
-      hasOrder: 0, // 是否有预点菜
-      openType : 'SM', // 排队方式
-      ql: {
-        id: 3716,
-        brandId: 2479, // 品牌id
-        commercialId: 247900002, // 门店id
-        queueChar: 'A', // 排队代号
-        queueName: 'A', // 队列名称
-        minPersonCount: 1, // 队列包含最小人数
-        maxPersonCount: 4, // 队列包含最大人数
-      },
-      shopId: 247900002,
-      shopLogo: 'https://ss0.bdstatic.com/7Ls0a8Sm1A5BphGlnYG/sys/portrait/item/0e40e9bb8ee9809d3333240f',
-      shopName: '土豆石方菜的发生的说法额大是大非！@多发点的说法的的沙发大软件园E区_LQ而过的说法的分公司@￥#vvzddsad',
-      weixinConfigUrl: '', // 进入公众号地址
-      orderDish: 0, // 是否开通预点菜 0开通
-    },
   },
 };
