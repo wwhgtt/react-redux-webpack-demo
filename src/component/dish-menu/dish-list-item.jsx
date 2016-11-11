@@ -114,7 +114,7 @@ module.exports = React.createClass({
             <div className="dish-item-content">
               <span className="dish-item-name ellipsis">
                 {dishData.sameRuleDishes ?
-                  dishData.name
+                  `${dishData.name}/${dishData.unitName}`
                   :
                   helper.generateDishNameWithUnit(dishData)
                 }</span>
