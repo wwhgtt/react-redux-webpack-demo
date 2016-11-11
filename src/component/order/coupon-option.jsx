@@ -15,6 +15,7 @@ module.exports = React.createClass({
     id:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]).isRequired,
     onTouchTap:React.PropTypes.func.isRequired,
     isChecked:React.PropTypes.bool,
+    weixinValue: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]),
   },
   getInitialState() {
     return {
@@ -25,7 +26,10 @@ module.exports = React.createClass({
 
   },
   getCouponValue(couponType, coupRuleBeanList) {
-    if (coupRuleBeanList && coupRuleBeanList.length) {
+    const { weixinValue } = this.props;
+    if (weixinValue) {
+      return weixinValue;
+    } else if (coupRuleBeanList && coupRuleBeanList.length) {
       let ruleValue = '';
       coupRuleBeanList.map(coupon => {
         if (couponType === 1 && coupon.ruleName === 'offerValue') {
