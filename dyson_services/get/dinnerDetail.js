@@ -11,9 +11,10 @@ module.exports = {
       tradePrivilegeAmount: -5,  // 订单总的优惠金额
       businessType:1, // 1: 快餐 3：正餐
       orderNumber: '302161109194026000001', // 订单编号
-      memo:'xxoo', // 订单备注
-      invoiceTitle: '', // 发票抬头
+      memo:'备注哟哟哟阿萨德法师打发爱上的咖啡及爱丽丝的分解落实到开发及水电费驾驶的飞机爱上', // 订单备注
+      invoiceTitle: '发票抬头哟哟按时打发点时空房间爱开始的减肥阿萨德金风科技', // 发票抬头
       tableArea: '大厅区', // 桌台区域
+      tradePayForm:1, // 1: 线下支付，3：在线支付
       tableNo: '23', // 桌台号
       payModId: -1, // （该字段可能不存在） 支付方式 -1: 会员卡, -3: 现金, -4: 银行卡, -5: 微信支付, -7: 百度钱包
       url: '', // 直发券地址

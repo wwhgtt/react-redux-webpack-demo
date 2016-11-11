@@ -23,11 +23,14 @@ const DinnerDetailApplication = React.createClass({
     this.props.getDinnerDetail();
   },
 
+  // 支付方式
   getPayMethod() {
-    const payMethodStr = String(this.props.dinnerDetail.payModId);
+    const payMethodStr = String(this.props.dinnerDetail.tradePayForm);
     let payMethod = '';
-    if (payMethodStr === '-1') {
-      payMethod = '会员卡支付';
+    if (payMethodStr === '1') {
+      payMethod = '线下支付';
+    } else if (payMethodStr === '3') {
+      payMethod = '在线支付';
     }
 
     return payMethod;
@@ -129,8 +132,8 @@ const DinnerDetailApplication = React.createClass({
           </div>
           <div className="btn-oparate flex-none">
             <div className="flex-row">
-              <a>再来一单</a>
-              <a>结账</a>
+              <a className="btn-oparate-more">再来一单</a>
+              <a className="btn-oparate-count">结账</a>
             </div>
           </div>
         </div>

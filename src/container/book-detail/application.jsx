@@ -52,14 +52,14 @@ const BookDetailApplication = React.createClass({
       if (orderTime < currentTime) {
         orderStatusStyle = 'book-not-arrival'; // 未到店
       } else {
-        orderStatusStyle = 'book-success'; // 已到店
+        orderStatusStyle = 'book-success'; // 预订成功
       }
     } else if (orderStatus === '2') {
       orderStatusStyle = 'book-success'; // 预订成功
     } else if (orderStatus === '9') {
       orderStatusStyle = 'book-cancel'; // 取消预订
     } else if (orderStatus === '1') {
-      orderStatusStyle = 'book-success'; // 已到店
+      orderStatusStyle = 'book-arrivaled'; // 已到店
     }
 
     orderInfoFormat.sex = sexStr;

@@ -12,6 +12,8 @@ module.exports = {
         status: '待支付',
         tradeItemsShortCut: '我是套餐等3件商品',
         serialNumber: '12',
+        businessType:2, // 1: 快餐 2：正餐
+        tradeStatus: 2,
       },
       {
         orderId: 3522562,
