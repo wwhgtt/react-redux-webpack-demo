@@ -4,7 +4,7 @@
   position: relative;
   padding: 0 15px;
   background: $color-orange-red;
-  transition: top, .2s cubic-bezier(.1, .57, .1, 1);
+  transition: top, .1s cubic-bezier(.1, .57, .1, 1);
 
   &.ads-existed {
     padding-bottom: 34px;
