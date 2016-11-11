@@ -532,31 +532,33 @@ const judgeStandardsSame = (dish, sample) => {
 const selectDishesListWithSameName = (dishesList) => {
   let newDishesList = [];
   for (let i = 0; i < dishesList.length; i++) {
-    let sameNameDish = [dishesList[i]];
+    let sameRuleDish = [dishesList[i]];
     let dishesCollection = [];
     for (let index = 0; index < newDishesList.length; index++) {
       newDishesList[index].map(dish => dishesCollection.push(dish));
     }
     if (i === 0) {
-      dishesList.filter(dish => dish.id !== sameNameDish[0].id).map(dish => {
-        if (dish.name === sameNameDish[0].name && dish.unitName === sameNameDish[0].unitName
-          && dish.dishTypeId === sameNameDish[0].dishTypeId && judgeStandardsSame(dish, sameNameDish[0])
+      dishesList.filter(dish => dish.id !== sameRuleDish[0].id).map(dish => {
+        if (dish.name === sameRuleDish[0].name && dish.unitName === sameRuleDish[0].unitName
+          && dish.dishTypeId === sameRuleDish[0].dishTypeId && judgeStandardsSame(dish, sameRuleDish[0])
         ) {
-          sameNameDish.push(dish);
+          sameRuleDish.push(dish);
         }
-        return sameNameDish;
+        return true;
       });
-    } else if (i > 0 && dishesCollection.every(dish => dish.id !== sameNameDish[0].id)) {
-      dishesList.filter(dish => dish.id !== sameNameDish[0].id).map(dish => {
-        if (dish.name === sameNameDish[0].name && dish.unitName === sameNameDish[0].unitName
-          && dish.dishTypeId === sameNameDish[0].dishTypeId && judgeStandardsSame(dish, sameNameDish[0])
+      newDishesList.push(sameRuleDish);
+    } else if (i > 0 && dishesCollection.every(dish => dish.id !== sameRuleDish[0].id)) {
+      // 添加dishesCollection.every(dish => dish.id !== sameRuleDish[0].id  是为了去重保证被筛选过的dish不需要重新筛选
+      dishesList.filter(dish => dish.id !== sameRuleDish[0].id).map(dish => {
+        if (dish.name === sameRuleDish[0].name && dish.unitName === sameRuleDish[0].unitName
+          && dish.dishTypeId === sameRuleDish[0].dishTypeId && judgeStandardsSame(dish, sameRuleDish[0])
         ) {
-          sameNameDish.push(dish);
+          sameRuleDish.push(dish);
         }
-        return sameNameDish;
+        return true;
       });
+      newDishesList.push(sameRuleDish);
     }
-    newDishesList.push(sameNameDish);
   }
   newDishesList.filter(dishes => dishes.length > 1).map(dishes => {
     dishes.map(dish => {
