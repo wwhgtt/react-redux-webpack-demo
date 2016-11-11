@@ -52,15 +52,13 @@ module.exports = React.createClass({
       }
 
       if (onScrolling) {
-        const direction = { x: iScroll.directionX, y: iScroll.directionY, scrollY: iScroll.y };
-        onScrolling(direction);
+        onScrolling({ x: iScroll.x, y: iScroll.y });
       }
     });
 
     iScroll.on('scroll', () => {
       if (onScrolling) {
-        const direction = { x: iScroll.directionX, y: iScroll.directionY, scrollY: iScroll.y };
-        onScrolling(direction);
+        onScrolling({ x: iScroll.x, y: iScroll.y });
       }
     });
 
@@ -120,12 +118,13 @@ module.exports = React.createClass({
   findCurrentDishTypeId(posY) {
     const scroller = findDOMNode(this);
     const dishTypes = scroller.querySelectorAll('.dish-item-type');
-    const scrollerRect = { height: scroller.clientHeight, top: scroller.offsetTop };
-    const showingDishTypes = Array.prototype.slice.call(dishTypes).filter(dishType => {
-      const height = scrollerRect.height;
-      return dishType.offsetTop - scrollerRect.top < -posY + height + 5;
-    });
+    const scrollerRect = { height: scroller.clientHeight, top: scroller.offsetTop, scrollHeight: scroller.scrollHeight };
+    let currentValue = -posY + scrollerRect.height;
+    if (currentValue < scrollerRect.scrollHeight) {
+      currentValue -= scrollerRect.height / 2;
+    }
 
+    const showingDishTypes = Array.prototype.slice.call(dishTypes).filter(dishType => dishType.offsetTop - scrollerRect.top < currentValue);
     this.showingDishLength = showingDishTypes.length;
     if (showingDishTypes.length) {
       return parseInt(showingDishTypes.pop().getAttribute('data-id'), 10);
