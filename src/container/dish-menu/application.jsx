@@ -78,31 +78,23 @@ const DishMenuApplication = React.createClass({
     showDishDetail();
     orderDish(dishData);
   },
-  getWrapRect() {
-    const { shopInfo } = this.props;
-    const marketListUpdate = shopInfo.marketListUpdate;
-    let height = 96;
-    if (marketListUpdate && marketListUpdate.length) {
-      height += 34;
-    }
-    return { height, minTop: 0 };
-  },
-  setScrollTop(direction) {
-    const rect = this.getWrapRect();
+  setScrollTop(args) {
     const { scrollerWrap, mesthead } = this._cache;
-    let _top = 0;
+    const rect = { height: mesthead.height || mesthead.clientHeight };
+    const y = args.y;
+    let _top = mesthead._top || 0;
 
-    if (direction.y === 1 && direction.scrollY < 0) {
-      _top = Math.max(rect.height - Math.abs(direction.scrollY), rect.minTop);
-    } else if (direction.y === -1 && direction.scrollY > 0) {
-      _top = Math.min((scrollerWrap._top || 0) + direction.scrollY, rect.height);
+    if (y < 0) {
+      _top = Math.max(y, -rect.height);
+    } else if (y > 0) {
+      _top = Math.min(_top + y, 0);
     } else {
       return;
     }
 
-    scrollerWrap._top = _top;
-    scrollerWrap.style.top = `${_top}px`;
-    mesthead.style.top = `${-(rect.height - _top)}px`;
+    Object.assign(mesthead, { _top }, rect);
+    scrollerWrap.style.top = `${rect.height + _top}px`;
+    mesthead.style.top = `${_top}px`;
   },
   render() {
     // states
