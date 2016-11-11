@@ -49,11 +49,17 @@ const BookDetailApplication = React.createClass({
         orderStatusStyle = 'book-confirming'; // 确认中
       }
     } else if (orderStatus === '-1') {
-      orderStatusStyle = 'book-arrivaled'; // 已到店
+      if (orderTime < currentTime) {
+        orderStatusStyle = 'book-not-arrival'; // 未到店
+      } else {
+        orderStatusStyle = 'book-success'; // 已到店
+      }
     } else if (orderStatus === '2') {
       orderStatusStyle = 'book-success'; // 预订成功
     } else if (orderStatus === '9') {
       orderStatusStyle = 'book-cancel'; // 取消预订
+    } else if (orderStatus === '1') {
+      orderStatusStyle = 'book-success'; // 已到店
     }
 
     orderInfoFormat.sex = sexStr;
@@ -101,12 +107,11 @@ const BookDetailApplication = React.createClass({
                 <span className="list-item-content">{bookDetail.mobile}</span>
               </div>
               {
-                // bookDetail.memo ? bookDetail.memo : '无'
+                bookDetail.memo && <div className="list-item list-memo clearfix">
+                  <span className="list-item-title">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注</span>
+                  <span className="list-item-content">{bookDetail.memo}</span>
+                </div>
               }
-              <div className="list-item list-memo clearfix">
-                <span className="list-item-title">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注</span>
-                <span className="list-item-content">发达地方阿斯蒂芬，阿斯顿发生，阿萨德法师打发水电费阿萨德法师打发</span>
-              </div>
             </div>
           </div>
         </div>

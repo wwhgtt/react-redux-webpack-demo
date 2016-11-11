@@ -130,6 +130,11 @@ module.exports = {
   getQueueInfoAPI: `${apiBase}/queue/success.json`, // 排队详情
   cancelQueueAPI: `${apiBase}/queue/cancel.json`, // 取消排队
   getBookDetailAPI: `${apiBase}/booking/bookingDetail.json`, // 预订详情
+  orderListAPI: `${apiBase}/order/orderallList.json`, // 订单列表
+  takeOutListAPI: `${apiBase}/order/takeOutList.json`, // 外卖列表
+  bookListAPI: `${apiBase}/order/bookingList.json`, // 预订列表
+  queueListAPI: `${apiBase}/queue/queueList.json`, // 排队列表
+  getDinnerDetailAPI: `${apiBase}/order/orderallDetail.json`, // 堂食结算后订单详情
   getDishMarketInfosAPI: `${apiBase}/orderall/dishMarketInfos.json`, //
 
   requestOptions,
