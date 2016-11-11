@@ -48,6 +48,7 @@ module.exports = function (
 
   switch (type) {
     case 'SET_MENU_DATA': {
+      payload.dishList.sort((a, b) => a.marketPrice - b.marketPrice);
       return state.setIn(['dishesDataDuplicate'], payload.dishList)
       .setIn(
         ['dishTypesData'],

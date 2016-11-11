@@ -577,17 +577,7 @@ const createNewDishes = (withSameNameDishesProp, dishTypeList) => {
   let initialDishes = withSameNameDishesProp.dishesList.filter(dish => !dish.shuoldDelete);
   let changedDishes = [];
   withSameNameDishesProp.sameNameDishes.forEach(disesCollection => {
-    let prices = [];
-    disesCollection.forEach(dish => prices.push(dish.marketPrice));
-    prices.sort((a, b) => a - b);
-    let maternalDish = null;
-    for (let i = 0; i < prices.length; i++) {
-      let dishData = _find(disesCollection, dish => dish.marketPrice === prices[i]);
-      if (dishData.clearStatus === 1) {
-        maternalDish = dishData;
-        break;
-      }
-    }
+    let maternalDish = disesCollection[0];
     maternalDish.sameRuleDishes = [];
     for (let i = 1; i < disesCollection.length; i++) {
       disesCollection[i].dishPropertyTypeInfos.filter(property => property.type === 4).map(property =>
