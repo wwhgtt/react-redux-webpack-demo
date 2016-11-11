@@ -419,6 +419,8 @@ exports.getCouponsLength = function (couponsList) {
         return false;
       }
       couponLength = couponLength + 1;
+    } else if (coupon.weixinValue) {
+      couponLength = couponLength + 1;
     }
     return true;
   });
