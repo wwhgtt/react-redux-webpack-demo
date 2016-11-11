@@ -138,7 +138,6 @@ const DishMenuApplication = React.createClass({
               marketListUpdate={marketListUpdate}
               onScrolling={(direction) => {
                 this.setScrollTop(direction);
-                console.log(JSON.stringify(direction));
               }}
               dishesDataDuplicate={dishesDataDuplicate}
             />
