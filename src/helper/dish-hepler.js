@@ -518,7 +518,7 @@ const judgeStandardsSame = (dish, sample) => {
     dishStandardCollection.map(propertyId => {
       let index = _findIndex(sampleStandardCollection, id => id === propertyId);
       return boolCollection.push(
-        index >= 0 && sampleStandardCollection.length === dishStandardCollection.length ?
+        index >= 0 && sampleStandardCollection.length && sampleStandardCollection.length === dishStandardCollection.length ?
         '1' : '0'
       );
     });
@@ -575,8 +575,17 @@ const createNewDishes = (withSameNameDishesProp, dishTypeList) => {
   let initialDishes = withSameNameDishesProp.dishesList.filter(dish => !dish.shuoldDelete);
   let changedDishes = [];
   withSameNameDishesProp.sameNameDishes.forEach(disesCollection => {
-    let maternalDish = _find(disesCollection, dish => dish.clearStatus === 1);
-    console.log(maternalDish);
+    let prices = [];
+    disesCollection.forEach(dish => prices.push(dish.marketPrice));
+    prices.sort((a, b) => a - b);
+    let maternalDish = null;
+    for (let i = 0; i < prices.length; i++) {
+      let dishData = _find(disesCollection, dish => dish.marketPrice === prices[i]);
+      if (dishData.clearStatus === 1) {
+        maternalDish = dishData;
+        break;
+      }
+    }
     maternalDish.sameRuleDishes = [];
     for (let i = 1; i < disesCollection.length; i++) {
       disesCollection[i].dishPropertyTypeInfos.filter(property => property.type === 4).map(property =>

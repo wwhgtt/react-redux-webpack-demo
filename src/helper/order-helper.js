@@ -817,7 +817,7 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
                 '0';
   const cardCode = state.serviceProps.couponsProps.inUseCoupon &&
                 state.serviceProps.couponsProps.inUseCouponDetail.weixinValue ?
-                state.serviceProps.couponsProps.inUseCouponDetail.id
+                state.serviceProps.couponsProps.inUseCouponDetail.codeNumber
                 :
                 '';
   let tableId;
