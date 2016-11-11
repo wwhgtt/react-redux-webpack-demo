@@ -15,9 +15,9 @@ const ListHead = React.createClass({
     const { headDetail, isOrange, orderType } = this.props;
     let dishLink = '';
     if (orderType === 'TS') {
-      dishLink = `http://${location.host}/orderall/dishAll?shopId=${headDetail.shopId}`;
+      dishLink = `http://${location.host}/orderall/selectDish?shopId=${headDetail.shopId}`;
     } else if (orderType === 'WM') {
-      dishLink = `http://${location.host}/takeaway/dishAll?shopId=${headDetail.shopId}`;
+      dishLink = `http://${location.host}/takeaway/selectDish?shopId=${headDetail.shopId}`;
     } else if (orderType === 'BK' || orderType === 'QE') {
       dishLink = `http://${location.host}/shop/detail?shopId=${headDetail.shopId}`;
     }
