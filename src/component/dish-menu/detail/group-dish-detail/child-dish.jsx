@@ -147,7 +147,7 @@ module.exports = React.createClass({
             hasProps ?
               <div className="right">
                 <span className={classnames({ 'dish-count' : true, 'count-hide' : expand || count <= 0 })}>{count}</span>
-                <a className="dish-dropdown-trigger btn--ellips" onTouchTap={this.onPropsBtnTap}>{expand ? '收起' : '菜品选项'}</a>
+                <a className="dish-dropdown-trigger btn--ellips" onTouchTap={this.onPropsBtnTap}>{expand ? '收起' : '商品选项'}</a>
               </div>
             : this.buildDishCounter({ dish, remainCount, count })
           }
