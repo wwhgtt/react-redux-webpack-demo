@@ -49,7 +49,9 @@ const DinnerDetailApplication = React.createClass({
           <div className="flex-rest">
             <div className="order-status">
               <span className="order-status-title">{dinnerDetail.status}</span>
-              <a className="order-status-comment">我要评价</a>
+              {
+                // <a className="order-status-comment">我要评价</a>
+              }
             </div>
             <div className="options-group">
               <a className="shop-info" href="">
@@ -87,7 +89,7 @@ const DinnerDetailApplication = React.createClass({
               {
                 dinnerDetail.tradePrivileges && dinnerDetail.tradePrivileges.map((item, index) =>
                   <div className="option" key={index}>
-                    <span>{item.privilegeName}</span>
+                    <span className={`icon-${Math.abs(item.privilegeType)}`}>{item.privilegeName}</span>
                     <span className="fr">-<span className="price">{Math.abs(item.privilegeAmount)}</span></span>
                   </div>
                 )

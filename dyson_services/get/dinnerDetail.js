@@ -19,9 +19,31 @@ module.exports = {
       payModId: -1, // （该字段可能不存在） 支付方式 -1: 会员卡, -3: 现金, -4: 银行卡, -5: 微信支付, -7: 百度钱包
       url: '', // 直发券地址
       tradePrivileges: [{
-        privilegeType: 6,
-        privilegeAmount: 5,
+        privilegeType: 6, // 4: 优惠券及活动 5：积分优惠 6：会员优惠 -100： 其它优惠 -101：礼品券
+        privilegeAmount: 5, // 金额
         privilegeName: '会员优惠',
+      },
+      {
+        privilegeType: 5,
+        privilegeAmount: 5,
+        privilegeValue: 100, // 积分数
+        privilegeName: '积分抵扣',
+      },
+      {
+        privilegeType: 4,
+        privilegeAmount: 5,
+        privilegeName: '优惠券及活动',
+      },
+      {
+        privilegeType: -100,
+        privilegeAmount: 5,
+        privilegeName: '其他优惠',
+      },
+      {
+        privilegeType: -101,
+        privilegeAmount: 5,
+        privilegeValue: 101, // 积分数
+        privilegeName: '布娃娃',
       }],
       extraFee: [
         {

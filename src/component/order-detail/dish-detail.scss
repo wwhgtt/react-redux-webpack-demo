@@ -80,13 +80,10 @@
     height: 49px;
     text-align: center;
     color: #fff;
-  }
-
-  &-more {
     background-color: #ff7e28;
   }
 
-  &-count {
+  a:last-child {
     background-color: #ffc43a;
   }
 }
