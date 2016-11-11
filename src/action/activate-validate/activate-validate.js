@@ -8,14 +8,14 @@ exports.setChildView = createAction('SET_CHILDVIEW', viewHash => viewHash);
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setLoadMsg = exports.setLoadMsg = createAction('SET_LOAD_MSG', loadinfo => loadinfo);
 
-const getUrlParams = commonHelper.getUrlParams;
+const formateObjToParamStr = commonHelper.formateObjToParamStr;
 const shopId = commonHelper.getUrlParam('shopId');
 
 // 校验手机绑定验证码
 exports.checkBindCodeActive = (phoneInfo, vipCallBack, successCallBack, boundCallBack) => (dispatch, getStates) => {
   dispatch(setLoadMsg({ status: true, word: '验证中……' }));
   const timestamp = getStates().timestamp || new Date().getTime();
-  const paramStr = getUrlParams(phoneInfo);
+  const paramStr = formateObjToParamStr(phoneInfo);
   const validBindMobileURL =
   `${config.validBindMobileActiveAPI}?shopId=${shopId}&timeStamp=${timestamp}&${paramStr}`;
 

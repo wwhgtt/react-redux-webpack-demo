@@ -19,7 +19,7 @@ const shopId = commonHelper.getUrlParam('shopId');
 const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 
 // 将url参数整合成字符串
-const getUrlParams = commonHelper.getUrlParams;
+const formateObjToParamStr = commonHelper.formateObjToParamStr;
 
 // 发送验证码
 exports.sendCode = phoneNum => (dispatch, getStates) => {
@@ -48,7 +48,7 @@ exports.sendCode = phoneNum => (dispatch, getStates) => {
 exports.checkBindCode = (phoneInfo, vipCallBack, successCallBack, boundCallBack) => (dispatch, getStates) => {
   dispatch(setLoadMsg({ status: true, word: '验证中……' }));
   const timestamp = getStates().timestamp || new Date().getTime();
-  const paramStr = getUrlParams(phoneInfo);
+  const paramStr = formateObjToParamStr(phoneInfo);
   const validBindMobileURL =
   `${config.validBindMobileAPI}?shopId=${shopId}&timeStamp=${timestamp}&${paramStr}`;
 
