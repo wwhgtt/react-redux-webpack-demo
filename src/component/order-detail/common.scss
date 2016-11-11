@@ -94,4 +94,15 @@
       color: #666;
     }
   }
+
+  .list-memo {
+    .list-item-title {
+      float: left;
+    }
+
+    .list-item-content {
+      float: left;
+      width: calc(100% - 90px);
+    }
+  }
 }
