@@ -161,7 +161,8 @@ module.exports = React.createClass({
                         <span className="list-name">微信号</span>
                       </div>
                       <div className="list-content flex-rest">
-                        <img src={info.iconUri || defaultPic} alt="微信头像" title="微信头像" className="list-content-logo" />
+                        <img src={info.iconUri || defaultPic} alt="微信头像" title="微信头像" className="list-content-logo flex-none" />
+                        <span className="wxName ellipsis">{info.wxName}</span>
                       </div>
                     </a>
                   </li>

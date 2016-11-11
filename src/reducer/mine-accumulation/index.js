@@ -9,7 +9,7 @@ module.exports = (
 
   switch (type) {
     case 'SET_ACCUMULATION_INFO': {
-      return state.set('accumulationInfo', payload);
+      return state.set('accumulationInfo', payload || {});
     }
     default:
   }

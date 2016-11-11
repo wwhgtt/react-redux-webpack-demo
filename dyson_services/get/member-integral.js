@@ -3,6 +3,8 @@ module.exports = {
   template: {
     data: {
       shopId: 810006427,
+      pageSize: 1,
+      currentPage: 1,
       integral: 122,
       ihList: [
         {
