@@ -42,7 +42,7 @@ module.exports = React.createClass({
       return (<span className="dish-item-soldout">已售罄</span>);
     }
     let dishCopy = _find(dishesDataDuplicate, dishDataCopy => dishDataCopy.id === dishData.id);
-    if (helper.isSingleDishWithoutProps(dishData)) {
+    if (helper.isSingleDishWithoutProps(dishData) && !dishData.sameRuleDishes) {
       return (<Counter count={dishCopy.order} onCountChange={this.onBtnTap} step={dishData.stepNum} />);
     }
 
@@ -112,7 +112,12 @@ module.exports = React.createClass({
             ></button>
 
             <div className="dish-item-content">
-              <span className="dish-item-name ellipsis">{helper.generateDishNameWithUnit(dishData)}</span>
+              <span className="dish-item-name ellipsis">
+                {dishData.sameRuleDishes ?
+                  dishData.name
+                  :
+                  helper.generateDishNameWithUnit(dishData)
+                }</span>
               {discountPart}
               <span className="dish-item-price price">{dishData.marketPrice}</span>
               {orderBtn}
