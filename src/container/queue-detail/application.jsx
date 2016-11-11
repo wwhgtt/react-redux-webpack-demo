@@ -77,7 +77,7 @@ const QueueDetailApplication = React.createClass({
       if (sex === '0') {
         userSexStr = '女士';
       } else if (sex === '1') {
-        userSexStr = '男士';
+        userSexStr = '先生';
       }
     }
 
