@@ -419,6 +419,8 @@ exports.getCouponsLength = function (couponsList) {
         return false;
       }
       couponLength = couponLength + 1;
+    } else if (coupon.weixinValue) {
+      couponLength = couponLength + 1;
     }
     return true;
   });
@@ -428,9 +430,15 @@ exports.getCouponsLength = function (couponsList) {
 const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, totalPrice) {
   if (coupon.couponType === 1) {
     // '满减券'
+    if (coupon.weixinValue) {
+      return coupon.weixinValue;
+    }
     return +coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'offerValue')[0].ruleValue || 0;
   } else if (coupon.couponType === 2) {
     // '折扣券';
+    if (coupon.weixinValue) {
+      return parseFloat((totalPrice * (1 - coupon.weixinValue / 10)).toFixed(2));
+    }
     return parseFloat(
       (
         totalPrice *
@@ -445,7 +453,12 @@ const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, tota
     return getRelatedToDishCouponProps(coupon.coupDishBeanList[0]).couponValue;
   } else if (coupon.couponType === 4) {
     // '现金券';
-    const ruleValue = +coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'faceValue')[0].ruleValue || 0;
+    let ruleValue = 0;
+    if (coupon.weixinValue) {
+      ruleValue = coupon.weixinValue;
+    } else {
+      ruleValue = +coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'faceValue')[0].ruleValue || 0;
+    }
     return ruleValue <= totalPrice ? ruleValue : totalPrice;
   }
   return true;
@@ -685,6 +698,12 @@ const getSubmitDishData = exports.getSubmitDishData = (dishesData, shopId) => {
       dishInfo.num = order;
       dishInfo.priId = priId;
       dishInfo.priType = priType;
+      if (dish.dishPropertyTypeInfos && dish.dishPropertyTypeInfos.length) {
+        (dish.dishPropertyTypeInfos || []).forEach(item => {
+          [].push.apply(dishInfo.propertyIds, (item.properties || []).filter(subItem => subItem.isChecked).map(subItem => subItem.id));
+        });
+      }
+
       orderDishes.push(dishInfo);
     } else if (Array.isArray(order) && order.length) {
       let orderPrices = [];
@@ -796,6 +815,11 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
                 state.serviceProps.couponsProps.inUseCouponDetail.id
                 :
                 '0';
+  const cardCode = state.serviceProps.couponsProps.inUseCoupon &&
+                state.serviceProps.couponsProps.inUseCouponDetail.weixinValue ?
+                state.serviceProps.couponsProps.inUseCouponDetail.id
+                :
+                '';
   let tableId;
   if (type === 'TS' && serviceApproach === 'totable' && state.tableProps.tables && state.tableProps.tables.length) {
     if (state.tableProps.tables.filter(table => table.isChecked).length === 0) {
@@ -814,6 +838,7 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
   const params = {
     shopId: getUrlParam('shopId'),
     coupId,
+    cardCode,
     useDiscount,
     memo: note,
     needPayPrice,

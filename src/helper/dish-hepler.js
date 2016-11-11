@@ -546,7 +546,7 @@ const selectDishesListWithSameName = (dishesList) => {
         }
         return sameNameDish;
       });
-    } else if (i > 0 && dishesCollection.every(dish => dish.name !== sameNameDish[0].name)) {
+    } else if (i > 0 && dishesCollection.every(dish => dish.id !== sameNameDish[0].id)) {
       dishesList.filter(dish => dish.id !== sameNameDish[0].id).map(dish => {
         if (dish.name === sameNameDish[0].name && dish.unitName === sameNameDish[0].unitName
           && dish.dishTypeId === sameNameDish[0].dishTypeId && judgeStandardsSame(dish, sameNameDish[0])
@@ -575,13 +575,20 @@ const createNewDishes = (withSameNameDishesProp, dishTypeList) => {
   let initialDishes = withSameNameDishesProp.dishesList.filter(dish => !dish.shuoldDelete);
   let changedDishes = [];
   withSameNameDishesProp.sameNameDishes.forEach(disesCollection => {
-    let maternalDish = disesCollection[0];
+    let maternalDish = _find(disesCollection, dish => dish.clearStatus === 1);
+    console.log(maternalDish);
     maternalDish.sameRuleDishes = [];
     for (let i = 1; i < disesCollection.length; i++) {
       disesCollection[i].dishPropertyTypeInfos.filter(property => property.type === 4).map(property =>
         property.properties.map(prop => prop.isChecked = false)
       );
-      maternalDish.sameRuleDishes.push(disesCollection[i]);
+      if (disesCollection[i].clearStatus !== 1) {
+        // 表示已售磬
+        console.log('客如云竭诚为您服务');
+      } else {
+        maternalDish.sameRuleDishes.push(disesCollection[i]);
+      }
+
       // dish所在的dishType
       let dishType = _find(dishTypeList, dishesType => dishesType.dishIds && dishesType.dishIds.indexOf(maternalDish.id) !== -1);
       if (dishType) {
