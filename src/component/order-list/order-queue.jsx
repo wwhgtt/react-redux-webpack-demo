@@ -53,6 +53,11 @@ const OrderQueue = React.createClass({
     return queueDetail;
   },
 
+  handleLinkDetail() {
+    const { queueList } = this.props;
+    location.href = `http://${location.host}/queue/success?shopId=${queueList.shopId}&orderId=${queueList.orderId}`;
+  },
+
   render() {
     const { queueList } = this.props;
     const bookHead = {
@@ -64,7 +69,7 @@ const OrderQueue = React.createClass({
     const isOrange = String(queueList.queueStatus) === '0' || false;
 
     return (
-      <div className="order-list-group">
+      <div className="order-list-group" onTouchTap={this.handleLinkDetail}>
         <ListHead headDetail={bookHead} isOrange={isOrange} orderType="QE" />
         {this.getQueueDetail().queueSection}
       </div>

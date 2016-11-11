@@ -8,10 +8,24 @@ const OrderDinner = React.createClass({
     orderType: React.PropTypes.string.isRequired,
   },
 
+  handleLinkDetail() {
+    const { orderList, orderType } = this.props;
+    if (orderType === 'TS') {
+      if (orderList.businessType === 2 && (orderList.tradeStatus === 1 || orderList.tradeStatus === 3)) {
+        location.href = `http://${location.host}/order/tradeDetailUncheck?shopId=${orderList.shopId}&orderId=${orderList.orderId}`;
+      } else {
+        location.href = `http://${location.host}/order/orderallDetail?shopId=${orderList.shopId}&orderId=${orderList.orderId}`;
+      }
+    } else if (orderType === 'WM') {
+      location.href = `http://${location.host}/order/takeOutDetail?shopId=${orderList.shopId}&orderId=${orderList.orderId}`;
+    }
+  },
+
   render() {
     const { orderList, orderType } = this.props;
     let isOrange = false;
     const status = orderList.status;
+
     if (orderType === 'TS') {
       if (status === '待支付' || status === '支付中' || status === '待确认' || status === '配送中') {
         isOrange = true;
@@ -23,7 +37,7 @@ const OrderDinner = React.createClass({
     }
 
     return (
-      <div className="order-list-group">
+      <div className="order-list-group" onTouchTap={this.handleLinkDetail}>
         <ListHead headDetail={orderList} isOrange={isOrange} orderType={orderType} />
         <div className="list-content clearfix">
           <div className="list-num">

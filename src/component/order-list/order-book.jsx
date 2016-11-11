@@ -35,6 +35,11 @@ const OrderBook = React.createClass({
     return bookInfo;
   },
 
+  handleLinkDetail() {
+    const { bookList } = this.props;
+    location.href = `http://${location.host}/booking/bookingDetail?shopId=${bookList.shopId}&orderId=${bookList.orderId}`;
+  },
+
   render() {
     const { bookList } = this.props;
     const bookHead = {
@@ -46,7 +51,7 @@ const OrderBook = React.createClass({
     const isOrange = this.getBookInfo(bookList).isOrange;
 
     return (
-      <div className="order-list-group">
+      <div className="order-list-group" onTouchTap={this.handleLinkDetail}>
         <ListHead headDetail={bookHead} isOrange={isOrange} orderType="BK" />
         <div className="list-book clearfix">
           <div className="list-inline">{bookList.orderTime}</div>
