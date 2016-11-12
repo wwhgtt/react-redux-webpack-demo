@@ -15,7 +15,7 @@ module.exports = React.createClass({
     return (
       <DynamicClassDiv className="address-option" {...props}>
         <div className="address-meta clearfix">
-          <div className="half ellipsis">{name} {sex}</div>
+          <div className="half ellipsis address-meta-name">{[name, sex].join(' ').trim()}</div>
           <div className="half address-meta-phone">{mobile}</div>
         </div>
         <h3 className="address-title ellipsis">{address}</h3>
