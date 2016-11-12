@@ -90,8 +90,6 @@
 }
 
 .child-dish-head {
-  height: 20px;
-
   span {
     float: left;
     margin-left: 10px;
@@ -100,4 +98,8 @@
 
 .child-dish-name {
   margin-left: 0 !important;
+}
+
+.child-dish-props {
+  padding: 5px 0;
 }
