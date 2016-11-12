@@ -45,22 +45,25 @@ module.exports = function (
     }
     return -1;
   };
-
+  let resultRuleData = null;
+  let resultData = null;
+  let immutableDishes = null;
   switch (type) {
     case 'SET_MENU_DATA': {
       payload.dishList.sort((a, b) => a.marketPrice - b.marketPrice);
-      return state.setIn(['dishesDataDuplicate'], payload.dishList)
+      immutableDishes = Immutable.from(payload.dishList);
+      resultRuleData = helper.reorganizeDishes(
+        helper.setDishPropertyTypeInfos(payload.dishList), payload.dishTypeList
+      );
+      resultData = helper.identifyRuleDish(resultRuleData.dishesList, immutableDishes);
+      return state.setIn(['dishesDataDuplicate'], resultData)
       .setIn(
         ['dishTypesData'],
-        helper.reorganizeDishes(
-          helper.setDishPropertyTypeInfos(payload.dishList), payload.dishTypeList
-        ).dishesTypeList
+        resultRuleData.dishesTypeList
       )
       .setIn(
         ['dishesData'],
-          helper.reorganizeDishes(
-            helper.setDishPropertyTypeInfos(payload.dishList), payload.dishTypeList
-          ).dishesList
+          resultRuleData.dishesList
         )
       .setIn(['activeDishTypeId'], getFirstValidDishTypeId(payload))
       .set('dishBoxChargeInfo', helper.getUrlParam('type') === 'WM' && payload.extraCharge ? payload.extraCharge : null)
