@@ -1,3 +1,7 @@
+a {
+  text-decoration: none;
+}
+
 .order-status {
   line-height: 60px;
   position: relative;
@@ -86,4 +90,41 @@
   a:last-child {
     background-color: #ffc43a;
   }
+}
+
+.icon-privilege {
+  padding-left: 25px;
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 18px;
+}
+
+// 优惠券及活动
+.icon-4 {
+  background-image: url("../../asset/images/icon_money.svg");
+}
+
+// 积分抵扣
+.icon-5 {
+  background-image: url("../../asset/images/icon_point.svg");
+}
+
+// 会员
+.icon-6 {
+  background-image: url("../../asset/images/icon_star.svg");
+}
+
+// 礼品
+.icon-101 {
+  background-image: url("../../asset/images/icon_gift.svg");
+}
+
+// 自动抹零
+.icon-carry {
+  background-image: url("../../asset/images/icon_hand.svg");
+}
+
+// 其他优惠
+.icon-100 {
+  background-image: url("../../asset/images/icon_other.svg");
 }

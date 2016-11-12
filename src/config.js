@@ -136,6 +136,7 @@ module.exports = {
   queueListAPI: `${apiBase}/queue/queueList.json`, // 排队列表
   getDinnerDetailAPI: `${apiBase}/order/orderallDetail.json`, // 堂食结算后订单详情
   getDishMarketInfosAPI: `${apiBase}/orderall/dishMarketInfos.json`, //
+  getTakeoutDetailAPI: `${apiBase}/order/takeOutDetail.json`, // 外卖结算后订单详情
 
   requestOptions,
 };
