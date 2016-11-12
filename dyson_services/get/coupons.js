@@ -92,8 +92,6 @@ module.exports = {
         validEndDate:'2016-12-08',
         validStartDate:'2016-11-09',
         weixinValue:10,
-        coupRuleBeanList:[],
-        coupDishBeanList: [],
       },
       {
         id: 1056987,
