@@ -13,7 +13,7 @@ const isSingleDishWithoutProps = exports.isSingleDishWithoutProps = dish => {
 
   const propTypeInfo = dish.dishPropertyTypeInfos || [];
   const ingredientInfos = dish.dishIngredientInfos || [];
-  return !ingredientInfos.length && (!propTypeInfo.length || propTypeInfo.every(prop => prop.type === 4));
+  return !ingredientInfos.length && (!propTypeInfo.length || (propTypeInfo.every(prop => prop.type === 4 && !dish.hasRuleDish)));
 };
 const isGroupDish = exports.isGroupDish = function (dish) {
   return dish.groups !== undefined;
@@ -577,17 +577,8 @@ const createNewDishes = (withSameNameDishesProp, dishTypeList) => {
   let initialDishes = withSameNameDishesProp.dishesList.filter(dish => !dish.shuoldDelete);
   let changedDishes = [];
   withSameNameDishesProp.sameNameDishes.forEach(disesCollection => {
-    let prices = [];
-    disesCollection.forEach(dish => prices.push(dish.marketPrice));
-    prices.sort((a, b) => a - b);
-    let maternalDish = null;
-    for (let i = 0; i < prices.length; i++) {
-      let dishData = _find(disesCollection, dish => dish.marketPrice === prices[i]);
-      if (dishData.clearStatus === 1) {
-        maternalDish = dishData;
-        break;
-      }
-    }
+    let maternalDish = disesCollection[0];
+    maternalDish.hasRuleDish = true;
     maternalDish.sameRuleDishes = [];
     for (let i = 1; i < disesCollection.length; i++) {
       disesCollection[i].dishPropertyTypeInfos.filter(property => property.type === 4).map(property =>
@@ -597,6 +588,7 @@ const createNewDishes = (withSameNameDishesProp, dishTypeList) => {
         // 表示已售磬
         console.log('客如云竭诚为您服务');
       } else {
+        disesCollection[i].hasRuleDish = true;
         maternalDish.sameRuleDishes.push(disesCollection[i]);
       }
 
@@ -699,4 +691,24 @@ exports.updateDishesWithRule = (id, dishOptions, immutableDish) => {
     });
   }
   return dishData;
+};
+
+exports.identifyRuleDish = (ruleDishes, immutableDishes) => {
+  let ruleDishesCopy = ruleDishes.filter(dish => dish.sameRuleDishes);
+  let dishesData = immutableDishes.asMutable({ deep:true });
+  dishesData.forEach(dishData => {
+    if (_find(ruleDishesCopy, dish => dish.id === dishData.id)) {
+      dishData.hasRuleDish = true;
+    } else {
+      ruleDishesCopy.forEach(ruleDish => {
+        ruleDish.sameRuleDishes.map(data => {
+          if (data.id === dishData.id) {
+            dishData.hasRuleDish = true;
+          }
+          return true;
+        });
+      });
+    }
+  });
+  return dishesData;
 };

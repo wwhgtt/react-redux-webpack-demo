@@ -88,16 +88,6 @@
     > .counter-num {
       display: none;
     }
-
-    .counter-add {
-      border-color: lighten($color-mischka, 5%);
-      background: #fff;
-
-      &::before,
-      &::after {
-        background: $color-texas-rose;
-      }
-    }
   }
 
   &-max > &-add {

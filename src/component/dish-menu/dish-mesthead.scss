@@ -2,24 +2,22 @@
 
 .dish-mesthead {
   position: relative;
+  height: 84px;
   padding: 0 15px;
   background: $color-orange-red;
   transition: top, .1s cubic-bezier(.1, .57, .1, 1);
 
   &.ads-existed {
-    padding-bottom: 34px;
-  }
-
-  &.register {
-    padding-top: 44px;
+    height: 110px;
   }
 
   .ads-column {
+    line-height: 18px;
     position: absolute;
-    bottom: 0;
+    top: 83px;
     left: 0;
-    padding-right: 15px;
-    padding-left: 15px;
+    height: 18px;
+    padding: 0 15px 0 14px;
     background: none;
   }
 }
@@ -40,14 +38,14 @@
 }
 
 .shop {
-  padding: 20px 15px 15px 0;
+  padding: 15px 0;
 
   &-logo {
     float: left;
-    width: 60px;
-    height: 60px;
-    margin: 0 10px 0 0;
-    border: 3px solid #e47743;
+    width: 57px;
+    height: 57px;
+    margin: -3px 14px 0 -2px;
+    border: 2px solid rgba($color-orange-dark, .3);
     border-radius: 50%;
   }
 
@@ -58,10 +56,12 @@
   }
 
   &-title {
-    font-size: 19px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22px;
     display: block;
-    height: 1em;
-    margin: 10px 0;
+    height: 22px;
+    margin: 1px 0 7px;
   }
 
   &-time {
@@ -70,10 +70,12 @@
     display: inline-block;
     height: 20px;
     padding: 0 10px;
+    color: $color-neon-carrot;
     border-radius: 10px;
-    background: $color-sunglow;
+    background: #fff;
 
     &-close {
+      color: #fff;
       background: $color-silver;
     }
   }
@@ -89,3 +91,28 @@
   background: $color-light-sand url("../../asset/images/ads.svg") no-repeat 10px 14px;
   background-size: 16px 16px;
 }
+
+.ads-column {
+  font-size: 13px;
+
+  .ads-more {
+    line-height: 18px;
+  }
+
+  .content {
+    height: 18px;
+    margin-bottom: 12px;
+
+    .detail-inner {
+      font-size: 1em;
+      line-height: 18px;
+      transform: none;
+    }
+
+    .icon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
