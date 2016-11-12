@@ -148,20 +148,16 @@
 .big,
 .huge {
   .dish-item-dish {
-    float: left;
-    width: calc(50% - 5px);
-    padding: 5px 0;
+    display: inline-block;
+    width: 50%;
+    padding: 5px;
     border: none;
-
-    &:nth-of-type(2n) {
-      float: right;
-    }
   }
 
   .dish-list-item {
     height: auto;
     padding: 0;
-    border: 1px solid $color-mystic;
+    border: 1px solid rgba($color-mystic, .8);
   }
 
   .dish-item-img {
@@ -176,8 +172,20 @@
     float: none;
     overflow: hidden;
     width: 100%;
-    min-height: 68px;
-    padding: 5px 7px 0;
+    height: 60px;
+    padding: 8px 7px 0;
+  }
+
+  .dish-item-discount {
+    line-height: 23px;
+    position: absolute;
+    top: 102px;
+    left: 0;
+    width: 100%;
+    height: 23px;
+    padding: 0 8px;
+    color: $color-white;
+    background: rgba(0, 0, 0, .6);
   }
 }
 
@@ -207,12 +215,30 @@
     }
   }
 
+  .dish-item-price {
+    font-size: 23px;
+    line-height: 28px;
+    margin: 0;
+
+    &::after {
+      font-size: 15px;
+    }
+  }
+
   .dish-item-img {
     display: block;
     float: none;
     width: 100%;
     height: 260px;
     border-radius: 0;
+  }
+
+  .dish-item-discount {
+    top: 237px;
+  }
+
+  .counter {
+    bottom: 8px;
   }
 
   .counter-add,
@@ -257,10 +283,22 @@
 
 .big {
   .dish-item-content {
+    height: 70px;
+
     .counter {
       position: absolute;
       right: 7px;
       bottom: 7px;
     }
+  }
+
+  .dish-item-name {
+    font-size: 15px;
+    padding: 0 0 5px;
+  }
+
+  .dish-item-price {
+    line-height: 25px;
+    margin: 5px 0;
   }
 }

@@ -28,7 +28,7 @@ const Loading = require('../../component/mui/loading.jsx');
 const addressLogo = require('../../asset/images/addressLogo.svg');
 require('../../asset/style/style.scss');
 require('./application.scss');
-
+const defaultPersonLogo = require('../../asset/images/person-default.svg');
 const OrderApplication = React.createClass({
   displayName: 'OrderApplication',
   propTypes: {
@@ -224,7 +224,7 @@ const OrderApplication = React.createClass({
           onTouchTap={evt => this.checkAddressChildViewAvailable(serviceProps.isPickupFromFrontDesk, tableProps)}
         >
           <span className="options-title">选择桌台</span>
-          <span className="option-btn btn-arrow-right">
+          <span className="option-btn btn-arrow-right table-font-size">
             {selectedTable.area && selectedTable.table ?
               `${selectedTable.area.areaName} ${selectedTable.table.tableName}`
               :
@@ -277,8 +277,8 @@ const OrderApplication = React.createClass({
       <div>
         <div className="weixin-login editor">
           <a className="option option-user">
-            <img className="option-user-icon" src={customerProps.iconUri} alt="用户头像" />
-            <p className="option-user-name">{customerProps.name}</p>
+            <img className="option-user-icon" src={customerProps.iconUri || defaultPersonLogo} alt="用户头像" />
+            <p className="option-user-name">{customerProps.name || '匿名用户'}</p>
           </a>
         </div>
         <div className="options-group editor-group">
@@ -420,7 +420,7 @@ const OrderApplication = React.createClass({
       }
 
       if (dateStr === todayStr) {
-        return timeStr ? `今日 ${timeStr} ${postfix}` : `立即${postfix}`;
+        return timeStr ? `今日 ${timeStr} ${postfix}` : `尽快${postfix}`;
       }
       return `${dateStr} ${timeStr} ${postfix}`;
     };

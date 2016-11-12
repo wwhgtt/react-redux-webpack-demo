@@ -87,7 +87,7 @@
     display: inline-block;
     height: 43px;
     min-height: 43px;
-    padding: 0 15px;
+    padding: 0 13px;
     border-bottom: none;
 
     &::before {
@@ -96,11 +96,8 @@
     }
 
     > span {
-      font-size: 15px;
-      line-height: 17px;
       position: relative;
-      margin: 0;
-      padding: 0 1px;
+      padding: 0;
     }
 
     &.is-active {

@@ -1,7 +1,6 @@
 const React = require('react');
 const imagePlaceholder = require('../../../asset/images/dish-placeholder-large.png');
 const helper = require('../../../helper/dish-hepler');
-const shopId = helper.getUrlParam('shopId');
 require('./dish-detail-container.scss');
 require('./dish-desc-popup.scss');
 
@@ -25,11 +24,6 @@ module.exports = React.createClass({
     } else if (dish.isMember && dish.discountType === 2) {
       memberPrice = dish.memberPrice;
     }
-    let registerUrl = `http://${location.host}/member/register?shopId=${shopId}&returnUrl=${encodeURIComponent(location.href)}`;
-    if (dish.loginType && +dish.loginType === 1) {
-      // 微信登录
-      registerUrl = `http://${location.host}/user/validBindMobile?shopId=${shopId}&returnUrl=${encodeURIComponent(location.href)}`;
-    }
 
     return (
       <div className="dish-detail-container">
@@ -45,9 +39,8 @@ module.exports = React.createClass({
                 <p className="clearfix">
                   <span className="dish-desc-price--bold price">{memberPrice.toFixed(2)}</span>
                   <span className="price-badge-wrap">
-                    <span className="dish-desc-price-badge">{dish.discountLevel}专享{dish.discountType === 1 ? `${dish.memberPrice}折优惠` : '价'}</span>
-                    <br />
                     <span className="dish-desc-price--del price">{dish.marketPrice}</span>
+                    <span className="dish-desc-price-badge">{dish.discountLevel}专享{dish.discountType === 1 ? `${dish.memberPrice}折优惠` : '价'}</span>
                   </span>
                 </p>
                 : <p className="clearfix"><span className="dish-desc-price--bold price">{dish.marketPrice}</span></p>
@@ -56,22 +49,6 @@ module.exports = React.createClass({
               <p className="dish-desc-desc">{dish.dishDesc}</p>
             </div>
           </div>
-          {!dish.isUserMember ?
-            <div className="dish-desc-register flex-none">
-              <span className="dish-desc-register-text">注册会员，享受惊喜价格哦！</span>
-              <button
-                className="dish-desc-register-btn"
-                onTouchTap={
-                  (evt) => {
-                    evt.preventDefault();
-                    location.href = registerUrl;
-                  }
-                }
-              >注册会员</button>
-            </div>
-            :
-            false
-          }
         </div>
       </div>
     );

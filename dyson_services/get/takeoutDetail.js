@@ -1,6 +1,6 @@
 module.exports = {
-  path:'/order/orderallDetail.json',
-  template:{
+  path: '/order/takeOutDetail.json',
+  template: {
     data: {
       shopName: '小土豆石方菜菜(小土豆石方菜菜软件园店E区)',
       shopLogo: 'http://kry-test-2.qiniudn.com/2ee7d73b3d1641a48ec5f15ad2864a39.jpg?imageView/2/w/512/h/512',
@@ -12,12 +12,18 @@ module.exports = {
       tradePrivilegeAmount: -5,  // 订单总的优惠金额
       businessType:1, // 1: 快餐 3：正餐
       orderNumber: '302161109194026000001', // 订单编号
+      address: '天府大道xxx', // 配送地址 （前端直接展示）
+      expectTime: '2015-3-3 10:01:01', // 期望时间 （前端直接展示）
+      deliveryFee: 5.0, // 配送费
+      mobile: '15578787788', // 手机
+      name: 'Alex', // 姓名
       tradeFailReason: '理由哟',
       memo:'', // 订单备注
       invoiceTitle: '', // 发票抬头
       tableArea: '大厅区', // 桌台区域
-      tradePayForm:1, // 1: 线下支付，3：在线支付
+      tradePayForm: 1, // 1: 线下支付，3：在线支付
       tableNo: '23', // 桌台号
+      sex: 0,
       payModId: -1, // （该字段可能不存在） 支付方式 -1: 会员卡, -3: 现金, -4: 银行卡, -5: 微信支付, -7: 百度钱包
       url: '', // 直发券地址
       tradePrivileges: [{

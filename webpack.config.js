@@ -120,6 +120,9 @@ module.exports = {
     'dinner-detail-entry': [
       './src/dinner-detail.jsx',
     ],
+    'takeout-detail-entry': [
+      './src/takeout-detail.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -457,6 +460,14 @@ module.exports = {
         title: 'DinnerDetailApplication',
         filename: 'dinner-detail.html',
         chunks: ['common', 'dinner-detail-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'TakeoutDetailApplication',
+        filename: 'takeout-detail.html',
+        chunks: ['common', 'takeout-detail-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

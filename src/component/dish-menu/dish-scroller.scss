@@ -49,7 +49,18 @@
   }
 
   .dish-item-type {
+    margin-top: 10px;
+    margin-bottom: 10px;
     padding: 0 15px;
+
+    &:first-child {
+      margin-top: 0;
+    }
   }
 }
 
+.big {
+  .dish-scroller {
+    padding: 0 10px;
+  }
+}
