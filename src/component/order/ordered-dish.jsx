@@ -73,7 +73,7 @@ module.exports = React.createClass({
                   </span> : false
               }
               {childDish.isReplace ? <span className="badge-bi"></span> : false}
-              <span className="child-dish-count">{helper.getDishesCount([childDish])}</span>
+              <span className="child-dish-count">x{helper.getDishesCount([childDish])}</span>
               {helper.isSingleDishWithoutProps(childDish) ? false : this.buildDetailInfoForSingleDish(childDish)}
             </div>
           </div>
