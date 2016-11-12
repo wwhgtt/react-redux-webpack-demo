@@ -8,7 +8,7 @@ const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
 const isSingleDishWithoutProps = require('../../helper/dish-hepler.js').isSingleDishWithoutProps;
 const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
 const formatPrice = require('../../helper/common-helper.js').formatPrice;
-
+const classnames = require('classnames');
 require('./order-summary.scss');
 
 module.exports = React.createClass({
@@ -102,6 +102,24 @@ module.exports = React.createClass({
               :
               false
             }
+            {commercialProps.carryRuleVO && helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).smallChange < 0 ?
+              <p className="option clearfix">
+                <span className="option-title">尾数调整</span>
+                <span className="order-discount price">
+                  {Math.abs(helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).smallChange)}
+                </span>
+              </p>
+              :
+              false
+            }
+          </div>
+          <div
+            className={
+              classnames('benefit-options', {
+                'benefit-none': !serviceProps.couponsProps.couponsList && !serviceProps.integralsInfo,
+              })
+            }
+          >
             {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length
               && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 ?
               <a className="option division" href="#coupon-select">
@@ -122,16 +140,6 @@ module.exports = React.createClass({
                 optionComponent={OrderPropOption}
               />
             : false}
-            {commercialProps.carryRuleVO && helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).smallChange < 0 ?
-              <p className="option clearfix">
-                <span className="option-title">尾数调整</span>
-                <span className="order-discount price">
-                  {Math.abs(helper.clearSmallChange(commercialProps.carryRuleVO, dishesPrice, serviceProps).smallChange)}
-                </span>
-              </p>
-              :
-              false
-            }
           </div>
           <div className="options-group extra-bottom">
             <div className="order-summary">
