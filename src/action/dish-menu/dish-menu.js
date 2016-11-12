@@ -96,7 +96,7 @@ exports.fetchSendArea = () => (dispatch, getState) => {
 
 exports.orderDish = (dishData, action) => (dispatch, getStates) => {
   dispatch(_orderDish(dishData, action));
-  helper.storeDishesLocalStorage(getStates().dishesDataDuplicate);
+  helper.storeDishesLocalStorage(getStates().dishesDataDuplicate, getStates().shopInfo);
 };
 
 exports.removeAllOrders = (orders) => (dispatch, getStates) => {

@@ -104,7 +104,7 @@ module.exports = {
       dishItems:[
         {
           id: 56,
-          name: '火爆肥肠1',
+          name: '火爆肥肠T',
           brandDishId: 25,
           type: 0,
           marketPrice: 25,

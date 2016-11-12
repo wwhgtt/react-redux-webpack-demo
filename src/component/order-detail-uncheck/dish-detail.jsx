@@ -48,7 +48,9 @@ const DishDetail = React.createClass({
           <div className="dish-main clearfix" onTouchTap={this.handleExpand}>
             <a
               className={classnames('ellipsis dish-name', { 'dish-name--trigger': isHasChild }, { 'is-open': expand })}
-            >{mainDish.dishName}</a>
+            >
+            {mainDish.dishName}
+            </a>
             <span className="dish-price price ellipsis">{mainDish.price}</span>
             <span className="dish-count ellipsis">x{mainDish.num}</span>
             {
@@ -62,7 +64,7 @@ const DishDetail = React.createClass({
               {
                 mainDish.subDishItems ?
                 mainDish.subDishItems.map((item, index) =>
-                  <div className="dish-sub-info" key={index}>
+                  <div className="dish-sub-info clearfix" key={index}>
                     <span className="dish-name ellipsis">{item.dishName}</span>
                     {
                       item.propertyAmount ?

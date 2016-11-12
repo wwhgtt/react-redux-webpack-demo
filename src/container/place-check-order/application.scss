@@ -14,7 +14,7 @@
     font-size: 1.125em;
     font-weight: bold;
     line-height: 1.389em;
-    padding: .75em 0;
+    padding: .75em 1em;
     text-align: center;
     color: #474747;
   }
@@ -53,12 +53,6 @@
       content: "";
       background: url("../../asset/images/edit.svg") center center/auto 100% no-repeat;
     }
-  }
-}
-
-.dish-box {
-  .badge-price {
-    display: none;
   }
 }
 

@@ -1,7 +1,10 @@
 const React = require('react');
-const DishDetail = require('../../component/order-detail-uncheck/dish-detail.jsx');
+const PlaceDetail = require('../../component/place/place-detail.jsx');
 const connect = require('react-redux').connect;
+const dishHelper = require('../../helper/dish-hepler');
+const getSubmitDishData = require('../../helper/order-helper').getSubmitDishData;
 const actions = require('../../action/place-check-order/place-check-order');
+const shopId = dishHelper.getUrlParam('shopId');
 require('../../asset/style/style.scss');
 require('./application.scss');
 
@@ -22,41 +25,41 @@ const PlaceCheckOrderApplication = React.createClass({
     const { getPlaceCheckOrder } = this.props;
     getPlaceCheckOrder();
   },
-  setTotalPrice(orderDetail) {
-    let totalPrice = 0;
-    if (orderDetail.orderMetas) {
-      orderDetail.orderMetas.forEach((item, index) => {
-        item.dishItems.forEach((itemt, indext) => {
-          totalPrice += itemt.price;
-        });
-      });
-    }
-    return totalPrice.toFixed(2);
-  },
   confirmBill() {
-    const note = this.refs.note.value;
-    const { confirmBill } = this.props;
-    confirmBill(note);
+    const memo = this.refs.note.value;
+    const { confirmBill, orderDetail } = this.props;
+
+    const data = { shopId };
+
+    Object.assign(data, {
+      shopId,
+      relatedId:sessionStorage.relatedId || 0,
+      relatedType:1,
+      orderType:orderDetail.type,
+      serviceApproach:'totable',
+      memo,
+    }, getSubmitDishData(orderDetail.dishes, parseInt(shopId, 10) || 0));
+
+    confirmBill(data);
   },
   render() {
     const { orderDetail, load, clearErrorMsg, errorMessage } = this.props;
-    const totalPrice = this.setTotalPrice(orderDetail);
+    const dishCount = dishHelper.getDishesCount(orderDetail.dishes || []);
+    const totalPrice = dishHelper.getDishesPrice(orderDetail.dishes || []);
     return (
       <div className="application">
         <div className="order-outer">
-          <p className="shop-name">Yakitori(世纪城店)</p>
+          <p className="shop-name">{orderDetail.shopName || '未知的门店'}</p>
           <div className="shop-head of">
             <span className="shop-chosen">已选商品</span>
-            <span className="shop-total">共3份</span>
+            <span className="shop-total">共{dishCount}份</span>
             <a href=" javascript:;" className="shop-edit">修改订单</a>
           </div>
           <div className="order-list-outer">
             {
-              orderDetail.orderMetas && orderDetail.orderMetas.length > 0 &&
-              orderDetail.orderMetas.map((item, index) =>
-                item.dishItems.map((itemt, indext) =>
-                  <DishDetail mainDish={itemt} key={indext} />
-                )
+              orderDetail.dishes && orderDetail.dishes.length > 0 &&
+              orderDetail.dishes.map((item, index) =>
+                <PlaceDetail mainDish={item} key={index} />
               )
             }
           </div>

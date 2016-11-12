@@ -9,7 +9,6 @@ const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const CartOrderedDish = require('../../component/dish-menu/cart/cart-ordered-dish.jsx');
 const wxClient = require('wechat-jssdk/client');
 const dishHelper = require('../../helper/dish-hepler');
-const commonHelper = require('../../helper/common-helper');
 const getSubmitDishData = require('../../helper/order-helper').getSubmitDishData;
 const defaultPersonLogo = require('../../asset/images/person-default.svg');
 const shopId = dishHelper.getUrlParam('shopId');
@@ -213,21 +212,6 @@ const OrderTSCartApplication = React.createClass({
     this.props.gotoDishMenuPage();
   },
   validateMoblieUserInfo() {
-    const { member } = this.props.orderTSCart;
-    // 手机号下单要校验姓名和性别
-    if (+member.loginType === 0) {
-      const name = (member.name || '').trim();
-      if (!name) {
-        this.setErrorMsg('请输入姓名');
-        return false;
-      }
-
-      const sex = this.getValidSexValue(member.sex);
-      if (sex === -1) {
-        this.setErrorMsg('请选择性别');
-        return false;
-      }
-    }
     return true;
   },
   placeOrder(tableId, tableKey) {
@@ -317,8 +301,7 @@ const OrderTSCartApplication = React.createClass({
       </div>
     );
   },
-  buildCustomerInfoElement(member) {
-    const isAlipayBroswer = commonHelper.isAlipayBroswer();
+  buildCustomerInfoElement(member, wxName) {
     let sex = '';
     if (member.sex === 1) {
       sex = '先生';
@@ -329,30 +312,13 @@ const OrderTSCartApplication = React.createClass({
     }
 
     let nameSex = '';
-    if (isAlipayBroswer) { // 支付宝内置浏览器
-      if (!member.sex || !member.name) {
-        nameSex = member.alipayNickName ? member.alipayNickName : member.mobile;
-      } else {
-        nameSex = `${member.name} ${sex}`;
-      }
-    } else { // 其他浏览器
-      if (!member.sex || !member.name) {
-        nameSex = member.wxNickName ? member.wxNickName : member.mobile;
-      } else {
-        nameSex = `${member.name} ${sex}`;
-      }
+
+    if (!member.sex || !member.name) {
+      nameSex = wxName || member.mobile;
+    } else {
+      nameSex = `${member.name} ${sex}`;
     }
 
-    if (isAlipayBroswer) {
-      return (
-        <div className="alipay-login">
-          <a className="option-user">
-            <img className="option-user-icon" src={member.alipayIconUri || defaultPersonLogo} alt="用户头像" />
-            <p className="option-user-name">{nameSex}</p>
-          </a>
-        </div>
-      );
-    }
     return (
       <div className="weixin-login">
         <a className="option-user">
@@ -364,25 +330,24 @@ const OrderTSCartApplication = React.createClass({
   },
   render() {
     const { dishMenu, orderTSCart } = this.props;
-    const { member, peopleCount, memo, commercialName } = orderTSCart;
+    const { member, wxName, peopleCount, memo, commercialName } = orderTSCart;
     const { tableProps, mainOrderId, tableId, tableKey, shopSetting, addItemStatus } = orderTSCart;
     const { errorMessage, loadingInfo } = this.state;
     const dishesData = dishMenu.dishesDataDuplicate || [];
     const dishCount = dishHelper.getDishesCount(dishesData);
     const totalPrice = dishHelper.getDishesPrice(dishesData);
-
     return (
       <div className="application flex-columns">
         <div className="application-content">
           <p className="shop-name ellipsis">{commercialName}</p>
           <div className="shop-method of">
-            <span className="shop-table">{this.getAreaTableTitle()}</span>
+            <span className="shop-table ellipsis">{this.getAreaTableTitle()}</span>
             <span className="shop-clear-cart" onTouchTap={this.onClearCart}>清空购物车</span>
-            <span className="shop-edit" onTouchTap={this.continueDishMenu}>继续点餐</span>
+            <span className="shop-edit" onTouchTap={this.continueDishMenu}>继续点菜</span>
           </div>
           <div className="options-group">
             <div className="option editor">
-              {this.buildCustomerInfoElement(member)}
+              {this.buildCustomerInfoElement(member, wxName)}
             </div>
           </div>
           <div className="flex-rest">
@@ -392,7 +357,7 @@ const OrderTSCartApplication = React.createClass({
               </div>
             </div>
             {!(mainOrderId !== -1 && addItemStatus === 1) &&
-              <div className="options-group options-group-mb">
+              <div className="options-group options-group-bigmb">
                 {orderTSCart.enableInputDinnerTableCount &&
                   <div className="option">
                     <span className="option-title">就餐人数：</span>

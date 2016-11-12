@@ -1,24 +1,5 @@
 @import "settings.colors";
 
-.masthead {
-  background: $color-cyan;
-}
-
-.positivenum.list-amount {
-  color: $color-cyan;
-
-  .symbol {
-    &::before,
-    &::after {
-      background: $color-cyan;
-    }
-  }
-}
-
-.btn--cyan {
-  background: $color-cyan;
-}
-
 // 滚动条实现
 .detail {
   height: calc(100% - 120px);

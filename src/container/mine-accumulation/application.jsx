@@ -5,9 +5,12 @@ require('../../component/mine/common.scss');
 
 const React = require('react');
 const Dialog = require('../../component/mui/dialog/dialog.jsx');
+const GrowAccumeList = require('../../component/mine/grow-accume-list.jsx');
 const connect = require('react-redux').connect;
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
 const mineAccumulationAction = require('../../action/mine/mine-accumulation.js');
+const IScroll = require('iscroll/build/iscroll-probe');
+const shallowCompare = require('react-addons-shallow-compare');
 
 const MineAccumulationApplication = React.createClass({
   displayName: 'MineAccumulationApplication',
@@ -18,27 +21,79 @@ const MineAccumulationApplication = React.createClass({
   getInitialState() {
     return {
       descriptionContentVisible: false,
+      hideLoad: false,
     };
   },
   componentWillMount() {
-    this.props.fetchAccumulationInfo();
+    this.props.fetchAccumulationInfo(1);
+    this.pageNum = 1;
+    this.wholeData = [];
+  },
+  componentDidMount() {
+    const iScroll = this.iScroll = new IScroll('.records', {
+      click: true,
+      tap: true,
+      probeType: 3,
+    });
+
+    iScroll.on('scrollStart', () => {
+      this._className = '';
+    });
+
+    iScroll.on('scroll', () => {
+      const distance = Math.abs(iScroll.y) - Math.abs(iScroll.maxScrollY);
+      if (distance >= 50) {
+        this._className = 'flip';
+      }
+    });
+
+    iScroll.on('scrollEnd', () => {
+      if (this._className === 'flip') {
+        this.addItems();
+      }
+    });
+  },
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.accumulationInfo.pageSize === 1) {
+      this.setState({ hideLoad:true });
+    }
+  },
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  },
+  componentDidUpdate(prevProps, prevState) {
+    this.iScroll.refresh();
+  },
+  addItems() {
+    const { accumulationInfo } = this.props;
+    this.pageNum++;
+    if (accumulationInfo.pageSize >= this.pageNum) {
+      this.props.fetchAccumulationInfo(this.pageNum);
+    } else {
+      this.setState({ hideLoad:true });
+    }
   },
   toggleDescriptContent() {
     this.setState({ descriptionContentVisible: !this.state.descriptionContentVisible });
   },
   buildListElement() {
-    const { ihList } = this.props.accumulationInfo;
+    const { accumulationInfo } = this.props;
+    const { ihList } = accumulationInfo;
+
     if (!ihList || !ihList.length) {
-      return false;
+      return [];
     }
 
+    if (accumulationInfo.currentPage === this.pageNum) {
+      this.wholeData = this.wholeData.concat(ihList);
+    }
     const getIntegralTypeText = type => {
       const types = ['消费获得积分', '抽奖扣积分', '积分抵现', '消费获得积分退回', '抵现积分退回'];
       return types[type] || '获得积分';
     };
 
     return (
-      ihList.map((item, index) => {
+      this.wholeData.map((item, index) => {
         const amount = item.addIntegral;
         let amountClass = 'list-amount';
 
@@ -112,6 +167,7 @@ const MineAccumulationApplication = React.createClass({
   },
   render() {
     const { accumulationInfo } = this.props;
+    const { hideLoad } = this.state;
     return (
       <div className="accumulation">
         <div className="masthead">
@@ -119,13 +175,11 @@ const MineAccumulationApplication = React.createClass({
           <p className="masthead-total">{accumulationInfo.integral}</p>
           <p className="masthead-title">我的积分</p>
         </div>
-        <div className="detail">
-          <div className="detail-title">积分记录</div>
-          <div className="section records">
-            {this.buildListElement()}
-          </div>
-        </div>
-        <div className="copyright"></div>
+        <GrowAccumeList
+          listName="积分记录"
+          buildListElement={this.buildListElement()}
+          hideLoad={hideLoad}
+        />
         {this.state.descriptionContentVisible &&
           <Dialog
             title="积分说明"
