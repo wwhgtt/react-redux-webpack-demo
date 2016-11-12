@@ -367,9 +367,10 @@ const OrderTSCartApplication = React.createClass({
     const { member, peopleCount, memo, commercialName } = orderTSCart;
     const { tableProps, mainOrderId, tableId, tableKey, shopSetting, addItemStatus } = orderTSCart;
     const { errorMessage, loadingInfo } = this.state;
-    const dishesData = dishMenu.dishesData || [];
+    const dishesData = dishMenu.dishesDataDuplicate || [];
     const dishCount = dishHelper.getDishesCount(dishesData);
     const totalPrice = dishHelper.getDishesPrice(dishesData);
+
     return (
       <div className="application flex-columns">
         <div className="application-content">

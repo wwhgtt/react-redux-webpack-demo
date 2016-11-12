@@ -47,7 +47,7 @@ exports.fetchMenuData = () => (dispatch, getStates) =>
 
 exports.orderDish = (dishData, action) => (dispatch, getStates) => {
   dispatch(_orderDish(dishData, action));
-  helper.storeDishesLocalStorage(getStates().dishMenuReducer.dishesData, getStates().shopInfo);
+  helper.storeDishesLocalStorage(getStates().dishMenuReducer.dishesDataDuplicate, getStates().shopInfo);
 };
 
 exports.removeAllOrders = (orders) => (dispatch, getStates) => {
@@ -228,6 +228,7 @@ const fetchServiceStatusNoTable = exports.fetchServiceStatusNoTable = () => (dis
     });
 
 // 根据isShowButton获取快捷菜单按钮是否显示
+
 const fetchIsShowButton = exports.fetchIsShowButton = (tableKey, tableId) => (dispatch, getState) =>
   fetch(`${config.getIsShowButtonAPI}?shopId=${helper.getUrlParam('shopId')}`, config.requestOptions).
     then(res => {

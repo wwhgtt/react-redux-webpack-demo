@@ -51,7 +51,7 @@ module.exports = React.createClass({
       helper.getDishesCount([dishCopy]) + helper.ruleDishesCount(dishData, dishesDataDuplicate)
       :
       helper.getDishesCount([dishCopy]);
-    const title = Array.isArray(dishData.groups) ? '套餐选项' : '菜品选项';
+    const title = Array.isArray(dishData.groups) ? '套餐选项' : '商品选项';
     return (
       <div className="counter">
         {count > 0 ? <span className="counter-num">{count}</span> : false}
@@ -114,12 +114,19 @@ module.exports = React.createClass({
             <div className="dish-item-content">
               <span className="dish-item-name ellipsis">
                 {dishData.sameRuleDishes ?
-                  dishData.name
+                  `${dishData.name}/${dishData.unitName}`
                   :
                   helper.generateDishNameWithUnit(dishData)
                 }</span>
               {discountPart}
-              <span className="dish-item-price price">{dishData.marketPrice}</span>
+              <span className="dish-item-price price">
+                {dishData.marketPrice}
+                {dishData.sameRuleDishes ?
+                  <small>起</small>
+                  :
+                  false
+                }
+              </span>
               {orderBtn}
             </div>
           </div>

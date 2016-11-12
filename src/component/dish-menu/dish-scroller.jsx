@@ -63,13 +63,7 @@ module.exports = React.createClass({
     });
 
     iScroll.on('scrollEnd', () => {
-      const { diningForm, marketListUpdate } = this.props;
-      let dishTypeId = '';
-      if (diningForm && marketListUpdate && marketListUpdate.length !== 0) {
-        dishTypeId = this.findCurrentDishTypeId(iScroll.y - 34);
-      } else {
-        dishTypeId = this.findCurrentDishTypeId(iScroll.y);
-      }
+      const dishTypeId = this.findCurrentDishTypeId(iScroll.y);
       if (!window.__activeTypeByTap__ && dishTypeId) {
         if (cache.timer) {
           window.clearTimeout(cache.timer);

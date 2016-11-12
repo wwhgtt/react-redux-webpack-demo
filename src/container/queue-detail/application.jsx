@@ -61,12 +61,15 @@ const QueueDetailApplication = React.createClass({
     let maxNum = '';
     if (queueInfo.ql) {
       minNum = queueInfo.ql.minPersonCount;
-      maxNum = queueInfo.ql.maxPersonCount;
-      if (minNum === maxNum) {
-        return minNum;
+      if (queueInfo.ql.maxPersonCount) {
+        maxNum = queueInfo.ql.maxPersonCount;
+        if (minNum === maxNum) {
+          return `${minNum}人`;
+        }
+        return `${minNum}-${maxNum}人`;
       }
     }
-    return `${minNum}-${maxNum}`;
+    return `${minNum}人及以上`;
   },
 
   // 下单人性别
@@ -77,7 +80,7 @@ const QueueDetailApplication = React.createClass({
       if (sex === '0') {
         userSexStr = '女士';
       } else if (sex === '1') {
-        userSexStr = '男士';
+        userSexStr = '先生';
       }
     }
 
@@ -121,18 +124,18 @@ const QueueDetailApplication = React.createClass({
           </div>
           <div className="divide-line">
             <div className="divide-line-title divide-line-time">
-              {queueInfo.queue && dateUtility.format(new Date(queueInfo.queue.localCreateDateTime), 'yyyy/MM/dd HH:mm:ss')} 取号
+              {queueInfo.queue && dateUtility.format(new Date(queueInfo.queue.createDateTime), 'yyyy/MM/dd HH:mm:ss')} 取号
             </div>
           </div>
           <div className="queue-info">
             <p className="queue-info-no">{queueInfo.ql && queueInfo.ql.queueChar}{queueInfo.queueNumber}</p>
-            <p className="queue-info-table">{queueInfo.ql && queueInfo.ql.queueName} {this.getTableType(queueInfo)}人桌</p>
+            <p className="queue-info-table">{queueInfo.ql && queueInfo.ql.queueName} {this.getTableType(queueInfo)}桌</p>
           </div>
           {queueInfo.queue && String(queueInfo.queue.queueStatus) === '0' &&
             <div className="queue-detail">
               <div className="queue-waite">
                 <p>在您之前还有
-                  <span className="queue-waite-num">{queueInfo.queue.repastPersonCount}</span>
+                  <span className="queue-waite-num">{queueInfo.count}</span>
                   桌客人等候
                   <a className={`queue-waite-refresh ${isRefresh && 'refresh-animation'}`} onTouchTap={this.handleRefreshQueueInfo}></a>
                 </p>

@@ -52,7 +52,8 @@
 }
 
 .child-dish-count {
-  margin-right: 0 !important;
+  float: left;
+  margin-left: 20px;
 }
 
 // new styles
@@ -90,4 +91,13 @@
 
 .child-dish-head {
   height: 20px;
+
+  span {
+    float: left;
+    margin-left: 10px;
+  }
+}
+
+.child-dish-name {
+  margin-left: 0 !important;
 }

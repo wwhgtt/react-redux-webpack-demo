@@ -139,7 +139,7 @@ module.exports = React.createClass({
       <div className="child-dish">
         <div className="dish-name-wrap">
           <div className="dish-name">
-            {dish.name}
+            {dish.unitName ? `${dish.name}/${dish.unitName}` : dish.name}
             {marketPrice !== 0 ? <span className="badge-price">{marketPrice > 0 ? '+' : ''}{marketPrice}元</span> : false}
             {dish.isReplace ? <span className="badge-bi"></span> : false}
           </div>
@@ -147,7 +147,7 @@ module.exports = React.createClass({
             hasProps ?
               <div className="right">
                 <span className={classnames({ 'dish-count' : true, 'count-hide' : expand || count <= 0 })}>{count}</span>
-                <a className="dish-dropdown-trigger btn--ellips" onTouchTap={this.onPropsBtnTap}>{expand ? '收起' : '菜品选项'}</a>
+                <a className="dish-dropdown-trigger btn--ellips" onTouchTap={this.onPropsBtnTap}>{expand ? '收起' : '商品选项'}</a>
               </div>
             : this.buildDishCounter({ dish, remainCount, count })
           }
