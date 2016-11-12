@@ -224,7 +224,7 @@ const OrderApplication = React.createClass({
           onTouchTap={evt => this.checkAddressChildViewAvailable(serviceProps.isPickupFromFrontDesk, tableProps)}
         >
           <span className="options-title">选择桌台</span>
-          <span className="option-btn btn-arrow-right">
+          <span className="option-btn btn-arrow-right table-font-size">
             {selectedTable.area && selectedTable.table ?
               `${selectedTable.area.areaName} ${selectedTable.table.tableName}`
               :
