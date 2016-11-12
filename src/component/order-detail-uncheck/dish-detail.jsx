@@ -62,7 +62,7 @@ const DishDetail = React.createClass({
               {
                 mainDish.subDishItems ?
                 mainDish.subDishItems.map((item, index) =>
-                  <div className="dish-sub-info" key={index}>
+                  <div className="dish-sub-info clearfix" key={index}>
                     <span className="dish-name ellipsis">{item.dishName}</span>
                     {
                       item.propertyAmount ?

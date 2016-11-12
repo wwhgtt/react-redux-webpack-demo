@@ -10,36 +10,18 @@ const shopId = commonHelper.getUrlParam('shopId');
 const orderId = commonHelper.getUrlParam('orderId');
 
 exports.getPlaceCheckOrder = () => (dispatch, getState) => {
-  const getPlaceCheckOrderURL = `${config.tradeDetailUncheckAPI}?shopId=${shopId}&orderId=${orderId}`;
-  const requestOptions = Object.assign({}, config.requestOptions);
-  requestOptions.headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
-  requestOptions.method = 'GET';
-
-  dispatch(setLoadMsg({ status:true, word:'加载中' }));
-  if (!shopId) {
-    dispatch(setErrorMsg('找不到门店号'));
-    return;
-  }
-  fetch(getPlaceCheckOrderURL, requestOptions).
-  then(res => {
-    if (!res.ok) {
-      dispatch(setErrorMsg('获取预点菜信息失败'));
-    }
-    return res.json();
-  }).
-  then(res => {
-    dispatch(setLoadMsg({ status:false, word:'' }));
-    if (res.code === '200') {
-      dispatch(setOrderDetail(res.data));
-    } else {
-      dispatch(setErrorMsg(res.msg));
-    }
-  });
+  const lastOrderedDishes = JSON.parse(localStorage.lastOrderedDishes || '{}');
+  dispatch(setOrderDetail(lastOrderedDishes));
 };
 
-exports.confirmBill = (note) => (dispatch, getstate) => {
+exports.confirmBill = (data) => (dispatch, getstate) => {
   dispatch(setLoadMsg({ status:true, word:'提交订单中...' }));
-  fetch(config.placeCheckOrderAPI, commonHelper.getFetchPostParam({ shopId, orderId, note })).
+  const requestOptions = Object.assign({}, config.requestOptions, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: JSON.stringify(data),
+  });
+  fetch(config.prepareSubOrderAPI, requestOptions).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('确认订单失败！！'));
@@ -49,7 +31,7 @@ exports.confirmBill = (note) => (dispatch, getstate) => {
   then(res => {
     dispatch(setLoadMsg({ status:false, word:'' }));
     if (res.code === '200') {
-      location.href = 'http://app.d.cn';
+      // location.href = 'http://app.d.cn';
     } else {
       dispatch(setErrorMsg(res.msg));
     }

@@ -6,7 +6,7 @@
   position: relative;
 
   .list-default {
-    padding: 33px 20px;
+    padding: 33px 20px 0;
   }
 }
 
@@ -23,10 +23,11 @@
 
 .book-status {
   position: absolute;
-  top: 70px;
+  top: 50%;
   right: 0;
   width: 119px;
   height: 142px;
+  margin-top: -71px;
   background-repeat: no-repeat;
   background-size: 119px;
 }
@@ -53,4 +54,8 @@
 
 .book-cancel {
   background-image: url("../../asset/images/book_cancel.svg");
+}
+
+.content-fillet {
+  padding-bottom: 1em;
 }

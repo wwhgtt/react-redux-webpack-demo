@@ -2,8 +2,11 @@ const React = require('react');
 const connect = require('react-redux').connect;
 const bookDetailAction = require('../../action/order-detail/book-detail.js');
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
-
+const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
+const PlaceInfoHover = require('../../component/place/place-info-hover.jsx');
 const shopLogoDefault = require('../../asset/images/logo_default.svg');
+const Loading = require('../../component/mui/loading.jsx');
+const Toast = require('../../component/mui/toast.jsx');
 
 require('../../asset/style/style.scss');
 require('../../component/order-detail/common.scss');
@@ -12,13 +15,35 @@ require('./application.scss');
 const BookDetailApplication = React.createClass({
   displayName: 'BookDetailApplication',
   propTypes: {
-    getBookDetail: React.PropTypes.func,
+    // from reducer
+    load:React.PropTypes.object,
+    errorMessage:React.PropTypes.string,
     bookDetail: React.PropTypes.object,
+    bookInfo: React.PropTypes.object,
+    // from actions
+    getBookDetail: React.PropTypes.func.isRequired,
+    getBookInfo: React.PropTypes.func.isRequired,
+    clearErrorMsg:React.PropTypes.func,
+  },
+  getInitialState() {
+    return { showBill:false, shopLogo:shopLogoDefault };
   },
   componentWillMount() {
-    this.props.getBookDetail();
+    const { getBookDetail, getBookInfo } = this.props;
+    getBookDetail().then(getBookInfo);
   },
-
+  componentWillReceiveProps(nextProps) {
+    const { bookDetail } = this.props;
+    if (nextProps.bookDetail !== bookDetail) {
+      this.setState({ shopLogo:nextProps.bookDetail.shopLogo });
+    }
+  },
+  getHoverState() {
+    this.setState({ showBill:false });
+  },
+  checkBill() {
+    this.setState({ showBill:true });
+  },
   orderInfoFormat(bookDetail) {
     const sex = String(bookDetail.sex);
     const orderStatus = String(bookDetail.orderStatus);
@@ -60,14 +85,17 @@ const BookDetailApplication = React.createClass({
     orderInfoFormat.orderStatus = orderStatusStyle;
     return orderInfoFormat;
   },
-
+  picError() {
+    this.setState({ shopLogo:shopLogoDefault });
+  },
   render() {
-    const { bookDetail } = this.props;
+    const { load, errorMessage, clearErrorMsg, bookDetail, bookInfo } = this.props;
+    const { showBill, shopLogo } = this.state;
     return (
       <div className="book-page bg-orange application">
         <div className="book-content content-fillet">
           <div className="box-head">
-            <img className="box-head-logo" role="presentation" src={bookDetail.shopLogo || shopLogoDefault} />
+            <img className="box-head-logo" role="presentation" src={shopLogo} onError={this.picError} />
             <div className="ellipsis box-head-title">{bookDetail.shopName}</div>
           </div>
           <div className="divide-line">
@@ -105,20 +133,27 @@ const BookDetailApplication = React.createClass({
               }
               <div className="list-item list-memo clearfix">
                 <span className="list-item-title">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注</span>
-                <span className="list-item-content">发达地方阿斯蒂芬，阿斯顿发生，阿萨德法师打发水电费阿萨德法师打发</span>
+                <span className="list-item-content">{bookDetail.memo}</span>
               </div>
             </div>
           </div>
+          <div className="btn-row btn-row-sure btn-row-mt" onTouchTap={this.checkBill}>查看菜单</div>
         </div>
+        <ReactCSSTransitionGroup transitionName="slideuphover" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
+        {
+          showBill && <PlaceInfoHover bookInfoItemList={bookInfo.dishItems} bookDetail={bookDetail} setHoverState={this.getHoverState} />
+        }
+        </ReactCSSTransitionGroup>
+        {
+          load.status && <Loading word={load.word} />
+        }
+        {
+        errorMessage && <Toast clearErrorMsg={clearErrorMsg} errorMessage={errorMessage} />
+        }
       </div>
     );
   },
 });
 
-const mapStateToProps = function (state) {
-  return {
-    bookDetail: state.bookDetail,
-  };
-};
 
-module.exports = connect(mapStateToProps, bookDetailAction)(BookDetailApplication);
+module.exports = connect(state => state, bookDetailAction)(BookDetailApplication);

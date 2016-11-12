@@ -3,7 +3,7 @@ module.exports = {
   template: {
     data: {
       isOrder: 1,
-      memo: '',
+      memo: '我是徐大宝宝',
       mobile: '15908198592',
       name: '肥肥gf',
       orderId: 90001272332,

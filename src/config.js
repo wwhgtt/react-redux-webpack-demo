@@ -131,6 +131,9 @@ module.exports = {
   cancelQueueAPI: `${apiBase}/queue/cancel.json`, // 取消排队
   getBookDetailAPI: `${apiBase}/booking/bookingDetail.json`, // 预订详情
   getDishMarketInfosAPI: `${apiBase}/orderall/dishMarketInfos.json`, //
-
+  prepareDishboxAPI:`${apiBase}/prepare/dishBox.json`,
+  prepareMyPreOrderAPI:`${apiBase}/prepare/myPreOrder.json`, // 预定我的菜单
+  prepareSubOrderAPI:`${apiBase}/prepare/subOrder.json`,
+  prepareBookingDetailAPI:`${apiBase}/prepare/bookingDetail`,
   requestOptions,
 };

@@ -155,7 +155,7 @@ exports.setOrderDish = (dishData, increment) => (dispatch, getStates) => {
   dispatch(_setOrderDish(dishData, increment));
   const dishesData = getStates().dishMenu.dishesData;
   const count = getDishesCount(dishesData);
-  storeDishesLocalStorage(dishesData, dishes => dishes);
+  storeDishesLocalStorage(dishesData, getStates().shopInfo, dishes => dishes);
   if (count === 0) {
     clearDishesLocalStorage();
     gotoDishMenuPage();

@@ -4,7 +4,7 @@ module.exports = function (
     orderDetail: {},
     errorMessage:'',
     load:{
-      status:true,
+      status:false,
       word:'加载中',
     },
   }),

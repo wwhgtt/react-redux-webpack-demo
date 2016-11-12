@@ -47,7 +47,7 @@ exports.fetchMenuData = () => (dispatch, getStates) =>
 
 exports.orderDish = (dishData, action) => (dispatch, getStates) => {
   dispatch(_orderDish(dishData, action));
-  helper.storeDishesLocalStorage(getStates().dishMenuReducer.dishesData);
+  helper.storeDishesLocalStorage(getStates().dishMenuReducer.dishesData, getStates().shopInfo);
 };
 
 exports.removeAllOrders = (orders) => (dispatch, getStates) => {
