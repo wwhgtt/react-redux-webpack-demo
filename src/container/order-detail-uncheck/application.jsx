@@ -8,6 +8,7 @@ const Toast = require('../../component/mui/toast.jsx');
 const getUrlParam = require('../../helper/common-helper').getUrlParam;
 const orderId = getUrlParam('orderId');
 const shopId = getUrlParam('shopId');
+const classnames = require('classnames');
 
 require('../../asset/style/style.scss');
 require('./application.scss');
@@ -77,14 +78,21 @@ const OrderDetailInApplication = React.createClass({
       btnDis = 'btn-count-dis';
     }
     const statusType = this.handleStatus(dishTotal.status);
+    let statusTypeWords = '';
+    switch (statusType) {
+      case 'status-square-uncheck': statusTypeWords = '待确认'; break;
+      case 'status-square-checked': statusTypeWords = '已确认'; break;
+      case 'status-square-refused': statusTypeWords = '已拒绝'; break;
+      default:break;
+    }
     return (
       <div className="application flex-columns">
         <div className="application-content">
           <p className="shop-name ellipsis">{orderInfo.shopName}</p>
           <div className="shop-method of">
-            <span className="shop-orderNo">流水号{orderInfo.orderNo}</span>
-            <span className="shop-table">{orderInfo.deskNo.area + orderInfo.deskNo.table}</span>
-            <span className="shop-edit" onTouchTap={this.handleDishMenu}>继续点餐</span>
+            <span className="shop-orderNo ellipsis">流水号{orderInfo.orderNo}</span>
+            <span className="shop-table ellipsis">{orderInfo.deskNo.area + orderInfo.deskNo.table}</span>
+            <span className="shop-edit" onTouchTap={this.handleDishMenu}>继续点菜</span>
           </div>
           <div className="flex-rest">
             {orderDetail.orderMetas && orderDetail.orderMetas.length > 0 && <p className="order-block-title">加菜订单</p>}
@@ -98,7 +106,14 @@ const OrderDetailInApplication = React.createClass({
             <div className="options-group">
               <div className="option order-status">
                 <span>订单状态</span>
-                <div className={`order-status-symbal status-square ${statusType}`}></div>
+                <div
+                  className={classnames('fr',
+                    { uncheckedColor:dishTotal.status === 1,
+                      checkedColor:dishTotal.status === 3,
+                    })}
+                >
+                {statusTypeWords}
+                </div>
               </div>
               {
                 dishTotal.dishItems &&
@@ -138,7 +153,7 @@ const OrderDetailInApplication = React.createClass({
             </div>
             {
               dishTotal.memo && (
-                <div className="options-group options-group-mg">
+                <div className="options-group options-group-bigmg">
                   <div className="option">
                     <span className="order-demo-title fl">整单备注</span>
                     <p className="order-demo-info fl">{dishTotal.memo}</p>
