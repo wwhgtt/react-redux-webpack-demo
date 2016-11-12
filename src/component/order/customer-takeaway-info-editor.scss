@@ -135,3 +135,14 @@
     background-color: #ef4646;
   }
 }
+
+.address-meta-name {
+  &:empty {
+    color: $color-error-red;
+
+    &::before {
+      display: block;
+      content: "请补充信息";
+    }
+  }
+}
