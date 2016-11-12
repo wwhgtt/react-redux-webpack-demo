@@ -52,8 +52,10 @@
 }
 
 .child-dish-count {
-  float: left;
-  margin-left: 20px;
+  position: absolute;
+  top: 9px;
+  left: calc(30% + 65px);
+  margin-right: 0;
 }
 
 // new styles
@@ -84,6 +86,7 @@
 }
 
 .child-dish-info {
+  position: relative;
   padding-right: 15px;
   padding-left: 15px;
   border: 0;
