@@ -307,6 +307,14 @@ module.exports = function (
               ['serviceProps', 'couponsProps', 'inUseCouponDetail'],
               selectedCoupon
             );
+          } else if (!selectedCoupon.coupRuleBeanList.length && !selectedCoupon.coupDishBeanList.length && selectedCoupon.weixinValue) {
+            return state.setIn(
+              ['serviceProps', 'couponsProps', 'inUseCoupon'], true
+            )
+            .setIn(
+              ['serviceProps', 'couponsProps', 'inUseCouponDetail'],
+              selectedCoupon
+            );
           }
           return state.setIn(
             ['serviceProps', 'couponsProps', 'inUseCoupon'], true
