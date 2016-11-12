@@ -420,7 +420,7 @@ const OrderApplication = React.createClass({
       }
 
       if (dateStr === todayStr) {
-        return timeStr ? `今日 ${timeStr} ${postfix}` : `立即${postfix}`;
+        return timeStr ? `今日 ${timeStr} ${postfix}` : `尽快${postfix}`;
       }
       return `${dateStr} ${timeStr} ${postfix}`;
     };
