@@ -43,7 +43,7 @@ module.exports = React.createClass({
       return '';
     }
     return (
-      <div className="detail-props-info">
+      <div className="detail-props-info child-dish-props">
         {
           RecipeProps.map(propInfo => (buildPropsText(propInfo))).filter(propsText => propsText)
                      .concat(
