@@ -109,7 +109,7 @@ const TakeoutDetailApplication = React.createClass({
             </div>
             <div className="options-group">
               <div className="option">
-                <a className="shop-info" href="">
+                <a className="shop-info" href={`http://${location.host}/takeaway/selectDish?shopId=${shopId}`}>
                   <img className="shop-info-logo" role="presentation" src={takeoutDetail.shopLogo || shopLogoDefault} />
                   <span className="shop-info-name ellipsis">{takeoutDetail.shopName}</span>
                 </a>
@@ -217,7 +217,7 @@ const TakeoutDetailApplication = React.createClass({
           </div>
           <div className="btn-oparate flex-none">
             <div className="flex-row">
-              <a className="btn-oparate-more" href={`http://${location.host}/orderall/selectDish?shopId=${shopId}`}>再来一单</a>
+              <a className="btn-oparate-more" href={`http://${location.host}/takeaway/selectDish?shopId=${shopId}`}>再来一单</a>
               {(takeoutDetail.status === '订单待支付' || takeoutDetail.status === '订单支付失败') &&
                 <a
                   className="btn-oparate-count"

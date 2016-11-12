@@ -104,7 +104,7 @@ const DinnerDetailApplication = React.createClass({
               }
             </div>
             <div className="options-group">
-              <a className="shop-info" href="">
+              <a className="shop-info" href={`http://${location.host}/orderall/selectDish?shopId=${shopId}`}>
                 <img className="shop-info-logo" role="presentation" src={dinnerDetail.shopLogo || shopLogoDefault} />
                 <span className="shop-info-name ellipsis">{dinnerDetail.shopName}</span>
               </a>
