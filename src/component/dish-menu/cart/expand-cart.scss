@@ -40,6 +40,15 @@
     font-size: 15px;
     font-weight: normal;
     color: $color-dove-grey;
+
+    &::before {
+      float: left;
+      width: 3px;
+      height: 14px;
+      margin: 12px 8px 0 0;
+      content: "";
+      background: $color-neon-carrot;
+    }
   }
 
   &-clear {
