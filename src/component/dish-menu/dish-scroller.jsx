@@ -41,7 +41,7 @@ module.exports = React.createClass({
     const iScroll = cache.iScroll = new IScroll(findDOMNode(this), {
       click: true,
       tap: true,
-      probeType: 1,
+      probeType: 2,
     });
 
     iScroll.on('scrollStart', () => {
@@ -49,10 +49,6 @@ module.exports = React.createClass({
       if (cache.timer) {
         window.clearTimeout(cache.timer);
         cache.timer = null;
-      }
-
-      if (onScrolling) {
-        onScrolling({ x: iScroll.x, y: iScroll.y });
       }
     });
 
