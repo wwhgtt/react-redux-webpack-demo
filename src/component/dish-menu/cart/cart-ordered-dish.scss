@@ -1,9 +1,19 @@
 @import "settings.colors";
 @import "settings.sizes";
+@import "tools.mixins";
+@import "tools.functions";
 
 .cart-ordered-dish {
   padding: 0 15px;
-  border-bottom: 1px solid $color-mystic;
+
+  &:not(:last-child) {
+    &::after {
+      @include border-thin(top);
+
+      left: 15px;
+      border-bottom: bordersolid(1, $color-mystic);
+    }
+  }
 
   .ordered-dish {
     $dish-price-width: 85px;
