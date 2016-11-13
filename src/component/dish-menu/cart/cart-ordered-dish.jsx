@@ -110,7 +110,7 @@ module.exports = React.createClass({
               :
               <span className="ellipsis dish-name">{helper.generateDishNameWithUnit(dish)}</span>
           }
-          <span className="dish-price price">{helper.getDishPrice(dish)}</span>
+          <span className="dish-price price ellipsis">{helper.getDishPrice(dish)}</span>
           <Counter count={helper.getDishesCount([dish])} onCountChange={this.onOrderBtnTap} step={dish.stepNum} />
         </div>
         {expand ? detailInfo : false}
