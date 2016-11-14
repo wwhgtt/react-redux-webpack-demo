@@ -175,15 +175,7 @@ exports.fetchLastOrderedDishes = () => (dispatch, getState) => {
       :
       `${config.getMoreWMDishesURL}?type=${type}&shopId=${shopId}`;
   }
-  let orderedDish = JSON.parse(lastOrderedDishes);
-  orderedDish.dishes.forEach(dish => {
-    if (dish.dishPropertyTypeInfos && dish.dishPropertyTypeInfos.length) {
-      dish.dishPropertyTypeInfos.filter(prop => prop.type === 4).forEach(info => {
-        info.properties.forEach(property => property.isChecked = true);
-      });
-    }
-  });
-  dispatch(setOrderedDishesToOrder(orderedDish));
+  dispatch(setOrderedDishesToOrder(JSON.parse(lastOrderedDishes)));
 };
 
 exports.fetchSendAreaId = () => (dispatch, getState) => {

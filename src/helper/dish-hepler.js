@@ -33,7 +33,7 @@ const setHasIngredientProps = function (dish) {
    Ingredient => Ingredient.isChecked = false
  );
 };
-exports.setDishPropertyTypeInfos = function (dishesList) {
+const setDishPropertyTypeInfos = exports.setDishPropertyTypeInfos = function (dishesList) {
   if (dishesList && dishesList.length) {
     dishesList.map(
       dish => {
@@ -711,5 +711,6 @@ exports.identifyRuleDish = (ruleDishes, immutableDishes) => {
       });
     }
   });
+  setDishPropertyTypeInfos(dishesData);
   return dishesData;
 };
