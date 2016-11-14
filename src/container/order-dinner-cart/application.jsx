@@ -322,7 +322,7 @@ const OrderTSCartApplication = React.createClass({
     return (
       <div className="weixin-login">
         <a className="option-user">
-          <img className="option-user-icon" src={member.wxIconUri || defaultPersonLogo} alt="用户头像" />
+          <img className="option-user-icon" src={member.iconUri || defaultPersonLogo} alt="用户头像" />
           <p className="option-user-name">{nameSex}</p>
         </a>
       </div>
