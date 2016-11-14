@@ -63,7 +63,7 @@ const DishMenuZcApplication = React.createClass({
   },
   componentDidMount() {
     // tableId 或者 tableKey 存入localStorage
-    const { fetchMenuData, fetchOrderDiscountInfo, fetchTableId, saveTableParam, fetchDishMarketInfos } = this.props;
+    const { fetchMenuData, fetchOrderDiscountInfo, fetchTableId, saveTableParam } = this.props;
     if (tableKey || tableId) {
       saveTableParam({ tableKey, tableId });
     }
@@ -72,7 +72,6 @@ const DishMenuZcApplication = React.createClass({
     const localTableId = (cartHelper.getTableInfoInSessionStorage(shopId) || {}).tableId || '';
 
     fetchMenuData()
-      .then(fetchDishMarketInfos)
       .then(fetchOrderDiscountInfo);
 
     fetchTableId(localTableKey, localTableId);
@@ -123,7 +122,7 @@ const DishMenuZcApplication = React.createClass({
 
     const marketList = shopInfo.marketList;
     const marketListUpdate = shopInfo.marketListUpdate;
-    const { dishPageTpl, enableMemberRegistry, discountProps } = this.props.dishMenuReducer;
+    const { dishPageTpl = 'default', enableMemberRegistry, discountProps } = this.props.dishMenuReducer;
     const isMember = discountProps && discountProps.isMember;
 
     return (

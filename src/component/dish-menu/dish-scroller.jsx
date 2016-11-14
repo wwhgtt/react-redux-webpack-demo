@@ -25,7 +25,6 @@ module.exports = React.createClass({
     onImageBtnTap: React.PropTypes.func.isRequired,
     marketList: React.PropTypes.object,
     diningForm: React.PropTypes.bool,
-    marketListUpdate:React.PropTypes.array,
     theme: React.PropTypes.string,
   },
   getInitialState() {
