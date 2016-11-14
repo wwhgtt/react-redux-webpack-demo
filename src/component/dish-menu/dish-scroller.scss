@@ -1,5 +1,6 @@
 @import "settings.colors";
 @import "settings.sizes";
+@import "tools.mixins";
 
 .dish-scroller {
   overflow: hidden;
@@ -25,12 +26,24 @@
   // overwride border-top of the first .dish-item-dish from each type
   + .dish-item-dish {
     border-top: 0;
+
+    &::before {
+      display: none;
+    }
   }
 }
 
 .dish-item-dish {
-  border-top: 1px solid $color-alto;
+  position: relative;
+
+  &::before {
+    @include border-thin(top);
+
+    top: 0;
+    border-top: 1px solid $color-mercury;
+  }
 }
+
 
 .dish-type-desc {
   color: lighten($color-dusty-grey, 10%);
@@ -56,6 +69,12 @@
 
     &:first-child {
       margin-top: 0;
+    }
+  }
+
+  .dish-item-dish {
+    &::before {
+      display: none;
     }
   }
 }

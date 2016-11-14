@@ -53,6 +53,7 @@
     $dish-item-name-line-height: 20px;
 
     font-size: 18px;
+    font-weight: 700;
     line-height: $dish-item-name-line-height;
     display: block;
     clear: both;
@@ -72,6 +73,7 @@
 
   &-price {
     font-size: 18px;
+    font-weight: 700;
     line-height: 18px;
     float: left;
     margin: 7px 0;
@@ -213,6 +215,10 @@
     &:last-child {
       border: none;
     }
+
+    &.last-item {
+      box-shadow: none;
+    }
   }
 
   .dish-item-price {
@@ -256,6 +262,10 @@
     line-height: $huge-btn-height;
     height: $huge-btn-height;
     border-radius: $huge-btn-height / 2;
+  }
+
+  .dish-item-name {
+    width: calc(100% - 100px);
   }
 }
 
