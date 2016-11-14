@@ -459,7 +459,7 @@ const OrderApplication = React.createClass({
           {type === 'WM' ?
             false
             :
-            <div className="options-group">
+            <div className="options-group payMethod">
               {serviceProps.serviceApproach ?
                 <div style={{ position:'relative', borderBottom:'0.5px solid #e1e1e1' }}>
                   <GetDishMethod serviceProps={serviceProps} onSelectOption={setOrderProps} />
@@ -469,7 +469,7 @@ const OrderApplication = React.createClass({
               {this.buildSelectedTableElement(serviceProps, tableProps)}
             </div>
           }
-          <div className="options-group editor">
+          <div className="options-group editor payMethod">
             {serviceProps.payMethods.map(
               payMethod => {
                 if (payMethod.isAvaliable !== -1) {
@@ -492,12 +492,12 @@ const OrderApplication = React.createClass({
           <div className="options-group">
             <label className="option adjust-option">
               <span className="option-title">备注 </span>
-              <input className="option-input" name="note" placeholder="请输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />
+              <input className="option-input input-font" name="note" placeholder="请输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />
             </label>
             {commercialProps && commercialProps.isSupportInvoice === 1 ?
               <label className="option adjust-option">
                 <span className="option-title">发票 </span>
-                <input className="option-input" name="receipt" placeholder="请输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
+                <input className="option-input input-font" name="receipt" placeholder="请输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
               </label>
               :
               false

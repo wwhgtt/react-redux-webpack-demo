@@ -29,7 +29,7 @@ module.exports = React.createClass({
   render() {
     const { serviceProps } = this.props;
     return (
-      <div className="option" style={{ padding:'10px 0 10px 10px' }}>
+      <div className="option get-dish-option">
         <span className="option-dish">取餐方式</span>
         {serviceProps.serviceApproach && serviceProps.serviceApproach.indexOf('totable') >= 0 ?
           <span
