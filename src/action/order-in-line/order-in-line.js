@@ -21,8 +21,8 @@ fetch(`${config.getOrderInLineAPI}?shopId=${shopId}`, config.requestOptions).
     return res.json();
   }).
   then(result => {
-    if (result.data.orderId) {
-      location.href = `/queue/success?shopId=${shopId}&orderId=${result.data.orderId}`;
+    if (result.data.orderSyn) {
+      location.href = `/queue/success?shopId=${shopId}&orderId=${result.data.orderSyn}`;
     } else {
       dispatch(setOrderInLineProps(result.data));
     }
@@ -64,7 +64,7 @@ const submitOrder = exports.submitOrder = () => (dispatch, getState) => {
     })
     .then(result => {
       if (result.code.toString() === '200') {
-        dispatch(setErrorMsg('提交排队信息成功...'));
+        // dispatch(setErrorMsg('提交排队信息成功...'));
         location.href = `/queue/success?shopId=${shopId}&orderSyn=${result.data.orderSyn}`;
       } else if (result.code.toString() === '20013') {
         dispatch(setPhoneValidateProps(true));
