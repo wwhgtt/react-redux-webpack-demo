@@ -4,6 +4,10 @@ const _findIndex = require('lodash.findindex');
 const helper = require('../../../helper/dish-hepler');
 const DishDetailHead = require('./dish-detail-head.jsx');
 const DishPropsSelect = require('./dish-props-select.jsx');
+const Counter = require('../../mui/counter.jsx');
+
+require('./single-dish-detail.scss');
+
 module.exports = React.createClass({
   displayName: 'SingleDishDetail',
   propTypes:{
@@ -25,6 +29,10 @@ module.exports = React.createClass({
       toast: 0,
       ruleDish: null,
     };
+  },
+  componentDidMount() {
+    const { dish } = this.props;
+    this.onDishItemCountChange(dish.dishIncreaseUnit);
   },
   componentDidUpdate() {
   },
@@ -140,11 +148,13 @@ module.exports = React.createClass({
         <DishPropsSelect
           onSelectPropsOption={this.onSelectPropsOption} dish={dish} dishData={ruleDish || this.props.dish} onDishRuleChecked={this.setDishRuleProps}
         />
-        <button className="dish-detail-addtocart btn--yellow flex-none" onTouchTap={this.onAddToCarBtnTap}>加入购物车</button>{
-          this.state.toast === 1 ?
+        <div className="dish-detail-addtocarta flex-none">
+          <Counter count={helper.getDishesCount([dish])} onCountChange={(count, increment) => this.onDishItemCountChange(increment)} step={1} />
+          <button className="btn--yellow" onTouchTap={this.onAddToCarBtnTap}>加入购物车</button>
+        </div>
+        {
+          this.state.toast === 1 &&
             <div className="toast"><span className="toast-content">请选择份数</span></div>
-          :
-          false
         }
       </div>
     );

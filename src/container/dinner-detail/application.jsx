@@ -24,7 +24,7 @@ const DinnerDetailApplication = React.createClass({
 
   getInitialState() {
     return {
-      countDown: 900000,
+      countDown: 0,
     };
   },
 
@@ -35,8 +35,10 @@ const DinnerDetailApplication = React.createClass({
   componentWillReceiveProps(nextProps) {
     const { dinnerDetail } = nextProps;
     if (dinnerDetail.dateTime) {
-      const countDownOri = 900000 - (parseInt(new Date().getTime(), 10) - parseInt(dinnerDetail.dateTime, 10));
-      this.setState({ countDown: countDownOri });
+      const countDownOri = 300000 - (parseInt(new Date().getTime(), 10) - parseInt(dinnerDetail.dateTime, 10));
+      if (countDownOri > 0 && countDownOri <= 900000 && dinnerDetail.status === '订单待支付') {
+        this.setState({ countDown: countDownOri });
+      }
     }
   },
 
@@ -51,22 +53,35 @@ const DinnerDetailApplication = React.createClass({
         }, 1000);
       } else {
         clearInterval(this.countDownInteval);
-        this.props.getDinnerDetail();
+        if (!this.isReGetInfo) {
+          this.props.getDinnerDetail();
+          this.isReGetInfo = true;
+        }
       }
+    } else {
+      clearInterval(this.countDownInteval);
     }
   },
 
   // 支付方式
   getPayMethod() {
-    const payMethodStr = String(this.props.dinnerDetail.tradePayForm);
+    const payMethodStr = this.props.dinnerDetail.tradePayForm;
     let payMethod = '';
-    if (payMethodStr === '1') {
+    if (payMethodStr === 'OFFLINE') {
       payMethod = '线下支付';
-    } else if (payMethodStr === '3') {
+    } else if (payMethodStr === 'ONLINE') {
       payMethod = '在线支付';
     }
 
     return payMethod;
+  },
+
+  getOriginPrice() {
+    const { dinnerDetail } = this.props;
+    const privalegePrice = Math.abs(dinnerDetail.tradePrivilegeAmount) * 100 || 0;
+    const totalPrice = Math.abs(dinnerDetail.tradeAmount) * 100 || 0;
+    const originPrice = (totalPrice + privalegePrice) / 100 || 0;
+    return originPrice;
   },
 
   formatCuntDown(countDown) {
@@ -159,7 +174,7 @@ const DinnerDetailApplication = React.createClass({
             <div className="list-statictis">
               <div className="flex-row">
                 <div className="flex-row-item list-statictis-title">原价
-                  <span className="price">{(dinnerDetail.tradeAmount || 0) + Math.abs(dinnerDetail.tradePrivilegeAmount || 0)}</span>
+                  <span className="price">{this.getOriginPrice()}</span>
                 </div>
                 <div className="flex-row-item list-statictis-title">共优惠
                   <span className="price">{Math.abs(dinnerDetail.tradePrivilegeAmount || 0)}</span>
@@ -203,7 +218,7 @@ const DinnerDetailApplication = React.createClass({
           </div>
           <div className="btn-oparate flex-none">
             <div className="flex-row">
-              <a className="btn-oparate-more" href={`http://${location.host}/orderall/selectDish?shopId=${shopId}`}>再来一单</a>
+              <a className="btn-oparate-more" href={`http://${location.host}/orderall/selectDish?shopId=${shopId}&type=TS`}>再来一单</a>
               {dinnerDetail.businessType === 1 && (dinnerDetail.status === '订单待支付' || dinnerDetail.status === '订单支付失败') &&
                 <a
                   className="btn-oparate-count"

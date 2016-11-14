@@ -24,7 +24,7 @@ const TakeoutDetailApplication = React.createClass({
 
   getInitialState() {
     return {
-      countDown: 900000,
+      countDown: 0,
     };
   },
 
@@ -36,13 +36,16 @@ const TakeoutDetailApplication = React.createClass({
     const { takeoutDetail } = nextProps;
     if (takeoutDetail.dateTime) {
       const countDownOri = 900000 - (parseInt(new Date().getTime(), 10) - parseInt(takeoutDetail.dateTime, 10));
-      this.setState({ countDown: countDownOri });
+      if (countDownOri > 0 && countDownOri <= 900000 && takeoutDetail.status === '订单待支付') {
+        this.setState({ countDown: countDownOri });
+      }
     }
   },
 
   componentDidUpdate(prevProps, prevState) {
     const { takeoutDetail } = this.props;
     const { countDown } = this.state;
+
     if (takeoutDetail.status === '订单待支付') {
       clearInterval(this.countDownInteval);
       if (countDown > 1000 && countDown <= 900000) {
@@ -51,18 +54,23 @@ const TakeoutDetailApplication = React.createClass({
         }, 1000);
       } else {
         clearInterval(this.countDownInteval);
-        this.props.getTakeoutDetail();
+        if (!this.isReGetInfo) {
+          this.props.getTakeoutDetail();
+          this.isReGetInfo = true;
+        }
       }
+    } else {
+      clearInterval(this.countDownInteval);
     }
   },
 
   // 支付方式
   getPayMethod() {
-    const payMethodStr = String(this.props.takeoutDetail.tradePayForm);
+    const payMethodStr = this.props.takeoutDetail.tradePayForm;
     let payMethod = '';
-    if (payMethodStr === '1') {
+    if (payMethodStr === 'OFFLINE') {
       payMethod = '线下支付';
-    } else if (payMethodStr === '3') {
+    } else if (payMethodStr === 'ONLINE') {
       payMethod = '在线支付';
     }
 
@@ -79,6 +87,14 @@ const TakeoutDetailApplication = React.createClass({
       sex = '先生';
     }
     return sex;
+  },
+
+  getOriginPrice() {
+    const { takeoutDetail } = this.props;
+    const privalegePrice = Math.abs(takeoutDetail.tradePrivilegeAmount) * 100 || 0;
+    const totalPrice = Math.abs(takeoutDetail.tradeAmount) * 100 || 0;
+    const originPrice = (totalPrice + privalegePrice) / 100 || 0;
+    return originPrice;
   },
 
   formatCuntDown(countDown) {
@@ -175,7 +191,7 @@ const TakeoutDetailApplication = React.createClass({
             <div className="list-statictis">
               <div className="flex-row">
                 <div className="flex-row-item list-statictis-title">原价
-                  <span className="price">{(takeoutDetail.tradeAmount || 0) + Math.abs(takeoutDetail.tradePrivilegeAmount || 0)}</span>
+                  <span className="price">{this.getOriginPrice()}</span>
                 </div>
                 <div className="flex-row-item list-statictis-title">共优惠
                   <span className="price">{Math.abs(takeoutDetail.tradePrivilegeAmount || 0)}</span>
@@ -219,7 +235,7 @@ const TakeoutDetailApplication = React.createClass({
           </div>
           <div className="btn-oparate flex-none">
             <div className="flex-row">
-              <a className="btn-oparate-more" href={`http://${location.host}/takeaway/selectDish?shopId=${shopId}`}>再来一单</a>
+              <a className="btn-oparate-more" href={`http://${location.host}/takeaway/selectDish?shopId=${shopId}&type=WM`}>再来一单</a>
               {(takeoutDetail.status === '订单待支付' || takeoutDetail.status === '订单支付失败') &&
                 <a
                   className="btn-oparate-count"
