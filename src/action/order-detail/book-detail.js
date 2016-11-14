@@ -15,6 +15,7 @@ exports.getBookDetail = () => (dispatch, getStates) => {
   const getBookDetailURL = `${config.getBookDetailAPI}?shopId=${shopId}&orderId=${orderId}`;
   return fetch(getBookDetailURL, config.requestOptions).
     then(res => {
+      dispatch(setLoadMsg({ status:false, word:'' }));
       if (!res.ok) {
         dispatch(setErrorMsg('预订信息获取失败'));
       }
@@ -22,7 +23,7 @@ exports.getBookDetail = () => (dispatch, getStates) => {
     }).
     then(res => {
       if (res.code === '200') {
-        dispatch(setBookDetail(res.data), setLoadMsg({ status:false, word:'加载完毕' }));
+        dispatch(setBookDetail(res.data));
       } else {
         dispatch(setErrorMsg('预订信息获取失败'));
       }
