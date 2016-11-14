@@ -63,8 +63,8 @@ module.exports = React.createClass({ // ShowBasicInfo
         }
         default:break;
       }
-      setPrice((mainPrice + value).toFixed(2));
-      return (mainPrice + value).toFixed(2);
+      setPrice(parseFloat((mainPrice + value).toFixed(2)));
+      return parseFloat((mainPrice + value).toFixed(2));
     }
     return 0;
   },
