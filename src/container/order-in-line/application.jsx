@@ -167,22 +167,18 @@ const OrderInlineApplication = React.createClass({
                 }
               </div>
             }
-          {commercialProps.openStatus === '营业中' ?
+          {commercialProps.openStatus === '营业中' && queueList && queueList.length ?
             <div>
               <div className="options-group" style={{ height:'15px', backgroundColor:'#ff944d' }}></div>
               <div className="options-group">
-                {queueList && queueList.length ?
-                  <ul className="queue-list">
-                    <li className="queue-title">
-                      <span>队列名称</span>
-                      <span>就餐人数</span>
-                      <span>等待桌数</span>
-                    </li>
-                    {this.buildLinePropsElement()}
-                  </ul>
-                  :
-                  false
-                }
+                <ul className="queue-list">
+                  <li className="queue-title">
+                    <span>队列名称</span>
+                    <span>就餐人数</span>
+                    <span>等待桌数</span>
+                  </li>
+                  {this.buildLinePropsElement()}
+                </ul>
               </div>
             </div>
             :
