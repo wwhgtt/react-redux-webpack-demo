@@ -83,48 +83,49 @@ const OrderDinnerStateMentApplication = React.createClass({
     const { setOrderProps, clearErrorMsg } = this.props;// actions
     const hasPriviledge = commercialProps.hasPriviledge;
     return (
-      <div className="application">
-        <div className="options-group options-head">
-          <a className="option option-shop">
-            <p className="option-shop-desc ellipsis">{commercialProps.shopName}</p>
-          </a>
-          <DiningOptions
-            dineSerialNumber={customerProps.dineSerialNumber || 110}
-            dineCount={customerProps.dineCount || 1}
-            dineTableProp={{ area:customerProps.dineTableProp.area, table:customerProps.dineTableProp.table }}
-          />
-        </div>
-        <div className="extra-supplement">
-          <span className="left">已选菜品</span>
-          <span className="right">共{getDishesCount(orderedDishesProps.dishes)}份</span>
-        </div>
-
-        <OrderSummary
-          serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
-          commercialProps={commercialProps} shopId={getUrlParam('shopId')}
-          isNeedShopMaterial={false} setOrderProps={setOrderProps}
-        />
-
-        {commercialProps && commercialProps.isSupportReceipt === 1 ?
-          <div className="options-group margin-cart-bottom">
-            <label className="option">
-              <span className="option-title">发票: </span>
-              <input
-                className="option-input"
-                name="receipt"
-                maxLength="35"
-                disabled={commercialProps.receipt || serviceProps.benefitProps.isPriviledge || hasPriviledge}
-                placeholder={commercialProps.receipt || (hasPriviledge ? '已经有优惠不能输入' : '请输入个人或公司抬头')}
-                onChange={this.noteOrReceiptChange}
-              />
-            </label>
+      <div className="application flex-column">
+        <div className="flex-rest">
+          <div className="options-group options-head">
+            <a className="option option-shop">
+              <p className="option-shop-desc ellipsis">{commercialProps.shopName}</p>
+            </a>
+            <DiningOptions
+              dineSerialNumber={customerProps.dineSerialNumber || 110}
+              dineCount={customerProps.dineCount || 1}
+              dineTableProp={{ area:customerProps.dineTableProp.area, table:customerProps.dineTableProp.table }}
+            />
           </div>
-          :
-          false
-        }
+          <div className="extra-supplement">
+            <span className="left">已选菜品</span>
+            <span className="right">共{getDishesCount(orderedDishesProps.dishes)}份</span>
+          </div>
 
+          <OrderSummary
+            serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
+            commercialProps={commercialProps} shopId={getUrlParam('shopId')}
+            isNeedShopMaterial={false} setOrderProps={setOrderProps}
+          />
+
+          {commercialProps && commercialProps.isSupportReceipt === 1 ?
+            <div className="options-group margin-cart-bottom">
+              <label className="option">
+                <span className="option-title">发票: </span>
+                <input
+                  className="option-input"
+                  name="receipt"
+                  maxLength="35"
+                  disabled={commercialProps.receipt || serviceProps.benefitProps.isPriviledge || hasPriviledge}
+                  placeholder={commercialProps.receipt || (hasPriviledge ? '已经有优惠不能输入' : '请输入个人或公司抬头')}
+                  onChange={this.noteOrReceiptChange}
+                />
+              </label>
+            </div>
+            :
+            false
+          }
+        </div>
         {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
-          <div className="order-cart flex-none" style={{ position:'fixed', bottom: '0px', width:'100%' }}>
+          <div className="order-cart flex-none">
             <div className="order-cart-left">
               <div className="vertical-center clearfix">
                 {commercialProps.carryRuleVO ?
