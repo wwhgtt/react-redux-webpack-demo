@@ -13,8 +13,8 @@ module.exports = {
       businessType:1, // 1: 快餐 3：正餐
       orderNumber: '302161109194026000001', // 订单编号
       tradeFailReason: '理由哟',
-      memo:'', // 订单备注
-      invoiceTitle: '', // 发票抬头
+      memo:'发到手的房间爱死了的积分看重的是，发生的减肥开始的减肥', // 订单备注
+      invoiceTitle: '按法律的风景地方感觉', // 发票抬头
       tableArea: '大厅区', // 桌台区域
       tradePayForm:1, // 1: 线下支付，3：在线支付
       tableNo: '23', // 桌台号
