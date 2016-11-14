@@ -341,7 +341,7 @@ const OrderTSCartApplication = React.createClass({
     const totalPrice = dishHelper.getDishesPrice(dishesData);
     return (
       <div className="application flex-columns">
-        <div className="application-content">
+        <div className="application-content flex-rest">
           <p className="shop-name ellipsis">{commercialName}</p>
           <div className="shop-method of">
             <span className="shop-table ellipsis">{this.getAreaTableTitle()}</span>
@@ -385,15 +385,6 @@ const OrderTSCartApplication = React.createClass({
                 </label>
               </div>
             }
-            <div className="options-group options-group-devide flex-row">
-              <label className="option flex-rest">
-                <span className="option-title">共{dishCount}份</span>
-                <span className="option-input totalprice" data-count={`￥${totalPrice}`}>总计:</span>
-              </label>
-              <div className="option order-dinner-buttons flex-none">
-                {this.buildButtonGroupElement(tableId, tableKey, shopSetting)}
-              </div>
-            </div>
           </div>
           <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
             {this.state.tableVisible &&
@@ -408,6 +399,17 @@ const OrderTSCartApplication = React.createClass({
           </ReactCSSTransitionGroup>
           {errorMessage && <Toast errorMessage={errorMessage} clearErrorMsg={() => { this.setErrorMsg(''); }} />}
           {loadingInfo.ing && <Loading word={loadingInfo.text} />}
+        </div>
+        <div className="flex-none">
+          <div className="options-group options-group-devide flex-row">
+            <label className="option flex-rest">
+              <span className="option-title">共{dishCount}份</span>
+              <span className="option-input totalprice" data-count={`￥${totalPrice}`}>总计:</span>
+            </label>
+            <div className="option order-dinner-buttons flex-none">
+              {this.buildButtonGroupElement(tableId, tableKey, shopSetting)}
+            </div>
+          </div>
         </div>
         {
           this.state.confirmDialogVisible &&
