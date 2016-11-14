@@ -23,6 +23,7 @@
     font-size: 14px;
     padding: .5em 1em;
     background: #fff;
+    border-bottom: 1px solid #eaeaea;
   }
 
   &-table {
@@ -214,11 +215,16 @@
 }
 
 .child-dish-info {
+  padding: 8px 0px 7px;
   border: none;
 }
 
+.child-dish-count {
+  margin-right: 25px;
+}
+
 .ordered-dish-dropdown {
-  margin: 0 0 0 1.5em;
+  margin: 0 0 0 1em;
 }
 
 .child-dish-name {
@@ -226,6 +232,8 @@
 }
 
 .badge-price {
+  color: #999;
+  border-color: #e3e3e3;
   border-radius: 3px;
 }
 
