@@ -125,7 +125,7 @@ const TakeoutDetailApplication = React.createClass({
             </div>
             <div className="options-group takeout-head">
               <div className="option">
-                <a className="shop-info" href={`http://${location.host}/takeaway/selectDish?shopId=${shopId}`}>
+                <a className="shop-info" href={`http://${location.host}/takeaway/selectDish?shopId=${shopId}&type=WM`}>
                   <img className="shop-info-logo" role="presentation" src={takeoutDetail.shopLogo || shopLogoDefault} />
                   <span className="shop-info-name ellipsis">{takeoutDetail.shopName}</span>
                 </a>
@@ -190,14 +190,17 @@ const TakeoutDetailApplication = React.createClass({
             </div>
             <div className="list-statictis">
               <div className="flex-row">
-                <div className="flex-row-item list-statictis-title">原价
-                  <span className="price">{this.getOriginPrice()}</span>
+                <div className="flex-row-item">
+                  <span className="list-statictis-title">原价</span>
+                  <span className="price ellipsis list-statictis-origin">{this.getOriginPrice()}</span>
                 </div>
-                <div className="flex-row-item list-statictis-title">共优惠
-                  <span className="price">{Math.abs(takeoutDetail.tradePrivilegeAmount || 0)}</span>
+                <div className="flex-row-item">
+                  <span className="list-statictis-title">共优惠</span>
+                  <span className="price ellipsis list-statictis-privilage">{Math.abs(takeoutDetail.tradePrivilegeAmount || 0)}</span>
                 </div>
-                <div className="flex-row-item list-statictis-title">总计：
-                  <span className="price">{takeoutDetail.tradeAmount}</span>
+                <div className="flex-row-item">
+                  <span className="list-statictis-title">总计：</span>
+                  <span className="price ellipsis list-statictis-total">{takeoutDetail.tradeAmount}</span>
                 </div>
               </div>
             </div>

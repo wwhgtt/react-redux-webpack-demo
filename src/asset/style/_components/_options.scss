@@ -150,8 +150,8 @@
 
   &-icon {
     float: left;
-    width: 30px;
-    height: 30px;
+    width: 34px;
+    height: 34px;
     border: 1px solid $color-alto;
     border-radius: 50%;
   }
@@ -160,6 +160,7 @@
     font-size: 17px;
     line-height: 30px;
     float: left;
+    margin-top: 2px;
     padding-left: 10px;
   }
 }
