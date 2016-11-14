@@ -2,11 +2,14 @@ const React = require('react');
 const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const connect = require('react-redux').connect;
 const actions = require('../../action/order-dinner-cart/order-dinner-cart');
+
 const DinnerTableSelect = require('../../component/order/dinner-cart-table-select.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const Loading = require('../../component/mui/loading.jsx');
 const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const CartOrderedDish = require('../../component/dish-menu/cart/cart-ordered-dish.jsx');
+const ConfirmDialog = require('../../component/mui/dialog/confirm-dialog.jsx');
+
 const wxClient = require('wechat-jssdk/client');
 const dishHelper = require('../../helper/dish-hepler');
 const getSubmitDishData = require('../../helper/order-helper').getSubmitDishData;
@@ -44,6 +47,7 @@ const OrderTSCartApplication = React.createClass({
       tableVisible: false,
       loadingInfo: {},
       errorMessage: '',
+      confirmDialogVisible: false,
     };
   },
   componentDidMount() {
@@ -105,11 +109,7 @@ const OrderTSCartApplication = React.createClass({
   },
   onClearCart(evt) {
     evt.preventDefault();
-    if (!window.confirm('您确定清空购物车吗？')) {
-      return;
-    }
-
-    this.props.removeAllOrders();
+    this.toggleClearConfirmDlg(true);
   },
   onCompleteSelectTable(evt, data) {
     const tableId = data.table.id;
@@ -149,6 +149,9 @@ const OrderTSCartApplication = React.createClass({
   },
   setLoadingInfo(info) {
     this.setState({ loadingInfo: info || { ing: false } });
+  },
+  toggleClearConfirmDlg(visible) {
+    this.setState({ confirmDialogVisible: visible });
   },
   selectTable() {
     const { tableList } = this.props.orderTSCart.tableProps;
@@ -406,6 +409,17 @@ const OrderTSCartApplication = React.createClass({
           {errorMessage && <Toast errorMessage={errorMessage} clearErrorMsg={() => { this.setErrorMsg(''); }} />}
           {loadingInfo.ing && <Loading word={loadingInfo.text} />}
         </div>
+        {
+          this.state.confirmDialogVisible &&
+            <ConfirmDialog
+              onConfirm={() => this.props.removeAllOrders()}
+              onCancel={() => this.toggleClearConfirmDlg(false)}
+            >
+              <p>
+                您确定要清空购物车吗？
+              </p>
+            </ConfirmDialog>
+        }
       </div>
     );
   },
