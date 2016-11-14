@@ -142,7 +142,7 @@ const BookDetailApplication = React.createClass({
               }
             </div>
           </div>
-          <div className="btn-row btn-row-sure btn-row-mt" onTouchTap={this.checkBill}>查看菜单</div>
+          {/* <div className="btn-row btn-row-sure btn-row-mt" onTouchTap={this.checkBill}>查看菜单</div> */}
         </div>
         <ReactCSSTransitionGroup transitionName="slideuphover" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
         {

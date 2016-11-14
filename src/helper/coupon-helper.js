@@ -8,7 +8,7 @@ exports.filterCouponListByStatus = (couponList, status) =>
 exports.formateDate = (date) => {
   const replaceStr = '-';
   if (date) {
-    return date.toString().replace(new RegExp(replaceStr, 'gm'), '/');
+    return date.toString().replace(new RegExp(replaceStr, 'gm'), '/').substring(0, 10);
   }
   return false;
 };

@@ -12,7 +12,7 @@ const OrderCustom = React.createClass({
     const { customInfo } = this.props;
     return (
       <div className="option">
-        <img className="order-custom-icon" src={customInfo.headUrl || defaultPersonLogo} role="presentation" />
+        <img className="order-custom-icon" src={customInfo.headImage || defaultPersonLogo} role="presentation" />
         <span className="order-custom-name">
           {customInfo.name}
           {
