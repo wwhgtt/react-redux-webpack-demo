@@ -104,9 +104,11 @@ const DishMenuZcApplication = React.createClass({
       return;
     }
 
-    Object.assign(mesthead, { _top }, rect);
-    scrollerWrap.style.top = `${rect.height + _top}px`;
-    mesthead.style.top = `${_top}px`;
+    if (mesthead._top !== _top) {
+      Object.assign(mesthead, { _top }, rect);
+      scrollerWrap.style.top = `${rect.height + _top}px`;
+      mesthead.style.top = `${_top}px`;
+    }
   },
   render() {
     // states
