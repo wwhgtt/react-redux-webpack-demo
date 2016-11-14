@@ -87,11 +87,11 @@ const removeBasicSession = (name) => {
 
 const errorLocation = (errorCode) => {
   switch (errorCode) {
-    case '90006' : // 请重新扫描二维码,链接已失效
+    case '90009' : // 请重新扫描二维码,链接已失效
       cartHelper.clearTableInfoInSessionStorage();
       location.href = `${config.exceptionLinkURL}?shopId=${shopId}`;
       break;
-    case '90008' : // 该桌台有多个未支付的正餐订单
+    case '90010' : // 该桌台有多个未支付的正餐订单
       cartHelper.clearTableInfoInSessionStorage();
       location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`;
       break;
