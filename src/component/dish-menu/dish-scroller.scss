@@ -45,6 +45,7 @@
 .big,
 .huge {
   .dish-scroller {
+    height: calc(100% - 44px);
     padding: 0 15px;
   }
 

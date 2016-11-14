@@ -10,10 +10,19 @@
 
   &-image {
     display: block;
-    height: 50vh;
-    background-repeat: no-repeat;
-    background-position: center center;
+    overflow: hidden;
+    height: 42vh;
+    background: url("../../../asset/images/dish-placeholder-large.png") no-repeat center center;
     background-size: cover;
+
+    img {
+      visibility: hidden;
+      width: 100%;
+    }
+
+    .loaded {
+      visibility: visible;
+    }
   }
 
   &-content {

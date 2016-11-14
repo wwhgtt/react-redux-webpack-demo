@@ -1,5 +1,4 @@
 const React = require('react');
-const imagePlaceholder = require('../../../asset/images/dish-placeholder-large.png');
 const helper = require('../../../helper/dish-hepler');
 require('./dish-detail-container.scss');
 require('./dish-desc-popup.scss');
@@ -14,9 +13,24 @@ module.exports = React.createClass({
     evt.preventDefault();
     this.props.onCloseBtnTap();
   },
+  onImageLoad(evt) {
+    const img = evt.target;
+    if (!img) {
+      return;
+    }
+
+    img.className = 'loaded';
+    const wrap = img.parentNode;
+    const wrapRect = wrap.getBoundingClientRect();
+    const minRate = Math.min(img.width / wrapRect.width, img.height / wrapRect.height);
+    if (minRate >= 1) {
+      return;
+    }
+
+    Object.assign(img.style, { width: `${img.width / minRate}px`, height: `${img.height / minRate}px` });
+  },
   render() {
     const { dish } = this.props;
-
     let memberPrice;
     if (dish.isMember && dish.discountType === 1) {
       // dish.memberPrice = discount, e.g. 5 means 50% discount
@@ -32,7 +46,12 @@ module.exports = React.createClass({
         </div>
         <div className="dish-detail-content dish-detail-content--white flex-columns">
           <div className="dish-desc-content flex-rest">
-            <div className="dish-desc-image" style={{ backgroundImage: `url(${dish.largeImgUrl || imagePlaceholder})` }}></div>
+            <div className="dish-desc-image">
+              {
+                dish.largeImgUrl &&
+                  <img src={dish.largeImgUrl} onLoad={this.onImageLoad} alt={dish.name} />
+              }
+            </div>
             <div className="dish-desc-info">
               <h2 className="dish-desc-title">{helper.generateDishNameWithUnit(dish)}</h2>
               {dish.isMember ?

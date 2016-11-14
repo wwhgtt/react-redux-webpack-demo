@@ -85,20 +85,20 @@ const DinnerDetailApplication = React.createClass({
     };
 
     return (
-      <div className="application">
+      <div className="application detail-page">
         <div className="flex-columns">
-          <div className="flex-rest">
+          <div className="flex-rest detail-content">
             <div className="order-status">
-              <span className="order-status-title">{dinnerDetail.status}</span>
+              <span className="order-status-title ellipsis">{dinnerDetail.status}</span>
               {
                 // <a className="order-status-comment">我要评价</a>
               }
               {
                 dinnerDetail.tradeFailReason &&
-                  <span className="order-status-reason">{dinnerDetail.tradeFailReason}</span>
+                  <span className="order-status-detail ellipsis">{dinnerDetail.tradeFailReason}</span>
               }
               {dinnerDetail.status === '订单待支付' &&
-                <span className="order-status-detail">
+                <span className="order-status-detail ellipsis">
                   {this.formatCuntDown(this.state.countDown)}后订单自动取消
                 </span>
               }
@@ -117,7 +117,7 @@ const DinnerDetailApplication = React.createClass({
               </div>
             </div>
 
-            <div className="options-group">
+            <div className="options-group option-min">
             {
               dinnerDetail.dishItems &&
                 dinnerDetail.dishItems.map((item, index) =>
@@ -125,7 +125,7 @@ const DinnerDetailApplication = React.createClass({
               )
             }
             </div>
-            <div className="options-group">
+            <div className="options-group option-extra option-min">
               {
                 dinnerDetail.extraFee && dinnerDetail.extraFee.map((item, index) =>
                   <div className="option" key={index}>
@@ -135,13 +135,13 @@ const DinnerDetailApplication = React.createClass({
                 )
               }
             </div>
-            <div className="list-default">
+            <div className="list-default option-privilege">
               {
                 dinnerDetail.tradePrivileges && dinnerDetail.tradePrivileges.map((item, index) =>
                   <div className="list-item flex-row" key={index}>
                     <span className={`icon-privilege icon-${Math.abs(item.privilegeType)}`}>{item.privilegeName}</span>
-                    {item.privilegeValue && <span>-{Math.abs(item.privilegeValue)}</span>}
-                    <div className="fr">-<span className="price">{Math.abs(item.privilegeAmount)}</span></div>
+                    {item.privilegeValue && <span className="list-privilege-value">-{Math.abs(item.privilegeValue)}</span>}
+                    <div className="fr list-privilege">-<span className="price">{Math.abs(item.privilegeAmount)}</span></div>
                   </div>
                 )
               }
@@ -155,19 +155,21 @@ const DinnerDetailApplication = React.createClass({
                   </div>
                 )
               }
-              <div className="list-item">
-                <div className="flex-row">
-                  <div className="flex-row-item">原价
-                    <span className="price">{(dinnerDetail.tradeAmount || 0) + Math.abs(dinnerDetail.tradePrivilegeAmount || 0)}</span>
-                  </div>
-                  <div className="flex-row-item">共优惠<span className="price">{Math.abs(dinnerDetail.tradePrivilegeAmount || 0)}</span></div>
-                  <div className="flex-row-item">总计：
-                    <span className="price">{dinnerDetail.tradeAmount}</span>
-                  </div>
+            </div>
+            <div className="list-statictis">
+              <div className="flex-row">
+                <div className="flex-row-item list-statictis-title">原价
+                  <span className="price">{(dinnerDetail.tradeAmount || 0) + Math.abs(dinnerDetail.tradePrivilegeAmount || 0)}</span>
+                </div>
+                <div className="flex-row-item list-statictis-title">共优惠
+                  <span className="price">{Math.abs(dinnerDetail.tradePrivilegeAmount || 0)}</span>
+                </div>
+                <div className="flex-row-item list-statictis-title">总计：
+                  <span className="price">{dinnerDetail.tradeAmount}</span>
                 </div>
               </div>
             </div>
-            <p>其他信息</p>
+            <p className="list-other">其他信息</p>
             <div className="option-group">
               <div className="list-default">
                 <div className="list-item">
