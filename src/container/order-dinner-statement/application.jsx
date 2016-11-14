@@ -65,8 +65,8 @@ const OrderDinnerStateMentApplication = React.createClass({
     });
   },
   submitDinnerOrder(orderedDishesProps, serviceProps, commercialProps) {
-    const { submitDinnerOrder, setErrorMsg } = this.props;
-    if (!serviceProps.allowCheck) { setErrorMsg('请联系服务员结账'); return false; }
+    const { submitDinnerOrder } = this.props;
+    // if (!serviceProps.allowCheck) { setErrorMsg('请联系服务员结账'); return false; }
     let needPayMoney = 0;
     if (serviceProps.benefitProps.isPriviledge) {
       needPayMoney = serviceProps.benefitProps.extraPrice
