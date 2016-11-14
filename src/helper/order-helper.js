@@ -441,7 +441,7 @@ const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, tota
   if (coupon.couponType === 1) {
     // '满减券'
     if (coupon.weixinValue) {
-      return coupon.weixinValue;
+      return +coupon.weixinValue <= totalPrice ? +coupon.weixinValue : totalPrice;
     }
     return +coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'offerValue')[0].ruleValue || 0;
   } else if (coupon.couponType === 2) {

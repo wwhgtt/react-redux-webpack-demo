@@ -19,6 +19,7 @@
 
   &-method {
     font-size: 14px;
+    line-height: 1.2em;
     padding: .5em 1em;
     background: #fff;
   }
@@ -26,11 +27,11 @@
   &-table {
     float: left;
     width: 100px;
-    height: 14px;
     color: #474747;
   }
 
   &-orderNo {
+    font-weight: bold;
     position: relative;
     float: left;
     width: calc(100% - 205px);
@@ -125,6 +126,8 @@
   float: left;
   margin-left: 3px;
   padding: 0 3px;
+  color: #999;
+  border-color: #e3e3e3;
   border-radius: 3px;
 }
 

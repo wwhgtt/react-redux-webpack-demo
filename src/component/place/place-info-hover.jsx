@@ -64,7 +64,7 @@ module.exports = React.createClass({ // ShowBasicInfo
             </div>
             <div className="totalPrice">
               <span className="part">共{totalNum}份</span>
-              总计：<span className="num price">{totalPrice.toFixed(2)}</span>
+              总计：<span className="num price">{parseFloat(totalPrice.toFixed(2))}</span>
             </div>
           </div>
           <div className="options-group options-group-spe">
