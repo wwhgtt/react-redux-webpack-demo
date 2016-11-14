@@ -1,14 +1,15 @@
 .option-get-dish {
-  line-height: 18px;
+  font-size: 15px;
+  line-height: 21px;
   display: inline-block;
   float: right;
-  width: 95px;
-  height: 38px;
+  width: 99px;
+  height: 32px;
   margin-right: 10px;
-  padding: 10px;
+  padding: 5.5px (37px / 2);
   text-align: center;
   border: 1px solid #e3e3e3;
-  border-radius: 19px;
+  border-radius: 50px;
 }
 
 .option-get-dish-checked {
