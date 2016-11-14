@@ -681,7 +681,7 @@ const getSubmitDishData = exports.getSubmitDishData = (dishesData, shopId) => {
   const result = { singleDishInfos: [], multiDishInfos: [] };
   const getSingleDishInfo = (dishes, func) => [].concat.apply([], (dishes || []).map(dish => {
     let orderDishes = [];
-    const benefitDish = dish.benefitOptions || (dish.order[0] && dish.order[dish.order.length - 1].benefitOptions) || [];
+    const benefitDish = dish.benefitOptions || (Array.isArray(dish.order) && dish.order[0] && dish.order[dish.order.length - 1].benefitOptions) || [];
     const beSelectedBenefit = _find(benefitDish, benefit => benefit.isChecked);
     let priId = dish.isMember ? 0 : null;
     let priType = dish.isMember ? 3 : null;// 会员价的情况

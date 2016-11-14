@@ -104,8 +104,9 @@ const OrderDinnerStateMentApplication = React.createClass({
           commercialProps={commercialProps} shopId={getUrlParam('shopId')}
           isNeedShopMaterial={false} setOrderProps={setOrderProps}
         />
-        <div className="options-group margin-cart-bottom">
-          {commercialProps && commercialProps.isSupportReceipt === 1 ?
+
+        {commercialProps && commercialProps.isSupportReceipt === 1 ?
+          <div className="options-group margin-cart-bottom">
             <label className="option">
               <span className="option-title">发票: </span>
               <input
@@ -117,10 +118,11 @@ const OrderDinnerStateMentApplication = React.createClass({
                 onChange={this.noteOrReceiptChange}
               />
             </label>
-            :
-            false
-          }
-        </div>
+          </div>
+          :
+          false
+        }
+
         {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
           <div className="order-cart flex-none" style={{ position:'fixed', bottom: '0px', width:'100%' }}>
             <div className="order-cart-left">
