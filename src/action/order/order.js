@@ -175,7 +175,15 @@ exports.fetchLastOrderedDishes = () => (dispatch, getState) => {
       :
       `${config.getMoreWMDishesURL}?type=${type}&shopId=${shopId}`;
   }
-  dispatch(setOrderedDishesToOrder(JSON.parse(lastOrderedDishes)));
+  let orderedDish = JSON.parse(lastOrderedDishes);
+  orderedDish.dishes.forEach(dish => {
+    if (dish.dishPropertyTypeInfos && dish.dishPropertyTypeInfos.length) {
+      dish.dishPropertyTypeInfos.filter(prop => prop.type === 4).forEach(info => {
+        info.properties.forEach(property => property.isChecked = true);
+      });
+    }
+  });
+  dispatch(setOrderedDishesToOrder(orderedDish));
 };
 
 exports.fetchSendAreaId = () => (dispatch, getState) => {
@@ -346,7 +354,7 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
         return;
       }
 
-      localStorage.removeItem('lastOrderedDishes');
+      // localStorage.removeItem('lastOrderedDishes');
       sessionStorage.removeItem('receiveOrderCustomerInfo');
       sessionStorage.removeItem(`${shopId}_sendArea_id`);
       sessionStorage.removeItem(`${shopId}_customer_toshopinfo`);
@@ -360,7 +368,7 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
         jumpToUrl = type === 'WM' ? '/order/takeOutDetail?' : '/order/orderallDetail?';
         jumpToUrl += paramStr;
       }
-      location.href = jumpToUrl;
+      // location.href = jumpToUrl;
     } else {
       dispatch(setErrorMsg(result.msg));
     }

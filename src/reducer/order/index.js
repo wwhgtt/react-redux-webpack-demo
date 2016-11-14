@@ -51,7 +51,6 @@ module.exports = function (
   const { type, payload } = action;
   switch (type) {
     case 'SET_ORDER': {
-      console.log(payload)
       return state.setIn(
                     ['tableProps', 'areas'],
                     Immutable.from(
