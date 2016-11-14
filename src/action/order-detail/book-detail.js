@@ -22,7 +22,7 @@ exports.getBookDetail = () => (dispatch, getStates) => {
     }).
     then(res => {
       if (res.code === '200') {
-        dispatch(setBookDetail(res.data));
+        dispatch(setBookDetail(res.data), setLoadMsg({ status:false, word:'加载完毕' }));
       } else {
         dispatch(setErrorMsg('预订信息获取失败'));
       }
