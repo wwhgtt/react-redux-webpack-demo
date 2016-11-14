@@ -354,7 +354,7 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
         return;
       }
 
-      // localStorage.removeItem('lastOrderedDishes');
+      localStorage.removeItem('lastOrderedDishes');
       sessionStorage.removeItem('receiveOrderCustomerInfo');
       sessionStorage.removeItem(`${shopId}_sendArea_id`);
       sessionStorage.removeItem(`${shopId}_customer_toshopinfo`);
@@ -368,7 +368,7 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
         jumpToUrl = type === 'WM' ? '/order/takeOutDetail?' : '/order/orderallDetail?';
         jumpToUrl += paramStr;
       }
-      // location.href = jumpToUrl;
+      location.href = jumpToUrl;
     } else {
       dispatch(setErrorMsg(result.msg));
     }
