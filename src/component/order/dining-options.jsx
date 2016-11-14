@@ -19,7 +19,7 @@ module.exports = React.createClass({
           <span className="text-dusty-grey">流水号</span>{dineSerialNumber}
         </div>
         <div className="dining-option ellipsis middle">
-          {dineTableProp.area}{dineTableProp.table}
+          {dineTableProp.area} {dineTableProp.table}
         </div>
         <div className="dining-option ellipsis right">
           <span className="text-dusty-grey">人数</span>{dineCount}

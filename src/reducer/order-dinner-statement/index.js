@@ -97,7 +97,7 @@ module.exports = function (
        .setIn(['serviceProps', 'benefitProps', 'totalAmount'], payload.totalAmount);
     }
     case 'SET_COUPONS_TO_ORDER':
-      return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], payload);
+      return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], helper.handleWeixinCard(payload));
     case 'SET_DISCOUNT_TO_ORDER':
       if (payload.isDiscount && payload.isMember && !state.serviceProps.benefitProps.isPriviledge) {
         return state.setIn(
@@ -146,6 +146,14 @@ module.exports = function (
             return state.setIn(
             ['serviceProps', 'couponsProps', 'inUseCoupon'], true
           )
+            .setIn(
+              ['serviceProps', 'couponsProps', 'inUseCouponDetail'],
+              selectedCoupon
+            );
+          } else if (!selectedCoupon.coupRuleBeanList.length && !selectedCoupon.coupDishBeanList.length && selectedCoupon.weixinValue) {
+            return state.setIn(
+              ['serviceProps', 'couponsProps', 'inUseCoupon'], true
+            )
             .setIn(
               ['serviceProps', 'couponsProps', 'inUseCouponDetail'],
               selectedCoupon
