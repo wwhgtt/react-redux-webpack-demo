@@ -137,12 +137,12 @@ exports.getSelectedTable = function (tableProps) {
     table: _find(tableProps.tables, { isChecked:true }),
   };
 };
-// 判断前台取餐是否应该自动选中
+// 判断前台自取是否应该自动选中
 exports.isPickUpAutoChecked = function (serviceProps) {
   if (!serviceProps || serviceProps.indexOf('totable') !== -1) {
-    return { name:'前台取餐', isChecked:false, id:'way-of-get-diner' };
+    return { name:'前台自取', isChecked:false, id:'way-of-get-diner' };
   }
-  return { name:'前台取餐', isChecked:true, id:'way-of-get-diner' };
+  return { name:'前台自取', isChecked:true, id:'way-of-get-diner' };
 };
 // 初始化桌台信息
 exports.initializeAreaAdnTableProps = function (areaList, tableList) {
@@ -834,7 +834,7 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
   if (type === 'TS' && serviceApproach === 'totable' && state.tableProps.tables && state.tableProps.tables.length) {
     if (state.tableProps.tables.filter(table => table.isChecked).length === 0) {
       return state.serviceProps.serviceApproach.indexOf('pickup') !== -1 && state.serviceProps.serviceApproach.indexOf('totable') === -1 ?
-        { success:false, msg:'请打开前台取餐开关' }
+        { success:false, msg:'请打开前台自取开关' }
         :
         { success:false, msg:'未选择桌台信息' };
     }
