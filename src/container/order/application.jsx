@@ -459,7 +459,7 @@ const OrderApplication = React.createClass({
           {type === 'WM' ?
             false
             :
-            <div className="options-group">
+            <div className="options-group payMethod">
               {serviceProps.serviceApproach ?
                 <div style={{ position:'relative', borderBottom:'0.5px solid #e1e1e1' }}>
                   <GetDishMethod serviceProps={serviceProps} onSelectOption={setOrderProps} />
@@ -469,7 +469,7 @@ const OrderApplication = React.createClass({
               {this.buildSelectedTableElement(serviceProps, tableProps)}
             </div>
           }
-          <div className="options-group editor">
+          <div className="options-group editor payMethod">
             {serviceProps.payMethods.map(
               payMethod => {
                 if (payMethod.isAvaliable !== -1) {

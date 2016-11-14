@@ -197,8 +197,11 @@
   margin-top: 15px;
   margin-bottom: 15px;
 
-  .active-select:last-child::after {
-    border-bottom: 0 !important;
+  .active-select:last-child {
+    .option::after {
+      height: 0;
+      border-bottom: 0;
+    }
   }
 }
 
@@ -217,4 +220,8 @@
 
 .table-font-size {
   font-size: 16px !important;
+}
+
+.payMethod {
+  border-bottom: 0 !important;
 }
