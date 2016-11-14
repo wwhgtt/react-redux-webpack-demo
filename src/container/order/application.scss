@@ -99,7 +99,7 @@
 
 // ORDER CART STYLS
 .order-cart {
-  height: 50px;
+  height: 49px;
   background: $color-white;
   box-shadow: 0 -1px 0 $color-mercury;
   $order-right-width: 120px;
@@ -140,6 +140,13 @@
 
 .weixin-login {
   margin-bottom: 10px;
+  border-top: 1px solid #e3e3e3;
+  border-bottom: 1px solid #e3e3e3;
+
+  .option::after {
+    height: 0 !important;
+    border-bottom: 0 !important;
+  }
 }
 
 .for-pickup {
@@ -207,7 +214,12 @@
 
 .editor-group {
   margin-bottom: 0;
+  border-top: 1px solid #e3e3e3;
   border-bottom: 0;
+
+  &::after {
+    border-bottom: 0 !important;
+  }
 }
 
 .tableHide {
@@ -228,4 +240,20 @@
 
 .input-font {
   font-size: 15px;
+}
+
+.active-pay-select {
+  border-top: 1px solid #e3e3e3;
+  border-bottom: 1px solid #e3e3e3 !important;
+}
+
+.note-receipt {
+  margin-bottom: 20px;
+  border-top: 1px solid #e3e3e3;
+  border-bottom: 1px solid #e3e3e3 !important;
+}
+
+.customerInfo-editor {
+  border-top: 1px solid #e3e3e3;
+  border-bottom: 1px solid #e3e3e3 !important;
 }

@@ -251,9 +251,9 @@ const OrderApplication = React.createClass({
       return (
         <div>
           <div className="customerInfo">
-            <div className="editor options-group">
+            <div className="editor options-group customerInfo-editor">
               <a className="option option-user">
-                <img className="option-user-icon" src={customerProps.iconUri} alt="用户头像" />
+                <img className="option-user-icon" src={customerProps.iconUri || defaultPersonLogo} alt="用户头像" />
                 <p className="option-user-name">{customerProps.mobile}</p>
               </a>
             </div>
@@ -461,7 +461,7 @@ const OrderApplication = React.createClass({
             :
             <div className="options-group payMethod">
               {serviceProps.serviceApproach ?
-                <div style={{ position:'relative', borderBottom:'0.5px solid #e1e1e1' }}>
+                <div style={{ position:'relative' }}>
                   <GetDishMethod serviceProps={serviceProps} onSelectOption={setOrderProps} />
                 </div>
                 : false
@@ -469,7 +469,7 @@ const OrderApplication = React.createClass({
               {this.buildSelectedTableElement(serviceProps, tableProps)}
             </div>
           }
-          <div className="options-group editor payMethod">
+          <div className="options-group editor payMethod active-pay-select">
             {serviceProps.payMethods.map(
               payMethod => {
                 if (payMethod.isAvaliable !== -1) {
@@ -489,7 +489,7 @@ const OrderApplication = React.createClass({
             onSelectBenefit={this.props.onSelectBenefit} setOrderProps={setOrderProps}
           />
 
-          <div className="options-group">
+          <div className="options-group note-receipt">
             <label className="option adjust-option">
               <span className="option-title">备注 </span>
               <input className="option-input input-font" name="note" placeholder="请输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />
