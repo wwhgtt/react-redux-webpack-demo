@@ -6,7 +6,7 @@ const isSingleDishWithoutProps = exports.isSingleDishWithoutProps = (dish) => {
   }
   const propTypeInfo = dish.propertyTypeList || [];
   const ingredientInfos = dish.dishIngredientInfos || [];
-  return !ingredientInfos.length && (!propTypeInfo.length || propTypeInfo.every(prop => prop.type === 4));
+  return !ingredientInfos.length && (!propTypeInfo.length || (propTypeInfo.every(prop => prop.type === 4 && !dish.hasRuleDish)));
 };
 
 exports.initializeDishes = (dishes) => {
@@ -68,13 +68,36 @@ exports.reconstructDishes = (dishes) => {
     const withSameIdDishes = dishes.filter(dish => !dish.isRepeted).filter(dish => dish.id === dishes[i].id);
     if (withSameIdDishes && withSameIdDishes.length) {
       for (let j = 0; j < withSameIdDishes.length; j++) {
-        if (dishes[i].order instanceof Array) {
+        if (dishes[i].order instanceof Array && withSameIdDishes[j].order instanceof Array) {
+          // 套餐或者复杂菜品有被选中属性的情况
           dishes[i].order.push(withSameIdDishes[j].order[0]);
         } else {
           // 2016-10-29 15:28:18 对应bug#22044
           const order = withSameIdDishes[j].order;
-          const count = Array.isArray(order) && order.length ? order[0].count : order;
-          dishes[i].order += count;
+          if (Array.isArray(dishes[i].order) && dishes[i].order.length) {
+            // dish[i].order  是数组  那么withSameIdDishes[j].order 就肯定不是数组了
+            const count = withSameIdDishes[j].order;
+            withSameIdDishes[j].order = [{
+              count,
+              dishIngredientInfos:[],
+              dishPropertyTypeInfos:[],
+            }];
+            dishes[i].order.push(withSameIdDishes[j].order[0]);
+          } else if (Array.isArray(order) && order.length) {
+            // 应该被删除的菜品是复杂菜品  将同id菜品也变为复杂菜品
+            const count = dishes[i].order;
+            dishes[i].dishIngredientInfos = withSameIdDishes[j].dishIngredientInfos;
+            dishes[i].dishPropertyTypeInfos = withSameIdDishes[j].dishPropertyTypeInfos;
+            dishes[i].order = [{
+              count,
+              dishIngredientInfos:[],
+              dishPropertyTypeInfos:[],
+            }];
+            dishes[i].order.push(withSameIdDishes[j].order[0]);
+          } else {
+            // 两者皆不是复杂菜品
+            dishes[i].order += order;
+          }
         }
         for (let k in dishes) {
           if (withSameIdDishes[j].id === dishes[k].id && k > i) {
@@ -84,5 +107,6 @@ exports.reconstructDishes = (dishes) => {
       }
     }
   }
+  console.log(dishes);
   return dishes.filter(dish => !dish.isDelete);
 };
