@@ -13,6 +13,7 @@ exports.initializeDishes = (dishes) => {
   dishes.map(dish => {
     if (isSingleDishWithoutProps(dish)) {
       dish.order = dish.num;
+      dish.dishPropertyTypeInfos = dish.propertyTypeList;
     } else if (isGroupDish(dish)) {
       dish.order = [{ count:dish.num, groups:[] }];
       dish.groups = [];
@@ -68,11 +69,10 @@ exports.reconstructDishes = (dishes) => {
     const withSameIdDishes = dishes.filter(dish => !dish.isRepeted).filter(dish => dish.id === dishes[i].id);
     if (withSameIdDishes && withSameIdDishes.length) {
       for (let j = 0; j < withSameIdDishes.length; j++) {
+        withSameIdDishes.forEach(dish => { dish.isRepeted = true; dish.isDelete = true; });
         if (dishes[i].order instanceof Array && withSameIdDishes[j].order instanceof Array) {
-          // 套餐或者复杂菜品有被选中属性的情况
           dishes[i].order.push(withSameIdDishes[j].order[0]);
         } else {
-          // 2016-10-29 15:28:18 对应bug#22044
           const order = withSameIdDishes[j].order;
           if (Array.isArray(dishes[i].order) && dishes[i].order.length) {
             // dish[i].order  是数组  那么withSameIdDishes[j].order 就肯定不是数组了
@@ -97,11 +97,6 @@ exports.reconstructDishes = (dishes) => {
           } else {
             // 两者皆不是复杂菜品
             dishes[i].order += order;
-          }
-        }
-        for (let k in dishes) {
-          if (withSameIdDishes[j].id === dishes[k].id && k > i) {
-            dishes[k].isDelete = true;
           }
         }
       }
