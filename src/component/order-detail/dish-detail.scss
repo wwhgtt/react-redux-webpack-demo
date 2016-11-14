@@ -1,3 +1,5 @@
+@import "settings.colors";
+
 a {
   text-decoration: none;
 }
@@ -87,6 +89,10 @@ a {
 .flex-row {
   display: flex;
   justify-content: space-between;
+
+  .flex-row-item {
+    width: 100%;
+  }
 }
 
 .list-default {
@@ -146,7 +152,7 @@ a {
 
   &-value {
     font-size: 14px;
-    color: #999;
+    color: $color-dusty-grey;
   }
 }
 
@@ -159,12 +165,25 @@ a {
   background-color: #fff;
 
   &-title {
-    color: #999;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+    color: $color-dusty-grey;
+  }
 
-    span {
-      margin-left: 5px;
-      color: #474747;
-    }
+  .price {
+    display: inline-block;
+    vertical-align: middle;
+    color: #474747;
+  }
+
+  .list-statictis-origin {
+    max-width: calc(100% - 35px);
+  }
+
+  .list-statictis-privilage,
+  .list-statictis-total {
+    max-width: calc(100% - 50px);
   }
 }
 
@@ -173,7 +192,7 @@ a {
   line-height: 35px;
   height: 35px;
   padding-left: 15px;
-  color: #999;
+  color: $color-dusty-grey;
 }
 
 .detail-content {

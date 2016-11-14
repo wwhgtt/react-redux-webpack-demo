@@ -35,7 +35,7 @@ const DinnerDetailApplication = React.createClass({
   componentWillReceiveProps(nextProps) {
     const { dinnerDetail } = nextProps;
     if (dinnerDetail.dateTime) {
-      const countDownOri = 300000 - (parseInt(new Date().getTime(), 10) - parseInt(dinnerDetail.dateTime, 10));
+      const countDownOri = 900000 - (parseInt(new Date().getTime(), 10) - parseInt(dinnerDetail.dateTime, 10));
       if (countDownOri > 0 && countDownOri <= 900000 && dinnerDetail.status === '订单待支付') {
         this.setState({ countDown: countDownOri });
       }
@@ -119,7 +119,7 @@ const DinnerDetailApplication = React.createClass({
               }
             </div>
             <div className="options-group">
-              <a className="shop-info" href={`http://${location.host}/orderall/selectDish?shopId=${shopId}`}>
+              <a className="shop-info" href={`http://${location.host}/orderall/selectDish?shopId=${shopId}&type=TS`}>
                 <img className="shop-info-logo" role="presentation" src={dinnerDetail.shopLogo || shopLogoDefault} />
                 <span className="shop-info-name ellipsis">{dinnerDetail.shopName}</span>
               </a>
@@ -173,14 +173,17 @@ const DinnerDetailApplication = React.createClass({
             </div>
             <div className="list-statictis">
               <div className="flex-row">
-                <div className="flex-row-item list-statictis-title">原价
-                  <span className="price">{this.getOriginPrice()}</span>
+                <div className="flex-row-item">
+                  <span className="list-statictis-title">原价</span>
+                  <span className="price ellipsis list-statictis-origin">{this.getOriginPrice()}2345432</span>
                 </div>
-                <div className="flex-row-item list-statictis-title">共优惠
-                  <span className="price">{Math.abs(dinnerDetail.tradePrivilegeAmount || 0)}</span>
+                <div className="flex-row-item">
+                  <span className="list-statictis-title">共优惠</span>
+                  <span className="price ellipsis list-statictis-privilage">{Math.abs(dinnerDetail.tradePrivilegeAmount || 0)}234567654</span>
                 </div>
-                <div className="flex-row-item list-statictis-title">总计：
-                  <span className="price">{dinnerDetail.tradeAmount}</span>
+                <div className="flex-row-item">
+                  <span className="list-statictis-title">总计：</span>
+                  <span className="price ellipsis list-statictis-total">{dinnerDetail.tradeAmount}4567876543</span>
                 </div>
               </div>
             </div>

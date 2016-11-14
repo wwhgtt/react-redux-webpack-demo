@@ -55,7 +55,7 @@ const OrderQueue = React.createClass({
 
   handleLinkDetail() {
     const { queueList } = this.props;
-    location.href = `http://${location.host}/queue/success?shopId=${queueList.shopId}&orderId=${queueList.orderId}`;
+    location.href = `http://${location.host}/queue/success?shopId=${queueList.shopId}&orderSyn=${queueList.orderSyn}`;
   },
 
   render() {
