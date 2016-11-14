@@ -3,9 +3,37 @@
 @import "tools.mixins";
 
 .tq-detail {
+  overflow: hidden;
   margin-bottom: 1em;
 
   .noInfo {
     font-size: 14px;
+  }
+}
+
+// 效果
+.slidedetail-enter {
+  .tq-detail {
+    max-height: 0;
+  }
+
+  &-active {
+    .tq-detail {
+      max-height: 400px;
+      transition: max-height .3s ease-in-out;
+    }
+  }
+}
+
+.slidedetail-leave {
+  .tq-detail {
+    max-height: 400px;
+  }
+
+  &-active {
+    .tq-detail {
+      max-height: 0;
+      transition: max-height .3s ease-in-out;
+    }
   }
 }

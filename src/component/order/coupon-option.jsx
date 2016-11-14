@@ -11,10 +11,11 @@ module.exports = React.createClass({
     couponType:React.PropTypes.number.isRequired,
     validStartDate:React.PropTypes.any.isRequired,
     validEndDate:React.PropTypes.any.isRequired,
-    codeNumber:React.PropTypes.number.isRequired,
+    codeNumber:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]).isRequired,
     id:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]).isRequired,
     onTouchTap:React.PropTypes.func.isRequired,
     isChecked:React.PropTypes.bool,
+    weixinValue: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]),
   },
   getInitialState() {
     return {
@@ -25,7 +26,10 @@ module.exports = React.createClass({
 
   },
   getCouponValue(couponType, coupRuleBeanList) {
-    if (coupRuleBeanList && coupRuleBeanList.length) {
+    const { weixinValue } = this.props;
+    if (weixinValue) {
+      return weixinValue;
+    } else if (coupRuleBeanList && coupRuleBeanList.length) {
       let ruleValue = '';
       coupRuleBeanList.map(coupon => {
         if (couponType === 1 && coupon.ruleName === 'offerValue') {
@@ -59,6 +63,7 @@ module.exports = React.createClass({
     return identifyCouponInfo;
   },
   judgeCouponAvaliabl(coupRuleBeanList, coupDishBeanList) {
+    const { weixinValue } = this.props;
     if (coupDishBeanList.length && getRelatedToDishCouponProps(coupDishBeanList[0]).name) {
       return true;
     }
@@ -67,6 +72,9 @@ module.exports = React.createClass({
         return getRelatedToDishCouponProps(coupDishBeanList[0]).name;
       }
       // 代表普通优惠券
+      return true;
+    }
+    if (!coupRuleBeanList.length && !coupDishBeanList.length && weixinValue) {
       return true;
     }
     // 表明优惠券不可用  应该隐藏掉

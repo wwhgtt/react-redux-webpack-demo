@@ -21,9 +21,8 @@ fetch(`${config.getOrderInLineAPI}?shopId=${shopId}`, config.requestOptions).
     return res.json();
   }).
   then(result => {
-    if (result.data.orderId) {
-      dispatch(setErrorMsg('已成功排队，无需再次排队...'));
-      location.href = `/queue/success?shopId=${shopId}&orderId=${result.data.orderId}`;
+    if (result.data.orderSyn) {
+      location.href = `/queue/success?shopId=${shopId}&orderId=${result.data.orderSyn}`;
     } else {
       dispatch(setOrderInLineProps(result.data));
     }
@@ -47,6 +46,10 @@ const submitOrder = exports.submitOrder = () => (dispatch, getState) => {
   if (mobile.indexOf('4') === 0 && mobile.length === 9) {
     mobile = '0' + mobile;
   }
+  if (!(/^1(3|4|5|7|8)\d{9}$/.test(mobile))) {
+    dispatch(setErrorMsg('手机号码有误，请重填'));
+    return;
+  }
   const params = '?shopId=' + shopId
     + '&name=' + state.customerProps.name
     + '&sex=' + state.customerProps.sex
@@ -61,8 +64,8 @@ const submitOrder = exports.submitOrder = () => (dispatch, getState) => {
     })
     .then(result => {
       if (result.code.toString() === '200') {
-        dispatch(setErrorMsg('提交排队信息成功...'));
-        location.href = `/queue/success?shopId=${shopId}&orderId=${result.data.orderId}`;
+        // dispatch(setErrorMsg('提交排队信息成功...'));
+        location.href = `/queue/success?shopId=${shopId}&orderSyn=${result.data.orderSyn}`;
       } else if (result.code.toString() === '20013') {
         dispatch(setPhoneValidateProps(true));
       } else {

@@ -1,0 +1,98 @@
+@import "settings.colors";
+@import "settings.sizes";
+
+.dish-detail-addtocarta {
+  height: 60px;
+  padding: 12px 15px 0;
+  box-shadow: inset 0 1px 0 0 $color-mercury;
+
+  $counter-size: 34px;
+
+  .counter {
+    float: left;
+
+    &-minus,
+    &-add {
+      width: $counter-size;
+      height: $counter-size;
+    }
+
+    &-num {
+      line-height: $counter-size;
+    }
+  }
+
+  button {
+    font-size: 15px;
+    float: right;
+    height: $counter-size + 1;
+    padding: 0 12px;
+    border-radius: 100px;
+    background: $color-texas-rose;
+  }
+}
+
+.single-dish-detail {
+  .dish-detail-head {
+    line-height: 25px;
+    padding: 22px 15px 10px;
+    border-bottom: none;
+
+    .counter {
+      display: none;
+    }
+
+    .dish-name {
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .price {
+      display: none;
+    }
+  }
+
+  .dish-name > .price {
+    font-size: 18px;
+    display: inline-block;
+    color: $color-neon-carrot;
+
+    &::before {
+      font-size: 14px;
+      margin-right: 2px;
+    }
+  }
+}
+
+.single-dish-detail-all {
+  .btn-close {
+    top: 70px !important;
+    right: 10px !important;
+    background: $color-white !important;
+
+    &::before,
+    &::after {
+      background: $color-sliver !important;
+    }
+
+    &::before {
+      width: 28px !important;
+    }
+
+    &::after {
+      height: 28px !important;
+    }
+  }
+
+  .dish-props-select {
+    padding: 8px 15px;
+    border-top: none;
+  }
+
+  .recipe-title,
+  .note-title,
+  .ingredient-title {
+    font-size: 13px;
+  }
+}
+

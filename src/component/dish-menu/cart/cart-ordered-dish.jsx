@@ -77,7 +77,7 @@ module.exports = React.createClass({
                   </span> : false
               }
               {childDish.isReplace ? <span className="badge-bi"></span> : false}
-              <span className="child-dish-count">{helper.getDishesCount([childDish])}</span>
+              <span className="child-dish-count">x{helper.getDishesCount([childDish])}</span>
               {helper.isSingleDishWithoutProps(childDish) ? false : this.buildDetailInfoForSingleDish(childDish)}
             </div>
           </div>
@@ -110,7 +110,7 @@ module.exports = React.createClass({
               :
               <span className="ellipsis dish-name">{helper.generateDishNameWithUnit(dish)}</span>
           }
-          <span className="dish-price price">{helper.getDishPrice(dish)}</span>
+          <span className="dish-price price ellipsis">{helper.getDishPrice(dish)}</span>
           <Counter count={helper.getDishesCount([dish])} onCountChange={this.onOrderBtnTap} step={dish.stepNum} />
         </div>
         {expand ? detailInfo : false}

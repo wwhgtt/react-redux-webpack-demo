@@ -10,7 +10,19 @@
 
   &-image {
     display: block;
-    width: 100%;
+    overflow: hidden;
+    height: 42vh;
+    background: url("../../../asset/images/dish-placeholder-large.png") no-repeat center center;
+    background-size: cover;
+
+    img {
+      visibility: hidden;
+      width: 100%;
+    }
+
+    .loaded {
+      visibility: visible;
+    }
   }
 
   &-content {
@@ -19,23 +31,25 @@
   }
 
   &-info {
-    padding: 20px 10px;
+    padding: 13px 15px;
   }
 
   &-title {
-    font-size: 20px;
-    font-weight: normal;
-    line-height: 1;
-    margin-bottom: 10px;
-    color: $color-mine-shaft;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 25px;
+    margin-bottom: 5px;
+    color: $color-abbey;
   }
 
   &-price {
+    line-height: 30px;
+
     &--del {
-      font-size: 16px;
+      font-size: 14px;
       line-height: $price-line-height;
-      float: left;
-      margin-right: 10px;
+      display: inline-block;
+      margin-right: 5px;
       color: $color-dusty-grey;
       background-image:
         linear-gradient(
@@ -55,44 +69,44 @@
     }
 
     &--bold {
-      font-size: 18px;
-      font-weight: bold;
-      line-height: $price-line-height;
+      font-size: 24px;
+      font-weight: 500;
       float: left;
       margin-right: 5px;
       color: $color-neon-carrot;
 
       &::before {
-        font-size: 12px;
+        font-size: 15px;
+        margin-right: 3px;
       }
     }
 
     &-badge {
-      font-size: 11px;
-      line-height: 12px;
-      float: left;
+      font-size: 12px;
+      line-height: 20px;
+      display: inline-block;
       margin-top: 2px;
       margin-right: 5px;
-      padding: 4px 5px;
+      padding: 0 5px;
       color: $color-white;
-      border-radius: 2px;
-      background: $color-sunglow;
+      border-radius: 10px;
+      background: $color-picton-blue;
     }
   }
 
   &-subtitle {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: normal;
-    margin-top: 15px;
-    margin-bottom: 5px;
-    padding-top: 20px;
-    color: $color-mine-shaft;
-    border-top: 1px solid $color-alto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 15px;
+    color: $color-abbey;
+    box-shadow: 0 -1px 0 0 $color-mercury;
   }
 
   &-desc {
-    font-size: 14px;
-    line-height: 18px;
+    font-size: 15px;
+    line-height: 22px;
     color: $color-dusty-grey;
   }
 
@@ -120,4 +134,8 @@
       background: $color-texas-rose;
     }
   }
+}
+
+.price-badge-wrap {
+  display: block;
 }

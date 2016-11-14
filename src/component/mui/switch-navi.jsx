@@ -8,12 +8,21 @@ const SwitchNavi = React.createClass({
   propTypes:{
     navis:React.PropTypes.array.isRequired,
     getIndex:React.PropTypes.func.isRequired,
+    activeTab : React.PropTypes.number,
   },
   getInitialState() {
-    return { activeNum:0 };
+    return { activeNum: 0 };
   },
+
   componentWillMount() {},
   componentDidMount() {},
+  componentWillReceiveProps(nextProps) {
+    const { activeTab } = nextProps;
+    if (activeTab || activeTab === 0) {
+      this.setState({ activeNum : activeTab });
+    }
+  },
+
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
   },

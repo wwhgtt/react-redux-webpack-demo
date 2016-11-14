@@ -15,6 +15,9 @@ module.exports = React.createClass({
   getInitialState() {
     return { toast: 0 };
   },
+  componentDidMount() {
+    this.refs.scrollerWrap.addEventListener('touchmove', this._stopTouchmovePropagation, false);
+  },
   buildGroupElements(activeGroupIdx, groups, onGroupTap) {
     const groupElements = groups.map((groupData, idx) => {
       const { id, name, orderMin, orderMax } = groupData;
@@ -59,11 +62,16 @@ module.exports = React.createClass({
   clearErrorMessage() {
     this.setState({ toast: 0 });
   },
+  _stopTouchmovePropagation(evt) {
+    if (this.refs.scrollerWrap.contains(evt.srcElement)) {
+      evt.stopImmediatePropagation();
+    }
+  },
   render() {
     const { activeGroupIdx, groups, onGroupTap } = this.props;
     const groupElements = this.buildGroupElements(activeGroupIdx, groups, onGroupTap);
     return (
-      <div className={classnames('groups-bar-arrow flex-none', { 'is-active': groupElements.length > 3 })}>
+      <div className={classnames('groups-bar-arrow flex-none', { 'is-active': groupElements.length > 3 })} ref="scrollerWrap">
         <div className="groups-bar-wrap">
           <ul className="groups-bar flex-row" style={{ width: `${1 / 3 * groupElements.length * 100}%` }}>
             {groupElements}

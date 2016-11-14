@@ -1,19 +1,19 @@
 @import "settings.colors";
 
-.application {
-  background: $color-gallery;
-}
-
 // override styles
 .queue-form {
   .options-group {
     padding: 0 10px;
+    border-bottom: none;
   }
 
   .option {
-    padding-right: 0;
-    padding-left: 0;
-    border-bottom-color: $color-gallery;
+    padding-right: 20px;
+    padding-left: 20px;
+
+    &-tile {
+      font-size: 20px;
+    }
   }
 
   .editor {
@@ -30,22 +30,37 @@
   }
 }
 
+.options-group1 {
+  border-top: none;
+
+  .option {
+    padding: 20px;
+    border-bottom: none;
+
+    &-tile {
+      font-size: 20px;
+    }
+  }
+}
+
 .queue {
   &-btn {
+    font-size: 18px;
     display: block;
     width: 100%;
-    height: 40px;
-    border-radius: 4px;
+    height: 50px;
+    margin-bottom: 15px;
+    border-radius: 25px;
   }
 
   &-list {
-    padding: 15px 10px;
+    padding: 15px 20px 0;
 
     span {
       float: left;
       width: (1 / 3) * 100%;
       text-align: center;
-      color: $color-dusty-grey;
+      color: #666;
 
       &:first-child {
         text-align: left;
@@ -58,26 +73,141 @@
   }
 
   &-title {
+    font-size: 18px;
+    line-height: 32px;
     overflow: hidden;
-    padding-bottom: 15px;
+    padding-bottom: 10px;
     border-bottom: 1px solid $color-gallery;
   }
 
   &-entry {
     overflow: hidden;
-    margin-top: 15px;
+    border-bottom: 1px solid #f0f0f0;
+
+    span {
+      line-height: 60px;
+      display: inline-block;
+      height: 60px;
+    }
 
     > span:last-child {
-      color: $color-neon-carrot;
+      color: #ff732e;
+    }
+
+    &:last-child {
+      margin-bottom: none;
     }
   }
 }
 // 图片的垂直居中
 .center-image {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  display: inline-block;
-  width: 50%;
-  margin: -30% 0 0 -25%;
+  width: 46%;
+  margin: 30px 0 30px 27%;
+}
+
+.content1 {
+  position: relative;
+  top: 75px;
+  left: 3%;
+  width: 94%;
+  margin-bottom: 30px;
+  border-radius: 3px;
+  background-color: #fff;
+
+
+  &-shop {
+    width: 100%;
+    // margin-top: -75px / 2;
+    text-align: center;
+
+    &-icon {
+      position: relative;
+      top: (-75px / 2);
+      width: 75px;
+      height: 75px;
+      border: 3px solid rgba(255, 148, 77, .3);
+      border-radius: 50%;
+    }
+
+    &-desc {
+      font-size: 24px;
+      font-weight: 800;
+      margin-top: (-39px / 2);
+    }
+  }
+
+  &-content-cut-line {
+    line-height: 20px;
+    width: 100%;
+    height: 20px;
+
+    span {
+      display: inline-block;
+
+      &-middle {
+        width: 22%;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.divider1 {
+  line-height: 20px;
+  position: relative;
+  height: 20px;
+  margin-top: 30px;
+  text-align: center;
+  background: #fff;
+  box-shadow:
+    inset (20px / 2 + 10px) 0 0 0 #fff,
+    inset -1 * (20px / 2 + 10px) 0 0 0 #fff,
+    inset 0 (20px / 2 - .5px) 0 0 #fff,
+    inset 0 (20px / 2 + .5px) 0 0 #ece8e8;
+
+  &::before,
+  &::after {
+    width: 16px;
+    height: 16px;
+    content: "";
+    border-radius: 50%;
+    background: #fd894d;
+  }
+
+  &::before {
+    float: left;
+    margin-left: (-16px / 2);
+  }
+
+  &::after {
+    float: right;
+    margin-right: (-16px / 2);
+  }
+
+  &-title {
+    font-size: 13px;
+    padding: 0 8px;
+    color: #999;
+    background: #fff;
+  }
+
+  &-hide {
+    display: none;
+  }
+}
+
+.errorMessage {
+  padding-bottom: 30px;
+  text-align: center;
+  color: #c7bdbd;
+}
+
+.queue-form .option:last-child {
+  padding-top: 5px;
+  padding-bottom: 15px;
+}
+
+.queue-form:last-child {
+  margin: 10px 0 0;
+  border: 1px solid #fff;
 }

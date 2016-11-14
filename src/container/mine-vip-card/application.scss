@@ -5,6 +5,10 @@
   text-size-adjust: none;
 }
 
+.application-inner {
+  min-height: calc(100% - 45px);
+}
+
 .copyright {
   height: 45px;
   margin: 0;
@@ -37,4 +41,3 @@
     color: #5b4520;
   }
 }
-

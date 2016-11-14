@@ -1,0 +1,188 @@
+@import "settings.colors";
+
+.order-page {
+  color: #474747;
+  background-color: #f1f1f1;
+
+  .navi-switch {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    right: 0;
+    left: 0;
+  }
+}
+
+.order-conent {
+  overflow: hidden;
+  height: calc(100% - 95px);
+  margin-top: 65px;
+}
+
+.order-list-group {
+  margin-bottom: 15px;
+  background-color: #fff;
+}
+
+.list-head {
+  line-height: 60px;
+  display: block;
+  height: 60px;
+  padding: 0 15px;
+  border-bottom: 1px solid #e3e3e3;
+
+  &-href {
+    position: relative;
+    display: inline-block;
+    max-width: calc(100% - 75px);
+
+    &::after {
+      position: absolute;
+      width: 22px;
+      height: 60px;
+      content: "";
+      background-image: url("../../asset/images/arrow_small.svg");
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 8px;
+    }
+  }
+
+  &-img {
+    width: 34px;
+    height: 34px;
+    vertical-align: middle;
+    border-radius: 34px;
+  }
+
+  &-title {
+    font-weight: bold;
+    display: inline-block;
+    max-width: calc(100% - 55px);
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+
+  &-status {
+    font-size: 15px;
+    display: inline-block;
+    float: right;
+    height: 34px;
+  }
+}
+
+.list-content {
+  padding: 17px 15px;
+}
+
+.list-num {
+  float: left;
+  width: 70px;
+  text-align: center;
+  border-right: 1px dashed #e3e3e3;
+
+  &-name {
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  &-no {
+    font-size: 28px;
+    line-height: 39px;
+  }
+}
+
+.list-detail {
+  line-height: 23px;
+  margin-left: 85px;
+
+  p {
+    height: 23px;
+  }
+
+  p:first-child {
+    margin-bottom: 7px;
+  }
+
+  &-price {
+    float: right;
+    width: 60px;
+    text-align: right;
+  }
+
+  &-dish {
+    display: inline-block;
+    width: calc(100% - 70px);
+  }
+
+  &-time {
+    font-size: 14px;
+    text-align: right;
+    color: $color-dusty-grey;
+  }
+}
+
+.list-inline {
+  display: inline-block;
+}
+
+.list-book {
+  line-height: 60px;
+  height: 60px;
+  padding: 0 15px;
+}
+
+.list-queue {
+  height: 90px;
+  padding-top: 16px !important;
+
+  .list-num {
+    width: calc(100% - 150px);
+    text-align: left;
+    border-right: 0 none;
+
+    &-name {
+      font-size: 14px;
+      color: #666;
+    }
+  }
+
+  &-tips {
+    font-size: 14px;
+    line-height: 44px;
+    height: 44px;
+    margin: 0 15px;
+    text-align: center;
+    color: $color-dusty-grey;
+    border-top: 1px dashed #ccc;
+  }
+
+  &-detail {
+    font-size: 14px;
+    line-height: 57px;
+    height: 57px;
+    text-align: right;
+    color: $color-dusty-grey;
+  }
+
+  &-short {
+    line-height: 70px;
+    height: 70px;
+    padding: 0 15px;
+  }
+
+  &-left {
+    font-size: 28px;
+    display: inline-block;
+  }
+
+  &-time {
+    line-height: 70px;
+    float: right;
+    height: 70px;
+  }
+}
+
+.text-orange {
+  color: #ff7417;
+}

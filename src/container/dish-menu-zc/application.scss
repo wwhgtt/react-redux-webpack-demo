@@ -1,1 +1,9 @@
 // dish-menu-zc styles
+.main {
+  position: relative;
+  height: 100%;
+}
+
+.register + .main {
+  height: calc(100% - 44px);
+}

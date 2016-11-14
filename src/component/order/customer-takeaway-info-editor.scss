@@ -1,4 +1,6 @@
 @import "settings.colors";
+@import "tools.functions";
+@import "tools.mixins";
 
 // .order-subpage {
 //   // override nested subpage
@@ -44,7 +46,6 @@
     overflow: hidden;
     padding: 15px 65px 14px 15px;
     text-decoration: none;
-    border-bottom: 1px solid #e3e3e3;
 
     &.is-checked {
       &::before {
@@ -125,5 +126,16 @@
     text-align: center;
     color: #fff;
     background-color: #ef4646;
+  }
+}
+
+.address-meta-name {
+  &:empty {
+    color: $color-error-red;
+
+    &::before {
+      display: block;
+      content: "请补充信息";
+    }
   }
 }

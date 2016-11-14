@@ -33,7 +33,7 @@
     .icon {
       width: 1.143em;
       height: 1.143em;
-      margin-right: .5em;
+      margin-right: .4em;
       vertical-align: middle;
     }
 
@@ -78,7 +78,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background: url("../../asset/images/filter-bg.jpg") center center/100% 100% no-repeat;
+  background: rgba(0, 0, 0, .86);
 
   .scrollpart {
     overflow: auto;
@@ -86,8 +86,8 @@
   }
 
   .closedetail {
-    width: 2em;
-    height: 2em;
+    width: 4em;
+    height: 4em;
     margin: 1em auto;
     background: url("../../asset/images/close-btn.png") center center/100% 100% no-repeat;
   }

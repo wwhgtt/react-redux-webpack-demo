@@ -6,14 +6,14 @@
   overflow: hidden;
   width: $dish-type-scroller-width;
   height: calc(100% - #{$cart-trigger-height});
-  background: $color-athens-grey;
-  box-shadow: inset -1px 0 0 $color-mystic;
+  color: $color-dove-grey;
+  background: $color-gallery;
 }
 
 .dish-type-item {
-  line-height: 64px;
+  line-height: 60px;
   position: relative;
-  min-height: 64px;
+  min-height: 60px;
   cursor: pointer;
   text-align: center;
   border-bottom: 1px solid $color-mystic;
@@ -21,12 +21,11 @@
 
   &::before {
     font-size: 12px;
-    font-weight: bold;
     line-height: 16px;
     position: absolute;
     z-index: 1;
-    top: 0;
-    right: 0;
+    top: 2px;
+    right: 2px;
     padding: 0 .4em;
     content: attr(data-count);
     color: $color-white;
@@ -58,5 +57,86 @@
     color: $color-neon-carrot;
     background: $color-white;
     box-shadow: inset 4px 0 0 $color-neon-carrot;
+
+    > span {
+      font-weight: 500;
+    }
   }
 }
+
+.big,
+.huge {
+  .scroll-wrapper {
+    width: 10000000px;
+  }
+
+  .dish-type-list {
+    display: inline-block;
+  }
+
+  .dish-type-scroller {
+    position: relative;
+    float: none;
+    width: auto;
+    height: 44px;
+    background: none;
+
+    &::after {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      content: "";
+      background: $color-mercury;
+      transform: scale(1, .5);
+    }
+  }
+
+  .dish-type-item {
+    line-height: 43px;
+    display: inline-block;
+    height: 43px;
+    min-height: 43px;
+    padding: 0 13px;
+    border-bottom: none;
+
+    &::before {
+      top: 2px;
+      right: 2px;
+    }
+
+    > span {
+      position: relative;
+      padding: 0;
+    }
+
+    &.is-active {
+      box-shadow: none;
+    }
+  }
+
+  .dish-scroller {
+    margin-left: 0;
+  }
+
+  .is-active > span::after {
+    position: absolute;
+    right: 0;
+    bottom: -12px;
+    left: 0;
+    height: 2px;
+    content: "";
+    background: $color-neon-carrot;
+  }
+}
+
+.default {
+  .dish-type-item {
+    &.is-active {
+      border-bottom: 2px solid $color-neon-carrot;
+      box-shadow: none;
+    }
+  }
+}
+

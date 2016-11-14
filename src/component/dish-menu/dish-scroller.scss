@@ -1,5 +1,6 @@
 @import "settings.colors";
 @import "settings.sizes";
+@import "tools.mixins";
 
 .dish-scroller {
   overflow: hidden;
@@ -11,25 +12,75 @@
 }
 
 .dish-item-type {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
-  line-height: 20px;
-  min-height: 30px;
-  margin-right: -10px;
-  margin-left: -10px;
-  padding: 6px 10px 4px;
-  background: $color-porcelain;
+  line-height: 30px;
+  clear: both;
+  height: 30px;
+  margin-right: -15px;
+  margin-left: -15px;
+  padding: 0 10px;
+  color: $color-dove-grey;
+  background: #f8f8f8;
 
   // overwride border-top of the first .dish-item-dish from each type
   + .dish-item-dish {
     border-top: 0;
+
+    &::before {
+      display: none;
+    }
   }
 }
 
 .dish-item-dish {
-  border-top: 1px solid $color-alto;
+  position: relative;
+
+  &::before {
+    @include border-thin(top);
+
+    top: 0;
+    border-top: 1px solid $color-mercury;
+  }
 }
+
 
 .dish-type-desc {
   color: lighten($color-dusty-grey, 10%);
+}
+
+.default {
+  .dish-scroller {
+    padding: 0 0 0 15px;
+  }
+}
+
+.big,
+.huge {
+  .dish-scroller {
+    height: calc(100% - 44px);
+    padding: 0 15px;
+  }
+
+  .dish-item-type {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0 15px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  .dish-item-dish {
+    &::before {
+      display: none;
+    }
+  }
+}
+
+.big {
+  .dish-scroller {
+    padding: 0 10px;
+  }
 }

@@ -10,8 +10,8 @@ const setGrownLevelInfo = createAction('SET_GROWNLEVELS_INFO', info => info);
 const shopId = getUrlParam('shopId');
 
 // 获取基本信息
-exports.fetchGrowupInfo = () => (dispatch, getStates) =>
-  fetch(`${config.getGrowthValueAPI}?shopId=${shopId}`, config.requestOptions)
+exports.fetchGrowupInfo = (currentPage) => (dispatch, getStates) =>
+  fetch(`${config.getGrowthValueAPI}?shopId=${shopId}&currentPage=${currentPage}`, config.requestOptions)
     .then(res => {
       if (!res.ok) {
         return false;

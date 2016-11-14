@@ -1,1 +1,21 @@
 // dish-menu styles
+.main {
+  position: relative;
+  height: calc(100% - 50px);
+}
+
+.register + .main {
+  height: calc(100% - 50px - 44px);
+}
+
+.ads-existed + .scroller-wrap {
+  top: 110px;
+}
+
+.scroller-wrap {
+  position: absolute;
+  top: 84px;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+}

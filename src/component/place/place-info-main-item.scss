@@ -1,0 +1,52 @@
+@import "settings.colors";
+
+
+.order-list-outer.options-group {
+  font-size: 15px;
+
+  .option {
+    &-name {
+      position: relative;
+      padding-right: .8em;
+    }
+
+    &-name::after {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      width: .8em;
+      height: .8em;
+      margin-top: -.4em;
+      content: "";
+      background: url("../../asset/images/arrow-right-gray.svg") center center/100% 100% no-repeat;
+      transform: rotate(90deg);
+      transition: transform .3s;
+    }
+
+    &-name-expand::after {
+      transform: rotate(-90deg);
+    }
+
+    &-name-noarrow::after {
+      display: none;
+    }
+
+    &-number {
+      width: 3em;
+      margin: 0 1em;
+      text-align: center;
+      color: #666;
+    }
+
+    &-price {
+      width: 5em;
+      text-align: right;
+    }
+
+    &-brief {
+      font-size: 13px;
+      margin: .2em 0;
+      color: #999;
+    }
+  }
+}

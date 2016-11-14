@@ -1,4 +1,5 @@
 const React = require('react');
+const defaultPersonLogo = require('../../asset/images/person-default.svg');
 require('./order-custom.scss');
 
 const OrderCustom = React.createClass({
@@ -11,13 +12,13 @@ const OrderCustom = React.createClass({
     const { customInfo } = this.props;
     return (
       <div className="option">
-        {
-          customInfo.headUrl && <img className="order-custom-icon" src={customInfo.headUrl} role="presentation" />
-        }
-        <span className="order-custom-name">{customInfo.name}</span>
-        {
-          customInfo.sex && <span>{customInfo.sex}</span>
-        }
+        <img className="order-custom-icon" src={customInfo.headImage || defaultPersonLogo} role="presentation" />
+        <span className="order-custom-name">
+          {customInfo.name}
+          {
+            customInfo.sex && <span>{customInfo.sex}</span>
+          }
+        </span>
       </div>
     );
   },

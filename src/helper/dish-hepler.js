@@ -1,3 +1,5 @@
+const _findIndex = require('lodash.findindex');
+const _find = require('lodash.find');
 const getUrlParam = exports.getUrlParam = function (param) {
   const reg = new RegExp(`(^|&)${param}=([^&]*)(&|$)`, 'i');
   const r = window.location.search.replace(/\?/g, '&').substr(1).match(reg);
@@ -11,7 +13,7 @@ const isSingleDishWithoutProps = exports.isSingleDishWithoutProps = dish => {
 
   const propTypeInfo = dish.dishPropertyTypeInfos || [];
   const ingredientInfos = dish.dishIngredientInfos || [];
-  return !ingredientInfos.length && (!propTypeInfo.length || propTypeInfo.every(prop => prop.type === 4));
+  return !ingredientInfos.length && (!propTypeInfo.length || (propTypeInfo.every(prop => prop.type === 4 && !dish.hasRuleDish)));
 };
 const isGroupDish = exports.isGroupDish = function (dish) {
   return dish.groups !== undefined;
@@ -31,7 +33,7 @@ const setHasIngredientProps = function (dish) {
    Ingredient => Ingredient.isChecked = false
  );
 };
-exports.setDishPropertyTypeInfos = function (dishesList) {
+const setDishPropertyTypeInfos = exports.setDishPropertyTypeInfos = function (dishesList) {
   if (dishesList && dishesList.length) {
     dishesList.map(
       dish => {
@@ -86,6 +88,22 @@ const getDishesCount = exports.getDishesCount = function (dishes) {
       return 0;
     }).
     reduce((p, c) => p + c, 0);
+};
+exports.ruleDishesCount = (dish, dishesDataDuplicate) => {
+  if (!dish.sameRuleDishes) {
+    return 0;
+  }
+  const sameRuleDishes = dish.sameRuleDishes;
+  let countCollection = [];
+  sameRuleDishes.map(ruleDish => {
+    let dishCopy = _find(dishesDataDuplicate, dishData => dishData.id === ruleDish.id);
+    if (dishCopy && dishCopy.order) {
+      let orderCount = getDishesCount([dishCopy]);
+      countCollection.push(orderCount);
+    }
+    return true;
+  });
+  return countCollection.length ? countCollection.reduce((c, p) => c + p, 0) : 0;
 };
 const getOrderPrice = exports.getOrderPrice = function (dish, orderData) {
   if (isGroupDish(dish)) {
@@ -278,9 +296,10 @@ const getDishCookieObject = exports.getDishCookieObject = function (dish, orderI
   const groupChildDishIds = !splitPropsIds.join('#') || splitPropsIds.join('#') === '' ? id + '|1--' : splitPropsIds.join('#');
   return { key : `${consumeType}_${shopId}_${id}_${groupChildDishIds}`, value : `${orderCount}|${marketPrice}` };
 };
-exports.storeDishesLocalStorage = function (data, func) {
+exports.storeDishesLocalStorage = function (data, shopInfo, func) {
   const lastOrderedDishes = {
     shopId: getUrlParam('shopId'),
+    shopName: shopInfo.commercialName || '',
     type: getUrlParam('type'),
     expires: Date.now() + 24 * 60 * 60 * 1000,
     dishes: func ? func(data) : getOrderedDishes(data),
@@ -383,11 +402,11 @@ exports.generateDishNameWithUnit = (dishData) => {
     const avaliableDishProps = dishData.dishPropertyTypeInfos.filter(prop => prop.type === 4);
     if (avaliableDishProps.length) {
       const properties = avaliableDishProps.map(prop => prop.properties[0].name).join(', ');
-      return `${dishData.name}(${properties})/${dishData.unitName}`;
+      return dishData.unitName ? `${dishData.name}(${properties})/${dishData.unitName}` : `${dishData.name}(${properties})`;
     }
-    return `${dishData.name}/${dishData.unitName}`;
+    return dishData.unitName ? `${dishData.name}/${dishData.unitName}` : dishData.name;
   }
-  return `${dishData.name}/${dishData.unitName}`;
+  return dishData.unitName ? `${dishData.name}/${dishData.unitName}` : dishData.name;
 };
 
 exports.formatOpenTime = (openTimeList, isWeekend) => {
@@ -482,4 +501,216 @@ exports.matchDishesData = (marketListUpdate, formatDishesData) => {
     }
   });
   return marketMatchDishes;
+};
+const judgeStandardsSame = (dish, sample) => {
+  if (dish.dishPropertyTypeInfos && dish.dishPropertyTypeInfos.length
+    && sample.dishPropertyTypeInfos && sample.dishPropertyTypeInfos.length) {
+    let dishPropertyTypeInfos = dish.dishPropertyTypeInfos;
+    let dishStandardCollection = [];
+    let samplePropertyTypeInfos = sample.dishPropertyTypeInfos;
+    let sampleStandardCollection = [];
+    let boolCollection = [];
+    dishPropertyTypeInfos.filter(property => property.type === 4).map(
+      property => dishStandardCollection.push(property.id)
+    );
+    samplePropertyTypeInfos.filter(property => property.type === 4).map(
+      property => sampleStandardCollection.push(property.id)
+    );
+    dishStandardCollection.map(propertyId => {
+      let index = _findIndex(sampleStandardCollection, id => id === propertyId);
+      return boolCollection.push(
+        index >= 0 && sampleStandardCollection.length && sampleStandardCollection.length === dishStandardCollection.length ?
+        '1' : '0'
+      );
+    });
+    if (_findIndex(boolCollection, bool => bool === '0') === -1) {
+      return true;
+    }
+    return false;
+  }
+  return false;
+};
+const selectDishesListWithSameName = (dishesList) => {
+  let newDishesList = [];
+  for (let i = 0; i < dishesList.length; i++) {
+    let sameRuleDish = [dishesList[i]];
+    let dishesCollection = [];
+    for (let index = 0; index < newDishesList.length; index++) {
+      newDishesList[index].map(dish => dishesCollection.push(dish));
+    }
+    if (i === 0) {
+      dishesList.filter(dish => dish.id !== sameRuleDish[0].id).map(dish => {
+        if (dish.name === sameRuleDish[0].name && dish.unitName === sameRuleDish[0].unitName
+          && dish.dishTypeId === sameRuleDish[0].dishTypeId && judgeStandardsSame(dish, sameRuleDish[0])
+        ) {
+          sameRuleDish.push(dish);
+        }
+        return true;
+      });
+      newDishesList.push(sameRuleDish);
+    } else if (i > 0 && dishesCollection.every(dish => dish.id !== sameRuleDish[0].id)) {
+      // 添加dishesCollection.every(dish => dish.id !== sameRuleDish[0].id  是为了去重保证被筛选过的dish不需要重新筛选
+      dishesList.filter(dish => dish.id !== sameRuleDish[0].id).map(dish => {
+        if (dish.name === sameRuleDish[0].name && dish.unitName === sameRuleDish[0].unitName
+          && dish.dishTypeId === sameRuleDish[0].dishTypeId && judgeStandardsSame(dish, sameRuleDish[0])
+        ) {
+          sameRuleDish.push(dish);
+        }
+        return true;
+      });
+      newDishesList.push(sameRuleDish);
+    }
+  }
+  newDishesList.filter(dishes => dishes.length > 1).map(dishes => {
+    dishes.map(dish => {
+      let index = _findIndex(dishesList, dishProp => dishProp.id === dish.id);
+      if (index >= 0) { dishesList[index].shuoldDelete = true; }
+      return true;
+    });
+    return true;
+  });
+  return {
+    dishesList,
+    sameNameDishes:newDishesList.filter(dishes => dishes.length > 1),
+  };
+};
+const createNewDishes = (withSameNameDishesProp, dishTypeList) => {
+  let initialDishes = withSameNameDishesProp.dishesList.filter(dish => !dish.shuoldDelete);
+  let changedDishes = [];
+  withSameNameDishesProp.sameNameDishes.forEach(disesCollection => {
+    let maternalDish = disesCollection[0];
+    maternalDish.hasRuleDish = true;
+    maternalDish.sameRuleDishes = [];
+    for (let i = 1; i < disesCollection.length; i++) {
+      disesCollection[i].dishPropertyTypeInfos.filter(property => property.type === 4).map(property =>
+        property.properties.map(prop => prop.isChecked = false)
+      );
+      if (disesCollection[i].clearStatus !== 1) {
+        // 表示已售磬
+        console.log('客如云竭诚为您服务');
+      } else {
+        disesCollection[i].hasRuleDish = true;
+        maternalDish.sameRuleDishes.push(disesCollection[i]);
+      }
+
+      // dish所在的dishType
+      let dishType = _find(dishTypeList, dishesType => dishesType.dishIds && dishesType.dishIds.indexOf(maternalDish.id) !== -1);
+      if (dishType) {
+        let dishIndex = _findIndex(dishType.dishIds, dishId => dishId === disesCollection[i].id);
+        if (dishIndex >= 0) {
+          dishType.dishIds.splice(dishIndex, 1);
+        }
+      }
+    }
+    return changedDishes.push(maternalDish);
+  });
+  let finalDishes = [].concat.apply(initialDishes, changedDishes);
+  return {
+    finalDishes,
+    dishTypeList,
+  };
+};
+exports.reorganizeDishes = (dishesList, dishTypeList) => {
+  // 先筛选出名称,销售单位,商品中类一致,商品参与的规格分组完全一致的菜品
+  const withSameNameDishesProp = selectDishesListWithSameName(dishesList);
+  // console.log('withSameNameDishesProp:', withSameNameDishesProp);
+  const finalDishes = createNewDishes(withSameNameDishesProp, dishTypeList).finalDishes;
+  const dishesTypeList = createNewDishes(withSameNameDishesProp, dishTypeList).dishTypeList;
+  return {
+    dishesList:finalDishes,
+    dishesTypeList,
+  };
+};
+
+exports.setRulePropsToDishes = (selectedId, dish) => {
+  let dishData = dish.asMutable({ deep:true });
+  let newDishDetail = null;
+  dishData.dishPropertyTypeInfos.map(property => property.properties.map(prop => {
+    if (prop.id === selectedId) {
+      prop.isChecked = true;
+      newDishDetail = dishData;
+    }
+    return true;
+  }));
+  dishData.sameRuleDishes.map(ruleDish => ruleDish.dishPropertyTypeInfos.map(property => property.properties.map(prop => {
+    if (prop.id === selectedId) {
+      prop.isChecked = true;
+      const dishIndex = _findIndex(dishData.sameRuleDishes, data => data.id === ruleDish.id);
+      if (dishIndex >= 0) {
+        dishData.sameRuleDishes.splice(dishIndex, 1);
+        ruleDish.sameRuleDishes = dishData.sameRuleDishes;
+        delete dishData.sameRuleDishes;
+        ruleDish.sameRuleDishes.push(dishData);
+        ruleDish.sameRuleDishes.map(
+          data => data.dishPropertyTypeInfos.filter(
+            dishProp => dishProp.type === 4).map(
+              attribute => attribute.properties.map(
+                option => option.isChecked = false
+        )));
+        ruleDish.dishPropertyTypeInfos.filter(attr => attr.type === 4).map(attribute => attribute.properties.map(
+          value => value.isChecked = true
+        ));
+        newDishDetail = ruleDish;
+        newDishDetail.order = [{
+          count:newDishDetail.stepNum,
+          dishPropertyTypeInfos:newDishDetail.dishPropertyTypeInfos,
+          dishIngredientInfos:newDishDetail.dishIngredientInfos,
+        }];
+      }
+    }
+    return true;
+  })));
+  return newDishDetail;
+};
+exports.updateDishesWithRule = (id, dishOptions, immutableDish) => {
+  let dishData = immutableDish.asMutable({ deep:true });
+  // payload[1]是被选中dish，payload[2]是母系dish,payload[0]是被选中属性ID
+  if (dishOptions.id === dishData.id) {
+      // 被选中的是母系dish
+    dishData.dishPropertyTypeInfos.filter(property => property.type === 4).forEach(
+      prop => prop.properties.forEach(attr => attr.isChecked = true)
+    );
+    dishData.sameRuleDishes.forEach(sameRuleDish => {
+      sameRuleDish.dishPropertyTypeInfos.filter(property => property.type === 4).forEach(
+        prop => prop.properties.forEach(attr => attr.isChecked = false)
+      );
+    });
+  } else {
+    dishData.sameRuleDishes.forEach(sameRuleDish => {
+      if (sameRuleDish.id === dishOptions.id) {
+        sameRuleDish.dishPropertyTypeInfos.filter(property => property.type === 4).forEach(
+          prop => prop.properties.forEach(attr => attr.isChecked = true)
+        );
+        dishData.dishPropertyTypeInfos.filter(property => property.type === 4).forEach(
+          prop => prop.properties.forEach(attr => attr.isChecked = false)
+        );
+      } else {
+        sameRuleDish.dishPropertyTypeInfos.filter(property => property.type === 4).forEach(
+          prop => prop.properties.forEach(attr => attr.isChecked = false)
+        );
+      }
+    });
+  }
+  return dishData;
+};
+
+exports.identifyRuleDish = (ruleDishes, immutableDishes) => {
+  let ruleDishesCopy = ruleDishes.filter(dish => dish.sameRuleDishes);
+  let dishesData = immutableDishes.asMutable({ deep:true });
+  dishesData.forEach(dishData => {
+    if (_find(ruleDishesCopy, dish => dish.id === dishData.id)) {
+      dishData.hasRuleDish = true;
+    } else {
+      ruleDishesCopy.forEach(ruleDish => {
+        ruleDish.sameRuleDishes.map(data => {
+          if (data.id === dishData.id) {
+            dishData.hasRuleDish = true;
+          }
+          return true;
+        });
+      });
+    }
+  });
+  setDishPropertyTypeInfos(dishesData);
+  return dishesData;
 };

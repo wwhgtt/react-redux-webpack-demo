@@ -1,0 +1,54 @@
+@import "settings.colors";
+
+// 滚动条实现
+.detail {
+  height: calc(100% - 120px);
+}
+
+.section.records {
+  position: relative;
+  overflow: hidden;
+  height: calc(100% - 35px);
+
+  &::before {
+    font-size: 14px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    padding: 1em 0;
+    content: "客如云提供技术支持";
+    text-align: center;
+    color: #666;
+  }
+}
+
+.loading {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1em;
+  height: 1em;
+  margin-left: -.75em;
+  padding: 1em 0;
+  content: "";
+  background: url("../../asset/images/load.gif") center center/100% auto no-repeat;
+}
+
+.copyright-bt {
+  font-size: 14px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1em 0;
+  content: "";
+  text-align: center;
+  color: #666;
+}
+
+.records-inner {
+  position: relative;
+  z-index: 2;
+}

@@ -9,6 +9,7 @@ module.exports = React.createClass({
   propTypes: {
     dish: React.PropTypes.object.isRequired,
     onCountChange: React.PropTypes.func.isRequired,
+    onRecalcPrice: React.PropTypes.func,
   },
   componentDidMount() {
     const { dish } = this.props;
@@ -18,6 +19,9 @@ module.exports = React.createClass({
     this.props.onCountChange(increament);
   },
   splitPropsSpecifications(dish) {
+    if (dish.sameRuleDishes) {
+      return false;
+    }
     if (!helper.isSingleDishWithoutProps(dish) && dish.dishPropertyTypeInfos) {
       const specification = [];
       dish.dishPropertyTypeInfos.map(
@@ -33,17 +37,24 @@ module.exports = React.createClass({
     return false;
   },
   render() {
-    const { dish } = this.props;
+    const { dish, onRecalcPrice } = this.props;
+    const price = helper.getDishPrice(dish);
+    const count = helper.getDishesCount([dish]);
+    let marketPrice = dish.marketPrice;
+
+    if (onRecalcPrice) {
+      marketPrice = onRecalcPrice(price, count);
+    }
     return (
       <div className="dish-detail-head flex-none">
         <div className="head-main">
-          <span className="dish-price price">{helper.getDishPrice(dish)}</span>
+          <span className="dish-price price">{price}</span>
           <p className="dish-name">
             {dish.name}{this.splitPropsSpecifications(dish)}/{dish.unitName}<span>: &nbsp;</span>
-            <span className="price">{dish.marketPrice}</span>
+            <span className="price">{marketPrice}</span>
           </p>
         </div>
-        <Counter count={helper.getDishesCount([dish])} onCountChange={this.onCountChange} step={dish.stepNum} />
+        <Counter count={count} onCountChange={this.onCountChange} step={dish.stepNum} />
       </div>
     );
   },

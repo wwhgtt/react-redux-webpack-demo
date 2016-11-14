@@ -105,6 +105,21 @@ module.exports = {
     'mine-reset-password-entry': [
       './src/mine-reset-password.jsx',
     ],
+    'queue-detail-entry': [
+      './src/queue-detail.jsx',
+    ],
+    'book-detail-entry': [
+      './src/book-detail.jsx',
+    ],
+    'order-list-entry': [
+      './src/order-list.jsx',
+    ],
+    'dinner-detail-entry': [
+      './src/dinner-detail.jsx',
+    ],
+    'takeout-detail-entry': [
+      './src/takeout-detail.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -402,6 +417,46 @@ module.exports = {
         title: 'MineResetPasswordApplication',
         filename: 'mine-reset-password.html',
         chunks: ['common', 'mine-reset-password-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'QueueDetailApplication',
+        filename: 'queue-detail.html',
+        chunks: ['common', 'queue-detail-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'BookDetailApplication',
+        filename: 'book-detail.html',
+        chunks: ['common', 'book-detail-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'OrderListApplication',
+        filename: 'order-list.html',
+        chunks: ['common', 'order-list-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'DinnerDetailApplication',
+        filename: 'dinner-detail.html',
+        chunks: ['common', 'dinner-detail-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'TakeoutDetailApplication',
+        filename: 'takeout-detail.html',
+        chunks: ['common', 'takeout-detail-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

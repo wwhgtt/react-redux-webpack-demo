@@ -38,7 +38,7 @@ const MineSettingApplication = React.createClass({
     this.setState({ name:obj.name, sex:obj.sex });
   },
   render() {
-    let condition = '';// 1 微信号(未绑定手机)  2手机号非会员（未绑定微信）3手机号会员（未绑定微信） 4绑定成功
+    let condition = ''; // 1 微信号(未绑定手机)  2手机号非会员（未绑定微信）3手机号会员（未绑定微信） 4绑定成功
     const { info, logOff, clearErrorMsg, errorMessage, load } = this.props;
     // 几种状态的判断
     if (info.loginType === 1 && !info.bindMobile) {
@@ -53,9 +53,8 @@ const MineSettingApplication = React.createClass({
             false
         }
         <div className="scroll-part">
-          <ShowSettingList info={info} getInfo={this.getInfo} logOff={logOff} />
+          <ShowSettingList info={info} getInfo={this.getInfo} logOff={logOff} onSave={() => this.onSave(condition)} />
         </div>
-        <a href=" javascript:void(0);" className="btn-row btn-row-sure btn-ab" onTouchTap={() => this.onSave(condition)}>保存</a>
         {
         errorMessage ?
           <Toast clearErrorMsg={clearErrorMsg} errorMessage={errorMessage} />

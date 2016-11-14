@@ -9,12 +9,12 @@ module.exports = {
       tableArea:'大厅区', // 桌台区域
       tableName:'9号桌', // 桌台
       isMember:true, // 是否会员
-      hasPriviledge:true,
+      hasPriviledge:false,
       priviledgeAmount:4604.29,
       totalAmount:46.29,
       diningForm:0, // 0-正餐，1-快餐
       isInvoice:1, // 是否发票
-      invoice:'2321321',
+      invoice:'',
       allowCheck: false,
       carryRuleVO:// 进位规则
       {
@@ -104,7 +104,7 @@ module.exports = {
       dishItems:[
         {
           id: 56,
-          name: '火爆肥肠1',
+          name: '火爆肥肠T',
           brandDishId: 25,
           type: 0,
           marketPrice: 25,

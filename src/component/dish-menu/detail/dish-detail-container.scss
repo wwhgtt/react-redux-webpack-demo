@@ -12,19 +12,28 @@
   }
 
   &-close {
+    position: relative;
     display: block;
-    height: 50px;
+    height: 60px;
     background-color: $opacity-background;
-    background-image: url("../../../asset/images/dish-popup-close.png"); // image size 70 * 70px
-    background-repeat: no-repeat;
-    background-position: center right;
-    background-size: 46px 46px;
+
+    .btn-close {
+      position: absolute;
+      z-index: 1;
+      top: 75px;
+      right: 15px;
+      width: 44px;
+      height: 44px;
+      content: "";
+      border: none;
+      border-radius: 22px;
+      background: rgba(0, 0, 0, .2);
+    }
   }
 
   &-content {
     overflow: hidden;
-    height: calc(100% - 50px);
-    border-top: 2px solid $color-sunglow;
+    height: calc(100% - 60px);
     background: $color-porcelain;
   }
 
@@ -35,6 +44,26 @@
   }
 }
 
+
+.dish-detail-container .btn-close {
+  &::before,
+  &::after {
+    background: #fff;
+  }
+
+  &::before {
+    width: 32px;
+  }
+
+  &::after {
+    height: 32px;
+  }
+}
+
 .single-dish-detail {
   background: $color-white;
+}
+
+.group-dish-detail-all .btn-close {
+  top: 10px;
 }

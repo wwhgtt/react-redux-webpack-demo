@@ -5,7 +5,7 @@ require('./application.scss');
 const mineRechargeAction = require('../../action/mine/mine-recharge.js');
 const Dialog = require('../../component/mui/dialog/dialog.jsx');
 const RechargeItem = require('../../component/mine/recharge-item.jsx');
-const shopIcon = require('../../asset/images/default.png');
+const shopIcon = require('../../asset/images/logo_default.svg');
 const classnames = require('classnames');
 
 const MineRechargeApplication = React.createClass({
@@ -179,12 +179,12 @@ const MineRechargeApplication = React.createClass({
             couponType = '优惠券';
           }
 
-          const rechargeActiveItem = (<div key={Math.random() + index} className="recharge-coupon">
+          const rechargeActiveItem = (<div key={index} className="recharge-coupon">
             <p className="ellipsis">储值满{item.storeAmount}</p>
             <p className="ellipsis">送{couponType}({item.couponName}）</p>
             <p className="ellipsis">{items.planStartDay.replace(/-/g, '/')} ~ {items.planEndDay.replace(/-/g, '/')}</p>
           </div>);
-          const rechargeActiveAd = <div key={Math.random() + index}>储值满{item.storeAmount}送{couponType}</div>;
+          const rechargeActiveAd = <div key={index}>储值满{item.storeAmount}送{couponType}</div>;
 
           rechargeActiveAds.push(rechargeActiveAd);
           rechargeActiveItems.push(rechargeActiveItem);

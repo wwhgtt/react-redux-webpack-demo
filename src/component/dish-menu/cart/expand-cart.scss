@@ -30,30 +30,41 @@
   }
 
   &-header {
-    height: 35px;
+    line-height: 39px;
+    height: 39px;
+    padding: 0 15px;
     background: $color-wild-sand;
+  }
+
+  &-title {
+    font-size: 15px;
+    font-weight: normal;
+    color: $color-dove-grey;
+
+    &::before {
+      float: left;
+      width: 3px;
+      height: 14px;
+      margin: 12px 8px 0 0;
+      content: "";
+      background: $color-neon-carrot;
+    }
   }
 
   &-clear {
     font-size: 14px;
-    line-height: 35px;
     float: right;
-    padding-right: 10px;
     color: $color-dusty-grey;
 
     &::before {
       float: left;
-      width: 15px;
+      width: 14px;
       height: 16px;
-      margin: 8px 3px 0 0;
+      margin: 10px 3px 0 0;
       content: "";
-      background-image: url("../../../asset/images/cart-clear.png"); // image size 30 * 32px
-      background-size: cover;
+      background-image: url("../../../asset/images/cart-clear.svg"); // image size 30 * 32px
+      background-size: 14px 16px;
     }
-  }
-
-  .tiny-cart-price {
-    left: 15px;
   }
 }
 
@@ -64,5 +75,5 @@
   // stylelint-disable declaration-block-no-duplicate-properties
   // Need for android 4.2 ~ 4.3
   max-height: 280px;
-  max-height: 60vh;
+  max-height: 305px;
 }

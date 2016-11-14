@@ -46,6 +46,7 @@ module.exports = {
   deleteAddressAPI: `${apiBase}/user/delAddress.json`,
   getOrderAddressInfoAPI: `${apiBase}/user/getAddressInfo.json`,
   submitTSOrderCartAPI: `${apiBase}/orderall/subOrderDinner.json`,
+  placeCheckOrderAPI: `${apiBase}/place/placeCheckOrder.json`,
 
   userLoginAPI: `${apiBase}/user/login.json`,
   userLoginWXURL: `${apiBase}/user/login4WX`,
@@ -126,5 +127,21 @@ module.exports = {
   modifyPwd: `${apiBase}/member/modifyPwd.json`, // 修改密码
   resetPassword: `${apiBase}/member/resetPassword.json`, // 重置密码
   getResetPasswordUserInfoAPI: `${apiBase}/member/resetPwd.json`, // 取密码重置用户信息
+  getQueueInfoAPI: `${apiBase}/queue/success.json`, // 排队详情
+  cancelQueueAPI: `${apiBase}/queue/cancel.json`, // 取消排队
+  getBookDetailAPI: `${apiBase}/booking/bookingDetail.json`, // 预订详情
+  orderListAPI: `${apiBase}/order/orderallList.json`, // 订单列表
+  takeOutListAPI: `${apiBase}/order/takeOutList.json`, // 外卖列表
+  bookListAPI: `${apiBase}/order/bookingList.json`, // 预订列表
+  queueListAPI: `${apiBase}/queue/queueList.json`, // 排队列表
+  getDinnerDetailAPI: `${apiBase}/order/orderallDetail.json`, // 堂食结算后订单详情
+  getDishMarketInfosAPI: `${apiBase}/orderall/dishMarketInfos.json`, //
+
+  prepareDishboxAPI:`${apiBase}/prepare/dishBox.json`,
+  prepareMyPreOrderAPI:`${apiBase}/prepare/myPreOrder.json`, // 预定我的菜单
+  prepareSubOrderAPI:`${apiBase}/prepare/subOrder.json`,
+  prepareBookingDetailAPI:`${apiBase}/prepare/bookingDetail`,
+  getTakeoutDetailAPI: `${apiBase}/order/takeOutDetail.json`, // 外卖结算后订单详情
+
   requestOptions,
 };

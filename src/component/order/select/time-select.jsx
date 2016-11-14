@@ -10,6 +10,7 @@ module.exports = React.createClass({
   displayName: 'TimeSelect',
   propTypes: {
     isSelfFetch: React.PropTypes.bool,
+    title:React.PropTypes.string,
     selectedDateTime: React.PropTypes.object.isRequired,
     timeTable: React.PropTypes.object.isRequired,
     onDone: React.PropTypes.func.isRequired,
@@ -97,7 +98,7 @@ module.exports = React.createClass({
           const checked = time === selectedDateTime.time || (idx === 0 && selectedMark && selectedDateTime.time === '');
           let resetedTime = { id:time, label:time, isChecked: checked };
           if (isToday && !time) {
-            resetedTime.label = `立即${this.props.isSelfFetch ? '取餐' : '送达'}`;
+            resetedTime.label = `${this.props.isSelfFetch ? '立即取餐' : '尽快送达'}`;
           }
           return resetedTime;
         });
@@ -116,12 +117,18 @@ module.exports = React.createClass({
   render() {
     const { dateTimes } = this.state;
     const timeOfSelectedDate = this.getTimeOfSelectedDate(dateTimes);
+    const setComponentTitle = () => {
+      const { isSelfFetch, title } = this.props;
+      if (title) { return title; }
+      if (isSelfFetch) { return '取餐'; }
+      return '送达';
+    };
     return (
       <div className="scroll-select-container" tabIndex="-1" ref="picker">
         <div className="scroll-select-close" onTouchTap={this.onCancel}></div>
         <div className="scroll-select-content">
           <div className="scroll-select-header">
-            <span>选择{this.props.isSelfFetch ? '取餐' : '送达'}时间</span>
+            <span>选择{setComponentTitle()}时间</span>
             <div className="scroll-select-confirm btn--yellow" onTouchTap={this.onSubmit}>确定</div>
           </div>
           <div className="flex-row">

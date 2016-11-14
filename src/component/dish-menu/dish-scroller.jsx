@@ -2,7 +2,7 @@ const React = require('react');
 const { findDOMNode } = require('react-dom');
 const shallowCompare = require('react-addons-shallow-compare');
 const _find = require('lodash.find');
-const IScroll = require('iscroll/build/iscroll-lite');
+const IScroll = require('iscroll/build/iscroll-probe');
 const classnames = require('classnames');
 const DishListItem = require('./dish-list-item.jsx');
 const setErrorMsg = require('../../action/dish-menu/dish-menu.js').setErrorMsg;
@@ -17,13 +17,15 @@ module.exports = React.createClass({
     activeDishTypeId: React.PropTypes.number.isRequired,
     dishTypesData: React.PropTypes.array.isRequired,
     dishesData: React.PropTypes.array.isRequired,
+    onScrolling: React.PropTypes.func,
+    dishesDataDuplicate: React.PropTypes.array.isRequired,
     onScroll: React.PropTypes.func.isRequired,
     onOrderBtnTap: React.PropTypes.func.isRequired,
     onPropsBtnTap: React.PropTypes.func.isRequired,
     onImageBtnTap: React.PropTypes.func.isRequired,
     marketList: React.PropTypes.object,
     diningForm: React.PropTypes.bool,
-    marketListUpdate:React.PropTypes.array,
+    theme: React.PropTypes.string,
   },
   getInitialState() {
     return { distance:window.innerHeight - 84 };
@@ -33,12 +35,14 @@ module.exports = React.createClass({
     this._distance = 0;
   },
   componentDidMount() {
-    const { onScroll } = this.props;
+    const { onScroll, onScrolling } = this.props;
     const cache = this._cache = {};
     const iScroll = cache.iScroll = new IScroll(findDOMNode(this), {
       click: true,
       tap: true,
+      probeType: 2,
     });
+
     iScroll.on('scrollStart', () => {
       cache.isScrolling = true;
       if (cache.timer) {
@@ -46,14 +50,15 @@ module.exports = React.createClass({
         cache.timer = null;
       }
     });
-    iScroll.on('scrollEnd', () => {
-      const { diningForm, marketListUpdate } = this.props;
-      let dishTypeId = '';
-      if (diningForm && marketListUpdate.length !== 0) {
-        dishTypeId = this.findCurrentDishTypeId(iScroll.y - 34);
-      } else {
-        dishTypeId = this.findCurrentDishTypeId(iScroll.y);
+
+    iScroll.on('scroll', () => {
+      if (onScrolling) {
+        onScrolling({ x: iScroll.x, y: iScroll.y });
       }
+    });
+
+    iScroll.on('scrollEnd', () => {
+      const dishTypeId = this.findCurrentDishTypeId(iScroll.y);
       if (!window.__activeTypeByTap__ && dishTypeId) {
         if (cache.timer) {
           window.clearTimeout(cache.timer);
@@ -100,16 +105,24 @@ module.exports = React.createClass({
     }
   },
   findCurrentDishTypeId(posY) {
-    const dishTypes = findDOMNode(this).querySelectorAll('.dish-item-type');
-    const showingDishTypes = Array.prototype.slice.call(dishTypes).filter(dishType => dishType.offsetTop < -posY + 5);
+    const scroller = findDOMNode(this);
+    const dishTypes = scroller.querySelectorAll('.dish-item-type');
+    const scrollerRect = { height: scroller.clientHeight, top: scroller.offsetTop, scrollHeight: scroller.scrollHeight };
+    let currentValue = -posY + scrollerRect.height;
+    if (currentValue < scrollerRect.scrollHeight) {
+      currentValue -= scrollerRect.height / 2;
+    }
+
+    const showingDishTypes = Array.prototype.slice.call(dishTypes).filter(dishType => dishType.offsetTop - scrollerRect.top < currentValue);
     this.showingDishLength = showingDishTypes.length;
     if (showingDishTypes.length) {
       return parseInt(showingDishTypes.pop().getAttribute('data-id'), 10);
     }
     return false;
   },
-  buildDishElements(activeDishTypeId, dishTypesData, dishesData, onDishBtnTap) {
+  buildDishElements(activeDishTypeId, dishTypesData, dishesData, onDishBtnTap, dishesDataDuplicate) {
     this._counter = 1;
+    const { theme } = this.props;
     function getDishById(dishId) {
       const dish = _find(dishesData, { id:dishId });
       if (!dish) {
@@ -127,7 +140,7 @@ module.exports = React.createClass({
     }
 
     return (
-      <ul className="dish-list">
+      <ul className="dish-list clearfix">
       {
         dishTypesData.map((dishTypeData, idx) => {
           if (!dishTypeData.dishIds) {
@@ -137,6 +150,9 @@ module.exports = React.createClass({
             // 需要考虑length为1  且菜品信息clearStatus不为1的情况
             return false;
           }
+
+          const length = dishTypeData.dishIds.length;
+
           return (
             [
               <li
@@ -147,15 +163,17 @@ module.exports = React.createClass({
                 {getDishTypeTitle(dishTypeData)}
               </li>,
             ].concat(
-              dishTypeData.dishIds.map(dishId => {
+              dishTypeData.dishIds.map((dishId, i) => {
                 this._counter++;
                 const dishData = getDishById(dishId);
                 const { distance } = this.state;
                 return (
-                  <li className="dish-item-dish">
+                  <li className={classnames('dish-item-dish', { 'last-item': i === length - 1 })}>
                     {
                       this._counter - 1 <= ((distance - (Number(this.showingDishLength) || 1) * 30) / 88).toFixed(0) ?
                         <DishListItem
+                          theme={theme}
+                          dishesDataDuplicate={dishesDataDuplicate}
                           dishData={dishData}
                           onOrderBtnTap={onDishBtnTap}
                           onPropsBtnTap={onDishBtnTap}
@@ -187,8 +205,10 @@ module.exports = React.createClass({
     );
   },
   render() {
-    const { activeDishTypeId, dishTypesData, dishesData } = this.props;
-    const dishElements = this.buildDishElements(activeDishTypeId, dishTypesData, dishesData, this.onDishBtnTap);
+    const { activeDishTypeId, dishTypesData, dishesData, dishesDataDuplicate } = this.props;
+    const dishElements = this.buildDishElements(
+      activeDishTypeId, dishTypesData, dishesData, this.onDishBtnTap, dishesDataDuplicate
+    );
     return (
       <div className="dish-scroller">
         {/* <div className="scroll-wrapper">*/}

@@ -1,0 +1,93 @@
+.dish-box {
+  font-size: 15px;
+
+  .dish-main {
+    position: relative;
+  }
+
+  .dish-sub {
+    position: relative;
+    margin-top: 15px;
+    padding-left: 16px;
+
+    .dish-name {
+      font-size: 14px;
+      width: auto;
+      max-width: calc(100% - 195px);
+      padding-right: 0;
+      color: #666;
+    }
+
+    &-info {
+      margin: 14px 0;
+    }
+
+    .dish-count {
+      font-size: 13px;
+      float: right;
+      margin: 0 103px 0 0;
+    }
+  }
+
+  .dish-name {
+    position: relative;
+    float: left;
+    width: calc(100% - 148px);
+    padding-right: 20px;
+    color: #474747;
+
+    &::after {
+      right: 0;
+    }
+  }
+
+  .dish-price {
+    display: block;
+    float: right;
+    width: 70px;
+    text-align: right;
+  }
+
+  .dish-count {
+    float: left;
+    width: 45px;
+    margin-left: 0;
+    text-align: center;
+    color: #999;
+  }
+
+  .dish-memo {
+    font-size: 13px;
+    line-height: 15px;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 5px;
+    color: #999;
+  }
+
+  .dish-status {
+    position: absolute;
+    top: -5px;
+    right: 148px;
+  }
+}
+
+.dish-name--trigger::after {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 170px;
+  width: 20px;
+  height: 22px;
+  content: "";
+  background-image: url("../../asset/images/arrow-right-gray.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: auto 12px;
+  transform: rotate(90deg);
+  transition: transform .15s;
+}
+
+.dish-name--trigger.is-open::after {
+  transform: rotate(-90deg);
+}

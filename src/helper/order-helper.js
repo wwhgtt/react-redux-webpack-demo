@@ -97,6 +97,16 @@ exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDes
   }
   return isPickupFromFrontDesk ? selfPayType.indexOf(payment) : sendPayType.indexOf(payment);
 };
+//  微信卡券核销
+exports.handleWeixinCard = function (couponList) {
+  couponList.forEach(coupon => {
+    if (coupon.weixinValue) {
+      coupon.coupRuleBeanList = [];
+      coupon.coupDishBeanList = [];
+    }
+  });
+  return couponList;
+};
 // 判断支付方式是否应该checked
 exports.shouldPaymentAutoChecked = function (payment, diningForm, isPickupFromFrontDesk, sendAreaId, selfPayType, sendPayType) {
   if (diningForm === 0) {
@@ -127,12 +137,12 @@ exports.getSelectedTable = function (tableProps) {
     table: _find(tableProps.tables, { isChecked:true }),
   };
 };
-// 判断前台取餐是否应该自动选中
+// 判断前台自取是否应该自动选中
 exports.isPickUpAutoChecked = function (serviceProps) {
   if (!serviceProps || serviceProps.indexOf('totable') !== -1) {
-    return { name:'前台取餐', isChecked:false, id:'way-of-get-diner' };
+    return { name:'前台自取', isChecked:false, id:'way-of-get-diner' };
   }
-  return { name:'前台取餐', isChecked:true, id:'way-of-get-diner' };
+  return { name:'前台自取', isChecked:true, id:'way-of-get-diner' };
 };
 // 初始化桌台信息
 exports.initializeAreaAdnTableProps = function (areaList, tableList) {
@@ -419,6 +429,8 @@ exports.getCouponsLength = function (couponsList) {
         return false;
       }
       couponLength = couponLength + 1;
+    } else if (coupon.weixinValue) {
+      couponLength = couponLength + 1;
     }
     return true;
   });
@@ -428,9 +440,15 @@ exports.getCouponsLength = function (couponsList) {
 const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, totalPrice) {
   if (coupon.couponType === 1) {
     // '满减券'
+    if (coupon.weixinValue) {
+      return +coupon.weixinValue <= totalPrice ? +coupon.weixinValue : totalPrice;
+    }
     return +coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'offerValue')[0].ruleValue || 0;
   } else if (coupon.couponType === 2) {
     // '折扣券';
+    if (coupon.weixinValue) {
+      return parseFloat((totalPrice * (1 - coupon.weixinValue / 10)).toFixed(2));
+    }
     return parseFloat(
       (
         totalPrice *
@@ -445,7 +463,12 @@ const countPriceByCoupons = exports.countPriceByCoupons = function (coupon, tota
     return getRelatedToDishCouponProps(coupon.coupDishBeanList[0]).couponValue;
   } else if (coupon.couponType === 4) {
     // '现金券';
-    const ruleValue = +coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'faceValue')[0].ruleValue || 0;
+    let ruleValue = 0;
+    if (coupon.weixinValue) {
+      ruleValue = coupon.weixinValue;
+    } else {
+      ruleValue = +coupon.coupRuleBeanList.filter(couponDetaile => couponDetaile.ruleName === 'faceValue')[0].ruleValue || 0;
+    }
     return ruleValue <= totalPrice ? ruleValue : totalPrice;
   }
   return true;
@@ -685,6 +708,12 @@ const getSubmitDishData = exports.getSubmitDishData = (dishesData, shopId) => {
       dishInfo.num = order;
       dishInfo.priId = priId;
       dishInfo.priType = priType;
+      if (dish.dishPropertyTypeInfos && dish.dishPropertyTypeInfos.length) {
+        (dish.dishPropertyTypeInfos || []).forEach(item => {
+          [].push.apply(dishInfo.propertyIds, (item.properties || []).filter(subItem => subItem.isChecked).map(subItem => subItem.id));
+        });
+      }
+
       orderDishes.push(dishInfo);
     } else if (Array.isArray(order) && order.length) {
       let orderPrices = [];
@@ -764,11 +793,11 @@ const getSubmitDishData = exports.getSubmitDishData = (dishesData, shopId) => {
 };
 
 exports.getSubmitUrlParams = (state, note, receipt) => {
-  const name = state.customerProps.name;
+  // const name = state.customerProps.name || '';
   const type = getUrlParam('type');
-  if (!name && type === 'TS' && state.customerProps.loginType === 1) {
-    return { success:false, msg: '未填写姓名' };
-  }
+  // if (!name && type === 'TS' && state.customerProps.loginType === 1) {
+  //   return { success:false, msg: '未填写姓名' };
+  // }
 
   const dishes = state.orderedDishesProps.dishes;
   const dishesPrice = getDishesPrice(dishes);
@@ -796,11 +825,16 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
                 state.serviceProps.couponsProps.inUseCouponDetail.id
                 :
                 '0';
+  const cardCode = state.serviceProps.couponsProps.inUseCoupon &&
+                state.serviceProps.couponsProps.inUseCouponDetail.weixinValue ?
+                state.serviceProps.couponsProps.inUseCouponDetail.codeNumber
+                :
+                '';
   let tableId;
   if (type === 'TS' && serviceApproach === 'totable' && state.tableProps.tables && state.tableProps.tables.length) {
     if (state.tableProps.tables.filter(table => table.isChecked).length === 0) {
       return state.serviceProps.serviceApproach.indexOf('pickup') !== -1 && state.serviceProps.serviceApproach.indexOf('totable') === -1 ?
-        { success:false, msg:'请打开前台取餐开关' }
+        { success:false, msg:'请打开前台自取开关' }
         :
         { success:false, msg:'未选择桌台信息' };
     }
@@ -814,6 +848,7 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
   const params = {
     shopId: getUrlParam('shopId'),
     coupId,
+    cardCode,
     useDiscount,
     memo: note,
     needPayPrice,
@@ -869,14 +904,14 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
       }
     }
   } else {
-    const sex = +String(state.customerProps.sex);
+    const sex = +String(state.customerProps.sex) || '';
     // 仅手机号登陆登录校验性别
-    if (state.customerProps.loginType === 0 && (isNaN(sex) || sex === -1)) {
-      return { success: false, msg:'未选择性别' };
-    }
+    // if (state.customerProps.loginType === 0 && (isNaN(sex) || sex === -1)) {
+    //   return { success: false, msg:'未选择性别' };
+    // }
 
     Object.assign(params, {
-      name: state.customerProps.name,
+      name: state.customerProps.name || '',
       mobile: state.customerProps.mobile,
       sex,
       orderType: 'TS',

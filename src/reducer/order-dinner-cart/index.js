@@ -5,6 +5,7 @@ const dishMenu = require('../../reducer/dish-menu/index.js');
 
 const orderTSCart = (
   state = Immutable.from({
+    wxName:'',
     member: {
       name: '',
       mobile: '',
@@ -36,7 +37,9 @@ const orderTSCart = (
   const { type, payload } = action;
   switch (type) {
     case 'INIT_ORDER_INFO':
-      return state.merge(payload).set('tableProps', initializeAreaAdnTableProps(payload.areaList, payload.tableList));
+      return state.merge(payload)
+             .set('tableProps', initializeAreaAdnTableProps(payload.areaList, payload.tableList))
+             .set('wxName', payload.name || '');
     case 'SET_ORDER_INFO':
       return state.merge(payload);
     case 'SELECT_TABLE':

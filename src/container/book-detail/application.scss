@@ -1,0 +1,50 @@
+.book-page {
+  padding: 70px 15px 25px;
+}
+
+.book-info {
+  position: relative;
+
+  .list-default {
+    padding: 33px 20px 0;
+  }
+}
+
+.book-status {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 119px;
+  height: 142px;
+  margin-top: -71px;
+  background-repeat: no-repeat;
+  background-size: 119px;
+}
+
+.book-not-arrival {
+  background-image: url("../../asset/images/book_not_arrival.svg");
+}
+
+.book-success {
+  background-image: url("../../asset/images/book_success.svg");
+}
+
+.book-faild {
+  background-image: url("../../asset/images/book_failed.svg");
+}
+
+.book-confirming {
+  background-image: url("../../asset/images/book_confirming.svg");
+}
+
+.book-arrivaled {
+  background-image: url("../../asset/images/book_arrivaled.svg");
+}
+
+.book-cancel {
+  background-image: url("../../asset/images/book_cancel.svg");
+}
+
+.content-fillet {
+  padding-bottom: 1em;
+}

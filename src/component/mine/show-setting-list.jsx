@@ -20,6 +20,7 @@ module.exports = React.createClass({
     }).isRequired,
     getInfo:React.PropTypes.func,
     logOff:React.PropTypes.func,
+    onSave:React.PropTypes.func,
   },
   getInitialState() {
     return { name : '', sex : '' }; // 两个参数姓名和性别
@@ -160,7 +161,8 @@ module.exports = React.createClass({
                         <span className="list-name">微信号</span>
                       </div>
                       <div className="list-content flex-rest">
-                        <img src={info.iconUri || defaultPic} alt="微信头像" title="微信头像" className="list-content-logo" />
+                        <img src={info.iconUri || defaultPic} alt="微信头像" title="微信头像" className="list-content-logo flex-none" />
+                        <span className="wxName ellipsis">{info.wxName}</span>
                       </div>
                     </a>
                   </li>
@@ -214,6 +216,7 @@ module.exports = React.createClass({
       <div className="list-outer of">
         {partOne}
         {partTwo}
+        <a href=" javascript:;" className="btn-row btn-row-sure btn-row-mt" onTouchTap={this.props.onSave}>保存</a>
         <a href=" javascript:;" className="btn-row btn-row-mt" onTouchTap={this.onLogOff}>注销</a>
       </div>
     );

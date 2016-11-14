@@ -5,6 +5,7 @@ const commonHelper = require('../../helper/common-helper');
 const shopId = commonHelper.getUrlParam('shopId');
 const classnames = require('classnames');
 require('./show-vip-card-list.scss');
+const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const VipCurrentRights = require('./get-vip-current-rights.jsx');
 
 module.exports = React.createClass({
@@ -14,7 +15,7 @@ module.exports = React.createClass({
     userInfo:React.PropTypes.object,
   },
   getInitialState() {
-    return { arrowUp:true };
+    return { arrowUp:false };
   },
   componentWillMount() {},
   componentDidMount() {},
@@ -42,7 +43,7 @@ module.exports = React.createClass({
             <a className="list-link" href={valueCardURL}>
               <i className="list-icon" name="WDYE"></i>
               <span className="list-name">我的余额</span>
-              <span className="list-brief">￥{userInfo.balance}</span>
+              <span className="list-brief price">{userInfo.balance}</span>
               <span className="list-arrow list-arrow-right"></span>
             </a>
           </div>
@@ -66,13 +67,18 @@ module.exports = React.createClass({
             <a className="list-link" href=" javascript:void(0)" onTouchTap={this.slideDown}>
               <i className="list-icon" name="WDTQ"></i>
               <span className="list-name">我的特权</span>
-              <span className={classnames('list-arrow', { 'list-arrow-up':!arrowUp, 'list-arrow-down':arrowUp })}></span>
+              <span className={classnames('list-arrow', { 'list-arrow-up':arrowUp, 'list-arrow-down':!arrowUp })}></span>
             </a>
           </div>
         </div>
-        <div className={classnames('tq-outer of', { 'tq-outer-hide': arrowUp, 'tq-outer-show': !arrowUp })}>
-          <VipCurrentRights grownCfg={memberInfo.grownCfg} levelRights={memberInfo.levelRights} />
-        </div>
+        <ReactCSSTransitionGroup transitionName="slidedetail" transitionEnterTimeout={300} transitionLeaveTimeout={300}>
+          {
+            arrowUp &&
+              <div className="tq-outer">
+                <VipCurrentRights grownCfg={memberInfo.grownCfg} levelRights={memberInfo.levelRights} />
+              </div>
+          }
+        </ReactCSSTransitionGroup>
       </div>
     );
   },

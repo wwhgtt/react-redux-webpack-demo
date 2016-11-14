@@ -336,14 +336,22 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
   const data = Object.assign({}, paramsData.params);
   const requestOptions = Object.assign({}, config.requestOptions, { method: 'POST' });
   const complete = result => {
-    if (result.code === '200') {
+    const code = result.code.toString();
+    const isOnlinePay = state.serviceProps.payMethods.some(payMethod => payMethod.id === 'online-payment' && payMethod.isChecked);
+
+    if (code === '200' || code === '20013') {
+      // 手机未验证且非在线支付
+      if (code === '20013' && !isOnlinePay) {
+        dispatch(setPhoneValidateProps(true));
+        return;
+      }
+
       localStorage.removeItem('lastOrderedDishes');
       sessionStorage.removeItem('receiveOrderCustomerInfo');
       sessionStorage.removeItem(`${shopId}_sendArea_id`);
       sessionStorage.removeItem(`${shopId}_customer_toshopinfo`);
 
       helper.setCallbackUrl(result.data.orderId);
-      const isOnlinePay = state.serviceProps.payMethods.some(payMethod => payMethod.id === 'online-payment' && payMethod.isChecked);
       const paramStr = `shopId=${shopId}&orderId=${result.data.orderId}`;
       let jumpToUrl = '';
       if (isOnlinePay && paramsData.needPayPrice.toString() !== '0') {
@@ -353,8 +361,6 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
         jumpToUrl += paramStr;
       }
       location.href = jumpToUrl;
-    } else if (result.code.toString() === '20013') {
-      dispatch(setPhoneValidateProps(true));
     } else {
       dispatch(setErrorMsg(result.msg));
     }

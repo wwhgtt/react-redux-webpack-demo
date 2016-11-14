@@ -1,0 +1,234 @@
+@import "settings.colors";
+
+a {
+  text-decoration: none;
+}
+
+.option {
+  padding: 15px;
+  color: #474747;
+}
+
+.option-no-padding::after {
+  left: 0;
+}
+
+.order-status {
+  line-height: 60px;
+  position: relative;
+  height: 60px;
+  padding: 0 15px;
+  color: #fff;
+  background-color: #ff7e28;
+
+  &-comment {
+    font-size: 15px;
+    line-height: 34px;
+    position: absolute;
+    top: 13px;
+    right: 15px;
+    display: block;
+    width: 89px;
+    height: 34px;
+    text-align: center;
+    border: 1px solid #ffb98b;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, .2);
+  }
+
+  &-title {
+    display: inline-block;
+    min-width: 100px;
+  }
+
+  &-detail {
+    font-size: 14px;
+    display: inline-block;
+    max-width: calc(100% - 110px);
+    margin-left: 10px;
+  }
+}
+
+.shop-info {
+  line-height: 60px;
+  position: relative;
+  display: block;
+  height: 60px;
+  padding: 0 15px;
+  border-bottom: 1px solid #e3e3e3;
+
+  &::after {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    display: block;
+    width: 22px;
+    height: 60px;
+    content: "";
+    background: url("../../asset/images/arrow-right-grey.svg");
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 9px;
+  }
+
+  &-logo {
+    width: 34px;
+    height: 34px;
+    vertical-align: middle;
+    border-radius: 34px;
+  }
+
+  &-name {
+    display: inline-block;
+    width: calc(100% - 55px);
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+}
+
+.flex-row {
+  display: flex;
+  justify-content: space-between;
+
+  .flex-row-item {
+    width: 100%;
+  }
+}
+
+.list-default {
+  padding: 20px 15px 5px;
+  background-color: #fff;
+
+  .list-item {
+    color: #474747;
+  }
+}
+
+.btn-oparate {
+  font-size: 17px;
+
+  a {
+    line-height: 49px;
+    display: block;
+    width: 100%;
+    height: 49px;
+    text-align: center;
+    color: #fff;
+    background-color: #ff7e28;
+  }
+
+  a:last-child {
+    background-color: #ffc43a;
+  }
+}
+
+.option-min {
+  .option {
+    padding: 14px 15px;
+  }
+}
+
+.option-extra {
+  span {
+    font-size: 15px;
+  }
+}
+
+.option-privilege {
+  .icon-privilege {
+    font-size: 15px;
+  }
+}
+
+.icon-privilege {
+  padding-left: 25px;
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 18px;
+}
+
+.list-privilege {
+  font-size: 14px;
+
+  &-value {
+    font-size: 14px;
+    color: $color-dusty-grey;
+  }
+}
+
+.list-statictis {
+  font-size: 15px;
+  line-height: 50px;
+  height: 50px;
+  padding: 0 15px;
+  border-top: 1px solid #e3e3e3;
+  background-color: #fff;
+
+  &-title {
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+    color: $color-dusty-grey;
+  }
+
+  .price {
+    display: inline-block;
+    vertical-align: middle;
+    color: #474747;
+  }
+
+  .list-statictis-origin {
+    max-width: calc(100% - 35px);
+  }
+
+  .list-statictis-privilage,
+  .list-statictis-total {
+    max-width: calc(100% - 50px);
+  }
+}
+
+.list-other {
+  font-size: 14px;
+  line-height: 35px;
+  height: 35px;
+  padding-left: 15px;
+  color: $color-dusty-grey;
+}
+
+.detail-content {
+  padding-bottom: 20px;
+}
+
+.options-group {
+  margin-bottom: 5px;
+}
+
+// 优惠券及活动
+.icon-4 {
+  background-image: url("../../asset/images/icon_money.svg");
+}
+
+// 积分抵扣
+.icon-5 {
+  background-image: url("../../asset/images/icon_point.svg");
+}
+
+// 会员
+.icon-6 {
+  background-image: url("../../asset/images/icon_star.svg");
+}
+
+// 礼品
+.icon-101 {
+  background-image: url("../../asset/images/icon_gift.svg");
+}
+
+// 自动抹零
+.icon-carry {
+  background-image: url("../../asset/images/icon_hand.svg");
+}
+
+// 其他优惠
+.icon-100 {
+  background-image: url("../../asset/images/icon_other.svg");
+}

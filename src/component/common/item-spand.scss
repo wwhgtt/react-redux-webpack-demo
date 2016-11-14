@@ -2,7 +2,7 @@
 
 .uprow {
   position: relative;
-  height: 8em;
+  height: 7.5em;
 
   &::before {
     position: absolute;
@@ -37,12 +37,18 @@
   color: #fff;
   background: #ccc;
 
+  &-inner {
+    overflow: hidden;
+  }
+
   &-value {
     position: relative;
     height: 100%;
+    white-space: pre-wrap;
 
     .discount-num {
       font-size: 2.5em;
+      vertical-align: -2px;
     }
 
     .expense-condition {
@@ -61,20 +67,22 @@
       width: 100%;
     }
 
-    .detail-click .arrowdown {
+    .detail-click .arrow {
       display: inline-block;
       width: 1em;
-      height: .5em;
+      height: 1em;
       margin-left: .5em;
-      background: url("../../asset/images/arrow-down-white.svg") center center/1em auto no-repeat;
+      vertical-align: middle;
+      background: url("../../asset/images/arrow-right-white.svg") center center/auto 100% no-repeat;
+      transition: transform .3s;
+    }
+
+    .detail-click .arrowdown {
+      transform: rotate(90deg);
     }
 
     .detail-click .arrowup {
-      display: inline-block;
-      width: 1em;
-      height: .5em;
-      margin-left: .5em;
-      background: url("../../asset/images/arrow-up-white.svg") center center/1em auto no-repeat;
+      transform: rotate(-90deg);
     }
   }
 }
@@ -91,6 +99,7 @@
 
   .validity {
     line-height: 1.4em;
+    margin-bottom: 1em;
     text-align: center;
 
     &-date {
@@ -105,7 +114,7 @@
 
 .downrow {
   display: none;
-  padding: 1em;
+  padding: .5em 1em;
   background: $color-white;
 
   &.show {
@@ -120,9 +129,10 @@
 
   &-item {
     font-size: 13px;
-    line-height: 1.4em;
+    line-height: 1.6em;
     position: relative;
     padding-left: 1em;
+    white-space: pre-wrap;
     color: #666;
 
     &::before {

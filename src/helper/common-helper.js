@@ -22,7 +22,7 @@ exports.getUrlParam = param => {
 };
 
 // 将多个url参数组成字符串
-exports.getUrlParams = paramObj => {
+exports.formateObjToParamStr = paramObj => {
   let paramStr = '';
   for (let i in paramObj) {
     paramStr += `${i}=${paramObj[i]}&`;
@@ -89,6 +89,12 @@ exports.getWeixinVersionInfo = () => {
     result.version = match[1];
   }
   return result;
+};
+
+exports.isAlipayBroswer = () => {
+  const ua = navigator.userAgent.toLowerCase();
+  const isAlipay = ua.indexOf('aliapp') !== -1;
+  return isAlipay;
 };
 
 exports.interValSetting = (num, timerEnd) => {
@@ -216,8 +222,8 @@ exports.renderDay = (week) => {
       }
     }
   }
-  if (strDay === '周六到周日') {
-    return '周末';
+  if (strDay === '周六到周日，') {
+    return '周末，';
   }
   return strDay;
 };

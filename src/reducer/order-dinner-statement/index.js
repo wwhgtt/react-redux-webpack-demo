@@ -23,6 +23,7 @@ module.exports = function (
       isSupportReceipt:true,
       carryRuleVO:null,
       receipt:null,
+      hasPriviledge:false,
     },
     serviceProps:{
       diningForm:0,
@@ -67,6 +68,7 @@ module.exports = function (
       .setIn(['customerProps', 'dineTableProp'], { area:payload.tableArea, table: payload.tableName })
       .setIn(['commercialProps', 'shopLogo'], payload.shopLogo)
       .setIn(['commercialProps', 'shopName'], payload.shopName)
+      .setIn(['commercialProps', 'hasPriviledge'], payload.hasPriviledge)
       .setIn(['commercialProps', 'isSupportReceipt'], payload.isInvoice)
       .setIn(['commercialProps', 'receipt'], payload.invoice)
       .setIn(['commercialProps', 'carryRuleVO'], payload.carryRuleVO && payload.carryRuleVO.transferType ?
@@ -97,7 +99,7 @@ module.exports = function (
        .setIn(['serviceProps', 'benefitProps', 'totalAmount'], payload.totalAmount);
     }
     case 'SET_COUPONS_TO_ORDER':
-      return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], payload);
+      return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], helper.handleWeixinCard(payload));
     case 'SET_DISCOUNT_TO_ORDER':
       if (payload.isDiscount && payload.isMember && !state.serviceProps.benefitProps.isPriviledge) {
         return state.setIn(
@@ -146,6 +148,14 @@ module.exports = function (
             return state.setIn(
             ['serviceProps', 'couponsProps', 'inUseCoupon'], true
           )
+            .setIn(
+              ['serviceProps', 'couponsProps', 'inUseCouponDetail'],
+              selectedCoupon
+            );
+          } else if (!selectedCoupon.coupRuleBeanList.length && !selectedCoupon.coupDishBeanList.length && selectedCoupon.weixinValue) {
+            return state.setIn(
+              ['serviceProps', 'couponsProps', 'inUseCoupon'], true
+            )
             .setIn(
               ['serviceProps', 'couponsProps', 'inUseCouponDetail'],
               selectedCoupon
