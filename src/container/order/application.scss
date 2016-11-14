@@ -190,6 +190,10 @@
 .adjust-option {
   line-height: 27px;
   height: 60px;
+
+  &:last-child::after {
+    display: none !important;
+  }
 }
 
 .order-dish-price {
@@ -249,8 +253,15 @@
 
 .note-receipt {
   margin-bottom: 20px;
-  border-top: 1px solid #e3e3e3;
   border-bottom: 1px solid #e3e3e3 !important;
+
+  &::before {
+    display: none !important;
+  }
+
+  &::after {
+    display: none !important;
+  }
 }
 
 .customerInfo-editor {
