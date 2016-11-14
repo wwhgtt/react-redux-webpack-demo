@@ -83,7 +83,7 @@ const OrderDinnerStateMentApplication = React.createClass({
     const { setOrderProps, clearErrorMsg } = this.props;// actions
     const hasPriviledge = commercialProps.hasPriviledge;
     return (
-      <div className="application flex-column">
+      <div className="application flex-columns">
         <div className="flex-rest">
           <div className="options-group options-head">
             <a className="option option-shop">
