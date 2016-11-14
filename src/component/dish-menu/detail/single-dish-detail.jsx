@@ -68,6 +68,9 @@ module.exports = React.createClass({
       newCountForDetail
     ) });
   },
+  onRecalcPrice(price, count) {
+    return count <= 0 ? 0 : (price / count).toFixed(2);
+  },
   onSelectPropsOption(propData, optionData) {
     const dishForDetail = this.state.dish;
     let propIdx = -1;
@@ -144,7 +147,7 @@ module.exports = React.createClass({
     const { dish, ruleDish } = this.state;
     return (
       <div className="single-dish-detail flex-columns">
-        <DishDetailHead dish={dish} onCountChange={this.onDishItemCountChange} />
+        <DishDetailHead dish={dish} onCountChange={this.onDishItemCountChange} onRecalcPrice={this.onRecalcPrice} />
         <DishPropsSelect
           onSelectPropsOption={this.onSelectPropsOption} dish={dish} dishData={ruleDish || this.props.dish} onDishRuleChecked={this.setDishRuleProps}
         />

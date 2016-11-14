@@ -22,7 +22,7 @@ module.exports = React.createClass({
     const isGroupDish = helper.isGroupDish(dish);
 
     return (
-      <div className={classnames('dish-detail-container', { 'single-dish-detail-all': !isGroupDish })}>
+      <div className={classnames('dish-detail-container', { 'single-dish-detail-all': !isGroupDish, 'group-dish-detail-all': isGroupDish })}>
         <div className="dish-detail-close" onTouchTap={this.onCloseBtnTap}>
           <a className="btn-close"></a>
         </div>

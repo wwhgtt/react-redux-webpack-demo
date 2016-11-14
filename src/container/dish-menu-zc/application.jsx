@@ -127,11 +127,12 @@ const DishMenuZcApplication = React.createClass({
 
     return (
       <div className="application">
-        {(enableMemberRegistry && isMember === false) &&
-          <div className="register notice">
-            <a href={`/member/register${location.search}&returnUrl=${encodeURIComponent(location.href)}`}>去注册</a>
-            <p>注册会员享受更多福利哟～</p>
-          </div>
+        { // 临时取消注册
+          (enableMemberRegistry && isMember === false && false) &&
+            <div className="register notice">
+              <a href={`/member/register${location.search}&returnUrl=${encodeURIComponent(location.href)}`}>去注册</a>
+              <p>注册会员享受更多福利哟～</p>
+            </div>
         }
         <div className="main">
           <DishMesthead
