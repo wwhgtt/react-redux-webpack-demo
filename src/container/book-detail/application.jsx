@@ -29,8 +29,8 @@ const BookDetailApplication = React.createClass({
     return { showBill:false, shopLogo:shopLogoDefault };
   },
   componentWillMount() {
-    const { getBookDetail, getBookInfo } = this.props;
-    getBookDetail().then(getBookInfo);
+    const { getBookDetail } = this.props;
+    getBookDetail();
   },
   componentWillReceiveProps(nextProps) {
     const { bookDetail } = this.props;
