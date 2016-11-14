@@ -45,7 +45,7 @@ module.exports = React.createClass({
             className={classnames('option-get-dish', { 'option-get-dish-checked':serviceProps.isPickupFromFrontDesk.isChecked })}
             onTouchTap={evt => this.onSelectOption('pickup')}
           >
-            前台取餐
+            前台自取
           </span>
           :
           false
