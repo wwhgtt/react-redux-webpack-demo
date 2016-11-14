@@ -14,7 +14,7 @@ module.exports = {
       totalAmount:46.29,
       diningForm:0, // 0-正餐，1-快餐
       isInvoice:1, // 是否发票
-      invoice:'2321321',
+      invoice:'',
       allowCheck: false,
       carryRuleVO:// 进位规则
       {
