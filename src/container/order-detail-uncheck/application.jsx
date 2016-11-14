@@ -95,7 +95,7 @@ const OrderDetailInApplication = React.createClass({
             <span className="shop-edit" onTouchTap={this.handleDishMenu}>继续点菜</span>
           </div>
           <div className="flex-rest">
-            {orderDetail.orderMetas && orderDetail.orderMetas.length > 0 && <p className="order-block-title">加菜订单</p>}
+            {orderDetail.orderMetas && orderDetail.orderMetas.length > 0 && <p className="order-block-title">加菜单</p>}
             {
               orderDetail.orderMetas &&
               orderDetail.orderMetas.map((item, index) =>

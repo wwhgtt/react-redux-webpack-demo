@@ -228,8 +228,8 @@ const OrderTSCartApplication = React.createClass({
 
     const data = { shopId };
     const { member, peopleCount, memo, mainOrderId } = this.props.orderTSCart;
-    const { dishesData } = this.props.dishMenu;
-    if (!dishesData || !dishesData.length) {
+    const { dishesDataDuplicate } = this.props.dishMenu;
+    if (!dishesDataDuplicate || !dishesDataDuplicate.length) {
       this.setErrorMsg('请点餐');
       return;
     }
@@ -243,11 +243,11 @@ const OrderTSCartApplication = React.createClass({
       tableId: tableId || '',
       mainOrderId: mainOrderId || -1,
       payMethod: 1,
-      needPayPrice: dishHelper.getDishesPrice(dishesData),
+      needPayPrice: dishHelper.getDishesPrice(dishesDataDuplicate),
       serviceApproach: 'totable',
     });
-
-    Object.assign(data, getSubmitDishData(dishesData, parseInt(shopId, 10) || 0));
+    // console.log(getSubmitDishData(dishesDataDuplicate, parseInt(shopId, 10) || 0))
+    Object.assign(data, getSubmitDishData(dishesDataDuplicate, parseInt(shopId, 10) || 0));
     this.props.submitOrder(tableKey, data, this.setLoadingInfo, this.setErrorMsg);
   },
   buildButtonGroupElement(tableId, tableKey, shopSetting) {
@@ -322,7 +322,7 @@ const OrderTSCartApplication = React.createClass({
     return (
       <div className="weixin-login">
         <a className="option-user">
-          <img className="option-user-icon" src={member.wxIconUri || defaultPersonLogo} alt="用户头像" />
+          <img className="option-user-icon" src={member.iconUri || defaultPersonLogo} alt="用户头像" />
           <p className="option-user-name">{nameSex}</p>
         </a>
       </div>
