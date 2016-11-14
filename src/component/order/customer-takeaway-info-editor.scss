@@ -47,13 +47,6 @@
     padding: 15px 65px 14px 15px;
     text-decoration: none;
 
-    &::after {
-      @include border-thin(bottom);
-
-      bottom: 0;
-      border-bottom: bordersolid(1, #e3e3e3);
-    }
-
     &.is-checked {
       &::before {
         position: absolute;

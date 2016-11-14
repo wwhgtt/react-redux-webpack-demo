@@ -81,6 +81,7 @@ const OrderDinnerStateMentApplication = React.createClass({
   render() {
     const { commercialProps, customerProps, serviceProps, orderedDishesProps, childView, errorMessage } = this.props; // state
     const { setOrderProps, clearErrorMsg } = this.props;// actions
+    const hasPriviledge = commercialProps.hasPriviledge;
     return (
       <div className="application">
         <div className="options-group options-head">
@@ -111,8 +112,8 @@ const OrderDinnerStateMentApplication = React.createClass({
                 className="option-input"
                 name="receipt"
                 maxLength="35"
-                disabled={commercialProps.receipt || serviceProps.benefitProps.isPriviledge}
-                placeholder={commercialProps.receipt || '请输入个人或公司抬头'}
+                disabled={commercialProps.receipt || serviceProps.benefitProps.isPriviledge || hasPriviledge}
+                placeholder={commercialProps.receipt || (hasPriviledge ? '已经有优惠不能输入' : '请输入个人或公司抬头')}
                 onChange={this.noteOrReceiptChange}
               />
             </label>

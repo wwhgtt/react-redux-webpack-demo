@@ -55,6 +55,10 @@ module.exports = React.createClass({
     const dishesPrice = orderedDishesProps.dishes && orderedDishesProps.dishes.length ? getDishesPrice(orderedDishesProps.dishes) : 0;
     if (!orderedDishesProps.dishes || !orderedDishesProps.dishes.length) return false;
 
+    let hasPriviledge = false;
+    if (commercialProps.hasOwnProperty) {
+      hasPriviledge = commercialProps.hasPriviledge;
+    }
     const orderedElements = this.buildOrderedElements(orderedDishesProps.dishes);
     return (
       <div className="order-summary-cart">
@@ -116,7 +120,7 @@ module.exports = React.createClass({
           <div
             className={
               classnames('benefit-options', {
-                'benefit-none': !serviceProps.couponsProps.couponsList && !serviceProps.integralsInfo,
+                'benefit-none': !serviceProps.couponsProps.couponsList && !serviceProps.integralsInfo || hasPriviledge,
               })
             }
           >

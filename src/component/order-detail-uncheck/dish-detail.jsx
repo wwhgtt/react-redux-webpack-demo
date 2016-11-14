@@ -51,7 +51,7 @@ const DishDetail = React.createClass({
             >
             {mainDish.dishName}
             </a>
-            <span className="dish-price price ellipsis">{mainDish.price}</span>
+            <span className="dish-price price ellipsis">{mainDish.price < 0 ? 0 : mainDish.price}</span>
             <span className="dish-count ellipsis">x{mainDish.num}</span>
             {
               mainDish.memo && !mainDish.subDishItems && expand && <p className="dish-memo">{mainDish.memo}</p>
