@@ -9,7 +9,7 @@ module.exports = {
       tableArea:'大厅区', // 桌台区域
       tableName:'9号桌', // 桌台
       isMember:true, // 是否会员
-      hasPriviledge:true,
+      hasPriviledge:false,
       priviledgeAmount:4604.29,
       totalAmount:46.29,
       diningForm:0, // 0-正餐，1-快餐
