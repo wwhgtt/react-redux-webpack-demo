@@ -150,6 +150,9 @@ module.exports = React.createClass({
             // 需要考虑length为1  且菜品信息clearStatus不为1的情况
             return false;
           }
+
+          const length = dishTypeData.dishIds.length;
+
           return (
             [
               <li
@@ -160,12 +163,12 @@ module.exports = React.createClass({
                 {getDishTypeTitle(dishTypeData)}
               </li>,
             ].concat(
-              dishTypeData.dishIds.map(dishId => {
+              dishTypeData.dishIds.map((dishId, i) => {
                 this._counter++;
                 const dishData = getDishById(dishId);
                 const { distance } = this.state;
                 return (
-                  <li className="dish-item-dish">
+                  <li className={classnames('dish-item-dish', { 'last-item': i === length - 1 })}>
                     {
                       this._counter - 1 <= ((distance - (Number(this.showingDishLength) || 1) * 30) / 88).toFixed(0) ?
                         <DishListItem
