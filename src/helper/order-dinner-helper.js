@@ -107,6 +107,5 @@ exports.reconstructDishes = (dishes) => {
       }
     }
   }
-  console.log(dishes);
   return dishes.filter(dish => !dish.isDelete);
 };
