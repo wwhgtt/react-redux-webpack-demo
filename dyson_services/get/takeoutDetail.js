@@ -12,13 +12,13 @@ module.exports = {
       tradePrivilegeAmount: -5,  // 订单总的优惠金额
       businessType:1, // 1: 快餐 3：正餐
       orderNumber: '302161109194026000001', // 订单编号
-      address: '天府大道xxx', // 配送地址 （前端直接展示）
+      address: '天府大道法师打发斯蒂芬阿斯顿发生大幅度发', // 配送地址 （前端直接展示）
       expectTime: '2015-3-3 10:01:01', // 期望时间 （前端直接展示）
       deliveryFee: 5.0, // 配送费
       mobile: '15578787788', // 手机
       name: 'Alex', // 姓名
       tradeFailReason: '理由哟',
-      memo:'', // 订单备注
+      memo:'大方的说法是对方付阿萨德发送到发送到发送到分阿萨德法师打发', // 订单备注
       invoiceTitle: '', // 发票抬头
       tableArea: '大厅区', // 桌台区域
       tradePayForm: 1, // 1: 线下支付，3：在线支付
