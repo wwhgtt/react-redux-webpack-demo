@@ -35,7 +35,7 @@
 .single-dish-detail {
   .dish-detail-head {
     line-height: 25px;
-    padding: 20px 15px 10px;
+    padding: 22px 15px 10px;
     border-bottom: none;
 
     .counter {
@@ -51,11 +51,22 @@
       display: none;
     }
   }
+
+  .dish-name > .price {
+    font-size: 18px;
+    display: inline-block;
+    color: $color-neon-carrot;
+
+    &::before {
+      font-size: 14px;
+      margin-right: 2px;
+    }
+  }
 }
 
 .single-dish-detail-all {
   .btn-close {
-    top: 65px !important;
+    top: 70px !important;
     right: 10px !important;
     background: $color-white !important;
 
@@ -65,11 +76,11 @@
     }
 
     &::before {
-      width: 30px !important;
+      width: 28px !important;
     }
 
     &::after {
-      height: 30px !important;
+      height: 28px !important;
     }
   }
 
@@ -84,5 +95,4 @@
     font-size: 13px;
   }
 }
-
 
