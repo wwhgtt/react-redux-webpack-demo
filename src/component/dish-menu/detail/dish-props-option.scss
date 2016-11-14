@@ -4,25 +4,25 @@
 .dish-porps-option {
   $extar-max-width: 50px;
 
-  font-size: 12px;
-  line-height: 16px;
+  font-size: 14px;
+  line-height: 34px;
   float: left;
-  width: 49%;
-  margin-bottom: 8px;
-  padding: 10px 6px;
+  width: calc(50% - 7px);
+  margin-bottom: 10px;
+  padding: 0 6px;
   color: $color-dove-grey;
-  border: 1px solid $color-gallery;
-  border-radius: 3px;
+  border: 1px solid $color-mercury;
+  border-radius: 5px;
   background: $color-white;
 
   &:nth-of-type(2n-1) {
-    margin-right: 2%;
+    margin-right: 14px;
   }
 
   &.is-checked {
     color: $color-white;
-    border-color: $color-neon-carrot;
-    background: $color-neon-carrot;
+    border-color: $color-orange-red;
+    background: $color-orange-red;
   }
 
   > .name {
