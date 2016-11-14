@@ -35,7 +35,7 @@ const DinnerDetailApplication = React.createClass({
   componentWillReceiveProps(nextProps) {
     const { dinnerDetail } = nextProps;
     if (dinnerDetail.dateTime) {
-      const countDownOri = 900000 - (parseInt(new Date().getTime(), 10) - parseInt(dinnerDetail.dateTime, 10));
+      const countDownOri = 300000 - (parseInt(new Date().getTime(), 10) - parseInt(dinnerDetail.dateTime, 10));
       if (countDownOri > 0 && countDownOri <= 900000 && dinnerDetail.status === '订单待支付') {
         this.setState({ countDown: countDownOri });
       }
@@ -53,7 +53,10 @@ const DinnerDetailApplication = React.createClass({
         }, 1000);
       } else {
         clearInterval(this.countDownInteval);
-        this.props.getDinnerDetail();
+        if (!this.isReGetInfo) {
+          this.props.getDinnerDetail();
+          this.isReGetInfo = true;
+        }
       }
     } else {
       clearInterval(this.countDownInteval);

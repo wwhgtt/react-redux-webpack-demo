@@ -45,6 +45,7 @@ const TakeoutDetailApplication = React.createClass({
   componentDidUpdate(prevProps, prevState) {
     const { takeoutDetail } = this.props;
     const { countDown } = this.state;
+
     if (takeoutDetail.status === '订单待支付') {
       clearInterval(this.countDownInteval);
       if (countDown > 1000 && countDown <= 900000) {
@@ -53,7 +54,10 @@ const TakeoutDetailApplication = React.createClass({
         }, 1000);
       } else {
         clearInterval(this.countDownInteval);
-        this.props.getTakeoutDetail();
+        if (!this.isReGetInfo) {
+          this.props.getTakeoutDetail();
+          this.isReGetInfo = true;
+        }
       }
     } else {
       clearInterval(this.countDownInteval);
