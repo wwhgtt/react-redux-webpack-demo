@@ -122,7 +122,10 @@ module.exports = React.createClass({
           >
             {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length
               && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 ?
-              <a className="option division" href="#coupon-select">
+              <a
+                className={classnames('option', 'division', { 'only-coupon':!serviceProps.integralsInfo || serviceProps.diningForm === 0 })}
+                href="#coupon-select"
+              >
                 <span className="option-title temporary-coupon">使用优惠券</span>
                 <span className="badge-coupon">
                   {serviceProps.couponsProps.inUseCoupon ?
