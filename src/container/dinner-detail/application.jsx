@@ -24,7 +24,7 @@ const DinnerDetailApplication = React.createClass({
 
   getInitialState() {
     return {
-      countDown: 900000,
+      countDown: 0,
     };
   },
 
@@ -36,7 +36,9 @@ const DinnerDetailApplication = React.createClass({
     const { dinnerDetail } = nextProps;
     if (dinnerDetail.dateTime) {
       const countDownOri = 900000 - (parseInt(new Date().getTime(), 10) - parseInt(dinnerDetail.dateTime, 10));
-      this.setState({ countDown: countDownOri });
+      if (countDownOri > 0 && countDownOri <= 900000 && dinnerDetail.status === '订单待支付') {
+        this.setState({ countDown: countDownOri });
+      }
     }
   },
 
@@ -53,6 +55,8 @@ const DinnerDetailApplication = React.createClass({
         clearInterval(this.countDownInteval);
         this.props.getDinnerDetail();
       }
+    } else {
+      clearInterval(this.countDownInteval);
     }
   },
 
@@ -211,7 +215,7 @@ const DinnerDetailApplication = React.createClass({
           </div>
           <div className="btn-oparate flex-none">
             <div className="flex-row">
-              <a className="btn-oparate-more" href={`http://${location.host}/orderall/selectDish?shopId=${shopId}`}>再来一单</a>
+              <a className="btn-oparate-more" href={`http://${location.host}/orderall/selectDish?shopId=${shopId}&type=TS`}>再来一单</a>
               {dinnerDetail.businessType === 1 && (dinnerDetail.status === '订单待支付' || dinnerDetail.status === '订单支付失败') &&
                 <a
                   className="btn-oparate-count"
