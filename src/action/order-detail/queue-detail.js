@@ -9,11 +9,11 @@ const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error =>
 const setRefresh = exports.setRefresh = createAction('SET_REFRESH', isRefresh => isRefresh);
 
 const shopId = helper.getUrlParam('shopId');
-const orderId = helper.getUrlParam('orderId');
+const orderSyn = helper.getUrlParam('orderSyn');
 
 // 获取排队信息
 const getQueueInfo = exports.getQueueInfo = () => (dispatch, getStates) => {
-  const getQueueInfoURL = `${config.getQueueInfoAPI}?shopId=${shopId}&orderId=${orderId}`;
+  const getQueueInfoURL = `${config.getQueueInfoAPI}?shopId=${shopId}&orderSyn=${orderSyn}`;
   fetch(getQueueInfoURL, config.requestOptions).
   then(res => {
     if (!res.ok) {
@@ -35,7 +35,7 @@ const getQueueInfo = exports.getQueueInfo = () => (dispatch, getStates) => {
 
 // 取消排队
 exports.cancelQueue = () => (dispatch, getStates) => {
-  const cancelQueueURL = `${config.cancelQueueAPI}?shopId=${shopId}&orderId=${orderId}`;
+  const cancelQueueURL = `${config.cancelQueueAPI}?shopId=${shopId}&orderSyn=${orderSyn}`;
   fetch(cancelQueueURL, config.requestOptions).
   then(res => {
     if (!res.ok) {
