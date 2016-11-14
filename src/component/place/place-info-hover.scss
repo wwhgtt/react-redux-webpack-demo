@@ -18,6 +18,11 @@
     background: rgba(0, 0, 0, .5);
   }
 
+  .option {
+    font-size: 15px;
+    padding: .75em 1em;
+  }
+
   &-content {
     position: absolute;
     right: 0;
@@ -40,7 +45,6 @@
     padding: 1em 0;
     text-align: center;
     color: #474747;
-    border-bottom: 1px solid #eaeaea;
   }
 
   .bill-close {
@@ -57,11 +61,6 @@
 .options-group.options-group-spe {
   margin: 1em 0 2em;
   background: #fff;
-
-  .option {
-    font-size: 15px;
-    padding: 1em 0;
-  }
 }
 
 .totalPrice {
@@ -87,7 +86,7 @@
 }
 
 // 效果
-.slideup-enter {
+.slideuphover-enter {
   .float-layer-hover {
     opacity: 0;
   }
@@ -109,7 +108,7 @@
   }
 }
 
-.slideup-leave {
+.slideuphover-leave {
   .float-layer-hover {
     opacity: 1;
   }

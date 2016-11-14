@@ -80,7 +80,7 @@ module.exports = React.createClass({
     }
 
     let data = customerAddressListInfo.data;
-    const addressCount = data.inList.length + data.outList.length;
+    const addressCount = data.inList.length + (data.outList || []).length;
     const { toShopInfo } = data;
     if (toShopInfo.toShopFlag) {
       data = data.update('inList', list => list.concat([], {
@@ -106,7 +106,7 @@ module.exports = React.createClass({
     });
   },
   buildAddressElement() {
-    const { inList, outList } = this.state.addressListInfo;
+    const { inList, outList = [] } = this.state.addressListInfo;
     const elems = [];
     const totalAddressCount = inList.length + outList.length;
     const addressListToOptionsData = addressList => addressList.map(item => {

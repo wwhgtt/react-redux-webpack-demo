@@ -9,8 +9,8 @@ const setAccumulationInfo = createAction('SET_ACCUMULATION_INFO', info => info);
 const shopId = getUrlParam('shopId');
 
 // 获取基本信息
-exports.fetchAccumulationInfo = () => (dispatch, getStates) => {
-  fetch(`${config.getIntegralAPI}?shopId=${shopId}`, config.requestOptions)
+exports.fetchAccumulationInfo = (currentPage) => (dispatch, getStates) => {
+  fetch(`${config.getIntegralAPI}?shopId=${shopId}&currentPage=${currentPage}`, config.requestOptions)
     .then(res => {
       if (!res.ok) {
         return false;

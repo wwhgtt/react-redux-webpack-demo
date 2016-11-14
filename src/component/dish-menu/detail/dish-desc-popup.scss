@@ -10,9 +10,19 @@
 
   &-image {
     display: block;
-    height: 40vh;
-    background-repeat: no-repeat;
+    overflow: hidden;
+    height: 42vh;
+    background: url("../../../asset/images/dish-placeholder-large.png") no-repeat center center;
     background-size: cover;
+
+    img {
+      visibility: hidden;
+      width: 100%;
+    }
+
+    .loaded {
+      visibility: visible;
+    }
   }
 
   &-content {
@@ -21,23 +31,25 @@
   }
 
   &-info {
-    padding: 15px;
+    padding: 13px 15px;
   }
 
   &-title {
-    font-size: 23px;
-    font-weight: normal;
-    line-height: 1;
-    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 25px;
+    margin-bottom: 5px;
     color: $color-abbey;
   }
 
   &-price {
+    line-height: 30px;
+
     &--del {
       font-size: 14px;
       line-height: $price-line-height;
       display: inline-block;
-      margin-right: 10px;
+      margin-right: 5px;
       color: $color-dusty-grey;
       background-image:
         linear-gradient(
@@ -57,14 +69,14 @@
     }
 
     &--bold {
-      font-size: 45px;
-      font-weight: 200;
+      font-size: 24px;
+      font-weight: 500;
       float: left;
-      margin-right: 10px;
+      margin-right: 5px;
       color: $color-neon-carrot;
 
       &::before {
-        font-size: 23px;
+        font-size: 15px;
         margin-right: 3px;
       }
     }
@@ -83,13 +95,13 @@
   }
 
   &-subtitle {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: normal;
     margin-top: 10px;
     margin-bottom: 10px;
-    padding-top: 20px;
+    padding-top: 15px;
     color: $color-abbey;
-    border-top: 1px solid $color-mystic;
+    box-shadow: 0 -1px 0 0 $color-mercury;
   }
 
   &-desc {

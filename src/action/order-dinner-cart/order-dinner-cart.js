@@ -153,9 +153,9 @@ exports.fetchLastOrderedDishes = () => (dispatch, getState) => {
 
 exports.setOrderDish = (dishData, increment) => (dispatch, getStates) => {
   dispatch(_setOrderDish(dishData, increment));
-  const dishesData = getStates().dishMenu.dishesData;
+  const dishesData = getStates().dishMenu.dishesDataDuplicate;
   const count = getDishesCount(dishesData);
-  storeDishesLocalStorage(dishesData, dishes => dishes);
+  storeDishesLocalStorage(dishesData, getStates().orderTSCart, dishes => dishes);
   if (count === 0) {
     clearDishesLocalStorage();
     gotoDishMenuPage();

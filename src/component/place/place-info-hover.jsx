@@ -1,30 +1,41 @@
 const React = require('react');
 require('./place-info-hover.scss');
-const DishDetail = require('../../component/order-detail-uncheck/dish-detail.jsx');
+const PlaceInfoMainItem = require('./place-info-main-item.jsx');
+const shallowCompare = require('react-addons-shallow-compare');
 
 module.exports = React.createClass({ // ShowBasicInfo
   displayName: 'ShowBasicInfo',
   propTypes:{
-    orderDetail:React.PropTypes.object,
+    bookInfoItemList:React.PropTypes.array,
+    bookDetail:React.PropTypes.object,
     setHoverState:React.PropTypes.func,
   },
   getInitialState() {
-    return {};
+    return { totalPrice:0, totalNum:0 };
   },
-  componentWillMount() {},
+  componentWillMount() {
+    this.arrayPrice = [];
+    this.arrayNum = [];
+  },
   componentDidMount() {},
-  setTotalPrice(orderDetail) {
-    let totalPrice = 0;
-    let totalPart = 0;
-    if (orderDetail.orderMetas) {
-      orderDetail.orderMetas.forEach((item, index) => {
-        item.dishItems.forEach((itemt, indext) => {
-          totalPrice += itemt.price || 0;
-          totalPart += itemt.num || 0;
-        });
-      });
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  },
+  getEveryPrice(price) {
+    this.arrayPrice.push(+price);
+    if (this.arrayPrice.length === this.props.bookInfoItemList.length) {
+      setTimeout(() => {
+        this.setState({ totalPrice:this.arrayPrice.reduce((a, b) => a + b) });
+      }, 500);
     }
-    return { totalPrice:totalPrice.toFixed(2), totalPart };
+  },
+  getEveryNum(num) {
+    this.arrayNum.push(+num);
+    if (this.arrayNum.length === this.props.bookInfoItemList.length) {
+      setTimeout(() => {
+        this.setState({ totalNum:this.arrayNum.reduce((a, b) => a + b) });
+      }, 500);
+    }
   },
   closeHover(bool, e) {
     e.preventDefault();
@@ -32,8 +43,8 @@ module.exports = React.createClass({ // ShowBasicInfo
     setHoverState(bool);
   },
   render() {
-    const { orderDetail } = this.props;
-    const total = this.setTotalPrice(orderDetail);
+    const { bookInfoItemList, bookDetail } = this.props;
+    const { totalPrice, totalNum } = this.state;
     return (
       <div className="float-layer">
         <div className="float-layer-hover"></div>
@@ -43,25 +54,23 @@ module.exports = React.createClass({ // ShowBasicInfo
               菜单信息
               <i className="bill-close" onTouchTap={(e) => this.closeHover(false, e)}></i>
             </p>
-            <div className="order-list-outer">
+            <div className="order-list-outer options-group">
               {
-                orderDetail.orderMetas && orderDetail.orderMetas.length > 0 &&
-                orderDetail.orderMetas.map((item, index) =>
-                  item.dishItems.map((itemt, indext) =>
-                    <DishDetail mainDish={itemt} key={indext} />
-                  )
+                bookInfoItemList && bookInfoItemList.length > 0 &&
+                bookInfoItemList.map((item, index) =>
+                  <PlaceInfoMainItem mainDish={item} setPrice={this.getEveryPrice} setNumber={this.getEveryNum} key={index} />
                 )
               }
             </div>
             <div className="totalPrice">
-              <span className="part">共{total.totalPart}份</span>
-              总计：<span className="num price">{total.totalPrice}</span>
+              <span className="part">共{totalNum}份</span>
+              总计：<span className="num price">{totalPrice.toFixed(2)}</span>
             </div>
           </div>
           <div className="options-group options-group-spe">
             <div className="option">
               <span className="option-title">备注</span>
-              <div className="option-content">我是徐大宝宝</div>
+              <div className="option-content">{bookDetail.memo}</div>
             </div>
           </div>
           <div className="copyright"></div>
