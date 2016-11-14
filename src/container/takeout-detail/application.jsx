@@ -58,11 +58,11 @@ const TakeoutDetailApplication = React.createClass({
 
   // 支付方式
   getPayMethod() {
-    const payMethodStr = String(this.props.takeoutDetail.tradePayForm);
+    const payMethodStr = this.props.takeoutDetail.tradePayForm;
     let payMethod = '';
-    if (payMethodStr === '1') {
+    if (payMethodStr === 'OFFLINE') {
       payMethod = '线下支付';
-    } else if (payMethodStr === '3') {
+    } else if (payMethodStr === 'ONLINE') {
       payMethod = '在线支付';
     }
 
@@ -79,6 +79,14 @@ const TakeoutDetailApplication = React.createClass({
       sex = '先生';
     }
     return sex;
+  },
+
+  getOriginPrice() {
+    const { takeoutDetail } = this.props;
+    const privalegePrice = Math.abs(takeoutDetail.tradePrivilegeAmount) * 100 || 0;
+    const totalPrice = Math.abs(takeoutDetail.tradeAmount) * 100 || 0;
+    const originPrice = (totalPrice + privalegePrice) / 100 || 0;
+    return originPrice;
   },
 
   formatCuntDown(countDown) {
@@ -175,7 +183,7 @@ const TakeoutDetailApplication = React.createClass({
             <div className="list-statictis">
               <div className="flex-row">
                 <div className="flex-row-item list-statictis-title">原价
-                  <span className="price">{(takeoutDetail.tradeAmount || 0) + Math.abs(takeoutDetail.tradePrivilegeAmount || 0)}</span>
+                  <span className="price">{this.getOriginPrice()}</span>
                 </div>
                 <div className="flex-row-item list-statictis-title">共优惠
                   <span className="price">{Math.abs(takeoutDetail.tradePrivilegeAmount || 0)}</span>

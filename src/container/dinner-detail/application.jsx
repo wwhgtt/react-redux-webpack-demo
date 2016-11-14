@@ -58,15 +58,23 @@ const DinnerDetailApplication = React.createClass({
 
   // 支付方式
   getPayMethod() {
-    const payMethodStr = String(this.props.dinnerDetail.tradePayForm);
+    const payMethodStr = this.props.dinnerDetail.tradePayForm;
     let payMethod = '';
-    if (payMethodStr === '1') {
+    if (payMethodStr === 'OFFLINE') {
       payMethod = '线下支付';
-    } else if (payMethodStr === '3') {
+    } else if (payMethodStr === 'ONLINE') {
       payMethod = '在线支付';
     }
 
     return payMethod;
+  },
+
+  getOriginPrice() {
+    const { dinnerDetail } = this.props;
+    const privalegePrice = Math.abs(dinnerDetail.tradePrivilegeAmount) * 100 || 0;
+    const totalPrice = Math.abs(dinnerDetail.tradeAmount) * 100 || 0;
+    const originPrice = (totalPrice + privalegePrice) / 100 || 0;
+    return originPrice;
   },
 
   formatCuntDown(countDown) {
@@ -159,7 +167,7 @@ const DinnerDetailApplication = React.createClass({
             <div className="list-statictis">
               <div className="flex-row">
                 <div className="flex-row-item list-statictis-title">原价
-                  <span className="price">{(dinnerDetail.tradeAmount || 0) + Math.abs(dinnerDetail.tradePrivilegeAmount || 0)}</span>
+                  <span className="price">{this.getOriginPrice()}</span>
                 </div>
                 <div className="flex-row-item list-statictis-title">共优惠
                   <span className="price">{Math.abs(dinnerDetail.tradePrivilegeAmount || 0)}</span>
