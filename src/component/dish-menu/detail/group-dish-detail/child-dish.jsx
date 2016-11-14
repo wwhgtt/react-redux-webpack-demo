@@ -139,7 +139,7 @@ module.exports = React.createClass({
       <div className="child-dish">
         <div className="dish-name-wrap">
           <div className="dish-name">
-            {dish.unitName ? `${dish.name}/${dish.unitName}` : dish.name}
+            {helper.generateDishNameWithUnit(dish)}
             {marketPrice !== 0 ? <span className="badge-price">{marketPrice > 0 ? '+' : ''}{marketPrice}元</span> : false}
             {dish.isReplace ? <span className="badge-bi"></span> : false}
           </div>

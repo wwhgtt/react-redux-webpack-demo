@@ -402,11 +402,11 @@ exports.generateDishNameWithUnit = (dishData) => {
     const avaliableDishProps = dishData.dishPropertyTypeInfos.filter(prop => prop.type === 4);
     if (avaliableDishProps.length) {
       const properties = avaliableDishProps.map(prop => prop.properties[0].name).join(', ');
-      return `${dishData.name}(${properties})/${dishData.unitName}`;
+      return dishData.unitName ? `${dishData.name}(${properties})/${dishData.unitName}` : `${dishData.name}(${properties})`;
     }
-    return `${dishData.name}/${dishData.unitName}`;
+    return dishData.unitName ? `${dishData.name}/${dishData.unitName}` : dishData.name;
   }
-  return `${dishData.name}/${dishData.unitName}`;
+  return dishData.unitName ? `${dishData.name}/${dishData.unitName}` : dishData.name;
 };
 
 exports.formatOpenTime = (openTimeList, isWeekend) => {
