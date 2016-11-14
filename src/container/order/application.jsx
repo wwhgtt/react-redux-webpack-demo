@@ -492,12 +492,12 @@ const OrderApplication = React.createClass({
           <div className="options-group">
             <label className="option adjust-option">
               <span className="option-title">备注 </span>
-              <input className="option-input" name="note" placeholder="请输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />
+              <input className="option-input input-font" name="note" placeholder="请输入备注" maxLength="35" onChange={this.noteOrReceiptChange} />
             </label>
             {commercialProps && commercialProps.isSupportInvoice === 1 ?
               <label className="option adjust-option">
                 <span className="option-title">发票 </span>
-                <input className="option-input" name="receipt" placeholder="请输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
+                <input className="option-input input-font" name="receipt" placeholder="请输入个人或公司抬头" onChange={this.noteOrReceiptChange} />
               </label>
               :
               false
