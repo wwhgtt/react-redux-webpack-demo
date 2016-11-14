@@ -87,14 +87,14 @@ const OrderDetailInApplication = React.createClass({
     }
     return (
       <div className="application flex-columns">
-        <div className="application-content">
+        <div className="application-content flex-rest">
           <p className="shop-name ellipsis">{orderInfo.shopName}</p>
           <div className="shop-method of">
             <span className="shop-orderNo ellipsis">流水号{orderInfo.orderNo}</span>
             <span className="shop-table ellipsis">{orderInfo.deskNo.area + orderInfo.deskNo.table}</span>
             <span className="shop-edit" onTouchTap={this.handleDishMenu}>继续点菜</span>
           </div>
-          <div className="flex-rest">
+          <div>
             {orderDetail.orderMetas && orderDetail.orderMetas.length > 0 && <p className="order-block-title">加菜单</p>}
             {
               orderDetail.orderMetas &&
@@ -163,20 +163,20 @@ const OrderDetailInApplication = React.createClass({
             }
 
           </div>
-          <div className="order-operate flex-none">
-            <div className={`${btnDis} flex-row`}>
-              <a
-                className="btn-count flex-rest"
-                href={`http://${location.host}/orderall/settlement4Dinner?shopId=${shopId}&tradeId=${orderId}&type=TS`}
-              >
-              去结账
-              </a>
-            </div>
-          </div>
           {
             errorMsg &&
               <Toast errorMessage={errorMsg} clearErrorMsg={this.handleClearErrorMsg} />
           }
+        </div>
+        <div className="order-operate flex-none">
+          <div className={`${btnDis} flex-row`}>
+            <a
+              className="btn-count flex-rest"
+              href={`http://${location.host}/orderall/settlement4Dinner?shopId=${shopId}&tradeId=${orderId}&type=TS`}
+            >
+            去结账
+            </a>
+          </div>
         </div>
       </div>
     );
