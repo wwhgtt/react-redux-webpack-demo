@@ -24,7 +24,7 @@ const TakeoutDetailApplication = React.createClass({
 
   getInitialState() {
     return {
-      countDown: 900000,
+      countDown: 0,
     };
   },
 
@@ -36,13 +36,16 @@ const TakeoutDetailApplication = React.createClass({
     const { takeoutDetail } = nextProps;
     if (takeoutDetail.dateTime) {
       const countDownOri = 900000 - (parseInt(new Date().getTime(), 10) - parseInt(takeoutDetail.dateTime, 10));
-      this.setState({ countDown: countDownOri });
+      if (countDownOri > 0 && countDownOri <= 900000 && takeoutDetail.status === '订单待支付') {
+        this.setState({ countDown: countDownOri });
+      }
     }
   },
 
   componentDidUpdate(prevProps, prevState) {
     const { takeoutDetail } = this.props;
     const { countDown } = this.state;
+
     if (takeoutDetail.status === '订单待支付') {
       clearInterval(this.countDownInteval);
       if (countDown > 1000 && countDown <= 900000) {
@@ -51,8 +54,13 @@ const TakeoutDetailApplication = React.createClass({
         }, 1000);
       } else {
         clearInterval(this.countDownInteval);
-        this.props.getTakeoutDetail();
+        if (!this.isReGetInfo) {
+          this.props.getTakeoutDetail();
+          this.isReGetInfo = true;
+        }
       }
+    } else {
+      clearInterval(this.countDownInteval);
     }
   },
 
@@ -227,7 +235,7 @@ const TakeoutDetailApplication = React.createClass({
           </div>
           <div className="btn-oparate flex-none">
             <div className="flex-row">
-              <a className="btn-oparate-more" href={`http://${location.host}/takeaway/selectDish?shopId=${shopId}`}>再来一单</a>
+              <a className="btn-oparate-more" href={`http://${location.host}/takeaway/selectDish?shopId=${shopId}&type=WM`}>再来一单</a>
               {(takeoutDetail.status === '订单待支付' || takeoutDetail.status === '订单支付失败') &&
                 <a
                   className="btn-oparate-count"
