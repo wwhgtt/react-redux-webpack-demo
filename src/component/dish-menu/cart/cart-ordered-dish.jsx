@@ -1,6 +1,6 @@
 const React = require('react');
 const Counter = require('../../mui/counter.jsx');
-const helper = require('../../../helper/dish-hepler');
+const helper = require('../../../helper/dish-helper');
 const classnames = require('classnames');
 require('./cart-ordered-dish.scss');
 

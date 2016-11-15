@@ -7,6 +7,7 @@
 
 .option-shop {
   padding: 15px 10px 22px;
+  border-top: 1px solid $color-mercury;
 
   &-desc {
     font-size: 18px !important;
@@ -58,15 +59,14 @@
 
 .extra-supplement {
   height: 44px;
+  margin-bottom: 0;
   padding: 11px;
-  border-bottom: 1px solid #f1f1f1;
   background-color: #fff;
 
   span {
     font-size: 14px;
     line-height: 20px;
     display: inline-block;
-    float: left;
     width: 50%;
     height: 20px;
   }
@@ -74,9 +74,41 @@
 
 .btn--orange {
   font-size: 17px;
-  background: #ffc334;
+  background: $color-texas-rose;
 }
 
 .margin-cart-bottom {
-  margin-bottom: 60px;
+  margin-bottom: 20px;
+
+  .option-input {
+    font-size: 14px;
+  }
+}
+
+.options-group {
+  &::before {
+    display: none;
+  }
+}
+
+.order-summary-cart {
+  border-top: none;
+}
+
+.order-cart-entry:last-child {
+  float: right;
+
+  > span {
+    vertical-align: middle;
+  }
+}
+
+.order-total {
+  .text-dove-grey {
+    color: $color-dusty-grey;
+  }
+
+  &-left:last-child {
+    margin-right: 0;
+  }
 }

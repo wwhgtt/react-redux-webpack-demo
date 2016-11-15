@@ -1,8 +1,10 @@
 const React = require('react');
 const couponHelper = require('../../helper/coupon-helper');
-const noCouponLogo = require('../../asset/images/nocoupon.svg');
 const shallowCompare = require('react-addons-shallow-compare');
+
 const ItemSpand = require('../common/item-spand.jsx');
+const noCouponLogo = require('../../asset/images/nocoupon.svg');
+
 require('./coupon-list.scss');
 
 module.exports = React.createClass({

@@ -1,10 +1,10 @@
 const config = require('../../config');
 const createAction = require('redux-actions').createAction;
-const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getUrlParam = require('../../helper/dish-helper.js').getUrlParam;
 const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
-const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
-const isGroupDish = require('../../helper/dish-hepler.js').isGroupDish;
-const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
+const getDishesPrice = require('../../helper/dish-helper.js').getDishesPrice;
+const isGroupDish = require('../../helper/dish-helper.js').isGroupDish;
+const getDishesCount = require('../../helper/dish-helper.js').getDishesCount;
 const helper = require('../../helper/order-helper.js');
 require('es6-promise');
 require('isomorphic-fetch');

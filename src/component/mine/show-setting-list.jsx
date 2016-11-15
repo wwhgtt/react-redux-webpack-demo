@@ -1,14 +1,17 @@
 const React = require('react');
-require('./show-setting-list.scss');
-const SexSwitch = require('../common/sex-switch.jsx');
 const config = require('../../config');
 const commonHelper = require('../../helper/common-helper');
+
+const SexSwitch = require('../common/sex-switch.jsx');
 const shopId = commonHelper.getUrlParam('shopId');
 let registerUrl = ` ${config.registerMemberURL}?shopId=${shopId}`;
 const modifypwdUrl = ` ${config.modifyPwdURL}?shopId=${shopId}`;
 const bindMobileUrl = ` ${config.bindMobileURL}?shopId=${shopId}`;
 const bindWXUrl = ` ${config.bindWXURL}?shopId=${shopId}`;
 const defaultPic = require('../../asset/images/head-default.png');
+
+
+require('./show-setting-list.scss');
 
 module.exports = React.createClass({
   displayName: 'ShowSettingList',

@@ -2,11 +2,11 @@ const React = require('react');
 const connect = require('react-redux').connect;
 const actions = require('../../action/order-dinner-statement/order-dinner-statement.js');
 const helper = require('../../helper/order-helper');
-const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getUrlParam = require('../../helper/dish-helper.js').getUrlParam;
 const Toast = require('../../component/mui/toast.jsx');
 const DiningOptions = require('../../component/order/dining-options.jsx');
 const formatPrice = require('../../helper/common-helper.js').formatPrice;
-const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
+const getDishesCount = require('../../helper/dish-helper.js').getDishesCount;
 const OrderSummary = require('../../component/order/order-summary.jsx');
 const CouponSelect = require('../../component/order/coupon-select.jsx');
 require('../../component/order/order-summary.scss'); // import option-shop styles
@@ -95,7 +95,7 @@ const OrderDinnerStateMentApplication = React.createClass({
               dineTableProp={{ area:customerProps.dineTableProp.area, table:customerProps.dineTableProp.table }}
             />
           </div>
-          <div className="extra-supplement">
+          <div className="options-group extra-supplement">
             <span className="left">已选菜品</span>
             <span className="right">共{getDishesCount(orderedDishesProps.dishes)}份</span>
           </div>
@@ -109,7 +109,7 @@ const OrderDinnerStateMentApplication = React.createClass({
           {commercialProps && commercialProps.isSupportReceipt === 1 ?
             <div className="options-group margin-cart-bottom">
               <label className="option">
-                <span className="option-title">发票: </span>
+                <span className="option-title">发票</span>
                 <input
                   className="option-input"
                   name="receipt"

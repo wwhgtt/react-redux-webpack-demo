@@ -1,5 +1,5 @@
 const React = require('react');
-const helper = require('../../../helper/dish-hepler');
+const helper = require('../../../helper/dish-helper');
 const Counter = require('../../mui/counter.jsx');
 
 require('./dish-detail-head.scss');

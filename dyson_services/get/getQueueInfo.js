@@ -5,7 +5,7 @@ module.exports = {
       shopId: 810003798,
       orderDish: 1,
       oldVersion: 0,
-      hasOrder: 0,
+      hasOrder: 1,
       queue: {
         queueID: 1002843039,
         commercialID: 810003798,

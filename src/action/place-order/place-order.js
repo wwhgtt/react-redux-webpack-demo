@@ -11,7 +11,7 @@ const setOrderProps = exports.setOrderProps = createAction('SET_ORDER_PROPS', (e
 exports.setCustomerProps = createAction('SET_CUSTOMER_PROPS', option => option);
 const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
 const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
-const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getUrlParam = require('../../helper/dish-helper.js').getUrlParam;
 const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 const shopId = getUrlParam('shopId');
 exports.fetchCommercialProps = () => (dispatch, getState) =>

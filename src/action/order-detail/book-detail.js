@@ -54,7 +54,7 @@ exports.getBookInfo = () => (dispatch, getState) => {
     }, 3000);
     return;
   }
-  fetch(`${config.prepareMyPreOrderAPI}?shopId=${shopId}&relatedId=${orderId}&relatedType=YD`, config.requestOptions).
+  fetch(`${config.bookingMyPreOrderAPI}?shopId=${shopId}&relatedId=${orderId}&relatedType=YD`, config.requestOptions).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('获取预点菜信息失败'));

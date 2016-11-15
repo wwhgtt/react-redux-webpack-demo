@@ -1,7 +1,7 @@
 const React = require('react');
 const TinyCart = require('./tiny-cart.jsx');
 const ExpandCart = require('./expand-cart.jsx');
-const helper = require('../../../helper/dish-hepler');
+const helper = require('../../../helper/dish-helper');
 
 require('./cart.scss');
 

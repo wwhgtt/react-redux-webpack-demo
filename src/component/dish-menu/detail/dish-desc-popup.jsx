@@ -1,5 +1,5 @@
 const React = require('react');
-const helper = require('../../../helper/dish-hepler');
+const helper = require('../../../helper/dish-helper');
 const shopId = helper.getUrlParam('shopId');
 require('./dish-detail-container.scss');
 require('./dish-desc-popup.scss');

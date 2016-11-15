@@ -14,7 +14,7 @@ const DishDescPopup = require('../../component/dish-menu/detail/dish-desc-popup.
 const BookButton = require('../../component/book/book-button.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const DishMesthead = require('../../component/dish-menu/dish-mesthead.jsx');
-const helper = require('../../helper/dish-hepler');
+const helper = require('../../helper/dish-helper');
 const type = helper.getUrlParam('type');
 
 const DishMenuApplication = React.createClass({
@@ -151,8 +151,8 @@ const DishMenuApplication = React.createClass({
           </div>
         </div>
         {
-          type === 'YD' ? ( // 预定预点菜
-            <BookButton dishes={dishesDataDuplicate} />
+          type === 'YD' || type === 'PD' ? ( // 预定预点菜
+            <BookButton dishes={dishesDataDuplicate} type={type} />
           )
           :
           (

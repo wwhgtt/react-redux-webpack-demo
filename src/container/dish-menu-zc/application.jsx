@@ -16,7 +16,7 @@ const QuickMenu = require('../../component/dish-menu/cart/quick-menu.jsx');
 const DishMesthead = require('../../component/dish-menu/dish-mesthead.jsx');
 const BookButton = require('../../component/book/book-button.jsx');
 const Toast = require('../../component/mui/toast.jsx');
-const helper = require('../../helper/dish-hepler');
+const helper = require('../../helper/dish-helper');
 const cartHelper = require('../../helper/order-dinner-cart-helper');
 const tableKey = helper.getUrlParam('tableKey');
 const tableId = helper.getUrlParam('tableId');
@@ -178,8 +178,8 @@ const DishMenuZcApplication = React.createClass({
           }
         </div>
         {
-          type === 'YD' ? ( // 预定预点菜
-            <BookButton dishes={dishesDataDuplicate} />
+          type === 'YD' || type === 'PD' ? ( // 预定预点菜
+            <BookButton dishes={dishesDataDuplicate} type={type} />
           )
           :
           (

@@ -1,7 +1,7 @@
 const React = require('react');
 const connect = require('react-redux').connect;
 const actions = require('../../action/customer-address/customer-address');
-const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getUrlParam = require('../../helper/dish-helper.js').getUrlParam;
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
 const CustomerAddressOption = require('../../component/order/customer-address-option.jsx');
 const shopId = getUrlParam('shopId') || '';

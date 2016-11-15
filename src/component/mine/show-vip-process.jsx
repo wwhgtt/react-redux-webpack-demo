@@ -1,10 +1,12 @@
 const React = require('react');
-const classnames = require('classnames');
 const config = require('../../config');
+const classnames = require('classnames');
 const commonHelper = require('../../helper/common-helper');
 const shallowCompare = require('react-addons-shallow-compare');
+
 const shopId = commonHelper.getUrlParam('shopId');
 const growthValueURL = `${config.growthValueURL}?shopId=${shopId}`;
+
 require('./show-vip-process.scss');
 
 module.exports = React.createClass({

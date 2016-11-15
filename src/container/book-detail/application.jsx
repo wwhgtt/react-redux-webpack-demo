@@ -106,14 +106,14 @@ const BookDetailApplication = React.createClass({
       if (isOrder) {
         return <div className="btn-row btn-row-sure btn-row-mt" onTouchTap={this.checkBill}>查看菜单</div>;
       }
-      return <div className="btn-row btn-row-sure btn-row-mt" onTouchTap={this.goToBook}>去预点菜</div>;
+      return <div className="btn-row btn-row-sure btn-row-mt" onTouchTap={this.goToBook}>预点菜</div>;
     }
     return false;
   },
   render() {
     const { load, errorMessage, clearErrorMsg, bookDetail, bookInfo, getBookInfo } = this.props;
     const { showBill, shopLogo } = this.state;
-    const orderMenu = bookDetail.orderMenu === 1; // 是否已开通预定预点菜
+    const orderMenu = bookDetail.orderMenu === 0; // 是否已开通预定预点菜
     const isOrder = bookDetail.isOrder === 1; // 1 已点菜 0 未点菜
     const checkBookList = this.checkBookList(orderMenu, isOrder);
     return (
@@ -167,10 +167,10 @@ const BookDetailApplication = React.createClass({
         {
           showBill && (
             <BookInfoHover
-              bookInfoItemList={bookInfo.dishItems}
-              bookDetail={bookDetail}
+              bookQueueItemList={bookInfo.dishItems}
+              bookQueueDetail={bookDetail}
               setHoverState={this.getHoverState}
-              getBookInfo={getBookInfo}
+              getBookQueueInfo={getBookInfo}
             />
           )
         }

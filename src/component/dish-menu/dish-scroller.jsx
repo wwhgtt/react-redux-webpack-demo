@@ -6,7 +6,7 @@ const IScroll = require('iscroll/build/iscroll-probe');
 const classnames = require('classnames');
 const DishListItem = require('./dish-list-item.jsx');
 const setErrorMsg = require('../../action/dish-menu/dish-menu.js').setErrorMsg;
-const helper = require('../../helper/dish-hepler');
+const helper = require('../../helper/dish-helper');
 const imagePlaceholder = require('../../asset/images/dish-placeholder.png');
 
 require('./dish-scroller.scss');

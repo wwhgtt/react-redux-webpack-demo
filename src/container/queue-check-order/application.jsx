@@ -1,12 +1,12 @@
 const React = require('react');
 const connect = require('react-redux').connect;
-const actions = require('../../action/book-check-order/book-check-order');
+const actions = require('../../action/queue-check-order/queue-check-order');
 require('../../asset/style/style.scss');
 
 const config = require('../../config');
 const dishHelper = require('../../helper/dish-helper');
 
-const BookDetail = require('../../component/book/book-detail.jsx');
+const QueueDetail = require('../../component/book/book-detail.jsx');
 const getSubmitDishData = require('../../helper/order-helper').getSubmitDishData;
 const Loading = require('../../component/mui/loading.jsx');
 const Toast = require('../../component/mui/toast.jsx');
@@ -14,19 +14,19 @@ const shopId = dishHelper.getUrlParam('shopId');
 
 require('./application.scss');
 
-const BookCheckOrderApplication = React.createClass({
-  displayName:'BookCheckOrderApplication',
+const QueueCheckOrderApplication = React.createClass({
+  displayName:'QueueCheckOrderApplication',
   propTypes:{
     orderDetail:React.PropTypes.object,
-    getBookCheckOrder:React.PropTypes.func,
+    getQueueCheckOrder:React.PropTypes.func,
     confirmBill:React.PropTypes.func,
     load:React.PropTypes.object,
     clearErrorMsg:React.PropTypes.func,
     errorMessage:React.PropTypes.string,
   },
   componentDidMount() {
-    const { getBookCheckOrder } = this.props;
-    getBookCheckOrder();
+    const { getQueueCheckOrder } = this.props;
+    getQueueCheckOrder();
   },
   confirmBill() {
     const memo = this.refs.note.value;
@@ -36,8 +36,8 @@ const BookCheckOrderApplication = React.createClass({
 
     Object.assign(data, {
       shopId,
-      relatedId:sessionStorage.YDrelatedId || 0,
-      relatedType:1,
+      relatedId:sessionStorage.PDrelatedId || 0,
+      relatedType:2,
       orderType:orderDetail.type,
       serviceApproach:'totable',
       memo,
@@ -56,13 +56,13 @@ const BookCheckOrderApplication = React.createClass({
           <div className="shop-head of">
             <span className="shop-chosen">已选商品</span>
             <span className="shop-total">共{dishCount}份</span>
-            <a href={`${config.getMoreTSDishesURL}?shopId=${shopId}&type=YD`} className="shop-edit">修改订单</a>
+            <a href={`${config.getMoreTSDishesURL}?shopId=${shopId}&type=PD`} className="shop-edit">修改订单</a>
           </div>
           <div className="order-list-outer">
             {
               orderDetail.dishes && orderDetail.dishes.length > 0 &&
               orderDetail.dishes.map((item, index) =>
-                <BookDetail mainDish={item} key={index} />
+                <QueueDetail mainDish={item} key={index} />
               )
             }
           </div>
@@ -96,4 +96,4 @@ const BookCheckOrderApplication = React.createClass({
   },
 });
 
-module.exports = connect(state => state, actions)(BookCheckOrderApplication);
+module.exports = connect(state => state, actions)(QueueCheckOrderApplication);

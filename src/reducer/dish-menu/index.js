@@ -1,7 +1,7 @@
 const _findIndex = require('lodash.findindex');
 const _has = require('lodash.has');
 const Immutable = require('seamless-immutable');
-const helper = require('../../helper/dish-hepler');
+const helper = require('../../helper/dish-helper');
 module.exports = function (
   state = Immutable.from({
     activeDishTypeId:-1,

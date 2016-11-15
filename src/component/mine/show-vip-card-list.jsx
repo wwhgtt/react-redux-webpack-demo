@@ -1,12 +1,13 @@
 const React = require('react');
 const config = require('../../config');
 const commonHelper = require('../../helper/common-helper');
-
-const shopId = commonHelper.getUrlParam('shopId');
 const classnames = require('classnames');
-require('./show-vip-card-list.scss');
+
 const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const VipCurrentRights = require('./get-vip-current-rights.jsx');
+const shopId = commonHelper.getUrlParam('shopId');
+
+require('./show-vip-card-list.scss');
 
 module.exports = React.createClass({
   displayName: 'ShowVipCardList',
