@@ -36,7 +36,7 @@ exports.getQueueDetail = () => (dispatch, getStates) => {
       dispatch(setLoadMsg({ status:false, word:'' }));
       if (res.code === '200') {
         dispatch(setQueueDetail(res.data));
-        if (res.data.queue.queueID) {
+        if (res.data.queue && res.data.queue.queueID) {
           sessionStorage.removeItem('PDrelatedId');
           sessionStorage.removeItem('PDorderSyn');
           sessionStorage.setItem('PDrelatedId', res.data.queue.queueID);
