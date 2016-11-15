@@ -11,8 +11,11 @@ const DishScroller = require('../../component/dish-menu/dish-scroller.jsx');
 const CartContainer = require('../../component/dish-menu/cart/cart-container.jsx');
 const DishDetailContainer = require('../../component/dish-menu/detail/dish-detail-container.jsx');
 const DishDescPopup = require('../../component/dish-menu/detail/dish-desc-popup.jsx');
+const BookButton = require('../../component/book/book-button.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const DishMesthead = require('../../component/dish-menu/dish-mesthead.jsx');
+const helper = require('../../helper/dish-hepler');
+const type = helper.getUrlParam('type');
 
 const DishMenuApplication = React.createClass({
   displayName: 'DishMenuApplication',
@@ -119,7 +122,7 @@ const DishMenuApplication = React.createClass({
               <p>注册会员享受更多福利哟～</p>
             </div>
         }
-        <div className="main">
+        <div className={`main main-${type}`}>
           <DishMesthead
             registered={isMember}
             dishesData={dishesData}
@@ -147,11 +150,19 @@ const DishMenuApplication = React.createClass({
             />
           </div>
         </div>
-        <CartContainer
-          dishes={dishesDataDuplicate} takeawayServiceProps={takeawayServiceProps}
-          openTimeList={openTimeList} isAcceptTakeaway={isAcceptTakeaway}
-          onOrderBtnTap={orderDish} onBillBtnTap={confirmOrder} onClearBtnTap={removeAllOrders}
-        />
+        {
+          type === 'YD' ? ( // 预定预点菜
+            <BookButton dishes={dishesDataDuplicate} />
+          )
+          :
+          (
+            <CartContainer
+              dishes={dishesDataDuplicate} takeawayServiceProps={takeawayServiceProps}
+              openTimeList={openTimeList} isAcceptTakeaway={isAcceptTakeaway}
+              onOrderBtnTap={orderDish} onBillBtnTap={confirmOrder} onClearBtnTap={removeAllOrders}
+            />
+          )
+        }
         {dishDetailData !== undefined ?
           <DishDetailContainer
             dish={dishDetailData}

@@ -2,14 +2,14 @@ module.exports = {
   path: '/booking/bookingDetail.json',
   template: {
     data: {
-      isOrder: 1,
+      isOrder: 0,
       memo: '我是徐大宝宝',
       mobile: '15908198592',
       name: '肥肥gf',
       orderId: 90001272332,
-      orderMenu: 0,
+      orderMenu: 1,
       orderNumber: 4,
-      orderStatus: -2,
+      orderStatus: 1,
       orderTime: 1478264400000,
       sex:1,
       shopId: 247900001,

@@ -1,11 +1,11 @@
 const React = require('react');
-require('./place-info-main-item.scss');
+require('./book-info-main-item.scss');
 const shallowCompare = require('react-addons-shallow-compare');
-const PlaceInfoSubItem = require('./place-info-sub-item.jsx');
+const BookInfoSubItem = require('./book-info-sub-item.jsx');
 const classnames = require('classnames');
 
 module.exports = React.createClass({ // ShowBasicInfo
-  displayName: 'PlaceInfoMainItem',
+  displayName: 'BookInfoMainItem',
   propTypes:{
     mainDish: React.PropTypes.object,
     setPrice: React.PropTypes.func,
@@ -159,7 +159,7 @@ module.exports = React.createClass({ // ShowBasicInfo
         }
         {
           expand && mainDish.type === 1 && hasSubDishItems && (
-            <PlaceInfoSubItem subDishItemList={mainDish.subDishItems} />
+            <BookInfoSubItem subDishItemList={mainDish.subDishItems} />
           )
         }
       </div>

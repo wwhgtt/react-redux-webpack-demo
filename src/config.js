@@ -88,6 +88,9 @@ module.exports = {
   dishCart4DinnerURL:`${apiBase}/orderall/dishCart4Dinner`, // 购物车详情页
   settlement4DinnerURL:`${apiBase}/orderall/settlement4Dinner`, // 正餐结算页面
 
+  bookingDetailURL:`${apiBase}/booking/bookingDetail`, // 预定详情
+  bookCheckOrderURL:`${apiBase}/book/bookCheckOrder`, // 预定下单页面
+
   exceptionDishURL:`${apiBase}/orderall/tableCantOrder`, // 异常页面(无法在该桌台点餐)
   exceptionDishCurrentURL:`${apiBase}/orderall/tableError`, // 异常页面(该桌台无法点餐)
   exceptionLinkURL:`${apiBase}/orderall/tableTimeout`, // 异常页面(链接无效)
