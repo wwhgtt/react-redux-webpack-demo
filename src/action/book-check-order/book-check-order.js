@@ -6,7 +6,7 @@ require('isomorphic-fetch');
 const setOrderDetail = createAction('SET_ORDER_DETAIL', orderDetail => orderDetail);
 const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setLoadMsg = createAction('SET_LOAD_MSG', loadInfo => loadInfo);
-// const shopId = commonHelper.getUrlParam('shopId');
+const shopId = commonHelper.getUrlParam('shopId');
 // const orderId = commonHelper.getUrlParam('orderId');
 
 exports.getBookCheckOrder = () => (dispatch, getState) => {
@@ -21,7 +21,7 @@ exports.confirmBill = (data) => (dispatch, getstate) => {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: JSON.stringify(data),
   });
-  fetch(config.bookingSubOrderAPI, requestOptions).
+  fetch(`${config.bookingSubOrderAPI}?shopId=${shopId}`, requestOptions).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('确认订单失败！！'));
