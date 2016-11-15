@@ -1,7 +1,9 @@
 const React = require('react');
-require('./book-info-hover.scss');
-const BookInfoMainItem = require('./book-info-main-item.jsx');
 const shallowCompare = require('react-addons-shallow-compare');
+
+const BookInfoMainItem = require('./book-info-main-item.jsx');
+
+require('./book-info-hover.scss');
 
 module.exports = React.createClass({ // ShowBasicInfo
   displayName: 'BookInfoHover',

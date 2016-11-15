@@ -1,6 +1,8 @@
 const React = require('react');
-require('./get-vip-current-level.scss');
+
 const VipCurrentRights = require('./get-vip-current-rights.jsx');
+
+require('./get-vip-current-level.scss');
 
 module.exports = React.createClass({
   displayName: 'GetVipCurrentLevel',

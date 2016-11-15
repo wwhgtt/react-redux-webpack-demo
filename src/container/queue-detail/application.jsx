@@ -148,7 +148,7 @@ const QueueDetailApplication = React.createClass({
   render() {
     const { queueInfo, queueDetail, getQueueInfo, errorMessage, isRefresh, clearErrorMsg, load } = this.props;
     const { showBill, isDialogShow, shopLogo } = this.state;
-    const orderDish = queueDetail.orderDish === 1; // 是否已开通排队预点菜
+    const orderDish = queueDetail.orderDish === 0; // 是否已开通排队预点菜
     const hasOrder = queueDetail.hasOrder === 1; // 1 已点菜 0 未点菜
     const checkQueueList = this.checkQueueList(orderDish, hasOrder);
     return (

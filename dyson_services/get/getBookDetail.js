@@ -7,7 +7,7 @@ module.exports = {
       mobile: '15908198592',
       name: '肥肥gf',
       orderId: 90001272332,
-      orderMenu: 1,
+      orderMenu: 0,
       orderNumber: 4,
       orderStatus: 1,
       orderTime: 1478264400000,

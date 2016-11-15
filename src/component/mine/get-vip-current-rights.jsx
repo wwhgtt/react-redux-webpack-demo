@@ -1,8 +1,9 @@
 const React = require('react');
+const shallowCompare = require('react-addons-shallow-compare');
+
+const ListItem = require('../mui/list-item.jsx');
 
 require('./get-vip-current-rights.scss');
-const ListItem = require('../mui/list-item.jsx');
-const shallowCompare = require('react-addons-shallow-compare');
 
 module.exports = React.createClass({
   displayName: 'GetVipCurrentRights',
