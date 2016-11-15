@@ -14,12 +14,14 @@ const DishDetailContainer = require('../../component/dish-menu/detail/dish-detai
 const DishDescPopup = require('../../component/dish-menu/detail/dish-desc-popup.jsx');
 const QuickMenu = require('../../component/dish-menu/cart/quick-menu.jsx');
 const DishMesthead = require('../../component/dish-menu/dish-mesthead.jsx');
+const BookButton = require('../../component/book/book-button.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const helper = require('../../helper/dish-hepler');
 const cartHelper = require('../../helper/order-dinner-cart-helper');
 const tableKey = helper.getUrlParam('tableKey');
 const tableId = helper.getUrlParam('tableId');
 const shopId = helper.getUrlParam('shopId');
+const type = helper.getUrlParam('type');
 
 const DishMenuZcApplication = React.createClass({
   displayName: 'DishMenuZcApplication',
@@ -175,18 +177,26 @@ const DishMenuZcApplication = React.createClass({
             false
           }
         </div>
-        <QuickMenu
-          callBell={callBell}
-          clearBell={clearBell}
-          callMsg={callMsg}
-          callAble={callAble}
-          timerStatus={timerStatus}
-          dishes={dishesDataDuplicate}
-          serviceStatus={serviceStatus}
-          openTimeList={openTimeList}
-          isShowButton={isShowButton}
-          shopNotOpenMsg={showErrMsgFunc}
-        />
+        {
+          type === 'YD' ? ( // 预定预点菜
+            <BookButton dishes={dishesDataDuplicate} />
+          )
+          :
+          (
+            <QuickMenu
+              callBell={callBell}
+              clearBell={clearBell}
+              callMsg={callMsg}
+              callAble={callAble}
+              timerStatus={timerStatus}
+              dishes={dishesDataDuplicate}
+              serviceStatus={serviceStatus}
+              openTimeList={openTimeList}
+              isShowButton={isShowButton}
+              shopNotOpenMsg={showErrMsgFunc}
+            />
+          )
+        }
       </div>
     );
   },
