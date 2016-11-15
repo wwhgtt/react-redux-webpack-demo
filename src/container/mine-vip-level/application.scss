@@ -3,11 +3,12 @@
 .application {
   background: #fafafa;
   text-size-adjust: none;
+  
+  .copyright {
+    height: 45px;
+    margin: 0;
+    padding: 15px 0;
+    background: #fafafa;
+  }
 }
 
-.copyright {
-  height: 45px;
-  margin: 0;
-  padding: 15px 0;
-  background: #fafafa;
-}

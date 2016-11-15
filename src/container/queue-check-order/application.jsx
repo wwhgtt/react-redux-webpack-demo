@@ -1,15 +1,17 @@
 const React = require('react');
-const config = require('../../config');
-const QueueDetail = require('../../component/book/book-detail.jsx');
 const connect = require('react-redux').connect;
-const dishHelper = require('../../helper/dish-hepler');
-const getSubmitDishData = require('../../helper/order-helper').getSubmitDishData;
 const actions = require('../../action/queue-check-order/queue-check-order');
-const shopId = dishHelper.getUrlParam('shopId');
+require('../../asset/style/style.scss');
+
+const config = require('../../config');
+const dishHelper = require('../../helper/dish-helper');
+
+const QueueDetail = require('../../component/book/book-detail.jsx');
+const getSubmitDishData = require('../../helper/order-helper').getSubmitDishData;
 const Loading = require('../../component/mui/loading.jsx');
 const Toast = require('../../component/mui/toast.jsx');
+const shopId = dishHelper.getUrlParam('shopId');
 
-require('../../asset/style/style.scss');
 require('./application.scss');
 
 const QueueCheckOrderApplication = React.createClass({

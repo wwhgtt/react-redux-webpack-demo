@@ -1,6 +1,6 @@
 const React = require('react');
 require('./ads-column.scss');
-const helper = require('../../helper/dish-hepler');
+const helper = require('../../helper/dish-helper');
 const commonHelper = require('../../helper/common-helper');
 const classnames = require('classnames');
 

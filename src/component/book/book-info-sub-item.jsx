@@ -1,6 +1,7 @@
 const React = require('react');
-require('./book-info-sub-item.scss');
 const shallowCompare = require('react-addons-shallow-compare');
+
+require('./book-info-sub-item.scss');
 
 module.exports = React.createClass({ // ShowBasicInfo
   displayName: 'BookInfoSubItem',

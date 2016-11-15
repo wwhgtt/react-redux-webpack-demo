@@ -2,7 +2,7 @@ const Immutable = require('seamless-immutable');
 const _find = require('lodash.find');
 const _has = require('lodash.has');
 const helper = require('../../helper/order-helper');
-const orderTypeOfUrl = require('../../helper/dish-hepler.js').getUrlParam('type');
+const orderTypeOfUrl = require('../../helper/dish-helper.js').getUrlParam('type');
 module.exports = function (
   state = Immutable.from({
     customerProps:{},

@@ -1,5 +1,5 @@
 const React = require('react');
-const helper = require('../../../helper/dish-hepler');
+const helper = require('../../../helper/dish-helper');
 const classnames = require('classnames');
 const SingleDishDetail = require('./single-dish-detail.jsx');
 const GroupDishDetail = require('./group-dish-detail/group-dish-detail.jsx');

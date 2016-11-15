@@ -1,6 +1,6 @@
 const React = require('react');
 const classnames = require('classnames');
-const helper = require('../../../../helper/dish-hepler');
+const helper = require('../../../../helper/dish-helper');
 const Toast = require('../../../../component/mui/toast.jsx');
 require('./groups-bar.scss');
 

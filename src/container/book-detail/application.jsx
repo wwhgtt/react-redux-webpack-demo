@@ -113,7 +113,7 @@ const BookDetailApplication = React.createClass({
   render() {
     const { load, errorMessage, clearErrorMsg, bookDetail, bookInfo, getBookInfo } = this.props;
     const { showBill, shopLogo } = this.state;
-    const orderMenu = bookDetail.orderMenu === 1; // 是否已开通预定预点菜
+    const orderMenu = bookDetail.orderMenu === 0; // 是否已开通预定预点菜
     const isOrder = bookDetail.isOrder === 1; // 1 已点菜 0 未点菜
     const checkBookList = this.checkBookList(orderMenu, isOrder);
     return (
@@ -167,7 +167,7 @@ const BookDetailApplication = React.createClass({
         {
           showBill && (
             <BookInfoHover
-              bookQueueInfoItemList={bookInfo.dishItems}
+              bookQueueItemList={bookInfo.dishItems}
               bookQueueDetail={bookDetail}
               setHoverState={this.getHoverState}
               getBookQueueInfo={getBookInfo}

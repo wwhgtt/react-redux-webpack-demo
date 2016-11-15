@@ -1,6 +1,6 @@
 const React = require('react');
 const classnames = require('classnames');
-const helper = require('../../helper/dish-hepler');
+const helper = require('../../helper/dish-helper');
 require('./book-detail.scss');
 
 const BookDetail = React.createClass({
