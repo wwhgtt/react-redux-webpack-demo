@@ -106,7 +106,7 @@ const BookDetailApplication = React.createClass({
       if (isOrder) {
         return <div className="btn-row btn-row-sure btn-row-mt" onTouchTap={this.checkBill}>查看菜单</div>;
       }
-      return <div className="btn-row btn-row-sure btn-row-mt" onTouchTap={this.goToBook}>去预点菜</div>;
+      return <div className="btn-row btn-row-sure btn-row-mt" onTouchTap={this.goToBook}>预点菜</div>;
     }
     return false;
   },
@@ -167,10 +167,10 @@ const BookDetailApplication = React.createClass({
         {
           showBill && (
             <BookInfoHover
-              bookInfoItemList={bookInfo.dishItems}
-              bookDetail={bookDetail}
+              bookQueueInfoItemList={bookInfo.dishItems}
+              bookQueueDetail={bookDetail}
               setHoverState={this.getHoverState}
-              getBookInfo={getBookInfo}
+              getBookQueueInfo={getBookInfo}
             />
           )
         }

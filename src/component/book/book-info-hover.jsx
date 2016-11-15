@@ -6,10 +6,10 @@ const shallowCompare = require('react-addons-shallow-compare');
 module.exports = React.createClass({ // ShowBasicInfo
   displayName: 'BookInfoHover',
   propTypes:{
-    bookInfoItemList:React.PropTypes.array,
-    bookDetail:React.PropTypes.object,
+    bookQueueItemList:React.PropTypes.array,
+    bookQueueDetail:React.PropTypes.object,
     setHoverState:React.PropTypes.func,
-    getBookInfo:React.PropTypes.func,
+    getBookQueueInfo:React.PropTypes.func,
   },
   getInitialState() {
     return { totalPrice:0, totalNum:0 };
@@ -19,8 +19,8 @@ module.exports = React.createClass({ // ShowBasicInfo
     this.arrayNum = [];
 
     // 获取 bookInfoItemList
-    const { getBookInfo } = this.props;
-    getBookInfo();
+    const { getBookQueueInfo } = this.props;
+    getBookQueueInfo();
   },
   componentDidMount() {},
   shouldComponentUpdate(nextProps, nextState) {
@@ -28,7 +28,7 @@ module.exports = React.createClass({ // ShowBasicInfo
   },
   getEveryPrice(price) {
     this.arrayPrice.push(+price);
-    if (this.arrayPrice.length === this.props.bookInfoItemList.length) {
+    if (this.arrayPrice.length === this.props.bookQueueItemList.length) {
       setTimeout(() => {
         this.setState({ totalPrice:this.arrayPrice.reduce((a, b) => a + b) });
       }, 500);
@@ -36,7 +36,7 @@ module.exports = React.createClass({ // ShowBasicInfo
   },
   getEveryNum(num) {
     this.arrayNum.push(+num);
-    if (this.arrayNum.length === this.props.bookInfoItemList.length) {
+    if (this.arrayNum.length === this.props.bookQueueItemList.length) {
       setTimeout(() => {
         this.setState({ totalNum:this.arrayNum.reduce((a, b) => a + b) });
       }, 500);
@@ -48,7 +48,7 @@ module.exports = React.createClass({ // ShowBasicInfo
     setHoverState(bool);
   },
   render() {
-    const { bookInfoItemList, bookDetail } = this.props;
+    const { bookQueueItemList, bookQueueDetail } = this.props;
     const { totalPrice, totalNum } = this.state;
     return (
       <div className="float-layer">
@@ -61,8 +61,8 @@ module.exports = React.createClass({ // ShowBasicInfo
             </p>
             <div className="order-list-outer options-group">
               {
-                bookInfoItemList && bookInfoItemList.length > 0 &&
-                bookInfoItemList.map((item, index) =>
+                bookQueueItemList && bookQueueItemList.length > 0 &&
+                bookQueueItemList.map((item, index) =>
                   <BookInfoMainItem mainDish={item} setPrice={this.getEveryPrice} setNumber={this.getEveryNum} key={index} />
                 )
               }
@@ -75,7 +75,7 @@ module.exports = React.createClass({ // ShowBasicInfo
           <div className="options-group options-group-spe">
             <div className="option">
               <span className="option-title">备注</span>
-              <div className="option-content">{bookDetail.memo}</div>
+              <div className="option-content">{bookQueueDetail.memo}</div>
             </div>
           </div>
           <div className="copyright"></div>

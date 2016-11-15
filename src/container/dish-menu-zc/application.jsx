@@ -178,8 +178,8 @@ const DishMenuZcApplication = React.createClass({
           }
         </div>
         {
-          type === 'YD' ? ( // 预定预点菜
-            <BookButton dishes={dishesDataDuplicate} />
+          type === 'YD' || type === 'PD' ? ( // 预定预点菜
+            <BookButton dishes={dishesDataDuplicate} type={type} />
           )
           :
           (
