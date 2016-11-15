@@ -4,7 +4,7 @@ const shallowCompare = require('react-addons-shallow-compare');
 const IScroll = require('iscroll/build/iscroll-lite');
 const _find = require('lodash.find');
 const DynamicClassLI = require('../mui/misc/dynamic-class-hoc.jsx')('li');
-const helper = require('../../helper/dish-hepler');
+const helper = require('../../helper/dish-helper');
 require('./dish-type-scroller.scss');
 
 module.exports = React.createClass({

@@ -11,7 +11,7 @@ const CartOrderedDish = require('../../component/dish-menu/cart/cart-ordered-dis
 const ConfirmDialog = require('../../component/mui/dialog/confirm-dialog.jsx');
 
 const wxClient = require('wechat-jssdk/client');
-const dishHelper = require('../../helper/dish-hepler');
+const dishHelper = require('../../helper/dish-helper');
 const getSubmitDishData = require('../../helper/order-helper').getSubmitDishData;
 const defaultPersonLogo = require('../../asset/images/person-default.svg');
 const shopId = dishHelper.getUrlParam('shopId');

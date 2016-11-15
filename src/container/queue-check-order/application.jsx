@@ -4,7 +4,7 @@ const actions = require('../../action/queue-check-order/queue-check-order');
 require('../../asset/style/style.scss');
 
 const config = require('../../config');
-const dishHelper = require('../../helper/dish-hepler');
+const dishHelper = require('../../helper/dish-helper');
 
 const QueueDetail = require('../../component/book/book-detail.jsx');
 const getSubmitDishData = require('../../helper/order-helper').getSubmitDishData;

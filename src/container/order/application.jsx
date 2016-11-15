@@ -6,7 +6,7 @@ const connect = require('react-redux').connect;
 const actions = require('../../action/order/order');
 const helper = require('../../helper/order-helper');
 const validateAddressInfo = require('../../helper/order-helper').validateAddressInfo;
-const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getUrlParam = require('../../helper/dish-helper.js').getUrlParam;
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
 
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');

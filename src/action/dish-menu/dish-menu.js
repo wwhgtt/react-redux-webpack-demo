@@ -2,7 +2,7 @@ const config = require('../../config');
 const createAction = require('redux-actions').createAction;
 require('es6-promise');
 require('isomorphic-fetch');
-const helper = require('../../helper/dish-hepler');
+const helper = require('../../helper/dish-helper');
 const getCurrentPosition = require('../../helper/common-helper.js').getCurrentPosition;
 const setMenuData = createAction('SET_MENU_DATA', menuData => menuData);
 const _orderDish = createAction('ORDER_DISH', (dishData, action) => [dishData, action]);

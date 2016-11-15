@@ -1,6 +1,6 @@
 const React = require('react');
 const _findIndex = require('lodash.findindex');
-const helper = require('../../../../helper/dish-hepler');
+const helper = require('../../../../helper/dish-helper');
 const Counter = require('../../../mui/counter.jsx');
 const DishPropsSelect = require('../dish-props-select.jsx');
 window.I = require('seamless-immutable');

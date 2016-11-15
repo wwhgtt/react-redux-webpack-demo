@@ -1,6 +1,6 @@
 const React = require('react');
 const Immutable = require('seamless-immutable');
-const helper = require('../../../../helper/dish-hepler');
+const helper = require('../../../../helper/dish-helper');
 const DishDetailHead = require('../dish-detail-head.jsx');
 const GroupsBar = require('./groups-bar.jsx');
 const ChildDish = require('./child-dish.jsx');

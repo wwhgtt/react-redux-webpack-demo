@@ -1,7 +1,7 @@
 const React = require('react');
 const classnames = require('classnames');
 const shallowCompare = require('react-addons-shallow-compare');
-const isShopOpen = require('../../helper/dish-hepler.js').isShopOpen;
+const isShopOpen = require('../../helper/dish-helper.js').isShopOpen;
 const defaultShopLogo = require('../../asset/images/shop-logo-default.svg');
 
 const AdsColumn = require('./ads-column.jsx');

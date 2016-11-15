@@ -4,7 +4,7 @@ const actions = require('../../action/book-check-order/book-check-order');
 require('../../asset/style/style.scss');
 
 const config = require('../../config');
-const dishHelper = require('../../helper/dish-hepler');
+const dishHelper = require('../../helper/dish-helper');
 
 const BookDetail = require('../../component/book/book-detail.jsx');
 const getSubmitDishData = require('../../helper/order-helper').getSubmitDishData;

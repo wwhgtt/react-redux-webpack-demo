@@ -1,6 +1,6 @@
 const config = require('../../config');
 const createAction = require('redux-actions').createAction;
-const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getUrlParam = require('../../helper/dish-helper.js').getUrlParam;
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setOrderInLineProps = createAction('SET_ORDER_INLINE_PROPS', props => props);
 exports.setCustomerProps = createAction('SET_CUSTOMER_PROPS', props => props);

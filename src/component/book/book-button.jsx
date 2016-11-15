@@ -1,6 +1,6 @@
 const React = require('react');
 const config = require('../../config');
-const helper = require('../../helper/dish-hepler');
+const helper = require('../../helper/dish-helper');
 const shopId = helper.getUrlParam('shopId');
 const classnames = require('classnames');
 require('./book-button.scss');

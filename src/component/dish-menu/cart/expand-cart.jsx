@@ -2,7 +2,7 @@ const React = require('react');
 const CartOrderedDish = require('./cart-ordered-dish.jsx');
 const ConfirmDialog = require('../../mui/dialog/confirm-dialog.jsx');
 
-const helper = require('../../../helper/dish-hepler');
+const helper = require('../../../helper/dish-helper');
 require('./expand-cart.scss');
 
 module.exports = React.createClass({

@@ -1,7 +1,7 @@
 const React = require('react');
 const Immutable = require('seamless-immutable');
 // const _find = require('lodash.find');
-const helper = require('../../helper/dish-hepler.js');
+const helper = require('../../helper/dish-helper.js');
 const formatPrice = require('../../helper/common-helper.js').formatPrice;
 const countMemberPrice = require('../../helper/order-helper.js').countMemberPrice;
 const classnames = require('classnames');
