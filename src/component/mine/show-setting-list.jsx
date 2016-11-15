@@ -126,14 +126,16 @@ module.exports = React.createClass({
                     </div>
                   </a>
                 </li>
-                <li className="list-item">
-                  <a className="list-link flex-row" href={modifypwdUrl}>
-                    <div className="list-name-holder flex-none">
-                      <span className="list-name">修改密码</span>
-                    </div>
-                    <span className="list-arrow list-arrow-right"></span>
-                  </a>
-                </li>
+                {info.loginType === 0 &&
+                  <li className="list-item">
+                    <a className="list-link flex-row" href={modifypwdUrl}>
+                      <div className="list-name-holder flex-none">
+                        <span className="list-name">修改密码</span>
+                      </div>
+                      <span className="list-arrow list-arrow-right"></span>
+                    </a>
+                  </li>
+                }
               </div>
             :
             false
@@ -198,18 +200,18 @@ module.exports = React.createClass({
             </li>
         }
         {
-          !info.isMember ?
-            <li className="list-item">
-              <a className="list-link flex-row" href={registerUrl}>
-                <div className="list-name-holder flex-none">
-                  <span className="list-name">会员注册</span>
-                </div>
-                <span className="list-brief">注册会员享受更多福利</span>
-                <span className="list-arrow list-arrow-right"></span>
-              </a>
-            </li>
-          :
-          false
+          // !info.isMember ?
+          //   <li className="list-item">
+          //     <a className="list-link flex-row" href={registerUrl}>
+          //       <div className="list-name-holder flex-none">
+          //         <span className="list-name">会员注册</span>
+          //       </div>
+          //       <span className="list-brief">注册会员享受更多福利</span>
+          //       <span className="list-arrow list-arrow-right"></span>
+          //     </a>
+          //   </li>
+          // :
+          // false
         }
       </ul>
     );
