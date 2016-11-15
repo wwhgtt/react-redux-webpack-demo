@@ -18,7 +18,6 @@ exports.confirmBill = (data) => (dispatch, getstate) => {
   dispatch(setLoadMsg({ status:true, word:'提交订单中...' }));
   const requestOptions = Object.assign({}, config.requestOptions, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: JSON.stringify(data),
   });
   fetch(`${config.queueSubOrderAPI}?shopId=${shopId}`, requestOptions).
