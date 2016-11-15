@@ -9,6 +9,7 @@ module.exports = React.createClass({ // ShowBasicInfo
     bookInfoItemList:React.PropTypes.array,
     bookDetail:React.PropTypes.object,
     setHoverState:React.PropTypes.func,
+    getBookInfo:React.PropTypes.func,
   },
   getInitialState() {
     return { totalPrice:0, totalNum:0 };
@@ -16,6 +17,10 @@ module.exports = React.createClass({ // ShowBasicInfo
   componentWillMount() {
     this.arrayPrice = [];
     this.arrayNum = [];
+
+    // 获取 bookInfoItemList
+    const { getBookInfo } = this.props;
+    getBookInfo();
   },
   componentDidMount() {},
   shouldComponentUpdate(nextProps, nextState) {

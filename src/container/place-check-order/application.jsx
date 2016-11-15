@@ -1,4 +1,5 @@
 const React = require('react');
+const config = require('../../config');
 const PlaceDetail = require('../../component/place/place-detail.jsx');
 const connect = require('react-redux').connect;
 const dishHelper = require('../../helper/dish-hepler');
@@ -33,7 +34,7 @@ const PlaceCheckOrderApplication = React.createClass({
 
     Object.assign(data, {
       shopId,
-      relatedId:sessionStorage.relatedId || 0,
+      relatedId:sessionStorage.YDrelatedId || 0,
       relatedType:1,
       orderType:orderDetail.type,
       serviceApproach:'totable',
@@ -53,7 +54,7 @@ const PlaceCheckOrderApplication = React.createClass({
           <div className="shop-head of">
             <span className="shop-chosen">已选商品</span>
             <span className="shop-total">共{dishCount}份</span>
-            <a href=" javascript:;" className="shop-edit">修改订单</a>
+            <a href={`${config.getMoreTSDishesURL}?shopId=${shopId}&type=YD`} className="shop-edit">修改订单</a>
           </div>
           <div className="order-list-outer">
             {

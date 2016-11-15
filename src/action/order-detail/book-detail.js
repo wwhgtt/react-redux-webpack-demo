@@ -22,8 +22,13 @@ exports.getBookDetail = () => (dispatch, getStates) => {
       return res.json();
     }).
     then(res => {
+      dispatch(setLoadMsg({ status:false, word:'' }));
       if (res.code === '200') {
         dispatch(setBookDetail(res.data));
+        if (res.data.orderId) {
+          sessionStorage.removeItem('YDrelatedId');
+          sessionStorage.setItem('YDrelatedId', res.data.orderId);
+        }
       } else {
         dispatch(setErrorMsg('预订信息获取失败'));
       }
@@ -44,7 +49,6 @@ exports.getBookInfo = () => (dispatch, getState) => {
     return res.json();
   }).
   then(res => {
-    dispatch(setLoadMsg({ status:false, word:'' }));
     if (res.code === '200') {
       dispatch(setBookInfo(res.data));
     } else {

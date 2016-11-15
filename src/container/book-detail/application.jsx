@@ -2,11 +2,14 @@ const React = require('react');
 const connect = require('react-redux').connect;
 const bookDetailAction = require('../../action/order-detail/book-detail.js');
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
+const getUrlParam = require('../../helper/common-helper.js').getUrlParam;
 const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const PlaceInfoHover = require('../../component/place/place-info-hover.jsx');
 const shopLogoDefault = require('../../asset/images/logo_default.svg');
 const Loading = require('../../component/mui/loading.jsx');
 const Toast = require('../../component/mui/toast.jsx');
+const config = require('../../config');
+
 
 require('../../asset/style/style.scss');
 require('../../component/order-detail/common.scss');
@@ -44,10 +47,14 @@ const BookDetailApplication = React.createClass({
   checkBill() {
     this.setState({ showBill:true });
   },
+  goToBook() {
+    const getMoreTSDishesURL = `${config.getMoreTSDishesURL}?shopId=${getUrlParam('shopId')}&type=YD`;
+    location.href = getMoreTSDishesURL;
+  },
   orderInfoFormat(bookDetail) {
     const sex = String(bookDetail.sex);
     const orderStatus = String(bookDetail.orderStatus);
-    let orderInfoFormat = {};
+    const orderInfoFormat = {};
     let sexStr = '';
     let orderStatusStyle = '';
     const currentTime = new Date().getTime();
@@ -94,9 +101,21 @@ const BookDetailApplication = React.createClass({
   picError() {
     this.setState({ shopLogo:shopLogoDefault });
   },
+  checkBookList(orderMenu, isOrder) {
+    if (orderMenu) {
+      if (isOrder) {
+        return <div className="btn-row btn-row-sure btn-row-mt" onTouchTap={this.checkBill}>查看菜单</div>;
+      }
+      return <div className="btn-row btn-row-sure btn-row-mt" onTouchTap={this.goToBook}>去预点菜</div>;
+    }
+    return false;
+  },
   render() {
-    const { load, errorMessage, clearErrorMsg, bookDetail, bookInfo } = this.props;
+    const { load, errorMessage, clearErrorMsg, bookDetail, bookInfo, getBookInfo } = this.props;
     const { showBill, shopLogo } = this.state;
+    const orderMenu = bookDetail.orderMenu === 1; // 是否已开通预定预点菜
+    const isOrder = bookDetail.isOrder === 1; // 1 已点菜 0 未点菜
+    const checkBookList = this.checkBookList(orderMenu, isOrder);
     return (
       <div className="book-page bg-orange application">
         <div className="book-content content-fillet">
@@ -142,11 +161,18 @@ const BookDetailApplication = React.createClass({
               }
             </div>
           </div>
-          {/* <div className="btn-row btn-row-sure btn-row-mt" onTouchTap={this.checkBill}>查看菜单</div> */}
+          {checkBookList}
         </div>
         <ReactCSSTransitionGroup transitionName="slideuphover" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
         {
-          showBill && <PlaceInfoHover bookInfoItemList={bookInfo.dishItems} bookDetail={bookDetail} setHoverState={this.getHoverState} />
+          showBill && (
+            <PlaceInfoHover
+              bookInfoItemList={bookInfo.dishItems}
+              bookDetail={bookDetail}
+              setHoverState={this.getHoverState}
+              getBookInfo={getBookInfo}
+            />
+          )
         }
         </ReactCSSTransitionGroup>
         {

@@ -6,8 +6,8 @@ require('isomorphic-fetch');
 const setOrderDetail = createAction('SET_ORDER_DETAIL', orderDetail => orderDetail);
 const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setLoadMsg = createAction('SET_LOAD_MSG', loadInfo => loadInfo);
-const shopId = commonHelper.getUrlParam('shopId');
-const orderId = commonHelper.getUrlParam('orderId');
+// const shopId = commonHelper.getUrlParam('shopId');
+// const orderId = commonHelper.getUrlParam('orderId');
 
 exports.getPlaceCheckOrder = () => (dispatch, getState) => {
   const lastOrderedDishes = JSON.parse(localStorage.lastOrderedDishes || '{}');
@@ -31,7 +31,7 @@ exports.confirmBill = (data) => (dispatch, getstate) => {
   then(res => {
     dispatch(setLoadMsg({ status:false, word:'' }));
     if (res.code === '200') {
-      // location.href = 'http://app.d.cn';
+      location.href = `${config.bookingDetailURL}?shopId=${commonHelper.getUrlParam('shopId')}&type=YD}`;
     } else {
       dispatch(setErrorMsg(res.msg));
     }
