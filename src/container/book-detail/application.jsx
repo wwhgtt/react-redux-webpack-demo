@@ -4,7 +4,7 @@ const bookDetailAction = require('../../action/order-detail/book-detail.js');
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
 const getUrlParam = require('../../helper/common-helper.js').getUrlParam;
 const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
-const PlaceInfoHover = require('../../component/place/place-info-hover.jsx');
+const BookInfoHover = require('../../component/book/book-info-hover.jsx');
 const shopLogoDefault = require('../../asset/images/logo_default.svg');
 const Loading = require('../../component/mui/loading.jsx');
 const Toast = require('../../component/mui/toast.jsx');
@@ -166,7 +166,7 @@ const BookDetailApplication = React.createClass({
         <ReactCSSTransitionGroup transitionName="slideuphover" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
         {
           showBill && (
-            <PlaceInfoHover
+            <BookInfoHover
               bookInfoItemList={bookInfo.dishItems}
               bookDetail={bookDetail}
               setHoverState={this.getHoverState}

@@ -11,6 +11,13 @@ const shopId = helper.getUrlParam('shopId');
 const orderId = helper.getUrlParam('orderId');
 
 exports.getBookDetail = () => (dispatch, getStates) => {
+  if (!orderId) {
+    dispatch(setErrorMsg('找不到订单号'));
+    setTimeout(() => {
+      location.href = `${config.shopDetailURL}?shopId=${shopId}`;
+    }, 3000);
+    return false;
+  }
   dispatch(setLoadMsg({ status:true, word:'加载中' }));
   const getBookDetailURL = `${config.getBookDetailAPI}?shopId=${shopId}&orderId=${orderId}`;
   return fetch(getBookDetailURL, config.requestOptions).
@@ -32,13 +39,19 @@ exports.getBookDetail = () => (dispatch, getStates) => {
       } else {
         dispatch(setErrorMsg('预订信息获取失败'));
       }
-    });
+    }).
+    catch(err =>
+      console.log(err)
+    );
 };
 
 
 exports.getBookInfo = () => (dispatch, getState) => {
-  if (!shopId) {
-    dispatch(setErrorMsg('找不到门店号'));
+  if (!orderId) {
+    dispatch(setErrorMsg('找不到订单号'));
+    setTimeout(() => {
+      location.href = `${config.shopDetailURL}?shopId=${shopId}`;
+    }, 3000);
     return;
   }
   fetch(`${config.prepareMyPreOrderAPI}?shopId=${shopId}&orderId=${orderId}`, config.requestOptions).
@@ -54,7 +67,10 @@ exports.getBookInfo = () => (dispatch, getState) => {
     } else {
       dispatch(setErrorMsg(res.msg));
     }
-  });
+  }).
+  catch(err =>
+    console.log(err)
+  );
 };
 
 exports.clearErrorMsg = () => (dispatch, getStates) => {

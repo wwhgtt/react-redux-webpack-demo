@@ -1,10 +1,10 @@
 const React = require('react');
 const classnames = require('classnames');
 const helper = require('../../helper/dish-hepler');
-require('./place-detail.scss');
+require('./book-detail.scss');
 
-const DishDetail = React.createClass({
-  displayName: 'DishDetail',
+const BookDetail = React.createClass({
+  displayName: 'BookDetail',
   propTypes: {
     mainDish: React.PropTypes.object,
   },
@@ -108,5 +108,5 @@ const DishDetail = React.createClass({
   },
 });
 
-module.exports = DishDetail;
+module.exports = BookDetail;
 

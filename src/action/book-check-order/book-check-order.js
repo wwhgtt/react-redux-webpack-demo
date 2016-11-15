@@ -9,7 +9,7 @@ const setLoadMsg = createAction('SET_LOAD_MSG', loadInfo => loadInfo);
 // const shopId = commonHelper.getUrlParam('shopId');
 // const orderId = commonHelper.getUrlParam('orderId');
 
-exports.getPlaceCheckOrder = () => (dispatch, getState) => {
+exports.getBookCheckOrder = () => (dispatch, getState) => {
   const lastOrderedDishes = JSON.parse(localStorage.lastOrderedDishes || '{}');
   dispatch(setOrderDetail(lastOrderedDishes));
 };
@@ -31,10 +31,14 @@ exports.confirmBill = (data) => (dispatch, getstate) => {
   then(res => {
     dispatch(setLoadMsg({ status:false, word:'' }));
     if (res.code === '200') {
-      location.href = `${config.bookingDetailURL}?shopId=${commonHelper.getUrlParam('shopId')}&type=YD}`;
+      const orderId = sessionStorage.YDrelatedId;
+      location.href = `${config.bookingDetailURL}?shopId=${commonHelper.getUrlParam('shopId')}&type=YD&orderId=${orderId}`;
     } else {
       dispatch(setErrorMsg(res.msg));
     }
+  }).
+  catch(err => {
+    console.log(err);
   });
 };
 

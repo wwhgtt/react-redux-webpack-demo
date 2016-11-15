@@ -1,10 +1,10 @@
 const React = require('react');
-require('./place-info-hover.scss');
-const PlaceInfoMainItem = require('./place-info-main-item.jsx');
+require('./book-info-hover.scss');
+const BookInfoMainItem = require('./book-info-main-item.jsx');
 const shallowCompare = require('react-addons-shallow-compare');
 
 module.exports = React.createClass({ // ShowBasicInfo
-  displayName: 'ShowBasicInfo',
+  displayName: 'BookInfoHover',
   propTypes:{
     bookInfoItemList:React.PropTypes.array,
     bookDetail:React.PropTypes.object,
@@ -63,7 +63,7 @@ module.exports = React.createClass({ // ShowBasicInfo
               {
                 bookInfoItemList && bookInfoItemList.length > 0 &&
                 bookInfoItemList.map((item, index) =>
-                  <PlaceInfoMainItem mainDish={item} setPrice={this.getEveryPrice} setNumber={this.getEveryNum} key={index} />
+                  <BookInfoMainItem mainDish={item} setPrice={this.getEveryPrice} setNumber={this.getEveryNum} key={index} />
                 )
               }
             </div>

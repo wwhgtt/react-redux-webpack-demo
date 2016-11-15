@@ -7,8 +7,8 @@ const applyMiddleware = require('redux').applyMiddleware;
 const compose = require('redux').compose;
 const Provider = require('react-redux').Provider;
 const thunkMiddleware = require('redux-thunk').default;
-const reducer = require('./reducer/place-check-order/index.js');
-const PlaceCheckOrderApplication = require('./container/place-check-order/application.jsx');
+const reducer = require('./reducer/book-check-order/index.js');
+const BookCheckOrderApplication = require('./container/book-check-order/application.jsx');
 const injectTapEventPlugin = require('react-tap-event-plugin'); injectTapEventPlugin();
 const logger = require('./helper/logger.js');
 let storeCreator;
@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'production') {
 const store = storeCreator(reducer);
 ReactDOM.render(
   <Provider store={store}>
-    <PlaceCheckOrderApplication />
+    <BookCheckOrderApplication />
   </Provider>,
   document.getElementById('app-placeholder')
 );
