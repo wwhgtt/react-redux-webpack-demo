@@ -22,7 +22,7 @@ fetch(`${config.getOrderInLineAPI}?shopId=${shopId}`, config.requestOptions).
   }).
   then(result => {
     if (result.data.orderSyn) {
-      location.href = `/queue/success?shopId=${shopId}&orderId=${result.data.orderSyn}`;
+      location.href = `/queue/success?shopId=${shopId}&orderSyn=${result.data.orderSyn}`;
     } else {
       dispatch(setOrderInLineProps(result.data));
     }
