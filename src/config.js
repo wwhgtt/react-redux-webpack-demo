@@ -89,7 +89,9 @@ module.exports = {
   settlement4DinnerURL:`${apiBase}/orderall/settlement4Dinner`, // 正餐结算页面
 
   bookingDetailURL:`${apiBase}/booking/bookingDetail`, // 预定详情
-  bookCheckOrderURL:`${apiBase}/book/bookCheckOrder`, // 预定下单页面
+  bookCheckOrderURL:`${apiBase}/prepare/dishBoxBooking`, // 预定下单页面
+  queueDetailURL:`${apiBase}/queue/success`, // 排队详情
+  queueCheckOrderURL:`${apiBase}/prepare/dishBoxQueue`, // 排队下单页面
 
   exceptionDishURL:`${apiBase}/orderall/tableCantOrder`, // 异常页面(无法在该桌台点餐)
   exceptionDishCurrentURL:`${apiBase}/orderall/tableError`, // 异常页面(该桌台无法点餐)
@@ -130,20 +132,22 @@ module.exports = {
   modifyPwd: `${apiBase}/member/modifyPwd.json`, // 修改密码
   resetPassword: `${apiBase}/member/resetPassword.json`, // 重置密码
   getResetPasswordUserInfoAPI: `${apiBase}/member/resetPwd.json`, // 取密码重置用户信息
-  getQueueInfoAPI: `${apiBase}/queue/success.json`, // 排队详情
+
   cancelQueueAPI: `${apiBase}/queue/cancel.json`, // 取消排队
-  getBookDetailAPI: `${apiBase}/booking/bookingDetail.json`, // 预订详情
   orderListAPI: `${apiBase}/order/orderallList.json`, // 订单列表
   takeOutListAPI: `${apiBase}/order/takeOutList.json`, // 外卖列表
   bookListAPI: `${apiBase}/order/bookingList.json`, // 预订列表
   queueListAPI: `${apiBase}/queue/queueList.json`, // 排队列表
   getDinnerDetailAPI: `${apiBase}/order/orderallDetail.json`, // 堂食结算后订单详情
-  getDishMarketInfosAPI: `${apiBase}/orderall/dishMarketInfos.json`, //
+  getDishMarketInfosAPI: `${apiBase}/orderall/dishMarketInfos.json`,
 
-  prepareDishboxAPI:`${apiBase}/prepare/dishBox.json`,
-  prepareMyPreOrderAPI:`${apiBase}/prepare/myPreOrder.json`, // 预定我的菜单
-  prepareSubOrderAPI:`${apiBase}/prepare/subOrder.json`,
-  prepareBookingDetailAPI:`${apiBase}/prepare/bookingDetail`,
+  getBookDetailAPI: `${apiBase}/booking/bookingDetail.json`, // 预订详情
+  getQueueDetailAPI: `${apiBase}/queue/success.json`, // 排队详情
+  bookingMyPreOrderAPI:`${apiBase}/prepare/myPreOrder.json`, // 预定我的菜单
+  queueMyPreOrderAPI:`${apiBase}/prepare/myPreOrder.json`, // 排队我的菜单
+  bookingSubOrderAPI:`${apiBase}/prepare/subOrder.json`,
+  queueSubOrderAPI:`${apiBase}/prepare/subOrder.json`,
+
   getTakeoutDetailAPI: `${apiBase}/order/takeOutDetail.json`, // 外卖结算后订单详情
 
   requestOptions,

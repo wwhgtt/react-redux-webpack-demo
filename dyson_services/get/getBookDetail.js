@@ -2,7 +2,7 @@ module.exports = {
   path: '/booking/bookingDetail.json',
   template: {
     data: {
-      isOrder: 0,
+      isOrder: 1,
       memo: '我是徐大宝宝',
       mobile: '15908198592',
       name: '肥肥gf',

@@ -9,22 +9,34 @@ const bookButton = React.createClass({
   displayName: 'bookButton',
   propTypes: {
     dishes:React.PropTypes.array,
+    type:React.PropTypes.string,
   },
   getInitialState() {
     return {};
   },
   gotoBookDetail(dishesCount) {
+    const { type } = this.props;
     if (dishesCount) {
-      location.href = `${config.bookCheckOrderURL}?shopId=${shopId}&type=YD`;
+      if (type === 'YD') {
+        location.href = `${config.bookCheckOrderURL}?shopId=${shopId}&type=YD`;
+      } else if (type === 'PD') {
+        location.href = `${config.queueCheckOrderURL}?shopId=${shopId}&type=PD`;
+      }
     }
   },
   render() {
-    const { dishes } = this.props;
+    const { dishes, type } = this.props;
     const orderedDishes = helper.getOrderedDishes(dishes);
     const dishesCount = helper.getDishesCount(orderedDishes) || 0;
+    let typeName = '';
+    if (type === 'YD') {
+      typeName = '预定';
+    } else if (type === 'PD') {
+      typeName = '排队';
+    }
     return (
       <div className={classnames('bookok', { 'bookok-transparent':!dishesCount })} onTouchTap={() => this.gotoBookDetail(dishesCount)}>
-        预定
+        {typeName}
         {
           dishesCount ?
             <span className="bookok-num">{dishesCount}</span>

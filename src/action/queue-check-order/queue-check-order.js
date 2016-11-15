@@ -9,7 +9,7 @@ const setLoadMsg = createAction('SET_LOAD_MSG', loadInfo => loadInfo);
 // const shopId = commonHelper.getUrlParam('shopId');
 // const orderId = commonHelper.getUrlParam('orderId');
 
-exports.getBookCheckOrder = () => (dispatch, getState) => {
+exports.getQueueCheckOrder = () => (dispatch, getState) => {
   const lastOrderedDishes = JSON.parse(localStorage.lastOrderedDishes || '{}');
   dispatch(setOrderDetail(lastOrderedDishes));
 };
@@ -21,7 +21,7 @@ exports.confirmBill = (data) => (dispatch, getstate) => {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: JSON.stringify(data),
   });
-  fetch(config.bookingSubOrderAPI, requestOptions).
+  fetch(config.queueSubOrderAPI, requestOptions).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('确认订单失败！！'));
@@ -32,7 +32,7 @@ exports.confirmBill = (data) => (dispatch, getstate) => {
     dispatch(setLoadMsg({ status:false, word:'' }));
     if (res.code === '200') {
       const orderId = sessionStorage.YDrelatedId;
-      location.href = `${config.bookingDetailURL}?shopId=${commonHelper.getUrlParam('shopId')}&type=YD&orderId=${orderId}`;
+      location.href = `${config.queueDetailURL}?shopId=${commonHelper.getUrlParam('shopId')}&type=PD&orderId=${orderId}`;
     } else {
       dispatch(setErrorMsg(res.msg));
     }

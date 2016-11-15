@@ -1,11 +1,15 @@
 const React = require('react');
 const connect = require('react-redux').connect;
+const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const queueDetailAction = require('../../action/order-detail/queue-detail.js');
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
+const getUrlParam = require('../../helper/common-helper.js').getUrlParam;
 const Toast = require('../../component/mui/toast.jsx');
 const ConfirmDialog = require('../../component/mui/dialog/confirm-dialog.jsx');
-
+const QueueInfoHover = require('../../component/book/book-info-hover.jsx');
 const shopLogoDefault = require('../../asset/images/logo_default.svg');
+const Loading = require('../../component/mui/loading.jsx');
+const config = require('../../config');
 
 require('../../asset/style/style.scss');
 require('../../component/order-detail/common.scss');
@@ -14,34 +18,42 @@ require('./application.scss');
 const QueueDetailApplication = React.createClass({
   displayName: 'QueueDetailApplication',
   propTypes: {
-    getQueueInfo: React.PropTypes.func,
+    // from reducers
+    load:React.PropTypes.object,
+    errorMessage: React.PropTypes.string,
     queueInfo: React.PropTypes.object,
-    errorMsg: React.PropTypes.string,
+    queueDetail: React.PropTypes.object,
+
+    // from actions
+    getQueueInfo: React.PropTypes.func,
+    getQueueDetail: React.PropTypes.func,
     cancelQueue: React.PropTypes.func,
     setErrorMsg: React.PropTypes.func,
+    clearErrorMsg: React.PropTypes.func,
     setRefresh: React.PropTypes.func,
     isRefresh: React.PropTypes.bool,
   },
 
   getInitialState() {
     return ({
+      showBill:false,
       isDialogShow: false,
+      shopLogo:shopLogoDefault,
     });
   },
-
   componentWillMount() {
-    this.props.getQueueInfo();
+    const { getQueueDetail } = this.props;
+    getQueueDetail();
   },
-
   // 排队状态 queueStatus 0:排队中 1:入场 -1作废 -2取消
-  getQueueStatus(queueInfo) {
-    if (!queueInfo.queue) {
+  getQueueStatus(queueDetail) {
+    if (!queueDetail.queue) {
       return false;
     }
 
     let queueStatusStyle = '';
     let queueStatus = '';
-    const queueStatusStr = String(queueInfo.queue.queueStatus);
+    const queueStatusStr = String(queueDetail.queue.queueStatus);
 
     if (queueStatusStr === '1') {
       queueStatusStyle = 'queue-status-in';
@@ -56,13 +68,13 @@ const QueueDetailApplication = React.createClass({
   },
 
   // 餐桌类型
-  getTableType(queueInfo) {
+  getTableType(queueDetail) {
     let minNum = '';
     let maxNum = '';
-    if (queueInfo.ql) {
-      minNum = queueInfo.ql.minPersonCount;
-      if (queueInfo.ql.maxPersonCount) {
-        maxNum = queueInfo.ql.maxPersonCount;
+    if (queueDetail.ql) {
+      minNum = queueDetail.ql.minPersonCount;
+      if (queueDetail.ql.maxPersonCount) {
+        maxNum = queueDetail.ql.maxPersonCount;
         if (minNum === maxNum) {
           return `${minNum}人`;
         }
@@ -73,10 +85,10 @@ const QueueDetailApplication = React.createClass({
   },
 
   // 下单人性别
-  getUserSex(queueInfo) {
+  getUserSex(queueDetail) {
     let userSexStr = '';
-    if (queueInfo.queue) {
-      const sex = String(queueInfo.queue.sex);
+    if (queueDetail.queue) {
+      const sex = String(queueDetail.queue.sex);
       if (sex === '0') {
         userSexStr = '女士';
       } else if (sex === '1') {
@@ -86,58 +98,82 @@ const QueueDetailApplication = React.createClass({
 
     return userSexStr;
   },
-
-  handleClearErrorMsg() {
-    this.props.setErrorMsg('');
+  getHoverState() {
+    this.setState({ showBill:false });
   },
-
-  // 排队信息
-  handleRefreshQueueInfo() {
-    const { setRefresh, getQueueInfo, isRefresh } = this.props;
-    if (isRefresh) {
-      return;
-    }
-    setRefresh(true);
-    getQueueInfo();
-  },
-
   // 取消排队
   handleCancelQueue() {
     this.setState({ isDialogShow: false });
     this.props.cancelQueue();
   },
-
+  goToBook() {
+    const getMoreTSDishesURL = `${config.getMoreTSDishesURL}?shopId=${getUrlParam('shopId')}&type=PD`;
+    location.href = getMoreTSDishesURL;
+  },
+  // 排队信息
+  handleRefreshQueueDetail() {
+    const { setRefresh, getQueueDetail, isRefresh } = this.props;
+    if (isRefresh) {
+      return;
+    }
+    setRefresh(true);
+    getQueueDetail();
+  },
+  checkBill() {
+    this.setState({ showBill:true });
+  },
   handleDialog() {
     this.setState({ isDialogShow: !this.state.isDialogShow });
   },
-
+  checkQueueList(orderDish, hasOrder) {
+    if (orderDish) {
+      if (hasOrder) {
+        return (
+          <div className="flex-rest">
+            <div className="btn-row btn-row-sure" onTouchTap={this.checkBill}>查看菜单</div>
+          </div>
+        );
+      }
+      return (
+        <div className="flex-rest">
+          <div className="btn-row btn-row-sure" onTouchTap={this.goToBook}>排队点菜</div>
+        </div>
+      );
+    }
+    return false;
+  },
+  picError() {
+    this.setState({ shopLogo:shopLogoDefault });
+  },
   render() {
-    const { queueInfo, errorMsg, isRefresh } = this.props;
-    const { isDialogShow } = this.state;
-
+    const { queueInfo, queueDetail, getQueueInfo, errorMessage, isRefresh, clearErrorMsg, load } = this.props;
+    const { showBill, isDialogShow, shopLogo } = this.state;
+    const orderDish = queueDetail.orderDish === 1; // 是否已开通排队预点菜
+    const hasOrder = queueDetail.hasOrder === 1; // 1 已点菜 0 未点菜
+    const checkQueueList = this.checkQueueList(orderDish, hasOrder);
     return (
       <div className="queue-page bg-orange application">
         <div className="queue-content content-fillet">
           <div className="box-head">
-            <img className="box-head-logo" src={queueInfo.shopLogo || shopLogoDefault} role="presentation" />
-            <div className="ellipsis box-head-title">{queueInfo.shopName}</div>
+            <img className="box-head-logo" role="presentation" src={shopLogo} onError={this.picError} />
+            <div className="ellipsis box-head-title">{queueDetail.shopName}</div>
           </div>
           <div className="divide-line">
             <div className="divide-line-title divide-line-time">
-              {queueInfo.queue && dateUtility.format(new Date(queueInfo.queue.createDateTime), 'yyyy/MM/dd HH:mm:ss')} 取号
+              {queueDetail.queue && dateUtility.format(new Date(queueDetail.queue.createDateTime), 'yyyy/MM/dd HH:mm:ss')} 取号
             </div>
           </div>
           <div className="queue-info">
-            <p className="queue-info-no">{queueInfo.ql && queueInfo.ql.queueChar}{queueInfo.queueNumber}</p>
-            <p className="queue-info-table">{queueInfo.ql && queueInfo.ql.queueName} {this.getTableType(queueInfo)}桌</p>
+            <p className="queue-info-no">{queueDetail.ql && queueDetail.ql.queueChar}{queueDetail.queueNumber}</p>
+            <p className="queue-info-table">{queueDetail.ql && queueDetail.ql.queueName} {this.getTableType(queueDetail)}桌</p>
           </div>
-          {queueInfo.queue && String(queueInfo.queue.queueStatus) === '0' &&
+          {queueDetail.queue && String(queueDetail.queue.queueStatus) === '0' &&
             <div className="queue-detail">
               <div className="queue-waite">
                 <p>在您之前还有
-                  <span className="queue-waite-num">{queueInfo.count}</span>
+                  <span className="queue-waite-num">{queueDetail.count}</span>
                   桌客人等候
-                  <a className={`queue-waite-refresh ${isRefresh && 'refresh-animation'}`} onTouchTap={this.handleRefreshQueueInfo}></a>
+                  <a className={`queue-waite-refresh ${isRefresh && 'refresh-animation'}`} onTouchTap={this.handleRefreshQueueDetail}></a>
                 </p>
                 <p className="queue-waite-tip">听到叫号请到迎宾台，过号作废</p>
               </div>
@@ -145,23 +181,43 @@ const QueueDetailApplication = React.createClass({
           }
 
           <div className="queue-user clearfix">
-            <span className="queue-user-name ellipsis">{queueInfo.queue && queueInfo.queue.name}{this.getUserSex(queueInfo)}</span>
-            <span className="queue-user-phone ellipsis">{queueInfo.queue && queueInfo.queue.mobile}</span>
-            <span className="queue-user-num ellipsis">{queueInfo.queue && queueInfo.queue.repastPersonCount}人</span>
+            <span className="queue-user-name ellipsis">{queueDetail.queue && queueDetail.queue.name}{this.getUserSex(queueDetail)}</span>
+            <span className="queue-user-phone ellipsis">{queueDetail.queue && queueDetail.queue.mobile}</span>
+            <span className="queue-user-num ellipsis">{queueDetail.queue && queueDetail.queue.repastPersonCount}人</span>
           </div>
-          {queueInfo.queue && String(queueInfo.queue.queueStatus) === '0' &&
+          {queueDetail.queue && String(queueDetail.queue.queueStatus) === '0' &&
             <div>
               <div className="divide-line">
                 <div className="divide-line-title divide-line-three">您可以</div>
               </div>
-              <div className="queue-operate">
-                <a className="btn-queue-cancel" onTouchTap={this.handleDialog}>取消排队</a>
+              <div className="queue-operate flex-row">
+                <div className="flex-rest">
+                  <a className="btn-queue-cancel" onTouchTap={this.handleDialog}>取消排队</a>
+                </div>
+                {checkQueueList}
               </div>
             </div>
           }
-          {this.getQueueStatus(queueInfo)}
+          {this.getQueueStatus(queueDetail)}
         </div>
-        {errorMsg && <Toast errorMessage={errorMsg} clearErrorMsg={this.handleClearErrorMsg} />}
+        <ReactCSSTransitionGroup transitionName="slideuphover" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
+        {
+          showBill && (
+            <QueueInfoHover
+              bookQueueItemList={queueInfo.dishItems}
+              bookQueueDetail={queueDetail}
+              setHoverState={this.getHoverState}
+              getBookQueueInfo={getQueueInfo}
+            />
+          )
+        }
+        </ReactCSSTransitionGroup>
+        {
+          load.status && <Loading word={load.word} />
+        }
+        {
+          errorMessage && <Toast clearErrorMsg={clearErrorMsg} errorMessage={errorMessage} />
+        }
         {
           isDialogShow && <ConfirmDialog
             onCancel={this.handleDialog}
