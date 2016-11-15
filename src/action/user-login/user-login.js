@@ -13,20 +13,28 @@ const setSupportInfo = createAction('SET_SUPPORT_INFO', info => info);
 const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
 
 exports.login = (info) => (dispatch, getState) => {
+  let fromBrand = 1;
   if (!shopId) {
     dispatch(setErrorMsg('门店编码不能为空'));
     return false;
   }
 
   const returnUrl = getUrlParam('returnUrl') || encodeURIComponent(`/brand/index${location.search}`);
+  const returnUrlDecode = decodeURIComponent(returnUrl);
+  const returnUrlPath = returnUrlDecode.substring(0, returnUrlDecode.indexOf('?'));
+  const isFromBrand = /dishBox|Dinner|queue|prepare/.test(returnUrlPath);
+  if (isFromBrand) {
+    fromBrand = 0;
+  }
+
   if (info.isWeixin) {
-    location.href = `${config.userLoginWXURL}?shopId=${shopId}&returnUrl=${returnUrl}`;
+    location.href = `${config.userLoginWXURL}?shopId=${shopId}&returnUrl=${returnUrl}&fromBrand=${fromBrand}`;
     return false;
   }
 
   dispatch(setLoadingInfo({ ing: true, text: '系统处理中...' }));
   const timestamp = getState().timestamp || new Date().getTime();
-  const url = `${config.userLoginAPI}?shopId=${shopId}&mobile=${info.phoneNum}&code=${info.code}&timeStamp=${timestamp}`;
+  const url = `${config.userLoginAPI}?shopId=${shopId}&mobile=${info.phoneNum}&code=${info.code}&timeStamp=${timestamp}&fromBrand=${fromBrand}`;
   return fetch(url, config.requestOptions).
     then(res => {
       if (!res.ok) {
