@@ -38,7 +38,9 @@ exports.getQueueDetail = () => (dispatch, getStates) => {
         dispatch(setQueueDetail(res.data));
         if (res.data.orderId) {
           sessionStorage.removeItem('PDrelatedId');
+          sessionStorage.removeItem('PDorderSyn');
           sessionStorage.setItem('PDrelatedId', res.data.queue.queueID);
+          sessionStorage.setItem('PDorderSyn', orderSyn);
         }
       } else {
         dispatch(setErrorMsg('预订信息获取失败'));
