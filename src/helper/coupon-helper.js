@@ -31,10 +31,10 @@ exports.formateOriginDate = (date) => {
 
 const formateInstruction = exports.formateInstruction = (information) => {
   const reg = new RegExp('<[^<]*>', 'gi');    // 标签的正则表达式
-  if (information.replace(reg, '')) {
+  if (information && information.replace(reg, '')) {
     return information.replace(/<p>/ig, '').replace(/<\/p>/ig, '\n');
   }
-  return information.replace(reg, '');
+  return information ? information.replace(reg, '') : false;
 };
 
 const formateWeixinTime = exports.formateWeixinTime = (advancedInfo) => {
