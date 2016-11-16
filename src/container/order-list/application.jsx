@@ -29,7 +29,7 @@ const OrderListApplication = React.createClass({
     takeOutList: React.PropTypes.array,
     bookList: React.PropTypes.array,
     queueList: React.PropTypes.array,
-    loadStatus: React.PropTypes.boolean,
+    loadStatus: React.PropTypes.bool,
     errorMessage: React.PropTypes.string,
   },
 
@@ -61,16 +61,12 @@ const OrderListApplication = React.createClass({
 
   componentDidMount() {
     const options = {
-      preventDefault: false,
-      click: true,
-      tap: true,
       mouseWheel: true,
-      probeType: 3,
-      bounce: true,
+      // probeType: 3,
+      // bounce: true,
     };
     const wapper = document.getElementById('myScroll');
     this.myScroll = new IScroll(wapper, options);
-    this.myScroll.on('scroll', this.onScroll);
     this.myScroll.on('scrollEnd', this.onScrollEnd);
   },
 
@@ -96,9 +92,6 @@ const OrderListApplication = React.createClass({
     setTimeout(() => {
       this.myScroll.refresh();
     }, 0);
-  },
-
-  onScroll() {
   },
 
   onScrollEnd() {
