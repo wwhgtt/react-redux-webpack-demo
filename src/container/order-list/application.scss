@@ -14,9 +14,13 @@
 }
 
 .order-conent {
+  position: absolute;
+  top: 65px;
+  right: 0;
+  bottom: 0;
+  left: 0;
   overflow: hidden;
   height: calc(100% - 65px);
-  margin-top: 65px;
 }
 
 .order-list-group {
@@ -185,4 +189,8 @@
 
 .text-orange {
   color: #ff7417;
+}
+
+.loading-hover {
+  top: 65px;
 }

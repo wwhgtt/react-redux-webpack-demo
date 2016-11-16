@@ -6,6 +6,8 @@ const defaultState = Immutable.from({
   takeOutList: [],
   bookList: [],
   queueList: [],
+  loadStatus: false,
+  errorMessage: '',
 });
 
 module.exports = (state = defaultState, action) => {
@@ -21,6 +23,10 @@ module.exports = (state = defaultState, action) => {
       return state.set('bookList', payload);
     case 'SET_QUEUE_LIST':
       return state.set('queueList', payload);
+    case 'SET_LOAD_STATUS':
+      return state.set('loadStatus', payload);
+    case 'SET_ERROR_MSG':
+      return state.set('errorMessage', payload);
     default:
       return state;
   }

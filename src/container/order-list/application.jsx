@@ -5,6 +5,8 @@ const IScroll = require('iscroll/build/iscroll-probe');
 
 require('../../asset/style/style.scss');
 
+const Load = require('../../component/mui/loading.jsx');
+const Toast = require('../../component/mui/toast.jsx');
 const SwitchNavi = require('../../component/mui/switch-navi.jsx');
 const OrderDinner = require('../../component/order-list/order-dinner.jsx');
 const OrderBook = require('../../component/order-list/order-book.jsx');
@@ -20,12 +22,15 @@ const OrderListApplication = React.createClass({
     getTakeOutList: React.PropTypes.func,
     getBookList: React.PropTypes.func,
     getQueueList: React.PropTypes.func,
+    setErrorMsg: React.PropTypes.func,
 
     childView: React.PropTypes.string,
     orderList: React.PropTypes.array,
     takeOutList: React.PropTypes.array,
     bookList: React.PropTypes.array,
     queueList: React.PropTypes.array,
+    loadStatus: React.PropTypes.boolean,
+    errorMessage: React.PropTypes.string,
   },
 
   getInitialState() {
@@ -162,6 +167,10 @@ const OrderListApplication = React.createClass({
     );
   },
 
+  handleClearErrorMsg() {
+    this.props.setErrorMsg('');
+  },
+
   // tabs切换
   handleGetIndex(index) {
     const { setChildView } = this.props;
@@ -182,7 +191,15 @@ const OrderListApplication = React.createClass({
   },
 
   render() {
-    const { showSection, dinnerListArr, takeOutListArr, bookListArr, queueListArr } = this.state;
+    const {
+      showSection,
+      dinnerListArr,
+      takeOutListArr,
+      bookListArr,
+      queueListArr,
+    } = this.state;
+
+    const { loadStatus, errorMessage } = this.props;
     return (
       <div className="order-page application">
         <SwitchNavi
@@ -200,6 +217,10 @@ const OrderListApplication = React.createClass({
         </div>
         {
           // <div className="copyright"></div>
+          loadStatus && <Load word="加载中" />
+        }
+        {
+          errorMessage && <Toast errorMessage={errorMessage} clearErrorMsg={this.handleClearErrorMsg} />
         }
       </div>
     );
@@ -213,6 +234,8 @@ const mapStateToProps = function (state) {
     takeOutList: state.takeOutList,
     bookList: state.bookList,
     queueList: state.queueList,
+    loadStatus: state.loadStatus,
+    errorMessage: state.errorMessage,
   });
 };
 
