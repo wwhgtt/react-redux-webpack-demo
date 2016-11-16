@@ -58,7 +58,7 @@ const MineAccumulationApplication = React.createClass({
     });
   },
   componentWillReceiveProps(nextProps) {
-    if (nextProps.accumulationInfo.pageSize === 1) {
+    if (!nextProps.accumulationInfo.pageSize || nextProps.accumulationInfo.pageSize === 1) {
       this.setState({ hideLoad:true });
     }
   },
@@ -131,14 +131,24 @@ const MineAccumulationApplication = React.createClass({
       );
     }
 
-    const rules = [];
-    const cash = [];
-    rules.push(`每消费${currentRule.consumeValue}元可获得${currentRule.consumeGainValue}个积分`);
-    cash.push(`每${currentRule.exchangeIntegralValue}个积分抵现${currentRule.exchangeCashValue}元`);
+    let rules = '';
+    if (!currentRule.consumeValue || !currentRule.consumeGainValue) {
+      rules = '不积分';
+    } else {
+      rules = `每消费${currentRule.consumeValue}元可获得${currentRule.consumeGainValue}个积分`;
+    }
+
+    let cash = '';
+    if (!currentRule.exchangeIntegralValue || !currentRule.exchangeCashValue) {
+      cash = '不抵现';
+    } else {
+      cash = `每${currentRule.exchangeIntegralValue}个积分抵现${currentRule.exchangeCashValue}元`;
+    }
+
     return (
       <ul className="masthead-discription-content">
-        <li><label>积分规则: </label><p>{rules.join('\n')}</p></li>
-        <li><label>积分抵现: </label><p>{cash.join('\n')}</p></li>
+        <li><label>积分规则: </label><p>{rules}</p></li>
+        <li><label>积分抵现: </label><p>{cash}</p></li>
       </ul>
     );
   },

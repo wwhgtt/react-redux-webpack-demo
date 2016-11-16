@@ -39,16 +39,19 @@ module.exports = React.createClass({
   },
   vipFormat() {
     const { grownLevelInfo } = this.props;
-    if (grownLevelInfo.levelList && grownLevelInfo.levelList.length !== 0) {
-      const length = grownLevelInfo.levelList.length;
+    if (grownLevelInfo.allLevelRuleVO && grownLevelInfo.allLevelRuleVO.length !== 0) {
+      const grownLevelList = Array.prototype.slice.call(grownLevelInfo.allLevelRuleVO).sort((a, b) =>
+        a.levelId > b.levelId
+      );
+      const length = grownLevelList.length;
       this.perWidth = 100 / length;
-      const grounValue = grownLevelInfo.grounValue;
+      const curGrownValue = grownLevelInfo.curGrownValue;
       return (
         <ul className="process-ul flex-row">
           {
-            grownLevelInfo.levelList.map((item, index) => {
+            grownLevelList.map((item, index) => {
               let lineWidth = '0%';
-              const name = item.name;
+              const name = item.levelName;
               const needGrownValue = item.needGrownValue;
               const needGrownValueFontSize =
                 item.needGrownValue ?
@@ -57,16 +60,16 @@ module.exports = React.createClass({
                   { fontSize:'2em' };
               let active = false;
               let fakeActive = false;
-              if (grounValue >= needGrownValue) {
+              if (curGrownValue >= needGrownValue) {
                 active = true;
                 lineWidth = '100%';
                 if (index === this.lastnum) {
                   fakeActive = true;
                   this.curPosition = `${this.perWidth * (index + 1) - this.perWidth / 2}%`;
-                  if (grownLevelInfo.levelList[index + 1]) {
+                  if (grownLevelList[index + 1]) {
                     lineWidth =
-                      `${(grounValue - needGrownValue) /
-                      (grownLevelInfo.levelList[index + 1].needGrownValue - needGrownValue) * 100}%`;
+                      `${(curGrownValue - needGrownValue) /
+                      (grownLevelList[index + 1].needGrownValue - needGrownValue) * 100}%`;
                   } else {
                     lineWidth = '100%';
                   }
@@ -92,9 +95,12 @@ module.exports = React.createClass({
     const { grownLevelInfo } = this.props;
     let name = '';
     let count = '';
-    if (grownLevelInfo.levelList && grownLevelInfo.levelList.length !== 0) {
-      grownLevelInfo.levelList.forEach((item, index) => {
-        if (item.needGrownValue <= grownLevelInfo.grounValue) {
+    if (grownLevelInfo.allLevelRuleVO && grownLevelInfo.allLevelRuleVO.length !== 0) {
+      const grownLevelList = Array.prototype.slice.call(grownLevelInfo.allLevelRuleVO).sort((a, b) =>
+        a.levelId > b.levelId
+      );
+      grownLevelList.forEach((item, index) => {
+        if (item.needGrownValue <= grownLevelInfo.curGrownValue) {
           name = item.name;
           count = `process-icon lv${index + 1}`;
           this.lastnum = index;
@@ -106,7 +112,7 @@ module.exports = React.createClass({
         <div className={count}></div>
         <h3 className="vip-name">{name}</h3>
         <p className="vip-value">
-          成长值：{grownLevelInfo.grounValue}
+          成长值：{grownLevelInfo.curGrownValue}
           <a href={growthValueURL} className="vip-value-link">查看明细></a>
         </p>
       </div>

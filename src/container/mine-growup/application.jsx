@@ -56,7 +56,7 @@ const MineGrowupApplication = React.createClass({
     });
   },
   componentWillReceiveProps(nextProps) {
-    if (nextProps.growupInfo.pageSize === 1) {
+    if (!nextProps.growupInfo.pageSize || nextProps.growupInfo.pageSize === 1) {
       this.setState({ hideLoad:true });
     }
   },
@@ -118,14 +118,15 @@ const MineGrowupApplication = React.createClass({
   },
   buildDescriptContentElement() {
     const { currentRule } = this.props;
-    if (!currentRule) {
-      return <p>无</p>;
+    const style = { textAlign: 'center' };
+    if (!currentRule || !currentRule.grownConsumeValue || !currentRule.grownConsumeGainValue) {
+      return <p style={style}>无</p>;
     }
 
     const text = `每消费${currentRule.grownConsumeValue}元可获得${currentRule.grownConsumeGainValue}点成长值`;
     return (
       <ul className="masthead-discription-content" onTouchTap={this.toggleDescriptContent}>
-        <li style={{ textAlign: 'center' }}>{text}</li>
+        <li style={style}>{text}</li>
       </ul>
     );
   },
@@ -136,7 +137,7 @@ const MineGrowupApplication = React.createClass({
       <div className="accumulation">
         <div className="masthead">
           <a className="masthead-discription-title" onTouchTap={this.toggleDescriptContent}>成长值说明</a>
-          <p className="masthead-total">{currentRule && currentRule.curGrownValue}</p>
+          <p className="masthead-total">{currentRule && currentRule.curGrownValue || 0}</p>
           <p className="masthead-title">我的成长值</p>
         </div>
         <GrowAccumeList

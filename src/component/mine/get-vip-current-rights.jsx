@@ -28,11 +28,13 @@ module.exports = React.createClass({
   },
   scorePart(levelRights) {
     if (levelRights && levelRights.consumeValue && levelRights.consumeGainValue) {
-      let content = `每消费${levelRights.consumeValue}元可获得${levelRights.consumeGainValue}个积分，`;
-      if (levelRights.isGainAll === 0) {
-        content += '全部商品可积分';
-      } else {
-        content += `无积分商品：${levelRights.dishNames}`;
+      let content = `每消费${levelRights.consumeValue}元可获得${levelRights.consumeGainValue}个积分`;
+      if (levelRights.isGainAll) {
+        if (levelRights.isGainAll === 0) {
+          content += '，全部商品可积分';
+        } else {
+          content += `，无积分商品：${levelRights.dishNames}`;
+        }
       }
       return (
         <ListItem listContent={content} />
@@ -53,10 +55,10 @@ module.exports = React.createClass({
         limitWord = `单次最多可抵用订单金额的${levelRights.discount}%`;
       }
 
-      if (levelRights.isExchangeCash === 0) {
-        content = `每${levelRights.exchangeIntegralValue}个积分可抵扣${levelRights.exchangeCashValue}元，${limitWord}`;
-      } else {
+      if (levelRights.isExchangeCash && levelRights.isExchangeCash !== 0) {
         content = '不可抵现';
+      } else if (levelRights.exchangeIntegralValue && levelRights.exchangeCashValue) {
+        content = `每${levelRights.exchangeIntegralValue}个积分可抵扣${levelRights.exchangeCashValue}元 ${limitWord}`;
       }
       return (
         <ListItem listContent={content} />

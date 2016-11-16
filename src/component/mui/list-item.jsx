@@ -12,10 +12,16 @@ const ListItem = React.createClass({
     const { listContent } = this.props;
     return (
       <p className="list-term of">
-        <i className="cube fl">◆</i>
-        <span className="content of">
-          {listContent}
-        </span>
+        {
+          listContent && (
+            <span>
+              <i className="cube fl">◆</i>
+              <span className="content of">
+                {listContent}
+              </span>
+            </span>
+          )
+        }
       </p>
   );
   },
