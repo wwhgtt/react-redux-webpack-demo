@@ -8,7 +8,7 @@ require('./book-button.scss');
 const bookButton = React.createClass({
   displayName: 'bookButton',
   propTypes: {
-    dishes:React.PropTypes.array,
+    dishesCount:React.PropTypes.number,
     type:React.PropTypes.string,
   },
   getInitialState() {
@@ -25,9 +25,7 @@ const bookButton = React.createClass({
     }
   },
   render() {
-    const { dishes, type } = this.props;
-    const orderedDishes = helper.getOrderedDishes(dishes);
-    const dishesCount = helper.getDishesCount(orderedDishes) || 0;
+    const { dishesCount, type } = this.props;
     let typeName = '';
     if (type === 'YD') {
       typeName = '预定';
@@ -37,12 +35,6 @@ const bookButton = React.createClass({
     return (
       <div className={classnames('bookok', { 'bookok-transparent':!dishesCount })} onTouchTap={() => this.gotoBookDetail(dishesCount)}>
         {typeName}
-        {
-          dishesCount ?
-            <span className="bookok-num">{dishesCount}</span>
-          :
-          false
-        }
       </div>
     );
   },

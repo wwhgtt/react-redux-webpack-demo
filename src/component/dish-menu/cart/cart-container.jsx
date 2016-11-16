@@ -15,6 +15,7 @@ module.exports = React.createClass({
     takeawayServiceProps: React.PropTypes.object,
     openTimeList: React.PropTypes.array,
     isAcceptTakeaway: React.PropTypes.bool,
+    urlType: React.PropTypes.string,
   },
   getInitialState() {
     return {
@@ -32,7 +33,7 @@ module.exports = React.createClass({
     }
   },
   render() {
-    const { dishes, takeawayServiceProps, onBillBtnTap, onOrderBtnTap, openTimeList, isAcceptTakeaway } = this.props;
+    const { dishes, takeawayServiceProps, onBillBtnTap, onOrderBtnTap, openTimeList, isAcceptTakeaway, urlType } = this.props;
     const { expand } = this.state;
     const orderedDishes = helper.getOrderedDishes(dishes);
     const dishesCount = helper.getDishesCount(orderedDishes);
@@ -52,6 +53,7 @@ module.exports = React.createClass({
           takeawayServiceProps={takeawayServiceProps}
           isShopOpen={isShopOpen}
           onBillBtnTap={onBillBtnTap} onCartIconTap={this.expandCart}
+          urlType={urlType}
         />
         {expand && dishesCount > 0 ?
           <ExpandCart
@@ -59,6 +61,7 @@ module.exports = React.createClass({
             orderedDishes={orderedDishes} takeawayServiceProps={takeawayServiceProps}
             isShopOpen={isShopOpen}
             onBillBtnTap={onBillBtnTap} onCartIconTap={this.expandCart} onOrderBtnTap={onOrderBtnTap} onClearBtnTap={this.onClearBtnTap}
+            urlType={urlType}
           /> : false}
       </div>
     );

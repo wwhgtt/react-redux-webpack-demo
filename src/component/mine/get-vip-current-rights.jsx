@@ -56,9 +56,9 @@ module.exports = React.createClass({
       }
 
       if (levelRights.isExchangeCash && levelRights.isExchangeCash !== 0) {
-        content = '不可抵现';
-      } else if (levelRights.exchangeIntegralValue && levelRights.exchangeCashValue) {
         content = `每${levelRights.exchangeIntegralValue}个积分可抵扣${levelRights.exchangeCashValue}元 ${limitWord}`;
+      } else {
+        content = '不可抵现';
       }
       return (
         <ListItem listContent={content} />
