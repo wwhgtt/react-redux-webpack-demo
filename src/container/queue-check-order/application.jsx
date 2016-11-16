@@ -74,7 +74,7 @@ const QueueCheckOrderApplication = React.createClass({
           <div className="option">
             <span className="option-title">备注</span>
             <div className="of">
-              <input type="text" name="notes" className="option-input" placeholder="在这里输入备注哦" ref="note" />
+              <input type="text" name="notes" className="option-input" placeholder="在这里输入备注哦" maxLength="80" ref="note" />
             </div>
           </div>
         </div>

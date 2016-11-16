@@ -62,8 +62,8 @@ module.exports = {
   grownLevelxAPI:`${apiBase}/member/customerLevel.json`, // 会员页面
   getCouponListAPI:`${apiBase}/coupon/getCouponList.json`, // 优惠券列表
   // 跳转URL
-  getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
-  getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
+  getMoreTSDishesURL:`${apiBase}/orderall/selectDish`, // TS
+  getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`, // WM
   editUserAddressURL: `${apiBase}/user/address`,
 
   brandIndexURL:`${apiBase}/brand/index`, // 品牌首页
