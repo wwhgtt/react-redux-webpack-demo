@@ -31,6 +31,7 @@ exports.confirmBill = (data) => (dispatch, getstate) => {
     dispatch(setLoadMsg({ status:false, word:'' }));
     if (res.code === '200') {
       const orderSyn = sessionStorage.PDorderSyn;
+      localStorage.clear();
       location.href = `${config.queueDetailURL}?shopId=${commonHelper.getUrlParam('shopId')}&type=PD&orderSyn=${orderSyn}`;
     } else {
       dispatch(setErrorMsg(res.msg));
