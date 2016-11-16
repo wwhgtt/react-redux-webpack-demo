@@ -15,7 +15,6 @@ module.exports = React.createClass({ // ShowBasicInfo
     const { listName, buildListElement, hideLoad } = this.props;
     const noRecords = !buildListElement || buildListElement.length === 0;
     const recordsClasName = `section records ${noRecords ? 'records-empty' : ''}`;
-
     return (
       <div className="detail">
         <div className="detail-title">{listName}</div>
