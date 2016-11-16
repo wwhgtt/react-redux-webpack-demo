@@ -119,7 +119,7 @@ const getOrderPrice = exports.getOrderPrice = function (dish, orderData) {
   }
   // for nongroup dish, from this line.
   const rePriceProps = orderData.dishPropertyTypeInfos.filter(prop => prop.type !== 3);
-  const ingredientsPriceProps = orderData.dishIngredientInfos;
+  const ingredientsPriceProps = orderData.dishIngredientInfos || [];
   const checkedRepricePropPrices = [].concat.apply(
     [], rePriceProps.map(
       rePriceProp => rePriceProp.properties.filter(prop => prop.isChecked).
