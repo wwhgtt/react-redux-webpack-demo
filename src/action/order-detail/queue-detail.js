@@ -14,7 +14,7 @@ const shopId = helper.getUrlParam('shopId');
 const orderSyn = helper.getUrlParam('orderSyn');
 
 
-exports.getQueueDetail = () => (dispatch, getStates) => {
+const getQueueDetail = exports.getQueueDetail = () => (dispatch, getStates) => {
   if (!orderSyn) {
     dispatch(setErrorMsg('找不到订单号'));
     setTimeout(() => {
@@ -56,7 +56,7 @@ exports.getQueueDetail = () => (dispatch, getStates) => {
 };
 
 // 获取排队信息
-const getQueueInfo = exports.getQueueInfo = () => (dispatch, getStates) => {
+exports.getQueueInfo = () => (dispatch, getStates) => {
   if (!orderSyn) {
     dispatch(setErrorMsg('找不到订单号'));
     setTimeout(() => {
@@ -94,7 +94,7 @@ exports.cancelQueue = () => (dispatch, getStates) => {
   }).
   then(res => {
     if (String(res.data.status) === '0') {
-      dispatch(getQueueInfo());
+      dispatch(getQueueDetail());
     } else {
       dispatch(setErrorMsg('取消排队失败，请重试'));
     }

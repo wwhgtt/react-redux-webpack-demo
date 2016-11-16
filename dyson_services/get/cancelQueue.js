@@ -4,7 +4,7 @@ module.exports = {
     data: {
       message: 'sd',
       orderId: 234,
-      status: -1,
+      status: 0,
     },
     time: 1472458598918,
     code: '200',
