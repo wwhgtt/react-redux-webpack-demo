@@ -40,7 +40,7 @@ module.exports = React.createClass({
                   <button
                     className={classnames('dish-porps-option', { 'is-checked':prop.isChecked })}
                     onTouchTap={evt => this.onDishRuleChecked(prop.id, ruleDish, dish)}
-                    key={prop.id}
+                    key={+prop.id + Math.random() * 10000 + 1}
                   >
                     <span className="extra">{prop.reprice ? `+${prop.reprice}元` : false}</span>
                     <span className="name ellipsis">{prop.name}</span>
@@ -58,7 +58,7 @@ module.exports = React.createClass({
           <button
             className={classnames('dish-porps-option', { 'is-checked':ruleCollection[i].properties[0].isChecked })}
             onTouchTap={evt => this.onDishRuleChecked(ruleCollection[i].properties[0].id, dish, dish)}
-            key={ruleCollection[i].properties[0].id}
+            key={+ruleCollection[i].properties[0].id + Math.random() * 10000 + 1}
           >
             <span className="extra">{
               ruleCollection[i].properties[0].reprice ?
