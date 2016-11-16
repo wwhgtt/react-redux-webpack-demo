@@ -123,7 +123,7 @@ module.exports = {
   validBindMobileActiveAPI: `${apiBase}/user/validBindMobileActive.json`, // 绑定手机验证码校验(会员卡激活)：是否会员/是否和其他微信绑定
 
   getBalanceInfoAPI: `${apiBase}/member/valueCard.json`, // 会员卡余额信息
-  getIntegralAPI: `${apiBase}/member/integral.json`, //
+  getIntegralDetailAPI: `${apiBase}/member/integralDetail.json`, //
   getGrowthValueAPI: `${apiBase}/member/growthValue.json`, //
   getGrownLevelsAPI: `${apiBase}/member/grownLevel.json`, //
   getRechargeInfoAPI: `${apiBase}/shop/recharge.json`, // 会员卡充值信息
