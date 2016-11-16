@@ -175,15 +175,15 @@ const DinnerDetailApplication = React.createClass({
               <div className="flex-row">
                 <div className="flex-row-item">
                   <span className="list-statictis-title">原价</span>
-                  <span className="price ellipsis list-statictis-origin">{this.getOriginPrice()}2345432</span>
+                  <span className="price ellipsis list-statictis-origin">{this.getOriginPrice()}</span>
                 </div>
                 <div className="flex-row-item">
                   <span className="list-statictis-title">共优惠</span>
-                  <span className="price ellipsis list-statictis-privilage">{Math.abs(dinnerDetail.tradePrivilegeAmount || 0)}234567654</span>
+                  <span className="price ellipsis list-statictis-privilage">{Math.abs(dinnerDetail.tradePrivilegeAmount || 0)}</span>
                 </div>
                 <div className="flex-row-item">
                   <span className="list-statictis-title">总计：</span>
-                  <span className="price ellipsis list-statictis-total">{dinnerDetail.tradeAmount}4567876543</span>
+                  <span className="price ellipsis list-statictis-total">{dinnerDetail.tradeAmount}</span>
                 </div>
               </div>
             </div>
