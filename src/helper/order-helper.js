@@ -104,6 +104,12 @@ exports.handleWeixinCard = function (couponList) {
       coupon.coupRuleBeanList = [];
       coupon.coupDishBeanList = [];
     }
+    if (!coupon.coupRuleBeanList) {
+      coupon.coupRuleBeanList = [];
+    }
+    if (!coupon.coupDishBeanList) {
+      coupon.coupDishBeanList = [];
+    }
   });
   return couponList;
 };

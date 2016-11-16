@@ -31,10 +31,10 @@ exports.formateOriginDate = (date) => {
 
 const formateInstruction = exports.formateInstruction = (information) => {
   const reg = new RegExp('<[^<]*>', 'gi');    // 标签的正则表达式
-  if (information.replace(reg, '')) {
+  if (information && information.replace(reg, '')) {
     return information.replace(/<p>/ig, '').replace(/<\/p>/ig, '\n');
   }
-  return information.replace(reg, '');
+  return information ? information.replace(reg, '') : false;
 };
 
 const formateWeixinTime = exports.formateWeixinTime = (advancedInfo) => {
@@ -153,7 +153,7 @@ exports.loyaltyCouponParam = (item) => {
   if (renderWeek) {
     instructions.push(`${renderWeek.substring(0, renderWeek.length - 1)}可用`);
   } else {
-    instructions.push('整周可用');
+    /* instructions.push('整周可用');*/
   }
   instructions.push(`本券${item.usableCommercialDesc}`);
 
@@ -179,15 +179,13 @@ exports.loyaltyCouponParam = (item) => {
 
   if (item.couponStatus !== 1) {
     if (item.couponStatus === 3) {
-      statusWord = '已过期';
       typeClass = 'shixiao yiguoqi';
     } else {
-      statusWord = '已使用';
       typeClass = 'shixiao yishiyong';
     }
-  } else {
-    statusWord = '有效期';
   }
+
+  statusWord = '有效期';
 
   return {
     typeClass,

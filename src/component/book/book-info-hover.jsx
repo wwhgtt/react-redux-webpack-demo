@@ -54,7 +54,7 @@ module.exports = React.createClass({ // ShowBasicInfo
     const { totalPrice, totalNum } = this.state;
     return (
       <div className="float-layer">
-        <div className="float-layer-hover"></div>
+        <div className="float-layer-hover" onTouchTap={(e) => this.closeHover(false, e)}></div>
         <div className="float-layer-content">
           <div className="float-layer-inner">
             <p className="bill-info">

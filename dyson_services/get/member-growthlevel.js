@@ -7,15 +7,19 @@ module.exports = {
       'curGrownValue': 2000,
       'allLevelRuleVO': [
           {
-              'levelId': 1,
-              'levelName': '微会员',
-              'needGrownValue': 0,
-              'consumeValue': 1,
-              'consumeGainValue': 5,
-              'exchangeIntegralValue': 10,
-              'exchangeCashValue': 1,
-              'grownConsumeValue': 1,
-              'grownConsumeGainValue': 9,
+            'levelId': 1,
+            'levelName': '微会员',
+            'needGrownValue': 0,
+            'consumeValue': 1,
+            'consumeGainValue': 5,
+            'exchangeIntegralValue': 10,
+            'exchangeCashValue': 1,
+            'grownConsumeValue': 1,
+            'grownConsumeGainValue': 9,
+            'isExchangeCash': 0,
+            'limitType': 1,
+            'discount': 5,
+            'limitIntegral':0
           },
           {
               'levelId': 3,
@@ -27,6 +31,10 @@ module.exports = {
               'exchangeCashValue': 0,
               'grownConsumeValue': 1,
               'grownConsumeGainValue': 10,
+              'isExchangeCash': 0,
+              'limitType': 1,
+              'discount': 5,
+              'limitIntegral':0
           },
           {
               'levelId': 2,
@@ -38,6 +46,10 @@ module.exports = {
               'exchangeCashValue': 1,
               'grownConsumeValue': 1,
               'grownConsumeGainValue': 10,
+              'isExchangeCash': 1,
+              'limitType': 1,
+              'discount': 5,
+              'limitIntegral':0
           },
           {
               'levelId': 4,
@@ -49,6 +61,10 @@ module.exports = {
               'exchangeCashValue': 1,
               'grownConsumeValue': 1,
               'grownConsumeGainValue': 10,
+              'isExchangeCash': 1,
+              'limitType': 1,
+              'discount': 5,
+              'limitIntegral':0
           },
           {
               'levelId': 5,
@@ -60,6 +76,10 @@ module.exports = {
               'exchangeCashValue': 2,
               'grownConsumeValue': 1,
               'grownConsumeGainValue': 5,
+              'isExchangeCash': 0,
+              'limitType': 1,
+              'discount': 5,
+              'limitIntegral':0
           }
       ]
     },
