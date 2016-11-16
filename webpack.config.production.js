@@ -388,7 +388,7 @@ module.exports = {
     ),
     new HtmlWebpackPlugin(
       {
-        title: 'MineBalanceApplication',
+        title: 'MineAccumulationApplication',
         filename: 'mine-accumulation.html',
         chunks: ['common', 'mine-accumulation-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
@@ -412,7 +412,7 @@ module.exports = {
     ),
     new HtmlWebpackPlugin(
       {
-        title: 'MineRechargeApplication',
+        title: 'MineModifyPasswordApplication',
         filename: 'mine-modify-password.html',
         chunks: ['common', 'mine-modify-password-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',

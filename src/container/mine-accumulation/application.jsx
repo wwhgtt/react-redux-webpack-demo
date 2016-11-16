@@ -15,8 +15,10 @@ const shallowCompare = require('react-addons-shallow-compare');
 const MineAccumulationApplication = React.createClass({
   displayName: 'MineAccumulationApplication',
   propTypes: {
+    currentRule: React.PropTypes.object,
     accumulationInfo: React.PropTypes.object,
-    fetchAccumulationInfo: React.PropTypes.func,
+    fetchAccumulationInfo: React.PropTypes.func.isRequired,
+    fetchCurrIntegralRule: React.PropTypes.func.isRequired,
   },
   getInitialState() {
     return {
@@ -25,7 +27,9 @@ const MineAccumulationApplication = React.createClass({
     };
   },
   componentWillMount() {
-    this.props.fetchAccumulationInfo(1);
+    const { fetchCurrIntegralRule, fetchAccumulationInfo } = this.props;
+    fetchCurrIntegralRule();
+    fetchAccumulationInfo(1);
     this.pageNum = 1;
     this.wholeData = [];
   },
@@ -117,8 +121,8 @@ const MineAccumulationApplication = React.createClass({
     );
   },
   buildDescriptContentElement() {
-    const { levelRights, dishNames } = this.props.accumulationInfo;
-    if (!levelRights) {
+    const { currentRule } = this.props;
+    if (!currentRule) {
       return (
         <ul className="masthead-discription-content" >
           <li><label>积分规则: </label><p>无</p></li>
@@ -127,37 +131,10 @@ const MineAccumulationApplication = React.createClass({
       );
     }
 
-    let rules = [];
-    rules.push(`每消费${levelRights.consumeValue}元可获得${levelRights.consumeGainValue}个积分`);
-    if (levelRights.isGainAll === 0) {
-      rules.push('全部商品可积分');
-    } else {
-      rules.push(`无积分商品：${dishNames}`);
-    }
-
-    let cash = [];
-    if (levelRights.isExchangeCash === 0) {
-      cash.push(`每${levelRights.exchangeIntegralValue}个积分抵现${levelRights.exchangeCashValue}元`);
-      if (levelRights.limitType === 1) {
-        cash.push('积分使用无上限');
-      } else if (levelRights.limitType === 2) {
-        cash.push(`单次最多可抵用${levelRights.limitIntegral}个积分`);
-      } else if (levelRights.limitType === 3) {
-        cash.push(`单次最多可抵用订单金额的${levelRights.discount}`);
-      }
-    } else {
-      cash.push('不可抵现');
-    }
-
-    /* 判断有木有积分规则或者积分抵现*/
-    if (!levelRights.consumeValue || !levelRights.consumeGainValue) {
-      rules = ['不积分'];
-    }
-
-    if (!levelRights.exchangeIntegralValue || !levelRights.exchangeCashValue) {
-      cash = ['不抵现'];
-    }
-
+    const rules = [];
+    const cash = [];
+    rules.push(`每消费${currentRule.consumeValue}元可获得${currentRule.consumeGainValue}个积分`);
+    cash.push(`每${currentRule.exchangeIntegralValue}个积分抵现${currentRule.exchangeCashValue}元`);
     return (
       <ul className="masthead-discription-content">
         <li><label>积分规则: </label><p>{rules.join('\n')}</p></li>
@@ -166,13 +143,14 @@ const MineAccumulationApplication = React.createClass({
     );
   },
   render() {
-    const { accumulationInfo } = this.props;
+    const { currentRule } = this.props;
     const { hideLoad } = this.state;
+
     return (
       <div className="accumulation">
         <div className="masthead">
           <a className="masthead-discription-title" onTouchTap={this.toggleDescriptContent}>积分说明</a>
-          <p className="masthead-total">{accumulationInfo.integral}</p>
+          <p className="masthead-total">{currentRule && currentRule.curIntegralValue || 0}</p>
           <p className="masthead-title">我的积分</p>
         </div>
         <GrowAccumeList

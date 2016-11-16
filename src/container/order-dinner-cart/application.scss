@@ -6,7 +6,7 @@
   background: $color-gallery;
 
   &-content {
-    margin: 1em 0;
+    padding: 1em 0;
   }
 }
 
@@ -16,6 +16,7 @@
     line-height: 1.389em;
     padding: 1em;
     text-align: center;
+    border-top: 1px solid $color-mercury;
     background: #fff;
   }
 

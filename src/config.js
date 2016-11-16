@@ -149,6 +149,9 @@ module.exports = {
   queueSubOrderAPI:`${apiBase}/prepare/subOrder.json`,
 
   getTakeoutDetailAPI: `${apiBase}/order/takeOutDetail.json`, // 外卖结算后订单详情
+  getCurrIntegralRuleAPI: `${apiBase}/member/currIntegralRule.json`, // 获取当前积分信息
+  getCurrGrownRuleAPI: `${apiBase}/member/currGrownRule.json`, // 获取当前成长值信息
 
   requestOptions,
 };
+

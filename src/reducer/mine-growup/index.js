@@ -2,6 +2,7 @@ const Immutable = require('seamless-immutable');
 module.exports = (
   state = Immutable.from({
     growupInfo: {},
+    currentRule: null,
   }),
   action
 ) => {
@@ -11,8 +12,8 @@ module.exports = (
     case 'SET_GROWUP_INFO': {
       return state.set('growupInfo', payload);
     }
-    case 'SET_GROWNLEVELS_INFO': {
-      return state.setIn(['growupInfo', 'levelInfo'], payload || {});
+    case 'SET_CURRGROWN_RULE': {
+      return state.set('currentRule', payload);
     }
     default:
   }
