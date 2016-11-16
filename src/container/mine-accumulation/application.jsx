@@ -58,7 +58,7 @@ const MineAccumulationApplication = React.createClass({
     });
   },
   componentWillReceiveProps(nextProps) {
-    if (nextProps.accumulationInfo.pageSize === 1) {
+    if (!nextProps.accumulationInfo.pageSize || nextProps.accumulationInfo.pageSize === 1) {
       this.setState({ hideLoad:true });
     }
   },

@@ -56,7 +56,7 @@ const MineGrowupApplication = React.createClass({
     });
   },
   componentWillReceiveProps(nextProps) {
-    if (nextProps.growupInfo.pageSize === 1) {
+    if (!nextProps.growupInfo.pageSize || nextProps.growupInfo.pageSize === 1) {
       this.setState({ hideLoad:true });
     }
   },
