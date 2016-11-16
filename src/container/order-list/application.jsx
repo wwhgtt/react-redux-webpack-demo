@@ -62,6 +62,7 @@ const OrderListApplication = React.createClass({
   componentDidMount() {
     const options = {
       mouseWheel: true,
+      click: true,
       // probeType: 3,
       // bounce: true,
     };
@@ -99,17 +100,17 @@ const OrderListApplication = React.createClass({
     const { dinnerListArr, takeOutListArr, bookListArr, queueListArr } = this.state;
     if (this.myScroll.y === this.myScroll.maxScrollY) {
       if (location.hash === '#dinner') {
-        getOrderList(Math.ceil(dinnerListArr.length / 20));
+        getOrderList(Math.ceil(dinnerListArr.length / 20) + 1);
       }
       if (location.hash === '#quick') {
-        getTakeOutList(Math.ceil(takeOutListArr.length / 20));
+        getTakeOutList(Math.ceil(takeOutListArr.length / 20) + 1);
         // alert(Math.ceil(takeOutListArr.length / 20));
       }
       if (location.hash === '#book') {
-        getBookList(Math.ceil(bookListArr.length / 20));
+        getBookList(Math.ceil(bookListArr.length / 20) + 1);
       }
       if (location.hash === '#queue') {
-        getQueueList(Math.ceil(queueListArr.length / 20));
+        getQueueList(Math.ceil(queueListArr.length / 20) + 1);
       }
     }
   },
