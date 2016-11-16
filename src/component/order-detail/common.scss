@@ -88,10 +88,14 @@
       display: inline-block;
       width: 68px;
       margin-right: 22px;
+      vertical-align: middle;
       color: #474747;
     }
 
     &-content {
+      display: inline-block;
+      width: calc(100% - 90px);
+      vertical-align: middle;
       color: #666;
     }
   }

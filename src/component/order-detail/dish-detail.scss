@@ -89,10 +89,6 @@ a {
 .flex-row {
   display: flex;
   justify-content: space-between;
-
-  .flex-row-item {
-    width: 100%;
-  }
 }
 
 .list-default {
@@ -110,7 +106,7 @@ a {
   a {
     line-height: 49px;
     display: block;
-    width: 100%;
+    width: 50%;
     height: 49px;
     text-align: center;
     color: #fff;
@@ -135,6 +131,8 @@ a {
 }
 
 .option-privilege {
+  border-bottom: 1px solid #e3e3e3;
+
   .icon-privilege {
     font-size: 15px;
   }
@@ -161,8 +159,20 @@ a {
   line-height: 50px;
   height: 50px;
   padding: 0 15px;
-  border-top: 1px solid #e3e3e3;
   background-color: #fff;
+
+  &-item {
+    float: left;
+    width: 30%;
+  }
+
+  &-item:first-child {
+    width: 40%;
+  }
+
+  &-item:last-child {
+    text-align: right;
+  }
 
   &-title {
     display: inline-block;
@@ -190,6 +200,7 @@ a {
 .list-other {
   font-size: 14px;
   line-height: 35px;
+  clear: both;
   height: 35px;
   padding-left: 15px;
   color: $color-dusty-grey;
@@ -231,4 +242,8 @@ a {
 // 其他优惠
 .icon-100 {
   background-image: url("../../asset/images/icon_other.svg");
+}
+
+.width-full {
+  width: 100% !important;
 }

@@ -1,5 +1,6 @@
 const React = require('react');
 const config = require('../../config');
+const classnames = require('classnames');
 const commonHelper = require('../../helper/common-helper');
 
 const shopId = commonHelper.getUrlParam('shopId');
@@ -92,7 +93,7 @@ module.exports = React.createClass({
       <div className="list-outer">
         <div className="menuLink mt of">
           {info.isMember &&
-            <div className="menuLink-holder fl" onTouchTap={this.jumpToCredit}>
+            <div className={classnames('menuLink-holder fl', { 'width-full': info.loginType === 1 })} onTouchTap={this.jumpToCredit}>
               <p className="menuLink-holder-p scorenum" style={scoreFontSize}>{info.score}<span className="unit">分</span></p>
               <p className="menuLink-holder-p title">我的积分</p>
             </div>
