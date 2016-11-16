@@ -5,6 +5,8 @@ const IScroll = require('iscroll/build/iscroll-probe');
 
 require('../../asset/style/style.scss');
 
+const Load = require('../../component/mui/loading.jsx');
+const Toast = require('../../component/mui/toast.jsx');
 const SwitchNavi = require('../../component/mui/switch-navi.jsx');
 const OrderDinner = require('../../component/order-list/order-dinner.jsx');
 const OrderBook = require('../../component/order-list/order-book.jsx');
@@ -20,12 +22,15 @@ const OrderListApplication = React.createClass({
     getTakeOutList: React.PropTypes.func,
     getBookList: React.PropTypes.func,
     getQueueList: React.PropTypes.func,
+    setErrorMsg: React.PropTypes.func,
 
     childView: React.PropTypes.string,
     orderList: React.PropTypes.array,
     takeOutList: React.PropTypes.array,
     bookList: React.PropTypes.array,
     queueList: React.PropTypes.array,
+    loadStatus: React.PropTypes.bool,
+    errorMessage: React.PropTypes.string,
   },
 
   getInitialState() {
@@ -40,14 +45,14 @@ const OrderListApplication = React.createClass({
   },
 
   componentWillMount() {
-    const { getOrderList, getTakeOutList, getBookList, getQueueList } = this.props;
+    const { getOrderList } = this.props;
 
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
     window.addEventListener('load', this.setChildViewAccordingToHash);
     getOrderList(1);
-    getTakeOutList(1);
-    getBookList(1);
-    getQueueList(1);
+    // getTakeOutList(1);
+    // getBookList(1);
+    // getQueueList(1);
 
     if (!location.hash) {
       location.hash = '#dinner';
@@ -56,13 +61,12 @@ const OrderListApplication = React.createClass({
 
   componentDidMount() {
     const options = {
-      preventDefault: true,
-      click: true,
-      tap: true,
+      mouseWheel: true,
+      // probeType: 3,
+      // bounce: true,
     };
     const wapper = document.getElementById('myScroll');
     this.myScroll = new IScroll(wapper, options);
-    this.myScroll.on('scroll', this.onScroll);
     this.myScroll.on('scrollEnd', this.onScrollEnd);
   },
 
@@ -85,10 +89,9 @@ const OrderListApplication = React.createClass({
   },
 
   componentDidUpdate(prevProps, prevState) {
-    this.myScroll.refresh();
-  },
-
-  onScroll() {
+    setTimeout(() => {
+      this.myScroll.refresh();
+    }, 0);
   },
 
   onScrollEnd() {
@@ -113,22 +116,26 @@ const OrderListApplication = React.createClass({
 
   // 获得页面hash并发送action
   setChildViewAccordingToHash() {
-    const { setChildView } = this.props;
+    const { setChildView, getOrderList, getTakeOutList, getBookList, getQueueList } = this.props;
     const hash = location.hash;
     setChildView(hash);
 
     if (hash === '#dinner') {
       this.setState({ activeNum: 0 });
       this.setState({ showSection: 'TS' });
+      getOrderList(1);
     } else if (hash === '#quick') {
       this.setState({ activeNum: 1 });
       this.setState({ showSection: 'WM' });
+      getTakeOutList(1);
     } else if (hash === '#book') {
       this.setState({ activeNum: 2 });
       this.setState({ showSection: 'BK' });
+      getBookList(1);
     } else if (hash === '#queue') {
       this.setState({ activeNum: 3 });
       this.setState({ showSection: 'QE' });
+      getQueueList(1);
     }
   },
 
@@ -153,6 +160,10 @@ const OrderListApplication = React.createClass({
     );
   },
 
+  handleClearErrorMsg() {
+    this.props.setErrorMsg('');
+  },
+
   // tabs切换
   handleGetIndex(index) {
     const { setChildView } = this.props;
@@ -173,7 +184,15 @@ const OrderListApplication = React.createClass({
   },
 
   render() {
-    const { showSection, dinnerListArr, takeOutListArr, bookListArr, queueListArr } = this.state;
+    const {
+      showSection,
+      dinnerListArr,
+      takeOutListArr,
+      bookListArr,
+      queueListArr,
+    } = this.state;
+
+    const { loadStatus, errorMessage } = this.props;
     return (
       <div className="order-page application">
         <SwitchNavi
@@ -189,7 +208,13 @@ const OrderListApplication = React.createClass({
             {showSection === 'QE' && this.getOrderQueue(queueListArr)}
           </div>
         </div>
-        <div className="copyright"></div>
+        {
+          // <div className="copyright"></div>
+          loadStatus && <Load word="加载中" />
+        }
+        {
+          errorMessage && <Toast errorMessage={errorMessage} clearErrorMsg={this.handleClearErrorMsg} />
+        }
       </div>
     );
   },
@@ -202,6 +227,8 @@ const mapStateToProps = function (state) {
     takeOutList: state.takeOutList,
     bookList: state.bookList,
     queueList: state.queueList,
+    loadStatus: state.loadStatus,
+    errorMessage: state.errorMessage,
   });
 };
 
