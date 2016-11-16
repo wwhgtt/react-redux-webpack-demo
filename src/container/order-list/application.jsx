@@ -56,7 +56,7 @@ const OrderListApplication = React.createClass({
 
   componentDidMount() {
     const options = {
-      preventDefault: false,
+      preventDefault: true,
       click: true,
       tap: true,
     };

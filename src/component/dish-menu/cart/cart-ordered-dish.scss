@@ -4,6 +4,7 @@
 @import "tools.functions";
 
 .cart-ordered-dish {
+  position: relative;
   padding: 0 15px;
 
   &:not(:last-child) {
