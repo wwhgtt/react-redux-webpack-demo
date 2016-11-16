@@ -36,9 +36,12 @@ exports.getQueueDetail = () => (dispatch, getStates) => {
       dispatch(setLoadMsg({ status:false, word:'' }));
       if (res.code === '200') {
         dispatch(setQueueDetail(res.data));
-        if (res.data.orderId) {
+        const queue = res.data.queue;
+        if (queue && queue.queueID) {
           sessionStorage.removeItem('PDrelatedId');
-          sessionStorage.setItem('PDrelatedId', res.data.queue.queueID);
+          sessionStorage.removeItem('PDorderSyn');
+          sessionStorage.setItem('PDrelatedId', queue.queueID);
+          sessionStorage.setItem('PDorderSyn', orderSyn);
         }
       } else {
         dispatch(setErrorMsg('预订信息获取失败'));
