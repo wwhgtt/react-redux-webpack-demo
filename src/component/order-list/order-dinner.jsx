@@ -14,10 +14,10 @@ const OrderDinner = React.createClass({
       if (orderList.businessType === 2 && (orderList.tradeStatus === 1 || orderList.tradeStatus === 3)) {
         location.href = `http://${location.host}/order/tradeDetailUncheck?shopId=${orderList.shopId}&orderId=${orderList.orderId}`;
       } else {
-        location.href = `http://${location.host}/order/orderallDetail?shopId=${orderList.shopId}&orderId=${orderList.orderId}`;
+        location.href = `http://${location.host}/order/orderallDetail?shopId=${orderList.shopId}&orderId=${orderList.orderId}&listEntry=true`;
       }
     } else if (orderType === 'WM') {
-      location.href = `http://${location.host}/order/takeOutDetail?shopId=${orderList.shopId}&orderId=${orderList.orderId}`;
+      location.href = `http://${location.host}/order/takeOutDetail?shopId=${orderList.shopId}&orderId=${orderList.orderId}&listEntry=true`;
     }
   },
 

@@ -26,6 +26,8 @@ const TakeoutDetailApplication = React.createClass({
   getInitialState() {
     return {
       countDown: 0,
+      isCouponBigShow: true,
+      isCounponSmallShow: true,
     };
   },
 
@@ -108,6 +110,7 @@ const TakeoutDetailApplication = React.createClass({
 
   render() {
     const { takeoutDetail } = this.props;
+    const { isCounponSmallShow, isCouponBigShow } = this.state;
     return (
       <div className="application takeout-page">
         <div className="flex-columns">
@@ -255,6 +258,17 @@ const TakeoutDetailApplication = React.createClass({
             }
           </div>
         </div>
+        {isCounponSmallShow &&
+          <div className="coupon-img coupon-content-small">
+            <a href={takeoutDetail.url}></a>
+          </div>
+        }
+        {isCouponBigShow &&
+          <div className="coupon-content">
+            <a className="coupon-content-close"></a>
+            <a className="coupon-img coupon-content-big" href={takeoutDetail.url}></a>
+          </div>
+        }
       </div>
     );
   },
