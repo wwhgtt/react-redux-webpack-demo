@@ -19,18 +19,20 @@ module.exports = React.createClass({
     const { grownLevelInfo, switchIndex } = this.props;
     let rights = {};
     let rightsCfg = {};
-    if (grownLevelInfo.levelList && grownLevelInfo.levelList.length !== 0) {
-      grownLevelInfo.levelList.forEach((item, index) => {
+    if (grownLevelInfo.allLevelRuleVO && grownLevelInfo.allLevelRuleVO.length !== 0) {
+      // 排序
+      const grownLevelList = Array.prototype.slice.call(grownLevelInfo.allLevelRuleVO).sort((a, b) =>
+        a.levelId > b.levelId
+      );
+      grownLevelList.forEach((item, index) => {
         if (switchIndex !== -1 && index === switchIndex) {
-          rights = grownLevelInfo.levelRightsMap[item.id];
-          rightsCfg = grownLevelInfo.grownCfgMap[item.id];
-          this.name = item.name;
+          rights = rightsCfg = item;
+          this.name = item.levelName;
         }
         if (switchIndex === -1) {
-          if (item.needGrownValue <= grownLevelInfo.grounValue) {
-            rights = grownLevelInfo.levelRightsMap[item.id];
-            rightsCfg = grownLevelInfo.grownCfgMap[item.id];
-            this.name = item.name;
+          if (item.needGrownValue <= grownLevelInfo.curGrownValue) {
+            rights = rightsCfg = item;
+            this.name = item.levelName;
           }
         }
       });
