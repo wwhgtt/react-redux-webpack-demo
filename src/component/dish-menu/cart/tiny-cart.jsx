@@ -10,7 +10,7 @@ module.exports = React.createClass({
     totalPrice: React.PropTypes.number,
     takeawayServiceProps: React.PropTypes.object,
     isShopOpen: React.PropTypes.bool.isRequired,
-    urlType: React.PropTypes.bool.string,
+    urlType: React.PropTypes.string,
   },
   buildTakeawayServiceMinPriceElement(totalPrice, takeawayServiceProps, onBillBtnTap) {
     const { dishesCount, urlType } = this.props;
