@@ -21,6 +21,13 @@
     text-align: center;
     color: #666;
   }
+
+  &.records-empty {
+    &::before {
+      position: relative;
+      content: "";
+    }
+  }
 }
 
 .loading {
