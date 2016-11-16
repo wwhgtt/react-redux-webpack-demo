@@ -1,5 +1,5 @@
 module.exports = {
-  path: '/member/integral.json',
+  path: '/member/integralDetail.json',
   template: {
     data: {
       shopId: 810006427,
