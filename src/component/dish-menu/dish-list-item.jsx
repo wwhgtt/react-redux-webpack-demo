@@ -54,8 +54,10 @@ module.exports = React.createClass({
     const title = Array.isArray(dishData.groups) ? '套餐选项' : '商品选项';
     return (
       <div className="counter">
-        {count > 0 ? <span className="counter-num">{count}</span> : false}
-        <a className="btn--ellips btn-choose-property" onTouchTap={this.onBtnTap}>{title}</a>
+        <a className="btn--ellips btn-choose-property" onTouchTap={this.onBtnTap}>
+          {title}
+          {count > 0 ? <span className="counter-num special-count">{count}</span> : false}
+        </a>
       </div>
     );
   },
