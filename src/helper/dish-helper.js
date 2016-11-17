@@ -192,7 +192,7 @@ const getOrderPropIds = function (order) {
       property => property.id
     )
   ));
-  const ingredientIds = dishIngredientInfos.filter(
+  const ingredientIds = (dishIngredientInfos || []).filter(
     ingredient => ingredient.isChecked
   ).map(ingredient => ingredient.id);
   return [propsIds, ingredientIds];
