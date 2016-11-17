@@ -15,7 +15,7 @@ module.exports = {
         {
           name: '小红', // 下单人姓名
           sex : 0, //  性别。-1：没有性别。 0：女， 1：男
-          headImage: null, // 微信头像地址。可能不存在这个字段。
+          headImage: 'https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=1705077464,822261753&fm=58', // 微信头像地址。可能不存在这个字段。
           dateTime: 1472439316794, // 下单时间. 毫秒时间戳。
           memo: '主单备注，不能显示', // 备注。 只有主单才会存在此字段。
           priviledgeAmount: 3.0, // 优惠总额。 只有主单才会存在此字段
