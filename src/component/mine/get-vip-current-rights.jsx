@@ -23,7 +23,7 @@ module.exports = React.createClass({
     let content = '';
     if (!grownCfg) { return false; }
     if (grownCfg.grownConsumeValue && grownCfg.grownConsumeGainValue) {
-      content = `每消费${grownCfg.grownConsumeValue || '0'}元可获得${grownCfg.grownConsumeGainValue || '0'}点成长值`;
+      content = `每消费${grownCfg.grownConsumeValue}元可获得${grownCfg.grownConsumeGainValue}点成长值`;
     }
     return (
       <ListItem listContent={content} />
