@@ -48,12 +48,6 @@
   color: lighten($color-dusty-grey, 10%);
 }
 
-.default {
-  .dish-scroller {
-    padding: 0 0 0 15px;
-  }
-}
-
 .big,
 .huge {
   .dish-scroller {
@@ -64,7 +58,7 @@
   .dish-item-type {
     margin-top: 10px;
     margin-bottom: 10px;
-    padding: 0 15px;
+    padding: 5px 15px;
 
     &:first-child {
       margin-top: 0;
@@ -81,5 +75,17 @@
 .big {
   .dish-scroller {
     padding: 0 10px;
+  }
+}
+
+.default {
+  .dish-scroller {
+    padding: 0 0 0 15px;
+  }
+}
+
+.huge {
+  .dish-item-type {
+    margin-bottom: 0;
   }
 }
