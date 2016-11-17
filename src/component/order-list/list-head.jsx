@@ -28,7 +28,7 @@ const ListHead = React.createClass({
           <img src={headDetail.shopLogo || shopLogoDefault} role="presentation" className="list-head-img" />
           <span className="list-head-title ellipsis">{headDetail.shopName}</span>
         </a>
-        <span className={classnames('list-head-status', { 'text-orange': isOrange })}>{headDetail.status}</span>
+        <span className={classnames('list-head-status ellipsis', { 'text-orange': isOrange })}>{headDetail.status}</span>
       </div>
     );
   },

@@ -15,6 +15,7 @@ require('../../component/order-detail/common.scss');
 require('./application.scss');
 
 const shopId = commonHelper.getUrlParam('shopId');
+const listEntry = commonHelper.getUrlParam('listEntry');
 
 const TakeoutDetailApplication = React.createClass({
   displayName: 'TakeoutDetailApplication',
@@ -26,8 +27,8 @@ const TakeoutDetailApplication = React.createClass({
   getInitialState() {
     return {
       countDown: 0,
-      isCouponBigShow: true,
-      isCounponSmallShow: true,
+      isCouponBigShow: false,
+      isCounponSmallShow: false,
     };
   },
 
@@ -41,6 +42,15 @@ const TakeoutDetailApplication = React.createClass({
       const countDownOri = 900000 - (parseInt(new Date().getTime(), 10) - parseInt(takeoutDetail.dateTime, 10));
       if (countDownOri > 0 && countDownOri <= 900000 && takeoutDetail.status === '订单待支付') {
         this.setState({ countDown: countDownOri });
+      }
+    }
+
+    if (listEntry) {
+      this.setState({ isCounponSmallShow : true });
+    } else {
+      if (!this.isCouponShow) {
+        this.setState({ isCouponBigShow: true });
+        this.isCouponShow = true;
       }
     }
   },
@@ -106,6 +116,12 @@ const TakeoutDetailApplication = React.createClass({
     const countDownSecond = Math.floor((countDown % 60000) / 1000);
     countDownStr = `${countDownMinut}分${countDownSecond}秒`;
     return countDownStr;
+  },
+
+  // 关闭直发券
+  handleCloseCounpon(event) {
+    event.preventDefault();
+    this.setState({ isCounponSmallShow: true, isCouponBigShow: false });
   },
 
   render() {
@@ -258,15 +274,19 @@ const TakeoutDetailApplication = React.createClass({
             }
           </div>
         </div>
-        {isCounponSmallShow &&
-          <div className="coupon-img coupon-content-small">
-            <a href={takeoutDetail.url}></a>
-          </div>
+        {isCounponSmallShow && takeoutDetail.url &&
+          <a className="coupon-content-small" href={takeoutDetail.url}></a>
         }
-        {isCouponBigShow &&
-          <div className="coupon-content">
-            <a className="coupon-content-close"></a>
-            <a className="coupon-img coupon-content-big" href={takeoutDetail.url}></a>
+        {isCouponBigShow && takeoutDetail.url &&
+          <div className="coupon-bg">
+            <a className="coupon-content-close" onTouchTap={this.handleCloseCounpon}></a>
+            <div className="coupon-content">
+              <div className="coupon-img coupon-content-big"></div>
+              <div className="coupon-content-tips">
+                <span>客观！是你的优惠券~</span>
+                <a className="coupon-content-btn " href={takeoutDetail.url}></a>
+              </div>
+            </div>
           </div>
         }
       </div>

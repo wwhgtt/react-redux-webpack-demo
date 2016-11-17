@@ -38,7 +38,8 @@
   &-href {
     position: relative;
     display: inline-block;
-    max-width: calc(100% - 75px);
+    min-width: calc(100% - 100px);
+    max-width: calc(100% - 80px);
 
     &::after {
       position: absolute;
@@ -62,7 +63,7 @@
   &-title {
     font-weight: bold;
     display: inline-block;
-    max-width: calc(100% - 55px);
+    width: calc(100% - 55px);
     margin-left: 10px;
     vertical-align: middle;
   }
@@ -71,7 +72,7 @@
     font-size: 15px;
     display: inline-block;
     float: right;
-    height: 34px;
+    max-width: 75px;
   }
 }
 
@@ -193,4 +194,9 @@
 
 .loading-hover {
   top: 65px;
+}
+
+.records:empty,
+.records-empty {
+  border: 0 none;
 }

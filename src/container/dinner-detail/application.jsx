@@ -15,6 +15,7 @@ require('./application.scss');
 
 const shopId = commonHelper.getUrlParam('shopId');
 const shopLogoDefault = require('../../asset/images/logo_default.svg');
+const listEntry = commonHelper.getUrlParam('listEntry');
 
 const DinnerDetailApplication = React.createClass({
   displayName: 'DinnerDetailApplication',
@@ -26,6 +27,8 @@ const DinnerDetailApplication = React.createClass({
   getInitialState() {
     return {
       countDown: 0,
+      isCouponBigShow: false,
+      isCounponSmallShow: false,
     };
   },
 
@@ -39,6 +42,15 @@ const DinnerDetailApplication = React.createClass({
       const countDownOri = 900000 - (parseInt(new Date().getTime(), 10) - parseInt(dinnerDetail.dateTime, 10));
       if (countDownOri > 0 && countDownOri <= 900000 && dinnerDetail.status === '订单待支付') {
         this.setState({ countDown: countDownOri });
+      }
+    }
+
+    if (listEntry) {
+      this.setState({ isCounponSmallShow : true });
+    } else {
+      if (!this.isCouponShow) {
+        this.setState({ isCouponBigShow: true });
+        this.isCouponShow = true;
       }
     }
   },
@@ -93,8 +105,15 @@ const DinnerDetailApplication = React.createClass({
     return countDownStr;
   },
 
+  // 关闭直发券
+  handleCloseCounpon(event) {
+    event.preventDefault();
+    this.setState({ isCounponSmallShow: true, isCouponBigShow: false });
+  },
+
   render() {
     const { dinnerDetail } = this.props;
+    const { isCounponSmallShow, isCouponBigShow } = this.state;
     const deskNo = {
       area: dinnerDetail.tableArea,
       table: dinnerDetail.tableNo,
@@ -239,6 +258,21 @@ const DinnerDetailApplication = React.createClass({
             }
           </div>
         </div>
+        {isCounponSmallShow && dinnerDetail.url &&
+          <a className="coupon-content-small" href={dinnerDetail.url}></a>
+        }
+        {isCouponBigShow && dinnerDetail.url &&
+          <div className="coupon-bg">
+            <a className="coupon-content-close" onTouchTap={this.handleCloseCounpon}></a>
+            <div className="coupon-content">
+              <div className="coupon-img coupon-content-big"></div>
+              <div className="coupon-content-tips">
+                <span>客观！是你的优惠券~</span>
+                <a className="coupon-content-btn " href={dinnerDetail.url}></a>
+              </div>
+            </div>
+          </div>
+        }
       </div>
     );
   },
