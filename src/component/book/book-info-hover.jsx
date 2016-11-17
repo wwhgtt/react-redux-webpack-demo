@@ -9,9 +9,10 @@ module.exports = React.createClass({ // ShowBasicInfo
   displayName: 'BookInfoHover',
   propTypes:{
     bookQueueItemList:React.PropTypes.array,
-    bookQueueDetail:React.PropTypes.object,
     setHoverState:React.PropTypes.func,
     getBookQueueInfo:React.PropTypes.func,
+    clearBookQueueInfo:React.PropTypes.func,
+    bookQueueMemo:React.PropTypes.string,
   },
   getInitialState() {
     return { totalPrice:0, totalNum:0 };
@@ -46,11 +47,12 @@ module.exports = React.createClass({ // ShowBasicInfo
   },
   closeHover(bool, e) {
     e.preventDefault();
-    const { setHoverState } = this.props;
+    const { setHoverState, clearBookQueueInfo } = this.props;
     setHoverState(bool);
+    clearBookQueueInfo({});
   },
   render() {
-    const { bookQueueItemList, bookQueueDetail } = this.props;
+    const { bookQueueItemList, bookQueueMemo } = this.props;
     const { totalPrice, totalNum } = this.state;
     return (
       <div className="float-layer">
@@ -77,7 +79,7 @@ module.exports = React.createClass({ // ShowBasicInfo
           <div className="options-group options-group-spe">
             <div className="option">
               <span className="option-title">备注</span>
-              <div className="option-content">{bookQueueDetail.memo}</div>
+              <div className="option-content">{bookQueueMemo || '无备注'}</div>
             </div>
           </div>
           <div className="copyright"></div>

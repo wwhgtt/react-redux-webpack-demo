@@ -4,7 +4,7 @@ const config = require('../../config');
 const createAction = require('redux-actions').createAction;
 const helper = require('../../helper/common-helper.js');
 const setBookDetail = createAction('SET_BOOK_DETAIL', bookDetail => bookDetail);
-const setBookInfo = createAction('SET_BOOK_INFO', bookInfo => bookInfo);
+const setBookInfo = exports.clearBookInfo = createAction('SET_BOOK_INFO', bookInfo => bookInfo);
 const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setLoadMsg = createAction('SET_LOAD_MSG', loadInfo => loadInfo);
 const shopId = helper.getUrlParam('shopId');
