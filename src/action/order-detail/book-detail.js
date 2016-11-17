@@ -10,7 +10,7 @@ const setLoadMsg = createAction('SET_LOAD_MSG', loadInfo => loadInfo);
 const shopId = helper.getUrlParam('shopId');
 const orderId = helper.getUrlParam('orderId');
 
-exports.getBookDetail = () => (dispatch, getStates) => {
+const getBookDetail = exports.getBookDetail = () => (dispatch, getStates) => {
   if (!orderId) {
     dispatch(setErrorMsg('找不到订单号'));
     setTimeout(() => {
@@ -36,8 +36,10 @@ exports.getBookDetail = () => (dispatch, getStates) => {
           sessionStorage.removeItem('YDrelatedId');
           sessionStorage.setItem('YDrelatedId', res.data.orderId);
         }
+        // 轮询
+        setTimeout(() => dispatch(getBookDetail()), 10000);
       } else {
-        dispatch(setErrorMsg('预订信息获取失败'));
+        dispatch(setErrorMsg('预订信息获取失败, 请刷新重试！！'));
       }
     }).
     catch(err =>
