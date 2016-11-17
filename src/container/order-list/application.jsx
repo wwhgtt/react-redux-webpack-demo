@@ -4,6 +4,7 @@ const connect = require('react-redux').connect;
 const IScroll = require('iscroll/build/iscroll-probe');
 
 require('../../asset/style/style.scss');
+require('../../component/mine/common.scss');
 
 const Load = require('../../component/mui/loading.jsx');
 const Toast = require('../../component/mui/toast.jsx');
@@ -202,7 +203,7 @@ const OrderListApplication = React.createClass({
           activeTab={this.state.activeNum}
         />
         <div id="myScroll" className="order-conent">
-          <div>
+          <div className="records">
             {showSection === 'TS' && this.getOrderDinner(dinnerListArr, 'TS')}
             {showSection === 'WM' && this.getOrderDinner(takeOutListArr, 'WM')}
             {showSection === 'BK' && this.getOrderBook(bookListArr)}
