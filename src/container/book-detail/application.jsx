@@ -102,8 +102,8 @@ const BookDetailApplication = React.createClass({
   picError() {
     this.setState({ shopLogo:shopLogoDefault });
   },
-  checkBookList(orderMenu, isOrder) {
-    if (orderMenu) {
+  checkBookList(orderMenu, isOrder, orderStatus) {
+    if (orderMenu && orderStatus) {
       if (isOrder) {
         return <div className="btn-row btn-row-sure btn-row-mt" onTouchTap={this.checkBill}>查看菜单</div>;
       }
@@ -116,7 +116,9 @@ const BookDetailApplication = React.createClass({
     const { showBill, shopLogo } = this.state;
     const orderMenu = bookDetail.orderMenu === 0; // 是否已开通预定预点菜
     const isOrder = bookDetail.isOrder === 1; // 1 已点菜 0 未点菜
-    const checkBookList = this.checkBookList(orderMenu, isOrder);
+    const orderStatus = bookDetail.orderStatus === -1; // 可以预点菜
+
+    const checkBookList = this.checkBookList(orderMenu, isOrder, orderStatus);
     return (
       <div className="book-page bg-orange application">
         <div className="book-content content-fillet">
