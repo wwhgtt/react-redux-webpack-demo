@@ -131,24 +131,35 @@ const MineAccumulationApplication = React.createClass({
       );
     }
 
-    let rules = '';
-    if (!currentRule.consumeValue || !currentRule.consumeGainValue) {
-      rules = '不积分';
+    let rules = [];
+    let cash = [];
+    rules.push(`每消费${currentRule.consumeValue}元可获得${currentRule.consumeGainValue}个积分`);
+    if (currentRule.isExchangeCash === 0) {
+      cash.push(`每${currentRule.exchangeIntegralValue}个积分抵现${currentRule.exchangeCashValue}元`);
+      if (currentRule.limitType === 1) {
+        cash.push('积分使用无上限');
+      } else if (currentRule.limitType === 2) {
+        cash.push(`单次最多可抵用${currentRule.limitIntegral}个积分`);
+      } else if (currentRule.limitType === 3) {
+        cash.push(`单次最多可抵用订单金额的${currentRule.discount}`);
+      }
     } else {
-      rules = `每消费${currentRule.consumeValue}元可获得${currentRule.consumeGainValue}个积分`;
+      cash.push('不可抵现');
     }
 
-    let cash = '';
+    /* 判断有木有积分规则或者积分抵现*/
+    if (!currentRule.consumeValue || !currentRule.consumeGainValue) {
+      rules = ['不积分'];
+    }
+
     if (!currentRule.exchangeIntegralValue || !currentRule.exchangeCashValue) {
-      cash = '不抵现';
-    } else {
-      cash = `每${currentRule.exchangeIntegralValue}个积分抵现${currentRule.exchangeCashValue}元`;
+      cash = ['不抵现'];
     }
 
     return (
       <ul className="masthead-discription-content">
-        <li><label>积分规则: </label><p>{rules}</p></li>
-        <li><label>积分抵现: </label><p>{cash}</p></li>
+        <li><label>积分规则: </label><p>{rules.join('\n')}</p></li>
+        <li><label>积分抵现: </label><p>{cash.join('\n')}</p></li>
       </ul>
     );
   },
