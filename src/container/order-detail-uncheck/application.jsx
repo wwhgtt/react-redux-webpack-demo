@@ -29,8 +29,6 @@ const OrderDetailInApplication = React.createClass({
   componentDidMount() {
     const { getOrderDetailUncheck } = this.props;
     getOrderDetailUncheck();
-    // 每隔10秒获取数据
-    setInterval(getOrderDetailUncheck, 10000);
   },
 
   componentWillReceiveProps(nextProps) {

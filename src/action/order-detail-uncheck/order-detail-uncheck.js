@@ -8,7 +8,7 @@ const setOrderDetail = createAction('SET_ORDER_DETAIL', orderDetail => orderDeta
 const shopId = getUrlParam('shopId');
 const orderId = getUrlParam('orderId');
 
-exports.getOrderDetailUncheck = () => (dispatch, getState) => {
+const getOrderDetailUncheck = exports.getOrderDetailUncheck = () => (dispatch, getState) => {
   const getOrderDetailUncheckURL = `${config.tradeDetailUncheckAPI}?shopId=${shopId}&orderId=${orderId}`;
   const requestOptions = Object.assign({}, config.requestOptions);
   requestOptions.headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
@@ -25,6 +25,8 @@ exports.getOrderDetailUncheck = () => (dispatch, getState) => {
     if (res.code === '200') {
       dispatch(setOrderDetail(res.data));
       dispatch(setErrorMsg(''));
+      // 轮询
+      setTimeout(() => dispatch(getOrderDetailUncheck()), 10000);
     } else if (res.code === '70005') {
       dispatch(setErrorMsg(res.msg));
       setTimeout(() => { location.href = `http://${location.host}/order/orderallDetail?shopId=${shopId}&orderId=${orderId}`; }, 3000);

@@ -17,6 +17,7 @@
 
   .btn-choose-property {
     line-height: 24px;
+    position: relative;
     height: 24px;
     color: #fff;
     border: none;
@@ -201,7 +202,7 @@
   .dish-item-dish {
     width: 100%;
     margin: 0;
-    padding: 10px 0;
+    padding: 15px 0;
     border: none;
     box-shadow: 0 1px 0 0 rgba(227, 227, 227, .5);
 
@@ -288,6 +289,20 @@
 
   .counter-num {
     line-height: 24px;
+  }
+
+  .special-count {
+    font-size: 12px;
+    line-height: 16px !important;
+    position: absolute;
+    top: -7px;
+    right: -5px;
+    width: 16px;
+    min-width: 16px !important;
+    height: 16px;
+    color: #fff;
+    border-radius: 8px;
+    background-color: #ff4242;
   }
 }
 

@@ -24,7 +24,7 @@ exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => {
 const type = helper.getUrlParam('type');
 const shopId = helper.getUrlParam('shopId');
 let url = '';
-if (type === 'TS') {
+if (type !== 'WM') {
   url = `${config.orderallMenuAPI}?shopId=${shopId}`;
 } else {
   url = `${config.takeawayMenuAPI}?shopId=${shopId}`;
