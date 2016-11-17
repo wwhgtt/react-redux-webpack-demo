@@ -37,9 +37,7 @@ const getBookDetail = exports.getBookDetail = () => (dispatch, getStates) => {
           sessionStorage.setItem('YDrelatedId', res.data.orderId);
         }
         // 轮询
-        setTimeout((item, index) => {
-          dispatch(getBookDetail());
-        }, 10000);
+        setTimeout(() => dispatch(getBookDetail()), 10000);
       } else {
         dispatch(setErrorMsg('预订信息获取失败, 请刷新重试！！'));
       }
