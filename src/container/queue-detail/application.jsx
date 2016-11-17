@@ -26,6 +26,7 @@ const QueueDetailApplication = React.createClass({
 
     // from actions
     getQueueInfo: React.PropTypes.func,
+    clearQueueInfo: React.PropTypes.func,
     getQueueDetail: React.PropTypes.func,
     cancelQueue: React.PropTypes.func,
     setErrorMsg: React.PropTypes.func,
@@ -146,7 +147,7 @@ const QueueDetailApplication = React.createClass({
     this.setState({ shopLogo:shopLogoDefault });
   },
   render() {
-    const { queueInfo, queueDetail, getQueueInfo, errorMessage, isRefresh, clearErrorMsg, load } = this.props;
+    const { queueInfo, queueDetail, getQueueInfo, clearQueueInfo, errorMessage, isRefresh, clearErrorMsg, load } = this.props;
     const { showBill, isDialogShow, shopLogo } = this.state;
     const orderDish = queueDetail.orderDish === 0; // 是否已开通排队预点菜
     const hasOrder = queueDetail.hasOrder === 1; // 1 已点菜 0 未点菜
@@ -205,9 +206,10 @@ const QueueDetailApplication = React.createClass({
           showBill && (
             <QueueInfoHover
               bookQueueItemList={queueInfo.dishItems}
-              bookQueueDetail={queueDetail}
+              bookQueueMemo={queueInfo.memo}
               setHoverState={this.getHoverState}
               getBookQueueInfo={getQueueInfo}
+              clearBookQueueInfo={clearQueueInfo}
             />
           )
         }
