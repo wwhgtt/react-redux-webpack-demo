@@ -512,7 +512,11 @@ module.exports = function (
           Object.assign({}, payload.value, { isChecked: true }),
         ]
       );
-    case 'SET_ADDRESS_LIST_INFO_TO_ORDER':
+    case 'SET_ADDRESS_LIST_INFO_TO_ORDER': {
+      if (!payload.inList) {
+        payload.inList = [];
+      }
+
       return state.set('customerAddressListInfo', {
         isAddressesLoaded: true,
         data: Immutable.from(payload).update('inList', list => list.map((item, index) => {
@@ -520,6 +524,7 @@ module.exports = function (
           return Object.assign({ rangeId: item.rangeId }, address);
         })),
       });
+    }
     case 'ON_SELECT_BENEFIT':
       if (payload === 'closeWindow') {
         return state
