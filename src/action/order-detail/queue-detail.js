@@ -3,7 +3,7 @@ require('isomorphic-fetch');
 const config = require('../../config');
 const createAction = require('redux-actions').createAction;
 const helper = require('../../helper/common-helper.js');
-const setQueueInfo = createAction('SET_QUEUE_INFO', queueInfo => queueInfo);
+const setQueueInfo = exports.clearQueueInfo = createAction('SET_QUEUE_INFO', queueInfo => queueInfo);
 const setQueueDetail = createAction('SET_QUEUE_DETAIL', queueDetail => queueDetail);
 
 const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
@@ -85,6 +85,7 @@ exports.getQueueInfo = () => (dispatch, getStates) => {
 // 取消排队
 exports.cancelQueue = () => (dispatch, getStates) => {
   const cancelQueueURL = `${config.cancelQueueAPI}?shopId=${shopId}&orderSyn=${orderSyn}`;
+  dispatch(setErrorMsg('取消排队中...'));
   fetch(cancelQueueURL, config.requestOptions).
   then(res => {
     if (!res.ok) {
@@ -94,6 +95,7 @@ exports.cancelQueue = () => (dispatch, getStates) => {
   }).
   then(res => {
     if (String(res.data.status) === '0') {
+      dispatch(setErrorMsg('取消排队成功！！'));
       dispatch(getQueueDetail());
     } else {
       dispatch(setErrorMsg('取消排队失败，请重试'));

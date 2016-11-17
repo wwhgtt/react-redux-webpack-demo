@@ -3,7 +3,7 @@ module.exports = {
   template: {
     data: {
       shopId: 810003798,
-      orderDish: 1,
+      orderDish: 0,
       oldVersion: 0,
       hasOrder: 1,
       queue: {

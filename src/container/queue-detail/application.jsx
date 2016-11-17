@@ -26,6 +26,7 @@ const QueueDetailApplication = React.createClass({
 
     // from actions
     getQueueInfo: React.PropTypes.func,
+    clearQueueInfo: React.PropTypes.func,
     getQueueDetail: React.PropTypes.func,
     cancelQueue: React.PropTypes.func,
     setErrorMsg: React.PropTypes.func,
@@ -125,8 +126,8 @@ const QueueDetailApplication = React.createClass({
   handleDialog() {
     this.setState({ isDialogShow: !this.state.isDialogShow });
   },
-  checkQueueList(orderDish, hasOrder) {
-    if (orderDish) {
+  checkQueueList(orderDish, hasOrder, queueStatus) {
+    if (orderDish && queueStatus) {
       if (hasOrder) {
         return (
           <div className="flex-rest">
@@ -146,11 +147,13 @@ const QueueDetailApplication = React.createClass({
     this.setState({ shopLogo:shopLogoDefault });
   },
   render() {
-    const { queueInfo, queueDetail, getQueueInfo, errorMessage, isRefresh, clearErrorMsg, load } = this.props;
+    const { queueInfo, queueDetail, getQueueInfo, clearQueueInfo, errorMessage, isRefresh, clearErrorMsg, load } = this.props;
     const { showBill, isDialogShow, shopLogo } = this.state;
     const orderDish = queueDetail.orderDish === 0; // 是否已开通排队预点菜
     const hasOrder = queueDetail.hasOrder === 1; // 1 已点菜 0 未点菜
-    const checkQueueList = this.checkQueueList(orderDish, hasOrder);
+    const queueStatus = queueDetail.queueStatus === 0; // 可以预点菜
+
+    const checkQueueList = this.checkQueueList(orderDish, hasOrder, queueStatus);
     return (
       <div className="queue-page bg-orange application">
         <div className="queue-content content-fillet">
@@ -205,9 +208,10 @@ const QueueDetailApplication = React.createClass({
           showBill && (
             <QueueInfoHover
               bookQueueItemList={queueInfo.dishItems}
-              bookQueueDetail={queueDetail}
+              bookQueueMemo={queueInfo.memo}
               setHoverState={this.getHoverState}
               getBookQueueInfo={getQueueInfo}
+              clearBookQueueInfo={clearQueueInfo}
             />
           )
         }

@@ -3,6 +3,7 @@ module.exports = {
   path: '/prepare/myPreOrder.json',
   template: {
     'data': {
+    	'memo':'我就是备注',
       'dishItems':[
         {
           id: 56,

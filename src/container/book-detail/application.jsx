@@ -26,6 +26,7 @@ const BookDetailApplication = React.createClass({
     // from actions
     getBookDetail: React.PropTypes.func.isRequired,
     getBookInfo: React.PropTypes.func.isRequired,
+    clearBookInfo: React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func,
   },
   getInitialState() {
@@ -101,8 +102,8 @@ const BookDetailApplication = React.createClass({
   picError() {
     this.setState({ shopLogo:shopLogoDefault });
   },
-  checkBookList(orderMenu, isOrder) {
-    if (orderMenu) {
+  checkBookList(orderMenu, isOrder, orderStatus) {
+    if (orderMenu && orderStatus) {
       if (isOrder) {
         return <div className="btn-row btn-row-sure btn-row-mt" onTouchTap={this.checkBill}>查看菜单</div>;
       }
@@ -111,11 +112,13 @@ const BookDetailApplication = React.createClass({
     return false;
   },
   render() {
-    const { load, errorMessage, clearErrorMsg, bookDetail, bookInfo, getBookInfo } = this.props;
+    const { load, errorMessage, clearErrorMsg, bookDetail, bookInfo, getBookInfo, clearBookInfo } = this.props;
     const { showBill, shopLogo } = this.state;
     const orderMenu = bookDetail.orderMenu === 0; // 是否已开通预定预点菜
     const isOrder = bookDetail.isOrder === 1; // 1 已点菜 0 未点菜
-    const checkBookList = this.checkBookList(orderMenu, isOrder);
+    const orderStatus = bookDetail.orderStatus === -1; // 可以预点菜
+
+    const checkBookList = this.checkBookList(orderMenu, isOrder, orderStatus);
     return (
       <div className="book-page bg-orange application">
         <div className="book-content content-fillet">
@@ -168,9 +171,10 @@ const BookDetailApplication = React.createClass({
           showBill && (
             <BookInfoHover
               bookQueueItemList={bookInfo.dishItems}
-              bookQueueDetail={bookDetail}
+              bookQueueMemo={bookInfo.memo}
               setHoverState={this.getHoverState}
               getBookQueueInfo={getBookInfo}
+              clearBookQueueInfo={clearBookInfo}
             />
           )
         }
