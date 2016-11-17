@@ -85,6 +85,7 @@ exports.getQueueInfo = () => (dispatch, getStates) => {
 // 取消排队
 exports.cancelQueue = () => (dispatch, getStates) => {
   const cancelQueueURL = `${config.cancelQueueAPI}?shopId=${shopId}&orderSyn=${orderSyn}`;
+  dispatch(setErrorMsg('取消排队中...'));
   fetch(cancelQueueURL, config.requestOptions).
   then(res => {
     if (!res.ok) {
