@@ -267,7 +267,7 @@ const DinnerDetailApplication = React.createClass({
             <div className="coupon-content">
               <div className="coupon-img coupon-content-big"></div>
               <div className="coupon-content-tips">
-                <span>客观！是你的优惠券~</span>
+                <span>客官！是你的优惠券~</span>
                 <a className="coupon-content-btn " href={dinnerDetail.url}></a>
               </div>
             </div>
