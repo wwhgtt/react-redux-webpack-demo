@@ -20,8 +20,11 @@ module.exports = React.createClass({
     return shallowCompare(this, nextProps, nextState);
   },
   grownPart(grownCfg) {
+    let content = '';
     if (!grownCfg) { return false; }
-    const content = `每消费${grownCfg.grownConsumeValue || '0'}元可获得${grownCfg.grownConsumeGainValue || '0'}点成长值`;
+    if (grownCfg.grownConsumeValue && grownCfg.grownConsumeGainValue) {
+      content = `每消费${grownCfg.grownConsumeValue || '0'}元可获得${grownCfg.grownConsumeGainValue || '0'}点成长值`;
+    }
     return (
       <ListItem listContent={content} />
     );
@@ -55,7 +58,11 @@ module.exports = React.createClass({
         limitWord = `单次最多可抵用订单金额的${levelRights.discount}%`;
       }
 
-      if (levelRights.isExchangeCash && levelRights.isExchangeCash !== 0) {
+      if (levelRights.isExchangeCash &&
+          levelRights.isExchangeCash === 0 &&
+          levelRights.exchangeIntegralValue &&
+          levelRights.exchangeCashValue
+          ) {
         content = `每${levelRights.exchangeIntegralValue}个积分可抵扣${levelRights.exchangeCashValue}元 ${limitWord}`;
       } else {
         content = '不可抵现';

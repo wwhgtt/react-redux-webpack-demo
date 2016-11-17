@@ -26,7 +26,7 @@ module.exports = React.createClass({
   componentDidMount() {},
   componentWillReceiveProps(nextProps) {
     const { loyaltyCouponList, weixinCouponList } = this.props;
-    if (nextProps.loyaltyCouponList && nextProps.loyaltyCouponList.length !== 0 && loyaltyCouponList !== nextProps.loyaltyCouponList) {
+    if (nextProps.loyaltyCouponList && loyaltyCouponList !== nextProps.loyaltyCouponList) {
       this.setState({
         couponLogo:noCouponLogo,
         loyaltyCouponCanUseList:couponHelper.filterCouponListByStatus(nextProps.loyaltyCouponList, 1),
