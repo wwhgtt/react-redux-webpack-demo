@@ -56,7 +56,7 @@ const RegisterMemberApplication = React.createClass({
     this._isPropsFirstLoad = true;
     this.setState({
       userSex: userInfo.sex,
-      userName: userInfo.name,
+      userName: userInfo.name || '',
     });
   },
 
