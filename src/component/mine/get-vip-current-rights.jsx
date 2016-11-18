@@ -56,8 +56,7 @@ module.exports = React.createClass({
         limitWord = `单次最多可抵用订单金额的${levelRights.discount}%`;
       }
 
-      if (levelRights.isExchangeCash &&
-          levelRights.isExchangeCash === 0 &&
+      if (levelRights.isExchangeCash === 0 &&
           levelRights.exchangeIntegralValue &&
           levelRights.exchangeCashValue
           ) {
