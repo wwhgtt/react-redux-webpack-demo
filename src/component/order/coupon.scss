@@ -16,7 +16,6 @@
     overflow: hidden;
     border-bottom: 1px solid $color-mercury;
     border-left: 0;
-    border-radius: 4px;
     background: $color-white;
 
     // dotted pattern
@@ -105,7 +104,7 @@
 
   &-dropdown-trigger {
     float: left;
-    padding: 20px 0 4px;
+    padding: 13px 0 4px;
 
     &::after {
       float: right;
