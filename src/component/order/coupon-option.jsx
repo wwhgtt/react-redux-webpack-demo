@@ -163,7 +163,11 @@ module.exports = React.createClass({
             }
             <p className="coupon-text--grey">
               <span>消费满{fullValue}可用</span>
-              <span>({String(periodStart).substr(0, 5)}～{String(periodEnd).substr(0, 5)})</span>
+              {periodStart && periodEnd ?
+                <span>({String(periodStart).substr(0, 5)}～{String(periodEnd).substr(0, 5)})</span>
+                :
+                false
+              }
             </p>
             <button
               className={

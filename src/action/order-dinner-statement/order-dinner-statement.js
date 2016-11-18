@@ -130,6 +130,8 @@ exports.submitDinnerOrder = (needPayMoney, receipt) => (dispatch, getState) => {
           const paramStr = `shopId=${shopId}&orderId=${result.data.orderId}`;
           location.href = `/shop/payDetail?${paramStr}&orderType=TS`;
         }
+      } else if (result.code === '70500') {
+        location.reload(true);
       } else {
         dispatch(setErrorMsg(result.msg));
       }
