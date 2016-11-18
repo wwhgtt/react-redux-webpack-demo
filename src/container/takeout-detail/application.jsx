@@ -68,7 +68,7 @@ const TakeoutDetailApplication = React.createClass({
       } else {
         clearInterval(this.countDownInteval);
         if (!this.isReGetInfo) {
-          this.props.getTakeoutDetail();
+          setTimeout(() => { this.props.getTakeoutDetail(); }, 2000);
           this.isReGetInfo = true;
         }
       }
@@ -193,8 +193,8 @@ const TakeoutDetailApplication = React.createClass({
               <div className="list-default option-privilege">
                 {
                   takeoutDetail.tradePrivileges && takeoutDetail.tradePrivileges.map((item, index) =>
-                    <div className="list-item flex-row" key={index}>
-                      <span className={`icon-privilege icon-${Math.abs(item.privilegeType)}`}>{item.privilegeName}</span>
+                    <div className="list-item" key={index}>
+                      <span className={`icon-privilege ellipsis icon-${Math.abs(item.privilegeType)}`}>{item.privilegeName}</span>
                       {item.privilegeValue && <span className="list-privilege-value">-{Math.abs(item.privilegeValue)}</span>}
                       <div className="fr list-privilege">-<span className="price">{Math.abs(item.privilegeAmount)}</span></div>
                     </div>
@@ -202,10 +202,10 @@ const TakeoutDetailApplication = React.createClass({
                 }
                 {
                   Boolean(takeoutDetail.carryRuleAmount) && (
-                    <div className="list-item flex-row">
-                      <span className="icon-privilege icon-carry">自动抹零</span>
+                    <div className="list-item">
+                      <span className="icon-privilege ellipsis icon-carry">自动抹零</span>
                       <div className="fr list-privilege">
-                        {takeoutDetail.carryRuleAmount < 0 ? '-' : ''}<span className="price">{Math.abs(takeoutDetail.carryRuleAmount)}</span>
+                        -<span className="price">{Math.abs(takeoutDetail.carryRuleAmount)}</span>
                       </div>
                     </div>
                   )
