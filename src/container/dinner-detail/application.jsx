@@ -67,7 +67,7 @@ const DinnerDetailApplication = React.createClass({
       } else {
         clearInterval(this.countDownInteval);
         if (!this.isReGetInfo) {
-          this.props.getDinnerDetail();
+          setTimeout(() => { this.props.getDinnerDetail(); }, 2000);
           this.isReGetInfo = true;
         }
       }
@@ -176,8 +176,8 @@ const DinnerDetailApplication = React.createClass({
               <div className="list-default option-privilege">
                 {
                   dinnerDetail.tradePrivileges && dinnerDetail.tradePrivileges.map((item, index) =>
-                    <div className="list-item flex-row" key={index}>
-                      <span className={`icon-privilege icon-${Math.abs(item.privilegeType)}`}>{item.privilegeName}</span>
+                    <div className="list-item" key={index}>
+                      <span className={`icon-privilege ellipsis icon-${Math.abs(item.privilegeType)}`}>{item.privilegeName}</span>
                       {item.privilegeValue && <span className="list-privilege-value">-{Math.abs(item.privilegeValue)}</span>}
                       <div className="fr list-privilege">-<span className="price">{Math.abs(item.privilegeAmount)}</span></div>
                     </div>
@@ -185,10 +185,10 @@ const DinnerDetailApplication = React.createClass({
                 }
                 {
                   Boolean(dinnerDetail.carryRuleAmount) && (
-                    <div className="list-item flex-row">
-                      <span className="icon-privilege icon-carry">自动抹零</span>
+                    <div className="list-item">
+                      <span className="icon-privilege ellipsis icon-carry">自动抹零</span>
                       <div className="fr">
-                        {dinnerDetail.carryRuleAmount < 0 ? '-' : ''}<span className="price">{Math.abs(dinnerDetail.carryRuleAmount)}</span>
+                        -<span className="price">{Math.abs(dinnerDetail.carryRuleAmount)}</span>
                       </div>
                     </div>
                   )
