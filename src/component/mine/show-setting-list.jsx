@@ -71,7 +71,7 @@ module.exports = React.createClass({
     } else if (info.bindWx && info.bindMobile) {
       condition = 4;
     }
-    const { name, sex } = this.state;
+    const { sex } = this.state;
 
     // 几种状态的判断
 
@@ -97,7 +97,7 @@ module.exports = React.createClass({
                   maxLength="30"
                   placeholder="请输入姓名"
                   ref="name"
-                  value={name}
+                  defaultValue={this.props.info.name}
                   onChange={this.onInputName}
                 />
               </div>
