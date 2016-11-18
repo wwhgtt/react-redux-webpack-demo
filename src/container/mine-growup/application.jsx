@@ -24,10 +24,11 @@ const MineGrowupApplication = React.createClass({
   getInitialState() {
     return {
       descriptionContentVisible: false,
+      hideLoad: false,
     };
   },
   componentWillMount() {
-    this.props.fetchGrowupInfo().then(this.props.fetchCurrGrownRule);
+    this.props.fetchGrowupInfo(1).then(this.props.fetchCurrGrownRule);
     this.pageNum = 1;
     this.wholeData = [];
   },
@@ -56,7 +57,7 @@ const MineGrowupApplication = React.createClass({
     });
   },
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.growupInfo.pageSize || nextProps.growupInfo.pageSize === 1) {
+    if (nextProps.growupInfo.totalRows <= nextProps.growupInfo.pageSize) {
       this.setState({ hideLoad:true });
     }
   },
@@ -69,7 +70,7 @@ const MineGrowupApplication = React.createClass({
   addItems() {
     const { growupInfo } = this.props;
     this.pageNum++;
-    if (growupInfo.pageSize >= this.pageNum) {
+    if (growupInfo.totalPage >= this.pageNum) {
       this.props.fetchGrowupInfo(this.pageNum);
     } else {
       this.setState({ hideLoad:true });
@@ -79,9 +80,15 @@ const MineGrowupApplication = React.createClass({
     this.setState({ descriptionContentVisible: !this.state.descriptionContentVisible });
   },
   buildListElement() {
-    const { ghList } = this.props.growupInfo;
-    if (!ghList || !ghList.length) {
+    const { growupInfo, currentRule } = this.props;
+    const { items } = growupInfo;
+
+    if (!items || !items.length) {
       return [];
+    }
+
+    if (growupInfo.currentPage === this.pageNum && currentRule) {
+      this.wholeData = this.wholeData.concat(items);
     }
 
     const getGrowthTypeText = type => {
@@ -93,7 +100,7 @@ const MineGrowupApplication = React.createClass({
     };
 
     return (
-      ghList.map((item, index) => {
+      this.wholeData.map((item, index) => {
         const amount = item.addValue;
         let amountClass = 'list-amount';
 
@@ -108,7 +115,7 @@ const MineGrowupApplication = React.createClass({
             </span>
             <p className="list-title">{getGrowthTypeText(item.grownType)}</p>
             <div className="list-detail">
-              <span className="list-detail-item">{dateUtility.format(new Date(item.serverUpdateTime), 'yyyy/MM/dd')}</span>
+              <span className="list-detail-item">{dateUtility.format(new Date(item.bizDate), 'yyyy/MM/dd')}</span>
               <span className="list-detail-item list-detail-name ellipsis">{item.commercialName}</span>
             </div>
           </div>

@@ -27,9 +27,7 @@ const MineAccumulationApplication = React.createClass({
     };
   },
   componentWillMount() {
-    const { fetchCurrIntegralRule, fetchAccumulationInfo } = this.props;
-    fetchCurrIntegralRule();
-    fetchAccumulationInfo(1);
+    this.props.fetchAccumulationInfo(1).then(this.props.fetchCurrIntegralRule);
     this.pageNum = 1;
     this.wholeData = [];
   },
@@ -58,7 +56,7 @@ const MineAccumulationApplication = React.createClass({
     });
   },
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.accumulationInfo.pageSize || nextProps.accumulationInfo.pageSize === 1) {
+    if (nextProps.accumulationInfo.totalRows <= nextProps.accumulationInfo.pageSize) {
       this.setState({ hideLoad:true });
     }
   },
@@ -71,7 +69,7 @@ const MineAccumulationApplication = React.createClass({
   addItems() {
     const { accumulationInfo } = this.props;
     this.pageNum++;
-    if (accumulationInfo.pageSize >= this.pageNum) {
+    if (accumulationInfo.totalPage >= this.pageNum) {
       this.props.fetchAccumulationInfo(this.pageNum);
     } else {
       this.setState({ hideLoad:true });
@@ -81,15 +79,15 @@ const MineAccumulationApplication = React.createClass({
     this.setState({ descriptionContentVisible: !this.state.descriptionContentVisible });
   },
   buildListElement() {
-    const { accumulationInfo } = this.props;
-    const { ihList } = accumulationInfo;
+    const { accumulationInfo, currentRule } = this.props;
+    const { items } = accumulationInfo;
 
-    if (!ihList || !ihList.length) {
+    if (!items || !items.length) {
       return [];
     }
 
-    if (accumulationInfo.currentPage === this.pageNum) {
-      this.wholeData = this.wholeData.concat(ihList);
+    if (accumulationInfo.currentPage === this.pageNum && currentRule) {
+      this.wholeData = this.wholeData.concat(items);
     }
     const getIntegralTypeText = type => {
       const types = ['消费获得积分', '抽奖扣积分', '积分抵现', '消费获得积分退回', '抵现积分退回'];
@@ -112,7 +110,7 @@ const MineAccumulationApplication = React.createClass({
             </span>
             <p className="list-title">{getIntegralTypeText(item.operateType)}</p>
             <div className="list-detail">
-              <span className="list-detail-item">{dateUtility.format(new Date(item.createDateTime), 'yyyy/MM/dd')}</span>
+              <span className="list-detail-item">{dateUtility.format(new Date(item.bizDate), 'yyyy/MM/dd')}</span>
               <span className="list-detail-item list-detail-name ellipsis">{item.commercialName}</span>
             </div>
           </div>

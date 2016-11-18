@@ -10,8 +10,9 @@ const setCurrGrownRule = createAction('SET_CURRGROWN_RULE', rule => rule);
 const shopId = getUrlParam('shopId');
 
 // 获取基本信息
-exports.fetchGrowupInfo = (currentPage) => (dispatch, getStates) =>
-  fetch(`${config.getGrowthValueAPI}?shopId=${shopId}&currentPage=${currentPage}`, config.requestOptions)
+exports.fetchGrowupInfo = (currentPage) => (dispatch, getStates) => {
+  const pageSize = 12;
+  return fetch(`${config.getGrownDetailAPI}?shopId=${shopId}&currentPage=${currentPage}&pageSize=${pageSize}`, config.requestOptions)
     .then(res => {
       if (!res.ok) {
         return false;
@@ -23,6 +24,7 @@ exports.fetchGrowupInfo = (currentPage) => (dispatch, getStates) =>
         dispatch(setGrowupInfo(res.data));
       }
     });
+};
 
 exports.fetchCurrGrownRule = () => (dispatch, getStates) =>
   fetch(`${config.getCurrGrownRuleAPI}?shopId=${shopId}`, config.requestOptions)
