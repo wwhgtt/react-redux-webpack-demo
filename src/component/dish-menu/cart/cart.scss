@@ -56,24 +56,26 @@
     position: absolute;
     z-index: 1;
     top: 50%;
-    left: 70px;
+    left: 80px;
     min-width: 100px;
     padding-right: 10px;
     transform: translateY(-50%);
 
     > strong {
-      font-size: 22px;
+      font-size: 18px;
       font-weight: normal;
       margin-right: 5px;
 
       &::before {
-        font-size: 12px;
+        font-size: 18px;
+        vertical-align: 1px;
       }
     }
 
     > small {
       font-size: 12px;
       display: inline-block;
+      vertical-align: 1px;
     }
   }
 
@@ -102,6 +104,7 @@
   border: 3px solid $color-abbey;
   border-radius: 50%;
   background: $color-dove-grey;
+  box-shadow: 0 -2px 2px 0 rgba(0, 0, 0, .2);
 
   &::before {
     display: block;
@@ -111,23 +114,24 @@
     background-image: url("../../../asset/images/cart-icon.svg");
     // image size 60 * 54;
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: 11px center;
     background-size: 27px 27px;
   }
 
   &::after {
-    font-size: 14px;
-    line-height: 18px;
+    font-size: 26px;
+    line-height: 42px;
     position: absolute;
-    top: -8px;
-    right: -4px;
+    top: -21px;
+    right: -19px;
     display: none;
-    min-width: 22px;
+    min-width: 48px;
     content: attr(data-count);
     color: $color-white;
-    border: 2px solid #fff;
-    border-radius: 11px;
+    border: 3px solid #fff;
+    border-radius: 24px;
     background: $color-radical-red;
+    transform: scale(.5, .5);
   }
 
   &[data-count]::after {

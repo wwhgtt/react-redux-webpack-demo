@@ -1,0 +1,59 @@
+.application {
+  color: #474747;
+  background-color: #f1f1f1;
+}
+
+.takeout-page {
+  .shop-info {
+    padding: 0;
+    border: 0 none;
+
+    &::after {
+      right: 0;
+    }
+  }
+
+  .takeout-head {
+    margin-bottom: 15px;
+
+    .option:first-child {
+      padding: 0 15px;
+    }
+
+    .option {
+      padding: 19px 15px;
+    }
+
+    span {
+      display: inline-block;
+    }
+
+    &-title {
+      width: 80px;
+      margin-right: 17px;
+    }
+
+    &-content {
+      width: calc(100% - 97px);
+      color: #666;
+    }
+
+    &-no {
+      font-weight: bold;
+    }
+  }
+
+  .dish-count {
+    color: #474747;
+  }
+
+  .dish-sub-info {
+    .dish-count {
+      color: #999;
+    }
+  }
+
+  .dish-price {
+    color: #474747;
+  }
+}

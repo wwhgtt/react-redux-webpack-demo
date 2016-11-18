@@ -1,9 +1,12 @@
 @import "settings.colors";
 
-.order-summary {
-  padding: 5px 10px 4px;
-  border-bottom: 1px solid $color-alto;
+.order-summary-cart {
+  border-top: 1px solid #e3e3e3;
+}
 
+.order-summary {
+  padding: 5px 0 4px 10px;
+  // border-bottom: 1px solid $color-alto;
   // order-summary icons
   @for $i from 1 through 7 {
     &-icon#{$i}::before {
@@ -17,7 +20,15 @@
   }
 
   &-entry {
-    line-height: 32px;
+    line-height: 45px;
+    height: 45px;
+
+    &::after {
+      display: inherit;
+      width: auto;
+      height: 2px;
+      content: "";
+    }
   }
 
   &-cart .dish-name {
@@ -28,12 +39,14 @@
 .order-discount {
   float: right;
   width: 80px;
+  padding-right: 10px;
   text-align: right;
 }
 
 .order-integral {
   font-size: 14px;
   float: right;
+  padding-right: 60px;
   color: $color-dusty-grey;
 
   &::before {
@@ -42,13 +55,186 @@
 }
 
 .order-total {
+  border-top: 1px solid #e8e8e8;
+
   &-left {
     font-size: 15px;
     float: left;
-    margin-right: 15px;
+    margin-right: 20px;
   }
 
   &-right {
     float: right;
   }
+}
+
+.option {
+  background-color: #fff;
+}
+
+.extraPrice {
+  .option {
+    &::after {
+      display: inline-block;
+      width: calc(100% - 1em);
+      height: 1px;
+      content: "";
+      border-bottom: 1px solid #f1f1f1;
+    }
+  }
+
+  .option:last-child::after {
+    border-bottom: 0;
+  }
+
+  &::before {
+    display: block;
+    width: 100%;
+    height: 2.5px;
+    content: "";
+    background-color: #f1f1f1;
+  }
+
+  &::after {
+    display: block;
+    width: 100%;
+    height: 2.5px;
+    content: "";
+    background-color: #f1f1f1;
+  }
+}
+
+.division-group {
+  margin-bottom: 5px;
+  background-color: #f0f0f0;
+
+  &::after {
+    border-bottom: 0 !important;
+  }
+}
+
+.option-shop-desc {
+  font-size: 18px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.dish-detail {
+  padding: 20px 0 5px;
+
+  span {
+    display: inline-block;
+    float: left;
+    width: 33.33%;
+    color: #666;
+  }
+
+  &-left {
+    text-align: left;
+  }
+
+  &-middle {
+    padding-right: 20px;
+    text-align: right;
+  }
+
+  &-right {
+    font-size: 14px;
+    text-align: right;
+    color: #ff7417 !important;
+
+    &::before {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      margin-right: 5px;
+      content: "";
+      background-image: url("../../asset/images/edit.svg");
+      background-size: 100%;
+    }
+
+    a {
+      display: inline-block;
+      width: 4em;
+      text-decoration: none;
+    }
+  }
+}
+
+.temporary-coupon {
+  width: 5.5em !important;
+}
+
+.ordered-dish-content {
+  position: relative;
+
+  &::after {
+    position: absolute;
+    bottom: 0;
+    display: inline-block;
+    width: 100%;
+    height: 2.5px;
+    content: "";
+    background-color: #f1f1f1;
+  }
+}
+
+.extra-bottom {
+  border-bottom: 1px solid #e3e3e3;
+
+  &::before {
+    display: block;
+    width: 100%;
+    height: 2.5px;
+    content: "";
+    background-color: #f1f1f1;
+  }
+
+  &::after {
+    border-bottom: 0 !important;
+  }
+}
+
+.benefit-options {
+  &::before {
+    display: block;
+    width: 100%;
+    height: 2.5px;
+    content: "";
+    background-color: #f1f1f1;
+  }
+
+  &::after {
+    display: block;
+    width: 100%;
+    height: 4.5px;
+    content: "";
+    background-color: #f1f1f1;
+  }
+}
+
+.benefit-none {
+  display: none;
+}
+
+.last-option {
+  &::after {
+    border-bottom: 0 !important;
+  }
+}
+
+.cart-ordered-dish {
+  &::after {
+    width: calc(100% - 15px) !important;
+  }
+}
+
+.only-coupon {
+  &::after {
+    border-bottom: 0 !important;
+  }
+}
+
+.option-shop {
+  left: 0 !important;
 }

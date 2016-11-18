@@ -28,9 +28,6 @@ exports.getUserInfo = () => (dispatch, getStates) => {
   then(res => {
     if (res.code === '200') {
       dispatch(setUserInfo(res.data));
-      if ((activation !== 'memberCardActivate') && String(res.data.loginType) === '1') {
-        location.href = `http://${location.host}/user/validBindMobile?shopId=${shopId}`;
-      }
     } else {
       dispatch(setErrorMsg(res.msg));
     }
@@ -39,16 +36,20 @@ exports.getUserInfo = () => (dispatch, getStates) => {
 
 exports.saveRegisterMember = (info) => (dispatch, getStates) => {
   dispatch(setLoadMsg({ status: true, word: '注册中，请稍后……' }));
-  let registerURL = `${config.registerAPI}?shopId=${shopId}`;
-  if (activation === 'memberCardActivate') {
-    registerURL = `${registerURL}&activation=memberCardActivate`;
-  }
+  let fromBrand = 1;
 
-  let displayUrl = '';
+  let displayUrl = `${config.mineIndexURL}?shopId=${shopId}`;
   if (returnUrl) {
     displayUrl = decodeURIComponent(returnUrl);
-  } else {
-    displayUrl = `${config.mineIndexURL}?shopId=${shopId}`;
+    const displayUrlPath = displayUrl.substring(0, displayUrl.indexOf('?'));
+    if (/selectDish/.test(displayUrlPath)) {
+      fromBrand = 0;
+    }
+  }
+
+  let registerURL = `${config.registerAPI}?shopId=${shopId}&fromBrand=${fromBrand}`;
+  if (activation === 'memberCardActivate') {
+    registerURL = `${registerURL}&activation=memberCardActivate`;
   }
 
   fetch(registerURL, getFetchPostParam(info)).

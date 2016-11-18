@@ -14,58 +14,74 @@
     line-height: 14px;
     position: relative;
     overflow: hidden;
-    padding: 5px 0;
-    border: 1px solid $color-mercury;
+    border-bottom: 1px solid $color-mercury;
     border-left: 0;
-    border-radius: 4px;
     background: $color-white;
 
     // dotted pattern
-    &::before {
-      position: absolute;
-      z-index: 1;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      width: 5px;
-      content: "";
-      border-radius: 4px 0 0 4px;
-      background: currentColor;
-    }
 
     &::after {
       position: absolute;
       z-index: 2;
-      top: 4px;
-      bottom: 4px;
-      left: 1px;
-      width: 8px;
+      top: 2px;
+      bottom: 2px;
+      left: -8px;
+      width: 16px;
       content: "";
-      background: radial-gradient(circle, $color-white 2px, transparent 2px);
-      background-size: 8px 8px;
+      background: radial-gradient(circle, #f1f1f1 5px, transparent 4px);
+      background-size: 16px 16px;
+    }
+
+    &::before {
+      position: absolute;
+      z-index: 2;
+      top: 2px;
+      right: -8px;
+      bottom: 2px;
+      width: 16px;
+      content: "";
+      background: radial-gradient(circle, #f1f1f1 5px, transparent 4px);
+      background-size: 16px 16px;
     }
 
     &-left {
-      flex: 0 0 110px;
-      padding: 15px 15px 10px 20px;
-      border-right: 1px dotted $color-mercury;
+      flex: 0 0 65%;
+      padding: 13px 0 13px 26px;
+      color: #fff !important;
     }
 
     &-right {
-      padding: 15px 15px 10px 20px;
-      color: $color-dusty-grey;
+      padding: 21px 15px 10px 20px;
+      color: $color-dusty-grey !important;
+
+      .coupon-text--grey {
+        font-size: 14px;
+        padding: 3px 0;
+        text-align: center;
+        color: #999;
+      }
+
+      .coupon-time {
+        font-size: 15px;
+        line-height: 20px;
+        height: 20px;
+        margin-bottom: 15px;
+        text-align: center;
+        color: $color-dusty-grey;
+      }
     }
   }
 
   // coupon text styles
   &-text--dark {
+    font-size: 12px;
     padding: 3px 0;
-    color: $color-shuttle-grey;
+    color: #fff;
   }
 
   &-text--grey {
     padding: 3px 0;
-    color: $color-dusty-grey;
+    color: #fff;
   }
 
 
@@ -73,21 +89,22 @@
   &-rate {
     font-size: 30px;
     line-height: 1;
-    text-align: center;
+    text-align: left;
     color: currentColor;
   }
 
   // coupon card right styles
   &-title {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: normal;
     line-height: 24px;
-    color: $color-shuttle-grey;
+    padding-left: 10px;
+    color: #fff;
   }
 
   &-dropdown-trigger {
     float: left;
-    padding: 6px 0 4px;
+    padding: 13px 0 4px;
 
     &::after {
       float: right;
@@ -95,7 +112,7 @@
       height: 13px;
       margin-left: 5px;
       content: "";
-      background-image: url("../../asset/images/arrow-top-grey.png"); // image size 20 * 12px
+      background-image: url("../../asset/images/arrow-up-white.svg"); // image size 20 * 12px
       background-repeat: no-repeat;
       background-position: center center;
       background-size: 10px 6px;
@@ -122,20 +139,23 @@
   &-dropdown {
     font-size: 12px;
     line-height: 14px;
-    margin: 0 5px;
     padding: 5px 10px;
-    border: 1px solid $color-mercury;
     border-top: 0;
-    border-radius: 0 0 4px 4px;
     background: $color-white;
+
+    .coupon-text--dark {
+      font-size: 14px !important;
+      color: #666 !important;
+    }
   }
 
   &-rules {
+    font-size: 14px;
     line-height: 16px;
     margin: 0;
     padding: 3px 0 3px 14px;
     list-style: disc;
-    color: $color-dusty-grey;
+    color: #666;
 
     &:empty {
       padding: 0;
@@ -147,51 +167,63 @@
 // coupon types
 
 .coupon-xianjin {
-  color: #feb813;
+  background-color: #ff9049;
 
-  .coupon-rate::before {
-    font-size: 16px;
-    margin-right: 3px;
-    content: "¥";
+  .coupon-rate {
+    .coupon-value::after {
+      font-size: 17px;
+      margin-left: 5px;
+      padding-right: 3px;
+      content: "元";
+    }
   }
 }
 
 .coupon-manjian {
-  color: #65a1ed;
+  background-color: #56a5ff;
 
-  .coupon-rate::before {
-    font-size: 14px;
-    display: inline-block;
-    margin-right: 3px;
-    content: "减";
-    vertical-align: middle;
+  .coupon-rate {
+    .coupon-value::after {
+      font-size: 17px;
+      margin-left: 5px;
+      padding-right: 3px;
+      content: "元";
+    }
   }
 }
 
 .coupon-zhekou {
-  color: #ff678d;
+  background-color: #24ced4;
 
-  .coupon-rate::after {
-    font-size: 14px;
-    margin-left: 2px;
-    content: "折";
+  .coupon-rate {
+    .coupon-value::after {
+      font-size: 17px;
+      font-weight: 200;
+      margin-right: 3px;
+      margin-left: 5px;
+      content: "折";
+    }
   }
 }
 
 .coupon-lipin {
-  color: #33d371;
+  background-color: #ffc334;
 
   .coupon-rate {
     font-size: 18px;
-    line-height: 20px;
+    margin-top: 4px;
     text-align: left;
+
+    .coupon-value::before {
+      font-size: 17px;
+      font-weight: 200;
+      margin-right: 3px;
+      content: "送";
+    }
   }
 
-  .coupon-rate::after {
-    font-size: 14px;
-    font-weight: 200;
-    margin-left: 3px;
-    content: "x" attr(data-gift-amount);
+  .coupon-text--grey {
+    padding: 7px 0;
   }
 }
 
@@ -221,4 +253,27 @@
     background-position: center center;
     background-size: 13px 11px;
   }
+}
+
+.coupon-value {
+  font-size: 40px;
+}
+
+.coupon-gift {
+  font-size: 22px;
+}
+
+.for-gift {
+  margin-bottom: 5px !important;
+}
+
+.coupon-weixin {
+  position: relative;
+  top: 2px;
+  left: 5px;
+  display: inline-block;
+  width: 21px;
+  height: 16px;
+  background-image: url("../../asset/images/weixin-card.svg");
+  background-size: 100% 100%;
 }

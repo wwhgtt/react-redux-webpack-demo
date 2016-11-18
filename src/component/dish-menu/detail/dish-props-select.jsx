@@ -10,9 +10,9 @@ module.exports = React.createClass({
   displayName: 'DishPropsSelect',
   propTypes: {
     dish:React.PropTypes.object.isRequired,
-    dishData:React.PropTypes.object.isRequired,
+    dishData:React.PropTypes.object,
     onSelectPropsOption: React.PropTypes.func,
-    onDishRuleChecked:React.PropTypes.func.isRequired,
+    onDishRuleChecked:React.PropTypes.func,
   },
   onSelectPropsOption(recipeData, optionData) {
     this.props.onSelectPropsOption(recipeData, optionData);
@@ -22,7 +22,7 @@ module.exports = React.createClass({
     onDishRuleChecked(id, dishOptions, immutableDish);
   },
   buildRule(dish) {
-    if (!dish.sameRuleDishes) {
+    if (!dish || !dish.sameRuleDishes) {
       return false;
     }
     let ruleElements = [];
@@ -40,7 +40,7 @@ module.exports = React.createClass({
                   <button
                     className={classnames('dish-porps-option', { 'is-checked':prop.isChecked })}
                     onTouchTap={evt => this.onDishRuleChecked(prop.id, ruleDish, dish)}
-                    key={prop.id}
+                    key={+prop.id + Math.random() * 10000 + 1}
                   >
                     <span className="extra">{prop.reprice ? `+${prop.reprice}元` : false}</span>
                     <span className="name ellipsis">{prop.name}</span>
@@ -58,7 +58,7 @@ module.exports = React.createClass({
           <button
             className={classnames('dish-porps-option', { 'is-checked':ruleCollection[i].properties[0].isChecked })}
             onTouchTap={evt => this.onDishRuleChecked(ruleCollection[i].properties[0].id, dish, dish)}
-            key={ruleCollection[i].properties[0].id}
+            key={+ruleCollection[i].properties[0].id + Math.random() * 10000 + 1}
           >
             <span className="extra">{
               ruleCollection[i].properties[0].reprice ?

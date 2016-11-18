@@ -6,6 +6,10 @@
   margin-bottom: 0;
 }
 
+.list-arrow {
+  transition: transform .6s;
+}
+
 .list-icon {
   &[name="WDYE"] {
     background: url("../../asset/images/WDYE.svg") center center/1em auto no-repeat;
@@ -26,14 +30,5 @@
 
 .tq-outer {
   padding: 1em;
-  background: #fafafa;
-
-  &-hide {
-    height: 0;
-    padding: 0 1em;
-  }
-
-  &-show {
-    height: auto;
-  }
 }
+

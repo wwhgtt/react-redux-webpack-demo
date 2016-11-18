@@ -2,11 +2,13 @@ const React = require('react');
 const connect = require('react-redux').connect;
 const actions = require('../../action/mine/mine-vip-level.js');
 require('../../asset/style/style.scss');
-require('./application.scss');
+
 const Loading = require('../../component/mui/loading.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const ShowVipProcess = require('../../component/mine/show-vip-process.jsx');
 const VipCurrentLevel = require('../../component/mine/get-vip-current-level.jsx');
+
+require('./application.scss');
 
 const MineVipLevelApplication = React.createClass({
   displayName: 'MineVipLevelApplication',

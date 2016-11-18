@@ -48,8 +48,33 @@
       background: #ffc334;
     }
 
-    &-leftpart.shixiao {
+    &-leftpart.shixiao.yiguoqi {
+      position: relative;
       background: #ccc;
+    }
+  }
+}
+
+.uprow-leftpart {
+  &.shixiao {
+    position: relative;
+    background: #ccc;
+
+    &::after {
+      position: absolute;
+      top: 24px;
+      right: -34px;
+      width: 68px;
+      height: 68px;
+      content: "";
+    }
+
+    &.yiguoqi::after {
+      background: url("../../asset/images/coupon-yiguoqi.svg") center center/100% 100% no-repeat;
+    }
+
+    &.yishiyong::after {
+      background: url("../../asset/images/coupon-yishiyong.svg") center center/100% 100% no-repeat;
     }
   }
 }

@@ -1,8 +1,9 @@
 const React = require('react');
+const shallowCompare = require('react-addons-shallow-compare');
+
+const ListItem = require('../mui/list-item.jsx');
 
 require('./get-vip-current-rights.scss');
-const ListItem = require('../mui/list-item.jsx');
-const shallowCompare = require('react-addons-shallow-compare');
 
 module.exports = React.createClass({
   displayName: 'GetVipCurrentRights',
@@ -20,18 +21,21 @@ module.exports = React.createClass({
   },
   grownPart(grownCfg) {
     if (!grownCfg) { return false; }
-    const content = `每消费${grownCfg.grownConsumeValue || '0'}元可获得${grownCfg.grownConsumeGainValue || '0'}点成长值`;
-    return (
-      <ListItem listContent={content} />
-    );
+    if (grownCfg.grownConsumeValue && grownCfg.grownConsumeGainValue) {
+      const content = `每消费${grownCfg.grownConsumeValue}元可获得${grownCfg.grownConsumeGainValue}点成长值`;
+      return <ListItem listContent={content} />;
+    }
+    return false;
   },
   scorePart(levelRights) {
     if (levelRights && levelRights.consumeValue && levelRights.consumeGainValue) {
-      let content = `每消费${levelRights.consumeValue}元可获得${levelRights.consumeGainValue}个积分，`;
-      if (levelRights.isGainAll === 0) {
-        content += '全部商品可积分';
-      } else {
-        content += `无积分商品：${levelRights.dishNames}`;
+      let content = `每消费${levelRights.consumeValue}元可获得${levelRights.consumeGainValue}个积分`;
+      if (levelRights.isGainAll) {
+        if (levelRights.isGainAll === 0) {
+          content += '，全部商品可积分';
+        } else {
+          content += `，无积分商品：${levelRights.dishNames}`;
+        }
       }
       return (
         <ListItem listContent={content} />
@@ -52,8 +56,12 @@ module.exports = React.createClass({
         limitWord = `单次最多可抵用订单金额的${levelRights.discount}%`;
       }
 
-      if (levelRights.isExchangeCash === 0) {
-        content = `每${levelRights.exchangeIntegralValue}个积分可抵扣${levelRights.exchangeCashValue}元，${limitWord}`;
+      if (levelRights.isExchangeCash &&
+          levelRights.isExchangeCash === 0 &&
+          levelRights.exchangeIntegralValue &&
+          levelRights.exchangeCashValue
+          ) {
+        content = `每${levelRights.exchangeIntegralValue}个积分可抵扣${levelRights.exchangeCashValue}元 ${limitWord}`;
       } else {
         content = '不可抵现';
       }

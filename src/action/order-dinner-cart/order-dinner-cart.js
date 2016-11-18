@@ -3,10 +3,10 @@ require('isomorphic-fetch');
 
 const config = require('../../config');
 const createAction = require('redux-actions').createAction;
-const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
-const storeDishesLocalStorage = require('../../helper/dish-hepler.js').storeDishesLocalStorage;
-const clearDishesLocalStorage = require('../../helper/dish-hepler.js').clearDishesLocalStorage;
-const getDishesCount = require('../../helper/dish-hepler').getDishesCount;
+const getUrlParam = require('../../helper/dish-helper.js').getUrlParam;
+const storeDishesLocalStorage = require('../../helper/dish-helper.js').storeDishesLocalStorage;
+const clearDishesLocalStorage = require('../../helper/dish-helper.js').clearDishesLocalStorage;
+const getDishesCount = require('../../helper/dish-helper').getDishesCount;
 const orderDinnerCartHelper = require('../../helper/order-dinner-cart-helper.js');
 const shopId = getUrlParam('shopId');
 const _setOrderDish = createAction('ORDER_DISH', (dishData, increment) => [dishData, increment]);
@@ -153,9 +153,9 @@ exports.fetchLastOrderedDishes = () => (dispatch, getState) => {
 
 exports.setOrderDish = (dishData, increment) => (dispatch, getStates) => {
   dispatch(_setOrderDish(dishData, increment));
-  const dishesData = getStates().dishMenu.dishesData;
+  const dishesData = getStates().dishMenu.dishesDataDuplicate;
   const count = getDishesCount(dishesData);
-  storeDishesLocalStorage(dishesData, dishes => dishes);
+  storeDishesLocalStorage(dishesData, getStates().orderTSCart, dishes => dishes);
   if (count === 0) {
     clearDishesLocalStorage();
     gotoDishMenuPage();

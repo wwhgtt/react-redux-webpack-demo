@@ -2,7 +2,7 @@ const Immutable = require('seamless-immutable');
 const _find = require('lodash.find');
 const _has = require('lodash.has');
 const helper = require('../../helper/order-helper');
-const orderTypeOfUrl = require('../../helper/dish-hepler.js').getUrlParam('type');
+const orderTypeOfUrl = require('../../helper/dish-helper.js').getUrlParam('type');
 module.exports = function (
   state = Immutable.from({
     customerProps:{},
@@ -170,7 +170,7 @@ module.exports = function (
                            name:'使用会员积分',
                            isChecked:false,
                            id:'integrals',
-                           subname:`我的积分${payload.integral.integral}`,
+                           subname:`我的积分:${payload.integral.integral}`,
                          })
                          :
                          false
@@ -181,7 +181,7 @@ module.exports = function (
       if (payload.id === 'way-of-get-diner') {
         return state.setIn(
           ['serviceProps', 'isPickupFromFrontDesk', 'isChecked'],
-          !state.serviceProps.isPickupFromFrontDesk.isChecked
+          true
         )
         .updateIn(
           ['serviceProps', 'payMethods'],
@@ -191,7 +191,7 @@ module.exports = function (
               helper.isPaymentAvaliable(
                 payMethod.id.split('-')[0],
                 state.commercialProps.diningForm,
-                !state.serviceProps.isPickupFromFrontDesk.isChecked,
+                true,
                 state.serviceProps.sendAreaId,
                 state.commercialProps.selfPayType,
                 state.commercialProps.sendPayType
@@ -207,7 +207,44 @@ module.exports = function (
               helper.shouldPaymentAutoChecked(
                 payMethod.id.split('-')[0],
                 state.commercialProps.diningForm,
-                !state.serviceProps.isPickupFromFrontDesk.isChecked,
+                true,
+                state.serviceProps.sendAreaId,
+                state.commercialProps.selfPayType,
+                state.commercialProps.sendPayType
+              ),
+            )
+          )
+        );
+      } else if (payload.id === 'totable') {
+        return state.setIn(
+          ['serviceProps', 'isPickupFromFrontDesk', 'isChecked'],
+          false
+        )
+        .updateIn(
+          ['serviceProps', 'payMethods'],
+          payMethods => payMethods.flatMap(
+            payMethod => payMethod.set(
+              'isAvaliable',
+              helper.isPaymentAvaliable(
+                payMethod.id.split('-')[0],
+                state.commercialProps.diningForm,
+                false,
+                state.serviceProps.sendAreaId,
+                state.commercialProps.selfPayType,
+                state.commercialProps.sendPayType
+              ),
+            )
+          )
+        )
+        .updateIn(
+          ['serviceProps', 'payMethods'],
+          payMethods => payMethods.flatMap(
+            payMethod => payMethod.set(
+              'isChecked',
+              helper.shouldPaymentAutoChecked(
+                payMethod.id.split('-')[0],
+                state.commercialProps.diningForm,
+                false,
                 state.serviceProps.sendAreaId,
                 state.commercialProps.selfPayType,
                 state.commercialProps.sendPayType
@@ -263,6 +300,14 @@ module.exports = function (
         );
         if (selectedCoupon && selectedCoupon.isChecked) {
           if (selectedCoupon.coupRuleBeanList.length && !selectedCoupon.coupDishBeanList.length) {
+            return state.setIn(
+              ['serviceProps', 'couponsProps', 'inUseCoupon'], true
+            )
+            .setIn(
+              ['serviceProps', 'couponsProps', 'inUseCouponDetail'],
+              selectedCoupon
+            );
+          } else if (!selectedCoupon.coupRuleBeanList.length && !selectedCoupon.coupDishBeanList.length && selectedCoupon.weixinValue) {
             return state.setIn(
               ['serviceProps', 'couponsProps', 'inUseCoupon'], true
             )
@@ -383,7 +428,7 @@ module.exports = function (
       )
         .setIn(['serviceProps', 'activityBenefit', 'benefitMoney'], helper.countInitializeBenefit(payload, state.orderedDishesProps.dishes));
     case 'SET_COUPONS_TO_ORDER':
-      return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], payload);
+      return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], helper.handleWeixinCard(payload, true));
     case 'SET_DISCOUNT_TO_ORDER':
       if (payload.isDiscount && payload.isMember) {
         return state.setIn(
@@ -467,7 +512,11 @@ module.exports = function (
           Object.assign({}, payload.value, { isChecked: true }),
         ]
       );
-    case 'SET_ADDRESS_LIST_INFO_TO_ORDER':
+    case 'SET_ADDRESS_LIST_INFO_TO_ORDER': {
+      if (!payload.inList) {
+        payload.inList = [];
+      }
+
       return state.set('customerAddressListInfo', {
         isAddressesLoaded: true,
         data: Immutable.from(payload).update('inList', list => list.map((item, index) => {
@@ -475,6 +524,7 @@ module.exports = function (
           return Object.assign({ rangeId: item.rangeId }, address);
         })),
       });
+    }
     case 'ON_SELECT_BENEFIT':
       if (payload === 'closeWindow') {
         return state

@@ -1,7 +1,6 @@
 @import "settings.colors";
 
 body {
-  font-weight: 200;
   background-color: #f1f1f1;
 }
 
@@ -31,6 +30,7 @@ body {
     height: 35px;
     padding: 0 15px;
     color: $color-dove-grey;
+    border-bottom: 1px solid #eaeaea;
   }
 }
 

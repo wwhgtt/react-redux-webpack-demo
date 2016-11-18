@@ -1,14 +1,17 @@
 const React = require('react');
-require('./show-setting-list.scss');
-const SexSwitch = require('../common/sex-switch.jsx');
 const config = require('../../config');
 const commonHelper = require('../../helper/common-helper');
+
+const SexSwitch = require('../common/sex-switch.jsx');
 const shopId = commonHelper.getUrlParam('shopId');
 let registerUrl = ` ${config.registerMemberURL}?shopId=${shopId}`;
 const modifypwdUrl = ` ${config.modifyPwdURL}?shopId=${shopId}`;
 const bindMobileUrl = ` ${config.bindMobileURL}?shopId=${shopId}`;
 const bindWXUrl = ` ${config.bindWXURL}?shopId=${shopId}`;
 const defaultPic = require('../../asset/images/head-default.png');
+
+
+require('./show-setting-list.scss');
 
 module.exports = React.createClass({
   displayName: 'ShowSettingList',
@@ -20,6 +23,7 @@ module.exports = React.createClass({
     }).isRequired,
     getInfo:React.PropTypes.func,
     logOff:React.PropTypes.func,
+    onSave:React.PropTypes.func,
   },
   getInitialState() {
     return { name : '', sex : '' }; // 两个参数姓名和性别
@@ -30,7 +34,7 @@ module.exports = React.createClass({
     if (JSON.stringify(this.props.info) === JSON.stringify(nextProps.info)) {
       return;
     }
-    this.setState({ name: nextProps.info.name, sex:nextProps.info.sex }, () => this.commonMethod()); // 把props赋值给state(需要的值)
+    this.setState({ name: nextProps.info.name || '', sex:nextProps.info.sex }, () => this.commonMethod()); // 把props赋值给state(需要的值)
   },
   onInputName() {
     const nameValue = this.refs.name.value;
@@ -67,7 +71,7 @@ module.exports = React.createClass({
     } else if (info.bindWx && info.bindMobile) {
       condition = 4;
     }
-    const { name, sex } = this.state;
+    const { sex } = this.state;
 
     // 几种状态的判断
 
@@ -93,7 +97,7 @@ module.exports = React.createClass({
                   maxLength="30"
                   placeholder="请输入姓名"
                   ref="name"
-                  value={name}
+                  defaultValue={this.props.info.name}
                   onChange={this.onInputName}
                 />
               </div>
@@ -122,14 +126,16 @@ module.exports = React.createClass({
                     </div>
                   </a>
                 </li>
-                <li className="list-item">
-                  <a className="list-link flex-row" href={modifypwdUrl}>
-                    <div className="list-name-holder flex-none">
-                      <span className="list-name">修改密码</span>
-                    </div>
-                    <span className="list-arrow list-arrow-right"></span>
-                  </a>
-                </li>
+                {info.loginType === 0 &&
+                  <li className="list-item">
+                    <a className="list-link flex-row" href={modifypwdUrl}>
+                      <div className="list-name-holder flex-none">
+                        <span className="list-name">修改密码</span>
+                      </div>
+                      <span className="list-arrow list-arrow-right"></span>
+                    </a>
+                  </li>
+                }
               </div>
             :
             false
@@ -160,7 +166,8 @@ module.exports = React.createClass({
                         <span className="list-name">微信号</span>
                       </div>
                       <div className="list-content flex-rest">
-                        <img src={info.iconUri || defaultPic} alt="微信头像" title="微信头像" className="list-content-logo" />
+                        <img src={info.iconUri || defaultPic} alt="微信头像" title="微信头像" className="list-content-logo flex-none" />
+                        <span className="wxName ellipsis">{info.wxName}</span>
                       </div>
                     </a>
                   </li>
@@ -193,18 +200,18 @@ module.exports = React.createClass({
             </li>
         }
         {
-          !info.isMember ?
-            <li className="list-item">
-              <a className="list-link flex-row" href={registerUrl}>
-                <div className="list-name-holder flex-none">
-                  <span className="list-name">会员注册</span>
-                </div>
-                <span className="list-brief">注册会员享受更多福利</span>
-                <span className="list-arrow list-arrow-right"></span>
-              </a>
-            </li>
-          :
-          false
+          // !info.isMember ?
+          //   <li className="list-item">
+          //     <a className="list-link flex-row" href={registerUrl}>
+          //       <div className="list-name-holder flex-none">
+          //         <span className="list-name">会员注册</span>
+          //       </div>
+          //       <span className="list-brief">注册会员享受更多福利</span>
+          //       <span className="list-arrow list-arrow-right"></span>
+          //     </a>
+          //   </li>
+          // :
+          // false
         }
       </ul>
     );
@@ -214,6 +221,7 @@ module.exports = React.createClass({
       <div className="list-outer of">
         {partOne}
         {partTwo}
+        <a href=" javascript:;" className="btn-row btn-row-sure btn-row-mt" onTouchTap={this.props.onSave}>保存</a>
         <a href=" javascript:;" className="btn-row btn-row-mt" onTouchTap={this.onLogOff}>注销</a>
       </div>
     );

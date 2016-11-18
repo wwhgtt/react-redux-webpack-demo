@@ -3,8 +3,9 @@ module.exports = {
   path:'/orderall/dishBox.json',
   template:{
     data: {
+      name: '我是微信昵称',
       member: {
-        name: '我想我是海',
+        name: '李斌',
         mobile: '13980691506',
         sex: 1,
         iconUri: 'http://wx.qlogo.cn/mmopen/ajNVdqHZLLC6Q1uomrOlfpCyJOxuDUcoXIzibCZGQeElFuy3UVFxlHMn8kzECiaJicWqe8icJySHoNOS9iadia0fDTiag/0',
@@ -25,7 +26,7 @@ module.exports = {
         transferType: 1,
         scale: 0,
       },
-      commercialName: '小土豆石方菜菜软件园店',
+      commercialName: '小土豆石方菜菜软件园店1',
       commercialLogo: 'http://kry-test-2.qiniudn.com/980afeeec2004447a5e72d124ed2186a.jpg?imageView/2/w/512/h/512',
       serviceApproach: 'pickup,totable',
       diningForm: 1,
@@ -211,7 +212,7 @@ module.exports = {
         },
       ],
       pickupPayType: 'offline',
-      totablePayType: 'offline',
+      totablePayType: 'online,offline',
       disable: false,
     },
     time: 1471850589407,

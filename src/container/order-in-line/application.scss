@@ -1,9 +1,5 @@
 @import "settings.colors";
 
-.application {
-  background: #fd894d;
-}
-
 // override styles
 .queue-form {
   .options-group {
@@ -12,12 +8,11 @@
   }
 
   .option {
-    padding-right: 0;
-    padding-left: 0;
+    padding-right: 20px;
+    padding-left: 20px;
 
     &-tile {
       font-size: 20px;
-      font-weight: 800;
     }
   }
 
@@ -35,33 +30,31 @@
   }
 }
 
-.options-group {
+.options-group1 {
   border-top: none;
 
   .option {
-    padding-right: 15px;
-    padding-left: 15px;
+    padding: 20px;
     border-bottom: none;
 
     &-tile {
       font-size: 20px;
-      font-weight: 800;
     }
   }
 }
 
 .queue {
   &-btn {
-    font-size: 20px;
+    font-size: 18px;
     display: block;
     width: 100%;
-    height: 46px;
-    margin-bottom: 25px;
-    border-radius: 23px;
+    height: 50px;
+    margin-bottom: 15px;
+    border-radius: 25px;
   }
 
   &-list {
-    padding: 15px 10px 0;
+    padding: 15px 20px 0;
 
     span {
       float: left;
@@ -74,7 +67,6 @@
       }
 
       &:last-child {
-        font-weight: 800;
         text-align: right;
       }
     }
@@ -82,23 +74,28 @@
 
   &-title {
     font-size: 18px;
-    font-weight: 800;
+    line-height: 32px;
     overflow: hidden;
-    padding-bottom: 15px;
+    padding-bottom: 10px;
     border-bottom: 1px solid $color-gallery;
   }
 
   &-entry {
     overflow: hidden;
-    margin-top: 30px;
-    margin-bottom: 40px;
+    border-bottom: 1px solid #f0f0f0;
+
+    span {
+      line-height: 60px;
+      display: inline-block;
+      height: 60px;
+    }
 
     > span:last-child {
       color: #ff732e;
     }
 
     &:last-child {
-      margin-bottom: 30px;
+      margin-bottom: none;
     }
   }
 }
@@ -108,9 +105,9 @@
   margin: 30px 0 30px 27%;
 }
 
-.content {
+.content1 {
   position: relative;
-  top: 86px;
+  top: 75px;
   left: 3%;
   width: 94%;
   margin-bottom: 30px;
@@ -120,20 +117,21 @@
 
   &-shop {
     width: 100%;
-    // margin-top: -86px / 2;
+    // margin-top: -75px / 2;
     text-align: center;
 
     &-icon {
       position: relative;
-      top: (-86px / 2);
-      width: 86px;
-      height: 86px;
+      top: (-75px / 2);
+      width: 75px;
+      height: 75px;
       border: 3px solid rgba(255, 148, 77, .3);
       border-radius: 50%;
     }
 
     &-desc {
       font-size: 24px;
+      font-weight: 800;
       margin-top: (-39px / 2);
     }
   }
@@ -154,7 +152,7 @@
   }
 }
 
-.divider {
+.divider1 {
   line-height: 20px;
   position: relative;
   height: 20px;
@@ -202,4 +200,18 @@
   padding-bottom: 30px;
   text-align: center;
   color: #c7bdbd;
+}
+
+.queue-form .option:last-child {
+  padding-top: 5px;
+  padding-bottom: 15px;
+}
+
+.queue-form:last-child {
+  margin: 10px 0 0;
+  border: 1px solid #fff;
+}
+
+.for-count {
+  line-height: 26px;
 }

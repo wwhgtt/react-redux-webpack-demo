@@ -2,4 +2,22 @@
 
 .application {
   background: #f1f1f1;
+
+  &.coupon-canUse {
+    .coupon-list-0 {
+      display: block;
+    }
+  }
+
+  &.coupon-used {
+    .coupon-list-1 {
+      display: block;
+    }
+  }
+
+  &.coupon-outOfDate {
+    .coupon-list-2 {
+      display: block;
+    }
+  }
 }

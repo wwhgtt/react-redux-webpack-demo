@@ -1,6 +1,6 @@
 const React = require('react');
 require('./quick-menu.scss');
-const helper = require('../../../helper/dish-hepler');
+const helper = require('../../../helper/dish-helper');
 const cartHelper = require('../../../helper/order-dinner-cart-helper');
 const shopId = helper.getUrlParam('shopId');
 const type = helper.getUrlParam('type') || 'TS';
@@ -9,7 +9,7 @@ const ServiceBell = require('./service-bell.jsx');
 const tradeDetailUncheckUrl = `${config.tradeDetailUncheckURL}?type=${type}&shopId=${shopId}`;
 const dishCart4DinnerUrl = `${config.dishCart4DinnerURL}?type=${type}&shopId=${shopId}`;
 const classnames = require('classnames');
-const isShopOpen = require('../../../helper/dish-hepler.js').isShopOpen;
+const isShopOpen = require('../../../helper/dish-helper.js').isShopOpen;
 
 const tableKey = (cartHelper.getTableInfoInSessionStorage(shopId) || {}).tableKey || '';
 const tableId = (cartHelper.getTableInfoInSessionStorage(shopId) || {}).tableId || '';

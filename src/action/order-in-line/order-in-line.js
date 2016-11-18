@@ -1,6 +1,6 @@
 const config = require('../../config');
 const createAction = require('redux-actions').createAction;
-const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getUrlParam = require('../../helper/dish-helper.js').getUrlParam;
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setOrderInLineProps = createAction('SET_ORDER_INLINE_PROPS', props => props);
 exports.setCustomerProps = createAction('SET_CUSTOMER_PROPS', props => props);
@@ -21,9 +21,8 @@ fetch(`${config.getOrderInLineAPI}?shopId=${shopId}`, config.requestOptions).
     return res.json();
   }).
   then(result => {
-    if (result.data.orderId) {
-      dispatch(setErrorMsg('已成功排队，无需再次排队...'));
-      location.href = `/queue/success?shopId=${shopId}&orderId=${result.data.orderId}`;
+    if (result.data.orderSyn) {
+      location.href = `/queue/success?shopId=${shopId}&orderSyn=${result.data.orderSyn}`;
     } else {
       dispatch(setOrderInLineProps(result.data));
     }
@@ -65,8 +64,8 @@ const submitOrder = exports.submitOrder = () => (dispatch, getState) => {
     })
     .then(result => {
       if (result.code.toString() === '200') {
-        dispatch(setErrorMsg('提交排队信息成功...'));
-        location.href = `/queue/success?shopId=${shopId}&orderId=${result.data.orderId}`;
+        // dispatch(setErrorMsg('提交排队信息成功...'));
+        location.href = `/queue/success?shopId=${shopId}&orderSyn=${result.data.orderSyn}`;
       } else if (result.code.toString() === '20013') {
         dispatch(setPhoneValidateProps(true));
       } else {

@@ -71,6 +71,7 @@ exports.resetPassword = (data, setLoadding, showErrorMessage) => (dispatch, getS
 };
 
 exports.login = (info, args) => (dispatch, getState) => {
+  let fromBrand = 1;
   const { setLoadding, showErrorMessage, callback } = args;
   if (!shopId) {
     showErrorMessage('门店编码不能为空');
@@ -79,7 +80,16 @@ exports.login = (info, args) => (dispatch, getState) => {
 
   setLoadding({ ing: true, text: '系统处理中...' });
   const timestamp = info.timeStamp || new Date().getTime();
-  const url = `${config.userLoginAPI}?shopId=${shopId}&mobile=${info.phoneNum}&code=${info.code}&timeStamp=${timestamp}`;
+
+  const returnUrl = getUrlParam('url') || '';
+  const returnUrlDecode = decodeURIComponent(returnUrl);
+  const returnUrlPath = returnUrlDecode.substring(0, returnUrlDecode.indexOf('?'));
+  const isFromBrand = /dishBox|Dinner|queue|prepare/.test(returnUrlPath);
+  if (isFromBrand) {
+    fromBrand = 0;
+  }
+
+  const url = `${config.userLoginAPI}?shopId=${shopId}&mobile=${info.phoneNum}&code=${info.code}&timeStamp=${timestamp}&fromBrand${fromBrand}`;
   return fetch(url, config.requestOptions).
     then(res => {
       if (!res.ok) {

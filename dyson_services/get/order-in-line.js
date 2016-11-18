@@ -10,7 +10,7 @@ module.exports = {
       openStatus:'营业中', // 营业状态
       orderId:null, // 订单ID
       queueTip:false, // 是否已排队
-      name:'啦啦啦', // 姓名
+      name:'啦啦啦并发布大风', // 姓名
       sex:0, // 性别
       mobile:13980691506, // 手机
       queRecord:0, // 排队数
@@ -65,7 +65,7 @@ module.exports = {
           maxPersonCount:10,
         },
       ],
-      maxPersonNum:null, // 最大人数限制
+      maxPersonNum:1, // 最大人数限制
       hasQLine:true, // 是否配置队列
       shopOpenStatus:true, //是否营业状态
     },

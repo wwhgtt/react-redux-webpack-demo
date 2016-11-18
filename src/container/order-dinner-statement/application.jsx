@@ -2,20 +2,17 @@ const React = require('react');
 const connect = require('react-redux').connect;
 const actions = require('../../action/order-dinner-statement/order-dinner-statement.js');
 const helper = require('../../helper/order-helper');
-const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getUrlParam = require('../../helper/dish-helper.js').getUrlParam;
 const Toast = require('../../component/mui/toast.jsx');
 const DiningOptions = require('../../component/order/dining-options.jsx');
 const formatPrice = require('../../helper/common-helper.js').formatPrice;
-/*
-const OrderPropOption = require('../../component/order/order-prop-option.jsx');
-const ActiveSelect = require('../../component/mui/select/active-select.jsx');
-*/
+const getDishesCount = require('../../helper/dish-helper.js').getDishesCount;
 const OrderSummary = require('../../component/order/order-summary.jsx');
 const CouponSelect = require('../../component/order/coupon-select.jsx');
-const defaultShopLogo = require('../../asset/images/default.png');
 require('../../component/order/order-summary.scss'); // import option-shop styles
 require('../../asset/style/style.scss');
 require('../order/application.scss');
+require('./application.scss');
 
 const OrderDinnerStateMentApplication = React.createClass({
   displayName: 'OrderDinnerStateMentApplication',
@@ -68,8 +65,8 @@ const OrderDinnerStateMentApplication = React.createClass({
     });
   },
   submitDinnerOrder(orderedDishesProps, serviceProps, commercialProps) {
-    const { submitDinnerOrder, setErrorMsg } = this.props;
-    if (!serviceProps.allowCheck) { setErrorMsg('请联系服务员结账'); return false; }
+    const { submitDinnerOrder } = this.props;
+    // if (!serviceProps.allowCheck) { setErrorMsg('请联系服务员结账'); return false; }
     let needPayMoney = 0;
     if (serviceProps.benefitProps.isPriviledge) {
       needPayMoney = serviceProps.benefitProps.extraPrice
@@ -84,70 +81,51 @@ const OrderDinnerStateMentApplication = React.createClass({
   render() {
     const { commercialProps, customerProps, serviceProps, orderedDishesProps, childView, errorMessage } = this.props; // state
     const { setOrderProps, clearErrorMsg } = this.props;// actions
+    const hasPriviledge = commercialProps.hasPriviledge;
     return (
-      <div className="application">
-        <div className="options-group">
-          <a className="option option-shop">
-            <img className="option-shop-icon" src={commercialProps.shopLogo || defaultShopLogo} alt="" />
-            <p className="option-shop-desc ellipsis">{commercialProps.shopName}</p>
-          </a>
-          <div className="option">
+      <div className="application flex-columns">
+        <div className="flex-rest">
+          <div className="options-group options-head">
+            <a className="option option-shop">
+              <p className="option-shop-desc ellipsis">{commercialProps.shopName}</p>
+            </a>
             <DiningOptions
               dineSerialNumber={customerProps.dineSerialNumber || 110}
               dineCount={customerProps.dineCount || 1}
               dineTableProp={{ area:customerProps.dineTableProp.area, table:customerProps.dineTableProp.table }}
             />
           </div>
-        </div>
-        <div className="options-group">
-          {serviceProps.couponsProps.couponsList && serviceProps.couponsProps.couponsList.length && !serviceProps.benefitProps.isPriviledge
-            && helper.getCouponsLength(serviceProps.couponsProps.couponsList) !== 0 && serviceProps.discountProps.isMember ?
-            <a className="option" href="#coupon-select">
-              <span className="option-title">使用优惠券</span>
-              <span className="badge-coupon">
-                {serviceProps.couponsProps.inUseCoupon ?
-                  '已使用一张优惠券'
-                  :
-                  `${helper.getCouponsLength(serviceProps.couponsProps.couponsList)}张可用`
-                }
-              </span>
-              <span className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
-            </a>
-          : false}
-          {/* serviceProps.integralsInfo ?
-            <ActiveSelect
-              optionsData={[serviceProps.integralsInfo]} onSelectOption={setOrderProps}
-              optionComponent={OrderPropOption}
-            />
-          : false */}
-        </div>
+          <div className="options-group extra-supplement">
+            <span className="left">已选菜品</span>
+            <span className="right">共{getDishesCount(orderedDishesProps.dishes)}份</span>
+          </div>
 
-        <div className="options-group">
+          <OrderSummary
+            serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
+            commercialProps={commercialProps} shopId={getUrlParam('shopId')}
+            isNeedShopMaterial={false} setOrderProps={setOrderProps}
+          />
+
           {commercialProps && commercialProps.isSupportReceipt === 1 ?
-            <label className="option">
-              <span className="option-title">发票抬头: </span>
-              <input
-                className="option-input"
-                name="receipt"
-                maxLength="35"
-                disabled={commercialProps.receipt || serviceProps.benefitProps.isPriviledge}
-                placeholder={commercialProps.receipt || '如需发票请填写'}
-                onChange={this.noteOrReceiptChange}
-              />
-            </label>
+            <div className="options-group margin-cart-bottom">
+              <label className="option">
+                <span className="option-title">发票</span>
+                <input
+                  className="option-input"
+                  name="receipt"
+                  maxLength="35"
+                  disabled={commercialProps.receipt || serviceProps.benefitProps.isPriviledge || hasPriviledge}
+                  placeholder={commercialProps.receipt || (hasPriviledge ? '已经有优惠不能输入' : '请输入个人或公司抬头')}
+                  onChange={this.noteOrReceiptChange}
+                />
+              </label>
+            </div>
             :
             false
           }
         </div>
-
-        <OrderSummary
-          serviceProps={serviceProps} orderedDishesProps={orderedDishesProps}
-          commercialProps={commercialProps} shopId={getUrlParam('shopId')}
-          isNeedShopMaterial={false}
-        />
-
         {orderedDishesProps.dishes && orderedDishesProps.dishes.length ?
-          <div className="order-cart flex-none" style={{ position:'fixed', bottom: '0px', width:'100%' }}>
+          <div className="order-cart flex-none">
             <div className="order-cart-left">
               <div className="vertical-center clearfix">
                 {commercialProps.carryRuleVO ?
@@ -162,7 +140,7 @@ const OrderDinnerStateMentApplication = React.createClass({
                       </span>
                     </div>
                     <div className="order-cart-entry">
-                      <span className="text-dove-grey">待支付: </span>
+                      <span className="text-dove-grey">还需付: </span>
                       <span className="order-cart-price price">
                         {serviceProps.benefitProps.isPriviledge ?
                           serviceProps.benefitProps.totalAmount

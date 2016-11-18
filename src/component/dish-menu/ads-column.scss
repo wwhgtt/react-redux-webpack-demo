@@ -2,6 +2,9 @@
 @import "tools.functions";
 @import "tools.mixins";
 
+$color-red: #ff4848;
+$color-green: #4bc643;
+
 .ads-column {
   font-size: 14px;
   height: 2.43em;
@@ -31,18 +34,30 @@
     align-items: center;
 
     .icon {
+      font-style: normal;
       width: 1.143em;
       height: 1.143em;
-      margin-right: .5em;
+      margin-right: .4em;
+      text-align: center;
       vertical-align: middle;
+      color: $color-white;
+      border-radius: 2px;
     }
 
     .icon-jian {
-      background: url("../../asset/images/dish-jian.png") center center/100% 100% no-repeat;
+      background: $color-red;
+
+      &::before {
+        content: "减";
+      }
     }
 
     .icon-zhe {
-      background: url("../../asset/images/dish-zhe.png") center center/100% 100% no-repeat;
+      background: $color-green;
+
+      &::before {
+        content: "折";
+      }
     }
 
     .detail {
@@ -78,7 +93,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background: url("../../asset/images/filter-bg.jpg") center center/100% 100% no-repeat;
+  background: rgba(0, 0, 0, .86);
 
   .scrollpart {
     overflow: auto;
@@ -86,8 +101,8 @@
   }
 
   .closedetail {
-    width: 2em;
-    height: 2em;
+    width: 4em;
+    height: 4em;
     margin: 1em auto;
     background: url("../../asset/images/close-btn.png") center center/100% 100% no-repeat;
   }
@@ -147,24 +162,27 @@
       word-break: break-all;
     }
 
-    &.jian::before {
+    &.jian::before,
+    &.zhe::before {
+      line-height: 16px;
       position: absolute;
       top: 0;
       left: 0;
-      width: 1.143em;
-      height: 1.143em;
-      content: "";
-      background: url("../../asset/images/dish-jian.png") center center/100% 100% no-repeat;
+      width: 16px;
+      height: 16px;
+      padding: 1px 0 0;
+      text-align: center;
+      border-radius: 2px;
+    }
+
+    &.jian::before {
+      content: "减";
+      background: $color-red;
     }
 
     &.zhe::before {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 1.143em;
-      height: 1.143em;
-      content: "";
-      background: url("../../asset/images/dish-zhe.png") center center/100% 100% no-repeat;
+      content: "折";
+      background: $color-green;
     }
   }
 }

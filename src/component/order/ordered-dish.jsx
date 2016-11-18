@@ -1,7 +1,7 @@
 const React = require('react');
 const Immutable = require('seamless-immutable');
 // const _find = require('lodash.find');
-const helper = require('../../helper/dish-hepler.js');
+const helper = require('../../helper/dish-helper.js');
 const formatPrice = require('../../helper/common-helper.js').formatPrice;
 const countMemberPrice = require('../../helper/order-helper.js').countMemberPrice;
 const classnames = require('classnames');
@@ -43,7 +43,7 @@ module.exports = React.createClass({
       return '';
     }
     return (
-      <div className="detail-props-info">
+      <div className="detail-props-info child-dish-props">
         {
           RecipeProps.map(propInfo => (buildPropsText(propInfo))).filter(propsText => propsText)
                      .concat(
@@ -73,7 +73,7 @@ module.exports = React.createClass({
                   </span> : false
               }
               {childDish.isReplace ? <span className="badge-bi"></span> : false}
-              <span className="child-dish-count">{helper.getDishesCount([childDish])}</span>
+              <span className="child-dish-count">x{helper.getDishesCount([childDish])}</span>
               {helper.isSingleDishWithoutProps(childDish) ? false : this.buildDetailInfoForSingleDish(childDish)}
             </div>
           </div>

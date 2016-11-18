@@ -41,21 +41,22 @@ const DishDetail = React.createClass({
     const { mainDish } = this.props;
     const { expand } = this.state;
     const isHasChild = this.isHasChild();
-    let statusType = this.getDishState();
+    const statusType = this.getDishState();
     return (
       <div className="option">
         <div className="dish-box">
-          <div className="dish-main">
+          <div className="dish-main clearfix" onTouchTap={this.handleExpand}>
             <a
               className={classnames('ellipsis dish-name', { 'dish-name--trigger': isHasChild }, { 'is-open': expand })}
-              onTouchTap={this.handleExpand}
-            >{mainDish.dishName}</a>
-            <span className="dish-price price ellipsis">{mainDish.price}</span>
+            >
+            {mainDish.dishName}
+            </a>
+            <span className="dish-price price ellipsis">{mainDish.price < 0 ? 0 : mainDish.price}</span>
             <span className="dish-count ellipsis">x{mainDish.num}</span>
             {
               mainDish.memo && !mainDish.subDishItems && expand && <p className="dish-memo">{mainDish.memo}</p>
             }
-            <div className={'dish-status status-square ' + statusType}></div>
+            <div className={`dish-status status-square ${statusType}`}></div>
           </div>
           {
             expand && mainDish.subDishItems ?
@@ -63,7 +64,7 @@ const DishDetail = React.createClass({
               {
                 mainDish.subDishItems ?
                 mainDish.subDishItems.map((item, index) =>
-                  <div className="dish-sub-info" key={index}>
+                  <div className="dish-sub-info clearfix" key={index}>
                     <span className="dish-name ellipsis">{item.dishName}</span>
                     {
                       item.propertyAmount ?

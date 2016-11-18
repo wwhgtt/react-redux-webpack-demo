@@ -1,6 +1,6 @@
 const React = require('react');
 const _findIndex = require('lodash.findindex');
-const helper = require('../../../../helper/dish-hepler');
+const helper = require('../../../../helper/dish-helper');
 const Counter = require('../../../mui/counter.jsx');
 const DishPropsSelect = require('../dish-props-select.jsx');
 window.I = require('seamless-immutable');
@@ -139,7 +139,7 @@ module.exports = React.createClass({
       <div className="child-dish">
         <div className="dish-name-wrap">
           <div className="dish-name">
-            {dish.name}
+            {helper.generateDishNameWithUnit(dish)}
             {marketPrice !== 0 ? <span className="badge-price">{marketPrice > 0 ? '+' : ''}{marketPrice}元</span> : false}
             {dish.isReplace ? <span className="badge-bi"></span> : false}
           </div>
@@ -147,7 +147,7 @@ module.exports = React.createClass({
             hasProps ?
               <div className="right">
                 <span className={classnames({ 'dish-count' : true, 'count-hide' : expand || count <= 0 })}>{count}</span>
-                <a className="dish-dropdown-trigger btn--ellips" onTouchTap={this.onPropsBtnTap}>{expand ? '收起' : '菜品选项'}</a>
+                <a className="dish-dropdown-trigger btn--ellips" onTouchTap={this.onPropsBtnTap}>{expand ? '收起' : '商品选项'}</a>
               </div>
             : this.buildDishCounter({ dish, remainCount, count })
           }
@@ -160,7 +160,7 @@ module.exports = React.createClass({
                 {this.buildDishCounter({ dish, remainCount, count })}
               </div>
               <DishPropsSelect
-                props={dish.order[0].dishPropertyTypeInfos} ingredients={dish.order[0].dishIngredientInfos}
+                dish={dish}
                 onSelectPropsOption={this.onSelectPropsOption}
               />
               <button className="dish-dropdown-close" onTouchTap={this.onPropsBtnTap}><span></span></button>

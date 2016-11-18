@@ -1,0 +1,48 @@
+.application {
+  color: #474747;
+  background-color: #f1f1f1;
+}
+
+.detail-page {
+  .dish-count {
+    color: #474747;
+  }
+
+  .dish-sub-info {
+    .dish-count {
+      color: #999;
+    }
+  }
+
+  .dish-price {
+    color: #474747;
+  }
+}
+
+.dining-options {
+  font-size: 15px;
+  color: #666;
+
+  .left {
+    font-size: 16px;
+    width: 40%;
+    color: #474747;
+
+    .text-dusty-grey {
+      color: #474747;
+    }
+  }
+
+  .middle {
+    text-align: center;
+  }
+
+  .right {
+    width: 30%;
+    text-align: right;
+
+    .text-dusty-grey {
+      color: #666;
+    }
+  }
+}

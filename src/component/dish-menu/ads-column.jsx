@@ -1,6 +1,6 @@
 const React = require('react');
 require('./ads-column.scss');
-const helper = require('../../helper/dish-hepler');
+const helper = require('../../helper/dish-helper');
 const commonHelper = require('../../helper/common-helper');
 const classnames = require('classnames');
 
@@ -114,7 +114,7 @@ const AdsColumn = React.createClass({
                 </div>
               </div>
               <div className="flex-none ads-more">
-                更多详情
+                更多优惠
                 <i className="btn-arrow-right"></i>
               </div>
               {

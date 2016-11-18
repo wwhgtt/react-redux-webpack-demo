@@ -1,6 +1,7 @@
 @import "settings.colors";
 
-.records:empty {
+.records:empty,
+.records-empty {
   border-top: 1px solid $color-mercury;
 
   &::before {

@@ -2,13 +2,14 @@ const config = require('../../config');
 const createAction = require('redux-actions').createAction;
 require('es6-promise');
 require('isomorphic-fetch');
-const helper = require('../../helper/dish-hepler');
+const helper = require('../../helper/dish-helper');
 const getCurrentPosition = require('../../helper/common-helper.js').getCurrentPosition;
 const setMenuData = createAction('SET_MENU_DATA', menuData => menuData);
 const _orderDish = createAction('ORDER_DISH', (dishData, action) => [dishData, action]);
 const _removeAllOrders = createAction('REMOVE_ALL_ORDERS', orders => orders);
 const _setTakeawayServiceProps = createAction('SET_TAKEAWAY_SERVICE_PROPS', props => props);
 const setDiscountToOrder = createAction('SET_DISCOUNT_TO_ORDER', discount => discount);
+const setNormalDiscount = createAction('SET_NORMAL_DISCOUNT', discount => discount);
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 exports.showDishDetail = createAction('SHOW_DISH_DETAIL', dishData => dishData);
 exports.showDishDesc = createAction('SHOW_DISH_DESC', dishData => dishData);
@@ -23,7 +24,7 @@ exports.activeDishType = createAction('ACTIVE_DISH_TYPE', (evt, dishTypeId) => {
 const type = helper.getUrlParam('type');
 const shopId = helper.getUrlParam('shopId');
 let url = '';
-if (type === 'TS') {
+if (type !== 'WM') {
   url = `${config.orderallMenuAPI}?shopId=${shopId}`;
 } else {
   url = `${config.takeawayMenuAPI}?shopId=${shopId}`;
@@ -95,7 +96,7 @@ exports.fetchSendArea = () => (dispatch, getState) => {
 
 exports.orderDish = (dishData, action) => (dispatch, getStates) => {
   dispatch(_orderDish(dishData, action));
-  helper.storeDishesLocalStorage(getStates().dishesDataDuplicate);
+  helper.storeDishesLocalStorage(getStates().dishesDataDuplicate, getStates().shopInfo);
 };
 
 exports.removeAllOrders = (orders) => (dispatch, getStates) => {
@@ -139,6 +140,26 @@ exports.fetchOrderDiscountInfo = () => (dispatch, getState) =>
         }
       }
       dispatch(setDiscountToOrder(discount.data));
+    }).
+    catch(err => {
+      console.log(err);
+    });
+
+exports.fetchDishMarketInfos = () => (dispatch, getState) =>
+  fetch(`${config.getDishMarketInfosAPI}?shopId=${helper.getUrlParam('shopId')}`, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('获取信息失败...'));
+      }
+      return res.json();
+    }).
+    then(discount => {
+      if (discount.code !== '200') {
+        if (discount.msg !== '未登录') {
+          dispatch(setErrorMsg(discount.msg));
+        }
+      }
+      dispatch(setNormalDiscount(discount.data));
     }).
     catch(err => {
       console.log(err);

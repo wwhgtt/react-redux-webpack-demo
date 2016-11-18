@@ -1,7 +1,7 @@
 const React = require('react');
 const connect = require('react-redux').connect;
 const actions = require('../../action/dish-menu/dish-menu');
-const classnames = require('classnames');
+const findDOMNode = require('react-dom').findDOMNode;
 
 require('../../asset/style/style.scss');
 require('./application.scss');
@@ -13,6 +13,8 @@ const DishDetailContainer = require('../../component/dish-menu/detail/dish-detai
 const DishDescPopup = require('../../component/dish-menu/detail/dish-desc-popup.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const DishMesthead = require('../../component/dish-menu/dish-mesthead.jsx');
+const helper = require('../../helper/dish-helper');
+const type = helper.getUrlParam('type');
 
 const DishMenuApplication = React.createClass({
   displayName: 'DishMenuApplication',
@@ -29,6 +31,8 @@ const DishMenuApplication = React.createClass({
     fetchOrderDiscountInfo:React.PropTypes.func.isRequired,
     clearErrorMsg:React.PropTypes.func.isRequired,
     shopInfo:React.PropTypes.object.isRequired,
+    fetchDishMarketInfos: React.PropTypes.func.isRequired,
+
     // MapedStatesToProps
     activeDishTypeId: React.PropTypes.number.isRequired,
     dishTypesData: React.PropTypes.array,
@@ -40,6 +44,8 @@ const DishMenuApplication = React.createClass({
     openTimeList: React.PropTypes.array,
     isAcceptTakeaway: React.PropTypes.bool,
     normalDiscountProps: React.PropTypes.object,
+    discountProps: React.PropTypes.object,
+    enableMemberRegistry: React.PropTypes.bool,
     dishPageTpl: React.PropTypes.string,
     shopLogo: React.PropTypes.string,
     errorMessage: React.PropTypes.string,
@@ -55,11 +61,17 @@ const DishMenuApplication = React.createClass({
     };
   },
   componentDidMount() {
-    const { fetchMenuData, fetchSendArea, fetchOrderDiscountInfo } = this.props;
-    fetchMenuData().then(
-      fetchOrderDiscountInfo
-    );
+    const { fetchMenuData, fetchSendArea, fetchOrderDiscountInfo, fetchDishMarketInfos } = this.props;
+    fetchMenuData()
+      .then(fetchDishMarketInfos)
+      .then(fetchOrderDiscountInfo);
     fetchSendArea();
+
+    const el = findDOMNode(this);
+    this._cache = {
+      mesthead: el.querySelector('.dish-mesthead'),
+      scrollerWrap: el.querySelector('.scroller-wrap'),
+    };
   },
   componentDidUpdate() {
   },
@@ -68,48 +80,79 @@ const DishMenuApplication = React.createClass({
     showDishDetail();
     orderDish(dishData);
   },
+  setScrollTop(args) {
+    const { scrollerWrap, mesthead } = this._cache;
+    const rect = { height: mesthead.height || mesthead.clientHeight };
+    const y = args.y;
+    let _top = mesthead._top || 0;
+
+    if (y < 0) {
+      _top = Math.max(y, -rect.height);
+    } else if (y > 0) {
+      _top = Math.min(_top + y, 0);
+    } else {
+      return;
+    }
+
+    if (mesthead._top !== _top) {
+      Object.assign(mesthead, { _top }, rect);
+      scrollerWrap.style.top = `${rect.height + _top}px`;
+      mesthead.style.top = `${_top}px`;
+    }
+  },
   render() {
     // states
     const { activeDishTypeId, dishTypesData, dishesData, dishDetailData, dishDescData, confirmOrder, takeawayServiceProps,
-            openTimeList, isAcceptTakeaway, errorMessage, shopInfo, normalDiscountProps, shopLogo, dishesDataDuplicate, dishPageTpl } = this.props;
+            openTimeList, isAcceptTakeaway, errorMessage, shopInfo, shopLogo, dishesDataDuplicate } = this.props;
     // actions
     const { activeDishType, orderDish, showDishDetail, showDishDesc, removeAllOrders, clearErrorMsg } = this.props;
     const marketList = shopInfo.marketList;
     const marketListUpdate = shopInfo.marketListUpdate;
-    const isMember = normalDiscountProps && normalDiscountProps.isMember || false;
+    const { dishPageTpl, enableMemberRegistry, discountProps } = this.props;
+    const isMember = discountProps && discountProps.isMember || false;
 
     return (
-      <div className={classnames('application', { 'mesthead-min': this.state.isMinMesthead })}>
-        <DishMesthead
-          registered={isMember}
-          dishesData={dishesData}
-          shopInfo={shopInfo}
-          shopLogo={shopLogo}
-          marketList={marketList}
-          marketListUpdate={marketListUpdate}
-        />
-        <div className={`${dishPageTpl} scroller-wrap`}>
-          <DishTypeScroller
-            theme={dishPageTpl}
-            dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeId={activeDishTypeId}
-            onDishTypeElementTap={activeDishType} dishesDataDuplicate={dishesDataDuplicate}
-          />
-          <DishScroller
-            theme={dishPageTpl}
-            dishTypesData={dishTypesData} dishesData={dishesData} diningForm={shopInfo.diningForm}
-            activeDishTypeId={activeDishTypeId} onScroll={activeDishType} marketList={marketList}
-            onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail} onImageBtnTap={showDishDesc}
+      <div className="application">
+        {
+          (enableMemberRegistry && isMember === false) &&
+            <div className="register notice">
+              <a href={`/member/register${location.search}&returnUrl=${encodeURIComponent(location.href)}`}>去注册</a>
+              <p>注册会员享受更多福利哟～</p>
+            </div>
+        }
+        <div className="main">
+          <DishMesthead
+            registered={isMember}
+            dishesData={dishesData}
+            shopInfo={shopInfo}
+            shopLogo={shopLogo}
+            marketList={marketList}
             marketListUpdate={marketListUpdate}
-            onScrolling={(direction) => {
-              this.setState({ isMinMesthead: direction.y === 1 });
-            }}
-            dishesDataDuplicate={dishesDataDuplicate}
           />
+          <div ref="scrollWrap" className={`${dishPageTpl} scroller-wrap`}>
+            <DishTypeScroller
+              theme={dishPageTpl}
+              dishTypesData={dishTypesData} dishesData={dishesData} activeDishTypeId={activeDishTypeId}
+              onDishTypeElementTap={activeDishType} dishesDataDuplicate={dishesDataDuplicate}
+            />
+            <DishScroller
+              theme={dishPageTpl}
+              dishTypesData={dishTypesData} dishesData={dishesData} diningForm={shopInfo.diningForm}
+              activeDishTypeId={activeDishTypeId} onScroll={activeDishType} marketList={marketList}
+              onOrderBtnTap={orderDish} onPropsBtnTap={showDishDetail} onImageBtnTap={showDishDesc}
+              marketListUpdate={marketListUpdate}
+              onScrolling={(direction) => {
+                this.setScrollTop(direction);
+              }}
+              dishesDataDuplicate={dishesDataDuplicate}
+            />
+          </div>
         </div>
         <CartContainer
           dishes={dishesDataDuplicate} takeawayServiceProps={takeawayServiceProps}
           openTimeList={openTimeList} isAcceptTakeaway={isAcceptTakeaway}
           onOrderBtnTap={orderDish} onBillBtnTap={confirmOrder} onClearBtnTap={removeAllOrders}
+          urlType={type}
         />
         {dishDetailData !== undefined ?
           <DishDetailContainer

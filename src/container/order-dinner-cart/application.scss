@@ -1,10 +1,111 @@
 @import "settings.colors";
+@import "tools.functions";
+@import "tools.mixins";
 
 .application {
   background: $color-gallery;
+
+  &-content {
+    padding: 1em 0;
+  }
+}
+
+.shop {
+  &-name {
+    font-size: 1.125em;
+    line-height: 1.389em;
+    padding: 1em;
+    text-align: center;
+    border-top: 1px solid $color-mercury;
+    background: #fff;
+  }
+
+  &-method {
+    font-size: 14px;
+    padding: .5em 1em;
+    border-bottom: 1px solid #eaeaea;
+    background: #fff;
+  }
+
+  &-table {
+    float: left;
+    width: calc(100% - 180px);
+    height: 14px;
+    padding-right: 1em;
+    color: #474747;
+  }
+
+  &-clear-cart {
+    position: relative;
+    float: left;
+    padding-left: 1.4em;
+    color: #999;
+
+    &::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1em;
+      height: 1em;
+      content: "";
+      background: url("../../asset/images/clear-cart.svg") center center/auto 100% no-repeat;
+    }
+  }
+
+  &-edit {
+    position: relative;
+    float: right;
+    padding-left: 1.4em;
+    color: #ff7417;
+
+    &::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1em;
+      height: 1em;
+      content: "";
+      background: url("../../asset/images/edit.svg") center center/100% 100% no-repeat;
+    }
+  }
 }
 
 // override option styles
+.options-group {
+  margin: 0;
+  border-top: none;
+
+  &-mb {
+    margin-bottom: 1em;
+  }
+
+  &-bigmb {
+    margin-bottom: 50px;
+  }
+
+  &-devide {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    overflow: hidden;
+    border-bottom: none;
+
+    .option-title {
+      width: 40%;
+    }
+
+    .option-input {
+      width: 60%;
+    }
+
+    .order-dinner-buttons {
+      padding: 0;
+    }
+  }
+}
+
 .option {
   &-input {
     font-size: 14px;
@@ -13,6 +114,10 @@
     text-align: right;
     color: $color-dusty-grey;
   }
+}
+
+.option-user-name {
+  font-size: 1em;
 }
 
 .cart {
@@ -35,7 +140,7 @@
 
 .order-dinner-buttons {
   button {
-    height: 50px;
+    height: 47px;
     color: #fff;
   }
 
@@ -44,11 +149,13 @@
   }
 
   .btn-order {
-    background: $color-jaffa;
+    width: 80px;
+    background: #ffc334;
   }
 
   .btn-select-table {
-    background: $color-crusta;
+    width: 80px;
+    background: #ff7e28;
   }
 }
 
@@ -66,4 +173,88 @@
   .option {
     padding: 0 10px;
   }
+}
+
+// override .cart-ordered-dish
+
+.cart-ordered-dish .ordered-dish > .dish-name {
+  font-size: 15px;
+}
+
+.cart-ordered-dish {
+  position: relative;
+  border-bottom: none;
+
+  &:last-child::after {
+    display: none;
+  }
+
+  &::after {
+    @include border-thin(bottom);
+
+    right: 0;
+    bottom: 0;
+    left: .8em;
+    width: auto;
+    border-bottom: bordersolid(1, #e3e3e3);
+  }
+}
+
+.counter-add {
+  border-color: #ffc334;
+  background: #ffc334;
+}
+
+.counter-minus::before,
+.counter-minus::after {
+  background: #ffc334;
+}
+
+.counter-add::before,
+.counter-add::after {
+  background: #fff;
+}
+
+.child-dish-info {
+  padding: 8px 0 7px;
+  border: none;
+}
+
+.child-dish-count {
+  margin-right: 25px;
+}
+
+.ordered-dish-dropdown {
+  margin: 0 0 0 1em;
+}
+
+.child-dish-name {
+  max-width: 60%;
+}
+
+.badge-price {
+  color: #999;
+  border-color: #e3e3e3;
+  border-radius: 3px;
+}
+
+// override .customers-counter-minus
+
+.customers-counter-minus {
+  border-radius: 20px 0 0 20px;
+}
+
+.customers-counter-add {
+  border-radius: 0 20px 20px 0;
+}
+
+.customers-counter-minus::before,
+.customers-counter-minus::after,
+.customers-counter-add::before,
+.customers-counter-add::after {
+  background: #ccc;
+}
+
+.cart-ordered-dish .ordered-dish > .counter {
+  margin-top: 9px;
 }

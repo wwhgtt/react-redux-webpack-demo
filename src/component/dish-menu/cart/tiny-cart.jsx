@@ -1,4 +1,5 @@
 const React = require('react');
+const BookButton = require('../../book/book-button.jsx');
 
 module.exports = React.createClass({
   displayName: 'TinyCart',
@@ -9,12 +10,16 @@ module.exports = React.createClass({
     totalPrice: React.PropTypes.number,
     takeawayServiceProps: React.PropTypes.object,
     isShopOpen: React.PropTypes.bool.isRequired,
+    urlType: React.PropTypes.string,
   },
   buildTakeawayServiceMinPriceElement(totalPrice, takeawayServiceProps, onBillBtnTap) {
-    const { dishesCount } = this.props;
+    const { dishesCount, urlType } = this.props;
     if (
       dishesCount > 0 && (!takeawayServiceProps || !takeawayServiceProps.minPrice || totalPrice >= takeawayServiceProps.minPrice)
     ) {
+      if (urlType === 'PD' || urlType === 'YD') {
+        return (<BookButton type={urlType} dishesCount={dishesCount} />);
+      }
       return (<a className="tiny-cart-btn btn--yellow" onTouchTap={evt => { evt.preventDefault(); onBillBtnTap(); }}>选好啦</a>);
     } else if (dishesCount === 0 && takeawayServiceProps && takeawayServiceProps.minPrice) {
       return <span className="tiny-cart-text">{`${takeawayServiceProps.minPrice} 元起卖`}</span>;

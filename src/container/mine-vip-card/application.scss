@@ -3,38 +3,46 @@
 .application {
   background: #fafafa;
   text-size-adjust: none;
+
+  .copyright {
+    height: 45px;
+    margin: 0;
+    padding: 15px 0;
+    background: #fafafa;
+  }
+
+  .vip-card {
+    padding: 1em;
+    background: #434343;
+
+    &-inner {
+      position: relative;
+      width: 100%;
+    }
+
+    &-img {
+      width: 100%;
+    }
+
+    &-number {
+      font-size: 14px;
+      font-weight: bold;
+      position: absolute;
+      z-index: 1;
+      right: 0;
+      bottom: 10%;
+      left: 0;
+      text-align: center;
+      color: #5b4520;
+    }
+  }
+
+  .list-group {
+    margin: 0;
+  }
 }
 
-.copyright {
-  height: 45px;
-  margin: 0;
-  padding: 15px 0;
-  background: #fafafa;
-}
-
-.vip-card {
-  padding: 1em;
-  background: #434343;
-
-  &-inner {
-    position: relative;
-    width: 100%;
-  }
-
-  &-img {
-    width: 100%;
-  }
-
-  &-number {
-    font-size: 14px;
-    font-weight: bold;
-    position: absolute;
-    z-index: 1;
-    right: 0;
-    bottom: 10%;
-    left: 0;
-    text-align: center;
-    color: #5b4520;
-  }
+.application-inner {
+  min-height: calc(100% - 45px);
 }
 

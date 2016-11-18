@@ -1,0 +1,84 @@
+@import "settings.colors";
+
+.application {
+  background: #f1f1f1;
+}
+
+.order-outer {
+  margin-top: 1em;
+  background: #fff;
+}
+
+.shop {
+  &-name {
+    font-size: 1.125em;
+    font-weight: bold;
+    line-height: 1.389em;
+    padding: .75em 1em;
+    text-align: center;
+    color: #474747;
+  }
+
+  &-head {
+    font-size: 14px;
+    padding: 1em;
+    color: #666;
+    border-bottom: 1px solid #eaeaea;
+  }
+
+  &-chosen {
+    float: left;
+    width: calc(100% - 160px);
+  }
+
+  &-total {
+    float: left;
+    width: 70px;
+    text-align: center;
+  }
+
+  &-edit {
+    position: relative;
+    float: right;
+    padding-left: 1.2em;
+    text-decoration: none;
+    color: #ff7417;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1em;
+      height: 1em;
+      content: "";
+      background: url("../../asset/images/edit.svg") center center/auto 100% no-repeat;
+    }
+  }
+}
+
+.options-group {
+  margin: 1em 0 5em;
+}
+
+.option {
+  font-size: 15px;
+  padding: 1em;
+}
+
+.option-input {
+  font-size: 15px;
+  float: left;
+  width: 100%;
+}
+
+.totalPrice {
+  font-size: 15px;
+  padding: 1em;
+  text-align: right;
+  color: #999;
+
+  .num {
+    font-weight: bold;
+    color: #ff7417;
+  }
+}

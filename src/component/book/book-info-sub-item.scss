@@ -1,0 +1,41 @@
+@import "settings.colors";
+
+.sub-option {
+  font-size: 14px;
+  margin: 1em 0;
+  padding: 0 0 0 1em;
+
+  &-name {
+    position: relative;
+    max-width: calc(100% - 138px);
+    padding-right: 4em;
+  }
+
+  &-number {
+    width: 3em;
+    margin: 0 6.5em 0 .2em;
+    text-align: center;
+    color: #666;
+  }
+
+  &-brief {
+    font-size: 13px;
+    color: #999;
+  }
+
+  &-reprice {
+    font-size: 13px;
+    font-style: normal;
+    line-height: 1em;
+    position: absolute;
+    right: 0;
+    display: none;
+    overflow: hidden;
+    width: 3.615em;
+    padding: .2em;
+    color: #999;
+    border: 1px solid #999;
+    border-radius: .2em;
+    background: #fff;
+  }
+}

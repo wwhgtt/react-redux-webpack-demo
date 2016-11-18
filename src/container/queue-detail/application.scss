@@ -27,9 +27,10 @@
 
 .queue-user {
   font-size: 15px;
-  padding: 22px 15px;
+  margin: 0 15px;
+  padding: 22px 0;
   color: #666;
-  border-top: 1px dashed #ccc;
+  border-top: 1px dashed #e3e3e3;
 
   span {
     display: inline-block;
@@ -55,7 +56,7 @@
   margin: 0 15px;
   padding: 28px 0 43px;
   text-align: center;
-  border-top: 1px dashed #ccc;
+  border-top: 1px dashed #e3e3e3;
 
   p:first-child {
     line-height: 33px;
@@ -78,11 +79,10 @@
 
   &-refresh {
     display: inline-block;
-    padding: 9px 14px;
-    background-image: url("../../asset/images/refresh_blue.svg");
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 22px;
+    width: 22px;
+    height: 22px;
+    vertical-align: -5px;
+    background: url("../../asset/images/refresh_blue.svg") center center/22px 22px no-repeat;
   }
 }
 
@@ -142,5 +142,14 @@
   text-align: center;
   color: #ffc334;
   border: 1px solid #ffc334;
+  border-radius: 50px;
+}
+
+.btn-row-sure {
+  line-height: 44px;
+  display: inline-block;
+  width: 135px;
+  height: 44px;
+  padding: 0;
   border-radius: 50px;
 }

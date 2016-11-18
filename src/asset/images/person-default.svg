@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="120px" height="120px" viewBox="0 0 120 120" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
+    <title>默认头像</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="订单列表_堂食" transform="translate(-178.000000, -2092.000000)">
+            <g id="默认头像" transform="translate(178.000000, 2092.000000)">
+                <g>
+                    <rect id="Rectangle" fill="#F1F1F1" x="0" y="0" width="120" height="120"></rect>
+                    <path d="M64.3902439,51.2195122 L64.3902439,51.2195122 C63.9202973,53.2089805 62.1330426,54.6894747 60,54.6894747 C57.8669574,54.6894747 56.0797027,53.2089805 55.6097561,51.2195122" id="Combined-Shape" stroke="#B1B1B1" stroke-width="3" stroke-linecap="round"></path>
+                    <ellipse id="Oval-7" fill="#979797" cx="38.0487805" cy="46.8292683" rx="5.85365854" ry="5.85365854"></ellipse>
+                    <ellipse id="Oval-7-Copy" fill="#979797" cx="81.9512195" cy="46.8292683" rx="5.85365854" ry="5.85365854"></ellipse>
+                    <ellipse id="Oval-7-Copy-2" fill="#D8D8D8" opacity="0.7" cx="95.1219512" cy="67.3170732" rx="10.2439024" ry="10.2439024"></ellipse>
+                    <circle id="Oval-7-Copy-3" fill="#D8D8D8" opacity="0.7" cx="24.8780488" cy="67.3170732" r="10.2439024"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

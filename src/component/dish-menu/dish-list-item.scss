@@ -5,8 +5,25 @@
 .dish-list-item {
   @include clearfix;
 
+  position: relative;
   height: 88px;
   padding: 15px 0;
+
+  .counter {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+  }
+
+  .btn-choose-property {
+    line-height: 24px;
+    position: relative;
+    height: 24px;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    background: $color-texas-rose;
+  }
 }
 
 .dish-list-word {
@@ -36,7 +53,8 @@
   &-name {
     $dish-item-name-line-height: 20px;
 
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: 700;
     line-height: $dish-item-name-line-height;
     display: block;
     clear: both;
@@ -48,13 +66,18 @@
     display: block;
     height: 1em;
     color: $color-neon-carrot;
+
+    &:empty {
+      display: none;
+    }
   }
 
   &-price {
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 24px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 18px;
     float: left;
+    margin: 7px 0;
     color: $color-neon-carrot;
 
     &::before {
@@ -68,6 +91,7 @@
   &-soldout {
     line-height: $counter-size;
     float: right;
+    margin-top: 5px;
     color: $color-dusty-grey;
   }
 }
@@ -95,14 +119,9 @@
     padding: 0 10px;
   }
 
-  .dish-item-type {
-    background: none;
-  }
-
   .dish-item-price {
     display: block;
     float: none;
-    text-align: right;
   }
 
   .dish-item-img {
@@ -112,31 +131,199 @@
   }
 
   .dish-list-item {
-    height: 120px;
+    height: auto;
+    min-height: 120px;
   }
 
   .dish-item-content {
-    width: calc(100% - 105px);
-    padding: 0 15px 0 0;
+    width: calc(100% - 100px);
+    padding: 0 10px 0 0;
   }
 
   .dish-item-name {
-    font-size: 18px;
-    line-height: 25px;
-    height: 25px;
+    font-size: 16px;
+    line-height: 22px;
+    height: 22px;
     padding: 0;
-    text-align: right;
+  }
+}
+
+.big,
+.huge {
+  .dish-item-dish {
+    display: inline-block;
+    width: 50%;
+    padding: 5px;
+    border: none;
   }
 
-  .dish-type-item.is-active {
-    border-bottom: 2px solid $color-neon-carrot;
-    box-shadow: none;
+  .dish-list-item {
+    height: auto;
+    padding: 0;
+    border: 1px solid rgba($color-mystic, .8);
+  }
+
+  .dish-item-img {
+    display: block;
+    float: none;
+    width: 100%;
+    height: 125px;
+    border-radius: 0;
+  }
+
+  .dish-item-content {
+    float: none;
+    overflow: hidden;
+    width: 100%;
+    height: 60px;
+    padding: 8px 7px 0;
+  }
+
+  .dish-item-discount {
+    line-height: 23px;
+    position: absolute;
+    top: 102px;
+    left: 0;
+    width: 100%;
+    height: 23px;
+    padding: 0 8px;
+    color: $color-white;
+    background: rgba(0, 0, 0, .6);
   }
 }
 
 .huge {
-  .is-memberdish {
-    width: 44px;
-    height: 44px;
+  $huge-btn-height: 34px;
+
+  .dish-list-item {
+    border: none;
+  }
+
+  .dish-item-dish {
+    width: 100%;
+    margin: 0;
+    padding: 15px 0;
+    border: none;
+    box-shadow: 0 1px 0 0 rgba(227, 227, 227, .5);
+
+    .is-memberdish {
+      &::before {
+        width: 56px;
+        height: 56px;
+      }
+    }
+
+    &:last-child {
+      border: none;
+    }
+
+    &.last-item {
+      box-shadow: none;
+    }
+  }
+
+  .dish-item-price {
+    font-size: 23px;
+    line-height: 28px;
+    margin: 0;
+
+    &::after {
+      font-size: 15px;
+    }
+  }
+
+  .dish-item-img {
+    display: block;
+    float: none;
+    width: 100%;
+    height: 260px;
+    border-radius: 0;
+  }
+
+  .dish-item-discount {
+    top: 237px;
+  }
+
+  .counter {
+    bottom: 8px;
+  }
+
+  .counter-add,
+  .counter-minus {
+    width: $huge-btn-height;
+    height: $huge-btn-height;
+  }
+
+  .counter-num {
+    line-height: $huge-btn-height;
+  }
+
+  .btn--ellips {
+    font-size: 15px;
+    line-height: $huge-btn-height;
+    height: $huge-btn-height;
+    border-radius: $huge-btn-height / 2;
+  }
+
+  .dish-item-name {
+    width: calc(100% - 100px);
+  }
+}
+
+.big,
+.default,
+.cart-ordered-list {
+  .counter-add,
+  .counter-minus {
+    width: 24px;
+    height: 24px;
+
+    &::before {
+      width: 12px;
+    }
+
+    &::after {
+      height: 12px;
+    }
+  }
+
+  .counter-num {
+    line-height: 24px;
+  }
+
+  .special-count {
+    font-size: 12px;
+    line-height: 16px !important;
+    position: absolute;
+    top: -7px;
+    right: -5px;
+    width: 16px;
+    min-width: 16px !important;
+    height: 16px;
+    color: #fff;
+    border-radius: 8px;
+    background-color: #ff4242;
+  }
+}
+
+.big {
+  .dish-item-content {
+    height: 70px;
+
+    .counter {
+      position: absolute;
+      right: 7px;
+      bottom: 7px;
+    }
+  }
+
+  .dish-item-name {
+    font-size: 15px;
+    padding: 0 0 5px;
+  }
+
+  .dish-item-price {
+    line-height: 25px;
+    margin: 5px 0;
   }
 }

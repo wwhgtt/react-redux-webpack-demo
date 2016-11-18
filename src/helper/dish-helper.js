@@ -13,7 +13,7 @@ const isSingleDishWithoutProps = exports.isSingleDishWithoutProps = dish => {
 
   const propTypeInfo = dish.dishPropertyTypeInfos || [];
   const ingredientInfos = dish.dishIngredientInfos || [];
-  return !ingredientInfos.length && (!propTypeInfo.length || propTypeInfo.every(prop => prop.type === 4));
+  return !ingredientInfos.length && (!propTypeInfo.length || (propTypeInfo.every(prop => prop.type === 4 && !dish.hasRuleDish)));
 };
 const isGroupDish = exports.isGroupDish = function (dish) {
   return dish.groups !== undefined;
@@ -33,7 +33,7 @@ const setHasIngredientProps = function (dish) {
    Ingredient => Ingredient.isChecked = false
  );
 };
-exports.setDishPropertyTypeInfos = function (dishesList) {
+const setDishPropertyTypeInfos = exports.setDishPropertyTypeInfos = function (dishesList) {
   if (dishesList && dishesList.length) {
     dishesList.map(
       dish => {
@@ -119,7 +119,7 @@ const getOrderPrice = exports.getOrderPrice = function (dish, orderData) {
   }
   // for nongroup dish, from this line.
   const rePriceProps = orderData.dishPropertyTypeInfos.filter(prop => prop.type !== 3);
-  const ingredientsPriceProps = orderData.dishIngredientInfos;
+  const ingredientsPriceProps = orderData.dishIngredientInfos || [];
   const checkedRepricePropPrices = [].concat.apply(
     [], rePriceProps.map(
       rePriceProp => rePriceProp.properties.filter(prop => prop.isChecked).
@@ -192,7 +192,7 @@ const getOrderPropIds = function (order) {
       property => property.id
     )
   ));
-  const ingredientIds = dishIngredientInfos.filter(
+  const ingredientIds = (dishIngredientInfos || []).filter(
     ingredient => ingredient.isChecked
   ).map(ingredient => ingredient.id);
   return [propsIds, ingredientIds];
@@ -296,9 +296,10 @@ const getDishCookieObject = exports.getDishCookieObject = function (dish, orderI
   const groupChildDishIds = !splitPropsIds.join('#') || splitPropsIds.join('#') === '' ? id + '|1--' : splitPropsIds.join('#');
   return { key : `${consumeType}_${shopId}_${id}_${groupChildDishIds}`, value : `${orderCount}|${marketPrice}` };
 };
-exports.storeDishesLocalStorage = function (data, func) {
+exports.storeDishesLocalStorage = function (data, shopInfo, func) {
   const lastOrderedDishes = {
     shopId: getUrlParam('shopId'),
+    shopName: shopInfo.commercialName || '',
     type: getUrlParam('type'),
     expires: Date.now() + 24 * 60 * 60 * 1000,
     dishes: func ? func(data) : getOrderedDishes(data),
@@ -401,11 +402,11 @@ exports.generateDishNameWithUnit = (dishData) => {
     const avaliableDishProps = dishData.dishPropertyTypeInfos.filter(prop => prop.type === 4);
     if (avaliableDishProps.length) {
       const properties = avaliableDishProps.map(prop => prop.properties[0].name).join(', ');
-      return `${dishData.name}(${properties})/${dishData.unitName}`;
+      return dishData.unitName ? `${dishData.name}(${properties})/${dishData.unitName}` : `${dishData.name}(${properties})`;
     }
-    return `${dishData.name}/${dishData.unitName}`;
+    return dishData.unitName ? `${dishData.name}/${dishData.unitName}` : dishData.name;
   }
-  return `${dishData.name}/${dishData.unitName}`;
+  return dishData.unitName ? `${dishData.name}/${dishData.unitName}` : dishData.name;
 };
 
 exports.formatOpenTime = (openTimeList, isWeekend) => {
@@ -518,7 +519,7 @@ const judgeStandardsSame = (dish, sample) => {
     dishStandardCollection.map(propertyId => {
       let index = _findIndex(sampleStandardCollection, id => id === propertyId);
       return boolCollection.push(
-        index >= 0 && sampleStandardCollection.length === dishStandardCollection.length ?
+        index >= 0 && sampleStandardCollection.length && sampleStandardCollection.length === dishStandardCollection.length ?
         '1' : '0'
       );
     });
@@ -532,31 +533,33 @@ const judgeStandardsSame = (dish, sample) => {
 const selectDishesListWithSameName = (dishesList) => {
   let newDishesList = [];
   for (let i = 0; i < dishesList.length; i++) {
-    let sameNameDish = [dishesList[i]];
+    let sameRuleDish = [dishesList[i]];
     let dishesCollection = [];
     for (let index = 0; index < newDishesList.length; index++) {
       newDishesList[index].map(dish => dishesCollection.push(dish));
     }
     if (i === 0) {
-      dishesList.filter(dish => dish.id !== sameNameDish[0].id).map(dish => {
-        if (dish.name === sameNameDish[0].name && dish.unitName === sameNameDish[0].unitName
-          && dish.dishTypeId === sameNameDish[0].dishTypeId && judgeStandardsSame(dish, sameNameDish[0])
+      dishesList.filter(dish => dish.id !== sameRuleDish[0].id).map(dish => {
+        if (dish.name === sameRuleDish[0].name && dish.unitName === sameRuleDish[0].unitName
+          && dish.dishTypeId === sameRuleDish[0].dishTypeId && judgeStandardsSame(dish, sameRuleDish[0])
         ) {
-          sameNameDish.push(dish);
+          sameRuleDish.push(dish);
         }
-        return sameNameDish;
+        return true;
       });
-    } else if (i > 0 && dishesCollection.every(dish => dish.name !== sameNameDish[0].name)) {
-      dishesList.filter(dish => dish.id !== sameNameDish[0].id).map(dish => {
-        if (dish.name === sameNameDish[0].name && dish.unitName === sameNameDish[0].unitName
-          && dish.dishTypeId === sameNameDish[0].dishTypeId && judgeStandardsSame(dish, sameNameDish[0])
+      newDishesList.push(sameRuleDish);
+    } else if (i > 0 && dishesCollection.every(dish => dish.id !== sameRuleDish[0].id)) {
+      // 添加dishesCollection.every(dish => dish.id !== sameRuleDish[0].id  是为了去重保证被筛选过的dish不需要重新筛选
+      dishesList.filter(dish => dish.id !== sameRuleDish[0].id).map(dish => {
+        if (dish.name === sameRuleDish[0].name && dish.unitName === sameRuleDish[0].unitName
+          && dish.dishTypeId === sameRuleDish[0].dishTypeId && judgeStandardsSame(dish, sameRuleDish[0])
         ) {
-          sameNameDish.push(dish);
+          sameRuleDish.push(dish);
         }
-        return sameNameDish;
+        return true;
       });
+      newDishesList.push(sameRuleDish);
     }
-    newDishesList.push(sameNameDish);
   }
   newDishesList.filter(dishes => dishes.length > 1).map(dishes => {
     dishes.map(dish => {
@@ -576,12 +579,20 @@ const createNewDishes = (withSameNameDishesProp, dishTypeList) => {
   let changedDishes = [];
   withSameNameDishesProp.sameNameDishes.forEach(disesCollection => {
     let maternalDish = disesCollection[0];
+    maternalDish.hasRuleDish = true;
     maternalDish.sameRuleDishes = [];
     for (let i = 1; i < disesCollection.length; i++) {
       disesCollection[i].dishPropertyTypeInfos.filter(property => property.type === 4).map(property =>
         property.properties.map(prop => prop.isChecked = false)
       );
-      maternalDish.sameRuleDishes.push(disesCollection[i]);
+      if (disesCollection[i].clearStatus !== 1) {
+        // 表示已售磬
+        console.log('客如云竭诚为您服务');
+      } else {
+        disesCollection[i].hasRuleDish = true;
+        maternalDish.sameRuleDishes.push(disesCollection[i]);
+      }
+
       // dish所在的dishType
       let dishType = _find(dishTypeList, dishesType => dishesType.dishIds && dishesType.dishIds.indexOf(maternalDish.id) !== -1);
       if (dishType) {
@@ -681,4 +692,25 @@ exports.updateDishesWithRule = (id, dishOptions, immutableDish) => {
     });
   }
   return dishData;
+};
+
+exports.identifyRuleDish = (ruleDishes, immutableDishes) => {
+  let ruleDishesCopy = ruleDishes.filter(dish => dish.sameRuleDishes);
+  let dishesData = immutableDishes.asMutable({ deep:true });
+  dishesData.forEach(dishData => {
+    if (_find(ruleDishesCopy, dish => dish.id === dishData.id)) {
+      dishData.hasRuleDish = true;
+    } else {
+      ruleDishesCopy.forEach(ruleDish => {
+        ruleDish.sameRuleDishes.map(data => {
+          if (data.id === dishData.id) {
+            dishData.hasRuleDish = true;
+          }
+          return true;
+        });
+      });
+    }
+  });
+  setDishPropertyTypeInfos(dishesData);
+  return dishesData;
 };

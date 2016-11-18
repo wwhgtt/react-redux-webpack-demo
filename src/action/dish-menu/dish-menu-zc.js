@@ -2,13 +2,14 @@ const config = require('../../config');
 const createAction = require('redux-actions').createAction;
 require('es6-promise');
 require('isomorphic-fetch');
-const helper = require('../../helper/dish-hepler');
+const helper = require('../../helper/dish-helper');
 const cartHelper = require('../../helper/order-dinner-cart-helper');
 const commonHelper = require('../../helper/common-helper');
 const setMenuData = createAction('SET_MENU_DATA', menuData => menuData);
 const _orderDish = createAction('ORDER_DISH', (dishData, action) => [dishData, action]);
 const _removeAllOrders = createAction('REMOVE_ALL_ORDERS', orders => orders);
 const setDiscountToOrder = createAction('SET_DISCOUNT_TO_ORDER', discount => discount);
+const setNormalDiscount = createAction('SET_NORMAL_DISCOUNT', discount => discount);
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 exports.showDishDetail = createAction('SHOW_DISH_DETAIL', dishData => dishData);
 exports.showDishDesc = createAction('SHOW_DISH_DESC', dishData => dishData);
@@ -46,7 +47,7 @@ exports.fetchMenuData = () => (dispatch, getStates) =>
 
 exports.orderDish = (dishData, action) => (dispatch, getStates) => {
   dispatch(_orderDish(dishData, action));
-  helper.storeDishesLocalStorage(getStates().dishMenuReducer.dishesData);
+  helper.storeDishesLocalStorage(getStates().dishMenuReducer.dishesDataDuplicate, getStates().dishMenuReducer.shopInfo);
 };
 
 exports.removeAllOrders = (orders) => (dispatch, getStates) => {
@@ -86,11 +87,11 @@ const removeBasicSession = (name) => {
 
 const errorLocation = (errorCode) => {
   switch (errorCode) {
-    case '90006' : // 请重新扫描二维码,链接已失效
+    case '90009' : // 请重新扫描二维码,链接已失效
       cartHelper.clearTableInfoInSessionStorage();
       location.href = `${config.exceptionLinkURL}?shopId=${shopId}`;
       break;
-    case '90008' : // 该桌台有多个未支付的正餐订单
+    case '90010' : // 该桌台有多个未支付的正餐订单
       cartHelper.clearTableInfoInSessionStorage();
       location.href = `${config.exceptionDishCurrentURL}?shopId=${shopId}`;
       break;
@@ -227,6 +228,7 @@ const fetchServiceStatusNoTable = exports.fetchServiceStatusNoTable = () => (dis
     });
 
 // 根据isShowButton获取快捷菜单按钮是否显示
+
 const fetchIsShowButton = exports.fetchIsShowButton = (tableKey, tableId) => (dispatch, getState) =>
   fetch(`${config.getIsShowButtonAPI}?shopId=${helper.getUrlParam('shopId')}`, config.requestOptions).
     then(res => {
@@ -271,6 +273,26 @@ exports.fetchTableId = (tableKey, tableId) => (dispatch, getState) => {
   }
   return;
 };
+
+exports.fetchDishMarketInfos = () => (dispatch, getState) =>
+  fetch(`${config.getDishMarketInfosAPI}?shopId=${helper.getUrlParam('shopId')}`, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('获取信息失败...'));
+      }
+      return res.json();
+    }).
+    then(discount => {
+      if (discount.code !== '200') {
+        if (discount.msg !== '未登录') {
+          dispatch(setErrorMsg(discount.msg));
+        }
+      }
+      dispatch(setNormalDiscount(discount.data));
+    }).
+    catch(err => {
+      console.log(err);
+    });
 
 exports.clearBell = (msg) => (dispatch, getStates) => {
   dispatch(setCallMsg({ info:msg, callStatus:false }));

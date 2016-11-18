@@ -1,12 +1,23 @@
 @import "settings.colors";
 @import "settings.sizes";
+@import "tools.mixins";
+@import "tools.functions";
 
 .cart-ordered-dish {
-  padding: 0 10px;
-  border-bottom: 1px solid $color-mercury;
+  position: relative;
+  padding: 0 15px;
+
+  &:not(:last-child) {
+    &::after {
+      @include border-thin(top);
+
+      left: 15px;
+      border-bottom: bordersolid(1, $color-mystic);
+    }
+  }
 
   .ordered-dish {
-    $dish-price-width: 70px;
+    $dish-price-width: 85px;
     $item-padding: 6px;
 
     line-height: 48px;
@@ -18,35 +29,36 @@
       float: left;
       overflow: hidden;
       width: calc(100% - #{$counter-max-width + $dish-price-width});
-      margin-right: 10px;
-      padding: $item-padding 23px $item-padding 0;
+      margin-right: 5px;
+      padding: $item-padding 13px $item-padding 0;
 
       &--trigger::after {
         display: inline-block;
         width: 16px;
         height: 16px;
-        margin-left: 16px;
+        margin-left: 10px;
         content: "";
         vertical-align: -3px;
-        background-image: url("../../../asset/images/arrow-top-grey.svg"); // image size 20 * 12px
+        background-image: url("../../../asset/images/arrow-right-gray.svg"); // image size 20 * 12px
         background-repeat: no-repeat;
         background-position: center center;
-        background-size: 16px 16px;
-        transform: rotate(0);
+        background-size: 10px 10px;
+        transform: rotate(90deg);
         transition: transform .15s;
       }
 
       &--trigger.is-open::after {
-        transform: rotate(180deg);
+        transform: rotate(-90deg);
       }
     }
 
     > .dish-price {
-      font-size: 16px;
+      font-size: 18px;
       float: left;
       overflow: hidden;
       width: $dish-price-width;
       padding: $item-padding 0;
+      text-align: right;
       color: $color-neon-carrot;
 
       &::before {
@@ -57,7 +69,7 @@
     }
 
     > .counter {
-      margin-top: 10px;
+      margin-top: 12px;
       padding: $item-padding 0;
     }
   }
@@ -92,7 +104,7 @@
   font-size: 12px;
   line-height: 20px;
   float: right;
-  width: 26px;
+  width: 30px;
   margin-right: $counter-size - 5px; // 5px minus parent padding-right
   text-align: center;
 
@@ -107,7 +119,7 @@
   font-size: 12px;
   line-height: 16px;
   clear: both;
-  padding-bottom: 5px;
+  padding-bottom: 8px;
   color: $color-dusty-grey;
 
   &:empty {

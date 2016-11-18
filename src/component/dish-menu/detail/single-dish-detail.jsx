@@ -1,9 +1,13 @@
 const React = require('react');
 const Immutable = require('seamless-immutable');
 const _findIndex = require('lodash.findindex');
-const helper = require('../../../helper/dish-hepler');
+const helper = require('../../../helper/dish-helper');
 const DishDetailHead = require('./dish-detail-head.jsx');
 const DishPropsSelect = require('./dish-props-select.jsx');
+const Counter = require('../../mui/counter.jsx');
+
+require('./single-dish-detail.scss');
+
 module.exports = React.createClass({
   displayName: 'SingleDishDetail',
   propTypes:{
@@ -25,6 +29,10 @@ module.exports = React.createClass({
       toast: 0,
       ruleDish: null,
     };
+  },
+  componentDidMount() {
+    const { dish } = this.props;
+    this.onDishItemCountChange(dish.dishIncreaseUnit);
   },
   componentDidUpdate() {
   },
@@ -59,6 +67,9 @@ module.exports = React.createClass({
       ['order', 0, 'count'],
       newCountForDetail
     ) });
+  },
+  onRecalcPrice(price, count) {
+    return count <= 0 ? 0 : (price / count).toFixed(2);
   },
   onSelectPropsOption(propData, optionData) {
     const dishForDetail = this.state.dish;
@@ -136,15 +147,17 @@ module.exports = React.createClass({
     const { dish, ruleDish } = this.state;
     return (
       <div className="single-dish-detail flex-columns">
-        <DishDetailHead dish={dish} onCountChange={this.onDishItemCountChange} />
+        <DishDetailHead dish={dish} onCountChange={this.onDishItemCountChange} onRecalcPrice={this.onRecalcPrice} />
         <DishPropsSelect
           onSelectPropsOption={this.onSelectPropsOption} dish={dish} dishData={ruleDish || this.props.dish} onDishRuleChecked={this.setDishRuleProps}
         />
-        <button className="dish-detail-addtocart btn--yellow flex-none" onTouchTap={this.onAddToCarBtnTap}>加入购物车</button>{
-          this.state.toast === 1 ?
+        <div className="dish-detail-addtocarta flex-none">
+          <Counter count={helper.getDishesCount([dish])} onCountChange={(count, increment) => this.onDishItemCountChange(increment)} step={1} />
+          <button className="btn--yellow" onTouchTap={this.onAddToCarBtnTap}>加入购物车</button>
+        </div>
+        {
+          this.state.toast === 1 &&
             <div className="toast"><span className="toast-content">请选择份数</span></div>
-          :
-          false
         }
       </div>
     );

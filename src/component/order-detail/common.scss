@@ -24,6 +24,7 @@
   &-title {
     font-size: 25px;
     margin-top: 15px;
+    padding: 0 15px;
     color: #474747;
   }
 }
@@ -87,11 +88,26 @@
       display: inline-block;
       width: 68px;
       margin-right: 22px;
+      vertical-align: middle;
       color: #474747;
     }
 
     &-content {
+      display: inline-block;
+      width: calc(100% - 90px);
+      vertical-align: middle;
       color: #666;
+    }
+  }
+
+  .list-memo {
+    .list-item-title {
+      float: left;
+    }
+
+    .list-item-content {
+      float: left;
+      width: calc(100% - 90px);
     }
   }
 }

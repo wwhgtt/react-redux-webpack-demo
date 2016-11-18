@@ -4,7 +4,9 @@ const Dialog = require('../../component/mui/dialog/dialog.jsx');
 const connect = require('react-redux').connect;
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
 const mineGrowupAction = require('../../action/mine/mine-growup.js');
-
+const GrowAccumeList = require('../../component/mine/grow-accume-list.jsx');
+const shallowCompare = require('react-addons-shallow-compare');
+const IScroll = require('iscroll/build/iscroll-probe');
 require('../../asset/style/style.scss');
 require('../../component/mine/income-expenses-list.scss');
 require('../mine-accumulation/application.scss');
@@ -15,24 +17,78 @@ const MineGrowupApplication = React.createClass({
   displayName: 'MineGrowupApplication',
   propTypes: {
     growupInfo: React.PropTypes.object,
-    fetchGrowupInfo: React.PropTypes.func,
-    fetchGrownLevelsInfo: React.PropTypes.func,
+    currentRule: React.PropTypes.object,
+    fetchGrowupInfo: React.PropTypes.func.isRequired,
+    fetchCurrGrownRule: React.PropTypes.func.isRequired,
   },
   getInitialState() {
     return {
       descriptionContentVisible: false,
+      hideLoad: false,
     };
   },
   componentWillMount() {
-    this.props.fetchGrowupInfo().then(this.props.fetchGrownLevelsInfo);
+    this.props.fetchGrowupInfo(1).then(this.props.fetchCurrGrownRule);
+    this.pageNum = 1;
+    this.wholeData = [];
+  },
+  componentDidMount() {
+    const iScroll = this.iScroll = new IScroll('.records', {
+      click: true,
+      tap: true,
+      probeType: 3,
+    });
+
+    iScroll.on('scrollStart', () => {
+      this._className = '';
+    });
+
+    iScroll.on('scroll', () => {
+      const distance = Math.abs(iScroll.y) - Math.abs(iScroll.maxScrollY);
+      if (distance >= 50) {
+        this._className = 'flip';
+      }
+    });
+
+    iScroll.on('scrollEnd', () => {
+      if (this._className === 'flip') {
+        this.addItems();
+      }
+    });
+  },
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.growupInfo.totalRows <= nextProps.growupInfo.pageSize) {
+      this.setState({ hideLoad:true });
+    }
+  },
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  },
+  componentDidUpdate(prevProps, prevState) {
+    this.iScroll.refresh();
+  },
+  addItems() {
+    const { growupInfo } = this.props;
+    this.pageNum++;
+    if (growupInfo.totalPage >= this.pageNum) {
+      this.props.fetchGrowupInfo(this.pageNum);
+    } else {
+      this.setState({ hideLoad:true });
+    }
   },
   toggleDescriptContent() {
     this.setState({ descriptionContentVisible: !this.state.descriptionContentVisible });
   },
   buildListElement() {
-    const { ghList } = this.props.growupInfo;
-    if (!ghList || !ghList.length) {
-      return false;
+    const { growupInfo, currentRule } = this.props;
+    const { items } = growupInfo;
+
+    if (!items || !items.length) {
+      return [];
+    }
+
+    if (growupInfo.currentPage === this.pageNum && currentRule) {
+      this.wholeData = this.wholeData.concat(items);
     }
 
     const getGrowthTypeText = type => {
@@ -44,7 +100,7 @@ const MineGrowupApplication = React.createClass({
     };
 
     return (
-      ghList.map((item, index) => {
+      this.wholeData.map((item, index) => {
         const amount = item.addValue;
         let amountClass = 'list-amount';
 
@@ -59,7 +115,7 @@ const MineGrowupApplication = React.createClass({
             </span>
             <p className="list-title">{getGrowthTypeText(item.grownType)}</p>
             <div className="list-detail">
-              <span className="list-detail-item">{dateUtility.format(new Date(item.serverUpdateTime), 'yyyy/MM/dd')}</span>
+              <span className="list-detail-item">{dateUtility.format(new Date(item.bizDate), 'yyyy/MM/dd')}</span>
               <span className="list-detail-item list-detail-name ellipsis">{item.commercialName}</span>
             </div>
           </div>
@@ -68,44 +124,35 @@ const MineGrowupApplication = React.createClass({
     );
   },
   buildDescriptContentElement() {
-    const { levelInfo } = this.props.growupInfo;
-    const { levelList, grownCfgMap, nowLevelName } = levelInfo || {};
-    if (!levelList || !levelList.length) {
-      return false;
+    const { currentRule } = this.props;
+    const style = { textAlign: 'center' };
+    if (!currentRule || !currentRule.grownConsumeValue || !currentRule.grownConsumeGainValue) {
+      return <p style={style}>无</p>;
     }
 
+    const text = `每消费${currentRule.grownConsumeValue}元可获得${currentRule.grownConsumeGainValue}点成长值`;
     return (
       <ul className="masthead-discription-content" onTouchTap={this.toggleDescriptContent}>
-        {
-          levelList.map((item, index) => {
-            const grownCfg = grownCfgMap[item.id];
-            if (!grownCfg || item.name !== nowLevelName) {
-              return false;
-            }
-
-            const text = `每消费${grownCfg.grownConsumeValue}元可获得${grownCfg.grownConsumeGainValue}点成长值`;
-            return (<li key={index} style={{ textAlign: 'center' }}>{text}</li>);
-          })
-        }
+        <li style={style}>{text}</li>
       </ul>
     );
   },
   render() {
-    const { growupInfo } = this.props;
+    const { currentRule } = this.props;
+    const { hideLoad } = this.state;
     return (
       <div className="accumulation">
         <div className="masthead">
           <a className="masthead-discription-title" onTouchTap={this.toggleDescriptContent}>成长值说明</a>
-          <p className="masthead-total">{growupInfo.grownValue}</p>
+          <p className="masthead-total">{currentRule && currentRule.curGrownValue || 0}</p>
           <p className="masthead-title">我的成长值</p>
         </div>
-        <div className="detail">
-          <div className="detail-title">成长值记录</div>
-          <div className="section records">
-            {this.buildListElement()}
-          </div>
-        </div>
-        <div className="footer copyright"></div>
+        <GrowAccumeList
+          listName="成长值记录"
+          buildListElement={this.buildListElement()}
+          hideLoad={hideLoad}
+        />
+        {/* <div className="footer copyright"></div> */}
         {this.state.descriptionContentVisible &&
           <Dialog
             title="成长值说明"
