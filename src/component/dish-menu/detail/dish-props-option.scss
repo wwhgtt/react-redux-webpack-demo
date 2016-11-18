@@ -25,21 +25,16 @@
     background: $color-orange-red;
   }
 
-  > .name {
+  .name {
     display: block;
     text-align: left;
   }
 
-  > .extra {
+  .extra {
     float: right;
     overflow: hidden;
-    width: $extar-max-width;
+    min-width: $extar-max-width;
     text-align: right;
     white-space: nowrap;
-
-    + .name {
-      float: left;
-      width: calc(100% - #{$extar-max-width});
-    }
   }
 }

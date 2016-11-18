@@ -24,8 +24,10 @@ module.exports = React.createClass({
     const { id, name, reprice, isChecked, onTouchTap } = this.props;
     return (
       <DynamicClassButton className="dish-porps-option" data-id={id} data-reprice={reprice} isChecked={isChecked} onTouchTap={onTouchTap}>
-        {reprice !== 0 ? <span className="extra">{reprice > 0 ? '+' : ''}{reprice}元</span> : false}
-        <span className="name ellipsis">{name}</span>
+        <span className="flex-row">
+          <span className="name ellipsis flex-rest">{name}</span>
+          {reprice !== 0 ? <span className="extra flex-none">{reprice > 0 ? '+' : ''}{reprice}元</span> : false}
+        </span>
       </DynamicClassButton>
     );
   },
