@@ -326,7 +326,7 @@ module.exports = React.createClass({
                     </span>
                   </div>
                   <div className="order-total-right">
-                    <span className="text-dove-grey">总计 </span>
+                    <span className="text-dove-grey">总计: </span>
                     <span className="price">
                       {serviceProps.benefitProps && serviceProps.benefitProps.isPriviledge ?
                         serviceProps.benefitProps.totalAmount
