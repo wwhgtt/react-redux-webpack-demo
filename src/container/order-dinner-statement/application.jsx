@@ -95,7 +95,7 @@ const OrderDinnerStateMentApplication = React.createClass({
               dineTableProp={{ area:customerProps.dineTableProp.area, table:customerProps.dineTableProp.table }}
             />
           </div>
-          <div className="extra-supplement">
+          <div className="options-group extra-supplement">
             <span className="left">已选菜品</span>
             <span className="right">共{getDishesCount(orderedDishesProps.dishes)}份</span>
           </div>
