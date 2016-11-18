@@ -23,7 +23,6 @@ module.exports = function (
 ) {
   const { type, payload } = action;
   switch (type) {
-
     case 'SET_ORDER_INLINE_PROPS':
       return state.setIn(
           ['commercialProps', 'shopName'], payload.shopName
@@ -35,7 +34,8 @@ module.exports = function (
         .setIn(['customerProps', 'name'], payload.name)
         .setIn(['customerProps', 'mobile'], payload.mobile)
         .setIn(['customerProps', 'sex'], payload.sex >= 0 ? payload.sex : null)
-        .set('queueList', payload.queList);
+        .set('queueList', payload.queList)
+        .set('dinePersonCount', payload.maxPersonNum && payload.maxPersonNum > 4 ? 4 : (payload.maxPersonNum || 1));
     case 'SET_CUSTOMER_PROPS':
       return state
         .setIn(['customerProps', 'name'], payload.name)
