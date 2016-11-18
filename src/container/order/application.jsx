@@ -260,7 +260,7 @@ const OrderApplication = React.createClass({
           </div>
           <div className="options-group editor-group">
             <div className="option">
-              <span className="option-tile">就餐人数</span>
+              <span className="option-tile for-count">就餐人数</span>
               <ImportableCounter
                 setErrorMsg={setErrorMsg}
                 onCountChange={this.setOrderProps}
