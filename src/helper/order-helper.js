@@ -98,7 +98,7 @@ exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDes
   return isPickupFromFrontDesk ? selfPayType.indexOf(payment) : sendPayType.indexOf(payment);
 };
 //  微信卡券核销
-exports.handleWeixinCard = function (couponList) {
+exports.handleWeixinCard = function (couponList, bool) {
   couponList.forEach(coupon => {
     if (coupon.weixinValue) {
       coupon.coupRuleBeanList = [];
@@ -111,7 +111,7 @@ exports.handleWeixinCard = function (couponList) {
       coupon.coupDishBeanList = [];
     }
   });
-  return couponList;
+  return bool ? couponList : (couponList || []).filter(coupon => coupon.weixinValue);
 };
 // 判断支付方式是否应该checked
 exports.shouldPaymentAutoChecked = function (payment, diningForm, isPickupFromFrontDesk, sendAreaId, selfPayType, sendPayType) {
