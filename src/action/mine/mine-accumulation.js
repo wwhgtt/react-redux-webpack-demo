@@ -12,7 +12,8 @@ const shopId = getUrlParam('shopId');
 
 // 获取基本信息
 exports.fetchAccumulationInfo = (currentPage) => (dispatch, getStates) => {
-  fetch(`${config.getIntegralDetailAPI}?shopId=${shopId}&currentPage=${currentPage}`, config.requestOptions)
+  const pageSize = 12;
+  return fetch(`${config.getIntegralDetailAPI}?shopId=${shopId}&currentPage=${currentPage}&pageSize=${pageSize}`, config.requestOptions)
     .then(res => {
       if (!res.ok) {
         return false;
