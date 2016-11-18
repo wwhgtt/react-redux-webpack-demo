@@ -28,9 +28,9 @@ const bookButton = React.createClass({
     const { dishesCount, type } = this.props;
     let typeName = '';
     if (type === 'YD') {
-      typeName = '预定';
+      typeName = '选好啦';
     } else if (type === 'PD') {
-      typeName = '排队';
+      typeName = '选好啦';
     }
     return (
       <div className={classnames('bookok', { 'bookok-transparent':!dishesCount })} onTouchTap={() => this.gotoBookDetail(dishesCount)}>
