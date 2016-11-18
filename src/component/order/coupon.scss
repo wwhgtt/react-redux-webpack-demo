@@ -33,6 +33,18 @@
       background-size: 16px 16px;
     }
 
+    &::before {
+      position: absolute;
+      z-index: 2;
+      top: 2px;
+      right: -8px;
+      bottom: 2px;
+      width: 16px;
+      content: "";
+      background: radial-gradient(circle, #f1f1f1 5px, transparent 4px);
+      background-size: 16px 16px;
+    }
+
     &-left {
       flex: 0 0 65%;
       padding: 13px 0 13px 26px;
@@ -40,21 +52,8 @@
     }
 
     &-right {
-      position: relative;
       padding: 21px 15px 10px 20px;
       color: $color-dusty-grey !important;
-
-      &::after {
-        position: absolute;
-        z-index: 2;
-        top: 2px;
-        right: -8px;
-        bottom: 2px;
-        width: 16px;
-        content: "";
-        background: radial-gradient(circle, #f1f1f1 5px, transparent 4px);
-        background-size: 16px 16px;
-      }
 
       .coupon-text--grey {
         font-size: 14px;
