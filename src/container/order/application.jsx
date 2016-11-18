@@ -254,7 +254,7 @@ const OrderApplication = React.createClass({
             <div className="editor options-group customerInfo-editor">
               <a className="option option-user">
                 <img className="option-user-icon" src={customerProps.iconUri || defaultPersonLogo} alt="用户头像" />
-                <p className="option-user-name">{customerProps.mobile}</p>
+                <p className="option-user-name">{customerProps.name || customerProps.mobile}</p>
               </a>
             </div>
           </div>

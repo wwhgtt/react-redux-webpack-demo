@@ -141,7 +141,7 @@ module.exports = React.createClass({
                 <span className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
               </a>
             : false}
-            {serviceProps.integralsInfo && serviceProps.diningForm !== 0 ?
+            {serviceProps.integralsInfo ?
               <ActiveSelect
                 optionsData={[serviceProps.integralsInfo]} onSelectOption={setOrderProps}
                 optionComponent={OrderPropOption}
