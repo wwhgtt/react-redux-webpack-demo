@@ -237,4 +237,8 @@
 
 .option-shop {
   left: 0 !important;
+
+  &::after {
+    left: 0 !important;
+  }
 }
