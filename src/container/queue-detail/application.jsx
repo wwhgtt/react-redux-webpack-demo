@@ -148,7 +148,7 @@ const QueueDetailApplication = React.createClass({
   },
   render() {
     const { queueInfo, queueDetail, getQueueInfo, clearQueueInfo, errorMessage, isRefresh, clearErrorMsg, load } = this.props;
-    const { showBill, isDialogShow, shopLogo } = this.state;
+    const { showBill, isDialogShow } = this.state;
     const orderDish = queueDetail.orderDish === 0; // 是否已开通排队预点菜
     const hasOrder = queueDetail.hasOrder === 1; // 1 已点菜 0 未点菜
     const queueStatus = queueDetail.queue && queueDetail.queue.queueStatus === 0; // 可以预点菜
@@ -158,7 +158,7 @@ const QueueDetailApplication = React.createClass({
       <div className="queue-page bg-orange application">
         <div className="queue-content content-fillet">
           <div className="box-head">
-            <img className="box-head-logo" role="presentation" src={shopLogo} onError={this.picError} />
+            <img className="box-head-logo" role="presentation" src={queueDetail.shopLogo || shopLogoDefault} onError={this.picError} />
             <div className="ellipsis box-head-title">{queueDetail.shopName}</div>
           </div>
           <div className="divide-line">

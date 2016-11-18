@@ -81,7 +81,7 @@ module.exports = React.createClass({
               id="editor-name"
               placeholder="请输入姓名"
               maxLength="30"
-              value={customerProps.name || ''}
+              defaultValue={customerProps.name || ''}
               onChange={this.handleBasicInfoChange}
             />
           </div>
@@ -136,7 +136,7 @@ module.exports = React.createClass({
               onChange={this.handleBasicInfoChange}
               maxLength="30"
               placeholder="请输入门牌信息"
-              value={customerProps.street || ''}
+              defaultValue={customerProps.street || ''}
             />
           </label>
         </div>
