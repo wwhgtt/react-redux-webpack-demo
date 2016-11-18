@@ -163,11 +163,11 @@ a {
 
   &-item {
     float: left;
-    width: 30%;
+    width: 33%;
   }
 
   &-item:first-child {
-    width: 40%;
+    width: 34%;
   }
 
   &-item:last-child {
@@ -175,8 +175,9 @@ a {
   }
 
   &-title {
+    font-size: 13px;
     display: inline-block;
-    margin-right: 5px;
+    margin-right: 3px;
     vertical-align: middle;
     color: $color-dusty-grey;
   }
@@ -188,12 +189,12 @@ a {
   }
 
   .list-statictis-origin {
-    max-width: calc(100% - 35px);
+    max-width: calc(100% - 30px);
   }
 
   .list-statictis-privilage,
   .list-statictis-total {
-    max-width: calc(100% - 50px);
+    max-width: calc(100% - 33px);
   }
 }
 
@@ -283,8 +284,8 @@ a {
 
   &-small {
     position: absolute;
-    right: 0;
-    bottom: 120px;
+    right: -2px;
+    bottom: 130px;
     display: block;
     width: 110px;
     height: 85px;
@@ -314,5 +315,32 @@ a {
     border-bottom-left-radius: 8px;
     background: #ff3d57 url("../../asset/images/coupon_btn.svg") center no-repeat;
     background-size: 118px;
+  }
+}
+
+.coupon-animation {
+  animation: couponMove 2s infinite;
+}
+
+@keyframes couponMove {
+  0%,
+  69% {
+    bottom: 130px;
+  }
+
+  70% {
+    bottom: 120px;
+  }
+
+  80% {
+    bottom: 130px;
+  }
+
+  90% {
+    bottom: 120px;
+  }
+
+  100% {
+    bottom: 130px;
   }
 }
