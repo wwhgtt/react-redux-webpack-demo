@@ -129,7 +129,7 @@ const RegisterMemberApplication = React.createClass({
 
   render() {
     const { userInfo, loadInfo } = this.props;
-    const { birthDay, userSex, userName, password, errorMSG } = this.state;
+    const { birthDay, userSex, password, errorMSG } = this.state;
     // const regEmpty = /\S/; // 非空验证规则
     const regCode = /\d{6}/; // 6位数字验证规则
 
@@ -169,7 +169,6 @@ const RegisterMemberApplication = React.createClass({
                     className="option-input register-input register-user-input"
                     placeholder="请填写姓名"
                     maxLength="30"
-                    value={userName}
                     onChange={this.handleName}
                   />
                 </div>
