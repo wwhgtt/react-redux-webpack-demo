@@ -111,7 +111,7 @@ exports.handleWeixinCard = function (couponList, bool) {
       coupon.coupDishBeanList = [];
     }
   });
-  return bool ? couponList : (couponList || []).filter(coupon => coupon.weixinValue);
+  return bool ? couponList : (couponList || []).filter(coupon => !coupon.weixinValue);
 };
 // 判断支付方式是否应该checked
 exports.shouldPaymentAutoChecked = function (payment, diningForm, isPickupFromFrontDesk, sendAreaId, selfPayType, sendPayType) {
