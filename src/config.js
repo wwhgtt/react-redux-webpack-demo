@@ -124,7 +124,7 @@ module.exports = {
 
   getBalanceInfoAPI: `${apiBase}/member/valueCard.json`, // 会员卡余额信息
   getIntegralDetailAPI: `${apiBase}/member/integralDetail.json`, //
-  getGrowthValueAPI: `${apiBase}/member/growthValue.json`, //
+  getGrownDetailAPI: `${apiBase}/member/grownDetail.json`, //
   getGrownLevelsAPI: `${apiBase}/member/grownLevel.json`, //
   getRechargeInfoAPI: `${apiBase}/shop/recharge.json`, // 会员卡充值信息
   addRechargeAPI: `${apiBase}/member/addRecharge.json`, // 会员卡充值

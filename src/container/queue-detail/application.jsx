@@ -184,7 +184,14 @@ const QueueDetailApplication = React.createClass({
           }
 
           <div className="queue-user clearfix">
-            <span className="queue-user-name ellipsis">{queueDetail.queue && queueDetail.queue.name || '匿名'}{this.getUserSex(queueDetail)}</span>
+            <span className="queue-user-name ellipsis">
+            {
+              queueDetail.queue && queueDetail.queue.name ?
+                `${queueDetail.queue.name}${this.getUserSex(queueDetail)}`
+              :
+                '匿名用户'
+            }
+            </span>
             <span className="queue-user-phone ellipsis">{queueDetail.queue && queueDetail.queue.mobile}</span>
             <span className="queue-user-num ellipsis">{queueDetail.queue && queueDetail.queue.repastPersonCount}人</span>
           </div>
