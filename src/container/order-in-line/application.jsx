@@ -118,10 +118,7 @@ const OrderInlineApplication = React.createClass({
                   onCountChange={this.onCountChange}
                   maximum={commercialProps.maxPersonNum}
                   minimum={1}
-                  count={
-                    commercialProps.maxPersonNum && +dinePersonCount < +commercialProps.maxPersonNum ?
-                    dinePersonCount : commercialProps.maxPersonNum
-                  }
+                  count={dinePersonCount}
                 />
               </div>
             </div>
