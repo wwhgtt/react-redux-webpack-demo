@@ -322,24 +322,24 @@ a {
 }
 
 .coupon-animation {
-  animation: couponMove 2s infinite;
+  animation: couponMove 2s 3;
 }
 
 @keyframes couponMove {
   0%,
-  69% {
+  84% {
     bottom: 130px;
   }
 
-  70% {
+  85% {
     bottom: 120px;
   }
 
-  80% {
+  90% {
     bottom: 130px;
   }
 
-  90% {
+  95% {
     bottom: 120px;
   }
 
