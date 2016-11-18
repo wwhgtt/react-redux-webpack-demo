@@ -95,7 +95,7 @@ const OrderDinnerStateMentApplication = React.createClass({
               dineTableProp={{ area:customerProps.dineTableProp.area, table:customerProps.dineTableProp.table }}
             />
           </div>
-          <div className="options-group extra-supplement">
+          <div className="extra-supplement">
             <span className="left">已选菜品</span>
             <span className="right">共{getDishesCount(orderedDishesProps.dishes)}份</span>
           </div>
@@ -109,7 +109,7 @@ const OrderDinnerStateMentApplication = React.createClass({
           {commercialProps && commercialProps.isSupportReceipt === 1 ?
             <div className="options-group margin-cart-bottom">
               <label className="option">
-                <span className="option-title">发票</span>
+                <span className="option-title">发票: </span>
                 <input
                   className="option-input"
                   name="receipt"
@@ -130,7 +130,7 @@ const OrderDinnerStateMentApplication = React.createClass({
               <div className="vertical-center clearfix">
                 {commercialProps.carryRuleVO ?
                   <div>
-                    <div className="order-cart-entry text-dove-grey">已优惠:&nbsp;
+                    <div className="order-cart-entry text-dove-grey">已优惠 &nbsp;
                       <span className="price">
                         {serviceProps.benefitProps.isPriviledge ?
                           serviceProps.benefitProps.priviledgeAmount
@@ -140,7 +140,7 @@ const OrderDinnerStateMentApplication = React.createClass({
                       </span>
                     </div>
                     <div className="order-cart-entry">
-                      <span className="text-dove-grey">还需付: </span>
+                      <span className="text-dove-grey">还需付 &nbsp;</span>
                       <span className="order-cart-price price">
                         {serviceProps.benefitProps.isPriviledge ?
                           serviceProps.benefitProps.totalAmount
