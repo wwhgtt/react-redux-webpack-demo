@@ -904,10 +904,9 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
       latitude,
       longitude,
     });
-    if (selectedDateTime.time) {
-      if (selectedDateTime.time !== '立即取餐' && selectedDateTime.time !== '立即送餐') {
-        params.time = `${selectedDateTime.date} ${selectedDateTime.time}`;
-      }
+
+    if (selectedDateTime.time && /^\d+:\d+(:\d+)?$/.test(selectedDateTime.time)) {
+      params.time = `${selectedDateTime.date} ${selectedDateTime.time}`;
     }
   } else {
     const sex = +String(state.customerProps.sex) || '';
