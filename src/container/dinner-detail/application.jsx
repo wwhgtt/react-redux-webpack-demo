@@ -205,7 +205,7 @@ const DinnerDetailApplication = React.createClass({
                 <span className="price ellipsis list-statictis-privilage">{Math.abs(dinnerDetail.tradePrivilegeAmount || 0)}</span>
               </div>
               <div className="list-statictis-item">
-                <span className="list-statictis-title">总计：</span>
+                <span className="list-statictis-title">总计:</span>
                 <span className="price ellipsis list-statictis-total">{dinnerDetail.tradeAmount}</span>
               </div>
             </div>
@@ -259,7 +259,7 @@ const DinnerDetailApplication = React.createClass({
           </div>
         </div>
         {isCounponSmallShow && dinnerDetail.url &&
-          <a className="coupon-content-small" href={dinnerDetail.url}></a>
+          <a className="coupon-content-small coupon-animation" href={dinnerDetail.url}></a>
         }
         {isCouponBigShow && dinnerDetail.url &&
           <div className="coupon-bg">

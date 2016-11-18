@@ -222,7 +222,7 @@ const TakeoutDetailApplication = React.createClass({
                 <span className="price ellipsis list-statictis-privilage">{Math.abs(takeoutDetail.tradePrivilegeAmount || 0)}</span>
               </div>
               <div className="list-statictis-item">
-                <span className="list-statictis-title">总计：</span>
+                <span className="list-statictis-title">总计:</span>
                 <span className="price ellipsis list-statictis-total">{takeoutDetail.tradeAmount}</span>
               </div>
             </div>
@@ -275,7 +275,7 @@ const TakeoutDetailApplication = React.createClass({
           </div>
         </div>
         {isCounponSmallShow && takeoutDetail.url &&
-          <a className="coupon-content-small" href={takeoutDetail.url}></a>
+          <a className="coupon-content-small coupon-animation" href={takeoutDetail.url}></a>
         }
         {isCouponBigShow && takeoutDetail.url &&
           <div className="coupon-bg">
