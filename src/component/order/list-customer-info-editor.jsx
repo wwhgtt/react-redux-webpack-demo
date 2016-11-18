@@ -71,6 +71,7 @@ module.exports = React.createClass({
             value={customerProps.mobile ? customerProps.mobile : ''}
             placeholder={customerProps.mobile || '请输入手机号码'}
             maxLength={11}
+            type="tel"
             onChange={this.handleBasicInfoChange}
             disabled={isMobileDisabled}
           />
