@@ -240,7 +240,7 @@ module.exports = React.createClass({
               {serviceProps.benefitProps && _find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 4) ?
                 <p className="order-summary-entry clearfix">
                   <span className="option-title option-title--icon order-summary-icon3">
-                    {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 4).privilegeName}:
+                    {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 4).privilegeName}
                   </span>
                   <span className="order-discount discount">
                     {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 4).privilegeAmount}
