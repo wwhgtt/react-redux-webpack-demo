@@ -5,7 +5,7 @@ module.exports = {
     data: {
       name: '我是微信昵称',
       member: {
-        name: null,
+        name: '李斌',
         mobile: '13980691506',
         sex: 1,
         iconUri: 'http://wx.qlogo.cn/mmopen/ajNVdqHZLLC6Q1uomrOlfpCyJOxuDUcoXIzibCZGQeElFuy3UVFxlHMn8kzECiaJicWqe8icJySHoNOS9iadia0fDTiag/0',
