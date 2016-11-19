@@ -136,12 +136,8 @@ const DishMenuZcApplication = React.createClass({
         }
         <div className="main">
           <DishMesthead
-            registered={isMember}
-            dishesData={dishesData}
             shopInfo={shopInfo}
             shopLogo={shopLogo}
-            marketList={marketList}
-            marketListUpdate={marketListUpdate}
           />
           <div ref="scrollWrap" className={`${dishPageTpl} scroller-wrap`}>
             <DishTypeScroller
