@@ -69,7 +69,7 @@ module.exports = React.createClass({
         orderedChildDishes.map((childDish, index) => (
           <div key={`${childDish.id}_${index}`} className="child-dish-info">
             <div className="child-dish-head">
-              <span className="child-dish-name ellipsis">{childDish.unitName ? `${childDish.name}/${childDish.unitName}` : `${childDish.name}`}</span>
+              <span className="child-dish-name ellipsis">{helper.generateDishNameWithUnit(childDish)}</span>
               {
                 childDish.marketPrice !== 0 ?
                   <span className="child-dish-price badge-price">
