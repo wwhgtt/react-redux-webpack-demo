@@ -103,10 +103,9 @@ const BookDetailApplication = React.createClass({
     this.setState({ shopLogo:shopLogoDefault });
   },
   checkBookList(orderMenu, isOrder, orderStatus) {
-    if (orderMenu && orderStatus) {
-      if (isOrder) {
-        return <div className="btn-row btn-row-sure btn-row-mt" onTouchTap={this.checkBill}>查看菜单</div>;
-      }
+    if (isOrder) {
+      return <div className="btn-row btn-row-sure btn-row-mt" onTouchTap={this.checkBill}>查看菜单</div>;
+    } else if (orderMenu && orderStatus) {
       return <div className="btn-row btn-row-sure btn-row-mt" onTouchTap={this.goToBook}>预点菜</div>;
     }
     return false;
