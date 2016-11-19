@@ -342,7 +342,19 @@ module.exports = {
             'isReplace': 2,
             'isDefault': 1,
             'isMulti': 2,
-            'dishPropertyTypeInfos': [],
+            'dishPropertyTypeInfos': [
+              {
+                'id': 0,
+                'name': '容量',
+                'type': 4,
+                'properties': [{
+                  'id': 37,
+                  'name': '傻逼李斌',
+                  'reprice': 0.0,
+                  'isChecked': false,
+                }],
+              },
+            ],
             'dishIngredientInfos': [],
           }],
         }, {
@@ -415,6 +427,16 @@ module.exports = {
           }, {
             'id': 1840,
             'name': '中辣',
+            'reprice': 0.0,
+            'isChecked': false,
+          }],
+        }, {
+          'id': 0,
+          'name': '容量',
+          'type': 4,
+          'properties': [{
+            'id': 37,
+            'name': '傻逼李斌',
             'reprice': 0.0,
             'isChecked': false,
           }],
