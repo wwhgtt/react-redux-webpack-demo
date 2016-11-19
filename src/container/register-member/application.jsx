@@ -146,72 +146,70 @@ const RegisterMemberApplication = React.createClass({
       this.phonNum = userInfo.mobile;
     }
     return (
-      <div className="application">
-        <div className="flex-columns">
-          <div className="register-member flex-rest">
-            <div className="register-banner">
-              <img className="register-banner-img" alt="" src={userInfo.picUrl} />
-            </div>
-            <div className="">
-              <div className="options-group">
-                <div className="option">
-                  <span className="option-title">手机号</span>
-                  <span className={'option-input register-input'}>{this.phonNum}</span>
-                </div>
-              </div>
-
-              <div className="options-group">
-                <div className="option register-user">
-                  <span className="option-title register-user-name">姓名</span>
-                  <SexSwitch sex={userSex} changeSex={this.handleSex} />
-                  <input
-                    type="text"
-                    className="option-input register-input register-user-input"
-                    placeholder="请填写姓名"
-                    maxLength="30"
-                    onChange={this.handleName}
-                  />
-                </div>
-                <div className="option">
-                  <span className="option-title">生日</span>
-                  <span className="btn-arrow-right"></span>
-                  <input
-                    type="text"
-                    className="option-input register-input"
-                    placeholder="请选择出生日期"
-                    onClick={() => { this.setState({ isShow: true }); }}
-                    value={birthDay}
-                    readOnly
-                  />
-
-                </div>
-                <div className="option register-pwd">
-                  <span className="option-title">交易密码</span>
-                  <InputNum
-                    maxLength={6}
-                    placeholder={'请填写6位数字密码'}
-                    regs={regC}
-                    className={'option-input register-input register-pwd-in'}
-                    onSetNum={this.setPassword}
-                    defaultVal={password}
-                  />
-                  <input
-                    type="password"
-                    ref="inputPwd"
-                    className="option-input register-input register-pwd-out"
-                    placeholder="请填写6位数字密码"
-                    value={password}
-                  />
-                </div>
+      <div className="application flex-columns">
+        <div className="register-member flex-rest">
+          <div className="register-banner" style={{ backgroundImage:`url(${userInfo.picUrl})` }}>
+          {/* <img className="register-banner-img" alt="" src={userInfo.picUrl} style={{ display: 'none' }} /> */}
+          </div>
+          <div className="">
+            <div className="options-group">
+              <div className="option">
+                <span className="option-title">手机号</span>
+                <span className={'option-input register-input'}>{this.phonNum}</span>
               </div>
             </div>
-            <div className="register-tips">
-              注：生日不可修改，请谨慎填写。
+
+            <div className="options-group">
+              <div className="option register-user">
+                <span className="option-title register-user-name">姓名</span>
+                <SexSwitch sex={userSex} changeSex={this.handleSex} />
+                <input
+                  type="text"
+                  className="option-input register-input register-user-input"
+                  placeholder="请填写姓名"
+                  maxLength="30"
+                  onChange={this.handleName}
+                />
+              </div>
+              <div className="option">
+                <span className="option-title">生日</span>
+                <span className="btn-arrow-right"></span>
+                <input
+                  type="text"
+                  className="option-input register-input"
+                  placeholder="请选择出生日期"
+                  onClick={() => { this.setState({ isShow: true }); }}
+                  value={birthDay}
+                  readOnly
+                />
+
+              </div>
+              <div className="option register-pwd">
+                <span className="option-title">交易密码</span>
+                <InputNum
+                  maxLength={6}
+                  placeholder={'请填写6位数字密码'}
+                  regs={regC}
+                  className={'option-input register-input register-pwd-in'}
+                  onSetNum={this.setPassword}
+                  defaultVal={password}
+                />
+                <input
+                  type="password"
+                  ref="inputPwd"
+                  className="option-input register-input register-pwd-out"
+                  placeholder="请填写6位数字密码"
+                  value={password}
+                />
+              </div>
             </div>
           </div>
-          <div className="flex-none">
-            <button className="btn--yellow btn-submit" onTouchTap={this.registerMember}>注册会员</button>
+          <div className="register-tips">
+            注：生日不可修改，请谨慎填写。
           </div>
+        </div>
+        <div className="flex-none">
+          <button className="btn--yellow btn-submit" onTouchTap={this.registerMember}>注册会员</button>
         </div>
         {
           errorMSG && <Toast errorMessage={errorMSG} clearErrorMsg={this.handleClearErrorMsg} />
