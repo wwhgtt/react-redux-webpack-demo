@@ -194,7 +194,7 @@ const QueueDetailApplication = React.createClass({
             <span className="queue-user-phone ellipsis">{queueDetail.queue && queueDetail.queue.mobile}</span>
             <span className="queue-user-num ellipsis">{queueDetail.queue && queueDetail.queue.repastPersonCount}人</span>
           </div>
-          {queueDetail.queue && String(queueDetail.queue.queueStatus) === '0' &&
+          {queueDetail.queue &&
             <div>
               <div className="divide-line">
                 <div className="divide-line-title divide-line-three">您可以</div>
