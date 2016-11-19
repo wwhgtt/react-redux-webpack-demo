@@ -10,6 +10,7 @@ const StandardAddrSelectListBox = require('./standard-addrselect-listbox.jsx');
 module.exports = React.createClass({
   displayName: 'StandardAddressSelect',
   propTypes: {
+    currentPoint: React.PropTypes.object,
     placeholder: React.PropTypes.string,
     onSelectComplete: React.PropTypes.func,
     searchResultMaxLength: React.PropTypes.number,
@@ -18,6 +19,7 @@ module.exports = React.createClass({
     return {
       suggest: [],
       list: [],
+      currentCity: null,
       centerPoint: null,
       suggestVisible: false,
     };
@@ -69,6 +71,7 @@ module.exports = React.createClass({
     const geocoder = new BMap.Geocoder();
     geocoder.getLocation(new BMap.Point(point.longitude, point.latitude), ret => {
       let list = [];
+      let cityName = null;
       if (ret && ret.surroundingPois) {
         list = ret.surroundingPois.map(item => {
           const _point = item.point;
@@ -79,9 +82,10 @@ module.exports = React.createClass({
             point:{ lng: _point.lng, lat: _point.lat },
           };
         });
+        cityName = ret.addressComponents && ret.addressComponents.city || '';
       }
       if (this._mapLocal) {
-        this.setState({ list });
+        this.setState({ list, currentCity: { name: cityName.replace('市', ''), autoSelect: false } });
       }
     }, { poiRadius: 500, numPois: 11 });
   },
@@ -99,8 +103,11 @@ module.exports = React.createClass({
     }
     this.setState({ suggestVisible: _visible });
   },
-
+  handleCityChange(city) {
+    this.setState({ currentCity: city });
+  },
   render() {
+    const { suggestVisible, suggest, currentCity } = this.state;
     return (
       <div>
         <StandardAddrSelectSearchBox
@@ -108,10 +115,14 @@ module.exports = React.createClass({
           onUserInput={this.handleUserInput}
           onSelectComplete={this.handleSelectComplete}
           onSetSuggestVisible={this.handleSuggestVisible}
-          suggestVisible={this.state.suggestVisible}
-          suggest={this.state.suggest}
+          suggestVisible={suggestVisible}
+          suggest={suggest}
+          currentCity={currentCity}
+          onCurrentCityChange={this.handleCityChange}
         />
         <StandardAddrSelectMap
+          currentPoint={this.props.currentPoint}
+          currentCity={this.state.currentCity}
           onCenterPointChange={this.handleCenterPointChange}
           onMapInited={this.handleMapInited}
         />

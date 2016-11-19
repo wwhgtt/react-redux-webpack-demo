@@ -1,5 +1,7 @@
 const React = require('react');
 const classnames = require('classnames');
+const shallowCompare = require('react-addons-shallow-compare');
+
 const getCurrentPosition = require('../../../helper/common-helper.js').getCurrentPosition;
 const callWxClientMethod = require('../../../helper/wx-client-helper.js').callWxClientMethod;
 const getWeixinVersionInfo = require('../../../helper/common-helper.js').getWeixinVersionInfo;
@@ -10,6 +12,8 @@ const baiduMapConfig = {
 module.exports = React.createClass({
   displayName: 'StandardAddrSelectMap',
   propTypes: {
+    currentPoint: React.PropTypes.object,
+    currentCity: React.PropTypes.object,
     onMapInited: React.PropTypes.func,
     onCenterPointChange: React.PropTypes.func,
   },
@@ -41,14 +45,42 @@ module.exports = React.createClass({
       }
     });
   },
+  componentWillReceiveProps(nextProps) {
+    const { currentCity } = this.props;
+    const nextCurrentCity = nextProps.currentCity;
+
+    if (currentCity && nextCurrentCity && nextCurrentCity.name !== currentCity.name && nextCurrentCity.autoSelect !== false) {
+      this.setCurrentCity(nextCurrentCity);
+    }
+    this.setCurrentPoint(nextProps.currentPoint);
+  },
+  shouldComponentUpdate(nextProps, nextState) {
+    return shallowCompare(this, nextProps, nextState);
+  },
+  setCurrentCity(city) {
+    this.map.centerAndZoom(city.name, baiduMapConfig.zoomLevel);
+    this._onTilesLoadedOnce = () => {
+      this.handleCenterPointChange();
+    };
+  },
+  setCurrentPoint(point) {
+    if (!point || this._currentPoint !== undefined) {
+      return;
+    }
+
+    const baidMapPoint = new BMap.Point(point.longitude, point.latitude);
+    this.map.centerAndZoom(point, baiduMapConfig.zoomLevel);
+    this._currentPoint = baidMapPoint;
+  },
   mapCenter(point) {
     const centerThePoint = _point => {
       const iconUrl = 'http://api0.map.bdimg.com/images/blank.gif';
       const myIcon = new BMap.Icon(iconUrl, new BMap.Size(32, 32));
       const marker = new BMap.Marker(_point, { icon: myIcon });
-      this.map.centerAndZoom(_point, baiduMapConfig.zoomLevel);
+
+      this.map.centerAndZoom(this._currentPoint || _point, baiduMapConfig.zoomLevel);
       this.map.addOverlay(marker);
-      this._currentPoint = _point;
+      this._userPoint = _point;
       this.handleCenterPointChange();
     };
     // 取不到用户的坐标，根据用户ip取对应的城市
@@ -56,7 +88,7 @@ module.exports = React.createClass({
       const currentCity = new BMap.LocalCity();
       currentCity.get(result => {
         this.map.centerAndZoom(result.name, baiduMapConfig.zoomLevel);
-        this._currentPoint = null;
+        this._userPoint = null;
       });
       return;
     }
@@ -80,15 +112,21 @@ module.exports = React.createClass({
     const map = this.map = new BMap.Map(this.refs.content);
     this.mapCenter(pos);
     map.addEventListener('tilesloaded', evt => {
-      if (!this._currentPoint) {
-        const currentPoint = this.map.getCenter();
-        this.mapCenter({ latitude: currentPoint.lat, longitude: currentPoint.lng });
+      if (!this._userPoint) {
+        const point = this.map.getCenter();
+        this.mapCenter({ latitude: point.lat, longitude: point.lng });
+      }
+
+      if (this._onTilesLoadedOnce) {
+        this._onTilesLoadedOnce();
+        this._onTilesLoadedOnce = null;
       }
     });
     map.addEventListener('dragend', evt => {
       this.handleCenterPointChange();
     });
     this.handleMapInited();
+    this.setCurrentPoint(this.props.currentPoint);
   },
   handleCenterPointChange() {
     const point = this.map.getCenter();
@@ -105,7 +143,7 @@ module.exports = React.createClass({
     }
   },
   handleMoveToCurrent() {
-    const point = this._currentPoint;
+    const point = this._userPoint;
     if (point) {
       this.map.centerAndZoom(point, baiduMapConfig.zoomLevel);
       this.handleCenterPointChange();

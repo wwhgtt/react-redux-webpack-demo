@@ -1,15 +1,18 @@
 const React = require('react');
 const classnames = require('classnames');
+const getCityList = require('../../../helper/city-helper.js').getCityList;
 
 module.exports = React.createClass({
   displayName: 'StandardAddrSelectSearchBox',
   propTypes:{
+    currentCity: React.PropTypes.object,
     placeholder: React.PropTypes.string,
     suggestVisible: React.PropTypes.bool,
     suggest: React.PropTypes.array,
     onUserInput: React.PropTypes.func,
     onSetSuggestVisible: React.PropTypes.func,
     onSelectComplete: React.PropTypes.func,
+    onCurrentCityChange: React.PropTypes.func,
   },
   getDefaultProps() {
     return {
@@ -20,9 +23,100 @@ module.exports = React.createClass({
   getInitialState() {
     return {
       searchValueIsEmpty: true,
+      cityPopupVisible: false,
     };
   },
   componentDidMount() {
+  },
+  getCityPopupElement() {
+    const allCity = getCityList();
+    const hotKeys = {};
+    const firstCode = 'A'.charCodeAt(0);
+    const hotCitys = [];
+    const cityGroup = [];
+    const groupNameletterCount = 6;
+    const columnLength = 3;
+    const maxCode = 'Z'.charCodeAt(0);
+
+    ['北京', '上海', '广州', '深圳', '天津', '杭州', '成都'].forEach((name, index) => {
+      hotKeys[name] = index;
+    });
+    allCity.forEach((city, i) => {
+      const currentCode = city.pinyin.charCodeAt(0);
+      if (hotKeys.hasOwnProperty(city.name)) {
+        Object.assign(city, { hotIndex : hotKeys[city.name] });
+        hotCitys.push(city);
+      }
+
+      const index = Math.floor((currentCode - firstCode) / groupNameletterCount);
+      const group = cityGroup[index] || [];
+      group.push(city);
+      cityGroup[index] = group;
+    });
+    hotCitys.sort((a, b) => a.hotIndex - b.hotIndex);
+
+    const getGroupName = (index) => {
+      const letters = [];
+      const start = index * groupNameletterCount;
+      for (let i = 0; i < groupNameletterCount; i++) {
+        const code = start + i + firstCode;
+        if (code > maxCode) {
+          break;
+        }
+
+        letters.push(String.fromCharCode(code));
+      }
+      return letters.join('');
+    };
+
+    const getBordersElment = (length) => {
+      const rowLength = Math.floor((length + columnLength - 1) / columnLength);
+      const borders = [];
+
+      for (let i = 1; i < rowLength; i++) {
+        borders.push(<i className="city-list-border" key={i} style={{ top: `${i * 50}px` }}></i>);
+      }
+      return (<span>{borders}</span>);
+    };
+
+    const getHotCityListElement = () => {
+      const result = hotCitys.map(city => {
+        const value = city.value;
+        return <a key={value} data-value={value}>{city.name}</a>;
+      });
+      return result;
+    };
+
+    const getAllCityListElement = () => {
+      const elements = [];
+
+      cityGroup.forEach((group, index) => {
+        const groupName = getGroupName(index);
+        elements.push(
+          <dl key={index}>
+            <dt className="city-title" key={index}>{groupName}</dt>
+            <dd key={`group-${index}`} className="city-list clearfix">
+              {group.map(city => <a className="ellipsis"key={city.value} data-value={city.value}>{city.name}</a>)}
+              {getBordersElment(group.length)}
+            </dd>
+          </dl>
+        );
+      });
+      return elements;
+    };
+
+    return (
+      <div className="city-popup" onTouchTap={this.handleCityTap}>
+        <div className="city-hot">
+          <h3 className="city-title">热门城市</h3>
+          <p className="city-list clearfix">
+            {getHotCityListElement()}
+            {getBordersElment(hotCitys.length)}
+          </p>
+        </div>
+        {getAllCityListElement()}
+      </div>
+    );
   },
   handleChange(evt) {
     const value = evt.target.value;
@@ -71,6 +165,22 @@ module.exports = React.createClass({
     }
     this.props.onSetSuggestVisible(false);
   },
+  handleCityTap(evt) {
+    const target = evt.target;
+    const dataset = target.dataset;
+    const { currentCity, onCurrentCityChange } = this.props;
+    const name = target.textContent;
+
+    if (target.nodeName === 'A' && dataset.value && (!currentCity || currentCity.name !== name)) {
+      if (onCurrentCityChange) {
+        onCurrentCityChange({ name, value: dataset.value });
+      }
+    }
+    this.toggleCityPopup();
+  },
+  toggleCityPopup(visible) {
+    this.setState({ cityPopupVisible: visible === undefined ? !this.state.cityPopupVisible : visible });
+  },
   render() {
     let items = this.props.suggest.map((item, index) => (
       <li key={index}>
@@ -86,11 +196,20 @@ module.exports = React.createClass({
           <small>{item.address}</small>
         </button>
       </li>
-      ));
+    ));
 
+    const { currentCity } = this.props;
+    const { searchValueIsEmpty, cityPopupVisible } = this.state;
     return (
-      <div className="addrselect-header" ref="wrap">
-        <label className={classnames('addrselect-searchbox clearfix', { 'is-empty': this.state.searchValueIsEmpty })}>
+      <div className={classnames('addrselect-header flex-row', { 'city-expand': cityPopupVisible })} ref="wrap">
+        <span
+          className="city-select flex-none"
+          onTouchTap={() => { this.toggleCityPopup(); }}
+        >
+          {currentCity && currentCity.name || ''}
+        </span>
+        {cityPopupVisible && this.getCityPopupElement()}
+        <label className={classnames('addrselect-searchbox clearfix flex-rest', { 'is-empty': searchValueIsEmpty })}>
           <span className="addrselect-search-icon"></span>
           <input
             type="text"
