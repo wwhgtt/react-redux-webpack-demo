@@ -127,14 +127,13 @@ const QueueDetailApplication = React.createClass({
     this.setState({ isDialogShow: !this.state.isDialogShow });
   },
   checkQueueList(orderDish, hasOrder, queueStatus) {
-    if (orderDish && queueStatus) {
-      if (hasOrder) {
-        return (
-          <div className="flex-rest">
-            <div className="btn-row btn-row-sure" onTouchTap={this.checkBill}>查看菜单</div>
-          </div>
-        );
-      }
+    if (hasOrder) {
+      return (
+        <div className="flex-rest">
+          <div className="btn-row btn-row-sure" onTouchTap={this.checkBill}>查看菜单</div>
+        </div>
+      );
+    } else if (orderDish && queueStatus) {
       return (
         <div className="flex-rest">
           <div className="btn-row btn-row-sure" onTouchTap={this.goToBook}>排队点菜</div>
