@@ -36,7 +36,9 @@ const MineVipCardApplication = React.createClass({
           <div className="vip-card">
             <div className="vip-card-inner">
               <img src={VipCard} alt="会员卡" className="vip-card-img" />
-              <p className="vip-card-number">NO.{memberInfo.memberCard || '00000000000'}</p>
+              {userInfo.loginType === 0 &&
+                <p className="vip-card-number">NO.{memberInfo.memberCard || '00000000000'}</p>
+              }
             </div>
           </div>
           <ShowVipCardList memberInfo={memberInfo} userInfo={userInfo} />
