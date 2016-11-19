@@ -30,11 +30,15 @@ exports.formateOriginDate = (date) => {
 };
 
 const formateInstruction = exports.formateInstruction = (information) => {
-  const reg = new RegExp('<[^<]*>', 'gi');    // 标签的正则表达式
-  if (information && information.replace(reg, '')) {
-    return information.replace(/<p>/ig, '').replace(/<\/p>/ig, '\n');
+  if (information) {
+    return information.replace(/<\/(h[1-6]|p|li)>/g, '</$1>\n')
+           .replace(/<\/?.+?>/g, '')
+           .replace(/&lt;/g, '<')
+           .replace(/&gt;/g, '>')
+           .replace(/&nbsp;/g, '')
+           .trim();
   }
-  return information ? information.replace(reg, '') : false;
+  return '';
 };
 
 const formateWeixinTime = exports.formateWeixinTime = (advancedInfo) => {
