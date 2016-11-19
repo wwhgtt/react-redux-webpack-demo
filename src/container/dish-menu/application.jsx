@@ -109,7 +109,7 @@ const DishMenuApplication = React.createClass({
     const marketList = shopInfo.marketList;
     const marketListUpdate = shopInfo.marketListUpdate;
     const { dishPageTpl, enableMemberRegistry, discountProps } = this.props;
-    const isMember = discountProps && discountProps.isMember || false;
+    const isMember = discountProps && discountProps.isMember;
 
     return (
       <div className="application">
@@ -122,12 +122,8 @@ const DishMenuApplication = React.createClass({
         }
         <div className="main">
           <DishMesthead
-            registered={isMember}
-            dishesData={dishesData}
             shopInfo={shopInfo}
             shopLogo={shopLogo}
-            marketList={marketList}
-            marketListUpdate={marketListUpdate}
           />
           <div ref="scrollWrap" className={`${dishPageTpl} scroller-wrap`}>
             <DishTypeScroller

@@ -11,7 +11,6 @@ require('./dish-mesthead.scss');
 module.exports = React.createClass({
   displayName:'DishMesthead',
   propTypes:{
-    ads: React.PropTypes.array,
     shopInfo: React.PropTypes.object,
     shopLogo: React.PropTypes.string,
   },
