@@ -1,11 +1,17 @@
 @import "settings.colors";
+@import "tools.mixins";
+
+dl,
+dd {
+  margin: 0;
+}
 
 // address select header
 .addrselect-header {
   position: relative;
   z-index: 10;
   width: 100%;
-  padding: 10px 15px;
+  padding: 8px 15px;
   background: $color-white;
   box-shadow: 0 2px 4px $color-mercury;
 }
@@ -14,9 +20,9 @@
   &box {
     display: block;
     width: 100%;
-    height: 40px;
+    height: 34px;
     border-radius: 4px;
-    background: $color-wild-sand;
+    background: $color-gallery;
   }
 
   &box.is-empty button {
@@ -24,13 +30,18 @@
   }
 
   &-input {
-    font-size: 14px;
+    font-size: 15px;
+    line-height: 20px;
     float: left;
     width: calc(100% - 80px);
     height: 20px;
-    margin-top: 11px;
+    margin-top: 7px;
     border: 0;
     background: transparent;
+
+    &::placeholder {
+      color: $color-dusty-grey;
+    }
   }
 
   &-icon {
@@ -38,8 +49,8 @@
 
     &::before {
       display: block;
-      width: 40px;
-      height: 40px;
+      width: 34px;
+      height: 34px;
       content: "";
       background-image: url("../../../asset/images/location-grey.png");
       background-repeat: no-repeat;
@@ -54,8 +65,8 @@
 
     &::before {
       display: block;
-      width: 40px;
-      height: 40px;
+      width: 34px;
+      height: 34px;
       content: "";
       background-image: url("../../../asset/images/input-cancel.png");
       background-repeat: no-repeat;
@@ -99,6 +110,7 @@
   border-bottom: 1px solid $color-gallery;
 
   > small {
+    font-size: 12px;
     margin-left: 10px;
     color: $color-dusty-grey;
 
@@ -115,7 +127,7 @@
   // stylelint-disable declaration-block-no-duplicate-properties
   // Need for android 4.2 ~ 4.3
   height: 220px;
-  height: 45vh;
+  height: 40vh;
 
   &::after {
     position: absolute;
@@ -190,8 +202,6 @@
 
 // address list
 .addrselect-list {
-  padding-top: 10px;
-
   > li:first-child {
     .addrselect-list-title {
       color: $color-neon-carrot;
@@ -206,13 +216,13 @@
     position: relative;
     display: block;
     width: 100%;
-    padding: 10px 10px 0 40px;
+    padding: 11px 10px 0 40px;
     text-align: left;
 
     &::before {
       position: absolute;
       z-index: 1;
-      top: 8px;
+      top: 22px;
       left: 15px;
       width: 15px;
       height: 18px;
@@ -225,19 +235,126 @@
   }
 
   &-title {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: normal;
-    line-height: 16px;
+    line-height: 22px;
     position: relative;
-    margin-bottom: .5em;
+    margin-bottom: 4px;
     color: $color-dove-grey;
   }
 
   &-address {
-    font-size: 11px;
-    line-height: 12px;
-    padding-bottom: 10px;
+    font-size: 15px;
+    line-height: 21px;
+    padding-bottom: 11px;
     color: $color-dusty-grey;
     border-bottom: 1px solid $color-gallery;
+  }
+}
+
+.city-select {
+  font-size: 16px;
+  line-height: 34px;
+  position: relative;
+  display: block;
+  min-width: 56px;
+  height: 34px;
+  margin-right: 15px;
+  padding: 0 19px 0 5px;
+
+  &::before {
+    position: absolute;
+    top: 9px;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    content: "";
+    background: url("../../../asset/images/arrow-down.svg") no-repeat center center;
+    background-size: 16px 16px;
+  }
+}
+
+.city {
+  &-popup {
+    position: fixed;
+    top: 50px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+    padding: 0 15px 10px;
+    background: $color-white;
+  }
+
+  &-title {
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 30px;
+    height: 30px;
+    margin: 0 -15px;
+    padding: 0 15px;
+    color: $color-dove-grey;
+    background: $color-wild-sand;
+  }
+
+  &-list {
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+
+    &::before,
+    &::after {
+      position: absolute;
+      top: 10px;
+      bottom: 10px;
+      display: block;
+      width: 2px;
+      content: "";
+      border-left: 1px solid $color-mercury;
+      transform: scale(.5, 1);
+    }
+
+    &::before {
+      left: 33%;
+    }
+
+    &::after {
+      left: 66%;
+    }
+
+    a {
+      font-size: 15px;
+      line-height: 50px;
+      float: left;
+      width: 33%;
+      height: 50px;
+      text-align: center;
+      color: $color-dove-grey;
+    }
+  }
+}
+
+.city-list-border {
+  @include border-thin(top);
+
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 1px;
+  border-bottom: 1px solid $color-mercury;
+  background: $color-mercury;
+}
+
+.city-expand {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  .city-select {
+    &::before {
+      top: 8px;
+      transform: rotate(180deg);
+    }
   }
 }
