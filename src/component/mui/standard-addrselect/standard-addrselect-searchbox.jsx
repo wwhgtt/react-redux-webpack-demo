@@ -11,7 +11,7 @@ module.exports = React.createClass({
     suggestVisible: React.PropTypes.bool,
     suggest: React.PropTypes.array,
     onUserInput: React.PropTypes.func,
-    onSetSuggestVisible: React.PropTypes.func,
+    onSetSuggestVisible: React.PropTypes.func.isRequired,
     onSelectComplete: React.PropTypes.func,
     onCurrentCityChange: React.PropTypes.func,
   },
@@ -28,7 +28,10 @@ module.exports = React.createClass({
       cityPopupVisible: false,
     };
   },
-  componentDidMount() {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.suggestVisible) {
+      this.toggleCityPopup(false);
+    }
   },
   getCityPopupElement() {
     const allCity = getCityList();
@@ -133,9 +136,7 @@ module.exports = React.createClass({
       return;
     }
 
-    if (this.props.onSetSuggestVisible) {
-      this.props.onSetSuggestVisible();
-    }
+    this.props.onSetSuggestVisible();
   },
   handleItemTouchTap(evt) {
     if (!this.props.onSelectComplete) {
@@ -182,7 +183,12 @@ module.exports = React.createClass({
     this.toggleCityPopup();
   },
   toggleCityPopup(visible) {
-    this.setState({ cityPopupVisible: visible === undefined ? !this.state.cityPopupVisible : visible });
+    this.setState({ cityPopupVisible: visible === undefined ? !this.state.cityPopupVisible : visible }, () => {
+      const { cityPopupVisible } = this.state;
+      if (cityPopupVisible) {
+        this.props.onSetSuggestVisible(false);
+      }
+    });
   },
   render() {
     let items = this.props.suggest.map((item, index) => (
