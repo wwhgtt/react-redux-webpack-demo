@@ -5,6 +5,7 @@ const getCityList = require('../../../helper/city-helper.js').getCityList;
 module.exports = React.createClass({
   displayName: 'StandardAddrSelectSearchBox',
   propTypes:{
+    hotCityList: React.PropTypes.array,
     currentCity: React.PropTypes.object,
     placeholder: React.PropTypes.string,
     suggestVisible: React.PropTypes.bool,
@@ -16,6 +17,7 @@ module.exports = React.createClass({
   },
   getDefaultProps() {
     return {
+      hotCityList: ['北京', '上海', '广州', '深圳', '天津', '杭州', '成都'],
       placeholder: '请录入关键字',
       suggest: [],
     };
@@ -38,9 +40,10 @@ module.exports = React.createClass({
     const columnLength = 3;
     const maxCode = 'Z'.charCodeAt(0);
 
-    ['北京', '上海', '广州', '深圳', '天津', '杭州', '成都'].forEach((name, index) => {
+    this.props.hotCityList.forEach((name, index) => {
       hotKeys[name] = index;
     });
+
     allCity.forEach((city, i) => {
       const currentCode = city.pinyin.charCodeAt(0);
       if (hotKeys.hasOwnProperty(city.name)) {

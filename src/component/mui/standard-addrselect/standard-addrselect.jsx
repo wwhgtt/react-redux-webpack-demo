@@ -10,6 +10,7 @@ const StandardAddrSelectListBox = require('./standard-addrselect-listbox.jsx');
 module.exports = React.createClass({
   displayName: 'StandardAddressSelect',
   propTypes: {
+    hotCityList: React.PropTypes.array,
     currentPoint: React.PropTypes.object,
     placeholder: React.PropTypes.string,
     onSelectComplete: React.PropTypes.func,
@@ -111,6 +112,7 @@ module.exports = React.createClass({
     return (
       <div>
         <StandardAddrSelectSearchBox
+          hotCityList={this.props.hotCityList}
           placeholder={this.props.placeholder}
           onUserInput={this.handleUserInput}
           onSelectComplete={this.handleSelectComplete}
