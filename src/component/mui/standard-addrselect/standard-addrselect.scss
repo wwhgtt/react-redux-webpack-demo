@@ -269,8 +269,9 @@ dd {
     width: 16px;
     height: 16px;
     content: "";
-    background: url("../../../asset/images/arrow-down.svg") no-repeat center center;
-    background-size: 16px 16px;
+    background: url("../../../asset/images/arrow-top-grey.png") no-repeat center center;
+    background-size: 16px 9px;
+    transform: rotate(180deg);
   }
 }
 
@@ -353,8 +354,8 @@ dd {
 
   .city-select {
     &::before {
-      top: 8px;
-      transform: rotate(180deg);
+      top: 7px;
+      transform: rotate(0);
     }
   }
 }
