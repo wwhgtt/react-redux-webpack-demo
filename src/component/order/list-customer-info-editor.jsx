@@ -49,14 +49,14 @@ module.exports = React.createClass({
           <div className="editor-gender-group flex-none">
             <label className="half">
               <input
-                className="option-radio" type="radio" name="sex" defaultValue="0"
+                className="option-radio" type="radio" name="sex" value="0"
                 onChange={this.handleBasicInfoChange} checked={customerProps.sex === '0' || customerProps.sex === 0}
               />
               <span className="editor-gender">女士</span>
             </label>
             <label className="half">
               <input
-                className="option-radio" type="radio" name="sex" defaultValue="1"
+                className="option-radio" type="radio" name="sex" value="1"
                 onChange={this.handleBasicInfoChange} checked={customerProps.sex === '1' || customerProps.sex === 1}
               />
               <span className="editor-gender">先生</span>

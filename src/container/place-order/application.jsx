@@ -225,11 +225,11 @@ const PlaceOrderApplication = React.createClass({
               onCustomerPropsChange={setCustomerProps}
               isMobileDisabled={customerProps.mobile === null}
             />
-            <div className="divider" style={{ marginTop:'0px', paddingBottom:'30px' }}>
+            <div className="divider">
               <span className="divider-title">备注</span>
             </div>
             <div className="option-groups">
-              <div className="option" style={{ paddingTop:'10px' }}>
+              <div className="option">
                 <textarea className="option-input clearfix text-area" name="note" placeholder="请输入备注" maxLength="500" onChange={this.noteChange} />
               </div>
             </div>
