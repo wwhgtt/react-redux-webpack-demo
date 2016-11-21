@@ -13,15 +13,19 @@ const UserLoginApplication = React.createClass({
   displayName: 'UserLoginApplication',
   propTypes: {
     errorMessage: React.PropTypes.string,
+    phoneNum: React.PropTypes.string,
     loadingInfo: React.PropTypes.object,
     supportInfo: React.PropTypes.object,
     setErrorMsg: React.PropTypes.func,
     fetchVericationCode: React.PropTypes.func.isRequired,
+    fetchLoginPhone: React.PropTypes.func.isRequired,
     fetchSupportInfo: React.PropTypes.func.isRequired,
     login: React.PropTypes.func,
   },
   componentDidMount() {
-    this.props.fetchSupportInfo();
+    const { fetchLoginPhone, fetchSupportInfo } = this.props;
+    fetchLoginPhone();
+    fetchSupportInfo();
   },
   onGetVerificationCode(phoneNum) {
     this.props.fetchVericationCode(phoneNum);
@@ -42,7 +46,7 @@ const UserLoginApplication = React.createClass({
     this.props.setErrorMsg('');
   },
   render() {
-    const { errorMessage, loadingInfo, supportInfo } = this.props;
+    const { errorMessage, loadingInfo, supportInfo, phoneNum } = this.props;
     const weixinInfo = getWeixinVersionInfo();
     let weixinLoginElement = false;
     if (weixinInfo.weixin && supportInfo.weixin) {
@@ -62,6 +66,7 @@ const UserLoginApplication = React.createClass({
             hasForeignZone={supportInfo.xiangEQ}
             onGetVerificationCode={this.onGetVerificationCode}
             ref="verificationCode"
+            phoneNum={phoneNum || ''}
           />
           <button className="btn btn--yellow btn-login" onTouchTap={this.onLogin}>登录</button>
         </div>
