@@ -11,7 +11,12 @@ const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error =>
 const setLoadingInfo = exports.setLoadingInfo = createAction('SET_LOADING_INFO', info => info);
 const setSupportInfo = createAction('SET_SUPPORT_INFO', info => info);
 const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
+const setUserPhone = createAction('SET_USER_PHONE', phone => phone);
 
+exports.fetchLoginPhone = () => (dispatch, getState) => {
+  const loginPhone = localStorage.getItem('loginPhone');
+  dispatch(setUserPhone(loginPhone));
+};
 exports.login = (info) => (dispatch, getState) => {
   let fromBrand = 1;
   if (!shopId) {
@@ -73,9 +78,14 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
       dispatch(setLoadingInfo({ ing: false }));
       if (result.code !== '200') {
         dispatch(setErrorMsg(result.msg));
-        return;
+        if (result.code === '10100') {
+          localStorage.setItem('loginPhone', phoneNum);
+          setTimeout(function () {
+            location.reload(true);
+          }, 3000);
+        }
       }
-      dispatch(setTimeStamp(result.data.timeStamp));
+      return dispatch(setTimeStamp(result.data.timeStamp));
     }).
     catch(err => {
       throw new Error(err);
@@ -104,4 +114,3 @@ exports.fetchSupportInfo = () => (dispatch, getState) => {
       throw new Error(err);
     });
 };
-
