@@ -2,6 +2,7 @@ const Immutable = require('seamless-immutable');
 module.exports = (
   state = Immutable.from({
     errorMessage: null,
+    phoneNum:null,
     loadingInfo: { ing: false, text: '' },
     supportInfo: {
       mobile: true,
@@ -22,8 +23,9 @@ module.exports = (
       return state.set('supportInfo', payload);
     case 'SET_TIMESTAMP':
       return state.set('timestamp', payload);
+    case 'SET_USER_PHONE':
+      return state.set('phoneNum', payload);
     default:
   }
   return state;
 };
-
