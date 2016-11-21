@@ -5,7 +5,6 @@ $color-text: #666;
 
 .application {
   padding: 75px 15px 25px;
-  color: #474747;
   background: $color-bk;
 }
 
@@ -28,7 +27,7 @@ $color-text: #666;
 }
 // override option styles
 .option {
-  padding: 15px;
+  padding: 15px 20px;
   border-bottom: none;
 
   &::after {
@@ -230,16 +229,88 @@ $color-text: #666;
   transition: none;
 }
 
+.for-count {
+  line-height: 29px;
+}
+
 .option-groups:last-child {
   .option {
-    padding: 5px 20px 15px;
+    padding-bottom: 25px;
   }
 }
 
-.customers-counter-num {
-  border-radius: 0;
+.customers-counter {
+  position: relative;
+
+  &-minus,
+  &-add {
+    width: 30px;
+    height: 30px;
+    border-color: $color-crusta;
+    border-radius: 15px;
+  }
+
+  &-minus {
+    background: $color-white;
+
+    &::before,
+    &::after {
+      background: $color-crusta;
+    }
+  }
+
+  &-add {
+    background: $color-crusta;
+
+    &::before,
+    &::after {
+      background: $color-white;
+    }
+  }
+
+  &-num {
+    border: 0;
+  }
+
+  &::before,
+  &::after {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    left: 15px;
+    display: block;
+    height: 1px;
+    content: "";
+    background: $color-crusta;
+  }
+
+  &::after {
+    top: 29px;
+  }
 }
 
-.for-count {
-  line-height: 29px;
+.customers-counter-min {
+  .customers-counter-minus {
+    opacity: .8;
+    background: $color-white;
+
+    &::before,
+    &::after {
+      opacity: .7;
+      background: $color-crusta;
+    }
+  }
+}
+
+.customers-counter-max {
+  .customers-counter-add {
+    opacity: .8;
+    background: $color-crusta;
+
+    &::before,
+    &::after {
+      opacity: .7;
+      background: $color-white;
+    }
+  }
 }
