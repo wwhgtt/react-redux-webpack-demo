@@ -85,6 +85,7 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
           }, 3000);
         }
       }
+      localStorage.removeItem('loginPhone');
       return dispatch(setTimeStamp(result.data.timeStamp));
     }).
     catch(err => {
