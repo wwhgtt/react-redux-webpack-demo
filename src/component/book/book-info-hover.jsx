@@ -10,7 +10,6 @@ module.exports = React.createClass({ // ShowBasicInfo
   propTypes:{
     bookQueueItemList:React.PropTypes.array,
     setHoverState:React.PropTypes.func,
-    getBookQueueInfo:React.PropTypes.func,
     clearBookQueueInfo:React.PropTypes.func,
     bookQueueMemo:React.PropTypes.string,
   },
@@ -20,10 +19,6 @@ module.exports = React.createClass({ // ShowBasicInfo
   componentWillMount() {
     this.arrayPrice = [];
     this.arrayNum = [];
-
-    // 获取 bookInfoItemList
-    const { getBookQueueInfo } = this.props;
-    getBookQueueInfo();
   },
   componentDidMount() {},
   shouldComponentUpdate(nextProps, nextState) {
@@ -47,9 +42,9 @@ module.exports = React.createClass({ // ShowBasicInfo
   },
   closeHover(bool, e) {
     e.preventDefault();
-    const { setHoverState, clearBookQueueInfo } = this.props;
+    const { setHoverState } = this.props; // clearBookQueueInfo
     setHoverState(bool);
-    clearBookQueueInfo({});
+    // clearBookQueueInfo({});
   },
   render() {
     const { bookQueueItemList, bookQueueMemo } = this.props;

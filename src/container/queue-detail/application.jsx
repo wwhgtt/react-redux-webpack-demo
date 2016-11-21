@@ -43,8 +43,14 @@ const QueueDetailApplication = React.createClass({
     });
   },
   componentWillMount() {
-    const { getQueueDetail } = this.props;
-    getQueueDetail();
+    const { getQueueDetail, getQueueInfo } = this.props;
+    getQueueDetail().then(getQueueInfo);
+  },
+  componentWillReceiveProps(nextProps) {
+    const { queueDetail } = this.props;
+    if (nextProps.queueDetail !== queueDetail) {
+      this.setState({ shopLogo:nextProps.queueDetail.shopLogo });
+    }
   },
   // 排队状态 queueStatus 0:排队中 1:入场 -1作废 -2取消
   getQueueStatus(queueDetail) {
@@ -146,8 +152,8 @@ const QueueDetailApplication = React.createClass({
     this.setState({ shopLogo:shopLogoDefault });
   },
   render() {
-    const { queueInfo, queueDetail, getQueueInfo, clearQueueInfo, errorMessage, isRefresh, clearErrorMsg, load } = this.props;
-    const { showBill, isDialogShow } = this.state;
+    const { queueInfo, queueDetail, clearQueueInfo, errorMessage, isRefresh, clearErrorMsg, load } = this.props;
+    const { showBill, isDialogShow, shopLogo } = this.state;
     const orderDish = queueDetail.orderDish === 0; // 是否已开通排队预点菜
     const hasOrder = queueDetail.hasOrder === 1; // 1 已点菜 0 未点菜
     const queueStatus = queueDetail.queue && queueDetail.queue.queueStatus === 0; // 可以预点菜
@@ -157,7 +163,7 @@ const QueueDetailApplication = React.createClass({
       <div className="queue-page bg-orange application">
         <div className="queue-content content-fillet">
           <div className="box-head">
-            <img className="box-head-logo" role="presentation" src={queueDetail.shopLogo || shopLogoDefault} onError={this.picError} />
+            <img className="box-head-logo" role="presentation" src={shopLogo} onError={this.picError} />
             <div className="ellipsis box-head-title">{queueDetail.shopName}</div>
           </div>
           <div className="divide-line">
@@ -224,7 +230,6 @@ const QueueDetailApplication = React.createClass({
               bookQueueItemList={queueInfo.dishItems}
               bookQueueMemo={queueInfo.memo}
               setHoverState={this.getHoverState}
-              getBookQueueInfo={getQueueInfo}
               clearBookQueueInfo={clearQueueInfo}
             />
           )

@@ -33,8 +33,8 @@ const BookDetailApplication = React.createClass({
     return { showBill:false, shopLogo:shopLogoDefault };
   },
   componentWillMount() {
-    const { getBookDetail } = this.props;
-    getBookDetail();
+    const { getBookDetail, getBookInfo } = this.props;
+    getBookDetail().then(getBookInfo);
   },
   componentWillReceiveProps(nextProps) {
     const { bookDetail } = this.props;
@@ -111,8 +111,8 @@ const BookDetailApplication = React.createClass({
     return false;
   },
   render() {
-    const { load, errorMessage, clearErrorMsg, bookDetail, bookInfo, getBookInfo, clearBookInfo } = this.props;
-    const { showBill } = this.state;
+    const { load, errorMessage, clearErrorMsg, bookDetail, bookInfo, clearBookInfo } = this.props;
+    const { showBill, shopLogo } = this.state;
     const orderMenu = bookDetail.orderMenu === 0; // 是否已开通预定预点菜
     const isOrder = bookDetail.isOrder === 1; // 1 已点菜 0 未点菜
     const orderStatus = bookDetail.orderStatus === -1; // 可以预点菜
@@ -122,7 +122,7 @@ const BookDetailApplication = React.createClass({
       <div className="book-page bg-orange application">
         <div className="book-content content-fillet">
           <div className="box-head">
-            <img className="box-head-logo" role="presentation" src={bookDetail.shopLogo || shopLogoDefault} onError={this.picError} />
+            <img className="box-head-logo" role="presentation" src={shopLogo} onError={this.picError} />
             <div className="ellipsis box-head-title">{bookDetail.shopName}</div>
           </div>
           <div className="divide-line">
@@ -172,7 +172,6 @@ const BookDetailApplication = React.createClass({
               bookQueueItemList={bookInfo.dishItems}
               bookQueueMemo={bookInfo.memo}
               setHoverState={this.getHoverState}
-              getBookQueueInfo={getBookInfo}
               clearBookQueueInfo={clearBookInfo}
             />
           )

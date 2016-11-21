@@ -155,7 +155,10 @@ module.exports = React.createClass({ // ShowBasicInfo
           expand && mainDish.type === 0 && (hasPropertyTypeList || hasDishIngredientInfos) && (
             <div className="option-brief ellipsis">
               {getMainPropertyTypeBrief} &nbsp;
-              配料:{getMainDishIngredientBrief}
+              {
+                getMainDishIngredientBrief &&
+                  `配料:${getMainDishIngredientBrief}`
+              }
             </div>
           )
         }

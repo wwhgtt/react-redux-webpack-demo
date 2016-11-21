@@ -12,7 +12,7 @@ const setRefresh = exports.setRefresh = createAction('SET_REFRESH', isRefresh =>
 
 const shopId = helper.getUrlParam('shopId');
 const orderSyn = helper.getUrlParam('orderSyn');
-
+let timeout = '';
 
 const getQueueDetail = exports.getQueueDetail = () => (dispatch, getStates) => {
   if (!orderSyn) {
@@ -23,6 +23,9 @@ const getQueueDetail = exports.getQueueDetail = () => (dispatch, getStates) => {
     return false;
   }
   dispatch(setLoadMsg({ status:true, word:'加载中' }));
+  if (timeout) {
+    clearTimeout(timeout);
+  }
   const getQueueDetailURL = `${config.getQueueDetailAPI}?shopId=${shopId}&orderSyn=${orderSyn}`;
   return fetch(getQueueDetailURL, config.requestOptions).
     then(res => {
@@ -43,6 +46,8 @@ const getQueueDetail = exports.getQueueDetail = () => (dispatch, getStates) => {
           sessionStorage.setItem('PDrelatedId', queue.queueID);
           sessionStorage.setItem('PDorderSyn', orderSyn);
         }
+        // 轮询
+        timeout = setTimeout(() => dispatch(getQueueDetail()), 10000);
       } else {
         dispatch(setErrorMsg('预订信息获取失败'));
       }

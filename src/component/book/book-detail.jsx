@@ -65,7 +65,7 @@ const BookDetail = React.createClass({
             }
             <span className="dish-count ellipsis">x{helper.getDishesCount([item])}</span>
             {
-              !helper.isSingleDishWithoutProps(item) && <p className="dish-memo">this.buildDetailInfoForSingleDish(item)</p>
+              !helper.isSingleDishWithoutProps(item) && <p className="dish-memo">{this.buildDetailInfoForSingleDish(item)}</p>
             }
           </div>
         )
