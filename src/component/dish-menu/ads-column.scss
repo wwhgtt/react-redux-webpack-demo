@@ -10,7 +10,6 @@ $color-green: #4bc643;
   height: 2.43em;
   padding: .65em;
   color: #fff;
-  background: url("../../asset/images/filter-bg-small.png") center center/cover no-repeat;
 
   .hide {
     display: none;
@@ -80,7 +79,7 @@ $color-green: #4bc643;
   .btn-arrow-right::after {
     width: 10px;
     height: 15px;
-    background-image: url("../../asset/images/arrow-right-white.png");
+    background-image: url("../../asset/images/arrow-right-white.svg");
     background-size: auto .8em;
   }
 }
