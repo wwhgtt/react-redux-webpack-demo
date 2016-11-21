@@ -151,7 +151,7 @@ const OrderDetailInApplication = React.createClass({
             </div>
             {
               dishTotal.memo && (
-                <div className="options-group options-group-bigmg">
+                <div className="options-group">
                   <div className="option">
                     <span className="order-demo-title fl">整单备注</span>
                     <p className="order-demo-info fl">{dishTotal.memo}</p>

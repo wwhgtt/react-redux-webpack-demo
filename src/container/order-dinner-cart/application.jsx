@@ -360,7 +360,7 @@ const OrderTSCartApplication = React.createClass({
               </div>
             </div>
             {!(mainOrderId !== -1 && addItemStatus === 1) &&
-              <div className="options-group options-group-bigmb">
+              <div className="options-group">
                 {orderTSCart.enableInputDinnerTableCount &&
                   <div className="option">
                     <span className="option-title">就餐人数：</span>
@@ -386,25 +386,25 @@ const OrderTSCartApplication = React.createClass({
               </div>
             }
           </div>
-          <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
-            {this.state.tableVisible &&
-              <DinnerTableSelect
-                title={'请选择桌台'}
-                areas={tableProps.areaList}
-                tables={tableProps.tableList}
-                onTableSelect={this.onCompleteSelectTable}
-                onDone={evt => this.setState({ tableVisible: false })}
-              />
-            }
-          </ReactCSSTransitionGroup>
           {errorMessage && <Toast errorMessage={errorMessage} clearErrorMsg={() => { this.setErrorMsg(''); }} />}
           {loadingInfo.ing && <Loading word={loadingInfo.text} />}
         </div>
+        <ReactCSSTransitionGroup transitionName="slideup" transitionEnterTimeout={600} transitionLeaveTimeout={600}>
+          {this.state.tableVisible &&
+            <DinnerTableSelect
+              title={'请选择桌台'}
+              areas={tableProps.areaList}
+              tables={tableProps.tableList}
+              onTableSelect={this.onCompleteSelectTable}
+              onDone={evt => this.setState({ tableVisible: false })}
+            />
+          }
+        </ReactCSSTransitionGroup>
         <div className="flex-none">
           <div className="options-group options-group-devide flex-row">
             <label className="option flex-rest">
               <span className="option-title">共{dishCount}份</span>
-              <span className="option-input totalprice" data-count={`￥${totalPrice}`}>总计:</span>
+              <span className="option-input totalprice ellipsis" data-count={`￥${totalPrice}`}>总计:</span>
             </label>
             <div className="option order-dinner-buttons flex-none">
               {this.buildButtonGroupElement(tableId, tableKey, shopSetting)}
