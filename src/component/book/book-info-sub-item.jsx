@@ -63,7 +63,10 @@ module.exports = React.createClass({ // ShowBasicInfo
                 </div>
                 <div className="sub-option-brief ellipsis">
                 {propertyTypeList} &nbsp;
-                配料:{dishIngredientInfos}
+                {
+                  dishIngredientInfos &&
+                    `配料:${dishIngredientInfos}`
+                }
                 </div>
               </div>
             );
