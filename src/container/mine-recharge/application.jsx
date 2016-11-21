@@ -253,9 +253,11 @@ const MineRechargeApplication = React.createClass({
         <div className="recharge-block">
           {rechargeItem}
         </div>
-        <div className="recharge-operate">
-          <a className="btn-recharge" onTouchTap={this.handleRecharge}>立即充值</a>
-        </div>
+        {rechargeInfo.supportMemberCharge &&
+          <div className="recharge-operate">
+            <a className="btn-recharge" onTouchTap={this.handleRecharge}>立即充值</a>
+          </div>
+        }
         {
           isDialogShow && <Dialog
             hasTopBtnClose={false}
