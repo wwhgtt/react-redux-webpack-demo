@@ -268,6 +268,15 @@
   .dish-item-name {
     width: calc(100% - 100px);
   }
+
+  .special-count {
+    font-size: 14px;
+    line-height: 20px !important;
+    width: 20px;
+    min-width: 20px !important;
+    height: 20px;
+    border-radius: 10px;
+  }
 }
 
 .big,
@@ -289,20 +298,6 @@
 
   .counter-num {
     line-height: 24px;
-  }
-
-  .special-count {
-    font-size: 12px;
-    line-height: 16px !important;
-    position: absolute;
-    top: -7px;
-    right: -5px;
-    width: 16px;
-    min-width: 16px !important;
-    height: 16px;
-    color: #fff;
-    border-radius: 8px;
-    background-color: #ff4242;
   }
 }
 
@@ -326,4 +321,18 @@
     line-height: 25px;
     margin: 5px 0;
   }
+}
+
+.special-count {
+  font-size: 12px;
+  line-height: 16px !important;
+  position: absolute;
+  top: -7px;
+  right: -5px;
+  width: 16px;
+  min-width: 16px !important;
+  height: 16px;
+  color: #fff;
+  border-radius: 8px;
+  background-color: $color-radical-red;
 }

@@ -24,6 +24,7 @@ module.exports = React.createClass({
           data-editor={id}
         >
         </a>
+        <i className="address-option-border"></i>
       </DynamicClassDiv>
     );
   },

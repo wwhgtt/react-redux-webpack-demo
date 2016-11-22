@@ -271,7 +271,6 @@ dd {
     content: "";
     background: url("../../../asset/images/arrow-top-grey.svg") no-repeat center center;
     background-size: 16px 9px;
-    transform: rotate(180deg);
   }
 }
 
@@ -354,8 +353,8 @@ dd {
 
   .city-select {
     &::before {
-      top: 7px;
-      transform: rotate(0);
+      top: 9px;
+      transform: rotate(180deg);
     }
   }
 }

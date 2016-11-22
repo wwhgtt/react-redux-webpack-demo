@@ -127,6 +127,14 @@
     color: #fff;
     background-color: #ef4646;
   }
+
+  &-option-border {
+    @include border-thin(bottom);
+
+    bottom: 1px;
+    left: 15px;
+    border-top: bordersolid(1, $color-mercury);
+  }
 }
 
 .address-meta-name {
