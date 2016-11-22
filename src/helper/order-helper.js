@@ -81,8 +81,10 @@ exports.initializeTimeTable = (times) => {
   if (!todayTimes || !todayTimes.length) {
     return times;
   }
+
   const firstItem = todayTimes[0];
-  if (['立即取餐', '立即送餐'].indexOf(firstItem) !== -1) {
+  const timeReg = /^\d+:\d+$/;
+  if (!timeReg.test(firstItem)) {
     todayTimes[0] = 0;
   }
   return times;
