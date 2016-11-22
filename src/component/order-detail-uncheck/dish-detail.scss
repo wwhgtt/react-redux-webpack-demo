@@ -41,6 +41,10 @@
     }
   }
 
+  .dish-name.dish-name-long {
+    width: calc(100% - 150px);
+  }
+
   .dish-price {
     display: block;
     float: right;
@@ -54,6 +58,10 @@
     margin-left: 0;
     text-align: center;
     color: #999;
+  }
+
+  .dish-count.dish-count-short {
+    margin-left: 10px;
   }
 
   .dish-memo {
