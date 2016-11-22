@@ -11,7 +11,7 @@ const shopId = commonHelper.getUrlParam('shopId');
 
 exports.getBookCheckOrder = () => (dispatch, getState) => {
   if (!localStorage.lastOrderedDishes) { // 如果没有菜品
-    location.href = `${config.orderallListURL}&shopId=${shopId}#dinner`;
+    location.href = `${config.orderallListURL}?shopId=${shopId}#book`;
   }
   const lastOrderedDishes = JSON.parse(localStorage.lastOrderedDishes || '{}');
   dispatch(setOrderDetail(lastOrderedDishes));
