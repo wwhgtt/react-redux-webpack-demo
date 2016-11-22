@@ -130,7 +130,7 @@ const OrderInlineApplication = React.createClass({
                 <ListCustomerInfoEditor
                   customerProps={customerProps}
                   onCustomerPropsChange={setCustomerProps}
-                  isMobileDisabled={customerProps.mobile === null}
+                  isMobileDisabled={false}
                 />
 
                 <div className="option" style={{ width:'94%', marginLeft:'3%' }}>
