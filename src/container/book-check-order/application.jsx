@@ -28,6 +28,30 @@ const BookCheckOrderApplication = React.createClass({
     const { getBookCheckOrder } = this.props;
     getBookCheckOrder();
   },
+  buildOrderedDishElement(orderedDishes) {
+    function divideDishes(dishes) {
+      return [].concat.apply(
+        [], dishes.map(dish => {
+          if (dishHelper.isSingleDishWithoutProps(dish)) {
+            return [Object.assign({}, dish,
+              { key:`${dish.id}` },
+            )];
+          }
+          return dish.order.map((dishOrder, idx) =>
+            Object.assign({}, dish,
+              { key:`${dish.id}-${idx}` },
+              { order:[Object.assign({}, dishOrder)] },
+              { orderLength:dish.order.length }
+            )
+          );
+        })
+      );
+    }
+    const dividedDishes = divideDishes(orderedDishes);
+    return dividedDishes.map(
+      dish => (<BookDetail mainDish={dish} key={dish.key} />)
+    );
+  },
   confirmBill() {
     const memo = this.refs.note.value;
     const { confirmBill, orderDetail } = this.props;
@@ -60,10 +84,7 @@ const BookCheckOrderApplication = React.createClass({
           </div>
           <div className="order-list-outer">
             {
-              orderDetail.dishes && orderDetail.dishes.length > 0 &&
-              orderDetail.dishes.map((item, index) =>
-                <BookDetail mainDish={item} key={index} />
-              )
+              orderDetail.dishes && orderDetail.dishes.length > 0 && this.buildOrderedDishElement(orderDetail.dishes)
             }
           </div>
           <div className="totalPrice">
