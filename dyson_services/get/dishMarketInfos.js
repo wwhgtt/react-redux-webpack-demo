@@ -17,9 +17,9 @@ module.exports = {
       },
       marketing:[// 优惠规则信息
         {
-          dishId : 745360,
+          dishId : 57472,
           rules : [{
-            dishId : 1,
+            dishId : 57472,
             planId : 11,
             ruleId : 1,
             ruleName : '立减3元',

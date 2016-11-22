@@ -90,6 +90,7 @@ const AdsColumn = React.createClass({
           <span className="detail ellipsis flex-rest">
             <span className="detail-inner ellipsis">
               {formatDishesData[item.dishId].name}
+              {formatDishesData[item.dishId].spec && `(${formatDishesData[item.dishId].spec})`}
               {item.rule.dishNum > 1 ? `满${item.rule.dishNum}份${item.rule.ruleName}` : item.rule.ruleName}
             </span>
           </span>
