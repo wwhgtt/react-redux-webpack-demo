@@ -140,10 +140,12 @@ module.exports = React.createClass({
           {
             hasProps ?
               <a
-                className={classnames('ellipsis dish-name dish-name--trigger', { 'is-open':expand })}
+                className={classnames('dish-name dish-name--trigger', { 'is-open':expand })}
                 onTouchTap={this.onExpandBtnTap}
               >
-                {helper.generateDishNameWithUnit(dish)}
+                <span className="dish-name-inner ellipsis">
+                  {helper.generateDishNameWithUnit(dish)}
+                </span>
               </a>
               :
               <span className="ellipsis dish-name">{helper.generateDishNameWithUnit(dish)}</span>
