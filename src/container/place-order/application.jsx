@@ -7,6 +7,7 @@ const CustomerInfoEditor = require('../../component/order/list-customer-info-edi
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const TimeSelect = require('../../component/order/select/time-select.jsx');
 const Toast = require('../../component/mui/toast.jsx');
+const Loading = require('../../component/mui/loading.jsx');
 const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
 const defaultShopLogo = require('../../asset/images/default.png');
@@ -40,6 +41,7 @@ const PlaceOrderApplication = React.createClass({
     childView: React.PropTypes.string,
     errorMessage: React.PropTypes.string,
     shuoldPhoneValidateShow:React.PropTypes.bool.isRequired,
+    load:React.PropTypes.object,
   },
   getInitialState() {
     return {
@@ -161,7 +163,7 @@ const PlaceOrderApplication = React.createClass({
   },
   render() {
     // mapStateToProps
-    const { commercialProps, childView, tableProps, timeProps, setTableProps, setErrorMsg, clearErrorMsg, setCustomerProps } = this.props;
+    const { commercialProps, childView, tableProps, timeProps, setTableProps, setErrorMsg, clearErrorMsg, setCustomerProps, load } = this.props;
     // mapActionsToProps
     const { setChildView, onDateTimeSelect, errorMessage, dinePersonCount, customerProps, shuoldPhoneValidateShow } = this.props;
     return (
@@ -260,6 +262,12 @@ const PlaceOrderApplication = React.createClass({
             : false
           }
         </ReactCSSTransitionGroup>
+        {
+          load.status ?
+            <Loading word={load.word} />
+          :
+            false
+        }
         {errorMessage ?
           <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
           :
