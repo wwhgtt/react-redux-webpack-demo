@@ -44,7 +44,7 @@
 }
 
 .copyright-bt {
-  font-size: 14px;
+  font-size: 12px;
   position: absolute;
   right: 0;
   bottom: 0;
@@ -52,7 +52,7 @@
   padding: 1em 0;
   content: "";
   text-align: center;
-  color: #666;
+  color: $color-silver;
 }
 
 .records-inner {
