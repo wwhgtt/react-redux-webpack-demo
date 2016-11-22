@@ -31,6 +31,7 @@ const MineGrowupApplication = React.createClass({
     this.props.fetchGrowupInfo(1).then(this.props.fetchCurrGrownRule);
     this.pageNum = 1;
     this.wholeData = [];
+    this.canChange = true;
   },
   componentDidMount() {
     const iScroll = this.iScroll = new IScroll('.records', {
@@ -72,11 +73,13 @@ const MineGrowupApplication = React.createClass({
     this.pageNum++;
     if (growupInfo.totalPage >= this.pageNum) {
       this.props.fetchGrowupInfo(this.pageNum);
+      this.canChange = true;
     } else {
       this.setState({ hideLoad:true });
     }
   },
   toggleDescriptContent() {
+    this.canChange = false;
     this.setState({ descriptionContentVisible: !this.state.descriptionContentVisible });
   },
   buildListElement() {
@@ -87,7 +90,7 @@ const MineGrowupApplication = React.createClass({
       return [];
     }
 
-    if (growupInfo.currentPage === this.pageNum && currentRule) {
+    if (growupInfo.currentPage === this.pageNum && currentRule && this.canChange) {
       this.wholeData = this.wholeData.concat(items);
     }
 
