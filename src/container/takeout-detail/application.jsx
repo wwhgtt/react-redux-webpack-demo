@@ -158,7 +158,9 @@ const TakeoutDetailApplication = React.createClass({
                   </div>
               }
               <div className="option option-no-padding">
-                <span className="takeout-head-title">送达时间</span>
+                <span className="takeout-head-title">
+                  {String(takeoutDetail.deliveryType) === '2' ? '送达时间' : '取餐时间'}
+                </span>
                 <span className="takeout-head-content">{takeoutDetail.expectTime}</span>
               </div>
               <div className="option clearfix">

@@ -10,6 +10,9 @@ const shopId = commonHelper.getUrlParam('shopId');
 // const orderId = commonHelper.getUrlParam('orderId');
 
 exports.getQueueCheckOrder = () => (dispatch, getState) => {
+  if (!localStorage.lastOrderedDishes) { // 如果没有菜品
+    location.href = `${config.orderallListURL}?shopId=${shopId}#queue`;
+  }
   const lastOrderedDishes = JSON.parse(localStorage.lastOrderedDishes || '{}');
   dispatch(setOrderDetail(lastOrderedDishes));
 };
@@ -28,12 +31,12 @@ exports.confirmBill = (data) => (dispatch, getstate) => {
     return res.json();
   }).
   then(res => {
-    dispatch(setLoadMsg({ status:false, word:'' }));
     if (res.code === '200') {
       const orderSyn = sessionStorage.PDorderSyn;
       localStorage.clear();
       location.href = `${config.queueDetailURL}?shopId=${commonHelper.getUrlParam('shopId')}&type=PD&orderSyn=${orderSyn}`;
     } else {
+      dispatch(setLoadMsg({ status:false, word:'' }));
       dispatch(setErrorMsg(res.msg));
     }
   }).

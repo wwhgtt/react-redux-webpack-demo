@@ -50,20 +50,28 @@ const OrderTSCartApplication = React.createClass({
       confirmDialogVisible: false,
     };
   },
-  componentDidMount() {
-    const { fetchOrderInfo, fetchLastOrderedDishes, fetchShopSetting, fetchWXAuthInfo, initOrderTable, fetchMainOrderInfo } = this.props;
-    fetchLastOrderedDishes();
-    fetchOrderInfo(this.setErrorMsg);
+  componentWillMount() {
+    const { fetchShopSetting, fetchWXAuthInfo, initOrderTable, fetchMainOrderInfo } = this.props;
+
     initOrderTable(tableInfo => {
       const { tableId, tableKey } = tableInfo;
-      if (!tableId && !tableKey) {
-        fetchShopSetting(this.setErrorMsg).then(res => {
-          fetchWXAuthInfo(this.setErrorMsg);
-        });
+
+      if (tableId || tableKey) {
+        fetchMainOrderInfo(tableId, tableKey, this.setErrorMsg);
         return;
       }
-      fetchMainOrderInfo(tableId, tableKey, this.setErrorMsg);
+
+      fetchShopSetting(this.setErrorMsg).then(res => {
+        if (res.enableScanTable) {
+          fetchWXAuthInfo(this.setErrorMsg);
+        }
+      });
     });
+  },
+  componentDidMount() {
+    const { fetchOrderInfo, fetchLastOrderedDishes } = this.props;
+    fetchLastOrderedDishes();
+    fetchOrderInfo(this.setErrorMsg);
   },
   componentWillReceiveProps(newProps) {
     const { wxAuthInfo } = newProps.orderTSCart;

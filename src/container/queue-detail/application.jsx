@@ -88,7 +88,7 @@ const QueueDetailApplication = React.createClass({
         return `${minNum}-${maxNum}人`;
       }
     }
-    return `${minNum}人及以上`;
+    return `${minNum}人以上`;
   },
 
   // 下单人性别

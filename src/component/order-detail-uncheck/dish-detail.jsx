@@ -47,12 +47,28 @@ const DishDetail = React.createClass({
         <div className="dish-box">
           <div className="dish-main clearfix" onTouchTap={this.handleExpand}>
             <a
-              className={classnames('ellipsis dish-name', { 'dish-name--trigger': isHasChild }, { 'is-open': expand })}
+              className={classnames('ellipsis dish-name',
+                {
+                  'dish-name--trigger': isHasChild,
+                  'is-open': expand,
+                  'dish-name-long': !statusType,
+                }
+                )
+              }
             >
             {mainDish.dishName}
             </a>
             <span className="dish-price price ellipsis">{mainDish.price < 0 ? 0 : mainDish.price}</span>
-            <span className="dish-count ellipsis">x{mainDish.num}</span>
+            <span
+              className={classnames('dish-count ellipsis',
+                {
+                  'dish-count-short': !statusType,
+                }
+                )
+              }
+            >
+              x{mainDish.num}
+            </span>
             {
               mainDish.memo && !mainDish.subDishItems && expand && <p className="dish-memo">{mainDish.memo}</p>
             }

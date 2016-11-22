@@ -225,7 +225,7 @@ const PlaceOrderApplication = React.createClass({
             <CustomerInfoEditor
               customerProps={customerProps}
               onCustomerPropsChange={setCustomerProps}
-              isMobileDisabled={customerProps.mobile === null}
+              isMobileDisabled={false}
             />
             <div className="divider">
               <span className="divider-title">备注</span>

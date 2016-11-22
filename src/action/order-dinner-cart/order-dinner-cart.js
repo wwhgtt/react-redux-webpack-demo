@@ -82,7 +82,9 @@ exports.fetchShopSetting = (setErrorMsg) => (dispatch, getState) =>
       return res.json();
     })
     .then(result => {
-      dispatch(setOrderInfo(null, { shopSetting: result.data || {} }));
+      const data = result.data || {};
+      dispatch(setOrderInfo(null, { shopSetting: data }));
+      return data;
     })
     .catch(err => {
       throw new Error(err);
@@ -181,13 +183,13 @@ exports.submitOrder = (tableKey, data, setLoading, setErrorMsg) => (dispatch, ge
   setLoading({ text: '系统处理中...', ing: true });
   return fetch(url, requestOptions)
     .then(res => {
-      setLoading({ ing: false });
       if (!res.ok) {
         setErrorMsg('下单失败');
       }
       return res.json();
     })
     .then(result => {
+      setLoading({ ing: false });
       if (result.code === '200') {
         if (data.tableId) {
           orderDinnerCartHelper.setTableInfoInSessionStorage(shopId, { tableId: data.tableId });

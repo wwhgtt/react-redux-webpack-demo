@@ -30,6 +30,7 @@ const MineAccumulationApplication = React.createClass({
     this.props.fetchAccumulationInfo(1).then(this.props.fetchCurrIntegralRule);
     this.pageNum = 1;
     this.wholeData = [];
+    this.canChange = true;
   },
   componentDidMount() {
     const iScroll = this.iScroll = new IScroll('.records', {
@@ -71,11 +72,13 @@ const MineAccumulationApplication = React.createClass({
     this.pageNum++;
     if (accumulationInfo.totalPage >= this.pageNum) {
       this.props.fetchAccumulationInfo(this.pageNum);
+      this.canChange = true;
     } else {
       this.setState({ hideLoad:true });
     }
   },
   toggleDescriptContent() {
+    this.canChange = false;
     this.setState({ descriptionContentVisible: !this.state.descriptionContentVisible });
   },
   buildListElement() {
@@ -86,7 +89,7 @@ const MineAccumulationApplication = React.createClass({
       return [];
     }
 
-    if (accumulationInfo.currentPage === this.pageNum && currentRule) {
+    if (accumulationInfo.currentPage === this.pageNum && currentRule && this.canChange) {
       this.wholeData = this.wholeData.concat(items);
     }
     const getIntegralTypeText = type => {

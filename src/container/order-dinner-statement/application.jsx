@@ -37,6 +37,7 @@ const OrderDinnerStateMentApplication = React.createClass({
   getInitialState() {
     return {
       receipt:null,
+      isSubmitBtnDisabled:false,
     };
   },
   componentWillMount() {
@@ -52,6 +53,11 @@ const OrderDinnerStateMentApplication = React.createClass({
     .then(
       () => { this.setChildViewAccordingToHash(); }
     );
+  },
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      isSubmitBtnDisabled:false,
+    });
   },
   setChildViewAccordingToHash() {
     const { setChildView } = this.props;
@@ -76,7 +82,13 @@ const OrderDinnerStateMentApplication = React.createClass({
       needPayMoney = helper.countFinalNeedPayMoney(orderedDishesProps, serviceProps, commercialProps);
     }
     const receipt = this.state.receipt || this.props.commercialProps.receipt;
-    return submitDinnerOrder(needPayMoney, receipt);
+    const { isSubmitBtnDisabled } = this.state;
+    if (!isSubmitBtnDisabled) {
+      // 表示可用状态
+      this.setState({
+        isSubmitBtnDisabled:!isSubmitBtnDisabled,
+      }, submitDinnerOrder(needPayMoney, receipt));
+    }
   },
   render() {
     const { commercialProps, customerProps, serviceProps, orderedDishesProps, childView, errorMessage } = this.props; // state
