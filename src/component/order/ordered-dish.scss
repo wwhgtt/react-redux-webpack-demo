@@ -83,6 +83,10 @@
 
 .detail-props-info {
   padding: 0 15px 8px;
+
+  &:empty {
+    display: none;
+  }
 }
 
 .child-dish-info {

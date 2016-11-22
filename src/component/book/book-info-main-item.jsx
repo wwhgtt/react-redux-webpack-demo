@@ -142,7 +142,7 @@ module.exports = React.createClass({ // ShowBasicInfo
     const mainNum = this.getMainNum(mainDish);
     const getMainPropertyTypeBrief = this.getMainPropertyTypeBrief(mainDish);
     const getMainDishIngredientBrief = this.getMainDishIngredientBrief(mainDish);
-    const hasPropertyTypeList = mainDish.propertyTypeList && mainDish.propertyTypeList.length > 0;
+    const hasPropertyTypeList = mainDish.propertyTypeList && mainDish.propertyTypeList.filter(property => property.type !== 4).length > 0;
     const hasDishIngredientInfos = mainDish.dishIngredientInfos && mainDish.dishIngredientInfos.length > 0;
     const hasSubDishItems = mainDish.subDishItems && mainDish.subDishItems.length > 0;
     const noArrow = this.getArrowStatus(mainDish.type, hasPropertyTypeList, hasDishIngredientInfos, hasSubDishItems);
