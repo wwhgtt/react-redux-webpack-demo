@@ -1,12 +1,12 @@
 const _find = require('lodash.find');
 const _has = require('lodash.has');
 const Immutable = require('seamless-immutable');
-const getDishesPrice = require('../helper/dish-hepler.js').getDishesPrice;
-const getDishesCount = require('../helper/dish-hepler.js').getDishesCount;
-const getUrlParam = require('../helper/dish-hepler.js').getUrlParam;
-const isSingleDishWithoutProps = require('../helper/dish-hepler.js').isSingleDishWithoutProps;
-const getDishPrice = require('../helper/dish-hepler.js').getDishPrice;
-const getOrderPrice = require('../helper/dish-hepler.js').getOrderPrice;
+const getDishesPrice = require('../helper/dish-helper.js').getDishesPrice;
+const getDishesCount = require('../helper/dish-helper.js').getDishesCount;
+const getUrlParam = require('../helper/dish-helper.js').getUrlParam;
+const isSingleDishWithoutProps = require('../helper/dish-helper.js').isSingleDishWithoutProps;
+const getDishPrice = require('../helper/dish-helper.js').getDishPrice;
+const getOrderPrice = require('../helper/dish-helper.js').getOrderPrice;
 const replaceEmojiWith = require('../helper/common-helper.js').replaceEmojiWith;
 const dateUtility = require('../helper/common-helper.js').dateUtility;
 const config = require('../config.js');
@@ -98,14 +98,20 @@ exports.isPaymentAvaliable = function (payment, diningForm, isPickupFromFrontDes
   return isPickupFromFrontDesk ? selfPayType.indexOf(payment) : sendPayType.indexOf(payment);
 };
 //  微信卡券核销
-exports.handleWeixinCard = function (couponList) {
+exports.handleWeixinCard = function (couponList, bool) {
   couponList.forEach(coupon => {
     if (coupon.weixinValue) {
       coupon.coupRuleBeanList = [];
       coupon.coupDishBeanList = [];
     }
+    if (!coupon.coupRuleBeanList) {
+      coupon.coupRuleBeanList = [];
+    }
+    if (!coupon.coupDishBeanList) {
+      coupon.coupDishBeanList = [];
+    }
   });
-  return couponList;
+  return bool ? couponList : (couponList || []).filter(coupon => !coupon.weixinValue);
 };
 // 判断支付方式是否应该checked
 exports.shouldPaymentAutoChecked = function (payment, diningForm, isPickupFromFrontDesk, sendAreaId, selfPayType, sendPayType) {
@@ -898,10 +904,9 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
       latitude,
       longitude,
     });
-    if (selectedDateTime.time) {
-      if (selectedDateTime.time !== '立即取餐' && selectedDateTime.time !== '立即送餐') {
-        params.time = `${selectedDateTime.date} ${selectedDateTime.time}`;
-      }
+
+    if (selectedDateTime.time && /^\d+:\d+(:\d+)?$/.test(selectedDateTime.time)) {
+      params.time = `${selectedDateTime.date} ${selectedDateTime.time}`;
     }
   } else {
     const sex = +String(state.customerProps.sex) || '';

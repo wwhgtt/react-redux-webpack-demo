@@ -1,5 +1,6 @@
 const React = require('react');
 const connect = require('react-redux').connect;
+const classnames = require('classnames');
 const takeoutAction = require('../../action/order-detail/takeout-detail.js');
 const commonHelper = require('../../helper/common-helper.js');
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
@@ -14,6 +15,7 @@ require('../../component/order-detail/common.scss');
 require('./application.scss');
 
 const shopId = commonHelper.getUrlParam('shopId');
+const listEntry = commonHelper.getUrlParam('listEntry');
 
 const TakeoutDetailApplication = React.createClass({
   displayName: 'TakeoutDetailApplication',
@@ -25,6 +27,8 @@ const TakeoutDetailApplication = React.createClass({
   getInitialState() {
     return {
       countDown: 0,
+      isCouponBigShow: false,
+      isCounponSmallShow: false,
     };
   },
 
@@ -38,6 +42,15 @@ const TakeoutDetailApplication = React.createClass({
       const countDownOri = 900000 - (parseInt(new Date().getTime(), 10) - parseInt(takeoutDetail.dateTime, 10));
       if (countDownOri > 0 && countDownOri <= 900000 && takeoutDetail.status === '订单待支付') {
         this.setState({ countDown: countDownOri });
+      }
+    }
+
+    if (listEntry) {
+      this.setState({ isCounponSmallShow : true });
+    } else {
+      if (!this.isCouponShow) {
+        this.setState({ isCouponBigShow: true });
+        this.isCouponShow = true;
       }
     }
   },
@@ -55,7 +68,7 @@ const TakeoutDetailApplication = React.createClass({
       } else {
         clearInterval(this.countDownInteval);
         if (!this.isReGetInfo) {
-          this.props.getTakeoutDetail();
+          setTimeout(() => { this.props.getTakeoutDetail(); }, 2000);
           this.isReGetInfo = true;
         }
       }
@@ -105,8 +118,15 @@ const TakeoutDetailApplication = React.createClass({
     return countDownStr;
   },
 
+  // 关闭直发券
+  handleCloseCounpon(event) {
+    event.preventDefault();
+    this.setState({ isCounponSmallShow: true, isCouponBigShow: false });
+  },
+
   render() {
     const { takeoutDetail } = this.props;
+    const { isCounponSmallShow, isCouponBigShow } = this.state;
     return (
       <div className="application takeout-page">
         <div className="flex-columns">
@@ -157,51 +177,53 @@ const TakeoutDetailApplication = React.createClass({
               )
             }
             </div>
-            <div className="options-group option-min option-extra">
-              {
-                takeoutDetail.extraFee && takeoutDetail.extraFee.map((item, index) =>
-                  <div className="option" key={index}>
-                    <span>{item.privilegeName}</span>
-                    <div className="fr">{item.privilegeAmount < 0 ? '-' : ''}<span className="price">{Math.abs(item.privilegeAmount)}</span></div>
-                  </div>
-                )
-              }
-            </div>
-            <div className="list-default option-privilege">
-              {
-                takeoutDetail.tradePrivileges && takeoutDetail.tradePrivileges.map((item, index) =>
-                  <div className="list-item flex-row" key={index}>
-                    <span className={`icon-privilege icon-${Math.abs(item.privilegeType)}`}>{item.privilegeName}</span>
-                    {item.privilegeValue && <span className="list-privilege-value">-{Math.abs(item.privilegeValue)}</span>}
-                    <div className="fr list-privilege">-<span className="price">{Math.abs(item.privilegeAmount)}</span></div>
-                  </div>
-                )
-              }
-              {
-                Boolean(takeoutDetail.carryRuleAmount) && (
-                  <div className="list-item flex-row">
-                    <span className="icon-privilege icon-carry">自动抹零</span>
-                    <div className="fr list-privilege">
-                      {takeoutDetail.carryRuleAmount < 0 ? '-' : ''}<span className="price">{Math.abs(takeoutDetail.carryRuleAmount)}</span>
+            {takeoutDetail.extraFee && takeoutDetail.extraFee.length > 0 &&
+              <div className="options-group option-min option-extra">
+                {
+                  takeoutDetail.extraFee && takeoutDetail.extraFee.map((item, index) =>
+                    <div className="option" key={index}>
+                      <span>{item.privilegeName}</span>
+                      <div className="fr">{item.privilegeAmount < 0 ? '-' : ''}<span className="price">{Math.abs(item.privilegeAmount)}</span></div>
                     </div>
-                  </div>
-                )
-              }
-            </div>
-            <div className="list-statictis">
-              <div className="flex-row">
-                <div className="flex-row-item">
-                  <span className="list-statictis-title">原价</span>
-                  <span className="price ellipsis list-statictis-origin">{this.getOriginPrice()}</span>
-                </div>
-                <div className="flex-row-item">
-                  <span className="list-statictis-title">共优惠</span>
-                  <span className="price ellipsis list-statictis-privilage">{Math.abs(takeoutDetail.tradePrivilegeAmount || 0)}</span>
-                </div>
-                <div className="flex-row-item">
-                  <span className="list-statictis-title">总计：</span>
-                  <span className="price ellipsis list-statictis-total">{takeoutDetail.tradeAmount}</span>
-                </div>
+                  )
+                }
+              </div>
+            }
+            {takeoutDetail.tradePrivileges && takeoutDetail.tradePrivileges.length > 0 &&
+              <div className="list-default option-privilege">
+                {
+                  takeoutDetail.tradePrivileges && takeoutDetail.tradePrivileges.map((item, index) =>
+                    <div className="list-item" key={index}>
+                      <span className={`icon-privilege ellipsis icon-${Math.abs(item.privilegeType)}`}>{item.privilegeName}</span>
+                      {item.privilegeValue && <span className="list-privilege-value">-{Math.abs(item.privilegeValue)}</span>}
+                      <div className="fr list-privilege">-<span className="price">{Math.abs(item.privilegeAmount)}</span></div>
+                    </div>
+                  )
+                }
+                {
+                  Boolean(takeoutDetail.carryRuleAmount) && (
+                    <div className="list-item">
+                      <span className="icon-privilege ellipsis icon-carry">自动抹零</span>
+                      <div className="fr list-privilege">
+                        -<span className="price">{Math.abs(takeoutDetail.carryRuleAmount)}</span>
+                      </div>
+                    </div>
+                  )
+                }
+              </div>
+            }
+            <div className="list-statictis clearfix">
+              <div className="list-statictis-item">
+                <span className="list-statictis-title">原价</span>
+                <span className="price ellipsis list-statictis-origin">{this.getOriginPrice()}</span>
+              </div>
+              <div className="list-statictis-item">
+                <span className="list-statictis-title">共优惠</span>
+                <span className="price ellipsis list-statictis-privilage">{Math.abs(takeoutDetail.tradePrivilegeAmount || 0)}</span>
+              </div>
+              <div className="list-statictis-item">
+                <span className="list-statictis-title">总计:</span>
+                <span className="price ellipsis list-statictis-total">{takeoutDetail.tradeAmount}</span>
               </div>
             </div>
             <p className="list-other">其他信息</p>
@@ -209,11 +231,11 @@ const TakeoutDetailApplication = React.createClass({
               <div className="list-default">
                 <div className="list-item">
                   <span className="list-item-title">下单时间</span>
-                  <span className="list-item-content">{dateUtility.format(new Date(takeoutDetail.dateTime), 'yyyy/MM/dd HH:mm')}</span>
+                  <span className="list-item-content">{dateUtility.format(new Date(takeoutDetail.dateTime || 0), 'yyyy/MM/dd HH:mm')}</span>
                 </div>
                 <div className="list-item">
                   <span className="list-item-title">订单编号</span>
-                  <span className="list-item-content">{takeoutDetail.orderNumber}</span>
+                  <span className="list-item-content ellipsis">{takeoutDetail.orderNumber}</span>
                 </div>
                 <div className="list-item">
                   <span className="list-item-title">支付方式</span>
@@ -236,18 +258,37 @@ const TakeoutDetailApplication = React.createClass({
               </div>
             </div>
           </div>
-          <div className="btn-oparate flex-none">
-            <div className="flex-row">
-              <a className="btn-oparate-more" href={`http://${location.host}/takeaway/selectDish?shopId=${shopId}&type=WM`}>再来一单</a>
-              {(takeoutDetail.status === '订单待支付' || takeoutDetail.status === '订单支付失败') &&
-                <a
-                  className="btn-oparate-count"
-                  href={`http://${location.host}/shop/payDetail?shopId=${shopId}&orderId=${takeoutDetail.orderId}&orderType=WM`}
-                >结账</a>
+          <div className="btn-oparate flex-none clearfix">
+            <a
+              className={
+                classnames('btn-oparate-more fl',
+                { 'width-full': !(takeoutDetail.status === '订单待支付' || takeoutDetail.status === '订单支付失败') })
               }
-            </div>
+              href={`http://${location.host}/takeaway/selectDish?shopId=${shopId}&type=WM`}
+            >再来一单</a>
+            {(takeoutDetail.status === '订单待支付' || takeoutDetail.status === '订单支付失败') &&
+              <a
+                className="btn-oparate-count fl"
+                href={`http://${location.host}/shop/payDetail?shopId=${shopId}&orderId=${takeoutDetail.orderId}&orderType=WM`}
+              >结账</a>
+            }
           </div>
         </div>
+        {isCounponSmallShow && takeoutDetail.url &&
+          <a className="coupon-content-small coupon-animation" href={takeoutDetail.url}></a>
+        }
+        {isCouponBigShow && takeoutDetail.url &&
+          <div className="coupon-bg">
+            <a className="coupon-content-close" onTouchTap={this.handleCloseCounpon}></a>
+            <div className="coupon-content">
+              <div className="coupon-img coupon-content-big"></div>
+              <div className="coupon-content-tips">
+                <span>客官！是你的优惠券~</span>
+                <a className="coupon-content-btn " href={takeoutDetail.url}></a>
+              </div>
+            </div>
+          </div>
+        }
       </div>
     );
   },

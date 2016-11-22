@@ -9,7 +9,7 @@ module.exports = {
       orderId: 90001272332,
       orderMenu: 0,
       orderNumber: 4,
-      orderStatus: -2,
+      orderStatus: 1,
       orderTime: 1478264400000,
       sex:1,
       shopId: 247900001,

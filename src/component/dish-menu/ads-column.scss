@@ -2,12 +2,14 @@
 @import "tools.functions";
 @import "tools.mixins";
 
+$color-red: #ff4848;
+$color-green: #4bc643;
+
 .ads-column {
   font-size: 14px;
   height: 2.43em;
   padding: .65em;
   color: #fff;
-  background: url("../../asset/images/filter-bg-small.png") center center/cover no-repeat;
 
   .hide {
     display: none;
@@ -31,18 +33,30 @@
     align-items: center;
 
     .icon {
+      font-style: normal;
       width: 1.143em;
       height: 1.143em;
       margin-right: .4em;
+      text-align: center;
       vertical-align: middle;
+      color: $color-white;
+      border-radius: 2px;
     }
 
     .icon-jian {
-      background: url("../../asset/images/dish-jian.png") center center/100% 100% no-repeat;
+      background: $color-red;
+
+      &::before {
+        content: "减";
+      }
     }
 
     .icon-zhe {
-      background: url("../../asset/images/dish-zhe.png") center center/100% 100% no-repeat;
+      background: $color-green;
+
+      &::before {
+        content: "折";
+      }
     }
 
     .detail {
@@ -65,7 +79,7 @@
   .btn-arrow-right::after {
     width: 10px;
     height: 15px;
-    background-image: url("../../asset/images/arrow-right-white.png");
+    background-image: url("../../asset/images/arrow-right-white.svg");
     background-size: auto .8em;
   }
 }
@@ -147,24 +161,27 @@
       word-break: break-all;
     }
 
-    &.jian::before {
+    &.jian::before,
+    &.zhe::before {
+      line-height: 16px;
       position: absolute;
       top: 0;
       left: 0;
-      width: 1.143em;
-      height: 1.143em;
-      content: "";
-      background: url("../../asset/images/dish-jian.png") center center/100% 100% no-repeat;
+      width: 16px;
+      height: 16px;
+      padding: 1px 0 0;
+      text-align: center;
+      border-radius: 2px;
+    }
+
+    &.jian::before {
+      content: "减";
+      background: $color-red;
     }
 
     &.zhe::before {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 1.143em;
-      height: 1.143em;
-      content: "";
-      background: url("../../asset/images/dish-zhe.png") center center/100% 100% no-repeat;
+      content: "折";
+      background: $color-green;
     }
   }
 }

@@ -65,7 +65,7 @@ a {
     width: 22px;
     height: 60px;
     content: "";
-    background: url("../../asset/images/arrow-right-grey.svg");
+    background: url("../../asset/images/arrow-right-gray.svg");
     background-repeat: no-repeat;
     background-position: right center;
     background-size: 9px;
@@ -89,10 +89,6 @@ a {
 .flex-row {
   display: flex;
   justify-content: space-between;
-
-  .flex-row-item {
-    width: 100%;
-  }
 }
 
 .list-default {
@@ -110,7 +106,7 @@ a {
   a {
     line-height: 49px;
     display: block;
-    width: 100%;
+    width: 50%;
     height: 49px;
     text-align: center;
     color: #fff;
@@ -135,8 +131,14 @@ a {
 }
 
 .option-privilege {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #e3e3e3;
+
   .icon-privilege {
     font-size: 15px;
+    display: inline-block;
+    width: 50%;
+    vertical-align: middle;
   }
 }
 
@@ -160,13 +162,27 @@ a {
   font-size: 15px;
   line-height: 50px;
   height: 50px;
+  margin-top: -10px;
   padding: 0 15px;
-  border-top: 1px solid #e3e3e3;
   background-color: #fff;
 
+  &-item {
+    float: left;
+    width: 33%;
+  }
+
+  &-item:first-child {
+    width: 34%;
+  }
+
+  &-item:last-child {
+    text-align: right;
+  }
+
   &-title {
+    font-size: 13px;
     display: inline-block;
-    margin-right: 5px;
+    margin-right: 3px;
     vertical-align: middle;
     color: $color-dusty-grey;
   }
@@ -178,18 +194,19 @@ a {
   }
 
   .list-statictis-origin {
-    max-width: calc(100% - 35px);
+    max-width: calc(100% - 30px);
   }
 
   .list-statictis-privilage,
   .list-statictis-total {
-    max-width: calc(100% - 50px);
+    max-width: calc(100% - 33px);
   }
 }
 
 .list-other {
   font-size: 14px;
   line-height: 35px;
+  clear: both;
   height: 35px;
   padding-left: 15px;
   color: $color-dusty-grey;
@@ -218,8 +235,9 @@ a {
   background-image: url("../../asset/images/icon_star.svg");
 }
 
-// 礼品
-.icon-101 {
+// 礼品/活动
+.icon-101,
+.icon-13 {
   background-image: url("../../asset/images/icon_gift.svg");
 }
 
@@ -231,4 +249,104 @@ a {
 // 其他优惠
 .icon-100 {
   background-image: url("../../asset/images/icon_other.svg");
+}
+
+.width-full {
+  width: 100% !important;
+}
+
+.coupon-bg {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, .5);
+}
+
+.coupon-content {
+  position: absolute;
+  top: calc(10% + 22px);
+  left: calc(50% - 125px);
+
+  &-close {
+    position: absolute;
+    top: 10%;
+    right: calc(50% - 145px);
+    display: block;
+    width: 32px;
+    height: 32px;
+    background: url("../../asset/images/close_white.svg") center no-repeat;
+    background-size: 32px;
+  }
+
+  &-big {
+    width: 250px;
+    height: 153px;
+    background: url("../../asset/images/coupon_direct.svg") center no-repeat;
+    background-size: 238px;
+  }
+
+  &-small {
+    position: absolute;
+    right: -2px;
+    bottom: 130px;
+    display: block;
+    width: 110px;
+    height: 85px;
+    background: url("../../asset/images/coupon_direct_small.svg") center no-repeat;
+    background-size: 108px;
+  }
+
+  &-tips {
+    font-weight: bold;
+    position: absolute;
+    z-index: -1;
+    top: 30px;
+    left: 22px;
+    width: 216px;
+    padding-top: 138px;
+    text-align: center;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, .3);
+  }
+
+  &-btn {
+    display: block;
+    height: 50px;
+    margin-top: 23px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    background: #ff3d57 url("../../asset/images/coupon_btn.svg") center no-repeat;
+    background-size: 118px;
+  }
+}
+
+.coupon-animation {
+  animation: couponMove 2s 3;
+}
+
+@keyframes couponMove {
+  0%,
+  84% {
+    bottom: 130px;
+  }
+
+  85% {
+    bottom: 120px;
+  }
+
+  90% {
+    bottom: 130px;
+  }
+
+  95% {
+    bottom: 120px;
+  }
+
+  100% {
+    bottom: 130px;
+  }
 }

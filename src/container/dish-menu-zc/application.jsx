@@ -15,7 +15,7 @@ const DishDescPopup = require('../../component/dish-menu/detail/dish-desc-popup.
 const QuickMenu = require('../../component/dish-menu/cart/quick-menu.jsx');
 const DishMesthead = require('../../component/dish-menu/dish-mesthead.jsx');
 const Toast = require('../../component/mui/toast.jsx');
-const helper = require('../../helper/dish-hepler');
+const helper = require('../../helper/dish-helper');
 const cartHelper = require('../../helper/order-dinner-cart-helper');
 const tableKey = helper.getUrlParam('tableKey');
 const tableId = helper.getUrlParam('tableId');
@@ -127,8 +127,8 @@ const DishMenuZcApplication = React.createClass({
 
     return (
       <div className="application">
-        { // 临时取消注册
-          (enableMemberRegistry && isMember === false && false) &&
+        {
+          (enableMemberRegistry && isMember === false) &&
             <div className="register notice">
               <a href={`/member/register${location.search}&returnUrl=${encodeURIComponent(location.href)}`}>去注册</a>
               <p>注册会员享受更多福利哟～</p>
@@ -136,12 +136,8 @@ const DishMenuZcApplication = React.createClass({
         }
         <div className="main">
           <DishMesthead
-            registered={isMember}
-            dishesData={dishesData}
             shopInfo={shopInfo}
             shopLogo={shopLogo}
-            marketList={marketList}
-            marketListUpdate={marketListUpdate}
           />
           <div ref="scrollWrap" className={`${dishPageTpl} scroller-wrap`}>
             <DishTypeScroller

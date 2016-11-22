@@ -29,8 +29,6 @@ const OrderDetailInApplication = React.createClass({
   componentDidMount() {
     const { getOrderDetailUncheck } = this.props;
     getOrderDetailUncheck();
-    // 每隔10秒获取数据
-    setInterval(getOrderDetailUncheck, 10000);
   },
 
   componentWillReceiveProps(nextProps) {
@@ -153,7 +151,7 @@ const OrderDetailInApplication = React.createClass({
             </div>
             {
               dishTotal.memo && (
-                <div className="options-group options-group-bigmg">
+                <div className="options-group">
                   <div className="option">
                     <span className="order-demo-title fl">整单备注</span>
                     <p className="order-demo-info fl">{dishTotal.memo}</p>

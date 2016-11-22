@@ -48,6 +48,12 @@ module.exports = {
     'place-order-entry': [
       './src/place-order.jsx',
     ],
+    'book-check-order-entry': [
+      './src/book-check-order.jsx',
+    ],
+    'queue-check-order-entry': [
+      './src/queue-check-order.jsx',
+    ],
     'bind-phone-entry': [
       './src/bind-phone.jsx',
     ],
@@ -382,7 +388,7 @@ module.exports = {
     ),
     new HtmlWebpackPlugin(
       {
-        title: 'MineBalanceApplication',
+        title: 'MineAccumulationApplication',
         filename: 'mine-accumulation.html',
         chunks: ['common', 'mine-accumulation-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
@@ -406,7 +412,7 @@ module.exports = {
     ),
     new HtmlWebpackPlugin(
       {
-        title: 'MineRechargeApplication',
+        title: 'MineModifyPasswordApplication',
         filename: 'mine-modify-password.html',
         chunks: ['common', 'mine-modify-password-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
@@ -433,6 +439,22 @@ module.exports = {
         title: 'BookDetailApplication',
         filename: 'book-detail.html',
         chunks: ['common', 'book-detail-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'BookCheckOrderApplication',
+        filename: 'book-check-order.html',
+        chunks: ['common', 'book-check-order-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'QueueCheckOrderApplication',
+        filename: 'queue-check-order.html',
+        chunks: ['common', 'queue-check-order-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

@@ -6,7 +6,7 @@ const connect = require('react-redux').connect;
 const actions = require('../../action/order/order');
 const helper = require('../../helper/order-helper');
 const validateAddressInfo = require('../../helper/order-helper').validateAddressInfo;
-const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getUrlParam = require('../../helper/dish-helper.js').getUrlParam;
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
 
 const ActiveSelect = require('../../component/mui/select/active-select.jsx');
@@ -254,13 +254,13 @@ const OrderApplication = React.createClass({
             <div className="editor options-group customerInfo-editor">
               <a className="option option-user">
                 <img className="option-user-icon" src={customerProps.iconUri || defaultPersonLogo} alt="用户头像" />
-                <p className="option-user-name">{customerProps.mobile}</p>
+                <p className="option-user-name">{customerProps.name || customerProps.mobile}</p>
               </a>
             </div>
           </div>
           <div className="options-group editor-group">
             <div className="option">
-              <span className="option-tile">就餐人数</span>
+              <span className="option-tile for-count">就餐人数</span>
               <ImportableCounter
                 setErrorMsg={setErrorMsg}
                 onCountChange={this.setOrderProps}

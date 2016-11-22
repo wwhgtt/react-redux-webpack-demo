@@ -4,6 +4,11 @@
   height: calc(100% - 50px);
 }
 
+.main-YD,
+.main-PD {
+  height: 100%;
+}
+
 .register + .main {
   height: calc(100% - 50px - 44px);
 }

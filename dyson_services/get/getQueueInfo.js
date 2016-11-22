@@ -3,13 +3,13 @@ module.exports = {
   template: {
     data: {
       shopId: 810003798,
-      orderDish: 1,
+      orderDish: 0,
       oldVersion: 0,
-      hasOrder: 0,
+      hasOrder: 1,
       queue: {
         queueID: 1002843039,
         commercialID: 810003798,
-        queueStatus: 0,
+        queueStatus: -2,
         createDateTime: 1478850574000,
         modifyDateTime: 1478850808000,
         queueNumber: '3',

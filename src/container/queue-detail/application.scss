@@ -79,11 +79,10 @@
 
   &-refresh {
     display: inline-block;
-    padding: 9px 14px;
-    background-image: url("../../asset/images/refresh_blue.svg");
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 22px;
+    width: 22px;
+    height: 22px;
+    vertical-align: -5px;
+    background: url("../../asset/images/refresh_blue.svg") center center/22px 22px no-repeat;
   }
 }
 
@@ -143,5 +142,14 @@
   text-align: center;
   color: #ffc334;
   border: 1px solid #ffc334;
+  border-radius: 50px;
+}
+
+.btn-row-sure {
+  line-height: 44px;
+  display: inline-block;
+  width: 135px;
+  height: 44px;
+  padding: 0;
   border-radius: 50px;
 }

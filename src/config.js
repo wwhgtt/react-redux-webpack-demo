@@ -59,11 +59,11 @@ module.exports = {
   getOrderTableTypeAPI: `${apiBase}/orderall/orderTableType.json`, // 获取tableInfo
   callServiceAPI: `${apiBase}/orderall/callService.json`, // 获取tableId
   memberIndexAPI: `${apiBase}/member/index.json`, // 获取会员基本信息
-  grownLevelxAPI:`${apiBase}/member/grownLevel.json`, // 会员页面
+  grownLevelxAPI:`${apiBase}/member/customerLevel.json`, // 会员页面
   getCouponListAPI:`${apiBase}/coupon/getCouponList.json`, // 优惠券列表
   // 跳转URL
-  getMoreTSDishesURL:`${apiBase}/orderall/selectDish`,
-  getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`,
+  getMoreTSDishesURL:`${apiBase}/orderall/selectDish`, // TS
+  getMoreWMDishesURL:`${apiBase}/takeaway/selectDish`, // WM
   editUserAddressURL: `${apiBase}/user/address`,
 
   brandIndexURL:`${apiBase}/brand/index`, // 品牌首页
@@ -87,6 +87,11 @@ module.exports = {
   tradeDetailUncheckURL:`${apiBase}/order/tradeDetailUncheck`, // 堂食正餐订单详情页 结算前
   dishCart4DinnerURL:`${apiBase}/orderall/dishCart4Dinner`, // 购物车详情页
   settlement4DinnerURL:`${apiBase}/orderall/settlement4Dinner`, // 正餐结算页面
+
+  bookingDetailURL:`${apiBase}/booking/bookingDetail`, // 预定详情
+  bookCheckOrderURL:`${apiBase}/prepare/dishBoxBooking`, // 预定下单页面
+  queueDetailURL:`${apiBase}/queue/success`, // 排队详情
+  queueCheckOrderURL:`${apiBase}/prepare/dishBoxQueue`, // 排队下单页面
 
   exceptionDishURL:`${apiBase}/orderall/tableCantOrder`, // 异常页面(无法在该桌台点餐)
   exceptionDishCurrentURL:`${apiBase}/orderall/tableError`, // 异常页面(该桌台无法点餐)
@@ -118,8 +123,8 @@ module.exports = {
   validBindMobileActiveAPI: `${apiBase}/user/validBindMobileActive.json`, // 绑定手机验证码校验(会员卡激活)：是否会员/是否和其他微信绑定
 
   getBalanceInfoAPI: `${apiBase}/member/valueCard.json`, // 会员卡余额信息
-  getIntegralAPI: `${apiBase}/member/integral.json`, //
-  getGrowthValueAPI: `${apiBase}/member/growthValue.json`, //
+  getIntegralDetailAPI: `${apiBase}/member/integralDetail.json`, //
+  getGrownDetailAPI: `${apiBase}/member/grownDetail.json`, //
   getGrownLevelsAPI: `${apiBase}/member/grownLevel.json`, //
   getRechargeInfoAPI: `${apiBase}/shop/recharge.json`, // 会员卡充值信息
   addRechargeAPI: `${apiBase}/member/addRecharge.json`, // 会员卡充值
@@ -127,21 +132,26 @@ module.exports = {
   modifyPwd: `${apiBase}/member/modifyPwd.json`, // 修改密码
   resetPassword: `${apiBase}/member/resetPassword.json`, // 重置密码
   getResetPasswordUserInfoAPI: `${apiBase}/member/resetPwd.json`, // 取密码重置用户信息
-  getQueueInfoAPI: `${apiBase}/queue/success.json`, // 排队详情
+
   cancelQueueAPI: `${apiBase}/queue/cancel.json`, // 取消排队
-  getBookDetailAPI: `${apiBase}/booking/bookingDetail.json`, // 预订详情
   orderListAPI: `${apiBase}/order/orderallList.json`, // 订单列表
   takeOutListAPI: `${apiBase}/order/takeOutList.json`, // 外卖列表
   bookListAPI: `${apiBase}/order/bookingList.json`, // 预订列表
   queueListAPI: `${apiBase}/queue/queueList.json`, // 排队列表
   getDinnerDetailAPI: `${apiBase}/order/orderallDetail.json`, // 堂食结算后订单详情
-  getDishMarketInfosAPI: `${apiBase}/orderall/dishMarketInfos.json`, //
+  getDishMarketInfosAPI: `${apiBase}/orderall/dishMarketInfos.json`,
 
-  prepareDishboxAPI:`${apiBase}/prepare/dishBox.json`,
-  prepareMyPreOrderAPI:`${apiBase}/prepare/myPreOrder.json`, // 预定我的菜单
-  prepareSubOrderAPI:`${apiBase}/prepare/subOrder.json`,
-  prepareBookingDetailAPI:`${apiBase}/prepare/bookingDetail`,
+  getBookDetailAPI: `${apiBase}/booking/bookingDetail.json`, // 预订详情
+  getQueueDetailAPI: `${apiBase}/queue/success.json`, // 排队详情
+  bookingMyPreOrderAPI:`${apiBase}/prepare/myPreOrder.json`, // 预定我的菜单
+  queueMyPreOrderAPI:`${apiBase}/prepare/myPreOrder.json`, // 排队我的菜单
+  bookingSubOrderAPI:`${apiBase}/prepare/subOrder.json`,
+  queueSubOrderAPI:`${apiBase}/prepare/subOrder.json`,
+
   getTakeoutDetailAPI: `${apiBase}/order/takeOutDetail.json`, // 外卖结算后订单详情
+  getCurrIntegralRuleAPI: `${apiBase}/member/currIntegralRule.json`, // 获取当前积分信息
+  getCurrGrownRuleAPI: `${apiBase}/member/currGrownRule.json`, // 获取当前成长值信息
 
   requestOptions,
 };
+

@@ -17,16 +17,18 @@ const MineGrowupApplication = React.createClass({
   displayName: 'MineGrowupApplication',
   propTypes: {
     growupInfo: React.PropTypes.object,
-    fetchGrowupInfo: React.PropTypes.func,
-    fetchGrownLevelsInfo: React.PropTypes.func,
+    currentRule: React.PropTypes.object,
+    fetchGrowupInfo: React.PropTypes.func.isRequired,
+    fetchCurrGrownRule: React.PropTypes.func.isRequired,
   },
   getInitialState() {
     return {
       descriptionContentVisible: false,
+      hideLoad: false,
     };
   },
   componentWillMount() {
-    this.props.fetchGrowupInfo().then(this.props.fetchGrownLevelsInfo);
+    this.props.fetchGrowupInfo(1).then(this.props.fetchCurrGrownRule);
     this.pageNum = 1;
     this.wholeData = [];
   },
@@ -55,7 +57,7 @@ const MineGrowupApplication = React.createClass({
     });
   },
   componentWillReceiveProps(nextProps) {
-    if (nextProps.growupInfo.pageSize === 1) {
+    if (nextProps.growupInfo.totalRows <= nextProps.growupInfo.pageSize) {
       this.setState({ hideLoad:true });
     }
   },
@@ -68,7 +70,7 @@ const MineGrowupApplication = React.createClass({
   addItems() {
     const { growupInfo } = this.props;
     this.pageNum++;
-    if (growupInfo.pageSize >= this.pageNum) {
+    if (growupInfo.totalPage >= this.pageNum) {
       this.props.fetchGrowupInfo(this.pageNum);
     } else {
       this.setState({ hideLoad:true });
@@ -78,9 +80,15 @@ const MineGrowupApplication = React.createClass({
     this.setState({ descriptionContentVisible: !this.state.descriptionContentVisible });
   },
   buildListElement() {
-    const { ghList } = this.props.growupInfo;
-    if (!ghList || !ghList.length) {
-      return false;
+    const { growupInfo, currentRule } = this.props;
+    const { items } = growupInfo;
+
+    if (!items || !items.length) {
+      return [];
+    }
+
+    if (growupInfo.currentPage === this.pageNum && currentRule) {
+      this.wholeData = this.wholeData.concat(items);
     }
 
     const getGrowthTypeText = type => {
@@ -92,7 +100,7 @@ const MineGrowupApplication = React.createClass({
     };
 
     return (
-      ghList.map((item, index) => {
+      this.wholeData.map((item, index) => {
         const amount = item.addValue;
         let amountClass = 'list-amount';
 
@@ -107,7 +115,7 @@ const MineGrowupApplication = React.createClass({
             </span>
             <p className="list-title">{getGrowthTypeText(item.grownType)}</p>
             <div className="list-detail">
-              <span className="list-detail-item">{dateUtility.format(new Date(item.serverUpdateTime), 'yyyy/MM/dd')}</span>
+              <span className="list-detail-item">{dateUtility.format(new Date(item.bizDate), 'yyyy/MM/dd')}</span>
               <span className="list-detail-item list-detail-name ellipsis">{item.commercialName}</span>
             </div>
           </div>
@@ -116,36 +124,27 @@ const MineGrowupApplication = React.createClass({
     );
   },
   buildDescriptContentElement() {
-    const { levelInfo } = this.props.growupInfo;
-    const { levelList, grownCfgMap, nowLevelName } = levelInfo || {};
-    if (!levelList || !levelList.length) {
-      return false;
+    const { currentRule } = this.props;
+    const style = { textAlign: 'center' };
+    if (!currentRule || !currentRule.grownConsumeValue || !currentRule.grownConsumeGainValue) {
+      return <p style={style}>无</p>;
     }
 
+    const text = `每消费${currentRule.grownConsumeValue}元可获得${currentRule.grownConsumeGainValue}点成长值`;
     return (
       <ul className="masthead-discription-content" onTouchTap={this.toggleDescriptContent}>
-        {
-          levelList.map((item, index) => {
-            const grownCfg = grownCfgMap[item.id];
-            if (!grownCfg || item.name !== nowLevelName) {
-              return false;
-            }
-
-            const text = `每消费${grownCfg.grownConsumeValue}元可获得${grownCfg.grownConsumeGainValue}点成长值`;
-            return (<li key={index} style={{ textAlign: 'center' }}>{text}</li>);
-          })
-        }
+        <li style={style}>{text}</li>
       </ul>
     );
   },
   render() {
-    const { growupInfo } = this.props;
+    const { currentRule } = this.props;
     const { hideLoad } = this.state;
     return (
       <div className="accumulation">
         <div className="masthead">
           <a className="masthead-discription-title" onTouchTap={this.toggleDescriptContent}>成长值说明</a>
-          <p className="masthead-total">{growupInfo.grownValue}</p>
+          <p className="masthead-total">{currentRule && currentRule.curGrownValue || 0}</p>
           <p className="masthead-title">我的成长值</p>
         </div>
         <GrowAccumeList
@@ -153,7 +152,7 @@ const MineGrowupApplication = React.createClass({
           buildListElement={this.buildListElement()}
           hideLoad={hideLoad}
         />
-        <div className="footer copyright"></div>
+        {/* <div className="footer copyright"></div> */}
         {this.state.descriptionContentVisible &&
           <Dialog
             title="成长值说明"

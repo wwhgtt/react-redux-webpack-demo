@@ -99,7 +99,7 @@ module.exports = function (
        .setIn(['serviceProps', 'benefitProps', 'totalAmount'], payload.totalAmount);
     }
     case 'SET_COUPONS_TO_ORDER':
-      return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], helper.handleWeixinCard(payload));
+      return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], helper.handleWeixinCard(payload, false));
     case 'SET_DISCOUNT_TO_ORDER':
       if (payload.isDiscount && payload.isMember && !state.serviceProps.benefitProps.isPriviledge) {
         return state.setIn(

@@ -7,6 +7,7 @@ const CustomerInfoEditor = require('../../component/order/list-customer-info-edi
 const TableSelect = require('../../component/order/select/table-select.jsx');
 const TimeSelect = require('../../component/order/select/time-select.jsx');
 const Toast = require('../../component/mui/toast.jsx');
+const Loading = require('../../component/mui/loading.jsx');
 const ImportableCounter = require('../../component/mui/importable-counter.jsx');
 const VerificationDialog = require('../../component/common/verification-code-dialog.jsx');
 const defaultShopLogo = require('../../asset/images/default.png');
@@ -40,6 +41,7 @@ const PlaceOrderApplication = React.createClass({
     childView: React.PropTypes.string,
     errorMessage: React.PropTypes.string,
     shuoldPhoneValidateShow:React.PropTypes.bool.isRequired,
+    load:React.PropTypes.object,
   },
   getInitialState() {
     return {
@@ -161,7 +163,7 @@ const PlaceOrderApplication = React.createClass({
   },
   render() {
     // mapStateToProps
-    const { commercialProps, childView, tableProps, timeProps, setTableProps, setErrorMsg, clearErrorMsg, setCustomerProps } = this.props;
+    const { commercialProps, childView, tableProps, timeProps, setTableProps, setErrorMsg, clearErrorMsg, setCustomerProps, load } = this.props;
     // mapActionsToProps
     const { setChildView, onDateTimeSelect, errorMessage, dinePersonCount, customerProps, shuoldPhoneValidateShow } = this.props;
     return (
@@ -206,7 +208,7 @@ const PlaceOrderApplication = React.createClass({
             }
             <div className="options-group">
               <div className="option">
-                <span className="option-tile">预订人数：</span>
+                <span className="option-tile for-count">预订人数</span>
                 <ImportableCounter
                   setErrorMsg={setErrorMsg}
                   onCountChange={this.setOrderProps}
@@ -225,11 +227,11 @@ const PlaceOrderApplication = React.createClass({
               onCustomerPropsChange={setCustomerProps}
               isMobileDisabled={customerProps.mobile === null}
             />
-            <div className="divider" style={{ marginTop:'0px', paddingBottom:'30px' }}>
+            <div className="divider">
               <span className="divider-title">备注</span>
             </div>
             <div className="option-groups">
-              <div className="option" style={{ paddingTop:'10px' }}>
+              <div className="option">
                 <textarea className="option-input clearfix text-area" name="note" placeholder="请输入备注" maxLength="500" onChange={this.noteChange} />
               </div>
             </div>
@@ -260,6 +262,12 @@ const PlaceOrderApplication = React.createClass({
             : false
           }
         </ReactCSSTransitionGroup>
+        {
+          load.status ?
+            <Loading word={load.word} />
+          :
+            false
+        }
         {errorMessage ?
           <Toast errorMessage={errorMessage} clearErrorMsg={clearErrorMsg} />
           :

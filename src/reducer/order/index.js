@@ -2,7 +2,7 @@ const Immutable = require('seamless-immutable');
 const _find = require('lodash.find');
 const _has = require('lodash.has');
 const helper = require('../../helper/order-helper');
-const orderTypeOfUrl = require('../../helper/dish-hepler.js').getUrlParam('type');
+const orderTypeOfUrl = require('../../helper/dish-helper.js').getUrlParam('type');
 module.exports = function (
   state = Immutable.from({
     customerProps:{},
@@ -428,7 +428,7 @@ module.exports = function (
       )
         .setIn(['serviceProps', 'activityBenefit', 'benefitMoney'], helper.countInitializeBenefit(payload, state.orderedDishesProps.dishes));
     case 'SET_COUPONS_TO_ORDER':
-      return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], helper.handleWeixinCard(payload));
+      return state.setIn(['serviceProps', 'couponsProps', 'couponsList'], helper.handleWeixinCard(payload, true));
     case 'SET_DISCOUNT_TO_ORDER':
       if (payload.isDiscount && payload.isMember) {
         return state.setIn(
@@ -512,7 +512,11 @@ module.exports = function (
           Object.assign({}, payload.value, { isChecked: true }),
         ]
       );
-    case 'SET_ADDRESS_LIST_INFO_TO_ORDER':
+    case 'SET_ADDRESS_LIST_INFO_TO_ORDER': {
+      if (!payload.inList) {
+        payload.inList = [];
+      }
+
       return state.set('customerAddressListInfo', {
         isAddressesLoaded: true,
         data: Immutable.from(payload).update('inList', list => list.map((item, index) => {
@@ -520,6 +524,7 @@ module.exports = function (
           return Object.assign({ rangeId: item.rangeId }, address);
         })),
       });
+    }
     case 'ON_SELECT_BENEFIT':
       if (payload === 'closeWindow') {
         return state

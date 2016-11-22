@@ -14,9 +14,13 @@
 }
 
 .order-conent {
+  position: absolute;
+  top: 65px;
+  right: 0;
+  bottom: 0;
+  left: 0;
   overflow: hidden;
-  height: calc(100% - 95px);
-  margin-top: 65px;
+  height: calc(100% - 65px);
 }
 
 .order-list-group {
@@ -34,7 +38,8 @@
   &-href {
     position: relative;
     display: inline-block;
-    max-width: calc(100% - 75px);
+    min-width: calc(100% - 100px);
+    max-width: calc(100% - 80px);
 
     &::after {
       position: absolute;
@@ -58,7 +63,7 @@
   &-title {
     font-weight: bold;
     display: inline-block;
-    max-width: calc(100% - 55px);
+    width: calc(100% - 55px);
     margin-left: 10px;
     vertical-align: middle;
   }
@@ -67,7 +72,7 @@
     font-size: 15px;
     display: inline-block;
     float: right;
-    height: 34px;
+    max-width: 75px;
   }
 }
 
@@ -185,4 +190,13 @@
 
 .text-orange {
   color: #ff7417;
+}
+
+.loading-hover {
+  top: 65px;
+}
+
+.records:empty,
+.records-empty {
+  border: 0 none;
 }

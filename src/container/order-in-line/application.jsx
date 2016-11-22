@@ -112,16 +112,13 @@ const OrderInlineApplication = React.createClass({
           {commercialProps.openStatus === '营业中' ?
             <div className="options-group" style={{ borderBottom:'none' }}>
               <div className="option">
-                <span className="option-tile">就餐人数</span>
+                <span className="option-tile for-count">就餐人数</span>
                 <ImportableCounter
                   setErrorMsg={setErrorMsg}
                   onCountChange={this.onCountChange}
                   maximum={commercialProps.maxPersonNum}
                   minimum={1}
-                  count={
-                    commercialProps.maxPersonNum && +dinePersonCount < +commercialProps.maxPersonNum ?
-                    dinePersonCount : commercialProps.maxPersonNum
-                  }
+                  count={dinePersonCount}
                 />
               </div>
             </div>

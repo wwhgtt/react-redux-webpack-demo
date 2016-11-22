@@ -1,8 +1,9 @@
 const React = require('react');
 const CartOrderedDish = require('./cart-ordered-dish.jsx');
 const ConfirmDialog = require('../../mui/dialog/confirm-dialog.jsx');
+const BookButton = require('../../book/book-button.jsx');
 
-const helper = require('../../../helper/dish-hepler');
+const helper = require('../../../helper/dish-helper');
 require('./expand-cart.scss');
 
 module.exports = React.createClass({
@@ -17,6 +18,7 @@ module.exports = React.createClass({
     orderedDishes: React.PropTypes.array,
     takeawayServiceProps: React.PropTypes.object,
     isShopOpen: React.PropTypes.bool.isRequired,
+    urlType: React.PropTypes.string,
   },
   getInitialState() {
     return { confirmDialogVisible: false };
@@ -52,10 +54,13 @@ module.exports = React.createClass({
     );
   },
   buildTakeawayServiceMinPriceElement(totalPrice, takeawayServiceProps, onBillBtnTap) {
-    const { dishesCount } = this.props;
+    const { dishesCount, urlType } = this.props;
     if (
       dishesCount > 0 && (!takeawayServiceProps || !takeawayServiceProps.minPrice || totalPrice >= takeawayServiceProps.minPrice)
     ) {
+      if (urlType === 'PD' || urlType === 'YD') {
+        return (<BookButton type={urlType} dishesCount={dishesCount} />);
+      }
       return (<a className="tiny-cart-btn btn--yellow" onTouchTap={evt => { evt.preventDefault(); onBillBtnTap(); }}>选好啦</a>);
     } else if (dishesCount === 0 && takeawayServiceProps && takeawayServiceProps.minPrice) {
       return <span className="tiny-cart-text">{`${takeawayServiceProps.minPrice} 元起卖`}</span>;

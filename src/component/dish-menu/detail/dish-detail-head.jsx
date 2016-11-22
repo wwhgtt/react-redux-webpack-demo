@@ -1,5 +1,5 @@
 const React = require('react');
-const helper = require('../../../helper/dish-hepler');
+const helper = require('../../../helper/dish-helper');
 const Counter = require('../../mui/counter.jsx');
 
 require('./dish-detail-head.scss');
@@ -50,7 +50,7 @@ module.exports = React.createClass({
         <div className="head-main">
           <span className="dish-price price">{price}</span>
           <p className="dish-name">
-            {dish.name}{this.splitPropsSpecifications(dish)}/{dish.unitName}<span>: &nbsp;</span>
+            {dish.name}{this.splitPropsSpecifications(dish)}/{dish.unitName}<span> &nbsp;</span>
             <span className="price">{marketPrice}</span>
           </p>
         </div>

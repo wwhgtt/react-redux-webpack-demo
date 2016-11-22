@@ -1,0 +1,913 @@
+const allCity = [{
+  name: '安庆',
+  value: '130',
+  pinyin: 'Anqing',
+}, {
+  name: '鞍山',
+  value: '320',
+  pinyin: 'Anshan',
+}, {
+  name: '安阳',
+  value: '267',
+  pinyin: 'Anyang',
+}, {
+  name: '保定',
+  value: '307',
+  pinyin: 'Baoding',
+}, {
+  name: '包头',
+  value: '229',
+  pinyin: 'Baotou',
+}, {
+  name: '北京',
+  value: '131',
+  pinyin: 'Beijing',
+}, {
+  name: '北镇',
+  value: '1946',
+  pinyin: 'Beizheng',
+}, {
+  name: '蚌埠',
+  value: '126',
+  pinyin: 'Bangbu',
+}, {
+  name: '本溪',
+  value: '227',
+  pinyin: 'Benxi',
+}, {
+  name: '滨州',
+  value: '235',
+  pinyin: 'Binzhou',
+}, {
+  name: '亳州',
+  value: '188',
+  pinyin: 'Bozhou',
+}, {
+  name: '沧州',
+  value: '149',
+  pinyin: 'Cangzhou',
+}, {
+  name: '长春',
+  value: '53',
+  pinyin: 'Changchun',
+}, {
+  name: '长葛',
+  value: '1262',
+  pinyin: 'Zhangge',
+}, {
+  name: '长沙',
+  value: '158',
+  pinyin: 'Changsha',
+}, {
+  name: '长治',
+  value: '356',
+  pinyin: 'Changzhi',
+}, {
+  name: '常州',
+  value: '348',
+  pinyin: 'Changzhou',
+}, {
+  name: '巢湖',
+  value: '251',
+  pinyin: 'Chaohu',
+}, {
+  name: '朝阳',
+  value: '280',
+  pinyin: 'Chaoyang',
+}, {
+  name: '潮州',
+  value: '201',
+  pinyin: 'Chaozhou',
+}, {
+  name: '承德',
+  value: '207',
+  pinyin: 'Chengde',
+}, {
+  name: '成都',
+  value: '75',
+  pinyin: 'Chengdu',
+}, {
+  name: '郴州',
+  value: '275',
+  pinyin: 'Chenzhou',
+}, {
+  name: '赤峰',
+  value: '297',
+  pinyin: 'Chifeng',
+}, {
+  name: '茌平',
+  value: '2170',
+  pinyin: 'Chiping',
+}, {
+  name: '池州',
+  value: '299',
+  pinyin: 'Chizhou',
+}, {
+  name: '重庆',
+  value: '132',
+  pinyin: 'Chongqing',
+}, {
+  name: '楚雄彝族自治州',
+  value: '105',
+  pinyin: 'Chu',
+}, {
+  name: '滁州',
+  value: '189',
+  pinyin: 'Chuzhou',
+}, {
+  name: '慈溪',
+  value: '1879',
+  pinyin: 'Cixi',
+}, {
+  name: '大连',
+  value: '167',
+  pinyin: 'Dalian',
+}, {
+  name: '大理',
+  value: '111',
+  pinyin: 'Dali',
+}, {
+  name: '丹东',
+  value: '282',
+  pinyin: 'Dandong',
+}, {
+  name: '大庆',
+  value: '50',
+  pinyin: 'Daqing',
+}, {
+  name: '大同',
+  value: '355',
+  pinyin: 'Datong',
+}, {
+  name: '德惠',
+  value: '471',
+  pinyin: 'Dehui',
+}, {
+  name: '德阳',
+  value: '74',
+  pinyin: 'Deyang',
+}, {
+  name: '德州',
+  value: '372',
+  pinyin: 'Dezhou',
+}, {
+  name: '东莞',
+  value: '119',
+  pinyin: 'Dongguan',
+}, {
+  name: '东海',
+  value: '2663',
+  pinyin: 'Donghai',
+}, {
+  name: '东沙群岛',
+  value: '120',
+  pinyin: 'Dongsha',
+}, {
+  name: '东营',
+  value: '174',
+  pinyin: 'Dongying',
+}, {
+  name: '鄂尔多斯',
+  value: '283',
+  pinyin: 'Eerduosi',
+}, {
+  name: '肥东',
+  value: '1950',
+  pinyin: 'Feidong',
+}, {
+  name: '肥西',
+  value: '2298',
+  pinyin: 'Feixi',
+}, {
+  name: '丰县',
+  value: '1331',
+  pinyin: 'Feng',
+}, {
+  name: '佛山',
+  value: '138',
+  pinyin: 'Foshan',
+}, {
+  name: '抚顺',
+  value: '184',
+  pinyin: 'Fushun',
+}, {
+  name: '阜新',
+  value: '59',
+  pinyin: 'Fuxin',
+}, {
+  name: '阜阳',
+  value: '128',
+  pinyin: 'Fuyang',
+}, {
+  name: '福州',
+  value: '300',
+  pinyin: 'Fuzhou',
+}, {
+  name: '抚州',
+  value: '226',
+  pinyin: 'Fuzhou',
+}, {
+  name: '赣州',
+  value: '365',
+  pinyin: 'Ganzhou',
+}, {
+  name: '广州',
+  value: '257',
+  pinyin: 'Guangzhou',
+}, {
+  name: '桂林',
+  value: '142',
+  pinyin: 'Guilin',
+}, {
+  name: '贵阳',
+  value: '146',
+  pinyin: 'Guiyang',
+}, {
+  name: '哈尔滨',
+  value: '48',
+  pinyin: 'Haerbin',
+}, {
+  name: '海口',
+  value: '125',
+  pinyin: 'Haikou',
+}, {
+  name: '海伦',
+  value: '422',
+  pinyin: 'Hailun',
+}, {
+  name: '邯郸',
+  value: '151',
+  pinyin: 'Handan',
+}, {
+  name: '杭州',
+  value: '179',
+  pinyin: 'Hangzhou',
+}, {
+  name: '合肥',
+  value: '127',
+  pinyin: 'Hefei',
+}, {
+  name: '衡水',
+  value: '208',
+  pinyin: 'Hengshui',
+}, {
+  name: '菏泽',
+  value: '353',
+  pinyin: 'Heze',
+}, {
+  name: '淮安',
+  value: '162',
+  pinyin: 'Huaian',
+}, {
+  name: '淮北',
+  value: '253',
+  pinyin: 'Huaibei',
+}, {
+  name: '淮南',
+  value: '250',
+  pinyin: 'Huainan',
+}, {
+  name: '黄冈',
+  value: '271',
+  pinyin: 'Huanggang',
+}, {
+  name: '黄山',
+  value: '252',
+  pinyin: 'Huangshan',
+}, {
+  name: '黄石',
+  value: '311',
+  pinyin: 'Huangshi',
+}, {
+  name: '呼和浩特',
+  value: '321',
+  pinyin: 'Huhehaote',
+}, {
+  name: '惠州',
+  value: '301',
+  pinyin: 'Huizhou',
+}, {
+  name: '葫芦岛',
+  value: '319',
+  pinyin: 'Huludao',
+}, {
+  name: '霍邱',
+  value: '2498',
+  pinyin: 'Huoqiu',
+}, {
+  name: '湖州',
+  value: '294',
+  pinyin: 'Huzhou',
+}, {
+  name: '江门',
+  value: '302',
+  pinyin: 'Jiangmen',
+}, {
+  name: '建瓯',
+  value: '2310',
+  pinyin: 'Jianou',
+}, {
+  name: '吉安',
+  value: '318',
+  pinyin: 'Jian',
+}, {
+  name: '贾汪区',
+  value: '1760',
+  pinyin: 'Jiawangqu',
+}, {
+  name: '嘉祥',
+  value: '1402',
+  pinyin: 'Jiaxiang',
+}, {
+  name: '嘉兴',
+  value: '334',
+  pinyin: 'Jiaxing',
+}, {
+  name: '吉林',
+  value: '55',
+  pinyin: 'Jilin',
+}, {
+  name: '济南',
+  value: '288',
+  pinyin: 'Jinan',
+}, {
+  name: '荆州',
+  value: '157',
+  pinyin: 'Jingzhou',
+}, {
+  name: '金华',
+  value: '333',
+  pinyin: 'Jinhua',
+}, {
+  name: '济宁',
+  value: '286',
+  pinyin: 'Jining',
+}, {
+  name: '金乡',
+  value: '2880',
+  pinyin: 'Jinxiang',
+}, {
+  name: '晋中',
+  value: '238',
+  pinyin: 'Jinzhong',
+}, {
+  name: '锦州',
+  value: '166',
+  pinyin: 'Jinzhou',
+}, {
+  name: '九江',
+  value: '349',
+  pinyin: 'Jiujiang',
+}, {
+  name: '九台',
+  value: '479',
+  pinyin: 'Jiutai',
+}, {
+  name: '冀州',
+  value: '2046',
+  pinyin: 'Jizhou',
+}, {
+  name: '句容',
+  value: '1322',
+  pinyin: 'Jurong',
+}, {
+  name: '开封',
+  value: '210',
+  pinyin: 'Kaifeng',
+}, {
+  name: '昆明',
+  value: '104',
+  pinyin: 'Kunming',
+}, {
+  name: '莱芜',
+  value: '124',
+  pinyin: 'Laiwu',
+}, {
+  name: '廊坊',
+  value: '191',
+  pinyin: 'Langfang',
+}, {
+  name: '兰州',
+  value: '36',
+  pinyin: 'Lanzhou',
+}, {
+  name: '连云港',
+  value: '347',
+  pinyin: 'Lianyungang',
+}, {
+  name: '聊城',
+  value: '366',
+  pinyin: 'Liaocheng',
+}, {
+  name: '辽阳',
+  value: '351',
+  pinyin: 'Liaoyang',
+}, {
+  name: '辽源',
+  value: '183',
+  pinyin: 'Liaoyuan',
+}, {
+  name: '临汾',
+  value: '368',
+  pinyin: 'Linfen',
+}, {
+  name: '临沂',
+  value: '234',
+  pinyin: 'Linyi',
+}, {
+  name: '溧水',
+  value: '2116',
+  pinyin: 'Lishui',
+}, {
+  name: '六安',
+  value: '298',
+  pinyin: 'Liuan',
+}, {
+  name: '六盘水',
+  value: '147',
+  pinyin: 'Liupanshui',
+}, {
+  name: '龙岩',
+  value: '193',
+  pinyin: 'Longyan',
+}, {
+  name: '娄底',
+  value: '221',
+  pinyin: 'Loudi',
+}, {
+  name: '庐江',
+  value: '1107',
+  pinyin: 'Lujiang',
+}, {
+  name: '洛阳',
+  value: '153',
+  pinyin: 'Luoyang',
+}, {
+  name: '吕梁',
+  value: '327',
+  pinyin: 'Lvliang',
+}, {
+  name: '马鞍山',
+  value: '358',
+  pinyin: 'Maanshan',
+}, {
+  name: '梅河口',
+  value: '501',
+  pinyin: 'Meihekou',
+}, {
+  name: '蒙城',
+  value: '1100',
+  pinyin: 'Mengcheng',
+}, {
+  name: '绵阳',
+  value: '240',
+  pinyin: 'Mianyang',
+}, {
+  name: '牡丹江',
+  value: '49',
+  pinyin: 'Mudanjiang',
+}, {
+  name: '南昌',
+  value: '163',
+  pinyin: 'Nanchang',
+}, {
+  name: '南充',
+  value: '291',
+  pinyin: 'Nanchong',
+}, {
+  name: '南京',
+  value: '315',
+  pinyin: 'Nanjing',
+}, {
+  name: '南宁',
+  value: '261',
+  pinyin: 'Nanning',
+}, {
+  name: '南通',
+  value: '161',
+  pinyin: 'Nantong',
+}, {
+  name: '南阳',
+  value: '309',
+  pinyin: 'Nanyang',
+}, {
+  name: '南平',
+  value: '133',
+  pinyin: 'Nanping',
+}, {
+  name: '宁波',
+  value: '180',
+  pinyin: 'Ningbo',
+}, {
+  name: '宁德',
+  value: '192',
+  pinyin: 'Ningde',
+}, {
+  name: '宁晋',
+  value: '1238',
+  pinyin: 'Ningji',
+}, {
+  name: '盘锦',
+  value: '228',
+  pinyin: 'Panjin',
+}, {
+  name: '沛县',
+  value: '1746',
+  pinyin: 'Pei',
+}, {
+  name: '平顶山',
+  value: '213',
+  pinyin: 'Pingdingshan',
+}, {
+  name: '邳州',
+  value: '1329',
+  pinyin: 'Pizhou',
+}, {
+  name: '浦城',
+  value: '2525',
+  pinyin: 'Pucheng',
+}, {
+  name: '莆田',
+  value: '195',
+  pinyin: 'Putian',
+}, {
+  name: '濮阳',
+  value: '209',
+  pinyin: 'Puyang',
+}, {
+  name: '黔东南苗族侗族自治州',
+  value: '342',
+  pinyin: 'Qin',
+}, {
+  name: '黔南布依族苗族自治州',
+  value: '306',
+  pinyin: 'Qin',
+}, {
+  name: '启东',
+  value: '1508',
+  pinyin: 'Qidong',
+}, {
+  name: '青岛',
+  value: '236',
+  pinyin: 'Qingdao',
+}, {
+  name: '清河',
+  value: '1242',
+  pinyin: 'Qinghe',
+}, {
+  name: '秦皇岛',
+  value: '148',
+  pinyin: 'Qinhuangdao',
+}, {
+  name: '琼海',
+  value: '2358',
+  pinyin: 'Qionghai',
+}, {
+  name: '齐齐哈尔',
+  value: '41',
+  pinyin: 'Qiqihaer',
+}, {
+  name: '泉州',
+  value: '134',
+  pinyin: 'Quanzhou',
+}, {
+  name: '衢州',
+  value: '243',
+  pinyin: 'Quzhou',
+}, {
+  name: '日照',
+  value: '173',
+  pinyin: 'Rizhao',
+}, {
+  name: '三明',
+  value: '254',
+  pinyin: 'Sanming',
+}, {
+  name: '三亚',
+  value: '121',
+  pinyin: 'Sanya',
+}, {
+  name: '沙河',
+  value: '1667',
+  pinyin: 'Shahe',
+}, {
+  name: '上海',
+  value: '289',
+  pinyin: 'Shanghai',
+}, {
+  name: '商丘',
+  value: '154',
+  pinyin: 'Shangqiu',
+}, {
+  name: '上饶',
+  value: '364',
+  pinyin: 'Shangrao',
+}, {
+  name: '汕头',
+  value: '303',
+  pinyin: 'Shantou',
+}, {
+  name: '绍兴',
+  value: '293',
+  pinyin: 'Shaoxing',
+}, {
+  name: '沈阳',
+  value: '58',
+  pinyin: 'Shenyang',
+}, {
+  name: '深圳',
+  value: '340',
+  pinyin: 'Shenzhen',
+}, {
+  name: '石家庄',
+  value: '150',
+  pinyin: 'Shijiazhuang',
+}, {
+  name: '舒城',
+  value: '2598',
+  pinyin: 'Shucheng',
+}, {
+  name: '朔州',
+  value: '237',
+  pinyin: 'Shuozhou',
+}, {
+  name: '四平',
+  value: '56',
+  pinyin: 'Siping',
+}, {
+  name: '睢宁',
+  value: '1743',
+  pinyin: 'Suining',
+}, {
+  name: '宿迁',
+  value: '277',
+  pinyin: 'Suqian',
+}, {
+  name: '苏州',
+  value: '224',
+  pinyin: 'Suzhou',
+}, {
+  name: '宿州',
+  value: '370',
+  pinyin: 'Suzhou',
+}, {
+  name: '泰安',
+  value: '325',
+  pinyin: 'Taian',
+}, {
+  name: '太原',
+  value: '176',
+  pinyin: 'Taiyuan',
+}, {
+  name: '台州',
+  value: '244',
+  pinyin: 'Taizhou',
+}, {
+  name: '泰州',
+  value: '276',
+  pinyin: 'Taizhou',
+}, {
+  name: '唐山',
+  value: '265',
+  pinyin: 'Tangshan',
+}, {
+  name: '天津',
+  value: '332',
+  pinyin: 'Tianjin',
+}, {
+  name: '铜川',
+  value: '232',
+  pinyin: 'Tongchuan',
+}, {
+  name: '通化',
+  value: '165',
+  pinyin: 'Tonghua',
+}, {
+  name: '通辽',
+  value: '64',
+  pinyin: 'Tongliao',
+}, {
+  name: '铜陵',
+  value: '337',
+  pinyin: 'Tongling',
+}, {
+  name: '铜仁地区',
+  value: '205',
+  pinyin: 'Tongren',
+}, {
+  name: '潍坊',
+  value: '287',
+  pinyin: 'Weifang',
+}, {
+  name: '威海',
+  value: '175',
+  pinyin: 'Weihai',
+}, {
+  name: '微山',
+  value: '2879',
+  pinyin: 'Weishan',
+}, {
+  name: '威',
+  value: '1665',
+  pinyin: 'Wei',
+}, {
+  name: '温州',
+  value: '178',
+  pinyin: 'Wenzhou',
+}, {
+  name: '武安',
+  value: '1246',
+  pinyin: 'Wuan',
+}, {
+  name: '乌海',
+  value: '123',
+  pinyin: 'Wuhai',
+}, {
+  name: '武汉',
+  value: '218',
+  pinyin: 'Wuhan',
+}, {
+  name: '芜湖',
+  value: '129',
+  pinyin: 'Wuhu',
+}, {
+  name: '乌兰察布',
+  value: '168',
+  pinyin: 'Wulanchabu',
+}, {
+  name: '无锡',
+  value: '317',
+  pinyin: 'Wuxi',
+}, {
+  name: '厦门',
+  value: '194',
+  pinyin: 'Xiamen',
+}, {
+  name: '西安',
+  value: '233',
+  pinyin: 'Xian',
+}, {
+  name: '襄阳',
+  value: '156',
+  pinyin: 'Xiangyang',
+}, {
+  name: '仙桃',
+  value: '1713',
+  pinyin: 'Xiantao',
+}, {
+  name: '咸阳',
+  value: '323',
+  pinyin: 'Xianyang',
+}, {
+  name: '兴化',
+  value: '1324',
+  pinyin: 'Xinghua',
+}, {
+  name: '邢台',
+  value: '266',
+  pinyin: 'Xingtai',
+}, {
+  name: '新乡',
+  value: '152',
+  pinyin: 'Xinxiang',
+}, {
+  name: '新郑',
+  value: '2652',
+  pinyin: 'Xinzheng',
+}, {
+  name: '修水',
+  value: '2875',
+  pinyin: 'Xiushui',
+}, {
+  name: '宣城',
+  value: '190',
+  pinyin: 'Xuancheng',
+}, {
+  name: '许昌',
+  value: '155',
+  pinyin: 'Xuchang',
+}, {
+  name: '盱眙',
+  value: '1756',
+  pinyin: 'Xuyi',
+}, {
+  name: '徐州',
+  value: '316',
+  pinyin: 'Xuzhou',
+}, {
+  name: '延边朝鲜族自治州',
+  value: '54',
+  pinyin: 'Yanbian',
+}, {
+  name: '盐城',
+  value: '223',
+  pinyin: 'Yancheng',
+}, {
+  name: '扬州',
+  value: '346',
+  pinyin: 'Yangzhou',
+}, {
+  name: '烟台',
+  value: '326',
+  pinyin: 'Yantai',
+}, {
+  name: '宜昌',
+  value: '270',
+  pinyin: 'Yichang',
+}, {
+  name: '银川',
+  value: '360',
+  pinyin: 'Yinchuan',
+}, {
+  name: '营口',
+  value: '281',
+  pinyin: 'Yingkou',
+}, {
+  name: '鹰潭',
+  value: '279',
+  pinyin: 'Yingtan',
+}, {
+  name: '伊通满族自治',
+  value: '491',
+  pinyin: 'Yitong',
+}, {
+  name: '尤溪',
+  value: '1977',
+  pinyin: 'Youxi',
+}, {
+  name: '岳阳',
+  value: '220',
+  pinyin: 'Yueyang',
+}, {
+  name: '榆林',
+  value: '231',
+  pinyin: 'Yulin',
+}, {
+  name: '运城',
+  value: '328',
+  pinyin: 'Yuncheng',
+}, {
+  name: '榆树',
+  value: '469',
+  pinyin: 'Yushu',
+}, {
+  name: '余姚',
+  value: '2215',
+  pinyin: 'Yuyao',
+}, {
+  name: '枣庄',
+  value: '172',
+  pinyin: 'Zaozhuang',
+}, {
+  name: '张家口',
+  value: '264',
+  pinyin: 'Zhangjiakou',
+}, {
+  name: '漳州',
+  value: '255',
+  pinyin: 'Zhangzhou',
+}, {
+  name: '郑州',
+  value: '268',
+  pinyin: 'Zhengzhou',
+}, {
+  name: '中牟',
+  value: '1680',
+  pinyin: 'Zhongmou',
+}, {
+  name: '中山',
+  value: '187',
+  pinyin: 'Zhongshan',
+}, {
+  name: '舟山',
+  value: '245',
+  pinyin: 'Zhoushan',
+}, {
+  name: '珠海',
+  value: '140',
+  pinyin: 'Zhuhai',
+}, {
+  name: '驻马店',
+  value: '269',
+  pinyin: 'Zhumadian',
+}, {
+  name: '株洲',
+  value: '222',
+  pinyin: 'Zhuzhou',
+}, {
+  name: '淄博',
+  value: '354',
+  pinyin: 'Zibo',
+}, {
+  name: '自贡',
+  value: '78',
+  pinyin: 'Zigong',
+}];
+
+exports.getCityList = (filter) => {
+  if (filter === undefined) {
+    return allCity;
+  }
+
+  return allCity.filter(filter);
+};

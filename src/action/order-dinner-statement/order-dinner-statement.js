@@ -1,8 +1,8 @@
 const config = require('../../config');
 const createAction = require('redux-actions').createAction;
-const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
-const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
-const isGroupDish = require('../../helper/dish-hepler.js').isGroupDish;
+const getUrlParam = require('../../helper/dish-helper.js').getUrlParam;
+const getDishesPrice = require('../../helper/dish-helper.js').getDishesPrice;
+const isGroupDish = require('../../helper/dish-helper.js').isGroupDish;
 const helper = require('../../helper/order-helper.js');
 require('es6-promise');
 require('isomorphic-fetch');
@@ -130,6 +130,8 @@ exports.submitDinnerOrder = (needPayMoney, receipt) => (dispatch, getState) => {
           const paramStr = `shopId=${shopId}&orderId=${result.data.orderId}`;
           location.href = `/shop/payDetail?${paramStr}&orderType=TS`;
         }
+      } else if (result.code === '70500') {
+        location.reload(true);
       } else {
         dispatch(setErrorMsg(result.msg));
       }

@@ -2,7 +2,7 @@ const React = require('react');
 const classnames = require('classnames');
 const Counter = require('../mui/counter.jsx');
 const shallowCompare = require('react-addons-shallow-compare');
-const helper = require('../../helper/dish-hepler');
+const helper = require('../../helper/dish-helper');
 const imagePlaceholder = require('../../asset/images/dish-placeholder.png');
 const _find = require('lodash.find');
 require('./dish-list-item.scss');
@@ -54,8 +54,10 @@ module.exports = React.createClass({
     const title = Array.isArray(dishData.groups) ? '套餐选项' : '商品选项';
     return (
       <div className="counter">
-        {count > 0 ? <span className="counter-num">{count}</span> : false}
-        <a className="btn--ellips btn-choose-property" onTouchTap={this.onBtnTap}>{title}</a>
+        <a className="btn--ellips btn-choose-property" onTouchTap={this.onBtnTap}>
+          {title}
+          {count > 0 ? <span className="counter-num special-count">{count}</span> : false}
+        </a>
       </div>
     );
   },

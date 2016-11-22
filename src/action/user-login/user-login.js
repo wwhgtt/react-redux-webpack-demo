@@ -3,7 +3,7 @@ const createAction = require('redux-actions').createAction;
 require('es6-promise');
 require('isomorphic-fetch');
 
-const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getUrlParam = require('../../helper/dish-helper.js').getUrlParam;
 const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 const shopId = getUrlParam('shopId');
 
@@ -11,22 +11,35 @@ const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error =>
 const setLoadingInfo = exports.setLoadingInfo = createAction('SET_LOADING_INFO', info => info);
 const setSupportInfo = createAction('SET_SUPPORT_INFO', info => info);
 const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
+const setUserPhone = createAction('SET_USER_PHONE', phone => phone);
 
+exports.fetchLoginPhone = () => (dispatch, getState) => {
+  const loginPhone = localStorage.getItem('loginPhone');
+  dispatch(setUserPhone(loginPhone));
+};
 exports.login = (info) => (dispatch, getState) => {
+  let fromBrand = 1;
   if (!shopId) {
     dispatch(setErrorMsg('门店编码不能为空'));
     return false;
   }
 
   const returnUrl = getUrlParam('returnUrl') || encodeURIComponent(`/brand/index${location.search}`);
+  const returnUrlDecode = decodeURIComponent(returnUrl);
+  const returnUrlPath = returnUrlDecode.substring(0, returnUrlDecode.indexOf('?'));
+  const isFromBrand = /dishBox|Dinner|queue|prepare/.test(returnUrlPath);
+  if (isFromBrand) {
+    fromBrand = 0;
+  }
+
   if (info.isWeixin) {
-    location.href = `${config.userLoginWXURL}?shopId=${shopId}&returnUrl=${returnUrl}`;
+    location.href = `${config.userLoginWXURL}?shopId=${shopId}&returnUrl=${returnUrl}&fromBrand=${fromBrand}`;
     return false;
   }
 
   dispatch(setLoadingInfo({ ing: true, text: '系统处理中...' }));
   const timestamp = getState().timestamp || new Date().getTime();
-  const url = `${config.userLoginAPI}?shopId=${shopId}&mobile=${info.phoneNum}&code=${info.code}&timeStamp=${timestamp}`;
+  const url = `${config.userLoginAPI}?shopId=${shopId}&mobile=${info.phoneNum}&code=${info.code}&timeStamp=${timestamp}&fromBrand=${fromBrand}`;
   return fetch(url, config.requestOptions).
     then(res => {
       if (!res.ok) {
@@ -65,9 +78,15 @@ exports.fetchVericationCode = (phoneNum) => (dispatch, getState) => {
       dispatch(setLoadingInfo({ ing: false }));
       if (result.code !== '200') {
         dispatch(setErrorMsg(result.msg));
-        return;
+        if (result.code === '10100') {
+          localStorage.setItem('loginPhone', phoneNum);
+          setTimeout(function () {
+            location.reload(true);
+          }, 3000);
+        }
       }
-      dispatch(setTimeStamp(result.data.timeStamp));
+      localStorage.removeItem('loginPhone');
+      return dispatch(setTimeStamp(result.data.timeStamp));
     }).
     catch(err => {
       throw new Error(err);
@@ -96,4 +115,3 @@ exports.fetchSupportInfo = () => (dispatch, getState) => {
       throw new Error(err);
     });
 };
-

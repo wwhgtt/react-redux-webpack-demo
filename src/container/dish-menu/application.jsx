@@ -13,6 +13,8 @@ const DishDetailContainer = require('../../component/dish-menu/detail/dish-detai
 const DishDescPopup = require('../../component/dish-menu/detail/dish-desc-popup.jsx');
 const Toast = require('../../component/mui/toast.jsx');
 const DishMesthead = require('../../component/dish-menu/dish-mesthead.jsx');
+const helper = require('../../helper/dish-helper');
+const type = helper.getUrlParam('type');
 
 const DishMenuApplication = React.createClass({
   displayName: 'DishMenuApplication',
@@ -107,13 +109,12 @@ const DishMenuApplication = React.createClass({
     const marketList = shopInfo.marketList;
     const marketListUpdate = shopInfo.marketListUpdate;
     const { dishPageTpl, enableMemberRegistry, discountProps } = this.props;
-    const isMember = discountProps && discountProps.isMember || false;
+    const isMember = discountProps && discountProps.isMember;
 
     return (
       <div className="application">
         {
-          // 临时取消注册
-          (enableMemberRegistry && isMember === false && false) &&
+          (enableMemberRegistry && isMember === false) &&
             <div className="register notice">
               <a href={`/member/register${location.search}&returnUrl=${encodeURIComponent(location.href)}`}>去注册</a>
               <p>注册会员享受更多福利哟～</p>
@@ -121,12 +122,8 @@ const DishMenuApplication = React.createClass({
         }
         <div className="main">
           <DishMesthead
-            registered={isMember}
-            dishesData={dishesData}
             shopInfo={shopInfo}
             shopLogo={shopLogo}
-            marketList={marketList}
-            marketListUpdate={marketListUpdate}
           />
           <div ref="scrollWrap" className={`${dishPageTpl} scroller-wrap`}>
             <DishTypeScroller
@@ -151,6 +148,7 @@ const DishMenuApplication = React.createClass({
           dishes={dishesDataDuplicate} takeawayServiceProps={takeawayServiceProps}
           openTimeList={openTimeList} isAcceptTakeaway={isAcceptTakeaway}
           onOrderBtnTap={orderDish} onBillBtnTap={confirmOrder} onClearBtnTap={removeAllOrders}
+          urlType={type}
         />
         {dishDetailData !== undefined ?
           <DishDetailContainer

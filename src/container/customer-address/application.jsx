@@ -1,7 +1,7 @@
 const React = require('react');
 const connect = require('react-redux').connect;
 const actions = require('../../action/customer-address/customer-address');
-const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getUrlParam = require('../../helper/dish-helper.js').getUrlParam;
 const StandardAddressSelect = require('../../component/mui/standard-addrselect/standard-addrselect.jsx');
 const CustomerAddressEditor = require('../../component/customer-address/customer-address-editor.jsx');
 const Toast = require('../../component/mui/toast.jsx');
@@ -82,12 +82,20 @@ const CustomerAddressApplication = React.createClass({
   },
   render() {
     const { childView, errorMessage, clearErrorMsg, customerProps } = this.props;
+    const { longitude, latitude } = customerProps;
+    let currentPoint = null;
+
+    if (longitude && latitude) {
+      currentPoint = { longitude, latitude };
+    }
+
     const getElement = () => {
       if (childView === '#address-select') {
         return (
           <StandardAddressSelect
             placeholder="请输入收货位置"
             searchResultMaxLength={6}
+            currentPoint={currentPoint}
             onSelectComplete={this.handleSelectComplete}
           />);
       }

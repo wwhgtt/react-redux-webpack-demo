@@ -3,6 +3,7 @@ const createAction = require('redux-actions').createAction;
 require('es6-promise');
 require('isomorphic-fetch');
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
+const setLoadMsg = createAction('SET_LOAD_MSG', loadInfo => loadInfo);
 const setCommercialProps = createAction('SET_COMMERCIAL_PROPS', props => props);
 const setTableProps = createAction('SET_TABLE_PROPS', props => props);
 const setTableAvaliable = createAction('SET_TABLE_AVALIABLE', props => props);
@@ -11,7 +12,7 @@ const setOrderProps = exports.setOrderProps = createAction('SET_ORDER_PROPS', (e
 exports.setCustomerProps = createAction('SET_CUSTOMER_PROPS', option => option);
 const setPhoneValidateProps = exports.setPhoneValidateProps = createAction('SET_PHONE_VALIDATE_PROPS', bool => bool);
 const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
-const getUrlParam = require('../../helper/dish-hepler.js').getUrlParam;
+const getUrlParam = require('../../helper/dish-helper.js').getUrlParam;
 const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCodeParamStr;
 const shopId = getUrlParam('shopId');
 exports.fetchCommercialProps = () => (dispatch, getState) =>
@@ -95,6 +96,7 @@ const placeOrder = exports.placeOrder = (note) => (dispatch, getState) => {
       + '&orderNumber=' + state.dinePersonCount
       + '&orderTime=' + orderTime
       + '&shopId=' + getUrlParam('shopId');
+  dispatch(setLoadMsg({ status:true, word:'预定中...' }));
   fetch(`${config.submitPlaceOrderAPI}${params}`, config.requestOptions)
     .then(res => {
       if (!res.ok) {
@@ -107,8 +109,10 @@ const placeOrder = exports.placeOrder = (note) => (dispatch, getState) => {
         location.href = `/booking/bookingDetail?shopId=${shopId}&orderId=${result.data.bookingId}`;
       } else if (result.code.toString() === '20013') {
         dispatch(setPhoneValidateProps(true));
+        dispatch(setLoadMsg({ status:false, word:'' }));
       } else {
         dispatch(setErrorMsg(result.msg));
+        dispatch(setLoadMsg({ status:false, word:'' }));
       }
     })
     .catch(err => {

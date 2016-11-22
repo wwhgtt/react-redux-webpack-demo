@@ -25,6 +25,10 @@ module.exports = function (
       sex:null,
       mobile:null,
     },
+    load:{
+      status:false,
+      word:'加载中',
+    },
     dinePersonCount:4,
     errorMessage:null,
     shuoldPhoneValidateShow:false,
@@ -123,6 +127,8 @@ module.exports = function (
       return state.set('shuoldPhoneValidateShow', payload);
     case 'SET_TIMESTAMP':
       return state.set('timeStamp', payload);
+    case 'SET_LOAD_MSG':
+      return state.set('load', payload);
     default:
   }
   return state;

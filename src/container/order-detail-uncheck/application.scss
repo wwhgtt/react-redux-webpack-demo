@@ -68,7 +68,6 @@
   }
 }
 
-
 .dish-head {
   font-size: 14px;
 }
@@ -80,6 +79,7 @@
 }
 
 .btn-count {
+  display: block;
   text-align: center;
   color: $color-white;
   background-color: #ffc43a;
@@ -116,10 +116,6 @@
 }
 
 .order-operate {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
   height: 50px;
 }
 

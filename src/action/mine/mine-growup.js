@@ -6,12 +6,13 @@ const getUrlParam = require('../../helper/common-helper').getUrlParam;
 const createAction = require('redux-actions').createAction;
 
 const setGrowupInfo = createAction('SET_GROWUP_INFO', info => info);
-const setGrownLevelInfo = createAction('SET_GROWNLEVELS_INFO', info => info);
+const setCurrGrownRule = createAction('SET_CURRGROWN_RULE', rule => rule);
 const shopId = getUrlParam('shopId');
 
 // 获取基本信息
-exports.fetchGrowupInfo = (currentPage) => (dispatch, getStates) =>
-  fetch(`${config.getGrowthValueAPI}?shopId=${shopId}&currentPage=${currentPage}`, config.requestOptions)
+exports.fetchGrowupInfo = (currentPage) => (dispatch, getStates) => {
+  const pageSize = 12;
+  return fetch(`${config.getGrownDetailAPI}?shopId=${shopId}&currentPage=${currentPage}&pageSize=${pageSize}`, config.requestOptions)
     .then(res => {
       if (!res.ok) {
         return false;
@@ -23,9 +24,10 @@ exports.fetchGrowupInfo = (currentPage) => (dispatch, getStates) =>
         dispatch(setGrowupInfo(res.data));
       }
     });
+};
 
-exports.fetchGrownLevelsInfo = () => (dispatch, getStates) =>
-  fetch(`${config.getGrownLevelsAPI}?shopId=${shopId}`, config.requestOptions)
+exports.fetchCurrGrownRule = () => (dispatch, getStates) =>
+  fetch(`${config.getCurrGrownRuleAPI}?shopId=${shopId}`, config.requestOptions)
     .then(res => {
       if (!res.ok) {
         return false;
@@ -34,6 +36,6 @@ exports.fetchGrownLevelsInfo = () => (dispatch, getStates) =>
     })
     .then(res => {
       if (res.code === '200') {
-        dispatch(setGrownLevelInfo(res.data || []));
+        dispatch(setCurrGrownRule(res.data || []));
       }
     });

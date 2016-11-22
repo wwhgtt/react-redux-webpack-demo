@@ -13,10 +13,12 @@ module.exports = React.createClass({ // ShowBasicInfo
   },
   render() {
     const { listName, buildListElement, hideLoad } = this.props;
+    const noRecords = !buildListElement || buildListElement.length === 0;
+    const recordsClasName = `section records ${noRecords ? 'records-empty' : ''}`;
     return (
       <div className="detail">
         <div className="detail-title">{listName}</div>
-        <div className="section records">
+        <div className={recordsClasName}>
           <div className="records-inner">
             {buildListElement}
           </div>

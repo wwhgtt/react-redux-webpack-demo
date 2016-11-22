@@ -1,5 +1,6 @@
 const React = require('react');
 const classnames = require('classnames');
+const dateUtility = require('../../helper/common-helper.js').dateUtility;
 const getRelatedToDishCouponProps = require('../../helper/order-helper.js').getRelatedToDishCouponProps;
 module.exports = React.createClass({
   displayName: 'CouponOption',
@@ -14,6 +15,8 @@ module.exports = React.createClass({
     codeNumber:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]).isRequired,
     id:React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]).isRequired,
     onTouchTap:React.PropTypes.func.isRequired,
+    periodStart:React.PropTypes.any.isRequired,
+    periodEnd:React.PropTypes.any.isRequired,
     isChecked:React.PropTypes.bool,
     weixinValue: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.string]),
   },
@@ -57,7 +60,7 @@ module.exports = React.createClass({
       identifyCouponInfo.couponName = '礼品券';
       identifyCouponInfo.classNameForCoupon = 'coupon-lipin';
     } else {
-      identifyCouponInfo.couponName = '现金券';
+      identifyCouponInfo.couponName = '代金券';
       identifyCouponInfo.classNameForCoupon = 'coupon-xianjin';
     }
     return identifyCouponInfo;
@@ -102,7 +105,10 @@ module.exports = React.createClass({
         }
         return gift;
       });
-      const giftElement = (<div className="coupon-rate" data-gift-amount={gift.number}>{gift.name}</div>);
+      const giftElement = (<div className="coupon-rate">
+        <span className="coupon-value coupon-gift" data-gift-amount={gift.number}>{gift.name}</span>
+        <span className="coupon-title">礼品券</span>
+      </div>);
       return giftElement;
     }
     const giftElement = (<div className="coupon-rate" data-gift-amount={getRelatedToDishCouponProps(coupDishBeanList[0]).number}>
@@ -131,35 +137,55 @@ module.exports = React.createClass({
     );
   },
   render() {
-    const { instructions, coupRuleBeanList, coupDishBeanList, fullValue,
+    const { instructions, coupRuleBeanList, coupDishBeanList, fullValue, periodStart, periodEnd, weixinValue,
             couponType, validStartDate, codeNumber, validEndDate, isChecked, onTouchTap, id } = this.props;
     const { isInstructionsOpen } = this.state;
     if (!this.judgeCouponAvaliabl(coupRuleBeanList, coupDishBeanList)) return false;
     return (
       <div
-        className={classnames('coupon', this.judgeCouponInfoByCouponType(couponType).classNameForCoupon)}
+        className="coupon"
         onTouchTap={onTouchTap} data-id={id}
       >
         <div className="coupon-card flex-row" >
-          <div className="coupon-card-left">
+          <div className={classnames('coupon-card-left', this.judgeCouponInfoByCouponType(couponType).classNameForCoupon)}>
             {couponType === 3 ?
               this.composeGiftCouponProps(coupRuleBeanList, coupDishBeanList)
               :
-              <div className="coupon-rate">{this.getCouponValue(couponType, coupRuleBeanList)}</div>
+              <div className="coupon-rate">
+                <span className="coupon-value">{this.getCouponValue(couponType, coupRuleBeanList)}</span>
+                <span className="coupon-title">{this.judgeCouponInfoByCouponType(couponType).couponName}</span>
+                {weixinValue ?
+                  <span className="coupon-weixin"></span>
+                  :
+                  false
+                }
+              </div>
             }
-            <p className="coupon-text--grey">消费满{fullValue}可用</p>
-          </div>
-          <div className="coupon-card-right flex-rest">
-            <h3 className="coupon-title">
-              {this.judgeCouponInfoByCouponType(couponType).couponName}
-            </h3>
-            <p className="coupon-text--grey">有效期: {validStartDate}-{validEndDate}</p>
+            <p className="coupon-text--grey">
+              <span>消费满{fullValue}可用</span>
+              {periodStart && periodEnd ?
+                <span>({String(periodStart).substr(0, 5)}～{String(periodEnd).substr(0, 5)})</span>
+                :
+                false
+              }
+            </p>
             <button
-              className={classnames('coupon-text--dark coupon-dropdown-trigger', { 'is-open': this.state.isInstructionsOpen })}
+              className={
+                classnames('coupon-text--dark coupon-dropdown-trigger',
+                  { 'is-open': this.state.isInstructionsOpen, 'for-gift': this.judgeCouponInfoByCouponType(couponType).couponName === '礼品券' }
+                )
+              }
               onTouchTap={this.expandInstructions}
             >
               {this.judgeCouponInfoByCouponType(couponType).couponName}使用规则
             </button>
+          </div>
+          <div className="coupon-card-right flex-rest">
+            <h3 className="coupon-time">
+              有效期
+            </h3>
+            <p className="coupon-text--grey">{dateUtility.format(new Date(validStartDate), 'yyyy/MM/dd')}</p>
+            <p className="coupon-text--grey">{dateUtility.format(new Date(validEndDate), 'yyyy/MM/dd')}</p>
             {/* <a className="coupon-go-order" href="">去点菜</a> */}
           </div>
           {isChecked ?

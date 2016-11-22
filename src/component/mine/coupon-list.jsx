@@ -1,8 +1,10 @@
 const React = require('react');
 const couponHelper = require('../../helper/coupon-helper');
-const noCouponLogo = require('../../asset/images/nocoupon.svg');
 const shallowCompare = require('react-addons-shallow-compare');
+
 const ItemSpand = require('../common/item-spand.jsx');
+const noCouponLogo = require('../../asset/images/nocoupon.svg');
+
 require('./coupon-list.scss');
 
 module.exports = React.createClass({
@@ -24,7 +26,7 @@ module.exports = React.createClass({
   componentDidMount() {},
   componentWillReceiveProps(nextProps) {
     const { loyaltyCouponList, weixinCouponList } = this.props;
-    if (nextProps.loyaltyCouponList && nextProps.loyaltyCouponList.length !== 0 && loyaltyCouponList !== nextProps.loyaltyCouponList) {
+    if (nextProps.loyaltyCouponList && loyaltyCouponList !== nextProps.loyaltyCouponList) {
       this.setState({
         couponLogo:noCouponLogo,
         loyaltyCouponCanUseList:couponHelper.filterCouponListByStatus(nextProps.loyaltyCouponList, 1),
@@ -45,29 +47,14 @@ module.exports = React.createClass({
   },
   getValidTime(couponStatus, startDate, endDate, checkTime) {
     let validTime = '';
-    if (couponStatus !== 1) {
-      if (couponStatus === 3) {
-        validTime = (
-          <div>
-            <span className="validity-date">{couponHelper.formateDate(startDate)}</span>
-            {
-              startDate !== endDate && <span className="validity-date">{couponHelper.formateDate(endDate)}</span>
-            }
-          </div>
-        );
-      } else {
-        validTime = <span className="validity-date">{couponHelper.formateOriginDate(checkTime)}</span>;
-      }
-    } else {
-      validTime = (
-        <div>
-          <span className="validity-date">{couponHelper.formateDate(startDate)}</span>
-          {
-            startDate !== endDate && <span className="validity-date">{couponHelper.formateDate(endDate)}</span>
-          }
-        </div>
-      );
-    }
+    validTime = (
+      <div>
+        <span className="validity-date">{couponHelper.formateDate(startDate)}</span>
+        {
+          startDate !== endDate && <span className="validity-date">{couponHelper.formateDate(endDate)}</span>
+        }
+      </div>
+    );
 
     return validTime;
   },

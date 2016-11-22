@@ -1,12 +1,13 @@
 const React = require('react');
 const config = require('../../config');
 const commonHelper = require('../../helper/common-helper');
-
-const shopId = commonHelper.getUrlParam('shopId');
 const classnames = require('classnames');
-require('./show-vip-card-list.scss');
+
 const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 const VipCurrentRights = require('./get-vip-current-rights.jsx');
+const shopId = commonHelper.getUrlParam('shopId');
+
+require('./show-vip-card-list.scss');
 
 module.exports = React.createClass({
   displayName: 'ShowVipCardList',
@@ -39,6 +40,7 @@ module.exports = React.createClass({
     return (
       <div className="list-group-outer">
         <div className="list-group">
+        {userInfo.loginType === 0 &&
           <div className="list-item" name="我的余额">
             <a className="list-link" href={valueCardURL}>
               <i className="list-icon" name="WDYE"></i>
@@ -47,6 +49,7 @@ module.exports = React.createClass({
               <span className="list-arrow list-arrow-right"></span>
             </a>
           </div>
+        }
           <div className="list-item" name="我的等级">
             <a className="list-link" href={grownLevelxURL}>
               <i className="list-icon" name="WDDJ"></i>

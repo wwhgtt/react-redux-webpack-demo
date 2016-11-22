@@ -1,5 +1,6 @@
 const React = require('react');
 const connect = require('react-redux').connect;
+const classnames = require('classnames');
 const dinnerDetailAction = require('../../action/order-detail/dinner-detail.js');
 const commonHelper = require('../../helper/common-helper.js');
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
@@ -14,6 +15,7 @@ require('./application.scss');
 
 const shopId = commonHelper.getUrlParam('shopId');
 const shopLogoDefault = require('../../asset/images/logo_default.svg');
+const listEntry = commonHelper.getUrlParam('listEntry');
 
 const DinnerDetailApplication = React.createClass({
   displayName: 'DinnerDetailApplication',
@@ -25,6 +27,8 @@ const DinnerDetailApplication = React.createClass({
   getInitialState() {
     return {
       countDown: 0,
+      isCouponBigShow: false,
+      isCounponSmallShow: false,
     };
   },
 
@@ -38,6 +42,15 @@ const DinnerDetailApplication = React.createClass({
       const countDownOri = 900000 - (parseInt(new Date().getTime(), 10) - parseInt(dinnerDetail.dateTime, 10));
       if (countDownOri > 0 && countDownOri <= 900000 && dinnerDetail.status === '订单待支付') {
         this.setState({ countDown: countDownOri });
+      }
+    }
+
+    if (listEntry) {
+      this.setState({ isCounponSmallShow : true });
+    } else {
+      if (!this.isCouponShow) {
+        this.setState({ isCouponBigShow: true });
+        this.isCouponShow = true;
       }
     }
   },
@@ -54,7 +67,7 @@ const DinnerDetailApplication = React.createClass({
       } else {
         clearInterval(this.countDownInteval);
         if (!this.isReGetInfo) {
-          this.props.getDinnerDetail();
+          setTimeout(() => { this.props.getDinnerDetail(); }, 2000);
           this.isReGetInfo = true;
         }
       }
@@ -92,8 +105,15 @@ const DinnerDetailApplication = React.createClass({
     return countDownStr;
   },
 
+  // 关闭直发券
+  handleCloseCounpon(event) {
+    event.preventDefault();
+    this.setState({ isCounponSmallShow: true, isCouponBigShow: false });
+  },
+
   render() {
     const { dinnerDetail } = this.props;
+    const { isCounponSmallShow, isCouponBigShow } = this.state;
     const deskNo = {
       area: dinnerDetail.tableArea,
       table: dinnerDetail.tableNo,
@@ -140,51 +160,53 @@ const DinnerDetailApplication = React.createClass({
               )
             }
             </div>
-            <div className="options-group option-extra option-min">
-              {
-                dinnerDetail.extraFee && dinnerDetail.extraFee.map((item, index) =>
-                  <div className="option" key={index}>
-                    <span>{item.privilegeName}</span>
-                    <div className="fr">{item.privilegeAmount < 0 ? '-' : ''}<span className="price">{Math.abs(item.privilegeAmount)}</span></div>
-                  </div>
-                )
-              }
-            </div>
-            <div className="list-default option-privilege">
-              {
-                dinnerDetail.tradePrivileges && dinnerDetail.tradePrivileges.map((item, index) =>
-                  <div className="list-item flex-row" key={index}>
-                    <span className={`icon-privilege icon-${Math.abs(item.privilegeType)}`}>{item.privilegeName}</span>
-                    {item.privilegeValue && <span className="list-privilege-value">-{Math.abs(item.privilegeValue)}</span>}
-                    <div className="fr list-privilege">-<span className="price">{Math.abs(item.privilegeAmount)}</span></div>
-                  </div>
-                )
-              }
-              {
-                Boolean(dinnerDetail.carryRuleAmount) && (
-                  <div className="list-item flex-row">
-                    <span className="icon-privilege icon-carry">自动抹零</span>
-                    <div className="fr">
-                      {dinnerDetail.carryRuleAmount < 0 ? '-' : ''}<span className="price">{Math.abs(dinnerDetail.carryRuleAmount)}</span>
+            {dinnerDetail.extraFee && dinnerDetail.extraFee.length > 0 &&
+              <div className="options-group option-extra option-min">
+                {
+                  dinnerDetail.extraFee && dinnerDetail.extraFee.map((item, index) =>
+                    <div className="option" key={index}>
+                      <span>{item.privilegeName}</span>
+                      <div className="fr">{item.privilegeAmount < 0 ? '-' : ''}<span className="price">{Math.abs(item.privilegeAmount)}</span></div>
                     </div>
-                  </div>
-                )
-              }
-            </div>
+                  )
+                }
+              </div>
+            }
+            {dinnerDetail.tradePrivileges && dinnerDetail.tradePrivileges.length > 0 &&
+              <div className="list-default option-privilege">
+                {
+                  dinnerDetail.tradePrivileges && dinnerDetail.tradePrivileges.map((item, index) =>
+                    <div className="list-item" key={index}>
+                      <span className={`icon-privilege ellipsis icon-${Math.abs(item.privilegeType)}`}>{item.privilegeName}</span>
+                      {item.privilegeValue && <span className="list-privilege-value">-{Math.abs(item.privilegeValue)}</span>}
+                      <div className="fr list-privilege">-<span className="price">{Math.abs(item.privilegeAmount)}</span></div>
+                    </div>
+                  )
+                }
+                {
+                  Boolean(dinnerDetail.carryRuleAmount) && (
+                    <div className="list-item">
+                      <span className="icon-privilege ellipsis icon-carry">自动抹零</span>
+                      <div className="fr">
+                        -<span className="price">{Math.abs(dinnerDetail.carryRuleAmount)}</span>
+                      </div>
+                    </div>
+                  )
+                }
+              </div>
+            }
             <div className="list-statictis">
-              <div className="flex-row">
-                <div className="flex-row-item">
-                  <span className="list-statictis-title">原价</span>
-                  <span className="price ellipsis list-statictis-origin">{this.getOriginPrice()}2345432</span>
-                </div>
-                <div className="flex-row-item">
-                  <span className="list-statictis-title">共优惠</span>
-                  <span className="price ellipsis list-statictis-privilage">{Math.abs(dinnerDetail.tradePrivilegeAmount || 0)}234567654</span>
-                </div>
-                <div className="flex-row-item">
-                  <span className="list-statictis-title">总计：</span>
-                  <span className="price ellipsis list-statictis-total">{dinnerDetail.tradeAmount}4567876543</span>
-                </div>
+              <div className="list-statictis-item">
+                <span className="list-statictis-title">原价</span>
+                <span className="price ellipsis list-statictis-origin">{this.getOriginPrice()}</span>
+              </div>
+              <div className="list-statictis-item">
+                <span className="list-statictis-title">共优惠</span>
+                <span className="price ellipsis list-statictis-privilage">{Math.abs(dinnerDetail.tradePrivilegeAmount || 0)}</span>
+              </div>
+              <div className="list-statictis-item">
+                <span className="list-statictis-title">总计:</span>
+                <span className="price ellipsis list-statictis-total">{dinnerDetail.tradeAmount}</span>
               </div>
             </div>
             <p className="list-other">其他信息</p>
@@ -192,11 +214,11 @@ const DinnerDetailApplication = React.createClass({
               <div className="list-default">
                 <div className="list-item">
                   <span className="list-item-title">下单时间</span>
-                  <span className="list-item-content">{dateUtility.format(new Date(dinnerDetail.dateTime), 'yyyy/MM/dd HH:mm')}</span>
+                  <span className="list-item-content">{dateUtility.format(new Date(dinnerDetail.dateTime || 0), 'yyyy/MM/dd HH:mm')}</span>
                 </div>
                 <div className="list-item">
                   <span className="list-item-title">订单编号</span>
-                  <span className="list-item-content">{dinnerDetail.orderNumber}</span>
+                  <span className="list-item-content ellipsis">{dinnerDetail.orderNumber}</span>
                 </div>
                 <div className="list-item">
                   <span className="list-item-title">支付方式</span>
@@ -219,18 +241,38 @@ const DinnerDetailApplication = React.createClass({
               </div>
             </div>
           </div>
-          <div className="btn-oparate flex-none">
-            <div className="flex-row">
-              <a className="btn-oparate-more" href={`http://${location.host}/orderall/selectDish?shopId=${shopId}&type=TS`}>再来一单</a>
-              {dinnerDetail.businessType === 1 && (dinnerDetail.status === '订单待支付' || dinnerDetail.status === '订单支付失败') &&
-                <a
-                  className="btn-oparate-count"
-                  href={`http://${location.host}/shop/payDetail?shopId=${shopId}&orderId=${dinnerDetail.orderId}&orderType=TS`}
-                >结账</a>
+          <div className="btn-oparate flex-none clearfix">
+            <a
+              className={
+                classnames('btn-oparate-more fl',
+                  { 'width-full': dinnerDetail.businessType === 3 || !(dinnerDetail.status === '订单待支付' || dinnerDetail.status === '订单支付失败') }
+                )
               }
-            </div>
+              href={`http://${location.host}/orderall/selectDish?shopId=${shopId}&type=TS`}
+            >再来一单</a>
+            {dinnerDetail.businessType === 1 && (dinnerDetail.status === '订单待支付' || dinnerDetail.status === '订单支付失败') &&
+              <a
+                className="btn-oparate-count fl"
+                href={`http://${location.host}/shop/payDetail?shopId=${shopId}&orderId=${dinnerDetail.orderId}&orderType=TS`}
+              >结账</a>
+            }
           </div>
         </div>
+        {isCounponSmallShow && dinnerDetail.url &&
+          <a className="coupon-content-small coupon-animation" href={dinnerDetail.url}></a>
+        }
+        {isCouponBigShow && dinnerDetail.url &&
+          <div className="coupon-bg">
+            <a className="coupon-content-close" onTouchTap={this.handleCloseCounpon}></a>
+            <div className="coupon-content">
+              <div className="coupon-img coupon-content-big"></div>
+              <div className="coupon-content-tips">
+                <span>客官！是你的优惠券~</span>
+                <a className="coupon-content-btn " href={dinnerDetail.url}></a>
+              </div>
+            </div>
+          </div>
+        }
       </div>
     );
   },

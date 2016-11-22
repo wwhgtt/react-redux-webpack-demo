@@ -4,9 +4,9 @@ const ActiveSelect = require('../mui/select/active-select.jsx');
 const OrderPropOption = require('./order-prop-option.jsx');
 const helper = require('../../helper/order-helper.js');
 const OrderedDish = require('./ordered-dish.jsx');
-const getDishesPrice = require('../../helper/dish-hepler.js').getDishesPrice;
-const isSingleDishWithoutProps = require('../../helper/dish-hepler.js').isSingleDishWithoutProps;
-const getDishesCount = require('../../helper/dish-hepler.js').getDishesCount;
+const getDishesPrice = require('../../helper/dish-helper.js').getDishesPrice;
+const isSingleDishWithoutProps = require('../../helper/dish-helper.js').isSingleDishWithoutProps;
+const getDishesCount = require('../../helper/dish-helper.js').getDishesCount;
 const formatPrice = require('../../helper/common-helper.js').formatPrice;
 const classnames = require('classnames');
 require('./order-summary.scss');
@@ -141,7 +141,7 @@ module.exports = React.createClass({
                 <span className="option-btn btn-arrow-right">{serviceProps.couponsProps.inUseCoupon ? false : '未使用'}</span>
               </a>
             : false}
-            {serviceProps.integralsInfo && serviceProps.diningForm !== 0 ?
+            {serviceProps.integralsInfo ?
               <ActiveSelect
                 optionsData={[serviceProps.integralsInfo]} onSelectOption={setOrderProps}
                 optionComponent={OrderPropOption}
@@ -240,7 +240,7 @@ module.exports = React.createClass({
               {serviceProps.benefitProps && _find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 4) ?
                 <p className="order-summary-entry clearfix">
                   <span className="option-title option-title--icon order-summary-icon3">
-                    {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 4).privilegeName}:
+                    {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 4).privilegeName}
                   </span>
                   <span className="order-discount discount">
                     {_find(serviceProps.benefitProps.benefitList, benefit => benefit.privilegeType === 4).privilegeAmount}
@@ -326,7 +326,7 @@ module.exports = React.createClass({
                     </span>
                   </div>
                   <div className="order-total-right">
-                    <span className="text-dove-grey">总计 </span>
+                    <span className="text-dove-grey">总计: </span>
                     <span className="price">
                       {serviceProps.benefitProps && serviceProps.benefitProps.isPriviledge ?
                         serviceProps.benefitProps.totalAmount
