@@ -208,7 +208,7 @@ const PlaceOrderApplication = React.createClass({
             }
             <div className="options-group">
               <div className="option">
-                <span className="option-tile for-count">预订人数：</span>
+                <span className="option-tile for-count">预订人数</span>
                 <ImportableCounter
                   setErrorMsg={setErrorMsg}
                   onCountChange={this.setOrderProps}
