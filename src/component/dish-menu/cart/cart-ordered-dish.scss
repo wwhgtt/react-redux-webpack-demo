@@ -30,7 +30,7 @@
       overflow: hidden;
       width: calc(100% - #{$counter-max-width + $dish-price-width});
       margin-right: 5px;
-      padding: $item-padding 13px $item-padding 0;
+      padding: $item-padding 10px $item-padding 0;
 
       &--trigger::after {
         display: inline-block;
@@ -71,6 +71,11 @@
     > .counter {
       margin-top: 12px;
       padding: $item-padding 0;
+    }
+
+    .dish-name-inner {
+      float: left;
+      max-width: calc(100% - 28px);
     }
   }
 }
@@ -126,3 +131,4 @@
     padding-top: 0;
   }
 }
+
