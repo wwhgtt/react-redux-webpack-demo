@@ -1,6 +1,6 @@
 const React = require('react');
 const shallowCompare = require('react-addons-shallow-compare');
-
+const helper = require('../../helper/dish-helper');
 require('./book-info-sub-item.scss');
 
 module.exports = React.createClass({ // ShowBasicInfo
@@ -22,9 +22,9 @@ module.exports = React.createClass({ // ShowBasicInfo
     if (item.propertyTypeList && item.propertyTypeList.length > 0) {
       item.propertyTypeList.forEach((itemt, indext) => {
         if (itemt.type === 4) {
-          itemt.properties.forEach((itemtt, indextt) => {
-            norms += `${itemtt.name},`;
-          });
+          // itemt.properties.forEach((itemtt, indextt) => {
+          //   norms += `${itemtt.name},`;
+          // });
           return false;
         }
         propertyTypeList += ` ${itemt.name}:`;
@@ -65,21 +65,24 @@ module.exports = React.createClass({ // ShowBasicInfo
               <div className="sub-option" key={index}>
                 <div className="clearfix">
                   <div className="sub-option-name ellipsis fl">
-                    {item.name}
+                    {helper.generateDishNameWithUnit(item)}
                     {propertyTypeList.norms}
-                    {item.unitName ? `/${item.unitName}` : ''}
 
                     <i className="sub-option-reprice">+{reprice}</i>
                   </div>
                   <div className="sub-option-number fr ellipsis">x2</div>
                 </div>
-                <div className="sub-option-brief ellipsis">
-                {propertyTypeList.propertyTypeList} &nbsp;
-                {
-                  dishIngredientInfos &&
-                    `配料:${dishIngredientInfos}`
+                {propertyTypeList.propertyTypeList || dishIngredientInfos ?
+                  <div className="sub-option-brief ellipsis">
+                  {propertyTypeList.propertyTypeList} &nbsp;
+                  {
+                    dishIngredientInfos &&
+                      `配料:${dishIngredientInfos}`
+                  }
+                  </div>
+                  :
+                  false
                 }
-                </div>
               </div>
             );
           })
