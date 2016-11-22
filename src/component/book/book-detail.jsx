@@ -57,7 +57,7 @@ const BookDetail = React.createClass({
       {
         orderedChildDishes.map((item, index) =>
           <div className="dish-sub-info clearfix" key={index}>
-            <span className="dish-name ellipsis">{item.unitName ? `${item.name}/${item.unitName}` : `${item.name}`}</span>
+            <span className="dish-name ellipsis">{helper.generateDishNameWithUnit(item)}</span>
             {
               item.marketPrice && item.marketPrice !== 0 ?
                 <span className="badge-price">{item.marketPrice > 0 ? '+' : ''}{item.marketPrice}元</span>
@@ -109,4 +109,3 @@ const BookDetail = React.createClass({
 });
 
 module.exports = BookDetail;
-
