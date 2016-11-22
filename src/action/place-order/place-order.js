@@ -109,6 +109,7 @@ const placeOrder = exports.placeOrder = (note) => (dispatch, getState) => {
         location.href = `/booking/bookingDetail?shopId=${shopId}&orderId=${result.data.bookingId}`;
       } else if (result.code.toString() === '20013') {
         dispatch(setPhoneValidateProps(true));
+        dispatch(setLoadMsg({ status:false, word:'' }));
       } else {
         dispatch(setErrorMsg(result.msg));
         dispatch(setLoadMsg({ status:false, word:'' }));
