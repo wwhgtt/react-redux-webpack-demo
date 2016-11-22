@@ -20,7 +20,7 @@ const MineVipLevelApplication = React.createClass({
     getCouponList:React.PropTypes.func.isRequired,
   },
   getInitialState() {
-    return { couponStatus:'coupon-canUse', activeTab:0 };
+    return { couponStatus:'', activeTab:0 };
   },
   componentWillMount() {
     window.addEventListener('hashchange', this.setChildViewAccordingToHash);
