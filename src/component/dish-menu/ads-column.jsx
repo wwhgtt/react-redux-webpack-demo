@@ -69,6 +69,7 @@ const AdsColumn = React.createClass({
         <p className={classnames('shopdiscount-item', { jian: item.rule.type === 1, zhe: item.rule.type === 2 })} key={index}>
           <span className="spanitem">
             {formatDishesData[item.dishId].name}
+            {formatDishesData[item.dishId].spec && `(${formatDishesData[item.dishId].spec})`}
             {item.rule.dishNum > 1 ? `满${item.rule.dishNum}份${item.rule.ruleName}` : item.rule.ruleName}
             （{condition}
             每单限{item.rule.dishNum}份）
