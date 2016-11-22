@@ -203,22 +203,25 @@ const QueueDetailApplication = React.createClass({
           {
             queueDetail.queue &&
               <div>
-                <div className="divide-line">
-                  {
-                    (queueStatus || hasOrder) &&
+                {
+                  (queueStatus || hasOrder) &&
+                    <div className="divide-line">
                       <div className="divide-line-title divide-line-three">您可以</div>
-                  }
-                </div>
-                <div className="queue-operate flex-row">
-                  {
-                    queueStatus && (
-                      <div className="flex-rest">
-                        <a className="btn-queue-cancel" onTouchTap={this.handleDialog}>取消排队</a>
-                      </div>
-                    )
-                  }
-                  {checkQueueList}
-                </div>
+                    </div>
+                }
+                {
+                  (queueStatus || checkQueueList) &&
+                    <div className="queue-operate flex-row">
+                      {
+                        queueStatus && (
+                          <div className="flex-rest">
+                            <a className="btn-queue-cancel" onTouchTap={this.handleDialog}>取消排队</a>
+                          </div>
+                        )
+                      }
+                      {checkQueueList}
+                    </div>
+                }
               </div>
           }
           {this.getQueueStatus(queueDetail)}
