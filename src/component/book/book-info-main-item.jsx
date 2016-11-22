@@ -96,13 +96,12 @@ module.exports = React.createClass({ // ShowBasicInfo
         }
 
         propertyTypeList += ` ${itemt.name}:`;
-        itemt.properties.forEach((itemtt, indextt) => {
+        itemt.properties.forEach(itemtt => {
           propertyTypeList += `${itemtt.name},`;
         });
         return true;
       });
     }
-
     return {
       propertyTypeList:propertyTypeList.substring(0, propertyTypeList.length - 1),
       norms: norms ? `(${norms.substring(0, norms.length - 1)})` : '',
@@ -164,7 +163,7 @@ module.exports = React.createClass({ // ShowBasicInfo
         {
           expand && mainDish.type === 0 && (hasPropertyTypeList || hasDishIngredientInfos) && (
             <div className="option-brief ellipsis">
-              {getMainPropertyTypeBrief.getMainPropertyTypeBrief} &nbsp;
+              {getMainPropertyTypeBrief.propertyTypeList} &nbsp;
               {
                 getMainDishIngredientBrief &&
                   `配料:${getMainDishIngredientBrief}`
