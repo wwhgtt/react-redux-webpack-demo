@@ -868,9 +868,9 @@ exports.getSubmitUrlParams = (state, note, receipt) => {
   if (type === 'WM') {
     if (payMethodScope === '1' && cardCode) {
       return needPayPrice === 0 ?
-        { success:false, msg:'非常抱歉，线下支付不可使用微信卡券' }
+        { success:false, msg:'非常抱歉，0元订单不可使用微信卡券' }
         :
-        { success:false, msg:'非常抱歉，0元订单不可使用微信卡券' };
+        { success:false, msg:'非常抱歉，线下支付不可使用微信卡券' };
     }
     const sendAreaId = state.serviceProps.sendAreaId === -1 ? 0 : state.serviceProps.sendAreaId;
     const selectedDateTime = state.timeProps.selectedDateTime;
