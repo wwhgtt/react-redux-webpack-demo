@@ -85,19 +85,28 @@ module.exports = React.createClass({ // ShowBasicInfo
   },
   getMainPropertyTypeBrief(mainDish) {
     let propertyTypeList = '';
-
+    let norms = '';
     if (mainDish.propertyTypeList && mainDish.propertyTypeList.length > 0) {
       mainDish.propertyTypeList.forEach((itemt, indext) => {
+        if (itemt.type === 4) {
+          itemt.properties.forEach((itemtt, indextt) => {
+            norms += `${itemtt.name},`;
+          });
+          return false;
+        }
+
         propertyTypeList += ` ${itemt.name}:`;
         itemt.properties.forEach((itemtt, indextt) => {
           propertyTypeList += `${itemtt.name},`;
         });
+        return true;
       });
     }
 
-    return (
-      propertyTypeList.substring(0, propertyTypeList.length - 1)
-    );
+    return {
+      propertyTypeList:propertyTypeList.substring(0, propertyTypeList.length - 1),
+      norms: norms ? `(${norms.substring(0, norms.length - 1)})` : '',
+    };
   },
   getMainDishIngredientBrief(mainDish) {
     let dishIngredientInfos = '';
@@ -149,12 +158,13 @@ module.exports = React.createClass({ // ShowBasicInfo
             })}
         >
           {mainDish.name}
+          {getMainPropertyTypeBrief.norms}
           {mainDish.unitName ? `/${mainDish.unitName}` : ''}
         </div>
         {
           expand && mainDish.type === 0 && (hasPropertyTypeList || hasDishIngredientInfos) && (
             <div className="option-brief ellipsis">
-              {getMainPropertyTypeBrief} &nbsp;
+              {getMainPropertyTypeBrief.getMainPropertyTypeBrief} &nbsp;
               {
                 getMainDishIngredientBrief &&
                   `配料:${getMainDishIngredientBrief}`

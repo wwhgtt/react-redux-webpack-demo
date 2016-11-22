@@ -15,6 +15,17 @@ module.exports = {
           unitName: '份',
           propertyTypeList: [
             {
+              'name': '容量',
+              'type': 4,
+              'properties': [
+                {
+                  'id': 1,
+                  'name': '超大份',
+                  'reprice': 1.5,
+                },
+              ],
+            },
+            {
               name: '做法类别1',
               type: 1,
               properties: [

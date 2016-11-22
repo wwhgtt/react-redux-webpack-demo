@@ -18,15 +18,26 @@ module.exports = React.createClass({ // ShowBasicInfo
   },
   getPropertyTypeList(item) {
     let propertyTypeList = '';
+    let norms = '';
     if (item.propertyTypeList && item.propertyTypeList.length > 0) {
       item.propertyTypeList.forEach((itemt, indext) => {
+        if (itemt.type === 4) {
+          itemt.properties.forEach((itemtt, indextt) => {
+            norms += `${itemtt.name},`;
+          });
+          return false;
+        }
         propertyTypeList += ` ${itemt.name}:`;
         itemt.properties.forEach((itemtt, indextt) => {
           propertyTypeList += `${itemtt.name},`;
         });
+        return true;
       });
     }
-    return propertyTypeList.substring(0, propertyTypeList.length - 1);
+    return {
+      propertyTypeList:propertyTypeList.substring(0, propertyTypeList.length - 1),
+      norms: norms ? `(${norms.substring(0, norms.length - 1)})` : '',
+    };
   },
   getDishIngredientInfos(item) {
     let dishIngredientInfos = '';
@@ -55,6 +66,7 @@ module.exports = React.createClass({ // ShowBasicInfo
                 <div className="clearfix">
                   <div className="sub-option-name ellipsis fl">
                     {item.name}
+                    {propertyTypeList.norms}
                     {item.unitName ? `/${item.unitName}` : ''}
 
                     <i className="sub-option-reprice">+{reprice}</i>
@@ -62,7 +74,7 @@ module.exports = React.createClass({ // ShowBasicInfo
                   <div className="sub-option-number fr ellipsis">x2</div>
                 </div>
                 <div className="sub-option-brief ellipsis">
-                {propertyTypeList} &nbsp;
+                {propertyTypeList.propertyTypeList} &nbsp;
                 {
                   dishIngredientInfos &&
                     `配料:${dishIngredientInfos}`
