@@ -3,7 +3,7 @@ module.exports = {
   path: '/prepare/myPreOrder.json',
   template: {
     'data': {
-    	'memo':'我就是备注',
+    	'memo':'我就是dsadasd房顶上发送到倒萨打算打算的三三第三方士大夫士大夫水电费水电费sd对萨达速度房顶上风大大三大谁鼎飞丹砂水电费s骚的发送到费谁鼎飞丹砂辐射s备注',
       'dishItems':[
         {
           id: 56,

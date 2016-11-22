@@ -105,13 +105,13 @@ const placeOrder = exports.placeOrder = (note) => (dispatch, getState) => {
       return res.json();
     })
     .then(result => {
-      dispatch(setLoadMsg({ status:false, word:'' }));
       if (result.code.toString() === '200') {
         location.href = `/booking/bookingDetail?shopId=${shopId}&orderId=${result.data.bookingId}`;
       } else if (result.code.toString() === '20013') {
         dispatch(setPhoneValidateProps(true));
       } else {
         dispatch(setErrorMsg(result.msg));
+        dispatch(setLoadMsg({ status:false, word:'' }));
       }
     })
     .catch(err => {
