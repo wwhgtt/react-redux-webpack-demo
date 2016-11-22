@@ -337,8 +337,7 @@ const OrderApplication = React.createClass({
       // 表示可用状态
       this.setState({
         isSubmitBtnDisabled:!isSubmitBtnDisabled,
-      });
-      submitOrder(this.state.note, this.state.receipt);
+      }, submitOrder(this.state.note, this.state.receipt));
     }
     return false;
   },
