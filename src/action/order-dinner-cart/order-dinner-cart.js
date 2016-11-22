@@ -82,7 +82,9 @@ exports.fetchShopSetting = (setErrorMsg) => (dispatch, getState) =>
       return res.json();
     })
     .then(result => {
-      dispatch(setOrderInfo(null, { shopSetting: result.data || {} }));
+      const data = result.data || {};
+      dispatch(setOrderInfo(null, { shopSetting: data }));
+      return data;
     })
     .catch(err => {
       throw new Error(err);
