@@ -33,7 +33,6 @@
   display: block;
   height: 60px;
   padding: 0 15px;
-  border-bottom: 1px solid #e3e3e3;
 
   &-href {
     position: relative;
@@ -77,12 +76,24 @@
 }
 
 .list-content {
-  padding: 17px 15px;
+  position: relative;
+  padding: 17px 15px 17px 0;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    content: "";
+    border-bottom: 1px solid #e3e3e3;
+    transform: scale(1, .5);
+  }
 }
 
 .list-num {
   float: left;
-  width: 70px;
+  width: 88px;
   text-align: center;
   border-right: 1px dashed #e3e3e3;
 
@@ -99,7 +110,7 @@
 
 .list-detail {
   line-height: 23px;
-  margin-left: 85px;
+  margin-left: 100px;
 
   p {
     height: 23px;
@@ -133,13 +144,26 @@
 
 .list-book {
   line-height: 60px;
+  position: relative;
   height: 60px;
   padding: 0 15px;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    content: "";
+    border-bottom: 1px solid #e3e3e3;
+    transform: scale(1, .5);
+  }
 }
 
 .list-queue {
   height: 90px;
   padding-top: 16px !important;
+  padding-left: 15px;
 
   .list-num {
     width: calc(100% - 150px);
@@ -172,8 +196,20 @@
 
   &-short {
     line-height: 70px;
+    position: relative;
     height: 70px;
     padding: 0 15px;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      width: 100%;
+      content: "";
+      border-bottom: 1px solid #e3e3e3;
+      transform: scale(1, .5);
+    }
   }
 
   &-left {
