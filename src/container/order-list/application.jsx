@@ -77,16 +77,16 @@ const OrderListApplication = React.createClass({
     const { dinnerListArr, takeOutListArr, bookListArr, queueListArr } = this.state;
 
     if (JSON.stringify(this.props.orderList) !== JSON.stringify(orderList)) {
-      this.setState({ dinnerListArr: dinnerListArr.concat(orderList) });
+      this.setState({ dinnerListArr: this.mergeList(dinnerListArr, orderList) });
     }
     if (JSON.stringify(this.props.takeOutList) !== JSON.stringify(takeOutList)) {
-      this.setState({ takeOutListArr: takeOutListArr.concat(takeOutList) });
+      this.setState({ takeOutListArr: this.mergeList(takeOutListArr, takeOutList) });
     }
     if (JSON.stringify(this.props.bookList) !== JSON.stringify(bookList)) {
-      this.setState({ bookListArr: bookListArr.concat(bookList) });
+      this.setState({ bookListArr: this.mergeList(bookListArr, bookList) });
     }
     if (JSON.stringify(this.props.queueList) !== JSON.stringify(queueList)) {
-      this.setState({ queueListArr: queueListArr.concat(queueList) });
+      this.setState({ queueListArr: this.mergeList(queueListArr, queueList) });
     }
   },
 
@@ -183,6 +183,23 @@ const OrderListApplication = React.createClass({
       location.hash = '#queue'; // 排队
       setChildView('#queue');
     }
+  },
+
+  mergeList(list, newList) {
+    const existedOrders = {};
+    const result = [];
+
+    (list || []).forEach(item => {
+      existedOrders[item.orderId] = true;
+      result.push(item);
+    });
+
+    (newList || []).forEach(item => {
+      if (!existedOrders[item.orderId]) {
+        result.push(item);
+      }
+    });
+    return result;
   },
 
   render() {
