@@ -124,6 +124,15 @@ const TakeoutDetailApplication = React.createClass({
     this.setState({ isCounponSmallShow: true, isCouponBigShow: false });
   },
 
+  // 结算
+  handlePayDetail() {
+    const { takeoutDetail } = this.props;
+    const returnUrl =
+      encodeURIComponent(`http://${location.host}/order/takeOutDetail?shopId=${shopId}&orderId=${takeoutDetail.orderId}&listEntry=true`);
+    sessionStorage.setItem('rurl_payDetaill', JSON.stringify(returnUrl));
+    location.href = `http://${location.host}/shop/payDetail?shopId=${shopId}&orderId=${takeoutDetail.orderId}&orderType=WM`;
+  },
+
   render() {
     const { takeoutDetail } = this.props;
     const { isCounponSmallShow, isCouponBigShow } = this.state;
@@ -271,7 +280,7 @@ const TakeoutDetailApplication = React.createClass({
             {(takeoutDetail.status === '订单待支付' || takeoutDetail.status === '订单支付失败') &&
               <a
                 className="btn-oparate-count fl"
-                href={`http://${location.host}/shop/payDetail?shopId=${shopId}&orderId=${takeoutDetail.orderId}&orderType=WM`}
+                onTouchTap={this.handlePayDetail}
               >结账</a>
             }
           </div>
