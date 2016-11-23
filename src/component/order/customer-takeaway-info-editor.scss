@@ -75,7 +75,14 @@
         background-size: 13px 11px;
       }
     }
+
+    &:last-child {
+      .address-option-border {
+        display: none;
+      }
+    }
   }
+
   // address edit button
   &-edit {
     position: absolute;
