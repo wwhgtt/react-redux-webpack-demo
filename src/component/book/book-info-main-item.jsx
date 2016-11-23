@@ -84,7 +84,7 @@ module.exports = React.createClass({ // ShowBasicInfo
     }
   },
   getMainPropertyTypeBrief(mainDish) {
-    let propertyTypeList = '';
+    let propertyType = '';
     let norms = '';
     if (mainDish.propertyTypeList && mainDish.propertyTypeList.length > 0) {
       mainDish.propertyTypeList.forEach((itemt, indext) => {
@@ -95,15 +95,15 @@ module.exports = React.createClass({ // ShowBasicInfo
           return false;
         }
 
-        propertyTypeList += ` ${itemt.name}:`;
+        propertyType += ` ${itemt.name}:`;
         itemt.properties.forEach(itemtt => {
-          propertyTypeList += `${itemtt.name},`;
+          propertyType += `${itemtt.name},`;
         });
         return true;
       });
     }
     return {
-      propertyTypeList:propertyTypeList.substring(0, propertyTypeList.length - 1),
+      propertyType:propertyType.substring(0, propertyType.length - 1),
       norms: norms ? `(${norms.substring(0, norms.length - 1)})` : '',
     };
   },
@@ -139,8 +139,8 @@ module.exports = React.createClass({ // ShowBasicInfo
     const { expand } = this.state;
     const mainPrice = this.getMainPrice(mainDish);
     const mainNum = this.getMainNum(mainDish);
-    const getMainPropertyTypeBrief = this.getMainPropertyTypeBrief(mainDish);
-    const getMainDishIngredientBrief = this.getMainDishIngredientBrief(mainDish);
+    const mainPropertyTypeBrief = this.getMainPropertyTypeBrief(mainDish);
+    const mainDishIngredientBrief = this.getMainDishIngredientBrief(mainDish);
     const hasPropertyTypeList = mainDish.propertyTypeList && mainDish.propertyTypeList.filter(property => property.type !== 4).length > 0;
     const hasDishIngredientInfos = mainDish.dishIngredientInfos && mainDish.dishIngredientInfos.length > 0;
     const hasSubDishItems = mainDish.subDishItems && mainDish.subDishItems.length > 0;
@@ -157,16 +157,16 @@ module.exports = React.createClass({ // ShowBasicInfo
             })}
         >
           {mainDish.name}
-          {getMainPropertyTypeBrief.norms}
+          {mainPropertyTypeBrief.norms}
           {mainDish.unitName ? `/${mainDish.unitName}` : ''}
         </div>
         {
           expand && mainDish.type === 0 && (hasPropertyTypeList || hasDishIngredientInfos) && (
             <div className="option-brief ellipsis">
-              {getMainPropertyTypeBrief.propertyTypeList} &nbsp;
+              {mainPropertyTypeBrief.propertyType} &nbsp;
               {
-                getMainDishIngredientBrief &&
-                  `配料:${getMainDishIngredientBrief}`
+                mainDishIngredientBrief &&
+                  `配料:${mainDishIngredientBrief}`
               }
             </div>
           )

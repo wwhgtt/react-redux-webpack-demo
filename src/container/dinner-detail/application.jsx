@@ -111,6 +111,15 @@ const DinnerDetailApplication = React.createClass({
     this.setState({ isCounponSmallShow: true, isCouponBigShow: false });
   },
 
+  // 结算
+  handlePayDetail() {
+    const { dinnerDetail } = this.props;
+    const returnUrl =
+      encodeURIComponent(`http://${location.host}/order/orderallDetail?shopId=${shopId}&orderId=${dinnerDetail.orderId}&listEntry=true`);
+    sessionStorage.setItem('rurl_payDetaill', JSON.stringify(returnUrl));
+    location.href = `http://${location.host}/shop/payDetail?shopId=${shopId}&orderId=${dinnerDetail.orderId}&orderType=WM`;
+  },
+
   render() {
     const { dinnerDetail } = this.props;
     const { isCounponSmallShow, isCouponBigShow } = this.state;
@@ -252,8 +261,8 @@ const DinnerDetailApplication = React.createClass({
             >再来一单</a>
             {dinnerDetail.businessType === 1 && (dinnerDetail.status === '订单待支付' || dinnerDetail.status === '订单支付失败') &&
               <a
+                onTouchTap={this.handlePayDetail}
                 className="btn-oparate-count fl"
-                href={`http://${location.host}/shop/payDetail?shopId=${shopId}&orderId=${dinnerDetail.orderId}&orderType=TS`}
               >结账</a>
             }
           </div>
