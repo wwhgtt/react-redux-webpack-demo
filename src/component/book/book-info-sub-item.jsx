@@ -16,28 +16,21 @@ module.exports = React.createClass({ // ShowBasicInfo
   shouldComponentUpdate(nextProps, nextState) {
     return shallowCompare(this, nextProps, nextState);
   },
-  getPropertyTypeList(item) {
-    let propertyTypeList = '';
-    let norms = '';
+  getPropertyType(item) {
+    let propertyType = '';
     if (item.propertyTypeList && item.propertyTypeList.length > 0) {
       item.propertyTypeList.forEach((itemt, indext) => {
         if (itemt.type === 4) {
-          // itemt.properties.forEach((itemtt, indextt) => {
-          //   norms += `${itemtt.name},`;
-          // });
           return false;
         }
-        propertyTypeList += ` ${itemt.name}:`;
+        propertyType += ` ${itemt.name}:`;
         itemt.properties.forEach((itemtt, indextt) => {
-          propertyTypeList += `${itemtt.name},`;
+          propertyType += `${itemtt.name},`;
         });
         return true;
       });
     }
-    return {
-      propertyTypeList:propertyTypeList.substring(0, propertyTypeList.length - 1),
-      norms: norms ? `(${norms.substring(0, norms.length - 1)})` : '',
-    };
+    return propertyType.substring(0, propertyType.length - 1);
   },
   getDishIngredientInfos(item) {
     let dishIngredientInfos = '';
@@ -58,7 +51,7 @@ module.exports = React.createClass({ // ShowBasicInfo
       <div className="sub-option-group">
         {
           subDishItemList.map((item, index) => {
-            const propertyTypeList = this.getPropertyTypeList(item);
+            const propertyType = this.getPropertyType(item);
             const dishIngredientInfos = this.getDishIngredientInfos(item);
             const reprice = this.getReprice(item);
             return (
@@ -66,15 +59,13 @@ module.exports = React.createClass({ // ShowBasicInfo
                 <div className="clearfix">
                   <div className="sub-option-name ellipsis fl">
                     {helper.generateDishNameWithUnit(item)}
-                    {propertyTypeList.norms}
-
                     <i className="sub-option-reprice">+{reprice}</i>
                   </div>
                   <div className="sub-option-number fr ellipsis">x2</div>
                 </div>
-                {propertyTypeList.propertyTypeList || dishIngredientInfos ?
+                {propertyType || dishIngredientInfos ?
                   <div className="sub-option-brief ellipsis">
-                  {propertyTypeList.propertyTypeList} &nbsp;
+                  {propertyType} &nbsp;
                   {
                     dishIngredientInfos &&
                       `配料:${dishIngredientInfos}`

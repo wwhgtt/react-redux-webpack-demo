@@ -84,7 +84,7 @@ module.exports = React.createClass({ // ShowBasicInfo
     }
   },
   getMainPropertyTypeBrief(mainDish) {
-    let propertyTypeList = '';
+    let propertyType = '';
     let norms = '';
     if (mainDish.propertyTypeList && mainDish.propertyTypeList.length > 0) {
       mainDish.propertyTypeList.forEach((itemt, indext) => {
@@ -95,15 +95,15 @@ module.exports = React.createClass({ // ShowBasicInfo
           return false;
         }
 
-        propertyTypeList += ` ${itemt.name}:`;
+        propertyType += ` ${itemt.name}:`;
         itemt.properties.forEach(itemtt => {
-          propertyTypeList += `${itemtt.name},`;
+          propertyType += `${itemtt.name},`;
         });
         return true;
       });
     }
     return {
-      propertyTypeList:propertyTypeList.substring(0, propertyTypeList.length - 1),
+      propertyType:propertyType.substring(0, propertyType.length - 1),
       norms: norms ? `(${norms.substring(0, norms.length - 1)})` : '',
     };
   },
@@ -163,7 +163,7 @@ module.exports = React.createClass({ // ShowBasicInfo
         {
           expand && mainDish.type === 0 && (hasPropertyTypeList || hasDishIngredientInfos) && (
             <div className="option-brief ellipsis">
-              {getMainPropertyTypeBrief.propertyTypeList} &nbsp;
+              {getMainPropertyTypeBrief.propertyType} &nbsp;
               {
                 getMainDishIngredientBrief &&
                   `配料:${getMainDishIngredientBrief}`
