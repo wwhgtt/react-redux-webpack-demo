@@ -131,7 +131,10 @@ exports.submitDinnerOrder = (needPayMoney, receipt) => (dispatch, getState) => {
           location.href = `/shop/payDetail?${paramStr}&orderType=TS`;
         }
       } else if (result.code === '70500') {
-        location.reload(true);
+        dispatch(setErrorMsg(result.msg));
+        setTimeout(function () {
+          location.reload(true);
+        }, 3000);
       } else {
         dispatch(setErrorMsg(result.msg));
       }
