@@ -1,7 +1,7 @@
 const Immutable = require('seamless-immutable');
 
 const defaultState = Immutable.from({
-  orderList: [],
+  orderList: {},
   childView: '',
   takeOutList: [],
   bookList: [],

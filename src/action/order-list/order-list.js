@@ -30,7 +30,7 @@ exports.getOrderList = (pageNum) => (dispatch, getStates) => {
   then(res => {
     dispatch(setLoadStatus(false));
     if (res.code === '200') {
-      dispatch(setOrderList(res.data.list));
+      dispatch(setOrderList(res.data));
     } else {
       dispatch(setErrorMsg('订单列表获取失败'));
     }

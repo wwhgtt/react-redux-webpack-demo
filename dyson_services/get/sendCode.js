@@ -7,7 +7,7 @@ module.exports = {
       timeStamp: 1472439343798,
     },
     time: 1472439316794,
-    code: '10100',
+    code: '200',
     msg: '未登录',
   },
 };
