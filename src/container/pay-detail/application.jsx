@@ -12,7 +12,7 @@ const PayDetailApplication = React.createClass({
     // MapedActionsToProps
     fetchPayDetail: React.PropTypes.func.isRequired,
     // MapedStatesToProps
-    payProps: React.PropTypes.object.isRequired,
+    payProps: React.PropTypes.object,
     errorMessage:React.PropTypes.string,
   },
   componentWillMount() {},
