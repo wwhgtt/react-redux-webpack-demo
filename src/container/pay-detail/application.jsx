@@ -11,6 +11,7 @@ const PayDetailApplication = React.createClass({
   propTypes:{
     // MapedActionsToProps
     fetchPayDetail: React.PropTypes.func.isRequired,
+    setPayDetail: React.PropTypes.func.isRequired,
     // MapedStatesToProps
     payProps: React.PropTypes.object,
     errorMessage:React.PropTypes.string,
@@ -19,6 +20,10 @@ const PayDetailApplication = React.createClass({
   componentDidMount() {
     const { fetchPayDetail } = this.props;
     fetchPayDetail();
+  },
+  setPayDetail(evt, payString) {
+    const { setPayDetail, payProps } = this.props;
+    setPayDetail(payString, payProps.price);
   },
   render() {
     // mapStateToProps
@@ -37,8 +42,8 @@ const PayDetailApplication = React.createClass({
               请选择支付方式
             </div>
             <div className="pay-method">
-              {payProps.weixin === 0 ?
-                <div className="method-item">
+              {payProps.weixin ?
+                <div className="method-item" onTouchTap={evt => this.setPayDetail(evt, 'weixin')}>
                   <div className="pay-item-left weixin-pay"></div>
                   <div className="pay-item-name subname">
                     <p>微信支付</p>
@@ -48,8 +53,8 @@ const PayDetailApplication = React.createClass({
                 :
                 false
               }
-              {payProps.alipay === 0 ?
-                <div className="method-item">
+              {payProps.alipay ?
+                <div className="method-item" onTouchTap={evt => this.setPayDetail(evt, 'alipay')}>
                   <div className="pay-item-left ali-pay"></div>
                   <div className="pay-item-name">
                     <p>支付宝支付</p>
@@ -58,8 +63,8 @@ const PayDetailApplication = React.createClass({
                 :
                 false
               }
-              {payProps.baidu === 0 ?
-                <div className="method-item">
+              {payProps.baidu ?
+                <div className="method-item" onTouchTap={evt => this.setPayDetail(evt, 'baidu')}>
                   <div className="pay-item-left baidu-pay"></div>
                   <div className="pay-item-name">
                     <p>百度钱包</p>
@@ -70,7 +75,7 @@ const PayDetailApplication = React.createClass({
               }
               {payProps.valueCard && +payProps.valueCard >= +payProps.price && !payProps.isDisable
                 && getUrlParam('orderType') !== 'recharge' && payProps.loginType === 0 && payProps.isVIP ?
-                <div className="method-item">
+                <div className="method-item" onTouchTap={evt => this.setPayDetail(evt, 'balance')}>
                   <div className="pay-item-left balance-pay"></div>
                   <div className="pay-item-name subname">
                     <p>会员余额</p>
