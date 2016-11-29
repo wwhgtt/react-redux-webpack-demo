@@ -102,5 +102,14 @@ exports.setPayDetail = (payString, price) => (dispatch, getState) => {
       catch(err => {
         console.log(err);
       });
+  } else if (payString === 'alipay') {
+    // 判断当前环境是否为微信内置浏览器
+    let ua = navigator.userAgent.toLowerCase();
+    let isWeixin = ua.indexOf('micromessenger') !== -1;
+    if (isWeixin) {
+      // 表明是微信内置浏览器
+    } else {
+      // 直接请求支付接口
+    }
   }
 };
