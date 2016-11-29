@@ -46,3 +46,33 @@
     }
   }
 }
+
+// 评价
+.comment {
+  &-title {
+    font-size: 15px;
+    color: #999;
+  }
+
+  &-content {
+    padding-top: 22px;
+
+    &-star {
+      display: inline-block;
+      width: 27px;
+      height: 26px;
+      margin-right: 23px;
+      background: url("../../asset/images/star_grey_empty.svg") no-repeat center;
+      background-size: 27px;
+    }
+
+    &-star:last-child {
+      margin-right: 0;
+    }
+
+    .star-mark {
+      background: url("../../asset/images/star_yellow.svg") no-repeat center;
+      background-size: 27px;
+    }
+  }
+}
