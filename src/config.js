@@ -157,6 +157,7 @@ module.exports = {
   loginWxByPosAPI: `${apiBase}/user/loginWxByPos.json`, // pos扫码登录
   getPayDetailAPI:`${apiBase}/shop/payDetail.json`,
   baiduPayAPI:`${apiBase}/pay/baiduPay.json`,
+  weixinPayAPI:`${apiBase}/pay/weixinPay.json`,
 
   requestOptions,
 };
