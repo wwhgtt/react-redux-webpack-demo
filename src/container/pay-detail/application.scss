@@ -112,6 +112,24 @@ body {
       background-size: 100% 100%;
     }
   }
+
+  .balance-pay-disable {
+    .balance-pay {
+      background-image: url("../../asset/images/balance-disable.svg");
+    }
+
+    p {
+      color: #999 !important;
+    }
+
+    span {
+      color: #999 !important;
+    }
+
+    &::before {
+      background: none;
+    }
+  }
 }
 
 .pay-item-name {
@@ -139,7 +157,7 @@ body {
     color: #999 !important;
 
     span {
-      color: #fb874c !important;
+      color: #fb874c;
     }
   }
 }

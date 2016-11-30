@@ -22,7 +22,16 @@ exports.fetchPayDetail = () => (dispatch, getState) =>
     }).
     then(res => {
       if (String(res.code) === '200') {
-        dispatch(setPayProps(res.data));
+        if (String(res.data.tradePayStatus) === '3') {
+          // 表示已经支付过了
+          dispatch(setErrorMsg('您已经支付成功了'));
+          setTimeout(function () {
+            // 缺乏链接
+            location.href = '';
+          }, 3000);
+        } else {
+          dispatch(setPayProps(res.data));
+        }
       } else {
         dispatch(setErrorMsg('获取支付信息失败'));
       }

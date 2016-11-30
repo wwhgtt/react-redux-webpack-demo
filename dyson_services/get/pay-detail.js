@@ -2,10 +2,10 @@ module.exports = {
   path:'/shop/payDetail.json',
   template: {
     data:{
-      tradePayStatus: 1,
+      tradePayStatus: 1, // 订单支付状态
       price: '168.6',
       isDisable: null,
-      valueCard: '12432',
+      valueCard: '12',
       weixin: true,
       baidu: true,
       alipay: true,

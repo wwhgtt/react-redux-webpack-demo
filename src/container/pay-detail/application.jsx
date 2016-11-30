@@ -7,6 +7,7 @@ const Toast = require('../../component/mui/toast.jsx');
 const PasswordInput = require('../../component/common/password-input.jsx');
 require('../../asset/style/_trump.application.scss');
 require('./application.scss');
+const classnames = require('classnames');
 
 const PayDetailApplication = React.createClass({
   displayName:'PayDetailApplication',
@@ -27,16 +28,21 @@ const PayDetailApplication = React.createClass({
     const { fetchPayDetail } = this.props;
     fetchPayDetail();
   },
-  setPayDetail(payString) {
+  setPayDetail(bool, payString) {
     const { setPayDetail, payProps } = this.props;
     if (payString !== 'balance') {
       setPayDetail(payString, payProps.price);
     } else {
+      if (bool) {
+        // 表示不能支付
+        return false;
+      }
       const { expand } = this.state;
       this.setState({
         expand: !expand,
       });
     }
+    return true;
   },
   setBalancePay(password) {
     const { setPayDetail, payProps } = this.props;
@@ -67,7 +73,7 @@ const PayDetailApplication = React.createClass({
             </div>
             <div className="pay-method">
               {payProps.weixin ?
-                <div className="method-item" onTouchTap={evt => this.setPayDetail('weixin')}>
+                <div className="method-item" onTouchTap={evt => this.setPayDetail(null, 'weixin')}>
                   <div className="pay-item-left weixin-pay"></div>
                   <div className="pay-item-name subname">
                     <p>微信支付</p>
@@ -78,7 +84,7 @@ const PayDetailApplication = React.createClass({
                 false
               }
               {payProps.alipay ?
-                <div className="method-item" onTouchTap={evt => this.setPayDetail('alipay')}>
+                <div className="method-item" onTouchTap={evt => this.setPayDetail(null, 'alipay')}>
                   <div className="pay-item-left ali-pay"></div>
                   <div className="pay-item-name">
                     <p>支付宝支付</p>
@@ -88,7 +94,7 @@ const PayDetailApplication = React.createClass({
                 false
               }
               {payProps.baidu ?
-                <div className="method-item" onTouchTap={evt => this.setPayDetail('baidu')}>
+                <div className="method-item" onTouchTap={evt => this.setPayDetail(null, 'baidu')}>
                   <div className="pay-item-left baidu-pay"></div>
                   <div className="pay-item-name">
                     <p>百度钱包</p>
@@ -97,10 +103,20 @@ const PayDetailApplication = React.createClass({
                 :
                 false
               }
-              {payProps.valueCard && +payProps.valueCard >= +payProps.price && !payProps.isDisable
-                && getUrlParam('orderType') !== 'recharge' && payProps.loginType === 0 && payProps.isVIP ?
-                <div className="method-item" onTouchTap={evt => this.setPayDetail('balance')}>
-                  <div className="pay-item-left balance-pay"></div>
+              {getUrlParam('orderType') !== 'recharge' && payProps.isVIP ?
+                <div
+                  className={classnames(
+                  'method-item',
+                  { 'balance-pay-disable':
+                    (payProps.valueCard && +payProps.valueCard < +payProps.price) || payProps.isDisable || payProps.loginType !== 0,
+                  }
+                )}
+                  onTouchTap={evt => this.setPayDetail(
+                    (payProps.valueCard && +payProps.valueCard < +payProps.price) || payProps.isDisable || payProps.loginType !== 0, 'balance')
+                  }
+                >
+                  <div className="pay-item-left balance-pay">
+                  </div>
                   <div className="pay-item-name subname">
                     <p>会员余额</p>
                     <p className="subname-describe">我的余额：<span>{payProps.valueCard}元</span></p>
