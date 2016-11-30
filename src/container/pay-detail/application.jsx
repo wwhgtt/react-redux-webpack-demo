@@ -3,6 +3,7 @@ const connect = require('react-redux').connect;
 const getUrlParam = require('../../helper/common-helper.js').getUrlParam;
 const actions = require('../../action/pay-detail/pay-detail.js');
 // const Loading = require('../../component/mui/loading.jsx');
+const PasswordInput = require('../../component/common/password-input.jsx');
 require('../../asset/style/_trump.application.scss');
 require('./application.scss');
 
@@ -16,6 +17,9 @@ const PayDetailApplication = React.createClass({
     payProps: React.PropTypes.object,
     errorMessage:React.PropTypes.string,
   },
+  getInitialState() {
+    return { expand:true };
+  },
   componentWillMount() {},
   componentDidMount() {
     const { fetchPayDetail } = this.props;
@@ -25,9 +29,16 @@ const PayDetailApplication = React.createClass({
     const { setPayDetail, payProps } = this.props;
     setPayDetail(payString, payProps.price);
   },
+  closePasswordInput() {
+    const { expand } = this.state;
+    this.setState({
+      expand: !expand,
+    });
+  },
   render() {
     // mapStateToProps
     const { payProps } = this.props;
+    const { expand } = this.state;
     // mapActionsToProps
     // const { } = this.props;
     return (
@@ -87,6 +98,11 @@ const PayDetailApplication = React.createClass({
               }
             </div>
           </div>
+          :
+          false
+        }
+        {expand ?
+          <PasswordInput closePasswordInput={this.closePasswordInput} />
           :
           false
         }
