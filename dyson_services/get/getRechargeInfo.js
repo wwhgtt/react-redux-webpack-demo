@@ -2,6 +2,8 @@ module.exports = {
   path: '/shop/recharge.json',
   template: {
     data:{
+      chargeMemo: '储值说明是打发打发，斯蒂芬大法师打发大法师打发，阿道夫',
+      supportMemberCharge: true,
       zhidahao:-1,
       weixin:0,
       baidu:0,

@@ -323,10 +323,12 @@ const TakeoutDetailApplication = React.createClass({
                 <span className="list-statictis-title">原价</span>
                 <span className="price ellipsis list-statictis-origin">{this.getOriginPrice()}</span>
               </div>
-              <div className="list-statictis-item">
-                <span className="list-statictis-title">共优惠</span>
-                <span className="price ellipsis list-statictis-privilage">{Math.abs(takeoutDetail.tradePrivilegeAmount || 0)}</span>
-              </div>
+              {Boolean(Math.abs(takeoutDetail.tradePrivilegeAmount)) &&
+                <div className="list-statictis-item">
+                  <span className="list-statictis-title">共优惠</span>
+                  <span className="price ellipsis list-statictis-privilage">{Math.abs(takeoutDetail.tradePrivilegeAmount)}</span>
+                </div>
+              }
               <div className="list-statictis-item">
                 <span className="list-statictis-title">总计:</span>
                 <span className="price ellipsis list-statictis-total">{takeoutDetail.tradeAmount}</span>
