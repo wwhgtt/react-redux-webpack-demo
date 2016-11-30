@@ -15,6 +15,7 @@ require('../../asset/style/style.scss');
 const DishDetail = require('../../component/order-detail-uncheck/dish-detail.jsx');
 const DiningOptions = require('../../component/order/dining-options.jsx');
 const CommentStar = require('../../component/order-detail/comment-star.jsx');
+
 require('../../component/order-detail/dish-detail.scss');
 require('../../component/order-detail/common.scss');
 require('./application.scss');
@@ -309,10 +310,12 @@ const DinnerDetailApplication = React.createClass({
                 <span className="list-statictis-title">原价</span>
                 <span className="price ellipsis list-statictis-origin">{this.getOriginPrice()}</span>
               </div>
-              <div className="list-statictis-item">
-                <span className="list-statictis-title">共优惠</span>
-                <span className="price ellipsis list-statictis-privilage">{Math.abs(dinnerDetail.tradePrivilegeAmount || 0)}</span>
-              </div>
+              {Boolean(Math.abs(dinnerDetail.tradePrivilegeAmount)) &&
+                <div className="list-statictis-item">
+                  <span className="list-statictis-title">共优惠</span>
+                  <span className="price ellipsis list-statictis-privilage">{Math.abs(dinnerDetail.tradePrivilegeAmount)}</span>
+                </div>
+              }
               <div className="list-statictis-item">
                 <span className="list-statictis-title">总计:</span>
                 <span className="price ellipsis list-statictis-total">{dinnerDetail.tradeAmount}</span>
