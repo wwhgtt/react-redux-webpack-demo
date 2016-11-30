@@ -170,10 +170,15 @@ const DinnerDetailApplication = React.createClass({
   // 提交评论
   handleComment() {
     const { saveMarkRecord, dinnerDetail } = this.props;
+    const { commentScore } = this.state;
+    if (commentScore < 1) {
+      this.setState({ errorMessage: '您还没有评分' });
+      return;
+    }
     const scoreInfo = {
       shopId: `${shopId}`,
       tradeId: dinnerDetail.orderId || 0,
-      score: this.state.commentScore,
+      score: commentScore,
     };
     saveMarkRecord(scoreInfo, this.handleSuccessCallBack, this.handleFaildCallBack);
   },
@@ -424,7 +429,7 @@ const DinnerDetailApplication = React.createClass({
               </div>
               {dinnerDetail.markRecord4Order && dinnerDetail.markRecord4Order.sendCoupInfo &&
                 <p className="comment-tips">
-                  恭喜你获得{dinnerDetail.markRecord4Order.sendCoupInfo}，
+                  恭喜获得{dinnerDetail.markRecord4Order.sendCoupInfo}，
                   <a href={`http://${location.host}/coupon/getCouponList?shopId=${shopId}`} className="comment-tips-href">去看看</a>
                 </p>
               }

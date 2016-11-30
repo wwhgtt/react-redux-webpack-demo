@@ -74,7 +74,7 @@ module.exports = {
       }],
       status: '订单支付失败',
       markRecord4Order : { // 该订单评分数据。如果没有评分score 的值为0
-        score: 3,
+        score: 0,
         supportMark: true, // 该订单是否还支持评分
         sendedCoup: true, // 是否已经发过券
         markSendCoupFlag: false, // 评分送券开关
