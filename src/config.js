@@ -158,6 +158,7 @@ module.exports = {
   getPayDetailAPI:`${apiBase}/shop/payDetail.json`,
   baiduPayAPI:`${apiBase}/pay/baiduPay.json`,
   weixinPayAPI:`${apiBase}/pay/weixinPay.json`,
+  balancePayAPI: `${apiBase}/pay/valueCardPay.json`,
 
   requestOptions,
 };

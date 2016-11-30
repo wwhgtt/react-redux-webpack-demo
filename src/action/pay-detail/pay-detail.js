@@ -111,5 +111,28 @@ exports.setPayDetail = (payString, price) => (dispatch, getState) => {
     } else {
       // 直接请求支付接口
     }
+  } else {
+    // 余额支付   第一个参数为密码
+    fetch(`${config.balancePayAPI}${requestDataString}&password=${payString}`, config.requestOptions).
+      then(res => {
+        if (!res.ok) {
+          dispatch(setErrorMsg('支付失败，请稍后重试'));
+          return false;
+        }
+        return res.json();
+      }).
+      then(res => {
+        if (String(res.code) === '200') {
+          dispatch(setErrorMsg('支付成功'));
+        } else {
+          dispatch(setErrorMsg('支付失败，请稍后重试'));
+        }
+      }).
+      catch(err => {
+        console.log(err);
+      });
   }
 };
+
+exports.clearErrorMsg = () => (dispatch, getState) =>
+  dispatch(setErrorMsg(null));
