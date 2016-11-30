@@ -140,6 +140,7 @@ module.exports = {
   queueListAPI: `${apiBase}/queue/queueList.json`, // 排队列表
   getDinnerDetailAPI: `${apiBase}/order/orderallDetail.json`, // 堂食结算后订单详情
   getDishMarketInfosAPI: `${apiBase}/orderall/dishMarketInfos.json`,
+  saveMarkRecordAPI: `${apiBase}/order/saveMarkRecord.json`, // 评分
 
   getBookDetailAPI: `${apiBase}/booking/bookingDetail.json`, // 预订详情
   getQueueDetailAPI: `${apiBase}/queue/success.json`, // 排队详情

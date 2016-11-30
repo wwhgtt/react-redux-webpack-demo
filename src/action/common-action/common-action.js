@@ -20,6 +20,8 @@ const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCo
 
 // 将url参数整合成字符串
 const formateObjToParamStr = commonHelper.formateObjToParamStr;
+// post、form方式提交数据
+const getFetchPostParam = commonHelper.getFetchPostParam;
 
 // 发送验证码
 exports.sendCode = phoneNum => (dispatch, getStates) => {
@@ -42,7 +44,6 @@ exports.sendCode = phoneNum => (dispatch, getStates) => {
     }
   });
 };
-// &mobile=${phoneInfo.phoneNum}&code=${phoneInfo.code}
 
 // 校验手机绑定验证码
 exports.checkBindCode = (phoneInfo, vipCallBack, successCallBack, boundCallBack) => (dispatch, getStates) => {
@@ -190,5 +191,24 @@ exports.getBindPhoneOrWxStatus = () => (dispatch, getStates) => {
   }).
   catch(err => {
     console.info(err);
+  });
+};
+
+// 评分
+exports.saveMarkRecord = (scoreInfo, successCallBack, faildCallBack) => (dispatch, getStates) => {
+  const saveMarkRecordURL = `${config.saveMarkRecordAPI}?shopId=${shopId}`;
+  fetch(saveMarkRecordURL, getFetchPostParam(scoreInfo)).
+  then(res => {
+    if (!res.ok) {
+      dispatch(setErrorMsg('评分失败'));
+    }
+    return res.json();
+  }).
+  then(res => {
+    if (res.code === '200') {
+      successCallBack(res.data);
+    } else {
+      faildCallBack(res.code, res.msg);
+    }
   });
 };

@@ -1,11 +1,14 @@
 const React = require('react');
 const connect = require('react-redux').connect;
+const commonAction = require('../../action/common-action/common-action.js');
+const bindActionCreators = require('redux').bindActionCreators;
 const classnames = require('classnames');
 const dinnerDetailAction = require('../../action/order-detail/dinner-detail.js');
 const commonHelper = require('../../helper/common-helper.js');
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
 const ConfirmDialog = require('../../component/mui/dialog/confirm-dialog.jsx');
 const Dialog = require('../../component/mui/dialog/dialog.jsx');
+const Toast = require('../../component/mui/toast.jsx');
 
 require('../../asset/style/style.scss');
 
@@ -25,6 +28,7 @@ const DinnerDetailApplication = React.createClass({
   propTypes: {
     dinnerDetail: React.PropTypes.object,
     getDinnerDetail: React.PropTypes.func,
+    saveMarkRecord: React.PropTypes.func,
   },
 
   getInitialState() {
@@ -114,7 +118,7 @@ const DinnerDetailApplication = React.createClass({
     if (dinnerDetail.markRecord4Order) {
       if (dinnerDetail.markRecord4Order.supportMark) {
         if (dinnerDetail.markRecord4Order.markSendCoupFlag) {
-          commentBtn = (<a className="order-status-comment" onTouchTap={this.showComment}>评分领券</a>);
+          commentBtn = (<a className="order-status-comment order-status-hasCoupon" onTouchTap={this.showComment}>评分领券</a>);
         } else {
           commentBtn = (<a className="order-status-comment" onTouchTap={this.showComment}>我要评分</a>);
         }
@@ -164,11 +168,50 @@ const DinnerDetailApplication = React.createClass({
 
   // 提交评论
   handleComment() {
-    console.log(this.state.commentScore);
+    const { saveMarkRecord, dinnerDetail } = this.props;
+    const scoreInfo = {
+      shopId: `${shopId}`,
+      tradeId: dinnerDetail.orderId || 0,
+      score: this.state.commentScore,
+    };
+    saveMarkRecord(scoreInfo, this.handleSuccessCallBack, this.handleFaildCallBack);
+  },
+
+  handleSuccessCallBack(data) {
+    if (data.markSendCoupFlag) {
+      if (data.coupSendOver) {
+        this.setState({ errorMessage: '订单评分成功，优惠券已赠完' });
+      } else {
+        this.setState({ errorMessage: `订单评分成功，恭喜获得${data.sendCoupInfo}` });
+      }
+    } else {
+      this.setState({ errorMessage: '订单评分成功' });
+    }
+    this.setState({ isCommentShow: false });
+    this.props.getDinnerDetail();
+  },
+
+  handleFaildCallBack(code, msg) {
+    if (code === '70600') {
+      this.setState({ errorMessage: '网络原因评分失败，请重新评分' });
+    } else {
+      this.setState({ isCommentShow: false });
+      if (code === '70601') {
+        this.setState({ errorMessage: '该订单已评分' });
+      } else if (code === '706003') {
+        this.setState({ errorMessage: '当前订单不支持评分' });
+      } else {
+        this.setState({ errorMessage: msg });
+      }
+    }
   },
 
   handleCancelComment() {
     this.setState({ isCommentShow: false, isCommentReadShow: false });
+  },
+
+  handleClearErrorMsg() {
+    this.setState({ errorMessage: '' });
   },
 
   render() {
@@ -179,6 +222,7 @@ const DinnerDetailApplication = React.createClass({
       commentScore,
       isCommentReadShow,
       isCommentShow,
+      errorMessage,
     } = this.state;
 
     const deskNo = {
@@ -338,6 +382,9 @@ const DinnerDetailApplication = React.createClass({
             </div>
           </div>
         }
+        {errorMessage &&
+          <Toast errorMessage={errorMessage} clearErrorMsg={this.handleClearErrorMsg} />
+        }
         {isCommentShow &&
           <ConfirmDialog
             onCancel={this.handleCancelComment}
@@ -386,10 +433,15 @@ const DinnerDetailApplication = React.createClass({
   },
 });
 
+const mapDispatchToProps = function getPropsFromAction(dispatch) {
+  const actionObj = Object.assign({}, commonAction, dinnerDetailAction);
+  return bindActionCreators(actionObj, dispatch);
+};
+
 const mapStateToProps = function (state) {
   return ({
     dinnerDetail: state.dinnerDetail,
   });
 };
 
-module.exports = connect(mapStateToProps, dinnerDetailAction)(DinnerDetailApplication);
+module.exports = connect(mapStateToProps, mapDispatchToProps)(DinnerDetailApplication);
