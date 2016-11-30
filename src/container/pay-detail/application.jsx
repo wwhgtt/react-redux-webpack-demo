@@ -18,7 +18,7 @@ const PayDetailApplication = React.createClass({
     errorMessage:React.PropTypes.string,
   },
   getInitialState() {
-    return { expand:true };
+    return { expand:false };
   },
   componentWillMount() {},
   componentDidMount() {
@@ -27,7 +27,14 @@ const PayDetailApplication = React.createClass({
   },
   setPayDetail(evt, payString) {
     const { setPayDetail, payProps } = this.props;
-    setPayDetail(payString, payProps.price);
+    if (payString !== 'balance') {
+      setPayDetail(payString, payProps.price);
+    } else {
+      const { expand } = this.state;
+      this.setState({
+        expand: !expand,
+      });
+    }
   },
   closePasswordInput() {
     const { expand } = this.state;
