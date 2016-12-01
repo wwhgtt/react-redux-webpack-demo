@@ -30,10 +30,7 @@ module.exports = function (
         relatedDish:null,
         benefitMoney:0,
       },
-      wholeOrderBenefit:{
-        wholeOrderBenefitDetail:null,
-        isUseWholeOrderBenefit:false,
-      },
+      wholeOrderBenefit:null,
     },
     tableProps:{
       isEditable:true,
@@ -423,6 +420,11 @@ module.exports = function (
             )
           )
         );
+      } else if (payload.id === 'wholeOrderBenefit') {
+        return state.setIn(
+          ['serviceProps', 'wholeOrderBenefit', 'isChecked'],
+          !state.serviceProps.wholeOrderBenefit.isChecked
+        );
       }
       break;
     case 'SET_BENEFIT_OPTIONS':
@@ -499,7 +501,14 @@ module.exports = function (
           ).activityBenefit
         );
     case 'SET_WHOLE_ORDER_BENEFIT':
-      return state.setIn(['serviceProps', 'wholeOrderBenefit', 'wholeOrderBenefitDetail'], payload);
+      return state.setIn(
+        ['serviceProps', 'wholeOrderBenefit'],
+        Immutable.from({
+          name:'使用整单优惠',
+          isChecked:false,
+          id:'wholeOrderBenefit',
+          detail: helper.reconstructWholeNenefit(payload),
+        }));
     case 'SET_ADDRESS_INFO_TO_ORDER':
       return state.setIn(
         ['customerProps', 'addresses'],

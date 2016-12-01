@@ -1117,3 +1117,8 @@ exports.countExtraPrivilege = (privilegeArray) => {
   privilegeArray.map(privilege => benefitCollection.push(+privilege.privilegeAmount));
   return benefitCollection.length ? parseFloat((benefitCollection.reduce((c, p) => c + p)).toFixed(2)) : 0;
 };
+
+exports.reconstructWholeNenefit = (benefit) => {
+  benefit.id = benefit.planId;
+  return benefit;
+};
