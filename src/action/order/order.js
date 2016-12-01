@@ -261,7 +261,7 @@ exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
       sessionStorage.setItem(`${shopId}_sendArea_rangeId`, rangeId);
       sessionStorage.setItem(`${shopId}_sendArea_shipment`, data.shipment ? data.shipment : 0);
       sessionStorage.setItem(`${shopId}_sendArea_sendPrice`, data.sendPrice ? data.sendPrice : 0);
-      sessionStorage.setItem(`${shopId}_sendArea_freeDeliveryPrice`, data.freeDeliveryPrice ? data.freeDeliveryPrice : 0);
+      sessionStorage.setItem(`${shopId}_sendArea_freeDeliveryPrice`, typeof data.freeDeliveryPrice === Number ? data.freeDeliveryPrice : 999999999);
       sessionStorage.setItem('receiveOrderCustomerInfo', JSON.stringify(info));
 
       dispatch(setSendAreaId(sendAreaId));
