@@ -19,7 +19,7 @@
     float: left;
     min-width: 100px;
     max-width: 150px;
-    padding: 15px;
+    padding: 55px 15px 15px;
     text-align: center;
     color: #fff;
     border-radius: 5px;
@@ -31,6 +31,9 @@
     font-size: 64px;
     font-weight: bold;
     line-height: 1;
+    position: absolute;
+    top: 15px;
+    left: 50%;
     display: block;
     width: 26px;
     height: 26px;

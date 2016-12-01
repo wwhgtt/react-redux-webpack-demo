@@ -132,6 +132,9 @@ module.exports = {
     'pos-login-success-entry': [
       './src/pos-login-success.jsx',
     ],
+    'pay-detail-entry': [
+      './src/pay-detail.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
