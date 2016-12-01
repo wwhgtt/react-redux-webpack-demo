@@ -421,7 +421,18 @@ module.exports = function (
           )
         );
       } else if (payload.id === 'wholeOrderBenefit') {
+        if (!state.serviceProps.wholeOrderBenefit.isChecked) {
+          // 整单优惠未被选中的时候
+          return state.setIn(
+            ['serviceProps', 'wholeOrderBenefit', 'isChecked'],
+            !state.serviceProps.wholeOrderBenefit.isChecked
+          )
+          .setIn(['serviceProps', 'activityBenefit', 'benefitMoney'], helper.countWholeOrderBenefit(payload.detail, state.orderedDishesProps.dishes));
+        }
         return state.setIn(
+          ['serviceProps', 'activityBenefit', 'benefitMoney'],
+          helper.countAcvitityMoney(state.orderedDishesProps.dishes)
+        ).setIn(
           ['serviceProps', 'wholeOrderBenefit', 'isChecked'],
           !state.serviceProps.wholeOrderBenefit.isChecked
         );

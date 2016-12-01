@@ -328,6 +328,32 @@ exports.fetchActivityBenefit = () => (dispatch, getState) => {
 const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState) => {
   const state = getState();
   const paramsData = helper.getSubmitUrlParams(state, note, receipt);
+  if (state.serviceProps.wholeOrderBenefit && state.serviceProps.wholeOrderBenefit.isChecked) {
+    // 已选择整单优惠
+    if (paramsData.params.singleDishInfos && paramsData.params.singleDishInfos.length) {
+      let singleDishInfos = [];
+      paramsData.params.singleDishInfos.forEach(dishProp => {
+        let dishData = dishProp.asMutable({ deep:true });
+        dishData.priId = null;
+        dishData.priType = null;
+        return singleDishInfos.push(dishData);
+      });
+      paramsData.params.singleDishInfos = singleDishInfos;
+    }
+    if (paramsData.params.multiDishInfos && paramsData.params.multiDishInfos.length) {
+      let multiDishInfos = [];
+      paramsData.params.multiDishInfos.forEach(dishProp => {
+        let dishData = dishProp.asMutable({ deep:true });
+        dishData.priId = null;
+        dishData.priType = null;
+        return multiDishInfos.push(dishData);
+      });
+      paramsData.params.multiDishInfos = multiDishInfos;
+    }
+    paramsData.params = Object.assign({}, paramsData.params, { multiPriId:state.serviceProps.wholeOrderBenefit.detail.planId });
+  } else {
+    paramsData.params = Object.assign({}, paramsData.params, { multiPriId:0 });
+  }
   if (!paramsData.success) {
     dispatch(setErrorMsg(paramsData.msg));
     return;
@@ -348,7 +374,7 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
         return;
       }
 
-      localStorage.removeItem('lastOrderedDishes');
+      // localStorage.removeItem('lastOrderedDishes');
       sessionStorage.removeItem('receiveOrderCustomerInfo');
       sessionStorage.removeItem(`${shopId}_sendArea_id`);
       sessionStorage.removeItem(`${shopId}_customer_toshopinfo`);
@@ -362,7 +388,7 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
         jumpToUrl = type === 'WM' ? '/order/takeOutDetail?' : '/order/orderallDetail?';
         jumpToUrl += paramStr;
       }
-      location.href = jumpToUrl;
+      // location.href = jumpToUrl;
     } else {
       dispatch(setErrorMsg(result.msg));
     }
