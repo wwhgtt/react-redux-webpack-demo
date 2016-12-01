@@ -112,14 +112,25 @@ exports.setPayDetail = (payString, price) => (dispatch, getState) => {
         console.log(err);
       });
   } else if (payString === 'alipay') {
-    // 判断当前环境是否为微信内置浏览器
-    let ua = navigator.userAgent.toLowerCase();
-    let isWeixin = ua.indexOf('micromessenger') !== -1;
-    if (isWeixin) {
-      // 表明是微信内置浏览器
-    } else {
-      // 直接请求支付接口
-    }
+    const orderType = getUrlParam('orderType') === 'recharge' ? 2 : 1;
+    fetch(`${config.aliPayAPI}${requestDataString}&returnUrl=${payString}&payBusinessType=${orderType}`, config.requestOptions).
+      then(res => {
+        if (!res.ok) {
+          dispatch(setErrorMsg('支付失败，请稍后重试'));
+          return false;
+        }
+        return res.json();
+      }).
+      then(res => {
+        if (String(res.code) === '200') {
+          location.href = res.data;
+        } else {
+          dispatch(setErrorMsg('支付失败，请稍后重试'));
+        }
+      }).
+      catch(err => {
+        console.log(err);
+      });
   } else {
     // 余额支付   第一个参数为密码
     fetch(`${config.balancePayAPI}${requestDataString}&password=${payString}`, config.requestOptions).
