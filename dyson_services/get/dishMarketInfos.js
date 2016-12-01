@@ -116,6 +116,7 @@ module.exports = {
           customerType : 1,
         },
       ],
+      notice:'我是公告啦啦啦',
     },
     time: 1472458598918,
     code: '200',

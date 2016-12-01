@@ -12,6 +12,7 @@ const AdsColumn = React.createClass({
     marketList:React.PropTypes.object,
     marketListUpdate:React.PropTypes.array,
     multiMarketing: React.PropTypes.array,
+    notice: React.PropTypes.string,
   },
   getInitialState() {
     return { num:0, animation:{}, allDiscount:false };
@@ -20,9 +21,10 @@ const AdsColumn = React.createClass({
   componentDidMount() {
     this._setInterval = setInterval(() => {
       let count = this.state.num;
-      const { marketListUpdate, multiMarketing } = this.props;
+      const { marketListUpdate, multiMarketing, notice } = this.props;
       let length = marketListUpdate ? marketListUpdate.length : 0;
       if (multiMarketing && multiMarketing.length) { length += multiMarketing.length; }
+      if (notice) { length += 1; }
       if (length <= 1) {
         return;
       }
@@ -105,7 +107,7 @@ const AdsColumn = React.createClass({
     return scrollAll;
   },
   animatePartFunc() {
-    const { marketListUpdate, shopInfo, multiMarketing } = this.props;
+    const { marketListUpdate, shopInfo, multiMarketing, notice } = this.props;
     const formatDishesData = shopInfo.formatDishesData;
     const infoList = marketListUpdate ? marketListUpdate.concat(multiMarketing || []) : (multiMarketing || []);
     const animateAll = infoList.map((item, index) => {
@@ -133,19 +135,33 @@ const AdsColumn = React.createClass({
           </span>
         </div>
       );
+    });
+    if (notice) {
+      return (
+        <div>
+          {animateAll}
+          <div className="content of" key={'notice'}>
+            <i className="icon icon-notice"></i>
+            <span className="detail ellipsis flex-rest">
+              <span className="detail-inner ellipsis">
+                商家公告：{notice}
+              </span>
+            </span>
+          </div>
+        </div>
+      );
     }
-    );
     return animateAll;
   },
   render() {
     const { animation, allDiscount } = this.state;
-    const { shopInfo, multiMarketing } = this.props;
+    const { shopInfo, multiMarketing, notice } = this.props;
     const scrollPart = this.scrollPartFunc();
     const animatePart = this.animatePartFunc();
     return (
       <div>
         {
-          (shopInfo.marketMatchDishes || (multiMarketing && multiMarketing.length)) &&
+          (shopInfo.marketMatchDishes || (multiMarketing && multiMarketing.length) || shopInfo.notice) &&
             <div className="ads-column flex-row" onTouchTap={this.showAllDiscount}>
               <div className="flex-rest of">
                 <div className="content-outer" style={animation}>
@@ -173,6 +189,16 @@ const AdsColumn = React.createClass({
                       <div className="scrollpart">
                         {scrollPart}
                       </div>
+                      {notice ?
+                        <div>
+                          <legend className="shopdiscount-brief">商家公告</legend>
+                          <div className="scrollpart">
+                            {notice}
+                          </div>
+                        </div>
+                        :
+                        false
+                      }
                       <div className="closedetail" onTouchTap={this.hideAllDiscount}></div>
                     </fieldset>
                   </div>
