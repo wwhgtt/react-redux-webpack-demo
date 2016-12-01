@@ -193,7 +193,7 @@ const DinnerDetailApplication = React.createClass({
     } else {
       this.setState({ errorMessage: '订单评分成功' });
     }
-    this.setState({ isCommentShow: false });
+    this.setState({ isCommentShow: false, isCommentReadShow: true });
     this.props.getDinnerDetail();
   },
 

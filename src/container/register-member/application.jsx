@@ -160,16 +160,19 @@ const RegisterMemberApplication = React.createClass({
             </div>
 
             <div className="options-group">
-              <div className="option register-user">
-                <span className="option-title register-user-name">姓名</span>
-                <SexSwitch sex={userSex} changeSex={this.handleSex} />
+              <div className="option">
+                <span className="option-title">姓名</span>
                 <input
                   type="text"
-                  className="option-input register-input register-user-input"
+                  className="option-input register-input"
                   placeholder="请填写姓名"
                   maxLength="30"
                   onChange={this.handleName}
                 />
+              </div>
+              <div className="option">
+                <span className="option-title">性别</span>
+                <SexSwitch sex={userSex} changeSex={this.handleSex} />
               </div>
               <div className="option">
                 <span className="option-title">生日</span>
@@ -209,7 +212,7 @@ const RegisterMemberApplication = React.createClass({
           </div>
         </div>
         <div className="flex-none">
-          <button className="btn--yellow btn-submit" onTouchTap={this.registerMember}>注册会员</button>
+          <button className="btn--yellow btn-submit" onTouchTap={this.registerMember}>申请会员</button>
         </div>
         {
           errorMSG && <Toast errorMessage={errorMSG} clearErrorMsg={this.handleClearErrorMsg} />

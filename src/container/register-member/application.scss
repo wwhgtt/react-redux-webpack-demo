@@ -12,10 +12,8 @@
   }
 
   &-input {
-    font-size: 14px;
-    float: right;
+    float: left;
     width: 150px;
-    text-align: right;
   }
 
   &-pwd {
@@ -71,3 +69,12 @@
   position: relative;
 }
 
+.options-group {
+  &:first-child {
+    margin-bottom: 15px;
+  }
+
+  .option {
+    padding: 19px 15px;
+  }
+}
