@@ -5,6 +5,7 @@ const createAction = require('redux-actions').createAction;
 
 const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setPayProps = createAction('SET_PAY_PROPS', props => props);
+const setLoadingProps = exports.setLoadingProps = createAction('SET_LOAD_PROP', prop => prop);
 
 const getUrlParam = require('../../helper/common-helper.js').getUrlParam;
 const shopId = getUrlParam('shopId');
@@ -56,7 +57,7 @@ exports.setPayDetail = (payString, price) => (dispatch, getState) => {
         if (String(res.code) === '200') {
           location.href = res.data.url;
         } else {
-          dispatch(setErrorMsg('支付失败，请稍后重试'));
+          dispatch(setErrorMsg('支付失败，请稍后重试'), setLoadingProps(false));
         }
       }).
       catch(err => {
@@ -106,7 +107,7 @@ exports.setPayDetail = (payString, price) => (dispatch, getState) => {
             },
           });
         } else {
-          dispatch(setErrorMsg('支付失败，请稍后重试'));
+          dispatch(setErrorMsg('支付失败，请稍后重试'), setLoadingProps(false));
         }
       }).
       catch(err => {
@@ -126,7 +127,7 @@ exports.setPayDetail = (payString, price) => (dispatch, getState) => {
         if (String(res.code) === '200') {
           location.href = res.data;
         } else {
-          dispatch(setErrorMsg('支付失败，请稍后重试'));
+          dispatch(setErrorMsg('支付失败，请稍后重试'), setLoadingProps(false));
         }
       }).
       catch(err => {
@@ -149,7 +150,7 @@ exports.setPayDetail = (payString, price) => (dispatch, getState) => {
             location.href = returnUrl;
           }, 3000);
         } else {
-          dispatch(setErrorMsg('支付失败，请稍后重试'));
+          dispatch(setErrorMsg('支付失败，请稍后重试'), setLoadingProps(false));
         }
       }).
       catch(err => {

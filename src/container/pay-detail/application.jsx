@@ -16,12 +16,14 @@ const PayDetailApplication = React.createClass({
     fetchPayDetail: React.PropTypes.func.isRequired,
     setPayDetail: React.PropTypes.func.isRequired,
     clearErrorMsg: React.PropTypes.func.isRequired,
+    setLoadingProps: React.PropTypes.func.isRequired,
     // MapedStatesToProps
     payProps: React.PropTypes.object,
     errorMessage:React.PropTypes.string,
+    loading: React.PropTypes.bool,
   },
   getInitialState() {
-    return { expand:false, loading:false };
+    return { expand:false };
   },
   componentWillMount() {},
   componentDidMount() {
@@ -29,8 +31,9 @@ const PayDetailApplication = React.createClass({
     fetchPayDetail();
   },
   setPayDetail(bool, payString) {
-    const { setPayDetail, payProps } = this.props;
+    const { setPayDetail, payProps, setLoadingProps } = this.props;
     if (payString !== 'balance') {
+      setLoadingProps(true);
       setPayDetail(payString, payProps.price);
     } else {
       if (bool) {
@@ -45,7 +48,8 @@ const PayDetailApplication = React.createClass({
     return true;
   },
   setBalancePay(password) {
-    const { setPayDetail, payProps } = this.props;
+    const { setPayDetail, payProps, setLoadingProps } = this.props;
+    setLoadingProps(true);
     setPayDetail(password, payProps.price);
   },
   closePasswordInput() {
@@ -56,8 +60,8 @@ const PayDetailApplication = React.createClass({
   },
   render() {
     // mapStateToProps
-    const { payProps, errorMessage, clearErrorMsg } = this.props;
-    const { expand, loading } = this.state;
+    const { payProps, errorMessage, clearErrorMsg, loading } = this.props;
+    const { expand } = this.state;
     // mapActionsToProps
     // const { } = this.props;
     return (
