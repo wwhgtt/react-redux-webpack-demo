@@ -2,6 +2,7 @@ module.exports = {
   path: '/order/orderallList.json',
   template: {
     data: {
+      supportBusinessTypes: ['TS', 'WM', 'YD', 'PD'],
       list:[{
         orderId: 3522562,
         shopId: 810006390,

@@ -69,7 +69,7 @@ module.exports = React.createClass({ // SexSwitch
           </div>
         </div>
         <div className={classnames('downrow of', { show:!hideRule })} data-code={codeNumber}>
-          <p className="downrow-no">NO.{codeNumber || '000000000000000'}</p>
+          <p className="downrow-no">No.{codeNumber || '000000000000000'}</p>
           {
             instructions.map((item, index) => {
               if (item) {

@@ -6,7 +6,7 @@ a {
 
 .option {
   padding: 15px;
-  color: #474747;
+  color: $color-abbey;
 }
 
 .option-no-padding::after {
@@ -18,8 +18,8 @@ a {
   position: relative;
   height: 60px;
   padding: 0 15px;
-  color: #fff;
-  background-color: #ff7e28;
+  color: $color-white;
+  background-color: $color-crusta;
 
   &-comment {
     font-size: 15px;
@@ -34,6 +34,18 @@ a {
     border: 1px solid #ffb98b;
     border-radius: 50px;
     background: rgba(255, 255, 255, .2);
+  }
+
+  &-hasCoupon::after {
+    position: absolute;
+    top: -7px;
+    right: -16px;
+    bottom: -10px;
+    left: -18px;
+    display: block;
+    content: "";
+    background: url("../../asset/images/star_many.svg") no-repeat;
+    background-size: 117px;
   }
 
   &-title {
@@ -55,7 +67,7 @@ a {
   display: block;
   height: 60px;
   padding: 0 15px;
-  border-bottom: 1px solid #e3e3e3;
+  border-bottom: 1px solid $color-mercury;
 
   &::after {
     position: absolute;
@@ -93,10 +105,10 @@ a {
 
 .list-default {
   padding: 20px 15px 5px;
-  background-color: #fff;
+  background-color: $color-white;
 
   .list-item {
-    color: #474747;
+    color: $color-abbey;
   }
 }
 
@@ -109,8 +121,8 @@ a {
     width: 50%;
     height: 49px;
     text-align: center;
-    color: #fff;
-    background-color: #ff7e28;
+    color: $color-white;
+    background-color: $color-crusta;
   }
 
   a:last-child {
@@ -174,7 +186,7 @@ a {
   height: 50px;
   margin-top: -5px;
   padding: 0 15px;
-  background-color: #fff;
+  background-color: $color-white;
 
   &::before,
   &::after {
@@ -183,7 +195,7 @@ a {
     left: 0;
     width: 100%;
     content: "";
-    border-top: 1px solid #e3e3e3;
+    border-top: 1px solid $color-mercury;
     transform: scale(1, .5);
   }
 
@@ -205,6 +217,7 @@ a {
   }
 
   &-item:last-child {
+    float: right;
     text-align: right;
   }
 
@@ -219,7 +232,7 @@ a {
   .price {
     display: inline-block;
     vertical-align: middle;
-    color: #474747;
+    color: $color-abbey;
   }
 
   .list-statictis-origin {
@@ -338,7 +351,7 @@ a {
     padding-top: 138px;
     text-align: center;
     border-radius: 8px;
-    background: #fff;
+    background: $color-white;
     box-shadow: 0 2px 6px 0 rgba(0, 0, 0, .3);
   }
 
@@ -388,5 +401,56 @@ a {
     &-info {
       margin: 20px 0 0;
     }
+  }
+}
+
+// 评价
+.comment {
+  &-title {
+    font-size: 15px;
+    margin-top: 16px;
+    color: $color-dusty-grey;
+  }
+
+  &-content {
+    padding: 22px 0 27px;
+
+    &-star {
+      display: inline-block;
+      width: 27px;
+      height: 26px;
+      margin-right: 23px;
+      background: url("../../asset/images/star_grey_empty.svg") no-repeat center;
+      background-size: 27px;
+    }
+
+    &-star:last-child {
+      margin-right: 0;
+    }
+
+    .star-mark {
+      background: url("../../asset/images/star_yellow.svg") no-repeat center;
+      background-size: 27px;
+    }
+  }
+
+  &-tips {
+    font-size: 13px;
+    margin-bottom: 20px;
+    color: $color-dusty-grey;
+
+    &-href {
+      color: $color-crusta;
+    }
+  }
+}
+
+.dialog {
+  &-header {
+    color: $color-dove-grey;
+  }
+
+  &-body {
+    padding: 0 15px !important;
   }
 }

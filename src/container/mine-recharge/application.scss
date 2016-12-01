@@ -36,9 +36,29 @@
 }
 
 .recharge-banner {
+  position: relative;
   height: 100px;
   padding: 15px;
   background-color: #f1f1f1;
+}
+
+.recharge-tips {
+  font-size: 12px;
+  position: absolute;
+  top: 13px;
+  right: 15px;
+  display: block;
+  height: 20px;
+  padding-left: 15px;
+  color: #666;
+  background: url("../../asset/images/info_grey.svg") no-repeat;
+  background-size: 12px;
+
+  &-content {
+    font-size: 15px;
+    line-height: 21px;
+    margin: 10px 0;
+  }
 }
 
 .recharge-logo {

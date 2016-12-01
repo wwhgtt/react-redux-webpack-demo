@@ -2,18 +2,22 @@
 
 .application {
   font-size: 14px;
-  padding: 10px 15px;
+  padding: 0 28px;
+}
+
+.login-content {
+  height: calc(100% - 150px);
+  min-height: 360px;
 }
 
 .btn {
-  font-size: 14px;
-  text-align: center;
-  border-radius: 4px;
-
   &-login {
+    font-size: 17px;
     width: 100%;
-    height: 40px;
-    margin-top: 20px;
+    height: 44px;
+    margin-top: 10px;
+    border-radius: 50px;
+    background: linear-gradient(to right, $color-texas-rose, $color-crusta);
   }
 }
 
@@ -24,7 +28,7 @@
 .wx-login {
   font-size: 12px;
   height: 130px;
-  margin: 10px 0 0;
+  margin: 20px 0 0;
   color: $color-dusty-grey;
 
   h3 {
@@ -50,29 +54,98 @@
   }
 
   .btn {
-    width: 100%;
+    display: block;
+    width: 40px;
     height: 40px;
-    margin: 25px 0 15px;
-    color: #20ca69;
-    border: 1px solid #20ca69;
-
-    &::before {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      margin-right: 5px;
-      content: "";
-      vertical-align: middle;
-      background: url("../../asset/images/weixin.png") no-repeat;
-      background-size: 20px 20px;
-    }
+    margin: 17px auto;
+    background: url("../../asset/images/login_wx.svg") no-repeat;
+    background-size: 40px;
   }
 
-  p {
-    line-height: 1.4;
+  &-tips {
+    line-height: 18px;
+    margin-top: 7px;
+    text-align: center;
+    color: $color-dusty-grey;
   }
 }
 
-.phone-verification-code .btn {
-  min-width: 76px;
+.phone-verification-code {
+  margin-top: 25px;
+
+  .form-group {
+    font-size: 16px;
+    margin-bottom: 10px;
+    padding: 10px 19px;
+    border: 0 none;
+    border-radius: 50px;
+
+    &::before {
+      content: none;
+    }
+
+    &::after {
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      content: " ";
+      border: 1px solid $color-mercury;
+      border-radius: 50px;
+      transform: scale(.5);
+    }
+  }
+
+  .btn {
+    font-size: 30px;
+    line-height: 48px;
+    top: 0;
+    right: -27px;
+    display: block;
+    min-width: 176px;
+    height: 48px;
+    margin-top: -2px;
+    padding: 0 0 0 18px;
+    color: $color-crusta;
+    border-left: 1px solid $color-mercury;
+    border-radius: 0;
+    background: none;
+    transform: scale(.5);
+
+    &:disabled {
+      color: $color-dusty-grey;
+      background: none;
+    }
+  }
+
+  input {
+    position: relative;
+    z-index: 100;
+    color: $color-dove-grey;
+
+    &::placeholder {
+      color: $color-dusty-grey;
+    }
+  }
+}
+
+.login-head {
+  padding-top: 25px;
+
+  &-img {
+    height: 80px;
+    background: url("../../asset/images/toast.gif") no-repeat center;
+    background-size: 125px;
+  }
+
+  &-tips {
+    font-size: 21px;
+    margin-top: 16px;
+    text-align: center;
+
+    p:first-child {
+      margin-bottom: 9px;
+    }
+  }
 }

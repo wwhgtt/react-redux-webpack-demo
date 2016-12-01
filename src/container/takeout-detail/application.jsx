@@ -1,14 +1,20 @@
 const React = require('react');
 const connect = require('react-redux').connect;
+const commonAction = require('../../action/common-action/common-action.js');
+const bindActionCreators = require('redux').bindActionCreators;
 const classnames = require('classnames');
 const takeoutAction = require('../../action/order-detail/takeout-detail.js');
 const commonHelper = require('../../helper/common-helper.js');
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
+const ConfirmDialog = require('../../component/mui/dialog/confirm-dialog.jsx');
+const Dialog = require('../../component/mui/dialog/dialog.jsx');
+const Toast = require('../../component/mui/toast.jsx');
 
 require('../../asset/style/style.scss');
 
 const DishDetail = require('../../component/order-detail-uncheck/dish-detail.jsx');
 const shopLogoDefault = require('../../asset/images/logo_default.svg');
+const CommentStar = require('../../component/order-detail/comment-star.jsx');
 
 require('../../component/order-detail/dish-detail.scss');
 require('../../component/order-detail/common.scss');
@@ -22,6 +28,7 @@ const TakeoutDetailApplication = React.createClass({
   propTypes: {
     getTakeoutDetail: React.PropTypes.func,
     takeoutDetail: React.PropTypes.object,
+    saveMarkRecord: React.PropTypes.func,
   },
 
   getInitialState() {
@@ -77,6 +84,25 @@ const TakeoutDetailApplication = React.createClass({
     }
   },
 
+  // 评分按钮
+  getCommentBtn() {
+    const { takeoutDetail } = this.props;
+    let commentBtn = '';
+    if (takeoutDetail.markRecord4Order) {
+      if (takeoutDetail.markRecord4Order.supportMark) {
+        if (takeoutDetail.markRecord4Order.markSendCoupFlag) {
+          commentBtn = (<a className="order-status-comment order-status-hasCoupon" onTouchTap={this.showComment}>评分领券</a>);
+        } else {
+          commentBtn = (<a className="order-status-comment" onTouchTap={this.showComment}>我要评分</a>);
+        }
+      } else if (takeoutDetail.markRecord4Order.score > 0) {
+        commentBtn = (<a className="order-status-comment" onTouchTap={this.showCommentRead}>我的评分</a>);
+      }
+    }
+
+    return commentBtn;
+  },
+
   // 支付方式
   getPayMethod() {
     const payMethodStr = this.props.takeoutDetail.tradePayForm;
@@ -110,6 +136,14 @@ const TakeoutDetailApplication = React.createClass({
     return originPrice;
   },
 
+  showComment() {
+    this.setState({ isCommentShow: true });
+  },
+
+  showCommentRead() {
+    this.setState({ isCommentReadShow: true });
+  },
+
   formatCuntDown(countDown) {
     let countDownStr = '';
     const countDownMinut = Math.floor(countDown / 60000);
@@ -133,15 +167,81 @@ const TakeoutDetailApplication = React.createClass({
     location.href = `http://${location.host}/shop/payDetail?shopId=${shopId}&orderId=${takeoutDetail.orderId}&orderType=WM`;
   },
 
+  // 选星星
+  handleSelectStar(i) {
+    this.setState({ commentScore: i + 1 });
+  },
+
+  // 提交评论
+  handleComment() {
+    const { saveMarkRecord, takeoutDetail } = this.props;
+    const { commentScore } = this.state;
+    if (commentScore < 1) {
+      this.setState({ errorMessage: '您还没有评分' });
+      return;
+    }
+    const scoreInfo = {
+      shopId: `${shopId}`,
+      tradeId: takeoutDetail.orderId || 0,
+      score: commentScore,
+    };
+    saveMarkRecord(scoreInfo, this.handleSuccessCallBack, this.handleFaildCallBack);
+  },
+
+  handleSuccessCallBack(data) {
+    if (data.markSendCoupFlag) {
+      if (data.coupSendOver) {
+        this.setState({ errorMessage: '订单评分成功，优惠券已赠完' });
+      } else {
+        this.setState({ errorMessage: `订单评分成功，恭喜获得${data.sendCoupInfo}` });
+      }
+    } else {
+      this.setState({ errorMessage: '订单评分成功' });
+    }
+    this.setState({ isCommentShow: false, isCommentReadShow: true });
+    this.props.getTakeoutDetail();
+  },
+
+  handleFaildCallBack(code, msg) {
+    if (code === '70600') {
+      this.setState({ errorMessage: '网络原因评分失败，请重新评分' });
+    } else {
+      this.setState({ isCommentShow: false });
+      if (code === '70601') {
+        this.setState({ errorMessage: '该订单已评分' });
+      } else if (code === '706003') {
+        this.setState({ errorMessage: '当前订单不支持评分' });
+      } else {
+        this.setState({ errorMessage: msg });
+      }
+    }
+  },
+
+  handleCancelComment() {
+    this.setState({ isCommentShow: false, isCommentReadShow: false });
+  },
+
+  handleClearErrorMsg() {
+    this.setState({ errorMessage: '' });
+  },
+
   render() {
     const { takeoutDetail } = this.props;
-    const { isCounponSmallShow, isCouponBigShow } = this.state;
+    const {
+      isCounponSmallShow,
+      isCouponBigShow,
+      errorMessage,
+      isCommentShow,
+      isCommentReadShow,
+      commentScore,
+    } = this.state;
     return (
       <div className="application takeout-page">
         <div className="flex-columns">
           <div className="flex-rest detail-content">
             <div className="order-status">
               <span className="order-status-title ellipsis">{takeoutDetail.status}</span>
+              {this.getCommentBtn()}
               {
                 takeoutDetail.tradeFailReason &&
                   <span className="order-status-detail ellipsis">{takeoutDetail.tradeFailReason}</span>
@@ -228,10 +328,12 @@ const TakeoutDetailApplication = React.createClass({
                 <span className="list-statictis-title">原价</span>
                 <span className="price ellipsis list-statictis-origin">{this.getOriginPrice()}</span>
               </div>
-              <div className="list-statictis-item">
-                <span className="list-statictis-title">共优惠</span>
-                <span className="price ellipsis list-statictis-privilage">{Math.abs(takeoutDetail.tradePrivilegeAmount || 0)}</span>
-              </div>
+              {Boolean(Math.abs(takeoutDetail.tradePrivilegeAmount)) &&
+                <div className="list-statictis-item">
+                  <span className="list-statictis-title">共优惠</span>
+                  <span className="price ellipsis list-statictis-privilage">{Math.abs(takeoutDetail.tradePrivilegeAmount)}</span>
+                </div>
+              }
               <div className="list-statictis-item">
                 <span className="list-statictis-title">总计:</span>
                 <span className="price ellipsis list-statictis-total">{takeoutDetail.tradeAmount}</span>
@@ -300,9 +402,60 @@ const TakeoutDetailApplication = React.createClass({
             </div>
           </div>
         }
+        {errorMessage &&
+          <Toast errorMessage={errorMessage} clearErrorMsg={this.handleClearErrorMsg} />
+        }
+        {isCommentShow &&
+          <ConfirmDialog
+            onCancel={this.handleCancelComment}
+            onConfirm={this.handleComment}
+            cancelText={'取消'}
+            confirmText={'提交'}
+          >
+            <div className="comment">
+              <p className="comment-title">满意请给五星唷～</p>
+              <div className="comment-content">
+                <CommentStar
+                  starTotal={5}
+                  commentScore={commentScore}
+                  onSelectStar={this.handleSelectStar}
+                />
+              </div>
+            </div>
+          </ConfirmDialog>
+        }
+        {isCommentReadShow &&
+          <Dialog
+            hasTopBtnClose={false}
+            title={'已评分'}
+            onClose={this.handleCancelComment}
+            theme="sliver"
+          >
+            <div className="comment">
+              <div className="comment-content">
+                <CommentStar
+                  starTotal={5}
+                  commentScore={commentScore}
+                  isReadOnly
+                />
+              </div>
+              {takeoutDetail.markRecord4Order && takeoutDetail.markRecord4Order.sendCoupInfo &&
+                <p className="comment-tips">
+                  恭喜获得{takeoutDetail.markRecord4Order.sendCoupInfo}，
+                  <a href={`http://${location.host}/coupon/getCouponList?shopId=${shopId}`} className="comment-tips-href">去看看</a>
+                </p>
+              }
+            </div>
+          </Dialog>
+        }
       </div>
     );
   },
 });
 
-module.exports = connect(state => state, takeoutAction)(TakeoutDetailApplication);
+const mapDispatchToProps = function getPropsFromAction(dispatch) {
+  const actionObj = Object.assign({}, commonAction, takeoutAction);
+  return bindActionCreators(actionObj, dispatch);
+};
+
+module.exports = connect(state => state, mapDispatchToProps)(TakeoutDetailApplication);

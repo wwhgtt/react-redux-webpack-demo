@@ -21,6 +21,11 @@
   left: 0;
   overflow: hidden;
   height: calc(100% - 65px);
+
+  &-full {
+    top: 0;
+    height: 100%;
+  }
 }
 
 .order-list-group {

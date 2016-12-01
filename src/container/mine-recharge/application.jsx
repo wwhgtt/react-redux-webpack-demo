@@ -127,6 +127,7 @@ const MineRechargeApplication = React.createClass({
       isShowLastAd,
       isShowAds,
       lastRechargeAdStyle,
+      isShowRechargeTips,
     } = this.state;
     let rechargeActiveItems = [];
     let rechargeActiveAds = [];
@@ -248,6 +249,9 @@ const MineRechargeApplication = React.createClass({
           }
           </div>
         </div>
+        {rechargeInfo.chargeMemo &&
+          <a className="recharge-tips" onTouchTap={() => { this.setState({ isShowRechargeTips: true }); }}>储值说明</a>
+        }
       </div>
       <div className="recharge-content">
         <div className="recharge-block">
@@ -266,6 +270,16 @@ const MineRechargeApplication = React.createClass({
             theme="sliver"
           >
             <div>{rechargeActiveItems}</div>
+          </Dialog>
+        }
+        {isShowRechargeTips &&
+          <Dialog
+            hasTopBtnClose={false}
+            title={'储值说明'}
+            onClose={() => { this.setState({ isShowRechargeTips: false }); }}
+            theme="sliver"
+          >
+            <p className="recharge-tips-content">{rechargeInfo.chargeMemo}</p>
           </Dialog>
         }
       </div>

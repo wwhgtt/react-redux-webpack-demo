@@ -2,6 +2,7 @@ const React = require('react');
 const orderListAction = require('../../action/order-list/order-list.js');
 const connect = require('react-redux').connect;
 const IScroll = require('iscroll/build/iscroll-probe');
+const classnames = require('classnames');
 
 require('../../asset/style/style.scss');
 require('../../component/mine/common.scss');
@@ -26,7 +27,7 @@ const OrderListApplication = React.createClass({
     setErrorMsg: React.PropTypes.func,
 
     childView: React.PropTypes.string,
-    orderList: React.PropTypes.array,
+    orderList: React.PropTypes.object,
     takeOutList: React.PropTypes.array,
     bookList: React.PropTypes.array,
     queueList: React.PropTypes.array,
@@ -36,7 +37,7 @@ const OrderListApplication = React.createClass({
 
   getInitialState() {
     return {
-      activeNum: 0,
+      activeItem: '',
       showSection: '',
       dinnerListArr: [],
       takeOutListArr: [],
@@ -54,10 +55,6 @@ const OrderListApplication = React.createClass({
     // getTakeOutList(1);
     // getBookList(1);
     // getQueueList(1);
-
-    if (!location.hash) {
-      location.hash = '#dinner';
-    }
   },
 
   componentDidMount() {
@@ -76,8 +73,8 @@ const OrderListApplication = React.createClass({
     const { orderList, takeOutList, bookList, queueList } = nextProps;
     const { dinnerListArr, takeOutListArr, bookListArr, queueListArr } = this.state;
 
-    if (JSON.stringify(this.props.orderList) !== JSON.stringify(orderList)) {
-      this.setState({ dinnerListArr: this.mergeList(dinnerListArr, orderList) });
+    if (JSON.stringify(this.props.orderList.list) !== JSON.stringify(orderList.list)) {
+      this.setState({ dinnerListArr: this.mergeList(dinnerListArr, orderList.list) });
     }
     if (JSON.stringify(this.props.takeOutList) !== JSON.stringify(takeOutList)) {
       this.setState({ takeOutListArr: this.mergeList(takeOutListArr, takeOutList) });
@@ -123,19 +120,19 @@ const OrderListApplication = React.createClass({
     setChildView(hash);
 
     if (hash === '#dinner') {
-      this.setState({ activeNum: 0 });
+      this.setState({ activeItem: '堂食' });
       this.setState({ showSection: 'TS' });
       getOrderList(1);
     } else if (hash === '#quick') {
-      this.setState({ activeNum: 1 });
+      this.setState({ activeItem: '外卖' });
       this.setState({ showSection: 'WM' });
       getTakeOutList(1);
     } else if (hash === '#book') {
-      this.setState({ activeNum: 2 });
+      this.setState({ activeItem: '预订' });
       this.setState({ showSection: 'BK' });
       getBookList(1);
     } else if (hash === '#queue') {
-      this.setState({ activeNum: 3 });
+      this.setState({ activeItem: '排队' });
       this.setState({ showSection: 'QE' });
       getQueueList(1);
     }
@@ -162,24 +159,53 @@ const OrderListApplication = React.createClass({
     );
   },
 
+  // 获取tab标签数组
+  getTabs() {
+    const { orderList } = this.props;
+    const tabArray = orderList.supportBusinessTypes || [];
+    let tabArrayStr = [];
+    if (tabArray && tabArray.length > 0) {
+      tabArray.forEach(item => {
+        switch (item) {
+          case 'TS':
+            tabArrayStr.push('堂食');
+            break;
+          case 'WM':
+            tabArrayStr.push('外卖');
+            break;
+          case 'YD':
+            tabArrayStr.push('预订');
+            break;
+          case 'PD':
+            tabArrayStr.push('排队');
+            break;
+          default:
+            break;
+        }
+      });
+    }
+
+    return tabArrayStr;
+  },
+
   handleClearErrorMsg() {
     this.props.setErrorMsg('');
   },
 
   // tabs切换
-  handleGetIndex(index) {
+  handleGetIndex(index, item) {
     const { setChildView } = this.props;
     const hash = location.hash;
-    if (index === 0 && hash !== '#dinner') {
+    if (item === '堂食' && hash !== '#dinner') {
       location.hash = '#dinner'; // 堂食
       setChildView('#dinner');
-    } else if (index === 1 && hash !== '#quick') {
+    } else if (item === '外卖' && hash !== '#quick') {
       location.hash = '#quick'; // 外卖
       setChildView('#quick');
-    } else if (index === 2 && hash !== '#book') {
+    } else if (item === '预订' && hash !== '#book') {
       location.hash = '#book';  // 预订
       setChildView('#book');
-    } else if (index === 3 && hash !== '#queue') {
+    } else if (item === '排队' && hash !== '#queue') {
       location.hash = '#queue'; // 排队
       setChildView('#queue');
     }
@@ -209,17 +235,40 @@ const OrderListApplication = React.createClass({
       takeOutListArr,
       bookListArr,
       queueListArr,
+      activeItem,
     } = this.state;
 
     const { loadStatus, errorMessage } = this.props;
+    const { orderList } = this.props;
+    const tabArray = orderList.supportBusinessTypes || [];
+    if (!location.hash && tabArray[0]) {
+      switch (tabArray[0]) {
+        case 'TS':
+          location.hash = '#dinner';
+          break;
+        case 'WM':
+          location.hash = '#quick';
+          break;
+        case 'YD':
+          location.hash = '#book';
+          break;
+        case 'PD':
+          location.hash = '#queue';
+          break;
+        default:
+          break;
+      }
+    }
     return (
       <div className="order-page application">
+      {this.getTabs() && this.getTabs().length > 1 &&
         <SwitchNavi
-          navis={['堂食', '外卖', '预订', '排队']}
+          navis={this.getTabs()}
           getIndex={this.handleGetIndex}
-          activeTab={this.state.activeNum}
+          activeTab={activeItem}
         />
-        <div id="myScroll" className="order-conent">
+      }
+        <div id="myScroll" className={classnames('order-conent', { 'order-conent-full': tabArray.length < 2 })}>
           <div className="records">
             {showSection === 'TS' && this.getOrderDinner(dinnerListArr, 'TS')}
             {showSection === 'WM' && this.getOrderDinner(takeOutListArr, 'WM')}

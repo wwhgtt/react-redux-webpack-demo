@@ -140,6 +140,7 @@ module.exports = {
   queueListAPI: `${apiBase}/queue/queueList.json`, // 排队列表
   getDinnerDetailAPI: `${apiBase}/order/orderallDetail.json`, // 堂食结算后订单详情
   getDishMarketInfosAPI: `${apiBase}/orderall/dishMarketInfos.json`,
+  saveMarkRecordAPI: `${apiBase}/order/saveMarkRecord.json`, // 评分
 
   getBookDetailAPI: `${apiBase}/booking/bookingDetail.json`, // 预订详情
   getQueueDetailAPI: `${apiBase}/queue/success.json`, // 排队详情
@@ -151,6 +152,9 @@ module.exports = {
   getTakeoutDetailAPI: `${apiBase}/order/takeOutDetail.json`, // 外卖结算后订单详情
   getCurrIntegralRuleAPI: `${apiBase}/member/currIntegralRule.json`, // 获取当前积分信息
   getCurrGrownRuleAPI: `${apiBase}/member/currGrownRule.json`, // 获取当前成长值信息
+
+  getPosLoginInfoAPI: `${apiBase}/user/loginPosScanCode.json`, // pos扫码信息
+  loginWxByPosAPI: `${apiBase}/user/loginWxByPos.json`, // pos扫码登录
 
   requestOptions,
 };

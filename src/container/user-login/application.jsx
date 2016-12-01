@@ -51,17 +51,27 @@ const UserLoginApplication = React.createClass({
     let weixinLoginElement = false;
     if (weixinInfo.weixin && supportInfo.weixin) {
       weixinLoginElement = (
-        <div className="wx-login flex-none">
-          <h3><span>选择第三方登录</span></h3>
-          <button className="btn" onTouchTap={this.onLoginWX}>微信登录</button>
-          <p>
-            如果您已经有手机账号，使用微信登录后，请在【我的】界面绑定手机号，以便关联原有账号
-          </p>
+        <div className="wx-login">
+          <h3><span>第三方登录</span></h3>
+          <a className="btn" onTouchTap={this.onLoginWX}></a>
+          <div className="wx-login-tips">
+            <p>
+            如已有手机注册账号，选择微信登录后，
+            </p>
+            <p>请在用户中心绑定手机号，以便关联原有账户信息</p>
+          </div>
         </div>);
     }
     return (
       <div className="application flex-columns">
-        <div className="flex-rest">
+        <div className="login-content">
+          <div className="login-head">
+            <div className="login-head-img"></div>
+            <div className="login-head-tips">
+              <p>初次见面，</p>
+              <p>客官还需验证唷～</p>
+            </div>
+          </div>
           <PhoneVerificationCode
             hasForeignZone={supportInfo.xiangEQ}
             onGetVerificationCode={this.onGetVerificationCode}
