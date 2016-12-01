@@ -155,7 +155,7 @@ const RegisterMemberApplication = React.createClass({
             <div className="options-group">
               <div className="option">
                 <span className="option-title">手机号</span>
-                <span className={'option-input register-input'}>{this.phonNum}</span>
+                <span className={'option-input register-input text-dusty-grey'}>{this.phonNum}</span>
               </div>
             </div>
 
@@ -179,7 +179,7 @@ const RegisterMemberApplication = React.createClass({
                 <span className="btn-arrow-right"></span>
                 <input
                   type="text"
-                  className="option-input register-input"
+                  className="option-input register-input register-birth text-dusty-grey"
                   placeholder="请选择出生日期"
                   onClick={() => { this.setState({ isShow: true }); }}
                   value={birthDay}
@@ -193,14 +193,14 @@ const RegisterMemberApplication = React.createClass({
                   maxLength={6}
                   placeholder={'请填写6位数字密码'}
                   regs={regC}
-                  className={'option-input register-input register-pwd-in'}
+                  className={'option-input register-input register-pwd-in text-dusty-grey'}
                   onSetNum={this.setPassword}
                   defaultVal={password}
                 />
                 <input
                   type="password"
                   ref="inputPwd"
-                  className="option-input register-input register-pwd-out"
+                  className="option-input register-input register-pwd-out text-dusty-grey"
                   placeholder="请填写6位数字密码"
                   value={password}
                 />
