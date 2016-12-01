@@ -30,6 +30,10 @@ module.exports = function (
         relatedDish:null,
         benefitMoney:0,
       },
+      wholeOrderBenefit:{
+        wholeOrderBenefitDetail:null,
+        isUseWholeOrderBenefit:false,
+      },
     },
     tableProps:{
       isEditable:true,
@@ -494,6 +498,8 @@ module.exports = function (
             payload
           ).activityBenefit
         );
+    case 'SET_WHOLE_ORDER_BENEFIT':
+      return state.setIn(['serviceProps', 'wholeOrderBenefit', 'wholeOrderBenefitDetail'], payload);
     case 'SET_ADDRESS_INFO_TO_ORDER':
       return state.setIn(
         ['customerProps', 'addresses'],

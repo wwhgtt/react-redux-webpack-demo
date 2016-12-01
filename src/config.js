@@ -33,7 +33,8 @@ module.exports = {
   submitWMOrderAPI:`${apiBase}/takeaway/subOrder.json`,
   userAddressAPI: `${apiBase}/user/addressList.json`,
   submitDinnerOrderAPI:`${apiBase}/orderall/tradeBilling.json`,
-  orderedDishBenefitAPI:`${apiBase}/marketplan/dishPrivilegeList.json`,
+  orderedDishBenefitAPI:`${apiBase}/marketplan/dishPrivilegeList.json`, // 单商品优惠
+  wholeOrderBenefitAPI: `${apiBase}/marketplan/multiDishPrivilegeInfo.json`, // 整单优惠
 
   individualAPI:`${apiBase}/user/individual.json`, // 获取用户基本信息(我的页面)
   individualviewAPI:`${apiBase}/user/individualView.json`,  // 获取用户基本信息(设置页面)

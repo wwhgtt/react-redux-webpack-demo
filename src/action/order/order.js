@@ -28,6 +28,8 @@ const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
 const setBenefitOptions = createAction('SET_BENEFIT_OPTIONS', options => options);
 exports.onSelectBenefit = createAction('ON_SELECT_BENEFIT', option => option);
 const setActivityBenefit = createAction('SET_ACTIVITY_BENEFIT', prop => prop);
+const setWholeOrderBenefitProps = createAction('SET_WHOLE_ORDER_BENEFIT', prop => prop);
+
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 
@@ -435,4 +437,26 @@ exports.checkCodeAvaliable = (data, note, receipt) => (dispatch, getState) => {
 };
 exports.setActivityBenefit = (evt, option) => (dispatch, getState) => {
   dispatch(setActivityBenefit(option));
+};
+
+exports.fetchWholeOrderBenefit = () => (dispatch, getState) => {
+  const lastOrderedDishes = getState().orderedDishesProps;
+  const dishesPrice = getDishesPrice(lastOrderedDishes.dishes);
+  fetch(`${config.wholeOrderBenefitAPI}?shopId=${shopId}&orderAmount=${dishesPrice}`, config.requestOptions)
+  .then(res => {
+    if (!res.ok) {
+      dispatch(setErrorMsg('获取整单优惠信息失败...'));
+    }
+    return res.json();
+  })
+  .then(result => {
+    if (String(result.code) === '200') {
+      dispatch(setWholeOrderBenefitProps(result.data));
+    } else {
+      dispatch(setErrorMsg(result.msg));
+    }
+  })
+  .catch(err => {
+    console.log(err);
+  });
 };
