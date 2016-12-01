@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="245px" height="170px" viewBox="0 0 245 170" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
+    <title>干杯</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="79.3331444%" y1="-81.4938129%" x2="15.4966053%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFC334" offset="0%"></stop>
+            <stop stop-color="#FF7E28" offset="100%"></stop>
+        </linearGradient>
+        <path d="M30.9300003,30.4318644 L30.9300003,1.42108547e-13 L-2.84217094e-14,1.42108547e-13 L-2.84217094e-14,33 L0.0703570287,33 C0.627837854,41.0445385 7.33023895,47.3973756 15.5164247,47.3973756 C24.0677672,47.3973756 31,40.4651427 31,31.9138002 C31,31.4139355 30.976313,30.9196031 30.9300003,30.4318644 Z" id="path-2"></path>
+        <mask id="mask-3" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="31" height="47.3973756" fill="white">
+            <use xlink:href="#path-2"></use>
+        </mask>
+        <circle id="path-4" cx="83" cy="83" r="83"></circle>
+        <path d="M155.585206,185.427371 C156.716288,185.138739 157.83808,184.826876 158.950044,184.492318 M165.574924,182.187128 C168.412925,181.062008 171.174122,179.784897 173.848473,178.365838 C200.11214,164.429862 218,136.803898 218,105 C218,59.1603658 180.839634,22 135,22 C89.1603658,22 52,59.1603658 52,105 C52,150.839634 89.1603658,188 135,188 C138.833168,188 142.605645,187.740156 146.30078,187.23712" id="path-6"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="登录跳转_已创建" transform="translate(-261.000000, -335.000000)">
+            <g id="干杯" transform="translate(238.000000, 315.000000)">
+                <g id="Group" transform="translate(244.674101, 105.660400) rotate(-20.000000) translate(-244.674101, -105.660400) translate(229.174101, 70.160400)">
+                    <path d="M1.66717093,17 L-1.42108547e-13,17 L-1.42108547e-13,21.5805145 L1.66717093,17 Z M30.8897329,33.1972162 C30.321364,41.0102336 23.8068654,47.1722171 15.8500795,47.1722171 L15.0799208,47.1722171 C6.75151051,47.1722171 -1.42108547e-13,40.4197681 -1.42108547e-13,32.0861085 L-1.42108547e-13,24.6617212 L30.0195757,35.5879532 L30.8897329,33.1972162 Z" id="Combined-Shape" fill="url(#linearGradient-1)"></path>
+                    <rect id="Rectangle-3" fill="#81542C" x="14" y="46" width="3" height="24"></rect>
+                    <rect id="Rectangle-4" fill="#81542C" x="4" y="68" width="23" height="3" rx="1.5"></rect>
+                    <use id="Combined-Shape" stroke="#81542C" mask="url(#mask-3)" stroke-width="6" xlink:href="#path-2"></use>
+                </g>
+                <g id="Group-3" transform="translate(46.000000, 22.000000)">
+                    <g id="Oval-Copy-8">
+                        <mask id="mask-5" fill="white">
+                            <use xlink:href="#path-4"></use>
+                        </mask>
+                        <use id="Mask" fill="#FFD24C" xlink:href="#path-4"></use>
+                        <circle fill="#FFE74C" mask="url(#mask-5)" cx="69" cy="83" r="83"></circle>
+                    </g>
+                    <g id="Group-2" transform="translate(87.500000, 92.500000) scale(-1, 1) rotate(-10.000000) translate(-87.500000, -92.500000) translate(30.000000, 69.000000)">
+                        <path d="M64.0087336,14 L64.0087336,14 C63.3660058,16.753676 60.9216467,18.8028674 58.0043668,18.8028674 C55.0870869,18.8028674 52.6427278,16.753676 52,14" id="Combined-Shape" stroke="#6D441F" stroke-width="3" stroke-linecap="round"></path>
+                        <ellipse id="Oval-7" fill="#6D441F" cx="29.8056769" cy="8.8046595" rx="7.80567686" ry="7.8046595"></ellipse>
+                        <ellipse id="Oval-7-Copy" fill="#6D441F" cx="86.4606987" cy="8.6827957" rx="7.80567686" ry="7.8046595"></ellipse>
+                        <ellipse id="Oval-7-Copy-2" fill="#FF5700" opacity="0.7" cx="101.471616" cy="33.297491" rx="13.209607" ry="13.2078853"></ellipse>
+                        <ellipse id="Oval-7-Copy-3" fill="#FF5700" opacity="0.7" cx="13.8078603" cy="33.297491" rx="13.209607" ry="13.2078853"></ellipse>
+                    </g>
+                </g>
+                <mask id="mask-7" fill="white">
+                    <use xlink:href="#path-6"></use>
+                </mask>
+                <use id="Mask" stroke="#81542C" stroke-width="3" stroke-linecap="round" xlink:href="#path-6"></use>
+                <path d="M218,143.532849 C233.187831,143.532849 245.5,131.22068 245.5,116.032849" id="Oval-2" stroke="#81542C" stroke-width="3" stroke-linecap="round" transform="translate(231.750000, 129.782849) rotate(30.000000) translate(-231.750000, -129.782849) "></path>
+                <path d="M24.6988271,137.5 C39.8866577,137.5 52.1988271,125.187831 52.1988271,110" id="Oval-2-Copy" stroke="#81542C" stroke-width="3" stroke-linecap="round" transform="translate(38.448827, 123.750000) scale(-1, -1) translate(-38.448827, -123.750000) "></path>
+                <rect id="Rectangle" x="0" y="0" width="275" height="207"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

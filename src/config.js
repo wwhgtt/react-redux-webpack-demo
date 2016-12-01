@@ -153,6 +153,9 @@ module.exports = {
   getCurrIntegralRuleAPI: `${apiBase}/member/currIntegralRule.json`, // 获取当前积分信息
   getCurrGrownRuleAPI: `${apiBase}/member/currGrownRule.json`, // 获取当前成长值信息
 
+  getPosLoginInfoAPI: `${apiBase}/user/loginPosScanCode.json`, // pos扫码信息
+  loginWxByPosAPI: `${apiBase}/user/loginWxByPos.json`, // pos扫码登录
+
   requestOptions,
 };
 

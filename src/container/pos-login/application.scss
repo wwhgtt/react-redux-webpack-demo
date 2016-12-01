@@ -1,0 +1,44 @@
+@import "settings.colors";
+
+.pos-login {
+  min-height: calc(100% - 45px);
+  padding: 20% 0;
+
+  &-img {
+    height: 90px;
+    background: url("../../asset/images/toast.svg") no-repeat center;
+    background-size: 125px;
+  }
+
+  &-success {
+    height: 90px;
+    background: url("../../asset/images/toast_twice.svg") no-repeat center;
+    background-size: 216px;
+  }
+
+  &-info {
+    font-size: 23px;
+    margin-top: 33px;
+    text-align: center;
+
+    p {
+      line-height: 30px;
+    }
+  }
+
+  &-btn {
+    font-size: 17px;
+    line-height: 44px;
+    display: block;
+    height: 44px;
+    margin: 78px 30px 0;
+    text-align: center;
+    color: $color-white;
+    border-radius: 50px;
+    background: linear-gradient(to right, $color-texas-rose, $color-crusta);
+  }
+}
+
+a {
+  text-decoration: none;
+}
