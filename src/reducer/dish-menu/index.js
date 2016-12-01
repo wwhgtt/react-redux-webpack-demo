@@ -198,7 +198,7 @@ module.exports = function (
               state.shopInfo.formatDishesData
             ))
           .setIn(['shopInfo', 'multiMarketing'], payload.multiMarketing)
-          .setIn(['shopInfo', 'notice'], payload.notice);
+          .setIn(['shopInfo', 'notice'], payload.commercialNotice);
     case 'SET_ERROR_MSG':
       return state.set(
         'errorMessage', payload
