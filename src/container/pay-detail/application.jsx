@@ -83,7 +83,7 @@ const PayDetailApplication = React.createClass({
                 :
                 false
               }
-              {payProps.alipay && navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1 ?
+              {payProps.alipay && window.navigator.userAgent.toLowerCase().indexOf('micromessenger') === -1 ?
                 <div className="method-item" onTouchTap={evt => this.setPayDetail(null, 'alipay')}>
                   <div className="pay-item-left ali-pay"></div>
                   <div className="pay-item-name">

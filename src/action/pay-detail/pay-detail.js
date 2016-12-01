@@ -10,7 +10,8 @@ const getUrlParam = require('../../helper/common-helper.js').getUrlParam;
 const shopId = getUrlParam('shopId');
 
 const wxClient = require('wechat-jssdk/client');
-
+const returnUrl = decodeURIComponent(sessionStorage.getItem('rurl_payDetaill'));
+console.log(returnUrl);
 exports.fetchPayDetail = () => (dispatch, getState) =>
   fetch(`${config.getPayDetailAPI}?shopId=${shopId}&orderType=${getUrlParam('orderType')}&orderId=${getUrlParam('orderId')}`, config.requestOptions).
     then(res => {
@@ -41,7 +42,7 @@ exports.fetchPayDetail = () => (dispatch, getState) =>
     });
 
 exports.setPayDetail = (payString, price) => (dispatch, getState) => {
-  const requestDataString = `?shopId=${shopId}&orderId=${getUrlParam('orderId')}&price=${price}`;
+  const requestDataString = `?shopId=${shopId}&orderId=${getUrlParam('orderId')}&price=${price}&returnUrl=${returnUrl}`;
   if (payString === 'baidu') {
     fetch(`${config.baiduPayAPI}${requestDataString}`, config.requestOptions).
       then(res => {
@@ -113,7 +114,7 @@ exports.setPayDetail = (payString, price) => (dispatch, getState) => {
       });
   } else if (payString === 'alipay') {
     const orderType = getUrlParam('orderType') === 'recharge' ? 2 : 1;
-    fetch(`${config.aliPayAPI}${requestDataString}&returnUrl=${payString}&payBusinessType=${orderType}`, config.requestOptions).
+    fetch(`${config.aliPayAPI}${requestDataString}&payBusinessType=${orderType}`, config.requestOptions).
       then(res => {
         if (!res.ok) {
           dispatch(setErrorMsg('支付失败，请稍后重试'));
@@ -144,6 +145,9 @@ exports.setPayDetail = (payString, price) => (dispatch, getState) => {
       then(res => {
         if (String(res.code) === '200') {
           dispatch(setErrorMsg('支付成功'));
+          setTimeout(function () {
+            location.href = returnUrl;
+          }, 3000);
         } else {
           dispatch(setErrorMsg('支付失败，请稍后重试'));
         }
