@@ -37,7 +37,8 @@ const PosLoginApplication = React.createClass({
           <p>欢迎光临{info.shopName}</p>
         </div>
       );
-    } else {
+    } else if (info.hasCustomer === false) {
+      // 以上条件保证接口未获取到数据时，什么都不显示
       loginContent = (
         <div className="pos-login-info">
           <p>欢迎光临</p>
