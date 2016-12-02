@@ -59,6 +59,11 @@ $color-green: #4bc643;
       }
     }
 
+    .icon-notice {
+      background-image: url("../../asset/images/commercial-ad.svg");
+      background-size: 100% 100%;
+    }
+
     .detail {
       display: inline-block;
       overflow: hidden;
