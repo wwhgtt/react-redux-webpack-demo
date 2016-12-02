@@ -154,9 +154,10 @@ exports.setPayDetail = (payString, price) => (dispatch, getState) => {
       }).
       then(res => {
         if (String(res.code) === '200') {
+          dispatch(setLoadingProps(false));
           dispatch(setErrorMsg('支付成功'));
           setTimeout(function () {
-            location.href = returnUrl;
+            window.location.href = decodeURIComponent(returnUrl);
           }, 3000);
         } else {
           dispatch(setLoadingProps(false));
