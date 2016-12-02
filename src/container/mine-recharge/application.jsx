@@ -93,10 +93,17 @@ const MineRechargeApplication = React.createClass({
   },
 
   handleRecharge() {
+    const { userInfo } = this.props;
     if (!this.state.rechargeValue) {
       return;
     }
-    this.props.addRecharge(this.state.rechargeValue);
+
+    if (userInfo.bindMobile) {
+      this.props.addRecharge(this.state.rechargeValue);
+    }
+    // else {
+
+    // }
   },
 
   // 比较
@@ -236,19 +243,21 @@ const MineRechargeApplication = React.createClass({
           />
         }
         </div>
-        <div className="recharge-info">
-          <p className="recharge-info-title">您充值的会员卡号为：</p>
-          <div className="recharge-info-phone">
-          {
-            userInfo.mobile && (<div>
-              <span>{(userInfo.mobile).substring(0, 3)}</span>
-              <span>{(userInfo.mobile).substring(3, 7)}</span>
-              <span>{(userInfo.mobile).substring(7)}</span>
+        {userInfo.mobile &&
+          <div className="recharge-info">
+            <p className="recharge-info-title">您充值的会员卡号为：</p>
+            <div className="recharge-info-phone">
+            {
+              userInfo.mobile && (<div>
+                <span>{(userInfo.mobile).substring(0, 3)}</span>
+                <span>{(userInfo.mobile).substring(3, 7)}</span>
+                <span>{(userInfo.mobile).substring(7)}</span>
+              </div>
+              )
+            }
             </div>
-            )
-          }
           </div>
-        </div>
+        }
         {rechargeInfo.chargeMemo &&
           <a className="recharge-tips" onTouchTap={() => { this.setState({ isShowRechargeTips: true }); }}>储值说明</a>
         }
