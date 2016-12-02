@@ -56,6 +56,10 @@ const AdsColumn = React.createClass({
     }
     return item.rule.ruleName;
   },
+  construntDishNum(item) {
+    if (!item.dishId) { return item.dishNum || 1; }
+    return item.rule.dishNum;
+  },
   scrollPartFunc() {
     const { marketListUpdate, shopInfo, multiMarketing } = this.props;
     const formatDishesData = shopInfo.formatDishesData;
@@ -63,9 +67,9 @@ const AdsColumn = React.createClass({
     const scrollAll = infoList.map((item, index) => {
       if (item.dishId && !formatDishesData[item.dishId]) { return false; }
       let vip = '';
-      if ((item.customerType && item.customerType === 1) || item.rule.customerType === 1) {
+      if ((item.customerType && item.customerType === 1) || (item.rule && item.rule.customerType === 1)) {
         vip = '仅限会员，';
-      } else if ((item.customerType && item.customerType === 2) || item.rule.customerType === 2) {
+      } else if ((item.customerType && item.customerType === 2) || (item.rule && item.rule.customerType === 1)) {
         vip = '仅限非会员，';
       } else {
         vip = '';
@@ -81,6 +85,7 @@ const AdsColumn = React.createClass({
         const length = condition.length;
         condition = `${condition.substring(0, length - 1)}可用，`;
       }
+
       return (
         <p
           className={
@@ -99,7 +104,7 @@ const AdsColumn = React.createClass({
           }
           {this.construntRuleName(item)}
             （{condition}
-            每单限{item.dishNum || item.rule.dishNum}份）
+            每单限{this.construntDishNum(item)}份）
           </span>
         </p>
       );

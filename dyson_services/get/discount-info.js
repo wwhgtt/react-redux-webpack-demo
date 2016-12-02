@@ -7,14 +7,14 @@ module.exports = {
       levelId:9992836,
       levelName:'黄金会员',
       loginType:0,
-      isMember: false,
+      isMember: true,
       dishList:[
         {
           dishId:56,
           value:3.99,
         },
         {
-          dishId:98327,
+          dishId:27,
           value:9,
         },
       ],
