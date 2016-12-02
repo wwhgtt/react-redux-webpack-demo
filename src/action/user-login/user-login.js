@@ -12,12 +12,13 @@ const setLoadingInfo = exports.setLoadingInfo = createAction('SET_LOADING_INFO',
 const setSupportInfo = createAction('SET_SUPPORT_INFO', info => info);
 const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
 const setUserPhone = createAction('SET_USER_PHONE', phone => phone);
+const setLoginInfo = createAction('SET_LOGIN_INFO', loginInfo => loginInfo);
 
 exports.fetchLoginPhone = () => (dispatch, getState) => {
   const loginPhone = localStorage.getItem('loginPhone');
   dispatch(setUserPhone(loginPhone));
 };
-exports.login = (info) => (dispatch, getState) => {
+exports.login = (info, successCallback) => (dispatch, getState) => {
   let fromBrand = 1;
   if (!shopId) {
     dispatch(setErrorMsg('门店编码不能为空'));
@@ -54,7 +55,10 @@ exports.login = (info) => (dispatch, getState) => {
         dispatch(setErrorMsg(result.msg));
         return;
       }
-      location.href = decodeURIComponent(returnUrl);
+
+      dispatch(setLoginInfo({ loginData: result.data, url: returnUrl }));
+      successCallback(result.data, returnUrl);
+      // location.href = decodeURIComponent(returnUrl);
     }).
     catch(err => {
       throw new Error(err);
