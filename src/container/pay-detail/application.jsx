@@ -112,7 +112,8 @@ const PayDetailApplication = React.createClass({
                   className={classnames(
                   'method-item',
                   { 'balance-pay-disable':
-                    (payProps.valueCard && +payProps.valueCard < +payProps.price) || payProps.isDisable || payProps.loginType !== 0,
+                    !payProps.valueCard || (payProps.valueCard && +payProps.valueCard < +payProps.price)
+                    || payProps.isDisable || payProps.loginType !== 0,
                   }
                 )}
                   onTouchTap={evt => this.setPayDetail(
@@ -123,7 +124,7 @@ const PayDetailApplication = React.createClass({
                   </div>
                   <div className="pay-item-name subname">
                     <p>会员余额</p>
-                    <p className="subname-describe">我的余额：<span>{payProps.valueCard}元</span></p>
+                    <p className="subname-describe">我的余额：<span>{payProps.valueCard || 0}元</span></p>
                   </div>
                 </div>
                 :
