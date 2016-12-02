@@ -427,7 +427,13 @@ module.exports = function (
             ['serviceProps', 'wholeOrderBenefit', 'isChecked'],
             !state.serviceProps.wholeOrderBenefit.isChecked
           )
-          .setIn(['serviceProps', 'activityBenefit', 'benefitMoney'], helper.countWholeOrderBenefit(payload.detail, state.orderedDishesProps.dishes));
+          .setIn(['serviceProps', 'activityBenefit', 'benefitMoney'], helper.countWholeOrderBenefit(payload.detail, state.orderedDishesProps.dishes))
+          .setIn(
+            ['serviceProps', 'discountProps', 'inUseDiscount'],
+            helper.countMemberPrice(
+              false, state.orderedDishesProps.dishes, state.serviceProps.discountProps.discountList, state.serviceProps.discountProps.discountType
+            )
+          );
         }
         return state.setIn(
           ['serviceProps', 'activityBenefit', 'benefitMoney'],
@@ -435,6 +441,11 @@ module.exports = function (
         ).setIn(
           ['serviceProps', 'wholeOrderBenefit', 'isChecked'],
           !state.serviceProps.wholeOrderBenefit.isChecked
+        ).setIn(
+          ['serviceProps', 'discountProps', 'inUseDiscount'],
+          helper.countMemberPrice(
+            true, state.orderedDishesProps.dishes, state.serviceProps.discountProps.discountList, state.serviceProps.discountProps.discountType
+          )
         );
       }
       break;
