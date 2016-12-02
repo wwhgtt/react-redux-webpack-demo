@@ -48,7 +48,7 @@ exports.loginWxByPos = () => (dispatch, getState) => {
   then(res => {
     if (res.code === '200') {
       dispatch(setLoadStatus(false));
-      location.href = `http://${location.host}/user/loginFromPosScan?shopId=${shopId}&uuid=${uuid}&posDeviceID=${posDeviceID}`;
+      location.href = `http://${location.host}/user/loginFromPosScanSuc?shopId=${shopId}&uuid=${uuid}&posDeviceID=${posDeviceID}`;
     } else {
       dispatch(setErrorMsg(res.msg));
     }
