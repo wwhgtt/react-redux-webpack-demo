@@ -28,6 +28,8 @@ const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
 const setBenefitOptions = createAction('SET_BENEFIT_OPTIONS', options => options);
 exports.onSelectBenefit = createAction('ON_SELECT_BENEFIT', option => option);
 const setActivityBenefit = createAction('SET_ACTIVITY_BENEFIT', prop => prop);
+const setWholeOrderBenefitProps = createAction('SET_WHOLE_ORDER_BENEFIT', prop => prop);
+
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 
@@ -259,7 +261,7 @@ exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
       sessionStorage.setItem(`${shopId}_sendArea_rangeId`, rangeId);
       sessionStorage.setItem(`${shopId}_sendArea_shipment`, data.shipment ? data.shipment : 0);
       sessionStorage.setItem(`${shopId}_sendArea_sendPrice`, data.sendPrice ? data.sendPrice : 0);
-      sessionStorage.setItem(`${shopId}_sendArea_freeDeliveryPrice`, data.freeDeliveryPrice ? data.freeDeliveryPrice : 0);
+      sessionStorage.setItem(`${shopId}_sendArea_freeDeliveryPrice`, typeof data.freeDeliveryPrice === Number ? data.freeDeliveryPrice : 999999999);
       sessionStorage.setItem('receiveOrderCustomerInfo', JSON.stringify(info));
 
       dispatch(setSendAreaId(sendAreaId));
@@ -326,6 +328,32 @@ exports.fetchActivityBenefit = () => (dispatch, getState) => {
 const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState) => {
   const state = getState();
   const paramsData = helper.getSubmitUrlParams(state, note, receipt);
+  if (state.serviceProps.wholeOrderBenefit && state.serviceProps.wholeOrderBenefit.isChecked) {
+    // 已选择整单优惠
+    if (paramsData.params.singleDishInfos && paramsData.params.singleDishInfos.length) {
+      let singleDishInfos = [];
+      paramsData.params.singleDishInfos.forEach(dishProp => {
+        let dishData = dishProp.asMutable({ deep:true });
+        dishData.priId = null;
+        dishData.priType = null;
+        return singleDishInfos.push(dishData);
+      });
+      paramsData.params.singleDishInfos = singleDishInfos;
+    }
+    if (paramsData.params.multiDishInfos && paramsData.params.multiDishInfos.length) {
+      let multiDishInfos = [];
+      paramsData.params.multiDishInfos.forEach(dishProp => {
+        let dishData = dishProp.asMutable({ deep:true });
+        dishData.priId = null;
+        dishData.priType = null;
+        return multiDishInfos.push(dishData);
+      });
+      paramsData.params.multiDishInfos = multiDishInfos;
+    }
+    paramsData.params = Object.assign({}, paramsData.params, { multiPriId:state.serviceProps.wholeOrderBenefit.detail.planId });
+  } else {
+    paramsData.params = Object.assign({}, paramsData.params, { multiPriId:0 });
+  }
   if (!paramsData.success) {
     dispatch(setErrorMsg(paramsData.msg));
     return;
@@ -435,4 +463,26 @@ exports.checkCodeAvaliable = (data, note, receipt) => (dispatch, getState) => {
 };
 exports.setActivityBenefit = (evt, option) => (dispatch, getState) => {
   dispatch(setActivityBenefit(option));
+};
+
+exports.fetchWholeOrderBenefit = () => (dispatch, getState) => {
+  const lastOrderedDishes = getState().orderedDishesProps;
+  const dishesPrice = getDishesPrice(lastOrderedDishes.dishes);
+  fetch(`${config.wholeOrderBenefitAPI}?shopId=${shopId}&orderAmount=${dishesPrice}`, config.requestOptions)
+  .then(res => {
+    if (!res.ok) {
+      dispatch(setErrorMsg('获取整单优惠信息失败...'));
+    }
+    return res.json();
+  })
+  .then(result => {
+    if (String(result.code) === '200') {
+      dispatch(setWholeOrderBenefitProps(result.data));
+    } else {
+      dispatch(setErrorMsg(result.msg));
+    }
+  })
+  .catch(err => {
+    console.log(err);
+  });
 };

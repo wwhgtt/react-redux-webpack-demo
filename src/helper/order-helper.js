@@ -1117,3 +1117,19 @@ exports.countExtraPrivilege = (privilegeArray) => {
   privilegeArray.map(privilege => benefitCollection.push(+privilege.privilegeAmount));
   return benefitCollection.length ? parseFloat((benefitCollection.reduce((c, p) => c + p)).toFixed(2)) : 0;
 };
+
+exports.reconstructWholeNenefit = (benefit) => {
+  benefit.id = benefit.planId;
+  return benefit;
+};
+
+exports.countWholeOrderBenefit = (detail, orderedDishes) => {
+  if (String(detail.type) === '1') {
+    // 表示立减优惠
+    return Number(detail.reduce);
+  }
+  // 对菜品基准价进行打折
+  let benefitCollection = [];
+  orderedDishes.map(dish => benefitCollection.push(dish.marketPrice * (1 - detail.discount / 10) * getDishesCount([dish])));
+  return parseFloat((benefitCollection.reduce((c, p) => c + p, 0)).toFixed(2));
+};

@@ -54,6 +54,7 @@ const OrderApplication = React.createClass({
     checkCodeAvaliable:React.PropTypes.func.isRequired,
     fetchVericationCode:React.PropTypes.func.isRequired,
     fetchActivityBenefit:React.PropTypes.func.isRequired,
+    fetchWholeOrderBenefit: React.PropTypes.func.isRequired,
     onSelectBenefit:React.PropTypes.func.isRequired,
     setActivityBenefit:React.PropTypes.func.isRequired,
     // MapedStatesToProps
@@ -90,7 +91,7 @@ const OrderApplication = React.createClass({
   },
   componentDidMount() {
     this.setChildViewAccordingToHash();
-    const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons, fetchActivityBenefit } = this.props;
+    const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons, fetchActivityBenefit, fetchWholeOrderBenefit } = this.props;
     fetchOrder().then(
       fetchOrderDiscountInfo
     )
@@ -99,6 +100,7 @@ const OrderApplication = React.createClass({
       () => { this.setChildViewAccordingToHash(); }
     )
     .then(fetchActivityBenefit);
+    fetchWholeOrderBenefit();
   },
   componentWillReceiveProps(nextProps) {
     this.setState({

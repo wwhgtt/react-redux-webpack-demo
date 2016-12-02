@@ -11,6 +11,8 @@ const AdsColumn = React.createClass({
     shopInfo:React.PropTypes.object,
     marketList:React.PropTypes.object,
     marketListUpdate:React.PropTypes.array,
+    multiMarketing: React.PropTypes.array,
+    notice: React.PropTypes.string,
   },
   getInitialState() {
     return { num:0, animation:{}, allDiscount:false };
@@ -19,13 +21,16 @@ const AdsColumn = React.createClass({
   componentDidMount() {
     this._setInterval = setInterval(() => {
       let count = this.state.num;
-      const { marketListUpdate } = this.props;
-      if (marketListUpdate.length <= 1) {
+      const { marketListUpdate, multiMarketing, notice } = this.props;
+      let length = marketListUpdate ? marketListUpdate.length : 0;
+      if (multiMarketing && multiMarketing.length) { length += multiMarketing.length; }
+      if (notice) { length += 1; }
+      if (length <= 1) {
         return;
       }
       count++;
       this.setState({ num:count }, () => {
-        if (count === marketListUpdate.length) {
+        if (count === length) {
           this.setState({ animation:{ transition:'all 0.2s' }, num:0 });
           return;
         }
@@ -44,21 +49,32 @@ const AdsColumn = React.createClass({
     e.stopPropagation();
     this.setState({ allDiscount : false });
   },
+  construntRuleName(item) {
+    if (!item.dishId) { return false; }
+    if (item.rule.dishNum > 1) {
+      return `满${item.rule.dishNum}份${item.rule.ruleName}`;
+    }
+    return item.rule.ruleName;
+  },
   scrollPartFunc() {
-    const { marketListUpdate, shopInfo } = this.props;
+    const { marketListUpdate, shopInfo, multiMarketing } = this.props;
     const formatDishesData = shopInfo.formatDishesData;
-    const scrollAll = marketListUpdate.map((item, index) => {
-      if (!formatDishesData[item.dishId]) { return false; }
+    const infoList = marketListUpdate ? marketListUpdate.concat(multiMarketing || []) : (multiMarketing || []);
+    const scrollAll = infoList.map((item, index) => {
+      if (item.dishId && !formatDishesData[item.dishId]) { return false; }
       let vip = '';
-      if (item.rule.customerType === 1) {
+      if ((item.customerType && item.customerType === 1) || item.rule.customerType === 1) {
         vip = '仅限会员，';
-      } else if (item.rule.customerType === 2) {
+      } else if ((item.customerType && item.customerType === 2) || item.rule.customerType === 2) {
         vip = '仅限非会员，';
       } else {
         vip = '';
       }
-      const openDay = commonHelper.renderDay(item.rule.weekdays);
-      const period = commonHelper.renderTime(item.rule.periodStart, item.rule.periodEnd);
+      const openDay = commonHelper.renderDay(item.weekdays || item.rule.weekdays);
+      const period = item.dishId ?
+        commonHelper.renderTime(item.rule.periodStart, item.rule.periodEnd)
+        :
+        commonHelper.renderTime(item.periodStart, item.periodEnd);
       let condition = '';
       if (vip || openDay || period) {
         condition = `${vip + openDay + period}`;
@@ -66,13 +82,24 @@ const AdsColumn = React.createClass({
         condition = `${condition.substring(0, length - 1)}可用，`;
       }
       return (
-        <p className={classnames('shopdiscount-item', { jian: item.rule.type === 1, zhe: item.rule.type === 2 })} key={index}>
+        <p
+          className={
+            classnames('shopdiscount-item',
+            { jian: (item.type && item.type === 1) || (item.rule && item.rule.type === 1),
+              zhe: (item.type && item.type === 2) || (item.rule && item.rule.type === 2),
+            })}
+          key={index}
+        >
           <span className="spanitem">
-            {formatDishesData[item.dishId].name}
-            {formatDishesData[item.dishId].spec && `(${formatDishesData[item.dishId].spec})`}
-            {item.rule.dishNum > 1 ? `满${item.rule.dishNum}份${item.rule.ruleName}` : item.rule.ruleName}
+          {item.dishId ? formatDishesData[item.dishId].name : '全部商品'}
+          {item.dishId ?
+            formatDishesData[item.dishId].spec && `(${formatDishesData[item.dishId].spec})`
+            :
+            item.ruleName
+          }
+          {this.construntRuleName(item)}
             （{condition}
-            每单限{item.rule.dishNum}份）
+            每单限{item.dishNum || item.rule.dishNum}份）
           </span>
         </p>
       );
@@ -80,35 +107,61 @@ const AdsColumn = React.createClass({
     return scrollAll;
   },
   animatePartFunc() {
-    const { marketListUpdate, shopInfo } = this.props;
+    const { marketListUpdate, shopInfo, multiMarketing, notice } = this.props;
     const formatDishesData = shopInfo.formatDishesData;
-    const animateAll = marketListUpdate.map((item, index) => {
-      if (!formatDishesData[item.dishId]) { return []; }
+    const infoList = marketListUpdate ? marketListUpdate.concat(multiMarketing || []) : (multiMarketing || []);
+    const animateAll = infoList.map((item, index) => {
+      if (item.dishId && !formatDishesData[item.dishId]) { return []; }
       return (
         <div className="content of" key={index}>
-          <i className={classnames('icon', { 'icon-jian': item.rule.type === 1, 'icon-zhe': item.rule.type === 2 })}></i>
+          <i
+            className={
+              classnames('icon', {
+                'icon-jian': (item.type && item.type === 1) || (item.rule && item.rule.type === 1),
+                'icon-zhe':(item.type && item.type === 2) || (item.rule && item.rule.type === 2),
+              })
+            }
+          ></i>
           <span className="detail ellipsis flex-rest">
             <span className="detail-inner ellipsis">
-              {formatDishesData[item.dishId].name}
-              {formatDishesData[item.dishId].spec && `(${formatDishesData[item.dishId].spec})`}
-              {item.rule.dishNum > 1 ? `满${item.rule.dishNum}份${item.rule.ruleName}` : item.rule.ruleName}
+              {item.dishId ? formatDishesData[item.dishId].name : '全部商品'}
+              {item.dishId ?
+                formatDishesData[item.dishId].spec && `(${formatDishesData[item.dishId].spec})`
+                :
+                item.ruleName
+              }
+              {this.construntRuleName(item)}
             </span>
           </span>
         </div>
       );
+    });
+    if (notice) {
+      return (
+        <div>
+          {animateAll}
+          <div className="content of" key={'notice'}>
+            <i className="icon icon-notice"></i>
+            <span className="detail ellipsis flex-rest">
+              <span className="detail-inner ellipsis">
+                商家公告：{notice}
+              </span>
+            </span>
+          </div>
+        </div>
+      );
     }
-    );
     return animateAll;
   },
   render() {
     const { animation, allDiscount } = this.state;
-    const { shopInfo } = this.props;
+    const { shopInfo, multiMarketing, notice } = this.props;
     const scrollPart = this.scrollPartFunc();
     const animatePart = this.animatePartFunc();
     return (
       <div>
         {
-          shopInfo.marketMatchDishes &&
+          (shopInfo.marketMatchDishes || (multiMarketing && multiMarketing.length) || shopInfo.notice) &&
             <div className="ads-column flex-row" onTouchTap={this.showAllDiscount}>
               <div className="flex-rest of">
                 <div className="content-outer" style={animation}>
@@ -136,6 +189,16 @@ const AdsColumn = React.createClass({
                       <div className="scrollpart">
                         {scrollPart}
                       </div>
+                      {notice ?
+                        <div>
+                          <legend className="shopdiscount-brief">商家公告</legend>
+                          <div className="scrollpart">
+                            {notice}
+                          </div>
+                        </div>
+                        :
+                        false
+                      }
                       <div className="closedetail" onTouchTap={this.hideAllDiscount}></div>
                     </fieldset>
                   </div>

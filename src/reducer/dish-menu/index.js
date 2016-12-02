@@ -18,6 +18,8 @@ module.exports = function (
       marketList:{},
       marketListUpdate:[],
       marketMatchDishes:false,
+      multiMarketing:[],
+      notice:null,
     },
     dishDetailData: undefined,
     takeawayServiceProps:undefined,
@@ -194,7 +196,9 @@ module.exports = function (
                 state.shopInfo.formatDishesData
               ),
               state.shopInfo.formatDishesData
-            ));
+            ))
+          .setIn(['shopInfo', 'multiMarketing'], payload.multiMarketing)
+          .setIn(['shopInfo', 'notice'], payload.commercialNotice);
     case 'SET_ERROR_MSG':
       return state.set(
         'errorMessage', payload

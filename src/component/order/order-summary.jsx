@@ -2,6 +2,7 @@ const React = require('react');
 const _find = require('lodash.find');
 const ActiveSelect = require('../mui/select/active-select.jsx');
 const OrderPropOption = require('./order-prop-option.jsx');
+const WholeOrderBenefit = require('./whole-benefit-prop.jsx');
 const helper = require('../../helper/order-helper.js');
 const OrderedDish = require('./ordered-dish.jsx');
 const getDishesPrice = require('../../helper/dish-helper.js').getDishesPrice;
@@ -78,6 +79,14 @@ module.exports = React.createClass({
           }
           <div className="ordered-dish-content">
             {orderedElements}
+            {serviceProps.wholeOrderBenefit ?
+              <ActiveSelect
+                optionsData={[serviceProps.wholeOrderBenefit]} onSelectOption={setOrderProps}
+                optionComponent={WholeOrderBenefit}
+              />
+              :
+              false
+            }
           </div>
           <div className="extraPrice clearfix">
             {serviceProps.deliveryProps && serviceProps.deliveryProps.deliveryPrice ?

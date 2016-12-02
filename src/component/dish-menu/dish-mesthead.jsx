@@ -33,9 +33,8 @@ module.exports = React.createClass({
   },
   render() {
     const { shopInfo, shopLogo } = this.props;
-    const { marketList, marketListUpdate } = shopInfo || {};
-    const adsExisted = marketListUpdate && !!marketListUpdate.length;
-
+    const { marketList, marketListUpdate, multiMarketing, notice } = shopInfo || {};
+    const adsExisted = (marketListUpdate && !!marketListUpdate.length) || (multiMarketing && multiMarketing.length) || notice;
     return (
       <div className={classnames('dish-mesthead', { 'ads-existed': adsExisted })}>
         <div className="shop">
@@ -48,6 +47,8 @@ module.exports = React.createClass({
             shopInfo={shopInfo}
             marketList={marketList}
             marketListUpdate={marketListUpdate}
+            multiMarketing={multiMarketing}
+            notice={notice}
           />
         }
       </div>
