@@ -5,7 +5,7 @@ module.exports = {
       tradePayStatus: 1, // 订单支付状态
       price: '168.6',
       isDisable: null,
-      valueCard: '122322',
+      valueCard: null,
       weixin: true,
       baidu: true,
       alipay: true,
