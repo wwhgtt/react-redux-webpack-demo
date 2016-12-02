@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<<<<<<< 9ed67d397995efb9dc6893ce14096183fa2b1d92
-=======
-<<<<<<< 6ece902c573f5b8bb44a703ec3edbd30c6cf1030
-<<<<<<< 4ab4111f0865f52ba83e2d0142c070d0848b88d4
-<svg width="55px" height="55px" viewBox="0 0 55 55" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
-    <title>toast</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="用户设置_重设密码-copy" transform="translate(-342.000000, -596.000000)" fill="#FFFFFF">
-            <g id="toast2" transform="translate(262.000000, 564.000000)">
-                <path d="M107.5,32 C92.3119792,32 80,44.3119792 80,59.5 C80,74.6880208 92.3119792,87 107.5,87 C122.688021,87 135,74.6880208 135,59.5 C135,44.3119792 122.688021,32 107.5,32 L107.5,32 Z M105.130417,46.25875 C105.130417,44.9295833 106.191458,43.8513542 107.5,43.8513542 C108.808542,43.8513542 109.869583,44.9295834 109.869583,46.25875 L109.869583,63.1116667 C109.869583,64.4408334 108.808542,65.5190625 107.5,65.5190625 C106.191458,65.5190625 105.130417,64.4408333 105.130417,63.1116667 L105.130417,46.25875 L105.130417,46.25875 Z M107.5,75.1486458 C105.537188,75.1486458 103.945625,73.531875 103.945625,71.538125 C103.945625,69.544375 105.537188,67.9264583 107.5,67.9264583 C109.463958,67.9264583 111.054375,69.5432291 111.054375,71.538125 C111.054375,73.531875 109.463958,75.1486458 107.5,75.1486458 L107.5,75.1486458 Z" id="toast"></path>
-=======
-=======
->>>>>>> taskID:6726
->>>>>>> taskID:6726
 <svg width="245px" height="170px" viewBox="0 0 245 170" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
     <title>干杯</title>
@@ -64,13 +47,6 @@
                 <path d="M218,143.532849 C233.187831,143.532849 245.5,131.22068 245.5,116.032849" id="Oval-2" stroke="#81542C" stroke-width="3" stroke-linecap="round" transform="translate(231.750000, 129.782849) rotate(30.000000) translate(-231.750000, -129.782849) "></path>
                 <path d="M24.6988271,137.5 C39.8866577,137.5 52.1988271,125.187831 52.1988271,110" id="Oval-2-Copy" stroke="#81542C" stroke-width="3" stroke-linecap="round" transform="translate(38.448827, 123.750000) scale(-1, -1) translate(-38.448827, -123.750000) "></path>
                 <rect id="Rectangle" x="0" y="0" width="275" height="207"></rect>
-<<<<<<< 9ed67d397995efb9dc6893ce14096183fa2b1d92
-=======
-<<<<<<< 6ece902c573f5b8bb44a703ec3edbd30c6cf1030
->>>>>>> taskID:6726
-=======
->>>>>>> taskID:6726
->>>>>>> taskID:6726
             </g>
         </g>
     </g>
