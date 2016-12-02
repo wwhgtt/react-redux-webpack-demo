@@ -57,7 +57,7 @@ exports.login = (info, successCallback) => (dispatch, getState) => {
       }
 
       dispatch(setLoginInfo({ loginData: result.data, url: returnUrl }));
-      successCallback(result.data, returnUrl);
+      successCallback(result.data || {}, returnUrl);
       // location.href = decodeURIComponent(returnUrl);
     }).
     catch(err => {
