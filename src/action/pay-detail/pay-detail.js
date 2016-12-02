@@ -44,8 +44,10 @@ exports.fetchPayDetail = () => (dispatch, getState) =>
 
 exports.setPayDetail = (payString, price) => (dispatch, getState) => {
   const requestDataString = `?shopId=${shopId}&orderId=${getUrlParam('orderId')}&price=${price}&returnUrl=${returnUrl}`;
+  let requestOptions = Object.assign({}, config.requestOptions);
+  requestOptions.headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
   if (payString === 'baidu') {
-    fetch(`${config.baiduPayAPI}${requestDataString}`, config.requestOptions).
+    fetch(`${config.baiduPayAPI}${requestDataString}`, requestOptions).
       then(res => {
         if (!res.ok) {
           dispatch(setErrorMsg('支付失败，请稍后重试'));
@@ -64,7 +66,7 @@ exports.setPayDetail = (payString, price) => (dispatch, getState) => {
         console.log(err);
       });
   } else if (payString === 'weixin') {
-    fetch(`${config.weixinPayAPI}${requestDataString}`, config.requestOptions).
+    fetch(`${config.weixinPayAPI}${requestDataString}`, requestOptions).
       then(res => {
         if (!res.ok) {
           dispatch(setErrorMsg('支付失败，请稍后重试'));
@@ -115,7 +117,7 @@ exports.setPayDetail = (payString, price) => (dispatch, getState) => {
       });
   } else if (payString === 'alipay') {
     const orderType = getUrlParam('orderType') === 'recharge' ? 2 : 1;
-    fetch(`${config.aliPayAPI}${requestDataString}&payBusinessType=${orderType}`, config.requestOptions).
+    fetch(`${config.aliPayAPI}${requestDataString}&payBusinessType=${orderType}`, requestOptions).
       then(res => {
         if (!res.ok) {
           dispatch(setErrorMsg('支付失败，请稍后重试'));
@@ -135,7 +137,7 @@ exports.setPayDetail = (payString, price) => (dispatch, getState) => {
       });
   } else {
     // 余额支付   第一个参数为密码
-    fetch(`${config.balancePayAPI}${requestDataString}&password=${payString}`, config.requestOptions).
+    fetch(`${config.balancePayAPI}${requestDataString}&password=${payString}`, requestOptions).
       then(res => {
         if (!res.ok) {
           dispatch(setErrorMsg('支付失败，请稍后重试'));
