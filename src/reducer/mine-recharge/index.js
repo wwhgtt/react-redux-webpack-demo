@@ -5,6 +5,7 @@ module.exports = function (
     rechargeInfo: {},
     userInfo: {},
     brandInfo: {},
+    errorMessage: '',
   }),
   action
 ) {
@@ -19,6 +20,8 @@ module.exports = function (
     case 'SET_BRAND_INFO': {
       return state.set('brandInfo', payload);
     }
+    case 'SET_ERROR_MSG':
+      return state.set('errorMessage', payload);
     default:
   }
   return state;

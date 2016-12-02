@@ -56,7 +56,7 @@ const UserLoginApplication = React.createClass({
 
   handleLoginSuccess(data, returnUrl) {
     const { isDialogShow } = this.state;
-    if (data.cleartextPassword && !isDialogShow) {
+    if (data && data.cleartextPassword && !isDialogShow) {
       this.setState({ isDialogShow: true });
     } else {
       location.href = decodeURIComponent(returnUrl);

@@ -21,6 +21,8 @@ const MineRechargeApplication = React.createClass({
     getUserInfo: React.PropTypes.func,
     getBrandInfo: React.PropTypes.func,
     userInfo: React.PropTypes.object,
+    errorMessage: React.PropTypes.string,
+    setErrorMsg: React.PropTypes.func,
   },
 
   getInitialState() {
@@ -46,6 +48,7 @@ const MineRechargeApplication = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     const { ruleInfo } = nextProps.rechargeInfo || {};
+    this.setState({ errorMessage: nextProps.errorMessage });
 
     if (!this.state.rechargeValue) {
       if (ruleInfo && ruleInfo.ruleList && ruleInfo.ruleList.length) {
@@ -132,8 +135,11 @@ const MineRechargeApplication = React.createClass({
 
   handleClearErrorMessage() {
     const returnUrl = encodeURIComponent(location.href);
-    this.setState({ errorMessage: '' });
-    location.href = `http://${location.host}/user/bindMobile?shopId=${shopId}&returnUrl=${returnUrl}#phone-validate`;
+    // this.setState({ errorMessage: '' });
+    this.props.setErrorMsg('');
+    if (!this.props.userInfo.bindMobile) {
+      location.href = `http://${location.host}/user/bindMobile?shopId=${shopId}&returnUrl=${returnUrl}#phone-validate`;
+    }
   },
 
   render() {

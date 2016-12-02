@@ -7,6 +7,7 @@ const createAction = require('redux-actions').createAction;
 const setRechargeInfo = createAction('SET_RECHARGE_INFO', rechargeInfo => rechargeInfo);
 const setUserInfo = createAction('SET_USER_INFO', userInfo => userInfo);
 const setBrandInfo = createAction('SET_BRAND_INFO', brandInfo => brandInfo);
+const setErrorMsg = exports.setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 
 const shopId = commonHelper.getUrlParam('shopId');
 
@@ -43,6 +44,8 @@ exports.addRecharge = price => (dispatch, getStates) => {
       const returnUrl = encodeURIComponent(`http://${location.host}/member/valueCard?shopId=${shopId}`);
       sessionStorage.setItem('rurl_payDetaill', JSON.stringify(returnUrl));
       location.href = `http://${location.host}/shop/payDetail?shopId=${shopId}&orderId=${orderId}&orderType=recharge`;
+    } else {
+      dispatch(setErrorMsg(res.msg));
     }
   });
 };
