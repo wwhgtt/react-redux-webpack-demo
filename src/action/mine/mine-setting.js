@@ -51,7 +51,7 @@ exports.getInfo = (id) => (dispatch, getStates) => {
     console.info(err);
   });
 };
-exports.updateInfo = (name, sex, condition) => (dispatch, getStates) => {
+exports.updateInfo = (name, sex, condition, birthData) => (dispatch, getStates) => {
   if (condition === 1) { // 此时点击跳转到"我的" 页面
     window.location.href = mineIndexUrl;
     return;
@@ -66,6 +66,9 @@ exports.updateInfo = (name, sex, condition) => (dispatch, getStates) => {
   } else if (!name.trim()) {
     dispatch(setErrorMsg('请输入姓名!!'));
     return;
+  } else if (!birthData) {
+    dispatch(setErrorMsg('请选择生日!!'));
+    return;
   }
   /*
     else if (pattern.test(name)) {
@@ -75,7 +78,7 @@ exports.updateInfo = (name, sex, condition) => (dispatch, getStates) => {
   */
   const formatName = commonHelper.replaceEmojiWith(name.trim());
   dispatch(setLoadMsg({ status:true, word:'保存中' }));
-  fetch(`${individualupdateAPI}`, commonHelper.getFetchPostParam({ sex, name:formatName })).
+  fetch(`${individualupdateAPI}`, commonHelper.getFetchPostParam({ sex, name:formatName, birthday:birthData })).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('请求数据失败'));
