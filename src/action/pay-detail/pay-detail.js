@@ -11,7 +11,7 @@ const getUrlParam = require('../../helper/common-helper.js').getUrlParam;
 const shopId = getUrlParam('shopId');
 
 const wxClient = require('wechat-jssdk/client');
-const returnUrl = decodeURIComponent(sessionStorage.getItem('rurl_payDetaill'));
+const returnUrl = encodeURIComponent(decodeURIComponent(sessionStorage.getItem('rurl_payDetaill')));
 console.log(returnUrl);
 exports.fetchPayDetail = () => (dispatch, getState) =>
   fetch(`${config.getPayDetailAPI}?shopId=${shopId}&orderType=${getUrlParam('orderType')}&orderId=${getUrlParam('orderId')}`, config.requestOptions).
