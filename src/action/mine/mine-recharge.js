@@ -1,3 +1,5 @@
+require('es6-promise');
+require('isomorphic-fetch');
 const config = require('../../config');
 const commonHelper = require('../../helper/common-helper');
 
@@ -5,8 +7,6 @@ const createAction = require('redux-actions').createAction;
 const setRechargeInfo = createAction('SET_RECHARGE_INFO', rechargeInfo => rechargeInfo);
 const setUserInfo = createAction('SET_USER_INFO', userInfo => userInfo);
 const setBrandInfo = createAction('SET_BRAND_INFO', brandInfo => brandInfo);
-require('es6-promise');
-require('isomorphic-fetch');
 
 const shopId = commonHelper.getUrlParam('shopId');
 
