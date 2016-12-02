@@ -1,7 +1,7 @@
 const React = require('react');
 require('./password-input.scss');
 const classnames = require('classnames');
-
+const getUrlParam = require('../../helper/common-helper.js').getUrlParam;
 module.exports = React.createClass({
   displayName: 'PasswordInput',
   propTypes:{
@@ -62,7 +62,7 @@ module.exports = React.createClass({
               <li><i className={classnames('password-circle', { 'password-visible': String(password).length >= 5 })}></i></li>
               <li><i className={classnames('password-circle', { 'password-visible': String(password).length === 6 })}></i></li>
             </ul>
-            <a className="forget-password">忘记密码?</a>
+            <a href={`/member/resetPwd?shopId=${getUrlParam('shopId')}&url=${encodeURIComponent(location.href)}`}className="forget-password">忘记密码?</a>
           </div>
         </div>
       </div>
