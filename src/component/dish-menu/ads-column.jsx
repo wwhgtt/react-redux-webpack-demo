@@ -50,7 +50,7 @@ const AdsColumn = React.createClass({
     this.setState({ allDiscount : false });
   },
   construntRuleName(item) {
-    if (!item.dishId) { return false; }
+    if (!item.dishId) { return `满${item.consumeLimit}元${item.ruleName}`; }
     if (item.rule.dishNum > 1) {
       return `满${item.rule.dishNum}份${item.rule.ruleName}`;
     }
@@ -100,7 +100,7 @@ const AdsColumn = React.createClass({
           {item.dishId ?
             formatDishesData[item.dishId].spec && `(${formatDishesData[item.dishId].spec})`
             :
-            item.ruleName
+            false
           }
           {this.construntRuleName(item)}
             （{condition}
@@ -133,7 +133,7 @@ const AdsColumn = React.createClass({
               {item.dishId ?
                 formatDishesData[item.dishId].spec && `(${formatDishesData[item.dishId].spec})`
                 :
-                item.ruleName
+                false
               }
               {this.construntRuleName(item)}
             </span>
