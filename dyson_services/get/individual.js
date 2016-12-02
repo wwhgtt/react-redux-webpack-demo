@@ -15,7 +15,7 @@ module.exports = {
       'mobile': '15196696240',
       'isDisable': false,
       'bindWx': true,
-      'bindMobile': true,
+      'bindMobile': false,
     },
     'time': 1472436273622,
     'code': '200',

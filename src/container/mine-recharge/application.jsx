@@ -1,12 +1,15 @@
 const React = require('react');
 const connect = require('react-redux').connect;
+const getUrlParam = require('../../helper/common-helper').getUrlParam;
 require('../../asset/style/style.scss');
 require('./application.scss');
 const mineRechargeAction = require('../../action/mine/mine-recharge.js');
 const Dialog = require('../../component/mui/dialog/dialog.jsx');
 const RechargeItem = require('../../component/mine/recharge-item.jsx');
+const Toast = require('../../component/mui/toast.jsx');
 const shopIcon = require('../../asset/images/logo_default.svg');
 const classnames = require('classnames');
+const shopId = getUrlParam('shopId');
 
 const MineRechargeApplication = React.createClass({
   displayName: 'MineRechargeApplication',
@@ -30,6 +33,7 @@ const MineRechargeApplication = React.createClass({
       lastRechargeAdStyle: {
         top: 44,
       },
+      errorMessage: '',
     };
   },
 
@@ -94,16 +98,16 @@ const MineRechargeApplication = React.createClass({
 
   handleRecharge() {
     const { userInfo } = this.props;
+    const { rechargeValue } = this.state;
     if (!this.state.rechargeValue) {
       return;
     }
 
     if (userInfo.bindMobile) {
-      this.props.addRecharge(this.state.rechargeValue);
+      this.props.addRecharge(rechargeValue);
+    } else {
+      this.setState({ errorMessage: '充值需要绑定手机号哟，正在带您去绑定……' });
     }
-    // else {
-
-    // }
   },
 
   // 比较
@@ -126,6 +130,12 @@ const MineRechargeApplication = React.createClass({
     this.setState({ isDialogShow: true });
   },
 
+  handleClearErrorMessage() {
+    const returnUrl = encodeURIComponent(location.href);
+    this.setState({ errorMessage: '' });
+    location.href = `http://${location.host}/user/bindMobile?shopId=${shopId}&returnUrl=${returnUrl}#phone-validate`;
+  },
+
   render() {
     const { rechargeInfo, userInfo, brandInfo } = this.props;
     const { isDialogShow,
@@ -135,6 +145,7 @@ const MineRechargeApplication = React.createClass({
       isShowAds,
       lastRechargeAdStyle,
       isShowRechargeTips,
+      errorMessage,
     } = this.state;
     let rechargeActiveItems = [];
     let rechargeActiveAds = [];
@@ -290,6 +301,9 @@ const MineRechargeApplication = React.createClass({
           >
             <p className="recharge-tips-content">{rechargeInfo.chargeMemo}</p>
           </Dialog>
+        }
+        {errorMessage &&
+          <Toast errorMessage={errorMessage} clearErrorMsg={this.handleClearErrorMessage} />
         }
       </div>
       <div className="recharge-footer copyright"></div>

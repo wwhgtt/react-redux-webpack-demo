@@ -76,3 +76,20 @@
   border-radius: 4px;
 }
 
+.bind-pwd-item {
+  line-height: 22px;
+}
+
+.dialog-btn-cancel {
+  display: none !important;
+}
+
+.dialog-btn-confirm {
+  color: #474747 !important;
+  background: #e3e3e3 !important;
+}
+
+.confirm-dialog.sliver .dialog-footer::after {
+  width: 0 !important;
+}
+
