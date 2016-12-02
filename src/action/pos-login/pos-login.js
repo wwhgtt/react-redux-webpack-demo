@@ -36,7 +36,7 @@ exports.getPosLoginInfo = () => (dispatch, getState) => {
 // pos扫码登录
 exports.loginWxByPos = () => (dispatch, getState) => {
   dispatch(setLoadStatus(true));
-  const posLoginInfoRUL = `${config.getPosLoginInfoAPI}?shopId=${shopId}&uuid=${uuid}&posDeviceID=${posDeviceID}`;
+  const posLoginInfoRUL = `${config.loginWxByPosAPI}?shopId=${shopId}&uuid=${uuid}&posDeviceID=${posDeviceID}`;
   fetch(posLoginInfoRUL, config.requestOptions).
   then(res => {
     if (!res.ok) {
