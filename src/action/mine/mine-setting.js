@@ -78,7 +78,7 @@ exports.updateInfo = (name, sex, condition, birthData) => (dispatch, getStates) 
   */
   const formatName = commonHelper.replaceEmojiWith(name.trim());
   dispatch(setLoadMsg({ status:true, word:'保存中' }));
-  fetch(`${individualupdateAPI}`, commonHelper.getFetchPostParam({ sex, name:formatName, birthDay:birthData })).
+  fetch(`${individualupdateAPI}`, commonHelper.getFetchPostParam({ sex, name:formatName, birthday:birthData })).
   then(res => {
     if (!res.ok) {
       dispatch(setErrorMsg('请求数据失败'));
