@@ -52,6 +52,10 @@ const TakeoutDetailApplication = React.createClass({
       }
     }
 
+    if (takeoutDetail.markRecord4Order) {
+      this.setState({ commentScore:  takeoutDetail.markRecord4Order.score });
+    }
+
     if (listEntry) {
       this.setState({ isCounponSmallShow : true });
     } else {
