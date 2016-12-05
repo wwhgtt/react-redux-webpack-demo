@@ -29,7 +29,7 @@ exports.fetchPayDetail = () => (dispatch, getState) =>
           dispatch(setErrorMsg('您已经支付成功了'));
           setTimeout(function () {
             // 缺乏链接
-            location.href = returnUrl;
+            location.href = decodeURIComponent(returnUrl);
           }, 3000);
         } else {
           dispatch(setPayProps(res.data));
