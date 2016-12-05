@@ -69,7 +69,7 @@ const PayDetailApplication = React.createClass({
         {payProps ?
           <div className="pay">
             <div className="pay-header">
-              <p className="pay-header-title">支付金额</p>
+              <p className="pay-header-title">订单金额</p>
               <p className="pay-header-money">{payProps.price}</p>
             </div>
             <div className="pay-chose-title">

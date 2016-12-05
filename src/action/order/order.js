@@ -185,9 +185,10 @@ exports.fetchSendAreaId = () => (dispatch, getState) => {
   dispatch(setSendAreaId(JSON.parse(sendAreaId)));
 };
 exports.fetchDeliveryPrice = () => (dispatch, getState) => {
-  const freeDeliveryPrice = sessionStorage.getItem(shopId + '_sendArea_freeDeliveryPrice');
+  let initialDeliverPrice = JSON.parse(sessionStorage.getItem(shopId + '_sendArea_freeDeliveryPrice'));
+  let freeDeliveryPrice = typeof initialDeliverPrice === 'number' ? initialDeliverPrice : 9999999999;
   const deliveryPrice = sessionStorage.getItem(shopId + '_sendArea_shipment');
-  const deliveryProps = { freeDeliveryPrice:JSON.parse(freeDeliveryPrice), deliveryPrice:JSON.parse(deliveryPrice) };
+  const deliveryProps = { freeDeliveryPrice, deliveryPrice:JSON.parse(deliveryPrice) };
   dispatch(setDeliveryPrice(deliveryProps));
 };
 
@@ -261,7 +262,7 @@ exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
       sessionStorage.setItem(`${shopId}_sendArea_rangeId`, rangeId);
       sessionStorage.setItem(`${shopId}_sendArea_shipment`, data.shipment ? data.shipment : 0);
       sessionStorage.setItem(`${shopId}_sendArea_sendPrice`, data.sendPrice ? data.sendPrice : 0);
-      sessionStorage.setItem(`${shopId}_sendArea_freeDeliveryPrice`, typeof data.freeDeliveryPrice === Number ? data.freeDeliveryPrice : 999999999);
+      sessionStorage.setItem(`${shopId}_sendArea_freeDeliveryPrice`, typeof data.freeDeliveryPrice === 'number' ? data.freeDeliveryPrice : 999999999);
       sessionStorage.setItem('receiveOrderCustomerInfo', JSON.stringify(info));
 
       dispatch(setSendAreaId(sendAreaId));
@@ -276,8 +277,9 @@ exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
         return;
       }
       dispatch(setOrderProps(null, { id:'reset-paymethods' }));
+      let freeDeliveryPrice = typeof data.freeDeliveryPrice === 'number' ? data.freeDeliveryPrice : 999999999;
       const deliveryProps = {
-        freeDeliveryPrice: data.freeDeliveryPrice,
+        freeDeliveryPrice,
         deliveryPrice: data.shipment,
       };
       dispatch(setDeliveryPrice(deliveryProps));
