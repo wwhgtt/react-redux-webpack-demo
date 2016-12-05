@@ -222,6 +222,9 @@ exports.renderDay = (week) => {
       }
     }
   }
+  if (strDay === '周一到周五') {
+    return '工作日, ';
+  }
   if (strDay === '周六到周日，') {
     return '周末，';
   }
