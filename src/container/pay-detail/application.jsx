@@ -36,7 +36,7 @@ const PayDetailApplication = React.createClass({
       setLoadingProps(true);
       setPayDetail(payString, payProps.price);
     } else {
-      if (bool) {
+      if (!bool) {
         // 表示不能支付
         return false;
       }
