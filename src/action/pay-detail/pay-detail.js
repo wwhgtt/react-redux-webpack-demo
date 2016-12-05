@@ -29,7 +29,7 @@ exports.fetchPayDetail = () => (dispatch, getState) =>
           dispatch(setErrorMsg('您已经支付成功了'));
           setTimeout(function () {
             // 缺乏链接
-            location.href = '';
+            location.href = returnUrl;
           }, 3000);
         } else {
           dispatch(setPayProps(res.data));
@@ -96,13 +96,16 @@ exports.setPayDetail = (payString, price) => (dispatch, getState) => {
                   signType: res.data.signType,
                   success: () => {
                     // 支付成功后的回调函数
-                    setErrorMsg('支付成功');
+                    dispatch(setLoadingProps(false));
+                    dispatch(setErrorMsg('支付成功'));
                   },
                   cancle: () => {
-                    setErrorMsg('您已经取消支付');
+                    dispatch(setLoadingProps(false));
+                    dispatch(setErrorMsg('您已经取消支付'));
                   },
                   fail: () => {
-                    setErrorMsg('支付失败');
+                    dispatch(setLoadingProps(false));
+                    dispatch(setErrorMsg('支付失败'));
                   },
                 });
               }

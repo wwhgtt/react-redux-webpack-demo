@@ -118,7 +118,7 @@ module.exports = {
           customerType : 1,
         },
       ],
-      commercialNotice:'我是公告啦啦啦',
+      commercialNotice:'我是公告ewewqwerwefweqfweqfewqewfq啦啦啦',
     },
     time: 1472458598918,
     code: '200',

@@ -148,7 +148,7 @@ const AdsColumn = React.createClass({
           <div className="content of" key={'notice'}>
             <i className="icon icon-notice"></i>
             <span className="detail ellipsis flex-rest">
-              <span className="detail-inner ellipsis">
+              <span className="detail-inner ellipsis" style={{ width: '100%' }}>
                 商家公告：{notice}
               </span>
             </span>
