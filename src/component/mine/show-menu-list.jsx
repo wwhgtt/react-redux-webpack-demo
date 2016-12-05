@@ -100,7 +100,7 @@ module.exports = React.createClass({
           }
           {info.isMember &&
             <div className="menuLink-holder fl" onTouchTap={this.jumpToRemain}>
-              <p className="menuLink-holder-p balancenum" style={balanceFontSize}>{info.balance || 0}<span className="unit">元</span></p>
+              <p className="menuLink-holder-p balancenum" style={balanceFontSize}>{info.balance}<span className="unit">元</span></p>
               <p className="menuLink-holder-p title">我的余额</p>
             </div>
           }
