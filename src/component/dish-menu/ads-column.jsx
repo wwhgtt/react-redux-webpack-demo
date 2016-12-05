@@ -189,23 +189,25 @@ const AdsColumn = React.createClass({
                         {helper.formatOpenTime(shopInfo.openTimeList, true)}
                       </div>
                     </div>
-                    <fieldset className="shopdiscount">
-                      <legend className="shopdiscount-brief">优惠信息</legend>
-                      <div className="scrollpart">
-                        {scrollPart}
-                      </div>
+                    <div className="fieldset-outer">
+                      <fieldset className="shopdiscount">
+                        <legend className="shopdiscount-brief">优惠信息</legend>
+                        <div className="scrollpart">
+                          {scrollPart}
+                        </div>
+                      </fieldset>
                       {notice ?
-                        <div>
+                        <fieldset className="shopdiscount">
                           <legend className="shopdiscount-brief">商家公告</legend>
                           <div className="scrollpart">
                             {notice}
                           </div>
-                        </div>
+                        </fieldset>
                         :
                         false
                       }
-                      <div className="closedetail" onTouchTap={this.hideAllDiscount}></div>
-                    </fieldset>
+                    </div>
+                    <div className="closedetail" onTouchTap={this.hideAllDiscount}></div>
                   </div>
                 :
                   false
