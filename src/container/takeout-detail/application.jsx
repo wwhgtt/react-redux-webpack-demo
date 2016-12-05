@@ -196,8 +196,10 @@ const TakeoutDetailApplication = React.createClass({
     if (data.markSendCoupFlag) {
       if (data.coupSendOver) {
         this.setState({ errorMessage: '订单评分成功，优惠券已赠完' });
-      } else {
+      } else if (data.sendCoupInfo) {
         this.setState({ errorMessage: `订单评分成功，恭喜获得${data.sendCoupInfo}` });
+      } else {
+        this.setState({ errorMessage: '订单评分成功' });
       }
     } else {
       this.setState({ errorMessage: '订单评分成功' });
