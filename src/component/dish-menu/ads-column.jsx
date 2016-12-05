@@ -103,8 +103,13 @@ const AdsColumn = React.createClass({
             false
           }
           {this.construntRuleName(item)}
-            （{condition}
-            {this.construntDishNum(item)}）
+          {condition || this.construntDishNum(item) ?
+            `（{condition}
+              {this.construntDishNum(item)}）`
+            :
+            false
+          }
+
           </span>
         </p>
       );
