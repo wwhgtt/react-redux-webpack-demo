@@ -93,7 +93,7 @@ module.exports = React.createClass({
       <div className="list-outer">
         <div className="menuLink mt of">
           {info.isMember &&
-            <div className={classnames('menuLink-holder fl', { 'width-full': info.loginType === 1 })} onTouchTap={this.jumpToCredit}>
+            <div className={classnames('menuLink-holder fl', { 'width-full': !info.isMember })} onTouchTap={this.jumpToCredit}>
               <p className="menuLink-holder-p scorenum" style={scoreFontSize}>{info.score}<span className="unit">分</span></p>
               <p className="menuLink-holder-p title">我的积分</p>
             </div>

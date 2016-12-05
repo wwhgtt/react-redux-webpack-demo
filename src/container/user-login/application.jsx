@@ -56,7 +56,7 @@ const UserLoginApplication = React.createClass({
 
   handleLoginSuccess(data, returnUrl) {
     const { isDialogShow } = this.state;
-    if (data && data.cleartextPassword && !isDialogShow) {
+    if (data && data.userInfo && data.userInfo.cleartextPassword && !isDialogShow) {
       this.setState({ isDialogShow: true });
     } else {
       location.href = decodeURIComponent(returnUrl);
@@ -114,7 +114,7 @@ const UserLoginApplication = React.createClass({
           >
             <div>
               <p className="login-pwd-item">恭喜您成为本店会员</p>
-              <p className="login-pwd-item">您的初始消费密码为：{loginInfo.loginData.cleartextPassword}</p>
+              <p className="login-pwd-item">您的初始消费密码为：{loginInfo.loginData.userInfo && loginInfo.loginData.userInfo.cleartextPassword}</p>
               <p className="login-pwd-item">请及时在个人中心修改密码</p>
             </div>
           </ConfirmDialog>

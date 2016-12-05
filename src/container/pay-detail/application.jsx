@@ -36,7 +36,7 @@ const PayDetailApplication = React.createClass({
       setLoadingProps(true);
       setPayDetail(payString, payProps.price);
     } else {
-      if (bool) {
+      if (!bool) {
         // 表示不能支付
         return false;
       }
@@ -116,9 +116,11 @@ const PayDetailApplication = React.createClass({
                     || payProps.isDisable || payProps.loginType !== 0,
                   }
                 )}
-                  onTouchTap={evt => this.setPayDetail(
-                    (payProps.valueCard && +payProps.valueCard < +payProps.price) || payProps.isDisable || payProps.loginType !== 0, 'balance')
-                  }
+                  onTouchTap={evt => {
+                    evt.preventDefault();
+                    this.setPayDetail(
+                    (payProps.valueCard && +payProps.valueCard >= +payProps.price) && !payProps.isDisable && payProps.loginType === 0, 'balance');
+                  }}
                 >
                   <div className="pay-item-left balance-pay">
                   </div>

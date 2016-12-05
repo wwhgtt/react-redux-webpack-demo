@@ -24,7 +24,7 @@ const MineBalanceApplication = React.createClass({
     return (
       <div className="balance-page">
         <div className="balance-outline">
-          <div className="balance-outline-total">{balanceInfo.valueCard}</div>
+          <div className="balance-outline-total">{balanceInfo.valueCard || 0}</div>
           <div className="balance-outline-title">我的余额(元)</div>
           {balanceInfo.supportCharge &&
             <div className="balance-outline-operate">
