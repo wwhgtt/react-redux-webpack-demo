@@ -120,20 +120,16 @@ const OrderListApplication = React.createClass({
     setChildView(hash);
 
     if (hash === '#dinner') {
-      this.setState({ activeItem: '堂食' });
-      this.setState({ showSection: 'TS' });
+      this.setState({ activeItem: '堂食', showSection: 'TS' });
       getOrderList(1);
     } else if (hash === '#quick') {
-      this.setState({ activeItem: '外卖' });
-      this.setState({ showSection: 'WM' });
+      this.setState({ activeItem: '外卖', showSection: 'WM' });
       getTakeOutList(1);
     } else if (hash === '#book') {
-      this.setState({ activeItem: '预订' });
-      this.setState({ showSection: 'BK' });
+      this.setState({ activeItem: '预订', showSection: 'BK' });
       getBookList(1);
     } else if (hash === '#queue') {
-      this.setState({ activeItem: '排队' });
-      this.setState({ showSection: 'QE' });
+      this.setState({ activeItem: '排队', showSection: 'QE' });
       getQueueList(1);
     }
   },

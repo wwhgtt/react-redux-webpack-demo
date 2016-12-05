@@ -22,9 +22,9 @@ const SwitchNavi = React.createClass({
   componentWillReceiveProps(nextProps) {
     const { activeTab } = nextProps;
     if (typeof(activeTab) === 'number' || activeTab === 0) {
-      this.setState({ activeNum : activeTab });
+      this.setState({ activeNum : activeTab, activeItem: '' });
     } else if (activeTab && typeof(activeTab) === 'string') {
-      this.setState({ activeItem : activeTab });
+      this.setState({ activeItem : activeTab, activeNum: -1 });
     }
   },
 

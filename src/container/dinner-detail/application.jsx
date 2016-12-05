@@ -430,7 +430,7 @@ const DinnerDetailApplication = React.createClass({
               {dinnerDetail.markRecord4Order && dinnerDetail.markRecord4Order.sendCoupInfo &&
                 <p className="comment-tips">
                   恭喜获得{dinnerDetail.markRecord4Order.sendCoupInfo}，
-                  <a href={`http://${location.host}/coupon/getCouponList?shopId=${shopId}`} className="comment-tips-href">去看看</a>
+                  <a href={`http://${location.host}/coupon/getCouponList?shopId=${shopId}`} className="comment-tips-href">去查看</a>
                 </p>
               }
             </div>
