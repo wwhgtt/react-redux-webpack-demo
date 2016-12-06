@@ -227,6 +227,7 @@ module.exports = React.createClass({
             placeholder={placeholder.phoneNum}
             maxLength={11}
             onChange={this.handlePhoneNumChange}
+            ref="phoneVerificationNumber"
           />
         </div>
         <div className="form-group verification-code">
@@ -236,6 +237,7 @@ module.exports = React.createClass({
             placeholder={placeholder.code}
             maxLength="4"
             onChange={this.handleVerificationCodeChange}
+            ref="phoneVerificationCode"
           />
         </div>
       </div>

@@ -45,6 +45,8 @@ const UserLoginApplication = React.createClass({
       setErrorMsg(info.validation.msg);
       return;
     }
+    this.refs.verificationCode.refs.phoneVerificationNumber.blur();
+    this.refs.verificationCode.refs.phoneVerificationCode.blur();
     login(info.data, this.handleLoginSuccess);
   },
   onLoginWX() {
@@ -102,7 +104,7 @@ const UserLoginApplication = React.createClass({
             ref="verificationCode"
             phoneNum={phoneNum || ''}
           />
-          <button className="btn btn--yellow btn-login" onTouchTap={this.onLogin}>登录</button>
+          <button className="btn btn--yellow btn-login" ref="loginBtn" onTouchTap={this.onLogin}>登录</button>
         </div>
         {weixinLoginElement}
         {errorMessage ? <Toast errorMessage={errorMessage} clearErrorMsg={this.clearErrorMessage} /> : false}
