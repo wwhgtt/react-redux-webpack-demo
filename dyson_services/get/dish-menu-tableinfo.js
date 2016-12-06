@@ -3,8 +3,10 @@ module.exports = {
   path: '/orderall/tableInfo.json',
   template: {
     data: {
-      tableName: '桌台1',
-      tableType: '大厅',
+      synFlag: '1fe6f6aa8c68499085d41be45848bc88',
+      tableName: '',
+      tableAreaId: 1223,
+      tableType: '',
     },
     time: 1472458598918,
     code: '200',

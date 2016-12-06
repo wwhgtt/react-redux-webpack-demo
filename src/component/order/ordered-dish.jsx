@@ -155,14 +155,20 @@ module.exports = React.createClass({
             :
             false
           }
-          {dishBenefitPrice && helper.getDishPrice(dish) >= formatPrice(dishBenefitPrice) ?
+          {dishBenefitPrice && helper.getDishPrice(dish) >= formatPrice(dishBenefitPrice)
+            && (!serviceProps.wholeOrderBenefit || (serviceProps.wholeOrderBenefit && !serviceProps.wholeOrderBenefit.isChecked)) ?
             <span className="order-dish-price price">{formatPrice(helper.getDishPrice(dish) - dishBenefitPrice)}</span>
             :
             false
           }
           <span
             className={
-              classnames('order-dish-price', 'price', { 'order-dish-price--deleted': dishBenefitPrice && formatPrice(helper.getDishPrice(dish)) })
+              classnames(
+                'order-dish-price', 'price',
+                { 'order-dish-price--deleted':
+                  dishBenefitPrice && formatPrice(helper.getDishPrice(dish))
+                  && (!serviceProps.wholeOrderBenefit || (serviceProps.wholeOrderBenefit && !serviceProps.wholeOrderBenefit.isChecked)),
+                })
             }
           >
           {helper.getDishPrice(dish)}</span>

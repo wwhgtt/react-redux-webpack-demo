@@ -21,6 +21,7 @@ const DishMenuApplication = React.createClass({
   propTypes: {
     // MapedActionsToProps
     fetchMenuData: React.PropTypes.func.isRequired,
+    fetchTableInfo: React.PropTypes.func.isRequired,
     fetchSendArea: React.PropTypes.func.isRequired,
     activeDishType: React.PropTypes.func.isRequired,
     orderDish: React.PropTypes.func.isRequired,
@@ -61,12 +62,12 @@ const DishMenuApplication = React.createClass({
     };
   },
   componentDidMount() {
-    const { fetchMenuData, fetchSendArea, fetchOrderDiscountInfo, fetchDishMarketInfos } = this.props;
+    const { fetchMenuData, fetchSendArea, fetchOrderDiscountInfo, fetchDishMarketInfos, fetchTableInfo } = this.props;
     fetchMenuData()
       .then(fetchDishMarketInfos)
       .then(fetchOrderDiscountInfo);
     fetchSendArea();
-
+    fetchTableInfo();
     const el = findDOMNode(this);
     this._cache = {
       mesthead: el.querySelector('.dish-mesthead'),

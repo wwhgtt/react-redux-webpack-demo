@@ -70,6 +70,13 @@ exports.getQueueInfo = () => (dispatch, getStates) => {
     return;
   }
   const relatedId = sessionStorage.PDrelatedId;
+  if (!relatedId) {
+    dispatch(setErrorMsg('未能获取到排队ID...'));
+    setTimeout(() => {
+      location.href = '${config.shopDetailURL}?shopId=${shopId}';
+    }, 3000);
+    return;
+  }
   const getQueueInfoURL = `${config.queueMyPreOrderAPI}?shopId=${shopId}&relatedId=${relatedId}&relatedType=PD`;
   fetch(getQueueInfoURL, config.requestOptions).
   then(res => {
