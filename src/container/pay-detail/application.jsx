@@ -76,7 +76,7 @@ const PayDetailApplication = React.createClass({
               请选择支付方式
             </div>
             <div className="pay-method">
-              {payProps.weixin ?
+              {payProps.weixin && window.navigator.userAgent.toLowerCase().indexOf('micromessenger') !== -1 ?
                 <div className="method-item" onTouchTap={evt => this.setPayDetail(null, 'weixin')}>
                   <div className="pay-item-left weixin-pay"></div>
                   <div className="pay-item-name subname">
