@@ -57,8 +57,8 @@ const AdsColumn = React.createClass({
     return item.rule.ruleName;
   },
   construntDishNum(item) {
-    if (!item.dishId) { return false; }
-    return `每单限${item.rule.dishNum}份`;
+    if (!item.dishId) { return ''; }
+    return `，每单限${item.rule.dishNum}份`;
   },
   scrollPartFunc() {
     const { marketListUpdate, shopInfo, multiMarketing } = this.props;
@@ -83,7 +83,7 @@ const AdsColumn = React.createClass({
       if (vip || openDay || period) {
         condition = `${vip + openDay + period}`;
         const length = condition.length;
-        condition = `${condition.substring(0, length - 1)}可用，`;
+        condition = `${condition.substring(0, length - 1)}可用`;
       }
 
       return (
