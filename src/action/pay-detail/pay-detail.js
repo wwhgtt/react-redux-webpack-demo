@@ -41,6 +41,7 @@ exports.fetchPayDetail = () => (dispatch, getState) =>
       console.log(err);
     });
 
+let hasPayed = false;
 exports.setPayDetail = (payString, price) => (dispatch, getState) => {
   const requestDataString = `?shopId=${shopId}&orderId=${getUrlParam('orderId')}&price=${price}&returnUrl=${encodeURIComponent(returnUrl)}`;
   let requestOptions = Object.assign({}, config.requestOptions);
@@ -145,30 +146,34 @@ exports.setPayDetail = (payString, price) => (dispatch, getState) => {
       });
   } else {
     // 余额支付   第一个参数为密码
-    fetch(`${config.balancePayAPI}${requestDataString}&password=${payString}`, requestOptions).
-      then(res => {
-        if (!res.ok) {
-          dispatch(setLoadingProps(false));
-          dispatch(setErrorMsg('支付失败，请稍后重试'));
-          return false;
-        }
-        return res.json();
-      }).
-      then(res => {
-        if (String(res.code) === '200') {
-          dispatch(setLoadingProps(false));
-          dispatch(setErrorMsg('支付成功'));
-          setTimeout(function () {
-            location.href = returnUrl.replace(/"/g, '');
-          }, 3000);
-        } else {
-          dispatch(setLoadingProps(false));
-          dispatch(setErrorMsg('支付失败，请稍后重试'));
-        }
-      }).
-      catch(err => {
-        console.log(err);
-      });
+    if (!hasPayed) {
+      fetch(`${config.balancePayAPI}${requestDataString}&password=${payString}`, requestOptions).
+        then(res => {
+          if (!res.ok) {
+            dispatch(setLoadingProps(false));
+            dispatch(setErrorMsg('支付失败，请稍后重试'));
+            return false;
+          }
+          return res.json();
+        }).
+        then(res => {
+          if (String(res.code) === '200') {
+            dispatch(setLoadingProps(false));
+            dispatch(setErrorMsg('支付成功'));
+            // 测试时出现多次余额支付的情况
+            hasPayed = true;
+            setTimeout(function () {
+              location.href = returnUrl.replace(/"/g, '');
+            }, 3000);
+          } else {
+            dispatch(setLoadingProps(false));
+            dispatch(setErrorMsg(res.msg));
+          }
+        }).
+        catch(err => {
+          console.log(err);
+        });
+    }
   }
 };
 
