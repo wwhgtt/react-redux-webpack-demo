@@ -96,7 +96,7 @@ const placeOrder = exports.placeOrder = (note) => (dispatch, getState) => {
       + '&orderNumber=' + state.dinePersonCount
       + '&orderTime=' + orderTime
       + '&shopId=' + getUrlParam('shopId');
-  dispatch(setLoadMsg({ status:true, word:'预定中...' }));
+  dispatch(setLoadMsg({ status:true, word:'预订中...' }));
   fetch(`${config.submitPlaceOrderAPI}${params}`, config.requestOptions)
     .then(res => {
       if (!res.ok) {
