@@ -148,7 +148,7 @@ const RegisterMemberApplication = React.createClass({
     return (
       <div className="application flex-columns">
         <div className="register-member flex-rest">
-          <div className="register-banner" style={{ backgroundImage:`url(${userInfo.picUrl})` }}>
+          <div className="register-banner" style={userInfo.picUrl ? { backgroundImage:`url(${userInfo.picUrl})` } : {}}>
           {/* <img className="register-banner-img" alt="" src={userInfo.picUrl} style={{ display: 'none' }} /> */}
           </div>
           <div className="">
