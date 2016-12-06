@@ -10,7 +10,7 @@ module.exports = {
       'loginType': 0,
       'iconUri': 'http://wx.qlogo.cn/mmopen/ajNVdqHZLLC6Q1uomrOlfpCyJOxuDUcoXIzibCZGQeElFuy3UVFxlHMn8kzECiaJicWqe8icJySHoNOS9iadia0fDTiag/0',
       'wxName': '我是小波',
-      'birthday': null,
+      'birthday': '2015-05-09',
       'mobile': '13980691506',
       'isDisable': false,
       'bindWx': true,

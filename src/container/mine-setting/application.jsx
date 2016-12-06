@@ -34,7 +34,7 @@ const MineSettingApplication = React.createClass({
     this.setState({ load : true });
     const { updateInfo, info } = this.props;
     const { name, sex, birthDay } = this.state;
-    let birthData = info.birthDay || birthDay;
+    let birthData = info.birthday || birthDay;
     updateInfo(name, sex, condition, birthData);
   },
   getInfo(obj) {
@@ -79,7 +79,7 @@ const MineSettingApplication = React.createClass({
             <InputDate
               startYear={currentY - 120}
               endYear={currentY}
-              date={info.birthDay || '2012-08-15'}
+              date={info.birthday || '2012-08-15'}
               isAllowExceedNow={false}
               onCancelDateSelect={this.handleCancelDate}
               onCompleteDateSelect={this.handleCompleteDate}
