@@ -49,13 +49,24 @@ module.exports = React.createClass({
     let validTime = '';
     validTime = (
       <div>
-        <span className="validity-date">{couponHelper.formateDate(startDate)}</span>
         {
-          startDate !== endDate && <span className="validity-date">{couponHelper.formateDate(endDate)}</span>
+          startDate !== endDate ?
+            (
+            <div>
+              <span className="validity-date">{couponHelper.formateDate(startDate)}</span>
+              <span className="validity-date">{couponHelper.formateDate(endDate)}</span>
+            </div>
+            )
+          :
+            (
+            <div>
+              <span className="validity-date">{couponHelper.formateDate(startDate)}</span>
+              <span className="validity-date">当日有效</span>
+            </div>
+            )
         }
       </div>
     );
-
     return validTime;
   },
   render() {
