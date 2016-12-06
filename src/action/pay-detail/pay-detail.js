@@ -94,16 +94,16 @@ exports.setPayDetail = (payString, price) => (dispatch, getState) => {
                   package: res.data.package,
                   paySign: res.data.paySign,
                   signType: res.data.signType,
-                  success: () => {
+                  success(result) {
                     // 支付成功后的回调函数
                     dispatch(setLoadingProps(false));
                     dispatch(setErrorMsg('支付成功'));
                   },
-                  cancle: () => {
+                  cancel() {
                     dispatch(setLoadingProps(false));
                     dispatch(setErrorMsg('您已经取消支付'));
                   },
-                  fail: () => {
+                  fail() {
                     dispatch(setLoadingProps(false));
                     dispatch(setErrorMsg('支付失败'));
                   },
