@@ -11,8 +11,7 @@ const getUrlParam = require('../../helper/common-helper.js').getUrlParam;
 const shopId = getUrlParam('shopId');
 
 const wxClient = require('wechat-jssdk/client');
-const returnUrl = encodeURIComponent(decodeURIComponent(sessionStorage.getItem('rurl_payDetaill')));
-console.log(returnUrl);
+const returnUrl = decodeURIComponent(sessionStorage.getItem('rurl_payDetaill'));
 exports.fetchPayDetail = () => (dispatch, getState) =>
   fetch(`${config.getPayDetailAPI}?shopId=${shopId}&orderType=${getUrlParam('orderType')}&orderId=${getUrlParam('orderId')}`, config.requestOptions).
     then(res => {
@@ -29,7 +28,7 @@ exports.fetchPayDetail = () => (dispatch, getState) =>
           dispatch(setErrorMsg('您已经支付成功了'));
           setTimeout(function () {
             // 缺乏链接
-            location.href = decodeURIComponent(returnUrl);
+            location.href = returnUrl.replace(/"/g, '');
           }, 3000);
         } else {
           dispatch(setPayProps(res.data));
@@ -43,7 +42,7 @@ exports.fetchPayDetail = () => (dispatch, getState) =>
     });
 
 exports.setPayDetail = (payString, price) => (dispatch, getState) => {
-  const requestDataString = `?shopId=${shopId}&orderId=${getUrlParam('orderId')}&price=${price}&returnUrl=${returnUrl}`;
+  const requestDataString = `?shopId=${shopId}&orderId=${getUrlParam('orderId')}&price=${price}&returnUrl=${encodeURIComponent(returnUrl)}`;
   let requestOptions = Object.assign({}, config.requestOptions);
   requestOptions.headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
   if (payString === 'baidu') {
@@ -160,7 +159,7 @@ exports.setPayDetail = (payString, price) => (dispatch, getState) => {
           dispatch(setLoadingProps(false));
           dispatch(setErrorMsg('支付成功'));
           setTimeout(function () {
-            window.location.href = decodeURIComponent(returnUrl);
+            location.href = returnUrl.replace(/"/g, '');
           }, 3000);
         } else {
           dispatch(setLoadingProps(false));
