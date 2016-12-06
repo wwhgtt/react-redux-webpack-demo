@@ -523,7 +523,7 @@ const judgeStandardsSame = (dish, sample) => {
         '1' : '0'
       );
     });
-    if (_findIndex(boolCollection, bool => bool === '0') === -1) {
+    if (boolCollection.length && _findIndex(boolCollection, bool => bool === '0') === -1) {
       return true;
     }
     return false;
