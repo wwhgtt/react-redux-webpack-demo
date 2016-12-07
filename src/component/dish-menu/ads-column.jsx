@@ -15,32 +15,34 @@ const AdsColumn = React.createClass({
     notice: React.PropTypes.string,
   },
   getInitialState() {
-    return { num:0, animation:{}, allDiscount:false };
+    return { animation:{}, allDiscount:false, multiMarketing:[] };
   },
-  componentWillMount() {},
+  componentWillMount() {
+    const { multiMarketing, notice } = this.props;
+    const totalShowScroll = (multiMarketing || []).concat(notice ? [{ type:-1, notice }] : []);
+    this.setState({ multiMarketing: totalShowScroll });
+  },
   componentDidMount() {
     this._setInterval = setInterval(() => {
-      let count = this.state.num;
-      const { marketListUpdate, multiMarketing, notice } = this.props;
-      let length = marketListUpdate ? marketListUpdate.length : 0;
-      if (multiMarketing && multiMarketing.length) { length += multiMarketing.length; }
-      if (notice) { length += 1; }
-      if (length <= 1) {
-        return;
-      }
-      count++;
-      this.setState({ num:count }, () => {
-        if (count === length) {
-          this.setState({ animation:{ transition:'all 0.2s' }, num:0 });
-          return;
-        }
-        const distanceClass = { top: '-30' * count + 'px' };
-        this.setState({ animation:distanceClass });
+      const { multiMarketing } = this.state;
+      const distanceClass = { top: '-30px', transition:'all .5s' };
+      this.setState({ animation:distanceClass }, () => {
+        setTimeout(() => {
+          this.setState({ animation:{ top:0, transition:'none' }, multiMarketing:this.changeMarketList(multiMarketing) });
+          // this.setState({ marketListUpdate:[] });
+        }, 500);
       });
     }, 3000);
   },
   componentWillUnmount() {
     clearInterval(this._setInterval);
+  },
+  changeMarketList(list = []) {
+    const listOne = list[0];
+    const copyList = Array.prototype.slice.call(list);
+    copyList.splice(0, 1);
+    copyList.push(listOne);
+    return copyList;
   },
   showAllDiscount() {
     this.setState({ allDiscount : true });
@@ -117,11 +119,28 @@ const AdsColumn = React.createClass({
     return scrollAll;
   },
   animatePartFunc() {
-    const { marketListUpdate, shopInfo, multiMarketing, notice } = this.props;
+    const { marketListUpdate, shopInfo } = this.props;
+    const { multiMarketing } = this.state;
     const formatDishesData = shopInfo.formatDishesData;
-    const infoList = marketListUpdate ? marketListUpdate.concat(multiMarketing || []) : (multiMarketing || []);
+    const infoList = marketListUpdate ?
+      marketListUpdate.concat(multiMarketing || [])
+    :
+      (multiMarketing || []);
+
     const animateAll = infoList.map((item, index) => {
       if (item.dishId && !formatDishesData[item.dishId]) { return []; }
+      if (item.type === -1) {
+        return (
+          <div className="content of" key={index}>
+            <i className="icon icon-notice"></i>
+            <span className="detail ellipsis flex-rest">
+              <span className="detail-inner ellipsis" style={{ width: '100%' }}>
+                商家公告：{item.notice}
+              </span>
+            </span>
+          </div>
+        );
+      }
       return (
         <div className="content of" key={index}>
           <i
@@ -146,21 +165,6 @@ const AdsColumn = React.createClass({
         </div>
       );
     });
-    if (notice) {
-      return (
-        <div>
-          {animateAll}
-          <div className="content of" key={'notice'}>
-            <i className="icon icon-notice"></i>
-            <span className="detail ellipsis flex-rest">
-              <span className="detail-inner ellipsis" style={{ width: '100%' }}>
-                商家公告：{notice}
-              </span>
-            </span>
-          </div>
-        </div>
-      );
-    }
     return animateAll;
   },
   render() {
@@ -208,7 +212,7 @@ const AdsColumn = React.createClass({
                         notice &&
                           <fieldset className="shopdiscount">
                             <legend className="shopdiscount-brief">商家公告</legend>
-                            <div className="scrollpart">
+                            <div className="scrollpart noticepart">
                               {notice}
                             </div>
                           </fieldset>

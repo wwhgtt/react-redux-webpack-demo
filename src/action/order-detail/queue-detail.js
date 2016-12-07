@@ -13,6 +13,7 @@ const setRefresh = exports.setRefresh = createAction('SET_REFRESH', isRefresh =>
 const shopId = helper.getUrlParam('shopId');
 const orderSyn = helper.getUrlParam('orderSyn');
 let timeout = '';
+let hasOrder = 0;
 
 const getQueueDetail = exports.getQueueDetail = () => (dispatch, getStates) => {
   if (!orderSyn) {
@@ -40,6 +41,7 @@ const getQueueDetail = exports.getQueueDetail = () => (dispatch, getStates) => {
       if (res.code === '200') {
         dispatch(setQueueDetail(res.data));
         const queue = res.data.queue;
+        hasOrder = res.data.hasOrder;
         if (queue && queue.queueID) {
           sessionStorage.removeItem('PDrelatedId');
           sessionStorage.removeItem('PDorderSyn');
@@ -62,6 +64,9 @@ const getQueueDetail = exports.getQueueDetail = () => (dispatch, getStates) => {
 
 // 获取排队信息
 exports.getQueueInfo = () => (dispatch, getStates) => {
+  if (hasOrder !== 1) { // 没有预点菜
+    return;
+  }
   if (!orderSyn) {
     dispatch(setErrorMsg('找不到订单号'));
     setTimeout(() => {

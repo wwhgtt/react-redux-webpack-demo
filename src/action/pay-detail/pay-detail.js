@@ -96,8 +96,7 @@ exports.setPayDetail = (payString, price) => (dispatch, getState) => {
                   signType: res.data.signType,
                   success(result) {
                     // 支付成功后的回调函数
-                    dispatch(setLoadingProps(false));
-                    dispatch(setErrorMsg('支付成功'));
+                    location.href = returnUrl.replace(/"/g, '');
                   },
                   cancel() {
                     dispatch(setLoadingProps(false));

@@ -9,6 +9,7 @@ const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setLoadMsg = createAction('SET_LOAD_MSG', loadInfo => loadInfo);
 const shopId = helper.getUrlParam('shopId');
 const orderId = helper.getUrlParam('orderId');
+let isOrder = 0;
 
 const getBookDetail = exports.getBookDetail = () => (dispatch, getStates) => {
   if (!orderId) {
@@ -32,6 +33,7 @@ const getBookDetail = exports.getBookDetail = () => (dispatch, getStates) => {
       dispatch(setLoadMsg({ status:false, word:'' }));
       if (res.code === '200') {
         dispatch(setBookDetail(res.data));
+        isOrder = res.data.isOrder;
         if (res.data.orderId) {
           sessionStorage.removeItem('YDrelatedId');
           sessionStorage.setItem('YDrelatedId', res.data.orderId);
@@ -49,6 +51,9 @@ const getBookDetail = exports.getBookDetail = () => (dispatch, getStates) => {
 
 
 exports.getBookInfo = () => (dispatch, getState) => {
+  if (isOrder !== 1) { // 没有预点菜
+    return;
+  }
   if (!orderId) {
     dispatch(setErrorMsg('找不到订单号'));
     setTimeout(() => {
