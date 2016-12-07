@@ -117,7 +117,7 @@ exports.confirmOrder = () => (dispatch, getStates) => {
     const tableId = sessionStorage.getItem('tableId');
     if (tableId) {
       location.href =
-        `/orderall/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}&tableId=${JSON.parse(tableId)}`;
+        `/orderall/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}&tableId=${tableId}`;
     } else {
       location.href =
         `/orderall/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}`;
