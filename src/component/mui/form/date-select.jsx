@@ -21,7 +21,7 @@ module.exports = React.createClass({
   getDefaultProps() {
     return {
       date: new Date(),
-      format: 'yyyy-MM-dd',
+      format: 'yyyy/MM/dd',
       isAllowExceedNow: true,
     };
   },
