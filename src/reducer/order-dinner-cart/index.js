@@ -47,6 +47,9 @@ const orderTSCart = (
         .setIn(['tableProps', 'selectedTableId'], payload.table.id)
         .updateIn(['tableProps', 'areaList'], areas => areas.map(area => area.set('isChecked', area.id === payload.area.id)))
         .updateIn(['tableProps', 'tableList'], tables => tables.map(table => table.set('isChecked', table.id === payload.table.id)));
+    case 'SET_BASIC_INFO':
+      return state.set('peopleCount', payload.personCount ? payload.personCount : 1)
+          .set('memo', payload.memo ? payload.memo : '');
     default:
       break;
   }
