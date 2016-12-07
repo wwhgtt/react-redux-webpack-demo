@@ -371,7 +371,7 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
 
     if (code === '200' || code === '20013') {
       // 手机未验证且非在线支付
-      if (code === '20013' && !isOnlinePay) {
+      if (code === '20013') {
         dispatch(setPhoneValidateProps(true));
         return;
       }
