@@ -4,6 +4,7 @@ const createAction = require('redux-actions').createAction;
 require('es6-promise');
 require('isomorphic-fetch');
 const setCouponList = createAction('SET_COUPON_LIST', couponList => couponList);
+exports.clearCouponList = createAction('CLEAR_COUPON_LIST', couponList => couponList);
 const setErrorMsg = createAction('SET_ERROR_MSG', error => error);
 const setLoadMsg = createAction('SET_LOAD_MSG', loadInfo => loadInfo);
 const shopId = commonHelper.getUrlParam('shopId');

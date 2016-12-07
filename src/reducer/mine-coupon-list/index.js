@@ -23,6 +23,9 @@ module.exports = function (
     case 'SET_COUPON_LIST': {
       return state.set('loyaltyCouponList', payload.coupList || []);
     }
+    case 'CLEAR_COUPON_LIST': {
+      return state.set('loyaltyCouponList', []);
+    }
     default:
   }
   return state;
