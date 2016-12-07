@@ -18,6 +18,7 @@ const MineVipLevelApplication = React.createClass({
     weixinCouponList:React.PropTypes.array,
     loyaltyCouponList:React.PropTypes.array,
     getCouponList:React.PropTypes.func.isRequired,
+    clearCouponList:React.PropTypes.func.isRequired,
   },
   getInitialState() {
     return { couponStatus:'', activeTab:0 };
@@ -47,6 +48,10 @@ const MineVipLevelApplication = React.createClass({
     }
 
     this.setState({ activeTab });
+
+    // 切换刷新页面
+    const { getCouponList } = this.props;
+    getCouponList();
   },
   getCouponStatus(num) {
     switch (num) {
