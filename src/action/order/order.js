@@ -317,10 +317,14 @@ exports.fetchActivityBenefit = () => (dispatch, getState) => {
     })
     .then(result => {
       if (result.code.toString() === '200') {
+        if (!result.data || (result.data && result.data.dishPriList && !result.data.dishPriList.length)) {
+          return false;
+        }
         dispatch(setBenefitOptions(result.data));
       } else {
         dispatch(setErrorMsg(result.msg));
       }
+      return true;
     })
     .catch(err => {
       throw new Error(err);
