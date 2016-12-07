@@ -181,7 +181,7 @@ exports.fetchTableInfo = () => (dispatch, getState) => {
   } else if (tableKey) {
     urlString += `&tableKey=${tableKey}`;
   }
-  return fetch(`${config.getTableInfoAPI}${urlString}}`, config.requestOptions).
+  return fetch(`${config.getTableInfoAPI}${urlString}`, config.requestOptions).
     then(res => {
       if (!res.ok) {
         dispatch(setErrorMsg('获取桌台信息失败...'));
