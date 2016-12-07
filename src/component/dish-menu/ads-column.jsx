@@ -195,21 +195,23 @@ const AdsColumn = React.createClass({
                       </div>
                     </div>
                     <div className="fieldset-outer">
-                      <fieldset className="shopdiscount">
-                        <legend className="shopdiscount-brief">优惠信息</legend>
-                        <div className="scrollpart">
-                          {scrollPart}
-                        </div>
-                      </fieldset>
-                      {notice ?
-                        <fieldset className="shopdiscount">
-                          <legend className="shopdiscount-brief">商家公告</legend>
-                          <div className="scrollpart">
-                            {notice}
-                          </div>
-                        </fieldset>
-                        :
-                        false
+                      {
+                        scrollPart &&
+                          <fieldset className="shopdiscount">
+                            <legend className="shopdiscount-brief">优惠信息</legend>
+                            <div className="scrollpart">
+                              {scrollPart}
+                            </div>
+                          </fieldset>
+                      }
+                      {
+                        notice &&
+                          <fieldset className="shopdiscount">
+                            <legend className="shopdiscount-brief">商家公告</legend>
+                            <div className="scrollpart">
+                              {notice}
+                            </div>
+                          </fieldset>
                       }
                     </div>
                     <div className="closedetail" onTouchTap={this.hideAllDiscount}></div>
