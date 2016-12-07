@@ -36,7 +36,9 @@ module.exports = React.createClass({
     if (JSON.stringify(this.props.info) === JSON.stringify(nextProps.info)) {
       return;
     }
-    this.setState({ name: nextProps.info.name || '', sex:nextProps.info.sex }, () => this.commonMethod()); // 把props赋值给state(需要的值)
+    this.setState({
+      name:this.state.name || nextProps.info.name, sex:this.state.sex || nextProps.info.sex,
+    }, () => this.commonMethod()); // 把props赋值给state(需要的值)
   },
   onInputName() {
     const nameValue = this.refs.name.value;
