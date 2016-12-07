@@ -38,6 +38,8 @@ const OrderTSCartApplication = React.createClass({
     initOrderTable: React.PropTypes.func.isRequired,
     fetchTableIdFromNewVersionQRCode: React.PropTypes.func.isRequired,
     fetchMainOrderInfo: React.PropTypes.func.isRequired,
+    setBasicInfoStorage: React.PropTypes.func.isRequired,
+    getBasicInfoStorage: React.PropTypes.func.isRequired,
     // MapedStatesToProps
     orderTSCart: React.PropTypes.object.isRequired,
     dishMenu: React.PropTypes.object.isRequired,
@@ -51,8 +53,8 @@ const OrderTSCartApplication = React.createClass({
     };
   },
   componentWillMount() {
-    const { fetchShopSetting, fetchWXAuthInfo, initOrderTable, fetchMainOrderInfo } = this.props;
-
+    const { fetchShopSetting, fetchWXAuthInfo, initOrderTable, fetchMainOrderInfo, getBasicInfoStorage } = this.props;
+    getBasicInfoStorage();
     initOrderTable(tableInfo => {
       const { tableId, tableKey } = tableInfo;
 
@@ -107,8 +109,12 @@ const OrderTSCartApplication = React.createClass({
     const convertValue = ({
       sex: _value => +_value,
     })[name];
-
     info[name] = convertValue ? convertValue(value) : value;
+    if (info && info.memo) {
+      this.props.setBasicInfoStorage('memo', info.memo);
+    } else if (info && info.peopleCount) {
+      this.props.setBasicInfoStorage('peopleCount', info.peopleCount);
+    }
     this.props.setOrderInfo(null,
       member.hasOwnProperty(name) ? { member: Object.assign({}, member, info) } : info);
   },

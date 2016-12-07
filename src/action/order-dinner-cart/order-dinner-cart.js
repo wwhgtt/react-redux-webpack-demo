@@ -12,7 +12,7 @@ const shopId = getUrlParam('shopId');
 const _setOrderDish = createAction('ORDER_DISH', (dishData, increment) => [dishData, increment]);
 const initOrderInfo = createAction('INIT_ORDER_INFO', (evt, option) => option);
 const setMenuData = createAction('SET_MENU_DATA', option => option);
-
+const setBasicInfo = createAction('SET_BASIC_INFO', info => info);
 const getTableInfoFromStorage = () => orderDinnerCartHelper.getTableInfoInSessionStorage(shopId) || {};
 
 const gotoExceptionPage = code => {
@@ -228,4 +228,23 @@ exports.fetchTableIdFromNewVersionQRCode = (url, setLoading, callback) => (dispa
 
 exports.gotoDishMenuPage = () => (dispatch, getState) => {
   gotoDishMenuPage();
+};
+
+exports.setBasicInfoStorage = (type, value) => (dispatch, getState) => {
+  if (type === 'memo') {
+    // 表示备注
+    sessionStorage.setItem('orderDinnerCartMemo', value);
+  } else {
+    sessionStorage.setItem('orderDinnerCartPersonCount', value);
+  }
+};
+
+exports.getBasicInfoStorage = () => (dispatch, getState) => {
+  const memo = sessionStorage.getItem('orderDinnerCartMemo');
+  const personCount = sessionStorage.getItem('orderDinnerCartPersonCount');
+  let basicInfo = {
+    memo,
+    personCount,
+  };
+  dispatch(setBasicInfo(basicInfo));
 };

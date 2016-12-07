@@ -113,7 +113,7 @@ const RegisterMemberApplication = React.createClass({
     } else {
       const registerInfo = {
         name: userNameValid,
-        birth: birthDay,
+        birth: birthDay.replace(/\//g, '-'),
         mobile: this.phonNum,
         sex: userSex,
         pwd: password,

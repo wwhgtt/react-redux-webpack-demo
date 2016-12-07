@@ -111,11 +111,11 @@ exports.cancelQueue = () => (dispatch, getStates) => {
     return res.json();
   }).
   then(res => {
-    if (String(res.data.status) === '0') {
+    if (String(res.code) === '200') {
       dispatch(setErrorMsg('取消排队成功！！'));
       dispatch(getQueueDetail());
     } else {
-      dispatch(setErrorMsg('取消排队失败，请重试'));
+      dispatch(setErrorMsg(res.msg));
     }
   });
 };
