@@ -204,12 +204,12 @@ const MineRechargeApplication = React.createClass({
             couponType = '优惠券';
           }
 
-          const rechargeActiveItem = (<div key={index} className="recharge-coupon">
+          const rechargeActiveItem = (<div key={index + Math.random() * 10} className="recharge-coupon">
             <p className="ellipsis">储值满{item.storeAmount}</p>
             <p className="ellipsis">送{couponType}({item.couponName}）</p>
             <p className="ellipsis">{items.planStartDay.replace(/-/g, '/')} ~ {items.planEndDay.replace(/-/g, '/')}</p>
           </div>);
-          const rechargeActiveAd = <div key={index}>储值满{item.storeAmount}送{couponType}</div>;
+          const rechargeActiveAd = <div key={index + Math.random() * 10}>储值满{item.storeAmount}送{couponType}</div>;
 
           rechargeActiveAds.push(rechargeActiveAd);
           rechargeActiveItems.push(rechargeActiveItem);

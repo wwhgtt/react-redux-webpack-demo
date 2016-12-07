@@ -10,7 +10,7 @@ module.exports = {
         shopName: '小铠甲火锅(小铠甲火锅西门店)',
         price: 92,
         createTime: '16/11/04 17:26',
-        status: '待支付',
+        status: '已完成',
         tradeItemsShortCut: '我是套餐等3件商品',
         serialNumber: '12',
         businessType:2, // 1: 快餐 2：正餐
