@@ -158,13 +158,7 @@ exports.setPayDetail = (payString, price) => (dispatch, getState) => {
         }).
         then(res => {
           if (String(res.code) === '200') {
-            dispatch(setLoadingProps(false));
-            dispatch(setErrorMsg('支付成功'));
-            // 测试时出现多次余额支付的情况
-            hasPayed = true;
-            setTimeout(function () {
-              location.href = returnUrl.replace(/"/g, '');
-            }, 3000);
+            location.href = returnUrl.replace(/"/g, '');
           } else {
             dispatch(setLoadingProps(false));
             dispatch(setErrorMsg(res.msg));
