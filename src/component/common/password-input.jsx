@@ -25,7 +25,9 @@ module.exports = React.createClass({
     if (String(inputNum).length === 6) {
       // 直接进行支付
       setBalancePay(inputNum);
-      this.setState({ password: '' });
+      setTimeout(function () {
+        this.setState({ password: '' });
+      }.bind(this), 3000);
     }
   },
   handleClick() {
