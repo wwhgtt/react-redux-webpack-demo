@@ -27,7 +27,7 @@ const BindWxInfo = React.createClass({
   render() {
     const { wxInfo } = this.props;
     return (
-      <div className="bind-account mt20">
+      <div className="bind-account mt-20">
         <p>以下微信号将与手机号<span className="text-success">{this.state.phoneNum}</span>绑定</p>
         <div className="account-info">
           <div className="account-info-head">

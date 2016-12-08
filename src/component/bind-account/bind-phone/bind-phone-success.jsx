@@ -25,12 +25,12 @@ const BindPhoneSuccess = React.createClass({
 
   render() {
     return (
-      <div className="bind-account mt40">
+      <div className="bind-account mt-40">
         <div className="phone-img-green"></div>
         <div className="account-info">
           <div className="account-info-current">当前绑定的手机号</div>
           <span className="account-info-userName">{this.props.phoneInfo.phoneNum}</span>
-          <p className="mt20">跳转中……</p>
+          <p className="mt-20">跳转中……</p>
         </div>
       </div>
 

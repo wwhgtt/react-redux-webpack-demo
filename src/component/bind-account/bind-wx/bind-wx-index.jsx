@@ -12,7 +12,7 @@ const BindWxIndex = React.createClass({
 
   render() {
     return (
-      <div className="bind-account mt40">
+      <div className="bind-account mt-40">
         <div className="wx-img-grey"></div>
         <div className="account-info">
           <p className="account-info-state">您还没有绑定微信号</p>
