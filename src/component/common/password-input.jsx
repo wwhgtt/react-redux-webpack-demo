@@ -25,6 +25,7 @@ module.exports = React.createClass({
     if (String(inputNum).length === 6) {
       // 直接进行支付
       setBalancePay(inputNum);
+      this.setState({ password: '' });
     }
   },
   handleClick() {
@@ -49,7 +50,7 @@ module.exports = React.createClass({
               type="tel"
               maxLength="6"
               ref="password"
-              onChange={evt => this.setPassword(evt)}
+              onChange={evt => { if (password && password.length === 6) { return false; } return this.setPassword(evt); }}
               pattern="\d*"
               autoComplete="off"
               value={this.state.password}
