@@ -61,9 +61,10 @@ const AdsColumn = React.createClass({
     }
     return item.rule.ruleName;
   },
-  construntDishNum(item) {
+  construntDishNum(item, condition) {
     if (!item.dishId) { return ''; }
-    return `，每单限${item.rule.dishNum}份`;
+    if (condition) { return `，每单限${item.rule.dishNum}份`; }
+    return `每单限${item.rule.dishNum}份`;
   },
   scrollPartFunc() {
     const { marketListUpdate, shopInfo, multiMarketing } = this.props;
@@ -108,9 +109,9 @@ const AdsColumn = React.createClass({
             false
           }
           {this.construntRuleName(item)}
-          {condition || this.construntDishNum(item) ?
+          {condition || this.construntDishNum(item, condition) ?
             `（${condition}
-              ${this.construntDishNum(item)}）`
+              ${this.construntDishNum(item, condition)}）`
             :
             false
           }
