@@ -1034,7 +1034,7 @@ module.exports = {
         'currRemainTotal': null,
         'dishQty':2,
         'boxQty':2,
-        'clearStatus':1,
+        'clearStatus':0,
         'dishTypeId': 1189,
         'brandDishId': 115180,
         'dishPropertyTypeInfos': [{

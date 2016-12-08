@@ -19,7 +19,11 @@ module.exports = React.createClass({
   },
   onDishRuleChecked(id, dishOptions, immutableDish) {
     const { onDishRuleChecked } = this.props;
+    if (dishOptions.clearStatus !== 1) {
+      return false;
+    }
     onDishRuleChecked(id, dishOptions, immutableDish);
+    return true;
   },
   buildRule(dish) {
     if (!dish || !dish.sameRuleDishes) {
@@ -31,14 +35,14 @@ module.exports = React.createClass({
       let elementCollection = [];
       // 规格内容
       let ruleTitle = ruleCollection[i].id;
-      dish.sameRuleDishes.map(ruleDish =>
+      dish.sameRuleDishes.map((ruleDish, index) =>
         ruleDish.dishPropertyTypeInfos.filter(property => property.type === 4).map(
           property => {
             if (property.id === ruleTitle) {
               property.properties.map(prop =>
                 elementCollection.push(
                   <button
-                    className={classnames('dish-porps-option', { 'is-checked':prop.isChecked })}
+                    className={classnames('dish-porps-option', { 'is-checked':prop.isChecked, 'is-disable':ruleDish.clearStatus !== 1 })}
                     onTouchTap={evt => this.onDishRuleChecked(prop.id, ruleDish, dish)}
                     key={+prop.id + Math.random() * 10000 + 1}
                   >
@@ -56,7 +60,10 @@ module.exports = React.createClass({
         <div className="recipe-group clearfix" key={ruleCollection[i].id}>
           <span className="recipe-title">{ruleCollection[i].name}</span>
           <button
-            className={classnames('dish-porps-option', { 'is-checked':ruleCollection[i].properties[0].isChecked })}
+            className={
+              classnames('dish-porps-option',
+                { 'is-checked':ruleCollection[i].properties[0].isChecked, 'is-disable':dish.clearStatus !== 1 }
+              )}
             onTouchTap={evt => this.onDishRuleChecked(ruleCollection[i].properties[0].id, dish, dish)}
             key={+ruleCollection[i].properties[0].id + Math.random() * 10000 + 1}
           >
@@ -126,9 +133,9 @@ module.exports = React.createClass({
   render() {
     const { dish, dishData } = this.props;
     const ruleElement = this.buildRule(dishData);
-    const recipeElement = this.buildRecipe(dish.order[0].dishPropertyTypeInfos || []);
-    const noteElement = this.buildNote(dish.order[0].dishPropertyTypeInfos || []);
-    const buildIngredientElement = this.buildIngredient(dish.order[0].dishIngredientInfos || []);
+    const recipeElement = dish.clearStatus === 1 ? this.buildRecipe(dish.order[0].dishPropertyTypeInfos || []) : false;
+    const noteElement = dish.clearStatus === 1 ? this.buildNote(dish.order[0].dishPropertyTypeInfos || []) : false;
+    const buildIngredientElement = dish.clearStatus === 1 ? this.buildIngredient(dish.order[0].dishIngredientInfos || []) : false;
     return (
       <div className="dish-props-select flex-rest">
         {ruleElement ? ruleElement.map(ele => ele) : false}
