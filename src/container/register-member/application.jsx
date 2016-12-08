@@ -113,7 +113,7 @@ const RegisterMemberApplication = React.createClass({
     } else {
       const registerInfo = {
         name: userNameValid,
-        birth: birthDay,
+        birth: birthDay.replace(/\//g, '-'),
         mobile: this.phonNum,
         sex: userSex,
         pwd: password,
@@ -226,7 +226,7 @@ const RegisterMemberApplication = React.createClass({
             <InputDate
               startYear={currentY - 120}
               endYear={currentY}
-              date={birthDay || '2012-08-15'}
+              date={birthDay || '2012/08/15'}
               isAllowExceedNow={false}
               onCancelDateSelect={this.handleCancelDate}
               onCompleteDateSelect={this.handleCompleteDate}

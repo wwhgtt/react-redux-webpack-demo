@@ -71,7 +71,7 @@ exports.fetchSendArea = () => (dispatch, getState) => {
           const sendAreaData = areaData.data;
           const shipmentFee = sendAreaData.shipment || 0;
           const minPrice = sendAreaData.sendPrice || 0;
-          const shipFreePrice = sendAreaData.freeDeliveryPrice || 0;
+          const shipFreePrice = typeof sendAreaData.freeDeliveryPrice === 'number' ? sendAreaData.freeDeliveryPrice : 9999999999;
           sessionStorage.setItem(`${shopId}_sendArea_id`, sendAreaData.id);
           sessionStorage.setItem(`${shopId}_sendArea_rangeId`, sendAreaData.id);
           sessionStorage.setItem(`${shopId}_sendArea_sendPrice`, minPrice);
@@ -117,7 +117,7 @@ exports.confirmOrder = () => (dispatch, getStates) => {
     const tableId = sessionStorage.getItem('tableId');
     if (tableId) {
       location.href =
-        `/orderall/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}&tableId=${JSON.parse(tableId)}`;
+        `/orderall/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}&tableId=${tableId}`;
     } else {
       location.href =
         `/orderall/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}`;
