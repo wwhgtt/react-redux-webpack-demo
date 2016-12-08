@@ -25,6 +25,9 @@ const AdsColumn = React.createClass({
   componentDidMount() {
     this._setInterval = setInterval(() => {
       const { totalShowScroll } = this.state;
+      if (totalShowScroll.length === 1) {
+        return;
+      }
       const distanceClass = { top: '-30px', transition:'all .5s' };
       this.setState({ animation:distanceClass }, () => {
         setTimeout(() => {
@@ -197,7 +200,7 @@ const AdsColumn = React.createClass({
                     </div>
                     <div className="fieldset-outer">
                       {
-                        scrollPart &&
+                        scrollPart && scrollPart.length !== 0 &&
                           <fieldset className="shopdiscount">
                             <legend className="shopdiscount-brief">优惠信息</legend>
                             <div className="scrollpart">
