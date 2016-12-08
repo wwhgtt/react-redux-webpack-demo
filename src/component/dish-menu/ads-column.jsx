@@ -15,20 +15,23 @@ const AdsColumn = React.createClass({
     notice: React.PropTypes.string,
   },
   getInitialState() {
-    return { animation:{}, allDiscount:false, multiMarketing:[] };
+    return { animation:{}, allDiscount:false, totalShowScroll:[] };
   },
   componentWillMount() {
-    const { multiMarketing, notice } = this.props;
-    const totalShowScroll = (multiMarketing || []).concat(notice ? [{ type:-1, notice }] : []);
-    this.setState({ multiMarketing: totalShowScroll });
+    const { marketListUpdate, multiMarketing, notice } = this.props;
+    const totalShowScroll = (marketListUpdate || []).concat(multiMarketing || []).concat(notice ? [{ type:-1, notice }] : []);
+    this.setState({ totalShowScroll });
   },
   componentDidMount() {
     this._setInterval = setInterval(() => {
-      const { multiMarketing } = this.state;
+      const { totalShowScroll } = this.state;
+      if (totalShowScroll.length === 1) {
+        return;
+      }
       const distanceClass = { top: '-30px', transition:'all .5s' };
       this.setState({ animation:distanceClass }, () => {
         setTimeout(() => {
-          this.setState({ animation:{ top:0, transition:'none' }, multiMarketing:this.changeMarketList(multiMarketing) });
+          this.setState({ animation:{ top:0, transition:'none' }, totalShowScroll:this.changeMarketList(totalShowScroll) });
           // this.setState({ marketListUpdate:[] });
         }, 500);
       });
@@ -119,13 +122,10 @@ const AdsColumn = React.createClass({
     return scrollAll;
   },
   animatePartFunc() {
-    const { marketListUpdate, shopInfo } = this.props;
-    const { multiMarketing } = this.state;
+    const { shopInfo } = this.props;
+    const { totalShowScroll } = this.state;
     const formatDishesData = shopInfo.formatDishesData;
-    const infoList = marketListUpdate ?
-      marketListUpdate.concat(multiMarketing || [])
-    :
-      (multiMarketing || []);
+    const infoList = totalShowScroll || [];
 
     const animateAll = infoList.map((item, index) => {
       if (item.dishId && !formatDishesData[item.dishId]) { return []; }
@@ -200,7 +200,7 @@ const AdsColumn = React.createClass({
                     </div>
                     <div className="fieldset-outer">
                       {
-                        scrollPart &&
+                        scrollPart && scrollPart.length !== 0 &&
                           <fieldset className="shopdiscount">
                             <legend className="shopdiscount-brief">优惠信息</legend>
                             <div className="scrollpart">
