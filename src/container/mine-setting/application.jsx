@@ -7,7 +7,7 @@ const InputDate = require('../../component/mui/form/date-select.jsx');
 const ShowSettingList = require('../../component/mine/show-setting-list.jsx');
 const Loading = require('../../component/mui/loading.jsx');
 const Toast = require('../../component/mui/toast.jsx');
-
+const dateUtility = require('../../helper/common-helper.js').dateUtility;
 require('./application.scss');
 
 const MineSettingApplication = React.createClass({
@@ -44,7 +44,7 @@ const MineSettingApplication = React.createClass({
     this.setState({ isShow: false });
   },
   handleCompleteDate(obj) {
-    this.setState({ birthDay: obj.text, isShow: false });
+    this.setState({ birthDay: dateUtility.format(obj.text, 'yyyy-MM-dd'), isShow: false });
   },
   showBirthdaySelect() {
     this.setState({ isShow: true });
