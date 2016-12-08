@@ -50,8 +50,12 @@ const PosLoginApplication = React.createClass({
   },
 
   poLogin(info) {
-    const { loginWxByPos } = this.props;
+    const { loginWxByPos, setErrorMsg } = this.props;
     if (info.hasCustomer) {
+      if (info.isDisable) {
+        setErrorMsg('非常抱歉，您的会员卡已被停用，无法登录');
+        return;
+      }
       loginWxByPos();
     } else {
       location.href = `http://${location.host}/user/loginFromPosScan?shopId=${shopId}&uuid=${uuid}&posDeviceID=${posDeviceID}`;
@@ -71,7 +75,7 @@ const PosLoginApplication = React.createClass({
         </div>
         <div className="copyright"></div>
         {errorMsg &&
-          <Toast errorMessage={errorMsg} clearErrorMassage={() => { setErrorMsg(''); }} />
+          <Toast errorMessage={errorMsg} clearErrorMsg={() => { setErrorMsg(''); }} />
         }
         {loadStatus &&
           <Loading word={''} />
