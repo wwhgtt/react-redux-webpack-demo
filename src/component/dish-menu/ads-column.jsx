@@ -19,7 +19,7 @@ const AdsColumn = React.createClass({
   },
   componentWillMount() {
     const { marketListUpdate, multiMarketing, notice } = this.props;
-    const totalShowScroll = marketListUpdate.concat(multiMarketing || []).concat(notice ? [{ type:-1, notice }] : []);
+    const totalShowScroll = (marketListUpdate || []).concat(multiMarketing || []).concat(notice ? [{ type:-1, notice }] : []);
     this.setState({ totalShowScroll });
   },
   componentDidMount() {
