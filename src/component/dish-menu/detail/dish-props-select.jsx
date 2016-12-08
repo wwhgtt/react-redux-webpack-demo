@@ -35,7 +35,7 @@ module.exports = React.createClass({
       let elementCollection = [];
       // 规格内容
       let ruleTitle = ruleCollection[i].id;
-      dish.sameRuleDishes.map((ruleDish, index) =>
+      dish.sameRuleDishes.map(ruleDish =>
         ruleDish.dishPropertyTypeInfos.filter(property => property.type === 4).map(
           property => {
             if (property.id === ruleTitle) {
