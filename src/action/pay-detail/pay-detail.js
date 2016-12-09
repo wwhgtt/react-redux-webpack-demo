@@ -43,7 +43,8 @@ exports.fetchPayDetail = () => (dispatch, getState) =>
 
 let hasPayed = false;
 exports.setPayDetail = (payString, price) => (dispatch, getState) => {
-  const requestDataString = `?shopId=${shopId}&orderId=${getUrlParam('orderId')}&price=${price}&returnUrl=${encodeURIComponent(returnUrl)}`;
+  const requestDataString =
+  `?shopId=${shopId}&orderId=${getUrlParam('orderId')}&price=${price}&returnUrl=${encodeURIComponent(returnUrl.replace(/"/g, ''))}`;
   let requestOptions = Object.assign({}, config.requestOptions);
   requestOptions.headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
   if (payString === 'baidu') {
