@@ -69,12 +69,12 @@ const MineBalanceApplication = React.createClass({
     const result = [];
 
     (list || []).forEach(item => {
-      existedOrders[item.orderId] = true;
+      existedOrders[item.id] = true;
       result.push(item);
     });
 
     (newList || []).forEach(item => {
-      if (!existedOrders[item.orderId]) {
+      if (!existedOrders[item.id]) {
         result.push(item);
       }
     });
