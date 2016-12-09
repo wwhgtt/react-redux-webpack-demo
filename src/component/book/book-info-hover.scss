@@ -56,6 +56,13 @@
     margin-top: -.5em;
     background: url("../../asset/images/close.svg") center center/100% 100% no-repeat;
   }
+
+  .copyright {
+    height: auto;
+    margin: 0;
+    padding: 15px 0;
+    background: #f1f1f1;
+  }
 }
 
 .options-group.options-group-spe {
@@ -135,9 +142,3 @@
   }
 }
 
-.float-layer .copyright {
-  height: auto;
-  margin: 0;
-  padding: 15px 0;
-  background: #f1f1f1;
-}
