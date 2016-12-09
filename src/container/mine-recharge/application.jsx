@@ -158,6 +158,8 @@ const MineRechargeApplication = React.createClass({
     let rechargeItem = '';
     let lastRechargeAd = '';
 
+    const isChargeMemo = rechargeInfo.chargeMemo && rechargeInfo.chargeMemo.replace(/\s/g, '');
+
     // 充值卡
     if (rechargeInfo.ruleInfo && rechargeInfo.ruleInfo.ruleList) {
       let realAmount = 0;
@@ -275,7 +277,7 @@ const MineRechargeApplication = React.createClass({
             </div>
           </div>
         }
-        {rechargeInfo.chargeMemo &&
+        {isChargeMemo &&
           <a className="recharge-tips" onTouchTap={() => { this.setState({ isShowRechargeTips: true }); }}>储值说明</a>
         }
       </div>
