@@ -75,15 +75,31 @@ const OrderListApplication = React.createClass({
 
     if (JSON.stringify(this.props.orderList.list) !== JSON.stringify(orderList.list)) {
       this.setState({ dinnerListArr: this.mergeList(dinnerListArr, orderList.list) });
+    } else {
+      if (dinnerListArr && dinnerListArr.length === 0) {
+        this.setState({ dinnerListArr: orderList.list });
+      }
     }
     if (JSON.stringify(this.props.takeOutList) !== JSON.stringify(takeOutList)) {
       this.setState({ takeOutListArr: this.mergeList(takeOutListArr, takeOutList) });
+    } else {
+      if (takeOutListArr && takeOutListArr.length === 0) {
+        this.setState({ takeOutListArr: takeOutList });
+      }
     }
     if (JSON.stringify(this.props.bookList) !== JSON.stringify(bookList)) {
       this.setState({ bookListArr: this.mergeList(bookListArr, bookList) });
+    } else {
+      if (bookListArr && bookListArr.length === 0) {
+        this.setState({ bookListArr: bookList });
+      }
     }
     if (JSON.stringify(this.props.queueList) !== JSON.stringify(queueList)) {
       this.setState({ queueListArr: this.mergeList(queueListArr, queueList) });
+    } else {
+      if (queueListArr && queueListArr.length === 0) {
+        this.setState({ queueListArr: queueList });
+      }
     }
   },
 
@@ -120,16 +136,40 @@ const OrderListApplication = React.createClass({
     setChildView(hash);
 
     if (hash === '#dinner') {
-      this.setState({ activeItem: '堂食', showSection: 'TS' });
+      this.setState({
+        activeItem: '堂食',
+        showSection: 'TS',
+        takeOutListArr: [],
+        bookListArr: [],
+        queueListArr: [],
+      });
       getOrderList(1);
     } else if (hash === '#quick') {
-      this.setState({ activeItem: '外卖', showSection: 'WM' });
+      this.setState({
+        activeItem: '外卖',
+        showSection: 'WM',
+        dinnerListArr: [],
+        bookListArr: [],
+        queueListArr: [],
+      });
       getTakeOutList(1);
     } else if (hash === '#book') {
-      this.setState({ activeItem: '预订', showSection: 'BK' });
+      this.setState({
+        activeItem: '预订',
+        showSection: 'BK',
+        dinnerListArr: [],
+        takeOutListArr: [],
+        queueListArr: [],
+      });
       getBookList(1);
     } else if (hash === '#queue') {
-      this.setState({ activeItem: '排队', showSection: 'QE' });
+      this.setState({
+        activeItem: '排队',
+        showSection: 'QE',
+        dinnerListArr: [],
+        takeOutListArr: [],
+        bookListArr: [],
+      });
       getQueueList(1);
     }
   },
