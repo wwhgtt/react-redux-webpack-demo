@@ -4,10 +4,15 @@ a {
 
 .balance-page {
   height: 100%;
-  background-color: #f1f1f1;
+  background: #f1f1f1;
 }
 
 .balance-outline {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  right: 0;
+  left: 0;
   padding-top: 30px;
   padding-bottom: 30px;
   text-align: center;
@@ -39,14 +44,30 @@ a {
 }
 
 .balance-detail {
-  min-height: calc(100% - 173px - 45px);
+  position: absolute;
+  z-index: 1;
+  top: 156px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: calc(100% - 156px);
+
+  &-sm {
+    height: calc(100% - 204px);
+  }
 
   &-title {
     font-size: 14px;
     line-height: 35px;
+    position: fixed;
+    z-index: 10;
+    top: 121px;
+    right: 0;
+    left: 0;
     height: 35px;
     padding: 0 15px;
     color: #666;
+    background: #f1f1f1;
   }
 }
 

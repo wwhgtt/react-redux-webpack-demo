@@ -53,7 +53,7 @@ const PosLoginApplication = React.createClass({
     const { loginWxByPos, setErrorMsg } = this.props;
     if (info.hasCustomer) {
       if (info.isDisable) {
-        setErrorMsg('非常抱歉，您的会员卡已被停用，无法登录');
+        setErrorMsg('您的会员身份已被停用，当前无法登录，请联系商户');
         return;
       }
       loginWxByPos();
