@@ -483,7 +483,9 @@ exports.fetchWholeOrderBenefit = () => (dispatch, getState) => {
   })
   .then(result => {
     if (String(result.code) === '200') {
-      dispatch(setWholeOrderBenefitProps(result.data));
+      if (result.data) {
+        dispatch(setWholeOrderBenefitProps(result.data));
+      }
     } else {
       dispatch(setErrorMsg(result.msg));
     }
