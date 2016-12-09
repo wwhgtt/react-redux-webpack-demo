@@ -19,7 +19,10 @@ const AdsColumn = React.createClass({
   },
   componentWillMount() {
     const { marketListUpdate, multiMarketing, notice } = this.props;
-    const totalShowScroll = (marketListUpdate || []).concat(multiMarketing || []).concat(notice ? [{ type:-1, notice }] : []);
+    const totalShowScroll = (marketListUpdate || [])
+      .concat(multiMarketing || [])
+      .concat(notice && notice.replace(/(\r|\n)/g, '').trim().length > 0 ? [{ type:-1, notice }] : []);
+
     this.setState({ totalShowScroll });
   },
   componentDidMount() {
@@ -210,7 +213,7 @@ const AdsColumn = React.createClass({
                           </fieldset>
                       }
                       {
-                        notice &&
+                        notice && notice.replace(/(\r|\n)/g, '').trim().length > 0 &&
                           <fieldset className="shopdiscount">
                             <legend className="shopdiscount-brief">商家公告</legend>
                             <div className="scrollpart noticepart">
