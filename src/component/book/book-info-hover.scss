@@ -59,8 +59,13 @@
 }
 
 .options-group.options-group-spe {
-  margin: 1em 0 2em;
-  background: #fff;
+  margin: 0;
+  padding: 1em 0;
+  background: #f1f1f1;
+
+  .option {
+    background: #fff;
+  }
 }
 
 .totalPrice {
@@ -128,4 +133,11 @@
       transition: opacity .3s ease-in-out;
     }
   }
+}
+
+.float-layer .copyright {
+  height: auto;
+  margin: 0;
+  padding: 15px 0;
+  background: #f1f1f1;
 }
