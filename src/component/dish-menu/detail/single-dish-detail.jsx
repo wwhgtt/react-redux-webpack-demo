@@ -154,8 +154,8 @@ module.exports = React.createClass({
         <div className="dish-detail-addtocarta flex-none">
           <Counter count={helper.getDishesCount([dish])} onCountChange={(count, increment) => this.onDishItemCountChange(increment)} step={1} />
           <button
-            className={classnames('btn--yellow', { 'btn--grey':dish.clearStatus !== 1 })}
-            onTouchTap={evt => { if (dish.clearStatus !== 1) { return false; } return this.onAddToCarBtnTap(); }}
+            className={classnames('btn--yellow', { 'btn--grey':dish.clearStatus })}
+            onTouchTap={evt => { if (dish.clearStatus) { return false; } return this.onAddToCarBtnTap(); }}
           >加入购物车</button>
         </div>
         {

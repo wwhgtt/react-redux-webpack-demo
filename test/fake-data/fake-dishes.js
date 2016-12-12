@@ -18,7 +18,7 @@ exports.singleDishWithoutProps = {
   smallImgUrl: 'http://kry-official.qiniudn.com/5f7daa1cbce14dd2a22ea7dc286c9a5c.jpg',
   dishQty: 1,
   boxQty: 1,
-  clearStatus: 1,
+  clearStatus: false,
   dishPropertyTypeInfos: [],
   dishIngredientInfos: [],
 };
@@ -41,7 +41,7 @@ exports.singleDishWithProps = {
   smallImgUrl: 'http://kry-official.qiniudn.com/5a9768b3918743d689e8343f4f99ce8d.jpg',
   dishQty: 1,
   boxQty: 1,
-  clearStatus: 1,
+  clearStatus: false,
   dishPropertyTypeInfos: [
     {
       id: 3121,
@@ -152,7 +152,7 @@ exports.groupDish = {
   smallImgUrl: 'http://kry-official.qiniudn.com/67b1c13e56b840e596a645727eace5a4.jpg',
   dishQty: 1,
   boxQty: 1,
-  clearStatus: 1,
+  clearStatus: false,
   order: [
     {
       count:2,

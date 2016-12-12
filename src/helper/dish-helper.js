@@ -19,7 +19,7 @@ const isGroupDish = exports.isGroupDish = function (dish) {
   return dish.groups !== undefined;
 };
 const setHasRulesDishProps = function (dish) {
-  if (dish.clearStatus !== 1) {
+  if (dish.clearStatus) {
     return false;
   }
   return dish.dishPropertyTypeInfos.map(
@@ -588,7 +588,7 @@ const createNewDishes = (withSameNameDishesProp, dishTypeList) => {
       disesCollection[i].dishPropertyTypeInfos.filter(property => property.type === 4).map(property =>
         property.properties.map(prop => prop.isChecked = false)
       );
-      if (disesCollection[i].clearStatus !== 1) {
+      if (disesCollection[i].clearStatus) {
         // 表示已售磬  这些菜品就不要了
         console.log('客如云竭诚为您服务');
       } else {

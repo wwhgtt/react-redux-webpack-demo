@@ -19,7 +19,7 @@ module.exports = React.createClass({
   },
   onDishRuleChecked(id, dishOptions, immutableDish) {
     const { onDishRuleChecked } = this.props;
-    if (dishOptions.clearStatus !== 1) {
+    if (dishOptions.clearStatus) {
       return false;
     }
     onDishRuleChecked(id, dishOptions, immutableDish);
@@ -42,7 +42,7 @@ module.exports = React.createClass({
               property.properties.map(prop =>
                 elementCollection.push(
                   <button
-                    className={classnames('dish-porps-option', { 'is-checked':prop.isChecked, 'is-disable':ruleDish.clearStatus !== 1 })}
+                    className={classnames('dish-porps-option', { 'is-checked':prop.isChecked, 'is-disable':ruleDish.clearStatus })}
                     onTouchTap={evt => this.onDishRuleChecked(prop.id, ruleDish, dish)}
                     key={+prop.id + Math.random() * 10000 + 1}
                   >
@@ -62,7 +62,7 @@ module.exports = React.createClass({
           <button
             className={
               classnames('dish-porps-option',
-                { 'is-checked':ruleCollection[i].properties[0].isChecked, 'is-disable':dish.clearStatus !== 1 }
+                { 'is-checked':ruleCollection[i].properties[0].isChecked, 'is-disable':dish.clearStatus }
               )}
             onTouchTap={evt => this.onDishRuleChecked(ruleCollection[i].properties[0].id, dish, dish)}
             key={+ruleCollection[i].properties[0].id + Math.random() * 10000 + 1}
@@ -133,9 +133,9 @@ module.exports = React.createClass({
   render() {
     const { dish, dishData } = this.props;
     const ruleElement = this.buildRule(dishData);
-    const recipeElement = dish.clearStatus === 1 ? this.buildRecipe(dish.order[0].dishPropertyTypeInfos || []) : false;
-    const noteElement = dish.clearStatus === 1 ? this.buildNote(dish.order[0].dishPropertyTypeInfos || []) : false;
-    const buildIngredientElement = dish.clearStatus === 1 ? this.buildIngredient(dish.order[0].dishIngredientInfos || []) : false;
+    const recipeElement = !dish.clearStatus ? this.buildRecipe(dish.order[0].dishPropertyTypeInfos || []) : false;
+    const noteElement = !dish.clearStatus ? this.buildNote(dish.order[0].dishPropertyTypeInfos || []) : false;
+    const buildIngredientElement = !dish.clearStatus ? this.buildIngredient(dish.order[0].dishIngredientInfos || []) : false;
     return (
       <div className="dish-props-select flex-rest">
         {ruleElement ? ruleElement.map(ele => ele) : false}
