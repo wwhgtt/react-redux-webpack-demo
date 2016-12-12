@@ -9,7 +9,7 @@ const dateUtility = require('../../helper/common-helper.js').dateUtility;
 const ConfirmDialog = require('../../component/mui/dialog/confirm-dialog.jsx');
 const Dialog = require('../../component/mui/dialog/dialog.jsx');
 const Toast = require('../../component/mui/toast.jsx');
-
+const config = require('../../config');
 require('../../asset/style/style.scss');
 
 const DishDetail = require('../../component/order-detail-uncheck/dish-detail.jsx');
@@ -260,7 +260,7 @@ const TakeoutDetailApplication = React.createClass({
             </div>
             <div className="options-group takeout-head">
               <div className="option">
-                <a className="shop-info" href={`http://${location.host}/takeaway/selectDish?shopId=${shopId}&type=WM`}>
+                <a className="shop-info" href={`${config.shopDetailURL}?shopId=${shopId}&type=WM`}>
                   <img className="shop-info-logo" role="presentation" src={takeoutDetail.shopLogo || shopLogoDefault} />
                   <span className="shop-info-name ellipsis">{takeoutDetail.shopName}</span>
                 </a>
