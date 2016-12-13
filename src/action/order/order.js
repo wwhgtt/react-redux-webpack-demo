@@ -334,9 +334,12 @@ exports.fetchActivityBenefit = () => (dispatch, getState) => {
 const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState) => {
   const state = getState();
   const paramsData = helper.getSubmitUrlParams(state, note, receipt);
+  if (!paramsData.success) {
+    dispatch(setErrorMsg(paramsData.msg));
+    return;
+  }
   if (state.serviceProps.wholeOrderBenefit && state.serviceProps.wholeOrderBenefit.isChecked) {
     // 已选择整单优惠
-    console.log(paramsData);
     if (paramsData.params.singleDishInfos && paramsData.params.singleDishInfos.length) {
       let singleDishInfos = [];
       paramsData.params.singleDishInfos.forEach(dishProp => {
@@ -360,10 +363,6 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
     paramsData.params = Object.assign({}, paramsData.params, { multiPriId:state.serviceProps.wholeOrderBenefit.detail.planId });
   } else {
     paramsData.params = Object.assign({}, paramsData.params, { multiPriId:0 });
-  }
-  if (!paramsData.success) {
-    dispatch(setErrorMsg(paramsData.msg));
-    return;
   }
 
   const isWM = type === 'WM';
