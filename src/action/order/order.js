@@ -340,6 +340,7 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
   }
   if (state.serviceProps.wholeOrderBenefit && state.serviceProps.wholeOrderBenefit.isChecked) {
     // 已选择整单优惠
+    console.log(paramsData);
     if (paramsData.params.singleDishInfos && paramsData.params.singleDishInfos.length) {
       let singleDishInfos = [];
       paramsData.params.singleDishInfos.forEach(dishProp => {
