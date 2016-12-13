@@ -34,7 +34,7 @@ exports.fetchPayDetail = () => (dispatch, getState) =>
           dispatch(setPayProps(res.data));
         }
       } else {
-        dispatch(setErrorMsg('获取支付信息失败'));
+        dispatch(setErrorMsg(res.msg));
       }
     }).
     catch(err => {
