@@ -124,26 +124,7 @@ exports.setPayDetail = (payString, price) => (dispatch, getState) => {
       });
   } else if (payString === 'alipay') {
     const orderType = getUrlParam('orderType') === 'recharge' ? 2 : 1;
-    fetch(`${config.aliPayAPI}${requestDataString}&payBusinessType=${orderType}`, requestOptions).
-      then(res => {
-        if (!res.ok) {
-          dispatch(setLoadingProps(false));
-          dispatch(setErrorMsg('支付失败，请稍后重试'));
-          return false;
-        }
-        return res.json();
-      }).
-      then(res => {
-        if (String(res.code) === '200') {
-          location.href = res.data;
-        } else {
-          dispatch(setLoadingProps(false));
-          dispatch(setErrorMsg('支付失败，请稍后重试'));
-        }
-      }).
-      catch(err => {
-        console.log(err);
-      });
+    location.href = `${config.aliPayURL}${requestDataString}&payBusinessType=${orderType}`;
   } else {
     // 余额支付   第一个参数为密码
     if (!hasPayed) {
