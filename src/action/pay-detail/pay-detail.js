@@ -88,10 +88,9 @@ exports.setPayDetail = (payString, price) => (dispatch, getState) => {
             signature:res.data.paySign, // 必填，签名，见附录1
             jsApiList: ['chooseWXPay'],
             success() {
-              alert(weChat.wx.chooseWXPay);
-              if (weChat.wx && weChat.wx.chooseWXPay) {
-                alert(1234455);
-                weChat.wx.chooseWXPay({
+              const wx = weChat.wx || window.wx;
+              if (wx.chooseWXPay) {
+                wx.chooseWXPay({
                   timestamp:res.data.timeStamp,
                   nonceStr: res.data.nonceStr,
                   package: res.data.package,
