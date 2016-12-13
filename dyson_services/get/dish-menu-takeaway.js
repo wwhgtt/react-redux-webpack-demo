@@ -205,7 +205,7 @@ module.exports = {
             'isMulti': false,
             'dishQty':2,
             'boxQty':2,
-            'clearStatus':false,
+            'clearStatus':true,
             'dishPropertyTypeInfos': [{
               'id': 0,
               'name': '备注',

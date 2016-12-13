@@ -128,6 +128,21 @@ module.exports = React.createClass({
       />
     );
   },
+  buildOrderBtn(dish, hasProps, remainCount, count) {
+    const { expand } = this.state;
+    if (dish.clearStatus) {
+      return (<span className="dish-item-soldout">已售罄</span>);
+    }
+    if (hasProps) {
+      return (
+        <div className="right">
+          <span className={classnames({ 'dish-count' : true, 'count-hide' : expand || count <= 0 })}>{count}</span>
+          <a className="dish-dropdown-trigger btn--ellips" onTouchTap={this.onPropsBtnTap}>{expand ? '收起' : '商品选项'}</a>
+        </div>
+      );
+    }
+    return this.buildDishCounter({ dish, remainCount, count });
+  },
   render() {
     const { dish, remainCount } = this.props;
     const { expand } = this.state;
@@ -143,14 +158,7 @@ module.exports = React.createClass({
             {marketPrice !== 0 ? <span className="badge-price">{marketPrice > 0 ? '+' : ''}{marketPrice}元</span> : false}
             {dish.isReplace ? <span className="badge-bi"></span> : false}
           </div>
-          {
-            hasProps ?
-              <div className="right">
-                <span className={classnames({ 'dish-count' : true, 'count-hide' : expand || count <= 0 })}>{count}</span>
-                <a className="dish-dropdown-trigger btn--ellips" onTouchTap={this.onPropsBtnTap}>{expand ? '收起' : '商品选项'}</a>
-              </div>
-            : this.buildDishCounter({ dish, remainCount, count })
-          }
+          {this.buildOrderBtn(dish, hasProps, remainCount, count)}
         </div>
         {
           expand ?
