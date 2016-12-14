@@ -144,6 +144,10 @@ const DinnerDetailApplication = React.createClass({
     const countDownMinut = Math.floor(countDown / 60000);
     const countDownSecond = Math.floor((countDown % 60000) / 1000);
     countDownStr = `${countDownMinut}分${countDownSecond}秒`;
+    if (countDownMinut === 0 && countDownSecond === 0) {
+      location.reload();
+      return false;
+    }
     return countDownStr;
   },
 
