@@ -25,7 +25,7 @@
     }
 
     input {
-      width: calc(100% - 80px);
+      width: calc(100% - 86px);
       border: 0;
       background: none;
     }
@@ -66,7 +66,7 @@
 
 .phone-verification-code.multi-nations {
   .phone {
-    padding-left: 110px;
+    padding-left: 85px;
 
     &::before {
       left: 90px;
@@ -76,13 +76,16 @@
   select {
     font-size: 14px;
     position: absolute;
-    top: 15px;
+    z-index: 1;
+    top: 10px;
     left: 5px;
     height: 24px;
-    border: 1px solid $color-mercury;
+    padding-right: 12px;
+    border: none;
     border-radius: 3px;
     outline: none;
-    background: #fff;
+    background: url("../../../asset/images/arrow-grey-bold.svg") right 5px/8px auto no-repeat #fff;
+    appearance: none;
   }
 }
 
