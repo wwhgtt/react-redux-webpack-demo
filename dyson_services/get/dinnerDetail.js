@@ -79,6 +79,7 @@ module.exports = {
         sendedCoup: true, // 是否已经发过券
         markSendCoupFlag: false, // 评分送券开关
         sendCoupInfo: '5元代金券', // 券名称
+        showSendCoupInfo: false,
       },
     },
     time: 1472436273622,
