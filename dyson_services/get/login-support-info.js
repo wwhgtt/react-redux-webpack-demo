@@ -2,7 +2,7 @@ module.exports = {
   path:'/user/supportTypes.json',
   template:{
     data: {
-      xiangEQ: false,
+      xiangEQ: true,
       weixin: true,
       mobile: true,
     },

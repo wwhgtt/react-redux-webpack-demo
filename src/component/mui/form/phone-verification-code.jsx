@@ -194,8 +194,12 @@ module.exports = React.createClass({
     let nationsSelect = null;
     if (hasForeignZone) {
       nationsSelect = (
-        <select onChange={this.handleNationChange} defaultValue="China">);
-          {nationsInfo.map(item => (<option key={item.value} value={item.value}>{item.text}</option>))}
+        <select onChange={this.handleNationChange} defaultValue="China">
+          {
+            nationsInfo.map((item) => (
+              <option key={item.value} value={item.value}>{item.text}</option>
+            ))
+          }
         </select>
       );
     }
