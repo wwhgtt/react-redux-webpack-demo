@@ -31,7 +31,7 @@ exports.fetchOrder = () => (dispatch, getState) =>
           dispatch(setOrder(order.data));
         } else {
           const paramStr = `shopId=${shopId}&orderId=${tradeId}`;
-          location.href = `order/orderallDetail?${paramStr}&enterWay=tru`;
+          location.href = `order/orderallDetail?${paramStr}&enterWay=true`;
         }
       } else {
         dispatch(setErrorMsg(order.msg));
