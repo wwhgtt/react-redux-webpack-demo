@@ -37,8 +37,8 @@ module.exports = React.createClass({
     onImageBtnTap(dishData);
   },
   buildOrderBtn(dishData, dishesDataDuplicate) {
-    if (dishData.clearStatus && !dishData.sameRuleDishes) {
-      // 表示没有被沽清
+    if (dishData.clearStatus && (!dishData.sameRuleDishes || (dishData.sameRuleDishesb && !dishData.sameRuleDishes.length))) {
+      // 表示被沽清
       return (<span className="dish-item-soldout">已售罄</span>);
     }
     let dishCopy = _find(dishesDataDuplicate, dishDataCopy => dishDataCopy.id === dishData.id);
@@ -123,7 +123,7 @@ module.exports = React.createClass({
               {discountPart}
               <span className="dish-item-price price">
                 {dishData.marketPrice}
-                {dishData.sameRuleDishes ?
+                {dishData.sameRuleDishes && dishData.sameRuleDishes.length ?
                   <small>起</small>
                   :
                   false
