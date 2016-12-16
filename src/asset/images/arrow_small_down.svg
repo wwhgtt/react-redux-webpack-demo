@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="28px" height="16px" viewBox="0 0 28 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="正餐订单详情_订单结算-copy-2" transform="translate(-211.000000, -459.000000)">
+            <g id="Group" transform="translate(225.000000, 467.000000) scale(1, -1) rotate(-90.000000) translate(-225.000000, -467.000000) translate(203.000000, 445.000000)">
+                <rect id="Rectangle" x="0" y="-2.69422296e-15" width="43.0222222" height="44"></rect>
+                <polyline id="Line" stroke="#CCCCCC" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" transform="translate(16.000000, 22.000000) rotate(45.000000) translate(-16.000000, -22.000000) " points="8 14 24 14 24 30"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>
