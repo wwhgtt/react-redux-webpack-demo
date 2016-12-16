@@ -27,7 +27,12 @@ exports.fetchOrder = () => (dispatch, getState) =>
     }).
     then(order => {
       if (order.code === '200') {
-        dispatch(setOrder(order.data));
+        if (String(order.data.payStatus) === '1') {
+          dispatch(setOrder(order.data));
+        } else {
+          const paramStr = `shopId=${shopId}&orderId=${tradeId}`;
+          location.href = `/shop/payDetail?${paramStr}&orderType=TS`;
+        }
       } else {
         dispatch(setErrorMsg(order.msg));
       }
