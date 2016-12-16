@@ -217,6 +217,15 @@ module.exports = React.createClass({
       foreign: this.isForeignZone(currentNation),
       'multi-nations': hasForeignZone,
     });
+
+    let maxLength = 11;
+
+    if (currentNation === 'China') {
+      maxLength = 11;
+    } else if (currentNation === 'Australia') {
+      maxLength = 10;
+    }
+
     return (
       <div className={className}>
         <button className="btn btn--yellow" disabled={btnInfo.disabled} onTouchTap={this.handleFetchCodeBtnTouchTap}>
@@ -229,7 +238,7 @@ module.exports = React.createClass({
             disabled={phoneNumDisabled}
             value={phoneNum}
             placeholder={placeholder.phoneNum}
-            maxLength={11}
+            maxLength={maxLength}
             onChange={this.handlePhoneNumChange}
             ref="phoneVerificationNumber"
           />
