@@ -2,8 +2,9 @@ const React = require('react');
 const PhoneVerficationCode = require('../../mui/form/phone-verification-code.jsx');
 const ConfirmDialog = require('../../../component/mui/dialog/confirm-dialog.jsx');
 const getUrlParam = require('../../../helper/common-helper.js').getUrlParam;
+const config = require('../../../config');
 const shopId = getUrlParam('shopId');
-const returnUrl = getUrlParam('returnUrl') || `http://${location.host}/shop/recharge?shopId=${shopId}`;
+const returnUrl = getUrlParam('returnUrl');
 
 const BindPhoneValidate = React.createClass({
   displayName:'BindPhoneValidate',
@@ -69,7 +70,11 @@ const BindPhoneValidate = React.createClass({
 
   handleLoginConfirm() {
     this.setState({ isDialogShow: false });
-    location.href = decodeURIComponent(returnUrl);
+    if (returnUrl) {
+      location.href = decodeURIComponent(returnUrl);
+    } else {
+      location.href = `${config.mineIndexURL}?shopId=${shopId}`;
+    }
   },
 
   // 手机号已和其他微信绑定
