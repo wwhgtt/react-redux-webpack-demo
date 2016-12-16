@@ -429,7 +429,7 @@ const DinnerDetailApplication = React.createClass({
                   isReadOnly
                 />
               </div>
-              {dinnerDetail.markRecord4Order && dinnerDetail.markRecord4Order.sendCoupInfo &&
+              {dinnerDetail.markRecord4Order && dinnerDetail.markRecord4Order.sendCoupInfo && dinnerDetail.markRecord4Order.showSendCoupInfo &&
                 <p className="comment-tips">
                   恭喜获得{dinnerDetail.markRecord4Order.sendCoupInfo}，
                   <a href={`http://${location.host}/coupon/getCouponList?shopId=${shopId}`} className="comment-tips-href">去查看</a>
