@@ -37,7 +37,7 @@ module.exports = React.createClass({
     onImageBtnTap(dishData);
   },
   buildOrderBtn(dishData, dishesDataDuplicate) {
-    if (dishData.clearStatus && (!dishData.sameRuleDishes || (dishData.sameRuleDishesb && !dishData.sameRuleDishes.length))) {
+    if (dishData.clearStatus && (!dishData.sameRuleDishes || (dishData.sameRuleDishes && !dishData.sameRuleDishes.length))) {
       // 表示被沽清
       return (<span className="dish-item-soldout">已售罄</span>);
     }
