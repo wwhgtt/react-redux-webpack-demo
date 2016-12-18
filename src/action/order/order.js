@@ -29,7 +29,7 @@ const setBenefitOptions = createAction('SET_BENEFIT_OPTIONS', options => options
 exports.onSelectBenefit = createAction('ON_SELECT_BENEFIT', option => option);
 const setActivityBenefit = createAction('SET_ACTIVITY_BENEFIT', prop => prop);
 const setWholeOrderBenefitProps = createAction('SET_WHOLE_ORDER_BENEFIT', prop => prop);
-
+const setSubmitBtnDisable = exports.setSubmitBtnDisable = createAction('SET_SUBMIT_BTN_DISABLE', bool => bool);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 
@@ -336,11 +336,11 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
   const paramsData = helper.getSubmitUrlParams(state, note, receipt);
   if (!paramsData.success) {
     dispatch(setErrorMsg(paramsData.msg));
+    dispatch(setSubmitBtnDisable(false));
     return;
   }
   if (state.serviceProps.wholeOrderBenefit && state.serviceProps.wholeOrderBenefit.isChecked) {
     // 已选择整单优惠
-    console.log(paramsData);
     if (paramsData.params.singleDishInfos && paramsData.params.singleDishInfos.length) {
       let singleDishInfos = [];
       paramsData.params.singleDishInfos.forEach(dishProp => {
@@ -398,6 +398,7 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
       location.href = jumpToUrl;
     } else {
       dispatch(setErrorMsg(result.msg));
+      dispatch(setSubmitBtnDisable(false));
     }
   };
 

@@ -46,6 +46,7 @@ module.exports = function (
     shuoldPhoneValidateShow:false,
     timeStamp:null,
     isBenefitSelectWindowShow:false,
+    isSubmitBtnDisable:false,
   }),
   action
 ) {
@@ -633,6 +634,8 @@ module.exports = function (
       return state.set('timeStamp', payload);
     case 'SET_LOAD_INFO':
       return state.set('loadInfo', payload);
+    case 'SET_SUBMIT_BTN_DISABLE':
+      return state.set('isSubmitBtnDisable', payload);
     default:
   }
   return state;
