@@ -93,12 +93,12 @@ module.exports = React.createClass({
       <div className="list-outer">
         <div className="menuLink mt of">
           {info.isMember &&
-            <div className={classnames('menuLink-holder fl', { 'width-full': info.loginType === 1 })} onTouchTap={this.jumpToCredit}>
+            <div className={classnames('menuLink-holder fl', { 'width-full': !info.isMember })} onTouchTap={this.jumpToCredit}>
               <p className="menuLink-holder-p scorenum" style={scoreFontSize}>{info.score}<span className="unit">分</span></p>
               <p className="menuLink-holder-p title">我的积分</p>
             </div>
           }
-          {info.isMember && info.loginType === 0 &&
+          {info.isMember &&
             <div className="menuLink-holder fl" onTouchTap={this.jumpToRemain}>
               <p className="menuLink-holder-p balancenum" style={balanceFontSize}>{info.balance}<span className="unit">元</span></p>
               <p className="menuLink-holder-p title">我的余额</p>
@@ -114,7 +114,7 @@ module.exports = React.createClass({
                 <span className="list-arrow list-arrow-right"></span>
               </a>
             </div>
-            {info.loginType === 0 && info.supportCharge &&
+            {info.supportCharge &&
               <div className="list-item" name="会员充值">
                 <a className="list-link" href={rechargeUrl}>
                   <i className="list-icon" name="HYCZ"></i>

@@ -1,7 +1,7 @@
 const React = require('react');
 const classnames = require('classnames');
 const Counter = require('../mui/counter.jsx');
-const shallowCompare = require('react-addons-shallow-compare');
+// const shallowCompare = require('react-addons-shallow-compare');
 const helper = require('../../helper/dish-helper');
 const imagePlaceholder = require('../../asset/images/dish-placeholder.png');
 const _find = require('lodash.find');
@@ -19,9 +19,9 @@ module.exports = React.createClass({
     marketList: React.PropTypes.object,
     theme: React.PropTypes.string,
   },
-  shouldComponentUpdate(nextProps, nextState) {
-    return shallowCompare(this, nextProps, nextState);
-  },
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   return shallowCompare(this, nextProps, nextState);
+  // },
   componentDidUpdate() {
   },
   onBtnTap(newCount, increment) {
@@ -37,8 +37,8 @@ module.exports = React.createClass({
     onImageBtnTap(dishData);
   },
   buildOrderBtn(dishData, dishesDataDuplicate) {
-    if (dishData.clearStatus !== 1) {
-      // 表示没有被沽清
+    if (dishData.clearStatus && (!dishData.sameRuleDishes || (dishData.sameRuleDishes && !dishData.sameRuleDishes.length))) {
+      // 表示被沽清
       return (<span className="dish-item-soldout">已售罄</span>);
     }
     let dishCopy = _find(dishesDataDuplicate, dishDataCopy => dishDataCopy.id === dishData.id);
@@ -123,7 +123,7 @@ module.exports = React.createClass({
               {discountPart}
               <span className="dish-item-price price">
                 {dishData.marketPrice}
-                {dishData.sameRuleDishes ?
+                {dishData.sameRuleDishes && dishData.sameRuleDishes.length ?
                   <small>起</small>
                   :
                   false

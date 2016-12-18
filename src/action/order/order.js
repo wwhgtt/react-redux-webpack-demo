@@ -28,6 +28,8 @@ const setTimeStamp = createAction('SET_TIMESTAMP', timestamp => timestamp);
 const setBenefitOptions = createAction('SET_BENEFIT_OPTIONS', options => options);
 exports.onSelectBenefit = createAction('ON_SELECT_BENEFIT', option => option);
 const setActivityBenefit = createAction('SET_ACTIVITY_BENEFIT', prop => prop);
+const setWholeOrderBenefitProps = createAction('SET_WHOLE_ORDER_BENEFIT', prop => prop);
+const setSubmitBtnDisable = exports.setSubmitBtnDisable = createAction('SET_SUBMIT_BTN_DISABLE', bool => bool);
 const shopId = getUrlParam('shopId');
 const type = getUrlParam('type');
 
@@ -183,9 +185,10 @@ exports.fetchSendAreaId = () => (dispatch, getState) => {
   dispatch(setSendAreaId(JSON.parse(sendAreaId)));
 };
 exports.fetchDeliveryPrice = () => (dispatch, getState) => {
-  const freeDeliveryPrice = sessionStorage.getItem(shopId + '_sendArea_freeDeliveryPrice');
+  let initialDeliverPrice = JSON.parse(sessionStorage.getItem(shopId + '_sendArea_freeDeliveryPrice'));
+  let freeDeliveryPrice = typeof initialDeliverPrice === 'number' ? initialDeliverPrice : 9999999999;
   const deliveryPrice = sessionStorage.getItem(shopId + '_sendArea_shipment');
-  const deliveryProps = { freeDeliveryPrice:JSON.parse(freeDeliveryPrice), deliveryPrice:JSON.parse(deliveryPrice) };
+  const deliveryProps = { freeDeliveryPrice, deliveryPrice:JSON.parse(deliveryPrice) };
   dispatch(setDeliveryPrice(deliveryProps));
 };
 
@@ -259,7 +262,7 @@ exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
       sessionStorage.setItem(`${shopId}_sendArea_rangeId`, rangeId);
       sessionStorage.setItem(`${shopId}_sendArea_shipment`, data.shipment ? data.shipment : 0);
       sessionStorage.setItem(`${shopId}_sendArea_sendPrice`, data.sendPrice ? data.sendPrice : 0);
-      sessionStorage.setItem(`${shopId}_sendArea_freeDeliveryPrice`, data.freeDeliveryPrice ? data.freeDeliveryPrice : 0);
+      sessionStorage.setItem(`${shopId}_sendArea_freeDeliveryPrice`, typeof data.freeDeliveryPrice === 'number' ? data.freeDeliveryPrice : 999999999);
       sessionStorage.setItem('receiveOrderCustomerInfo', JSON.stringify(info));
 
       dispatch(setSendAreaId(sendAreaId));
@@ -274,8 +277,9 @@ exports.confirmOrderAddressInfo = (info) => (dispatch, getState) => {
         return;
       }
       dispatch(setOrderProps(null, { id:'reset-paymethods' }));
+      let freeDeliveryPrice = typeof data.freeDeliveryPrice === 'number' ? data.freeDeliveryPrice : 999999999;
       const deliveryProps = {
-        freeDeliveryPrice: data.freeDeliveryPrice,
+        freeDeliveryPrice,
         deliveryPrice: data.shipment,
       };
       dispatch(setDeliveryPrice(deliveryProps));
@@ -313,10 +317,14 @@ exports.fetchActivityBenefit = () => (dispatch, getState) => {
     })
     .then(result => {
       if (result.code.toString() === '200') {
+        if (!result.data || (result.data && result.data.dishPriList && !result.data.dishPriList.length)) {
+          return false;
+        }
         dispatch(setBenefitOptions(result.data));
       } else {
         dispatch(setErrorMsg(result.msg));
       }
+      return true;
     })
     .catch(err => {
       throw new Error(err);
@@ -328,7 +336,34 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
   const paramsData = helper.getSubmitUrlParams(state, note, receipt);
   if (!paramsData.success) {
     dispatch(setErrorMsg(paramsData.msg));
+    dispatch(setSubmitBtnDisable(false));
     return;
+  }
+  if (state.serviceProps.wholeOrderBenefit && state.serviceProps.wholeOrderBenefit.isChecked) {
+    // 已选择整单优惠
+    if (paramsData.params.singleDishInfos && paramsData.params.singleDishInfos.length) {
+      let singleDishInfos = [];
+      paramsData.params.singleDishInfos.forEach(dishProp => {
+        let dishData = dishProp.asMutable({ deep:true });
+        dishData.priId = null;
+        dishData.priType = null;
+        return singleDishInfos.push(dishData);
+      });
+      paramsData.params.singleDishInfos = singleDishInfos;
+    }
+    if (paramsData.params.multiDishInfos && paramsData.params.multiDishInfos.length) {
+      let multiDishInfos = [];
+      paramsData.params.multiDishInfos.forEach(dishProp => {
+        let dishData = dishProp.asMutable({ deep:true });
+        dishData.priId = null;
+        dishData.priType = null;
+        return multiDishInfos.push(dishData);
+      });
+      paramsData.params.multiDishInfos = multiDishInfos;
+    }
+    paramsData.params = Object.assign({}, paramsData.params, { multiPriId:state.serviceProps.wholeOrderBenefit.detail.planId });
+  } else {
+    paramsData.params = Object.assign({}, paramsData.params, { multiPriId:0 });
   }
 
   const isWM = type === 'WM';
@@ -341,7 +376,7 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
 
     if (code === '200' || code === '20013') {
       // 手机未验证且非在线支付
-      if (code === '20013' && !isOnlinePay) {
+      if (code === '20013') {
         dispatch(setPhoneValidateProps(true));
         return;
       }
@@ -363,6 +398,7 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
       location.href = jumpToUrl;
     } else {
       dispatch(setErrorMsg(result.msg));
+      dispatch(setSubmitBtnDisable(false));
     }
   };
 
@@ -435,4 +471,28 @@ exports.checkCodeAvaliable = (data, note, receipt) => (dispatch, getState) => {
 };
 exports.setActivityBenefit = (evt, option) => (dispatch, getState) => {
   dispatch(setActivityBenefit(option));
+};
+
+exports.fetchWholeOrderBenefit = () => (dispatch, getState) => {
+  const lastOrderedDishes = getState().orderedDishesProps;
+  const dishesPrice = getDishesPrice(lastOrderedDishes.dishes);
+  fetch(`${config.wholeOrderBenefitAPI}?shopId=${shopId}&orderAmount=${dishesPrice}`, config.requestOptions)
+  .then(res => {
+    if (!res.ok) {
+      dispatch(setErrorMsg('获取整单优惠信息失败...'));
+    }
+    return res.json();
+  })
+  .then(result => {
+    if (String(result.code) === '200') {
+      if (result.data) {
+        dispatch(setWholeOrderBenefitProps(result.data));
+      }
+    } else {
+      dispatch(setErrorMsg(result.msg));
+    }
+  })
+  .catch(err => {
+    console.log(err);
+  });
 };

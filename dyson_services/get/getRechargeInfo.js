@@ -2,6 +2,8 @@ module.exports = {
   path: '/shop/recharge.json',
   template: {
     data:{
+      chargeMemo: '储值说明是打发打发，斯蒂芬大法师打发大法师打发，阿道夫',
+      supportMemberCharge: true,
       zhidahao:-1,
       weixin:0,
       baidu:0,
@@ -52,11 +54,11 @@ module.exports = {
           planStartDay:'2016-08-18',
           planEndDay:'2016-12-31',
           rules:[
-            // {
-            //   storeAmount:4.0,
-            //   couponType:3,
-            //   couponName:'红烧排骨1礼品券',
-            // },
+            {
+              storeAmount:4.0,
+              couponType:3,
+              couponName:'红烧排骨1礼品券',
+            },
             // {
             //   storeAmount:5.0,
             //   couponType:1,

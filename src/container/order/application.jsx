@@ -54,8 +54,10 @@ const OrderApplication = React.createClass({
     checkCodeAvaliable:React.PropTypes.func.isRequired,
     fetchVericationCode:React.PropTypes.func.isRequired,
     fetchActivityBenefit:React.PropTypes.func.isRequired,
+    fetchWholeOrderBenefit: React.PropTypes.func.isRequired,
     onSelectBenefit:React.PropTypes.func.isRequired,
     setActivityBenefit:React.PropTypes.func.isRequired,
+    setSubmitBtnDisable: React.PropTypes.func.isRequired,
     // MapedStatesToProps
     customerProps:React.PropTypes.object.isRequired,
     customerAddressListInfo:React.PropTypes.object,
@@ -70,12 +72,12 @@ const OrderApplication = React.createClass({
     errorMessage: React.PropTypes.string,
     isBenefitSelectWindowShow:React.PropTypes.bool.isRequired,
     loadInfo: React.PropTypes.object,
+    isSubmitBtnDisable: React.PropTypes.bool.isRequired,
   },
   getInitialState() {
     return {
       note:'',
       receipt:'',
-      isSubmitBtnDisabled:false,
     };
   },
 
@@ -90,7 +92,7 @@ const OrderApplication = React.createClass({
   },
   componentDidMount() {
     this.setChildViewAccordingToHash();
-    const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons, fetchActivityBenefit } = this.props;
+    const { fetchOrder, fetchOrderDiscountInfo, fetchOrderCoupons, fetchActivityBenefit, fetchWholeOrderBenefit } = this.props;
     fetchOrder().then(
       fetchOrderDiscountInfo
     )
@@ -99,11 +101,7 @@ const OrderApplication = React.createClass({
       () => { this.setChildViewAccordingToHash(); }
     )
     .then(fetchActivityBenefit);
-  },
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      isSubmitBtnDisabled:false,
-    });
+    fetchWholeOrderBenefit();
   },
   componentDidUpdate() {
 
@@ -331,13 +329,11 @@ const OrderApplication = React.createClass({
     );
   },
   submitOrder() {
-    const { submitOrder } = this.props;
-    const { isSubmitBtnDisabled } = this.state;
-    if (!isSubmitBtnDisabled) {
+    const { submitOrder, setSubmitBtnDisable, isSubmitBtnDisable } = this.props;
+    if (!isSubmitBtnDisable) {
       // 表示可用状态
-      this.setState({
-        isSubmitBtnDisabled:!isSubmitBtnDisabled,
-      }, submitOrder(this.state.note, this.state.receipt));
+      setSubmitBtnDisable(true);
+      submitOrder(this.state.note, this.state.receipt);
     }
     return false;
   },

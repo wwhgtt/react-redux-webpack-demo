@@ -1,14 +1,21 @@
 const React = require('react');
 const connect = require('react-redux').connect;
+const commonAction = require('../../action/common-action/common-action.js');
+const bindActionCreators = require('redux').bindActionCreators;
 const classnames = require('classnames');
 const dinnerDetailAction = require('../../action/order-detail/dinner-detail.js');
 const commonHelper = require('../../helper/common-helper.js');
 const dateUtility = require('../../helper/common-helper.js').dateUtility;
-
+const ConfirmDialog = require('../../component/mui/dialog/confirm-dialog.jsx');
+const Dialog = require('../../component/mui/dialog/dialog.jsx');
+const Toast = require('../../component/mui/toast.jsx');
+const config = require('../../config');
 require('../../asset/style/style.scss');
 
 const DishDetail = require('../../component/order-detail-uncheck/dish-detail.jsx');
 const DiningOptions = require('../../component/order/dining-options.jsx');
+const CommentStar = require('../../component/order-detail/comment-star.jsx');
+
 require('../../component/order-detail/dish-detail.scss');
 require('../../component/order-detail/common.scss');
 require('./application.scss');
@@ -22,6 +29,7 @@ const DinnerDetailApplication = React.createClass({
   propTypes: {
     dinnerDetail: React.PropTypes.object,
     getDinnerDetail: React.PropTypes.func,
+    saveMarkRecord: React.PropTypes.func,
   },
 
   getInitialState() {
@@ -29,6 +37,9 @@ const DinnerDetailApplication = React.createClass({
       countDown: 0,
       isCouponBigShow: false,
       isCounponSmallShow: false,
+      commentScore: 0,
+      isCommentShow: false,
+      isCommentReadShow: false,
     };
   },
 
@@ -43,6 +54,10 @@ const DinnerDetailApplication = React.createClass({
       if (countDownOri > 0 && countDownOri <= 900000 && dinnerDetail.status === '订单待支付') {
         this.setState({ countDown: countDownOri });
       }
+    }
+
+    if (dinnerDetail.markRecord4Order) {
+      this.setState({ commentScore:  dinnerDetail.markRecord4Order.score });
     }
 
     if (listEntry) {
@@ -97,6 +112,33 @@ const DinnerDetailApplication = React.createClass({
     return originPrice;
   },
 
+  // 评分按钮
+  getCommentBtn() {
+    const { dinnerDetail } = this.props;
+    let commentBtn = '';
+    if (dinnerDetail.markRecord4Order) {
+      if (dinnerDetail.markRecord4Order.supportMark) {
+        if (dinnerDetail.markRecord4Order.markSendCoupFlag) {
+          commentBtn = (<a className="order-status-comment order-status-hasCoupon" onTouchTap={this.showComment}>评分领券</a>);
+        } else {
+          commentBtn = (<a className="order-status-comment" onTouchTap={this.showComment}>我要评分</a>);
+        }
+      } else if (dinnerDetail.markRecord4Order.score > 0) {
+        commentBtn = (<a className="order-status-comment" onTouchTap={this.showCommentRead}>我的评分</a>);
+      }
+    }
+
+    return commentBtn;
+  },
+
+  showComment() {
+    this.setState({ isCommentShow: true });
+  },
+
+  showCommentRead() {
+    this.setState({ isCommentReadShow: true });
+  },
+
   formatCuntDown(countDown) {
     let countDownStr = '';
     const countDownMinut = Math.floor(countDown / 60000);
@@ -120,9 +162,77 @@ const DinnerDetailApplication = React.createClass({
     location.href = `http://${location.host}/shop/payDetail?shopId=${shopId}&orderId=${dinnerDetail.orderId}&orderType=WM`;
   },
 
+  // 选星星
+  handleSelectStar(i) {
+    this.setState({ commentScore: i + 1 });
+  },
+
+  // 提交评论
+  handleComment() {
+    const { saveMarkRecord, dinnerDetail } = this.props;
+    const { commentScore } = this.state;
+    if (commentScore < 1) {
+      this.setState({ errorMessage: '您还没有评分' });
+      return;
+    }
+    const scoreInfo = {
+      shopId: `${shopId}`,
+      tradeId: dinnerDetail.orderId || 0,
+      score: commentScore,
+    };
+    saveMarkRecord(scoreInfo, this.handleSuccessCallBack, this.handleFaildCallBack);
+  },
+
+  handleSuccessCallBack(data) {
+    if (data.markSendCoupFlag) {
+      if (data.coupSendOver) {
+        this.setState({ errorMessage: '订单评分成功，优惠券已赠完' });
+      } else if (data.sendCoupInfo) {
+        this.setState({ errorMessage: `订单评分成功，恭喜获得${data.sendCoupInfo}` });
+      } else {
+        this.setState({ errorMessage: '订单评分成功' });
+      }
+    } else {
+      this.setState({ errorMessage: '订单评分成功' });
+    }
+    this.setState({ isCommentShow: false, isCommentReadShow: true });
+    this.props.getDinnerDetail();
+  },
+
+  handleFaildCallBack(code, msg) {
+    if (code === '70600') {
+      this.setState({ errorMessage: '网络原因评分失败，请重新评分' });
+    } else {
+      this.setState({ isCommentShow: false });
+      if (code === '70601') {
+        this.setState({ errorMessage: '该订单已评分' });
+      } else if (code === '706003') {
+        this.setState({ errorMessage: '当前订单不支持评分' });
+      } else {
+        this.setState({ errorMessage: msg });
+      }
+    }
+  },
+
+  handleCancelComment() {
+    this.setState({ isCommentShow: false, isCommentReadShow: false });
+  },
+
+  handleClearErrorMsg() {
+    this.setState({ errorMessage: '' });
+  },
+
   render() {
     const { dinnerDetail } = this.props;
-    const { isCounponSmallShow, isCouponBigShow } = this.state;
+    const {
+      isCounponSmallShow,
+      isCouponBigShow,
+      commentScore,
+      isCommentReadShow,
+      isCommentShow,
+      errorMessage,
+    } = this.state;
+
     const deskNo = {
       area: dinnerDetail.tableArea,
       table: dinnerDetail.tableNo,
@@ -134,9 +244,7 @@ const DinnerDetailApplication = React.createClass({
           <div className="flex-rest detail-content">
             <div className="order-status">
               <span className="order-status-title ellipsis">{dinnerDetail.status}</span>
-              {
-                // <a className="order-status-comment">我要评价</a>
-              }
+              {this.getCommentBtn()}
               {
                 dinnerDetail.tradeFailReason &&
                   <span className="order-status-detail ellipsis">{dinnerDetail.tradeFailReason}</span>
@@ -148,7 +256,7 @@ const DinnerDetailApplication = React.createClass({
               }
             </div>
             <div className="options-group">
-              <a className="shop-info" href={`http://${location.host}/orderall/selectDish?shopId=${shopId}&type=TS`}>
+              <a className="shop-info" href={`${config.shopDetailURL}?shopId=${shopId}&type=TS`}>
                 <img className="shop-info-logo" role="presentation" src={dinnerDetail.shopLogo || shopLogoDefault} />
                 <span className="shop-info-name ellipsis">{dinnerDetail.shopName}</span>
               </a>
@@ -209,10 +317,12 @@ const DinnerDetailApplication = React.createClass({
                 <span className="list-statictis-title">原价</span>
                 <span className="price ellipsis list-statictis-origin">{this.getOriginPrice()}</span>
               </div>
-              <div className="list-statictis-item">
-                <span className="list-statictis-title">共优惠</span>
-                <span className="price ellipsis list-statictis-privilage">{Math.abs(dinnerDetail.tradePrivilegeAmount || 0)}</span>
-              </div>
+              {Boolean(Math.abs(dinnerDetail.tradePrivilegeAmount)) &&
+                <div className="list-statictis-item">
+                  <span className="list-statictis-title">共优惠</span>
+                  <span className="price ellipsis list-statictis-privilage">{Math.abs(dinnerDetail.tradePrivilegeAmount)}</span>
+                </div>
+              }
               <div className="list-statictis-item">
                 <span className="list-statictis-title">总计:</span>
                 <span className="price ellipsis list-statictis-total">{dinnerDetail.tradeAmount}</span>
@@ -282,10 +392,61 @@ const DinnerDetailApplication = React.createClass({
             </div>
           </div>
         }
+        {errorMessage &&
+          <Toast errorMessage={errorMessage} clearErrorMsg={this.handleClearErrorMsg} />
+        }
+        {isCommentShow &&
+          <ConfirmDialog
+            onCancel={this.handleCancelComment}
+            onConfirm={this.handleComment}
+            cancelText={'取消'}
+            confirmText={'提交'}
+          >
+            <div className="comment">
+              <p className="comment-title">满意请给五星唷～</p>
+              <div className="comment-content">
+                <CommentStar
+                  starTotal={5}
+                  commentScore={commentScore}
+                  onSelectStar={this.handleSelectStar}
+                />
+              </div>
+            </div>
+          </ConfirmDialog>
+        }
+        {isCommentReadShow &&
+          <Dialog
+            hasTopBtnClose={false}
+            title={'已评分'}
+            onClose={this.handleCancelComment}
+            theme="sliver"
+          >
+            <div className="comment">
+              <div className="comment-content">
+                <CommentStar
+                  starTotal={5}
+                  commentScore={commentScore}
+                  isReadOnly
+                />
+              </div>
+              {dinnerDetail.markRecord4Order && dinnerDetail.markRecord4Order.sendCoupInfo && dinnerDetail.markRecord4Order.showSendCoupInfo &&
+                <p className="comment-tips">
+                  恭喜获得{dinnerDetail.markRecord4Order.sendCoupInfo}，
+                  <a href={`http://${location.host}/coupon/getCouponList?shopId=${shopId}`} className="comment-tips-href">去查看</a>
+                </p>
+              }
+            </div>
+          </Dialog>
+        }
       </div>
     );
   },
 });
+
+const mapDispatchToProps = function getPropsFromAction(dispatch) {
+  const actionObj = Object.assign({}, commonAction, dinnerDetailAction);
+  return bindActionCreators(actionObj, dispatch);
+};
 
 const mapStateToProps = function (state) {
   return ({
@@ -293,4 +454,4 @@ const mapStateToProps = function (state) {
   });
 };
 
-module.exports = connect(mapStateToProps, dinnerDetailAction)(DinnerDetailApplication);
+module.exports = connect(mapStateToProps, mapDispatchToProps)(DinnerDetailApplication);

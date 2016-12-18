@@ -30,6 +30,7 @@ module.exports = function (
         relatedDish:null,
         benefitMoney:0,
       },
+      wholeOrderBenefit:null,
     },
     tableProps:{
       isEditable:true,
@@ -45,6 +46,7 @@ module.exports = function (
     shuoldPhoneValidateShow:false,
     timeStamp:null,
     isBenefitSelectWindowShow:false,
+    isSubmitBtnDisable:false,
   }),
   action
 ) {
@@ -419,6 +421,33 @@ module.exports = function (
             )
           )
         );
+      } else if (payload.id === 'wholeOrderBenefit') {
+        if (!state.serviceProps.wholeOrderBenefit.isChecked) {
+          // 整单优惠未被选中的时候
+          return state.setIn(
+            ['serviceProps', 'wholeOrderBenefit', 'isChecked'],
+            !state.serviceProps.wholeOrderBenefit.isChecked
+          )
+          .setIn(['serviceProps', 'activityBenefit', 'benefitMoney'], helper.countWholeOrderBenefit(payload.detail, state.orderedDishesProps.dishes))
+          .setIn(
+            ['serviceProps', 'discountProps', 'inUseDiscount'],
+            helper.countMemberPrice(
+              false, state.orderedDishesProps.dishes, state.serviceProps.discountProps.discountList, state.serviceProps.discountProps.discountType
+            )
+          );
+        }
+        return state.setIn(
+          ['serviceProps', 'activityBenefit', 'benefitMoney'],
+          helper.countAcvitityMoney(state.orderedDishesProps.dishes)
+        ).setIn(
+          ['serviceProps', 'wholeOrderBenefit', 'isChecked'],
+          !state.serviceProps.wholeOrderBenefit.isChecked
+        ).setIn(
+          ['serviceProps', 'discountProps', 'inUseDiscount'],
+          helper.countMemberPrice(
+            true, state.orderedDishesProps.dishes, state.serviceProps.discountProps.discountList, state.serviceProps.discountProps.discountType
+          )
+        );
       }
       break;
     case 'SET_BENEFIT_OPTIONS':
@@ -494,6 +523,15 @@ module.exports = function (
             payload
           ).activityBenefit
         );
+    case 'SET_WHOLE_ORDER_BENEFIT':
+      return state.setIn(
+        ['serviceProps', 'wholeOrderBenefit'],
+        Immutable.from({
+          name:'使用整单优惠',
+          isChecked:false,
+          id:'wholeOrderBenefit',
+          detail: helper.reconstructWholeNenefit(payload),
+        }));
     case 'SET_ADDRESS_INFO_TO_ORDER':
       return state.setIn(
         ['customerProps', 'addresses'],
@@ -596,6 +634,8 @@ module.exports = function (
       return state.set('timeStamp', payload);
     case 'SET_LOAD_INFO':
       return state.set('loadInfo', payload);
+    case 'SET_SUBMIT_BTN_DISABLE':
+      return state.set('isSubmitBtnDisable', payload);
     default:
   }
   return state;

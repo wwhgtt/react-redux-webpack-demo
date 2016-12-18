@@ -194,8 +194,12 @@ module.exports = React.createClass({
     let nationsSelect = null;
     if (hasForeignZone) {
       nationsSelect = (
-        <select onChange={this.handleNationChange} defaultValue="China">);
-          {nationsInfo.map(item => (<option key={item.value} value={item.value}>{item.text}</option>))}
+        <select onChange={this.handleNationChange} defaultValue="China">
+          {
+            nationsInfo.map((item) => (
+              <option key={item.value} value={item.value}>{item.text}</option>
+            ))
+          }
         </select>
       );
     }
@@ -213,6 +217,15 @@ module.exports = React.createClass({
       foreign: this.isForeignZone(currentNation),
       'multi-nations': hasForeignZone,
     });
+
+    let maxLength = 11;
+
+    if (currentNation === 'China') {
+      maxLength = 11;
+    } else if (currentNation === 'Australia') {
+      maxLength = 10;
+    }
+
     return (
       <div className={className}>
         <button className="btn btn--yellow" disabled={btnInfo.disabled} onTouchTap={this.handleFetchCodeBtnTouchTap}>
@@ -225,8 +238,9 @@ module.exports = React.createClass({
             disabled={phoneNumDisabled}
             value={phoneNum}
             placeholder={placeholder.phoneNum}
-            maxLength={11}
+            maxLength={maxLength}
             onChange={this.handlePhoneNumChange}
+            ref="phoneVerificationNumber"
           />
         </div>
         <div className="form-group verification-code">
@@ -236,6 +250,7 @@ module.exports = React.createClass({
             placeholder={placeholder.code}
             maxLength="4"
             onChange={this.handleVerificationCodeChange}
+            ref="phoneVerificationCode"
           />
         </div>
       </div>

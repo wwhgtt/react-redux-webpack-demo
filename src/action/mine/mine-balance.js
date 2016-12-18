@@ -8,8 +8,8 @@ const setBalanceInfo = createAction('SET_BALANCE_INFO', balanceInfo => balanceIn
 const shopId = commonHelper.getUrlParam('shopId');
 
 // 获取余额信息
-exports.getBalanceInfo = () => (dispatch, getStates) => {
-  const getBalanceInfoURL = `${config.getBalanceInfoAPI}?shopId=${shopId}`;
+exports.getBalanceInfo = (currentPage) => (dispatch, getStates) => {
+  const getBalanceInfoURL = `${config.getBalanceInfoAPI}?shopId=${shopId}&pageIdx=${currentPage}&pageSize=10`;
   fetch(getBalanceInfoURL, config.requestOptions).
   then(res => {
     if (!res.ok) {

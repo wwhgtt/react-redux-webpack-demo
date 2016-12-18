@@ -40,7 +40,6 @@ module.exports = React.createClass({
     return (
       <div className="list-group-outer">
         <div className="list-group">
-        {userInfo.loginType === 0 &&
           <div className="list-item" name="我的余额">
             <a className="list-link" href={valueCardURL}>
               <i className="list-icon" name="WDYE"></i>
@@ -49,7 +48,6 @@ module.exports = React.createClass({
               <span className="list-arrow list-arrow-right"></span>
             </a>
           </div>
-        }
           <div className="list-item" name="我的等级">
             <a className="list-link" href={grownLevelxURL}>
               <i className="list-icon" name="WDDJ"></i>

@@ -1,8 +1,10 @@
 const React = require('react');
 const PhoneVerficationCode = require('../../mui/form/phone-verification-code.jsx');
+const ConfirmDialog = require('../../../component/mui/dialog/confirm-dialog.jsx');
 const getUrlParam = require('../../../helper/common-helper.js').getUrlParam;
+const config = require('../../../config');
 const shopId = getUrlParam('shopId');
-
+const returnUrl = getUrlParam('returnUrl');
 
 const BindPhoneValidate = React.createClass({
   displayName:'BindPhoneValidate',
@@ -11,6 +13,13 @@ const BindPhoneValidate = React.createClass({
     sendCode: React.PropTypes.func,
     checkBindCode: React.PropTypes.func,
     bindPhone: React.PropTypes.func,
+  },
+
+  getInitialState() {
+    return {
+      isDialogShow: false,
+      cleartextPassword: '',
+    };
   },
 
   getPhoneInfo() {
@@ -48,11 +57,24 @@ const BindPhoneValidate = React.createClass({
   },
 
   // 绑定成功
-  handleSuccessBind() {
+  handleSuccessBind(data) {
     const phoneInfo = this.getPhoneInfo();
     const bindPhoneInfo = { phoneNum: phoneInfo.phoneNum, phoneShopId: shopId };
     sessionStorage.setItem('phoneInfo', JSON.stringify(bindPhoneInfo));
-    location.hash = '#phone-success';
+    if (data.cleartextPassword) {
+      this.setState({ isDialogShow: true, cleartextPassword: data.cleartextPassword });
+    } else {
+      location.hash = '#phone-success';
+    }
+  },
+
+  handleLoginConfirm() {
+    this.setState({ isDialogShow: false });
+    if (returnUrl) {
+      location.href = decodeURIComponent(returnUrl);
+    } else {
+      location.href = `${config.mineIndexURL}?shopId=${shopId}`;
+    }
   },
 
   // 手机号已和其他微信绑定
@@ -62,10 +84,23 @@ const BindPhoneValidate = React.createClass({
 
   render() {
     const { sendCode } = this.props;
+    const { isDialogShow, cleartextPassword } = this.state;
     return (
       <div className="bind-phone-validate">
         <PhoneVerficationCode ref="verificationCode" onGetVerificationCode={sendCode} />
         <a className="btn btn--yellow btn-bind" onClick={this.handleBindAccount}>绑定手机号</a>
+        {isDialogShow &&
+          <ConfirmDialog
+            onConfirm={this.handleLoginConfirm}
+            confirmText={'朕知道了'}
+          >
+            <div>
+              <p className="bind-pwd-item">恭喜您绑定成功</p>
+              <p className="bind-pwd-item">您的初始消费密码为：{cleartextPassword}</p>
+              <p className="bind-pwd-item">请及时在个人中心修改密码</p>
+            </div>
+          </ConfirmDialog>
+        }
       </div>
     );
   },

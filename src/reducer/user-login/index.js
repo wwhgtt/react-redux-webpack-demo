@@ -10,6 +10,10 @@ module.exports = (
       weixin: false,
     },
     timestamp: null,
+    loginInfo: {
+      loginData: {},
+      url: '',
+    },
   }),
   action
 ) => {
@@ -25,6 +29,8 @@ module.exports = (
       return state.set('timestamp', payload);
     case 'SET_USER_PHONE':
       return state.set('phoneNum', payload);
+    case 'SET_LOGIN_INFO':
+      return state.set('loginInfo', payload);
     default:
   }
   return state;

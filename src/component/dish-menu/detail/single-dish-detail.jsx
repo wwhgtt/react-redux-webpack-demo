@@ -5,7 +5,7 @@ const helper = require('../../../helper/dish-helper');
 const DishDetailHead = require('./dish-detail-head.jsx');
 const DishPropsSelect = require('./dish-props-select.jsx');
 const Counter = require('../../mui/counter.jsx');
-
+const classnames = require('classnames');
 require('./single-dish-detail.scss');
 
 module.exports = React.createClass({
@@ -153,7 +153,10 @@ module.exports = React.createClass({
         />
         <div className="dish-detail-addtocarta flex-none">
           <Counter count={helper.getDishesCount([dish])} onCountChange={(count, increment) => this.onDishItemCountChange(increment)} step={1} />
-          <button className="btn--yellow" onTouchTap={this.onAddToCarBtnTap}>加入购物车</button>
+          <button
+            className={classnames('btn--yellow', { 'btn--grey':dish.clearStatus })}
+            onTouchTap={evt => { if (dish.clearStatus) { return false; } return this.onAddToCarBtnTap(); }}
+          >加入购物车</button>
         </div>
         {
           this.state.toast === 1 &&

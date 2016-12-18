@@ -1,6 +1,7 @@
 const React = require('react');
 const config = require('../../config');
 const commonHelper = require('../../helper/common-helper');
+const classnames = require('classnames');
 
 const SexSwitch = require('../common/sex-switch.jsx');
 const shopId = commonHelper.getUrlParam('shopId');
@@ -24,6 +25,7 @@ module.exports = React.createClass({
     getInfo:React.PropTypes.func,
     logOff:React.PropTypes.func,
     onSave:React.PropTypes.func,
+    showBirthdaySelect: React.PropTypes.func,
   },
   getInitialState() {
     return { name : '', sex : '' }; // 两个参数姓名和性别
@@ -34,7 +36,9 @@ module.exports = React.createClass({
     if (JSON.stringify(this.props.info) === JSON.stringify(nextProps.info)) {
       return;
     }
-    this.setState({ name: nextProps.info.name || '', sex:nextProps.info.sex }, () => this.commonMethod()); // 把props赋值给state(需要的值)
+    this.setState({
+      name:this.state.name || nextProps.info.name, sex:this.state.sex || nextProps.info.sex,
+    }, () => this.commonMethod()); // 把props赋值给state(需要的值)
   },
   onInputName() {
     const nameValue = this.refs.name.value;
@@ -52,6 +56,13 @@ module.exports = React.createClass({
     const { getInfo } = this.props;
     // const { name, sex } = this.state;
     getInfo({ name: this.state.name, sex: this.state.sex });
+  },
+  checkBirthdayDisable(evt) {
+    const { info, showBirthdaySelect } = this.props;
+    if (info.birthday) {
+      return false;
+    }
+    return showBirthdaySelect();
   },
   render() {
     let condition = '';// 1 微信号(未绑定手机)  2手机号非会员（未绑定微信）3手机号会员（未绑定微信） 4绑定成功
@@ -117,12 +128,17 @@ module.exports = React.createClass({
             condition !== 2 && info.isMember ?
               <div>
                 <li className="list-item">
-                  <a className="list-link disable flex-row" href=" javascript:void(0)">
+                  <a
+                    className={classnames('list-link disable flex-row', {
+                      'no-birthday': !info.birthday,
+                    })}
+                    onTouchTap={evt => this.checkBirthdayDisable(evt)}
+                  >
                     <div className="list-name-holder flex-none">
                       <span className="list-name">生日</span>
                     </div>
                     <div className="list-content flex-rest">
-                      <span className="list-content-info">{info.birthday}</span>
+                      <span className="list-content-info">{info.birthday || info.updatedBirthday}</span>
                     </div>
                   </a>
                 </li>

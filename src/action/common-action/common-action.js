@@ -20,6 +20,8 @@ const getSendCodeParamStr = require('../../helper/register-helper.js').getSendCo
 
 // 将url参数整合成字符串
 const formateObjToParamStr = commonHelper.formateObjToParamStr;
+// post、form方式提交数据
+const getFetchPostParam = commonHelper.getFetchPostParam;
 
 // 发送验证码
 exports.sendCode = phoneNum => (dispatch, getStates) => {
@@ -42,7 +44,6 @@ exports.sendCode = phoneNum => (dispatch, getStates) => {
     }
   });
 };
-// &mobile=${phoneInfo.phoneNum}&code=${phoneInfo.code}
 
 // 校验手机绑定验证码
 exports.checkBindCode = (phoneInfo, vipCallBack, successCallBack, boundCallBack) => (dispatch, getStates) => {
@@ -95,7 +96,7 @@ exports.bindPhone = (phoneInfo, successCallBack) => (dispatch, getStates) => {
   }).
   then(res => {
     if (res.code === '200') {
-      successCallBack();
+      successCallBack(res.data);
     } else {
       dispatch(setLoadMsg({ status: false, word: '' }));
       dispatch(setErrorMsg(res.msg));
@@ -118,25 +119,6 @@ exports.bindWX = (phoneInfo, successCallBack) => (dispatch, getStates) => {
       successCallBack();
     } else {
       dispatch(setErrorMsg(res.msg));
-    }
-  });
-};
-
-// 用户退出
-exports.logout = (successCallBack, faildCallBack) => (dispatch, getStates) => {
-  const logoutURL = `${config.logoutAPI}?shopId=${shopId}`;
-  fetch(logoutURL, config.requestOptions).
-  then(res => {
-    if (!res.ok) {
-      faildCallBack();
-    }
-    return res.json();
-  }).
-  then(res => {
-    if (res.code === '200') {
-      successCallBack();
-    } else {
-      faildCallBack();
     }
   });
 };
@@ -190,5 +172,24 @@ exports.getBindPhoneOrWxStatus = () => (dispatch, getStates) => {
   }).
   catch(err => {
     console.info(err);
+  });
+};
+
+// 评分
+exports.saveMarkRecord = (scoreInfo, successCallBack, faildCallBack) => (dispatch, getStates) => {
+  const saveMarkRecordURL = `${config.saveMarkRecordAPI}?shopId=${shopId}`;
+  fetch(saveMarkRecordURL, getFetchPostParam(scoreInfo)).
+  then(res => {
+    if (!res.ok) {
+      dispatch(setErrorMsg('评分失败'));
+    }
+    return res.json();
+  }).
+  then(res => {
+    if (res.code === '200') {
+      successCallBack(res.data);
+    } else {
+      faildCallBack(res.code, res.msg);
+    }
   });
 };

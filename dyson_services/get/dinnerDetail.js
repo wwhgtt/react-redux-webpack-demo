@@ -2,6 +2,7 @@ module.exports = {
   path:'/order/orderallDetail.json',
   template:{
     data: {
+      orderId: 456789,
       shopName: '小土豆石方菜菜(小土豆石方菜菜软件园店E区)',
       shopLogo: 'http://kry-test-2.qiniudn.com/2ee7d73b3d1641a48ec5f15ad2864a39.jpg?imageView/2/w/512/h/512',
       serialNo: '1654', // 订单流水号
@@ -72,6 +73,14 @@ module.exports = {
         }],
       }],
       status: '订单支付失败',
+      markRecord4Order : { // 该订单评分数据。如果没有评分score 的值为0
+        score: 0,
+        supportMark: true, // 该订单是否还支持评分
+        sendedCoup: true, // 是否已经发过券
+        markSendCoupFlag: false, // 评分送券开关
+        sendCoupInfo: '5元代金券', // 券名称
+        showSendCoupInfo: false,
+      },
     },
     time: 1472436273622,
     code: '200',

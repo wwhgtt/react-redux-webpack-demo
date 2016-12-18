@@ -3,6 +3,7 @@ module.exports = {
   template:{
     data:{
       shopName: '小土豆石方菜菜软件园店',
+      payStatus:2,
       shopLogo: 'http://kry-test-2.qiniudn.com/980afeeec2004447a5e72d124ed2186a.jpg?imageView/2/w/512/h/512',
       serialNo:'013', // 流水号
       peopleCount:4, // 人数

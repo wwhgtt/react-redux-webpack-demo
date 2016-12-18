@@ -1,0 +1,163 @@
+@import "settings.colors";
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0 !important;
+}
+
+.application {
+  background-color: #f1f1f1;
+}
+
+.pay {
+  min-height: calc(100% - 45px);
+
+  &-header {
+    padding: 23px 0 20px;
+    background-color: #fff;
+
+    &-title {
+      font-size: 15px;
+      line-height: 21px;
+      height: 21px;
+      margin: 0;
+      text-align: center;
+      color: #666;
+    }
+
+    &-money {
+      font-size: 40px;
+      line-height: 56px;
+      height: 56px;
+      margin: 0;
+      text-align: center;
+      color: #474747;
+
+      &::before {
+        display: inline-block;
+        width: 30px;
+        height: 56px;
+        content: "¥";
+        color: #474747;
+      }
+    }
+  }
+
+  &-chose-title {
+    font-size: 14px;
+    line-height: 40px;
+    height: 40px;
+    padding: 0 0 0 15px;
+    color: #999;
+  }
+}
+
+.pay-method {
+  background-color: #fff;
+
+  .method-item {
+    position: relative;
+    height: 44px;
+    padding: 18px 15px;
+
+    &::before {
+      position: absolute;
+      top: 29px;
+      right: 10px;
+      display: block;
+      width: 22px;
+      height: 22px;
+      content: "";
+      background-image: url("../../asset/images/arrow-grey-bold.svg");
+      background-size: 100% 100%;
+    }
+
+    &::after {
+      position: absolute;
+      bottom: 0;
+      display: block;
+      width: calc(100% - 15px);
+      height: 2px;
+      content: "";
+      border-bottom: 1px solid #f1f1f1;
+    }
+
+    .pay-item-left {
+      float: left;
+      width: 44px;
+      height: 44px;
+    }
+
+    .weixin-pay {
+      background-image: url("../../asset/images/pay-weixin.svg");
+      background-size: 100% 100%;
+    }
+
+    .ali-pay {
+      background-image: url("../../asset/images/pay-alipay.svg");
+      background-size: 100% 100%;
+    }
+
+    .baidu-pay {
+      background-image: url("../../asset/images/pay-baidu.svg");
+      background-size: 100% 100%;
+    }
+
+    .balance-pay {
+      background-image: url("../../asset/images/pay-balance.svg");
+      background-size: 100% 100%;
+    }
+  }
+
+  .balance-pay-disable {
+    .balance-pay {
+      background-image: url("../../asset/images/balance-disable.svg");
+    }
+
+    p {
+      color: #999 !important;
+    }
+
+    span {
+      color: #999 !important;
+    }
+
+    &::before {
+      background: none;
+    }
+  }
+}
+
+.pay-item-name {
+  float: left;
+
+  p {
+    font-size: 16px;
+    line-height: 44px;
+    height: 44px;
+    margin: 0 !important;
+    padding: 0 0 0 5px;
+    color: #474747;
+  }
+}
+
+.subname {
+  p {
+    line-height: 22px;
+    height: 22px;
+  }
+
+  &-describe {
+    font-size: 14px !important;
+    padding-top: 3px !important;
+    color: #999 !important;
+
+    span {
+      color: #fb874c;
+    }
+  }
+}

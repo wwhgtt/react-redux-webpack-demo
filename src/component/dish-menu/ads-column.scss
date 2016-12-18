@@ -18,7 +18,6 @@ $color-green: #4bc643;
   .content-outer {
     position: relative;
     top: 0;
-    height: 1em;
     transition: all .5s;
   }
 
@@ -59,6 +58,11 @@ $color-green: #4bc643;
       }
     }
 
+    .icon-notice {
+      background-image: url("../../asset/images/commercial-ad.svg");
+      background-size: 100% 100%;
+    }
+
     .detail {
       display: inline-block;
       overflow: hidden;
@@ -97,12 +101,15 @@ $color-green: #4bc643;
 
   .scrollpart {
     overflow: auto;
-    height: calc(100% - 100px);
+  }
+
+  .noticepart {
+    white-space: pre-wrap;
   }
 
   .closedetail {
-    width: 4em;
-    height: 4em;
+    width: 3em;
+    height: 3em;
     margin: 1em auto;
     background: url("../../asset/images/close-btn.png") center center/100% 100% no-repeat;
   }
@@ -133,15 +140,19 @@ $color-green: #4bc643;
     }
   }
 
+  .fieldset-outer {
+    overflow: auto;
+    height: calc(100% - 190px);
+  }
+
   .shopdiscount {
-    height: calc(100% - 120px);
     margin: 0 1em;
     border-width: 1px 0 0;
     border-color: #fff;
 
     &-brief {
       font-size: 1em;
-      margin: 0 auto;
+      text-align: center;
     }
   }
 

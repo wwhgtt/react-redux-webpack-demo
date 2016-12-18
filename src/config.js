@@ -33,7 +33,8 @@ module.exports = {
   submitWMOrderAPI:`${apiBase}/takeaway/subOrder.json`,
   userAddressAPI: `${apiBase}/user/addressList.json`,
   submitDinnerOrderAPI:`${apiBase}/orderall/tradeBilling.json`,
-  orderedDishBenefitAPI:`${apiBase}/marketplan/dishPrivilegeList.json`,
+  orderedDishBenefitAPI:`${apiBase}/marketplan/dishPrivilegeList.json`, // 单商品优惠
+  wholeOrderBenefitAPI: `${apiBase}/marketplan/multiDishPrivilegeInfo.json`, // 整单优惠
 
   individualAPI:`${apiBase}/user/individual.json`, // 获取用户基本信息(我的页面)
   individualviewAPI:`${apiBase}/user/individualView.json`,  // 获取用户基本信息(设置页面)
@@ -140,6 +141,7 @@ module.exports = {
   queueListAPI: `${apiBase}/queue/queueList.json`, // 排队列表
   getDinnerDetailAPI: `${apiBase}/order/orderallDetail.json`, // 堂食结算后订单详情
   getDishMarketInfosAPI: `${apiBase}/orderall/dishMarketInfos.json`,
+  saveMarkRecordAPI: `${apiBase}/order/saveMarkRecord.json`, // 评分
 
   getBookDetailAPI: `${apiBase}/booking/bookingDetail.json`, // 预订详情
   getQueueDetailAPI: `${apiBase}/queue/success.json`, // 排队详情
@@ -152,6 +154,13 @@ module.exports = {
   getCurrIntegralRuleAPI: `${apiBase}/member/currIntegralRule.json`, // 获取当前积分信息
   getCurrGrownRuleAPI: `${apiBase}/member/currGrownRule.json`, // 获取当前成长值信息
 
+  getPosLoginInfoAPI: `${apiBase}/user/loginPosScanCode.json`, // pos扫码信息
+  loginWxByPosAPI: `${apiBase}/user/loginWxByPos.json`, // pos扫码登录
+  getPayDetailAPI:`${apiBase}/shop/payDetail.json`,
+  baiduPayAPI:`${apiBase}/pay/baiduPay.json`,
+  weixinPayAPI:`${apiBase}/pay/weixinPay.json`,
+  balancePayAPI: `${apiBase}/pay/valueCardPay.json`,
+  aliPayURL:`${apiBase}/pay/aliPay`,
+
   requestOptions,
 };
-

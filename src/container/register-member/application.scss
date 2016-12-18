@@ -12,10 +12,15 @@
   }
 
   &-input {
-    font-size: 14px;
-    float: right;
     width: 150px;
-    text-align: right;
+  }
+
+  &-birth {
+    width: calc(100% - 125px);
+  }
+
+  &-input::placeholder {
+    color: #999;
   }
 
   &-pwd {
@@ -24,14 +29,14 @@
     &-in {
       position: absolute;
       z-index: 10;
-      right: 25px;
+      left: 125px;
       opacity: 0;
     }
 
     &-out {
       position: absolute;
       z-index: 1;
-      right: 25px;
+      left: 125px;
     }
   }
 
@@ -57,6 +62,7 @@
 
   &-tips {
     font-size: 12px;
+    margin-bottom: 10px;
     padding-left: 10px;
     color: #666;
   }
@@ -71,3 +77,24 @@
   position: relative;
 }
 
+.options-group {
+  &:first-child {
+    margin-bottom: 15px;
+  }
+
+  .option {
+    padding: 19px 15px;
+
+    &-title {
+      display: inline-block;
+    }
+  }
+
+  .option::after {
+    left: 1em;
+  }
+}
+
+.text-dusty-grey {
+  color: #999;
+}

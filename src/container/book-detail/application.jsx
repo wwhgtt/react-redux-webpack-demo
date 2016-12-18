@@ -115,7 +115,8 @@ const BookDetailApplication = React.createClass({
     const { showBill, shopLogo } = this.state;
     const orderMenu = bookDetail.orderMenu === 0; // 是否已开通预定预点菜
     const isOrder = bookDetail.isOrder === 1; // 1 已点菜 0 未点菜
-    const orderStatus = bookDetail.orderStatus === -1; // 可以预点菜
+    const nowTime = new Date().getTime();
+    const orderStatus = bookDetail.orderStatus === -1 && (bookDetail.orderTime >= nowTime); // 可以预点菜 增加时间判断
 
     const checkBookList = this.checkBookList(orderMenu, isOrder, orderStatus);
     return (

@@ -2,6 +2,7 @@ const React = require('react');
 const _find = require('lodash.find');
 const ActiveSelect = require('../mui/select/active-select.jsx');
 const OrderPropOption = require('./order-prop-option.jsx');
+const WholeOrderBenefit = require('./whole-benefit-prop.jsx');
 const helper = require('../../helper/order-helper.js');
 const OrderedDish = require('./ordered-dish.jsx');
 const getDishesPrice = require('../../helper/dish-helper.js').getDishesPrice;
@@ -50,6 +51,33 @@ module.exports = React.createClass({
       dish => (<OrderedDish key={dish.key} dish={dish} onSelectBenefit={this.props.onSelectBenefit} serviceProps={serviceProps} />)
     );
   },
+  buildBenefitElement() {
+    const { serviceProps, orderedDishesProps, commercialProps } = this.props;
+    if (serviceProps.benefitProps && serviceProps.benefitProps.isPriviledge) {
+      return (
+        <div className="order-total-left">
+          <span className="text-dove-grey">优惠 </span>
+          <span className="price">
+            {serviceProps.benefitProps.priviledgeAmount}
+          </span>
+        </div>
+      );
+    } else if (formatPrice(
+      helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)
+    ) === 0) {
+      return false;
+    }
+    return (
+      <div className="order-total-left">
+        <span className="text-dove-grey">优惠 </span>
+        <span className="price">
+          {formatPrice(
+            helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)
+          )}
+        </span>
+      </div>
+    );
+  },
   render() {
     const { serviceProps, commercialProps, orderedDishesProps, isNeedShopMaterial, setOrderProps } = this.props;
     const dishesPrice = orderedDishesProps.dishes && orderedDishesProps.dishes.length ? getDishesPrice(orderedDishesProps.dishes) : 0;
@@ -78,6 +106,14 @@ module.exports = React.createClass({
           }
           <div className="ordered-dish-content">
             {orderedElements}
+            {serviceProps.wholeOrderBenefit ?
+              <ActiveSelect
+                optionsData={[serviceProps.wholeOrderBenefit]} onSelectOption={setOrderProps}
+                optionComponent={WholeOrderBenefit}
+              />
+              :
+              false
+            }
           </div>
           <div className="extraPrice clearfix">
             {serviceProps.deliveryProps && serviceProps.deliveryProps.deliveryPrice ?
@@ -313,18 +349,7 @@ module.exports = React.createClass({
               </div>
               {commercialProps.carryRuleVO ?
                 <div>
-                  <div className="order-total-left">
-                    <span className="text-dove-grey">优惠 </span>
-                    <span className="price">
-                      {serviceProps.benefitProps && serviceProps.benefitProps.isPriviledge ?
-                        serviceProps.benefitProps.priviledgeAmount
-                        :
-                        formatPrice(
-                          helper.countDecreasePrice(orderedDishesProps, serviceProps, commercialProps)
-                        )
-                      }
-                    </span>
-                  </div>
+                {this.buildBenefitElement()}
                   <div className="order-total-right">
                     <span className="text-dove-grey">总计: </span>
                     <span className="price">

@@ -1,5 +1,5 @@
 const React = require('react');
-
+require('../../asset/style/_components/_toast.scss');
 module.exports = React.createClass({
   displayName: 'Toast',
   propTypes: {

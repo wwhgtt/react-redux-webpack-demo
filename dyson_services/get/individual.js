@@ -8,7 +8,8 @@ module.exports = {
       'balance': 78.51,
       'score': 466555558,
       'isMember': true,
-      'loginType': 0,
+      'loginType': 1, // 0:手机登录 1:微信登录
+      supportCharge: true,
       'iconUri': 'http://img5.imgtn.bdimg.com/it/u=422274042,2838853949&fm=21&gp=0.jpg',
       'birthday': '1970-01-01',
       'mobile': '15196696240',

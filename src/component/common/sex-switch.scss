@@ -12,12 +12,13 @@
     height: 1.375em;
     margin-right: .5em;
     vertical-align: middle;
-    border: 1px solid #ccc;
+    border: 1px solid $color-mercury;
     border-radius: 1em;
+    background: url("../../asset/images/chosen.svg") center center/1em auto no-repeat $color-mercury;
 
     &.active {
-      border-color: #ff7e28;
-      background: url("../../asset/images/chosen.svg") center center/1em auto no-repeat #ff7e28;
+      border-color: $color-crusta;
+      background-color: $color-crusta;
     }
   }
 

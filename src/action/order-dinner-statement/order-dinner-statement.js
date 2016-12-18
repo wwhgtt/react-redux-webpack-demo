@@ -27,7 +27,12 @@ exports.fetchOrder = () => (dispatch, getState) =>
     }).
     then(order => {
       if (order.code === '200') {
-        dispatch(setOrder(order.data));
+        if (String(order.data.payStatus) === '1') {
+          dispatch(setOrder(order.data));
+        } else {
+          const paramStr = `shopId=${shopId}&orderId=${tradeId}`;
+          location.href = `/order/orderallDetail?${paramStr}&enterWay=true`;
+        }
       } else {
         dispatch(setErrorMsg(order.msg));
       }
@@ -125,7 +130,7 @@ exports.submitDinnerOrder = (needPayMoney, receipt) => (dispatch, getState) => {
 
         helper.setCallbackUrl(result.data.orderId);
         if (result.data.isPaid && result.data.isPaid === 1) {
-          location.href = `order/orderallDetail?shopId=${shopId}&orderId=${result.data.orderId}&enterWay=true`;
+          location.href = `/order/orderallDetail?shopId=${shopId}&orderId=${result.data.orderId}&enterWay=true`;
         } else {
           const paramStr = `shopId=${shopId}&orderId=${result.data.orderId}`;
           location.href = `/shop/payDetail?${paramStr}&orderType=TS`;

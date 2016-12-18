@@ -222,6 +222,9 @@ exports.renderDay = (week) => {
       }
     }
   }
+  if (strDay.indexOf('周一到周五') !== -1) {
+    return strDay.replace(/周一到周五/g, '工作日');
+  }
   if (strDay === '周六到周日，') {
     return '周末，';
   }

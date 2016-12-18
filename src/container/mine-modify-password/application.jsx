@@ -85,7 +85,7 @@ const MineModifyPasswordApplication = React.createClass({
   render() {
     const { password, newPassword, confirmedPassword, loadingInfo, error } = this.state;
     const getOptionClass = (name) => classnames('option', { error: error && error.names.indexOf(name) !== -1 });
-    const resetPwdUrl = `/member/resetPwd?shopId=${shopId}&url=${encodeURIComponent(location.href)}`;
+    const resetPwdUrl = `/member/resetPwd?shopId=${shopId}`;
 
     return (
       <div className="flex-columns">

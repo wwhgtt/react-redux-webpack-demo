@@ -1,12 +1,15 @@
 const React = require('react');
 const connect = require('react-redux').connect;
+const getUrlParam = require('../../helper/common-helper').getUrlParam;
 require('../../asset/style/style.scss');
 require('./application.scss');
 const mineRechargeAction = require('../../action/mine/mine-recharge.js');
 const Dialog = require('../../component/mui/dialog/dialog.jsx');
 const RechargeItem = require('../../component/mine/recharge-item.jsx');
+const Toast = require('../../component/mui/toast.jsx');
 const shopIcon = require('../../asset/images/logo_default.svg');
 const classnames = require('classnames');
+const shopId = getUrlParam('shopId');
 
 const MineRechargeApplication = React.createClass({
   displayName: 'MineRechargeApplication',
@@ -18,6 +21,8 @@ const MineRechargeApplication = React.createClass({
     getUserInfo: React.PropTypes.func,
     getBrandInfo: React.PropTypes.func,
     userInfo: React.PropTypes.object,
+    errorMessage: React.PropTypes.string,
+    setErrorMsg: React.PropTypes.func,
   },
 
   getInitialState() {
@@ -30,6 +35,7 @@ const MineRechargeApplication = React.createClass({
       lastRechargeAdStyle: {
         top: 44,
       },
+      errorMessage: '',
     };
   },
 
@@ -42,6 +48,7 @@ const MineRechargeApplication = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     const { ruleInfo } = nextProps.rechargeInfo || {};
+    this.setState({ errorMessage: nextProps.errorMessage });
 
     if (!this.state.rechargeValue) {
       if (ruleInfo && ruleInfo.ruleList && ruleInfo.ruleList.length) {
@@ -93,10 +100,17 @@ const MineRechargeApplication = React.createClass({
   },
 
   handleRecharge() {
+    const { userInfo } = this.props;
+    const { rechargeValue } = this.state;
     if (!this.state.rechargeValue) {
       return;
     }
-    this.props.addRecharge(this.state.rechargeValue);
+
+    if (userInfo.bindMobile) {
+      this.props.addRecharge(rechargeValue);
+    } else {
+      this.setState({ errorMessage: '充值需要绑定手机号哟，正在带您去绑定……' });
+    }
   },
 
   // 比较
@@ -119,6 +133,15 @@ const MineRechargeApplication = React.createClass({
     this.setState({ isDialogShow: true });
   },
 
+  handleClearErrorMessage() {
+    const returnUrl = encodeURIComponent(location.href);
+    // this.setState({ errorMessage: '' });
+    this.props.setErrorMsg('');
+    if (!this.props.userInfo.bindMobile) {
+      location.href = `http://${location.host}/user/bindMobile?shopId=${shopId}&returnUrl=${returnUrl}#phone-validate`;
+    }
+  },
+
   render() {
     const { rechargeInfo, userInfo, brandInfo } = this.props;
     const { isDialogShow,
@@ -127,11 +150,15 @@ const MineRechargeApplication = React.createClass({
       isShowLastAd,
       isShowAds,
       lastRechargeAdStyle,
+      isShowRechargeTips,
+      errorMessage,
     } = this.state;
     let rechargeActiveItems = [];
     let rechargeActiveAds = [];
     let rechargeItem = '';
     let lastRechargeAd = '';
+
+    const isChargeMemo = rechargeInfo.chargeMemo && rechargeInfo.chargeMemo.replace(/\s/g, '');
 
     // 充值卡
     if (rechargeInfo.ruleInfo && rechargeInfo.ruleInfo.ruleList) {
@@ -179,12 +206,12 @@ const MineRechargeApplication = React.createClass({
             couponType = '优惠券';
           }
 
-          const rechargeActiveItem = (<div key={index} className="recharge-coupon">
+          const rechargeActiveItem = (<div key={index + Math.random() * 10} className="recharge-coupon">
             <p className="ellipsis">储值满{item.storeAmount}</p>
             <p className="ellipsis">送{couponType}({item.couponName}）</p>
             <p className="ellipsis">{items.planStartDay.replace(/-/g, '/')} ~ {items.planEndDay.replace(/-/g, '/')}</p>
           </div>);
-          const rechargeActiveAd = <div key={index}>储值满{item.storeAmount}送{couponType}</div>;
+          const rechargeActiveAd = <div key={index + Math.random() * 10}>储值满{item.storeAmount}送{couponType}</div>;
 
           rechargeActiveAds.push(rechargeActiveAd);
           rechargeActiveItems.push(rechargeActiveItem);
@@ -235,19 +262,24 @@ const MineRechargeApplication = React.createClass({
           />
         }
         </div>
-        <div className="recharge-info">
-          <p className="recharge-info-title">您充值的会员卡号为：</p>
-          <div className="recharge-info-phone">
-          {
-            userInfo.mobile && (<div>
-              <span>{(userInfo.mobile).substring(0, 3)}</span>
-              <span>{(userInfo.mobile).substring(3, 7)}</span>
-              <span>{(userInfo.mobile).substring(7)}</span>
+        {userInfo.mobile &&
+          <div className="recharge-info">
+            <p className="recharge-info-title">您充值的会员卡号为：</p>
+            <div className="recharge-info-phone">
+            {
+              userInfo.mobile && (<div>
+                <span>{(userInfo.mobile).substring(0, 3)}</span>
+                <span>{(userInfo.mobile).substring(3, 7)}</span>
+                <span>{(userInfo.mobile).substring(7)}</span>
+              </div>
+              )
+            }
             </div>
-            )
-          }
           </div>
-        </div>
+        }
+        {isChargeMemo &&
+          <a className="recharge-tips" onTouchTap={() => { this.setState({ isShowRechargeTips: true }); }}>储值说明</a>
+        }
       </div>
       <div className="recharge-content">
         <div className="recharge-block">
@@ -267,6 +299,19 @@ const MineRechargeApplication = React.createClass({
           >
             <div>{rechargeActiveItems}</div>
           </Dialog>
+        }
+        {isShowRechargeTips &&
+          <Dialog
+            hasTopBtnClose={false}
+            title={'储值说明'}
+            onClose={() => { this.setState({ isShowRechargeTips: false }); }}
+            theme="sliver"
+          >
+            <p className="recharge-tips-content">{rechargeInfo.chargeMemo}</p>
+          </Dialog>
+        }
+        {errorMessage &&
+          <Toast errorMessage={errorMessage} clearErrorMsg={this.handleClearErrorMessage} />
         }
       </div>
       <div className="recharge-footer copyright"></div>

@@ -21,7 +21,7 @@ const BindWxSuccess = React.createClass({
   render() {
     const { wxInfo } = this.state;
     return (
-      <div className="bind-account mt40">
+      <div className="bind-account mt-40">
         <div className="account-info">
           <p className="account-info-current">当前绑定的微信号</p>
           <p className="account-info-head">

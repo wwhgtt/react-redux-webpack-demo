@@ -3,6 +3,7 @@ const createAction = require('redux-actions').createAction;
 require('es6-promise');
 require('isomorphic-fetch');
 const helper = require('../../helper/dish-helper');
+const getUrlParam = require('../../helper/common-helper.js').getUrlParam;
 const getCurrentPosition = require('../../helper/common-helper.js').getCurrentPosition;
 const setMenuData = createAction('SET_MENU_DATA', menuData => menuData);
 const _orderDish = createAction('ORDER_DISH', (dishData, action) => [dishData, action]);
@@ -70,7 +71,7 @@ exports.fetchSendArea = () => (dispatch, getState) => {
           const sendAreaData = areaData.data;
           const shipmentFee = sendAreaData.shipment || 0;
           const minPrice = sendAreaData.sendPrice || 0;
-          const shipFreePrice = sendAreaData.freeDeliveryPrice || 0;
+          const shipFreePrice = typeof sendAreaData.freeDeliveryPrice === 'number' ? sendAreaData.freeDeliveryPrice : 9999999999;
           sessionStorage.setItem(`${shopId}_sendArea_id`, sendAreaData.id);
           sessionStorage.setItem(`${shopId}_sendArea_rangeId`, sendAreaData.id);
           sessionStorage.setItem(`${shopId}_sendArea_sendPrice`, minPrice);
@@ -113,7 +114,7 @@ exports.confirmOrder = () => (dispatch, getStates) => {
   localStorage.setItem('dishBoxPrice', helper.getDishBoxprice(orderedData, dishBoxChargeInfo));
   if (type === 'TS') {
     //  堂食情况下需要考虑是否有tableId的情况
-    const tableId = helper.getUrlParam('tableId');
+    const tableId = sessionStorage.getItem('tableId');
     if (tableId) {
       location.href =
         `/orderall/dishBox?type=${helper.getUrlParam('type')}&shopId=${helper.getUrlParam('shopId')}&tableId=${tableId}`;
@@ -167,3 +168,34 @@ exports.fetchDishMarketInfos = () => (dispatch, getState) =>
 
 exports.clearErrorMsg = () => (dispatch, getState) =>
   dispatch(setErrorMsg(null));
+
+
+exports.fetchTableInfo = () => (dispatch, getState) => {
+  const tableId = getUrlParam('tableId');
+  const tableKey = getUrlParam('tableKey');
+  let urlString = `?shopId=${shopId}`;
+  if (!tableId && !tableKey) {
+    return false;
+  } else if (tableId) {
+    urlString += `&tableId=${tableId}`;
+  } else if (tableKey) {
+    urlString += `&tableKey=${tableKey}`;
+  }
+  return fetch(`${config.getTableInfoAPI}${urlString}`, config.requestOptions).
+    then(res => {
+      if (!res.ok) {
+        dispatch(setErrorMsg('获取桌台信息失败...'));
+      }
+      return res.json();
+    }).
+    then(table => {
+      if (table.code !== '200') {
+        dispatch(setErrorMsg(table.msg));
+        return false;
+      }
+      return sessionStorage.setItem('tableId', table.data.synFlag);
+    }).
+    catch(err => {
+      console.log(err);
+    });
+};

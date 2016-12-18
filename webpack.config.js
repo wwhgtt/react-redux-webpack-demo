@@ -126,6 +126,15 @@ module.exports = {
     'takeout-detail-entry': [
       './src/takeout-detail.jsx',
     ],
+    'pos-login-entry': [
+      './src/pos-login.jsx',
+    ],
+    'pos-login-success-entry': [
+      './src/pos-login-success.jsx',
+    ],
+    'pay-detail-entry': [
+      './src/pay-detail.jsx',
+    ],
   },
   resolve: {
     fallback: '/usr/local/lib/node_modules',
@@ -479,6 +488,30 @@ module.exports = {
         title: 'TakeoutDetailApplication',
         filename: 'takeout-detail.html',
         chunks: ['common', 'takeout-detail-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'PosLoginApplication',
+        filename: 'pos-login.html',
+        chunks: ['common', 'pos-login-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'PosLoginSuccessApplication',
+        filename: 'pos-login-success.html',
+        chunks: ['common', 'pos-login-success-entry'],
+        inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
+      }
+    ),
+    new HtmlWebpackPlugin(
+      {
+        title: 'PayDetailApplication',
+        filename: 'pay-detail.html',
+        chunks: ['common', 'pay-detail-entry'],
         inject: 'body', template: './src/helper/html-webpack-plugin-template.html',
       }
     ),

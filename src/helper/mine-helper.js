@@ -9,13 +9,14 @@ exports.getBalanceInfo = (info) => {
 
     if (infoArray[i].type === 1) {
       opstr = '退款';
+    } else if (infoArray[i].type === 2) {
+      opstr = '调账';
     } else {
       if (addstr >= 0) {
-        if (infoArray[i].sendValuecard) {
-          opstr = '充值(含赠送)';
-          addstr = addstr + infoArray[i].sendValuecard;
-        }
         opstr = '充值';
+        if (infoArray[i].sendValuecard > 0) {
+          opstr = '充值(含赠送)';
+        }
       } else {
         opstr = '消费';
       }

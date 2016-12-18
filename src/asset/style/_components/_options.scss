@@ -6,17 +6,17 @@
   background: $color-white;
 
   &::before {
-    @include border-thin(top);
-
     top: 0;
-    border-top: bordersolid(1, #e3e3e3);
+    border-top: bordersolid(1, $color-mercury);
+
+    @include border-thin(top);
   }
 
   &::after {
-    @include border-thin(bottom);
-
     bottom: 0;
-    border-bottom: bordersolid(1, #e3e3e3);
+    border-bottom: bordersolid(1, $color-mercury);
+
+    @include border-thin(bottom);
   }
 
   &:empty {
@@ -25,8 +25,6 @@
 }
 
 .option {
-  $option-left-width: 110px;
-
   font-size: 16px;
   line-height: 22px;
   position: relative;
@@ -34,16 +32,18 @@
   overflow: hidden;
   padding: 12px 10px;
   text-decoration: none;
-  color: $color-mine-shaft;
+  color: $color-abbey;
+
+  $option-left-width: 110px;
 
   &::after {
-    @include border-thin(bottom);
-
     right: 0;
     bottom: 0;
     left: 1em;
     width: auto;
-    border-bottom: bordersolid(1, #e3e3e3);
+    border-bottom: bordersolid(1, $color-mercury);
+
+    @include border-thin(bottom);
   }
 
   &:last-child {
@@ -53,7 +53,6 @@
   &--nopadding {
     padding: 0;
   }
-
   // adjuster counter styles
   > .customers-counter {
     margin-top: -3px;
