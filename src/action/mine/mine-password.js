@@ -25,8 +25,9 @@ exports.modifyPassword = (data, setLoadding, showErrorMessage) => (dispatch, get
     })
     .then(res => {
       setLoadding(false);
-      if (parseInt(res.data.status, 10) === 0) {
+      if (parseInt(res.data.status, 10)) {
         showErrorMessage({ msg: '修改成功', names:['success'] });
+        setLoadding({ ing: true, text: '页面跳转中...' });
         setTimeout(() => {
           location.href = getSessionStorageValueOnce('rurl_modifyPwd', `${config.mineSettingURL}${location.search}`);
         }, 2000);
