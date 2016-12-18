@@ -108,7 +108,7 @@ const MineBalanceApplication = React.createClass({
                   time: item.createDateTime,
                   title: item.balanceType,
                 };
-                const balanceAmount = item.addValuecard;
+                const balanceAmount = item.changeValue;
                 let balanceAmountClass = '';
 
                 if (Number(balanceAmount) >= 0) {

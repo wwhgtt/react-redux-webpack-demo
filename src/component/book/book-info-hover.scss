@@ -72,6 +72,10 @@
 
   .option {
     background: #fff;
+
+    &-content {
+      word-break: break-all;
+    }
   }
 }
 
