@@ -339,6 +339,17 @@ const submitOrder = exports.submitOrder = (note, receipt) => (dispatch, getState
     dispatch(setSubmitBtnDisable(false));
     return;
   }
+  if (type === 'WM' && +sessionStorage.getItem(`${shopId}_sendArea_id`) !== 0) {
+    const sendPrice = sessionStorage.getItem(`${shopId}_sendArea_sendPrice`);
+    const dishesPrice = getDishesPrice(state.orderedDishesProps.dishes || []);
+    if (sendPrice > dishesPrice) {
+      dispatch(setErrorMsg('订单金额不满足起送价'));
+      setTimeout(() => {
+        location.href = `${config.getMoreWMDishesURL}?type=${type}&shopId=${shopId}`;
+      }, 3000);
+      return;
+    }
+  }
   if (state.serviceProps.wholeOrderBenefit && state.serviceProps.wholeOrderBenefit.isChecked) {
     // 已选择整单优惠
     if (paramsData.params.singleDishInfos && paramsData.params.singleDishInfos.length) {
