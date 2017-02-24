@@ -13,7 +13,7 @@
     "type": "git",
     "url": ""
   },
-  "author": "KRY FE",
+  "author": "wwhgtt",
   "license": "ISC",
   "devDependencies": {
     "autoprefixer": "^6.3.7",
