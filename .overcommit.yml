@@ -31,11 +31,6 @@
 #  IndexTags:
 #    enabled: true # Generate a tags file with `ctags` each time HEAD changes
 verify_signatures: true
-CommitMsg:
-  ZentaoTaskCheck:
-    enabled: true
-    required: true
-    required_executable: './.zentao_hook/zentao-task-check.js'
 PreCommit:
   ALL:
     quiet: false
@@ -45,11 +40,6 @@ PreCommit:
       - '**/*.js'
       - '**/*.jsx'
     required_executable: './node_modules/eslint/bin/eslint.js'
-  StyleLint:
-    enabled: true
-    required_executable: './.linter/stylelint.js'
-PostCommit:
-  ZentaoWorkRecord:
-    enabled: true
-    required: true
-    required_executable: './.zentao_hook/zentao-work-record.js'
+  # StyleLint:
+  #   enabled: true
+  #   required_executable: './.linter/stylelint.js'
